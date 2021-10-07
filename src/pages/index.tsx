@@ -1,7 +1,13 @@
-import { Button } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+
+import Simulator from "components/simulator/index";
 
 const Home = () => {
-  return <Button>Hola</Button>;
+  return (
+    <Box>
+      <Simulator />
+    </Box>
+  );
 };
 
 export default Home;
