@@ -1,1 +1,5 @@
 /* Global Styling here */
+.will-change {
+  will-change: auto;
+  z-index: 0;
+}
