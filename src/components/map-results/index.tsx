@@ -9,7 +9,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-// import React from "react";
+import React from "react";
 
 import Exports from "./Exports";
 import Results from "./Results";
@@ -39,7 +39,7 @@ const MapResult = () => {
         <Tab>Exports</Tab>
       </TabList>
       <TabPanels>
-        <TabPanel h="80vh" css={{ position: "relative" }}>
+        <TabPanel h="50%" css={{ position: "relative" }}>
           <Map />
           <SelectorMap
             w="40%"
@@ -51,14 +51,14 @@ const MapResult = () => {
         </TabPanel>
         <TabPanel h="80vh">
           <Flex h="100%">
-            <Center w="100vw" bg="red.500">
+            <Center w="100%" bg="red.500">
               <Results />
             </Center>
           </Flex>
         </TabPanel>
         <TabPanel h="80vh">
           <Flex h="100%">
-            <Center w="100vw" bg="blue.500">
+            <Center w="100%" bg="blue.500">
               <Exports />
             </Center>
           </Flex>

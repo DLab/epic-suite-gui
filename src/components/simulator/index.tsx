@@ -7,7 +7,7 @@ import ControlPanel from "./ControlPanel";
 
 const Simulator = () => {
   return (
-    <Flex h="89vh">
+    <Flex h="100vh">
       <ControlPanel />
       <Flex w="100%" direction="column" justify="space-between">
         <MapResult />
