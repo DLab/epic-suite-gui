@@ -4,7 +4,7 @@ const Page404 = () => {
   return (
     <>
       <Box marginY={4}>
-        <Heading textAlign="center">Page not Found.</Heading>
+        <Heading textAlign="center">Page not Found!</Heading>
       </Box>
     </>
   );
