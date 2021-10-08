@@ -10,6 +10,7 @@ import Document, {
   Head,
   Main,
   NextScript,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   DocumentContext,
 } from "next/document";
 import * as React from "react";

@@ -9,7 +9,6 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import React from "react";
 
 import Exports from "./Exports";
 import Results from "./Results";
