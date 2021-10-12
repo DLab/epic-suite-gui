@@ -11,12 +11,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
-import { useRef, useState, useEffect } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 
 import data from "../../data/states.json";
 import { ShowSelectorMap, HideSelectorMap } from "../icons/ShowHideSelectorMap";
+import SelectFeatureContext from "context/SelectFeaturesContext";
 
 const SelectorMap = (props) => {
+  const { setMode } = useContext(SelectFeatureContext);
   const [extentionOption, setExtentionOption] = useState("0");
   const [showSelector, setShowSelector] = useState(true);
   const showIconRef = useRef(null);
@@ -35,6 +37,16 @@ const SelectorMap = (props) => {
     });
     return setstateOptions(states);
   };
+
+  useEffect(() => {
+    if (extentionOption === "0") {
+      setMode("National");
+    } else if (extentionOption === "1") {
+      setMode("State");
+    } else {
+      setMode("County");
+    }
+  }, [extentionOption, setMode]);
 
   useEffect(() => {
     getStatesOptions();

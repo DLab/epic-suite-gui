@@ -7,9 +7,10 @@ import SelectFeatureContext from "context/SelectFeaturesContext";
 const Home = () => {
   const [states, setStates] = useState([""]);
   const [counties, setCounties] = useState([""]);
+  const [mode, setMode] = useState("National");
   return (
     <SelectFeatureContext.Provider
-      value={{ states, setStates, counties, setCounties }}
+      value={{ states, setStates, counties, setCounties, mode, setMode }}
     >
       <Box>
         <Simulator />
