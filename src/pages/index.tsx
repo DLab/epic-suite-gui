@@ -4,15 +4,13 @@ import { useState } from "react";
 import Simulator from "components/simulator/index";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
-interface StatesProps {
-  label: string;
-}
-
 const Home = () => {
-  const [states, setStates] = useState<string>("alabama");
-
+  const [states, setStates] = useState([""]);
+  const [counties, setCounties] = useState([""]);
   return (
-    <SelectFeatureContext.Provider value={{ states, setStates }}>
+    <SelectFeatureContext.Provider
+      value={{ states, setStates, counties, setCounties }}
+    >
       <Box>
         <Simulator />
       </Box>
