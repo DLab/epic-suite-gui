@@ -84,7 +84,7 @@ const SelectorMap = (props) => {
               <Radio value="2">County</Radio>
             </HStack>
           </RadioGroup>
-          {(extentionOption === "1" || extentionOption === "2") && (
+          {extentionOption === "1" && (
             <FormControl mt="1rem">
               <Select
                 isMulti
@@ -101,16 +101,32 @@ const SelectorMap = (props) => {
             </FormControl>
           )}
           {extentionOption === "2" && (
-            <FormControl mt="1rem">
-              <Select
-                isMulti
-                name="counties"
-                options={options}
-                placeholder="Select one or more counties..."
-                closeMenuOnSelect={false}
-                size="md"
-              />
-            </FormControl>
+            <>
+              <FormControl mt="1rem">
+                <Select
+                  isMulti
+                  name="states"
+                  options={options}
+                  placeholder={
+                    extentionOption === "1"
+                      ? "Select one or more States"
+                      : "Select all counties from a State"
+                  }
+                  closeMenuOnSelect={false}
+                  size="md"
+                />
+              </FormControl>
+              <FormControl mt="1rem">
+                <Select
+                  isMulti
+                  name="counties"
+                  options={options}
+                  placeholder="Select one or more counties..."
+                  closeMenuOnSelect={false}
+                  size="md"
+                />
+              </FormControl>
+            </>
           )}
           <Center>
             <Button mt="0.5rem" variant="ghost" colorScheme="blue">
