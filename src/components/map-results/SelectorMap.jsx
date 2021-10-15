@@ -15,6 +15,7 @@ import { useContext, useRef, useState, useEffect } from "react";
 
 import data from "../../data/states.json";
 import { ShowSelectorMap, HideSelectorMap } from "../icons/ShowHideSelectorMap";
+import StatesSelect from "components/StatesSelect";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
 const SelectorMap = (props) => {
@@ -33,7 +34,7 @@ const SelectorMap = (props) => {
   ];
   const getStatesOptions = () => {
     const states = data.data.map((state) => {
-      return { value: state[1], label: state[2] };
+      return { value: state[1], label: state[2], fips: state[0] };
     });
     return setstateOptions(states);
   };
@@ -86,17 +87,9 @@ const SelectorMap = (props) => {
           </RadioGroup>
           {extentionOption === "1" && (
             <FormControl mt="1rem">
-              <Select
-                isMulti
-                name="states"
+              <StatesSelect
                 options={options}
-                placeholder={
-                  extentionOption === "1"
-                    ? "Select one or more States"
-                    : "Select all counties from a State"
-                }
-                closeMenuOnSelect={false}
-                size="md"
+                extentionOption={extentionOption}
               />
             </FormControl>
           )}
