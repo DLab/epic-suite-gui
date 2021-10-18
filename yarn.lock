@@ -2099,11 +2099,7 @@
   resolved "https://registry.yarnpkg.com/@types/tinycolor2/-/tinycolor2-1.4.2.tgz#721ca5c5d1a2988b4a886e35c2ffc5735b6afbdf"
   integrity sha512-PeHg/AtdW6aaIO2a+98Xj7rWY4KC1E6yOy7AFknJQ7VXUGNrMlyxDFxJo7HqLtjQms/ZhhQX52mLVW/EX3JGOw==
 
-<<<<<<< HEAD
-"@types/topojson-client@^3.1.0":
-=======
-"@types/topojson-client@*":
->>>>>>> 6aede6eb11796f98f09930dc9557040cdebbdca0
+"@types/topojson-client@*", "@types/topojson-client@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@types/topojson-client/-/topojson-client-3.1.0.tgz#2fd96d5e64f4f512742f22194f3e1e0443c27233"
   integrity sha512-wmjTmMkF6k6m3Tn4mIyRjw8KUQZLHB1TxNcpGYirvV/aCINkC0eMJsUO/OPMkKIB6VO5iA6Vp39bmAq6QgvSfA==
@@ -2111,9 +2107,6 @@
     "@types/geojson" "*"
     "@types/topojson-specification" "*"
 
-<<<<<<< HEAD
-"@types/topojson-specification@*", "@types/topojson-specification@^1.0.2":
-=======
 "@types/topojson-server@*":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/topojson-server/-/topojson-server-3.0.1.tgz#35fe9dcc33f07742fb49864b77a780b9e6c8c24e"
@@ -2130,16 +2123,13 @@
     "@types/geojson" "*"
     "@types/topojson-specification" "*"
 
-"@types/topojson-specification@*":
->>>>>>> 6aede6eb11796f98f09930dc9557040cdebbdca0
+"@types/topojson-specification@*", "@types/topojson-specification@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@types/topojson-specification/-/topojson-specification-1.0.2.tgz#e20df2c5a611e31f51d606473dbaccc1d90461c8"
   integrity sha512-SGc1NdX9g3UGDp6S+p+uyG+Z8CehS51sUJ9bejA25Xgn2kkAguILk6J9nxXK+0M/mbTBN7ypMA7+4HVLNMJ8ag==
   dependencies:
     "@types/geojson" "*"
 
-<<<<<<< HEAD
-=======
 "@types/topojson@^3.2.3":
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/@types/topojson/-/topojson-3.2.3.tgz#32b67d2b0acd49081a5f1b9895c6e0a03bea55cd"
@@ -2151,7 +2141,6 @@
     "@types/topojson-simplify" "*"
     "@types/topojson-specification" "*"
 
->>>>>>> 6aede6eb11796f98f09930dc9557040cdebbdca0
 "@types/trusted-types@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-2.0.2.tgz#fc25ad9943bcac11cceb8168db4f275e0e72e756"
@@ -7063,8 +7052,7 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-topojson-client@^3.1.0:
-topojson-client@3:
+topojson-client@3, topojson-client@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/topojson-client/-/topojson-client-3.1.0.tgz#22e8b1ed08a2b922feeb4af6f53b6ef09a467b99"
   integrity sha512-605uxS6bcYxGXw9qi62XyrV6Q3xwbndjachmNxu8HWTtVPxZfEJN9fd/SZS1Q54Sn2y0TMyMxFj/cJINqGHrKw==
