@@ -5,20 +5,25 @@ import * as topojson from "topojson-client";
 
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
-// interface TopoJsonProps {
+// interface StatesTopoJson {
 //   data: any;
 // }
 
-const TopoJson = ({ data, ...defProps }) => {
+const StatesTopoJson = ({ data, ...defProps }) => {
   const layerRef = useRef(null);
-  const selectFeatureContext = useContext(SelectFeatureContext);
-  const { states, setStates } = selectFeatureContext;
+  // const selectFeatureContext = useContext(SelectFeatureContext);
+  // const { states, setStates } = selectFeatureContext;
+  const { states: statesSelected, setStates: setStatesSelected } =
+    useContext(SelectFeatureContext);
 
   const onEachFeature = (feature, layer) => {
     layer.on({
       click: () => {
-        setStates([...states, feature.id]);
+        setStatesSelected({ type: "add", payload: [feature.id] });
       },
+    });
+    layer.on("contextmenu ", () => {
+      setStatesSelected({ type: "remove-one", payload: [feature.id] });
     });
   };
 
@@ -26,7 +31,7 @@ const TopoJson = ({ data, ...defProps }) => {
     let color;
     const stateId = feature.id;
 
-    if (states.includes(stateId)) {
+    if (statesSelected.includes(stateId)) {
       color = "#438ecd";
     } else {
       color = "red";
@@ -66,8 +71,8 @@ const TopoJson = ({ data, ...defProps }) => {
   );
 };
 
-TopoJson.propTypes = {
+StatesTopoJson.propTypes = {
   data: PropTypes.objectOf,
 };
 
-export default TopoJson;
+export default StatesTopoJson;

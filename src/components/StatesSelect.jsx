@@ -5,7 +5,9 @@ import { useContext } from "react";
 import SelectFeatureContext from "../context/SelectFeaturesContext";
 
 const StatesSelect = ({ options, extentionOption }) => {
-  const { setStates } = useContext(SelectFeatureContext);
+  const { states: statesSelected, setStates: setStatesSelected } =
+    useContext(SelectFeatureContext);
+
   return (
     <Select
       isMulti
@@ -22,7 +24,11 @@ const StatesSelect = ({ options, extentionOption }) => {
         const selectedFips = e.map((a) => {
           return a.fips;
         });
-        setStates(selectedFips);
+        if (statesSelected.includes(selectedFips)) {
+          setStatesSelected({ type: "add", payload: selectedFips });
+        } else {
+          setStatesSelected({ type: "remove", payload: selectedFips });
+        }
       }}
     />
   );

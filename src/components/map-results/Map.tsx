@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 
 import data from "../../data/states-10m.json";
 
-import TopoJson from "./TopoJson";
+import StatesTopoJson from "./StatesTopoJson";
 
 const Map = () => {
   return (
@@ -17,7 +17,7 @@ const Map = () => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <TopoJson data={data} />
+      <StatesTopoJson data={data} />
     </MapContainer>
   );
 };

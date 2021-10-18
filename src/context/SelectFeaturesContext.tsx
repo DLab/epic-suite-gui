@@ -1,10 +1,15 @@
 import { createContext } from "react";
 
+export interface Action {
+  type: string;
+  payload: string[];
+}
+
 interface StatesProps {
   mode: string;
   setMode: (value: string) => void;
   states: string[];
-  setStates: (value: string[]) => void;
+  setStates: (value: Action) => void;
   counties: string[];
   setCounties: (value: string[]) => void;
 }
