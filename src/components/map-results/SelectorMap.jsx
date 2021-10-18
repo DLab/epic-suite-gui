@@ -177,7 +177,7 @@ const SelectorMap = (props) => {
                   options={options}
                   placeholder="Select all counties from a State"
                   size="sm"
-                  onChange={({ value }) => setCountyFeaturesByState(value)}
+                  onChange={({ fips }) => setCountyFeaturesByState(fips)}
                 />
                 <Box w="100%" textAlign="right" pt="0.3rem">
                   <Button
