@@ -6,6 +6,8 @@ import Simulator from "components/simulator/index";
 import SelectFeatureContext, { Action } from "context/SelectFeaturesContext";
 
 const Home = () => {
+  // hasta acá funciona
+
   const initialState: string[] = [];
 
   const reducer = (state: string[], action: Action) => {
@@ -25,7 +27,7 @@ const Home = () => {
     }
   };
   const [states, setStates] = useReducer(reducer, initialState);
-  const [counties, setCounties] = useState([""]);
+  const [counties, setCounties] = useReducer(reducer, initialState);
   const [mode, setMode] = useState("National");
   return (
     <SelectFeatureContext.Provider

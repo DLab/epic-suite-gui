@@ -1,5 +1,5 @@
 import { createContext } from "react";
-
+// hasta acá
 export interface Action {
   type: string;
   payload: string[];
@@ -10,8 +10,8 @@ interface StatesProps {
   setMode: (value: string) => void;
   states: string[];
   setStates: (value: Action) => void;
-  counties: string[];
-  setCounties: (value: string[]) => void;
+  counties?: string[] | null | undefined;
+  setCounties: (value: Action) => void;
 }
 
 const SelectFeatureContext = createContext<StatesProps>({
