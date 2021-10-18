@@ -25,6 +25,7 @@
     "@emotion/styled": "^11.3.0",
     "@fontsource/lexend": "^4.5.1",
     "@types/react-leaflet": "^2.8.2",
+    "@types/topojson": "^3.2.3",
     "chakra-react-select": "^1.2.2",
     "framer-motion": "^4.1.17",
     "leaflet": "^1.7.1",
@@ -35,7 +36,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
-    "react-leaflet": "^3.2.1"
+    "react-leaflet": "^3.2.1",
+    "topojson": "^3.0.2"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^13.1.0",

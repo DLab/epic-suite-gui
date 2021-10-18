@@ -1,17 +1,53 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+import { useContext } from "react";
+import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import * as topojson from "topojson";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { GeometryObject, Topology } from "topojson-specification";
+
+import SelectFeatureContext from "../../context/SelectFeaturesContext";
+import us_ from "../../data/counties-10m.json";
 
 const Map = () => {
+  const { counties: countiesSelected, setCounties: setCountiesSelected } =
+    useContext(SelectFeatureContext);
+  const us = us_ as unknown as Topology;
+  const data = topojson.feature(us, us.objects.counties as GeometryObject);
+
+  const handleSelectFeature = (feature) => {
+    const isIncluded = [...countiesSelected].some(
+      (c: string) => c === feature.id
+    );
+    if (isIncluded) {
+      return { fillColor: "#ee00ee", color: "#d0d0d0" };
+    }
+    return { fillColor: "#000000", color: "#0d0d0d" };
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const eventsMap = (feature, layer) => {
+    layer.on("click", () => {
+      setCountiesSelected({ type: "add", payload: [feature.id] });
+    });
+    layer.on("contextmenu ", () => {
+      setCountiesSelected({ type: "remove-one", payload: [feature.id] });
+    });
+  };
   return (
     <MapContainer
       className="will-change"
       center={[35, -100]}
       zoom={4}
       style={{ height: "80vh", width: "100%" }}
+      scrollWheelZoom={false}
     >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <GeoJSON
+        data={data}
+        onEachFeature={(feature, layer) => eventsMap(feature, layer)}
+        style={(feature) => handleSelectFeature(feature)}
       />
     </MapContainer>
   );

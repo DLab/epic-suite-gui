@@ -9,33 +9,54 @@ import {
   Center,
   Tooltip,
   Text,
+  Box,
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { useContext, useRef, useState, useEffect } from "react";
 
+import countyData from "../../data/counties.json";
 import data from "../../data/states.json";
 import { ShowSelectorMap, HideSelectorMap } from "../icons/ShowHideSelectorMap";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
 const SelectorMap = (props) => {
-  const { setMode } = useContext(SelectFeatureContext);
+  const {
+    setMode,
+    counties: countiesSelected,
+    setCounties: setCountiesSelected,
+  } = useContext(SelectFeatureContext);
   const [extentionOption, setExtentionOption] = useState("0");
   const [showSelector, setShowSelector] = useState(true);
   const showIconRef = useRef(null);
   const hideIconRef = useRef(null);
   const [stateOptions, setstateOptions] = useState([]);
-
+  const [countiesOptions, setCountiesOptions] = useState([]);
+  // select values
+  const [countyFeature, setCountyFeature] = useState("");
+  const [countyFeaturesByState, setCountyFeaturesByState] = useState("");
   const options = [
     {
       label: "STATES",
       options: stateOptions,
     },
   ];
+  const optionsCounty = [
+    {
+      label: "COUNTY",
+      options: countiesOptions,
+    },
+  ];
   const getStatesOptions = () => {
     const states = data.data.map((state) => {
-      return { value: state[1], label: state[2] };
+      return { value: state[0], label: state[2] };
     });
     return setstateOptions(states);
+  };
+  const getCountiesOptions = () => {
+    const states = countyData.data.map((state) => {
+      return { value: state[5], label: state[7] };
+    });
+    setCountiesOptions(states);
   };
 
   useEffect(() => {
@@ -50,8 +71,107 @@ const SelectorMap = (props) => {
 
   useEffect(() => {
     getStatesOptions();
+    getCountiesOptions();
   }, []);
 
+  const handleAddCountiesByState = (codState) => {
+    return countyData.data.filter((c) => c[0] === codState).map((c) => c[5]);
+  };
+  const handleAddCounties = (counties, isSelecting = true) => {
+    // selecting all counties by states
+    if (counties.length === 2) {
+      const allCountiesInState = handleAddCountiesByState(counties);
+      /* remove counties */
+      if (!isSelecting) {
+        const newCountiesSelected = [...countiesSelected].filter(
+          (c) => !allCountiesInState.includes(c)
+        );
+        setCountiesSelected({ type: "remove", payload: newCountiesSelected });
+        return false;
+      }
+      /* add counties */
+      const selectedCounties = new Set([
+        ...countiesSelected,
+        ...allCountiesInState,
+      ]);
+      setCountiesSelected({ type: "add-all", payload: selectedCounties });
+      return true;
+    }
+    // Remove one county
+    if (!isSelecting) {
+      const countiesWithoutSelectedFeature = [...countiesSelected].filter(
+        (c) => c !== counties
+      );
+      /* remove only if not undefined */
+      if (countiesWithoutSelectedFeature)
+        setCountiesSelected({
+          type: "remove",
+          payload: countiesWithoutSelectedFeature,
+        });
+      return false;
+    }
+    // verify if a county exists in context
+    const isSelectedInContext = [...countiesSelected].some(
+      (c) => c === counties
+    );
+    if (isSelectedInContext) {
+      return true;
+    }
+    // if it not exists, add it
+    setCountiesSelected({
+      type: "add",
+      payload: [counties],
+    });
+
+    return true;
+  };
+  const handleResetCountiesSelected = () => {
+    setCountiesSelected({ type: "reset" });
+  };
+  // const handleAddCountiesByState = (codState) => {
+  //   return countyData.data.filter((c) => c[0] === codState).map((c) => c[5]);
+  // };
+  // const handleAddCounties = (counties, isSelecting = true) => {
+  //   // selecting all counties by states
+  //   if (counties.length === 2) {
+  //     const allCountiesInState = handleAddCountiesByState(counties);
+  //     /* remove counties */
+  //     if (!isSelecting) {
+  //       const newCountiesSelected = [...countiesSelected].filter(
+  //         (c) => !allCountiesInState.includes(c)
+  //       );
+  //       setCountiesSelected(newCountiesSelected);
+  //       return false;
+  //     }
+  //     /* add counties */
+  //     const selectedCounties = new Set([
+  //       ...countiesSelected,
+  //       ...allCountiesInState,
+  //     ]);
+  //     setCountiesSelected(selectedCounties);
+  //     return true;
+  //   }
+  //   // Remove one county
+  //   if (!isSelecting) {
+  //     const countiesWithoutSelectedFeature = [...countiesSelected].filter(
+  //       (c) => c !== counties
+  //     );
+  //     /* remove only if not undefined */
+  //     if (countiesWithoutSelectedFeature)
+  //       setCountiesSelected([...countiesWithoutSelectedFeature]);
+  //     return false;
+  //   }
+  //   // verify if a county exists in context
+  //   const isSelectedInContext = [...countiesSelected].some(
+  //     (c) => c === counties
+  //   );
+  //   if (isSelectedInContext) {
+  //     return true;
+  //   }
+  //   // if it not exists, add it
+  //   setCountiesSelected([...countiesSelected, counties]);
+  //   return true;
+  // };
   return (
     <FormControl {...props}>
       <FormLabel display="flex" justifyContent="space-between">
@@ -104,32 +224,64 @@ const SelectorMap = (props) => {
             <>
               <FormControl mt="1rem">
                 <Select
-                  isMulti
                   name="states"
                   options={options}
-                  placeholder={
-                    extentionOption === "1"
-                      ? "Select one or more States"
-                      : "Select all counties from a State"
-                  }
-                  closeMenuOnSelect={false}
-                  size="md"
+                  placeholder="Select all counties from a State"
+                  size="sm"
+                  onChange={({ value }) => setCountyFeaturesByState(value)}
                 />
+                <Box w="100%" textAlign="right" pt="0.3rem">
+                  <Button
+                    size="xs"
+                    onClick={() => handleAddCounties(countyFeaturesByState)}
+                    colorScheme="blue"
+                  >
+                    Add
+                  </Button>
+                  <Button
+                    size="xs"
+                    onClick={() =>
+                      handleAddCounties(countyFeaturesByState, false)
+                    }
+                  >
+                    Remove
+                  </Button>
+                </Box>
               </FormControl>
               <FormControl mt="1rem">
                 <Select
-                  isMulti
                   name="counties"
-                  options={options}
+                  options={optionsCounty}
                   placeholder="Select one or more counties..."
-                  closeMenuOnSelect={false}
-                  size="md"
+                  size="sm"
+                  w="100%"
+                  onChange={({ value }) => setCountyFeature(value)}
                 />
+                <Box w="100%" textAlign="right" pt="0.3rem">
+                  <Button
+                    size="xs"
+                    colorScheme="blue"
+                    onClick={() => handleAddCounties(countyFeature)}
+                  >
+                    Add
+                  </Button>
+                  <Button
+                    size="xs"
+                    onClick={() => handleAddCounties(countyFeature, false)}
+                  >
+                    Remove
+                  </Button>
+                </Box>
               </FormControl>
             </>
           )}
           <Center>
-            <Button mt="0.5rem" variant="ghost" colorScheme="blue">
+            <Button
+              mt="0.5rem"
+              variant="ghost"
+              colorScheme="blue"
+              onClick={handleResetCountiesSelected}
+            >
               Reset
             </Button>
           </Center>
