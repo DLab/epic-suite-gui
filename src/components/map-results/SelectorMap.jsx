@@ -128,50 +128,6 @@ const SelectorMap = (props) => {
   const handleResetCountiesSelected = () => {
     setCountiesSelected({ type: "reset" });
   };
-  // const handleAddCountiesByState = (codState) => {
-  //   return countyData.data.filter((c) => c[0] === codState).map((c) => c[5]);
-  // };
-  // const handleAddCounties = (counties, isSelecting = true) => {
-  //   // selecting all counties by states
-  //   if (counties.length === 2) {
-  //     const allCountiesInState = handleAddCountiesByState(counties);
-  //     /* remove counties */
-  //     if (!isSelecting) {
-  //       const newCountiesSelected = [...countiesSelected].filter(
-  //         (c) => !allCountiesInState.includes(c)
-  //       );
-  //       setCountiesSelected(newCountiesSelected);
-  //       return false;
-  //     }
-  //     /* add counties */
-  //     const selectedCounties = new Set([
-  //       ...countiesSelected,
-  //       ...allCountiesInState,
-  //     ]);
-  //     setCountiesSelected(selectedCounties);
-  //     return true;
-  //   }
-  //   // Remove one county
-  //   if (!isSelecting) {
-  //     const countiesWithoutSelectedFeature = [...countiesSelected].filter(
-  //       (c) => c !== counties
-  //     );
-  //     /* remove only if not undefined */
-  //     if (countiesWithoutSelectedFeature)
-  //       setCountiesSelected([...countiesWithoutSelectedFeature]);
-  //     return false;
-  //   }
-  //   // verify if a county exists in context
-  //   const isSelectedInContext = [...countiesSelected].some(
-  //     (c) => c === counties
-  //   );
-  //   if (isSelectedInContext) {
-  //     return true;
-  //   }
-  //   // if it not exists, add it
-  //   setCountiesSelected([...countiesSelected, counties]);
-  //   return true;
-  // };
   return (
     <FormControl {...props}>
       <FormLabel display="flex" justifyContent="space-between">
