@@ -7,7 +7,6 @@ import { GeometryObject, Topology } from "topojson-specification";
 
 import SelectFeatureContext from "../../context/SelectFeaturesContext";
 import us_ from "../../data/counties-10m.json";
-import statesData from "../../data/states-10m.json";
 
 import StatesTopoJson from "./StatesTopoJson";
 
@@ -21,13 +20,22 @@ const Map = () => {
   const data = topojson.feature(us, us.objects.counties as GeometryObject);
 
   const handleSelectFeature = (feature) => {
+    let color;
     const isIncluded = [...countiesSelected].some(
       (c: string) => c === feature.id
     );
     if (isIncluded) {
-      return { fillColor: "#ee00ee", color: "#d0d0d0" };
+      color = "#e4b721";
+    } else {
+      color = "#1777c7";
     }
-    return { fillColor: "#000000", color: "#0d0d0d" };
+    return {
+      fillColor: color,
+      fillOpacity: 0.7,
+      weight: 0.7,
+      color: "white",
+      opacity: 1,
+    };
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const eventsMap = (feature, layer) => {
@@ -57,7 +65,7 @@ const Map = () => {
           style={(feature) => handleSelectFeature(feature)}
         />
       ) : (
-        <StatesTopoJson data={statesData} />
+        <StatesTopoJson />
       )}
     </MapContainer>
   );
