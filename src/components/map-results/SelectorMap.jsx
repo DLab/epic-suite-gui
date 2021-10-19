@@ -129,7 +129,8 @@ const SelectorMap = (props) => {
 
     return true;
   };
-  const handleResetCountiesSelected = () => {
+  const handleResetSelected = () => {
+    setStatesSelected({ type: "reset" });
     setCountiesSelected({ type: "reset" });
   };
   return (
@@ -232,7 +233,7 @@ const SelectorMap = (props) => {
               mt="0.5rem"
               variant="ghost"
               colorScheme="blue"
-              onClick={handleResetCountiesSelected}
+              onClick={handleResetSelected}
             >
               Reset
             </Button>
