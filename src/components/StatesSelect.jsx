@@ -10,7 +10,6 @@ const StatesSelect = ({ options, extentionOption }) => {
 
   return (
     <Select
-      isMulti
       name="states"
       options={options}
       placeholder={
@@ -18,16 +17,13 @@ const StatesSelect = ({ options, extentionOption }) => {
           ? "Select one or more States"
           : "Select all counties from a State"
       }
-      closeMenuOnSelect={false}
+      closeMenuOnSelect
       size="md"
-      onChange={(e) => {
-        const selectedFips = e.map((a) => {
-          return a.fips;
-        });
-        if (statesSelected.includes(selectedFips)) {
-          setStatesSelected({ type: "add", payload: selectedFips });
+      onChange={({ fips }) => {
+        if (statesSelected.includes(fips)) {
+          setStatesSelected({ type: "remove-one", payload: [fips] });
         } else {
-          setStatesSelected({ type: "remove", payload: selectedFips });
+          setStatesSelected({ type: "add", payload: [fips] });
         }
       }}
     />
