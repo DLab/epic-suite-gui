@@ -6,14 +6,17 @@ import { GeometryObject, Topology } from "topojson-specification";
 import stateData_ from "../../data/states-10m.json";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
-const StatesTopoJson = () => {
+const StatesMap = () => {
   const stateData = stateData_ as unknown as Topology;
   const data = topojson.feature(
     stateData,
     stateData.objects.states as GeometryObject
   );
-  const { states: statesSelected, setStates: setStatesSelected } =
-    useContext(SelectFeatureContext);
+  const {
+    states: statesSelected,
+    setStates: setStatesSelected,
+    mode,
+  } = useContext(SelectFeatureContext);
 
   const onEachFeature = (feature, layer) => {
     layer.on({
@@ -47,4 +50,4 @@ const StatesTopoJson = () => {
   return <GeoJSON data={data} onEachFeature={onEachFeature} style={styles} />;
 };
 
-export default StatesTopoJson;
+export default StatesMap;

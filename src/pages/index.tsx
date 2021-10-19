@@ -21,7 +21,7 @@ const Home = () => {
       case "add-all":
         return [...action.payload];
       case "reset":
-        return [""];
+        return [];
       default:
         return state;
     }

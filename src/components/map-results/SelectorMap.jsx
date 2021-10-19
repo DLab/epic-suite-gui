@@ -25,6 +25,7 @@ const SelectorMap = (props) => {
     setMode,
     counties: countiesSelected,
     setCounties: setCountiesSelected,
+    setStates: setStatesSelected,
   } = useContext(SelectFeatureContext);
   const [extentionOption, setExtentionOption] = useState("0");
   const [showSelector, setShowSelector] = useState(true);
@@ -61,6 +62,8 @@ const SelectorMap = (props) => {
   };
 
   useEffect(() => {
+    setStatesSelected({ type: "reset" });
+    setCountiesSelected({ type: "reset" });
     if (extentionOption === "0") {
       setMode("National");
     } else if (extentionOption === "1") {
@@ -68,7 +71,7 @@ const SelectorMap = (props) => {
     } else {
       setMode("County");
     }
-  }, [extentionOption, setMode]);
+  }, [extentionOption, setCountiesSelected, setMode, setStatesSelected]);
 
   useEffect(() => {
     getStatesOptions();
