@@ -1,10 +1,15 @@
-import { useContext } from "react";
-import { GeoJSON } from "react-leaflet";
+import { useContext, useReducer } from "react";
+import { GeoJSON, Tooltip } from "react-leaflet";
 import * as topojson from "topojson-client";
 import { GeometryObject, Topology } from "topojson-specification";
 
 import stateData_ from "../../data/states-10m.json";
 import SelectFeatureContext from "context/SelectFeaturesContext";
+
+interface ActionTooltip {
+  type: string;
+  payload: string;
+}
 
 const StatesMap = () => {
   const stateData = stateData_ as unknown as Topology;
@@ -18,6 +23,16 @@ const StatesMap = () => {
     mode,
   } = useContext(SelectFeatureContext);
 
+  const initialState: string | undefined = "";
+
+  const reducer = (state: string, action: ActionTooltip) => {
+    if (action.type === "set") {
+      return action.payload;
+    }
+    return state;
+  };
+  const [tootipCounty, dispatch] = useReducer(reducer, initialState);
+
   const onEachFeature = (feature, layer) => {
     layer.on({
       click: () => {
@@ -26,6 +41,9 @@ const StatesMap = () => {
     });
     layer.on("contextmenu ", () => {
       setStatesSelected({ type: "remove-one", payload: [feature.id] });
+    });
+    layer.on("mouseover", () => {
+      dispatch({ type: "set", payload: feature.properties.name });
     });
   };
 
@@ -47,7 +65,11 @@ const StatesMap = () => {
     };
   };
 
-  return <GeoJSON data={data} onEachFeature={onEachFeature} style={styles} />;
+  return (
+    <GeoJSON data={data} onEachFeature={onEachFeature} style={styles}>
+      <Tooltip>{tootipCounty}</Tooltip>
+    </GeoJSON>
+  );
 };
 
 export default StatesMap;
