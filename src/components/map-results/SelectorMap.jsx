@@ -10,35 +10,55 @@ import {
   Tooltip,
   Text,
 } from "@chakra-ui/react";
-import { Select } from "chakra-react-select";
 import { useContext, useRef, useState, useEffect } from "react";
 
+import countyData from "../../data/counties.json";
 import data from "../../data/states.json";
 import { ShowSelectorMap, HideSelectorMap } from "../icons/ShowHideSelectorMap";
+import CountiesSelect from "components/CountiesSelect";
+import StatesSelect from "components/StatesSelect";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
 const SelectorMap = (props) => {
-  const { setMode } = useContext(SelectFeatureContext);
+  const {
+    setMode,
+    setCounties: setCountiesSelected,
+    setStates: setStatesSelected,
+  } = useContext(SelectFeatureContext);
   const [extentionOption, setExtentionOption] = useState("0");
   const [showSelector, setShowSelector] = useState(true);
   const showIconRef = useRef(null);
   const hideIconRef = useRef(null);
   const [stateOptions, setstateOptions] = useState([]);
-
+  const [countiesOptions, setCountiesOptions] = useState([]);
   const options = [
     {
       label: "STATES",
       options: stateOptions,
     },
   ];
+  const optionsCounty = [
+    {
+      label: "COUNTY",
+      options: countiesOptions,
+    },
+  ];
   const getStatesOptions = () => {
     const states = data.data.map((state) => {
-      return { value: state[1], label: state[2] };
+      return { value: state[1], label: state[2], fips: state[0] };
     });
     return setstateOptions(states);
   };
+  const getCountiesOptions = () => {
+    const states = countyData.data.map((state) => {
+      return { value: state[5], label: state[7] };
+    });
+    setCountiesOptions(states);
+  };
 
   useEffect(() => {
+    setStatesSelected({ type: "reset" });
+    setCountiesSelected({ type: "reset" });
     if (extentionOption === "0") {
       setMode("National");
     } else if (extentionOption === "1") {
@@ -46,12 +66,17 @@ const SelectorMap = (props) => {
     } else {
       setMode("County");
     }
-  }, [extentionOption, setMode]);
+  }, [extentionOption, setCountiesSelected, setMode, setStatesSelected]);
 
   useEffect(() => {
     getStatesOptions();
+    getCountiesOptions();
   }, []);
 
+  const handleResetSelected = () => {
+    setStatesSelected({ type: "reset" });
+    setCountiesSelected({ type: "reset" });
+  };
   return (
     <FormControl {...props}>
       <FormLabel display="flex" justifyContent="space-between">
@@ -86,50 +111,22 @@ const SelectorMap = (props) => {
           </RadioGroup>
           {extentionOption === "1" && (
             <FormControl mt="1rem">
-              <Select
-                isMulti
-                name="states"
+              <StatesSelect
                 options={options}
-                placeholder={
-                  extentionOption === "1"
-                    ? "Select one or more States"
-                    : "Select all counties from a State"
-                }
-                closeMenuOnSelect={false}
-                size="md"
+                extentionOption={extentionOption}
               />
             </FormControl>
           )}
           {extentionOption === "2" && (
-            <>
-              <FormControl mt="1rem">
-                <Select
-                  isMulti
-                  name="states"
-                  options={options}
-                  placeholder={
-                    extentionOption === "1"
-                      ? "Select one or more States"
-                      : "Select all counties from a State"
-                  }
-                  closeMenuOnSelect={false}
-                  size="md"
-                />
-              </FormControl>
-              <FormControl mt="1rem">
-                <Select
-                  isMulti
-                  name="counties"
-                  options={options}
-                  placeholder="Select one or more counties..."
-                  closeMenuOnSelect={false}
-                  size="md"
-                />
-              </FormControl>
-            </>
+            <CountiesSelect options={options} optionsCounty={optionsCounty} />
           )}
           <Center>
-            <Button mt="0.5rem" variant="ghost" colorScheme="blue">
+            <Button
+              mt="0.5rem"
+              variant="ghost"
+              colorScheme="blue"
+              onClick={handleResetSelected}
+            >
               Reset
             </Button>
           </Center>
