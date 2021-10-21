@@ -69,12 +69,13 @@ const CountiesSelect = ({ options, optionsCounty }) => {
           name="states"
           options={options}
           placeholder="Select all counties from a State"
-          size="sm"
+          size="md"
           onChange={({ fips }) => setCountyFeaturesByState(fips)}
         />
         <Box w="100%" textAlign="right" pt="0.3rem">
           <Button
             size="xs"
+            m="0 3% 0 0"
             onClick={() => handleAddCounties(countyFeaturesByState)}
             colorScheme="blue"
           >
@@ -92,14 +93,15 @@ const CountiesSelect = ({ options, optionsCounty }) => {
         <Select
           name="counties"
           options={optionsCounty}
-          placeholder="Select one or more counties..."
-          size="sm"
+          placeholder="Select one or more Counties"
+          size="md"
           w="100%"
           onChange={({ value }) => setCountyFeature(value)}
         />
         <Box w="100%" textAlign="right" pt="0.3rem">
           <Button
             size="xs"
+            m="0 3% 0 0"
             colorScheme="blue"
             onClick={() => handleAddCounties(countyFeature)}
           >

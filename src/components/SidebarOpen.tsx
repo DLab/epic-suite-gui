@@ -1,9 +1,21 @@
-import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { ChevronLeftIcon, SettingsIcon, EditIcon } from "@chakra-ui/icons";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Button, Box, Flex, Accordion, BoxProps } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  BoxProps,
+  Tab,
+  Tabs,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Icon,
+} from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import AcordionContent from "components/AcordionContent";
+import SelectorMap from "components/map-results/SelectorMap";
+
+import ControlPanel from "./simulator/ControlPanel";
 
 export const MotionBox = motion<BoxProps>(Box);
 
@@ -32,41 +44,49 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
     <AnimatePresence>
       <MotionBox
         bg="#EEEEEE"
-        w="25%"
+        w="30%"
         p="10px"
         variants={container}
         initial="hidden"
         animate="show"
       >
-        <Flex justify="end">
-          <Flex
-            justify="center"
-            align="center"
-            bg="#16609E"
-            w="35px"
-            h="35px"
-            borderRadius="5px"
-            color="white"
-          >
-            <ChevronLeftIcon
-              w={8}
-              h={8}
-              cursor="pointer"
-              onClick={toggleSidebar}
-            />
-          </Flex>
-        </Flex>
-        <h2 style={{ textAlign: "center", color: "#16609E" }}>Control Panel</h2>
-        <Box p="5px" mt="15px" textAlign="center">
-          <Accordion allowMultiple>
-            <AcordionContent title="Controller 1" />
-            <AcordionContent title="Controller 2" />
-            <AcordionContent title="Controller 3" />
-          </Accordion>
-          <Button colorScheme="teal" size="md" mt="20px">
-            Start
-          </Button>
-        </Box>
+        <Tabs>
+          <Box display="flex" justifyContent="space-between">
+            <TabList>
+              <Tab>
+                <Icon w={6} h={6} as={EditIcon} />
+              </Tab>
+              <Tab>
+                <Icon w={6} h={6} as={SettingsIcon} />
+              </Tab>
+            </TabList>
+            <Flex
+              justify="center"
+              align="center"
+              bg="#16609E"
+              w="35px"
+              h="35px"
+              borderRadius="5px"
+              color="white"
+            >
+              <Icon
+                as={ChevronLeftIcon}
+                w={8}
+                h={8}
+                cursor="pointer"
+                onClick={toggleSidebar}
+              />
+            </Flex>
+          </Box>
+          <TabPanels>
+            <TabPanel>
+              <SelectorMap />
+            </TabPanel>
+            <TabPanel>
+              <ControlPanel />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </MotionBox>
     </AnimatePresence>
   );

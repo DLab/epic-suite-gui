@@ -12,7 +12,6 @@ import dynamic from "next/dynamic";
 
 import Exports from "./Exports";
 import Results from "./Results";
-import SelectorMap from "./SelectorMap";
 
 const Map = dynamic(() => import("./Map"), {
   loading: () => (
@@ -38,15 +37,8 @@ const MapResult = () => {
         <Tab>Exports</Tab>
       </TabList>
       <TabPanels>
-        <TabPanel h="50%" css={{ position: "relative" }}>
+        <TabPanel h="80vh" css={{ position: "relative" }}>
           <Map />
-          <SelectorMap
-            w="40%"
-            p="1rem"
-            borderRadius="1rem"
-            bgColor="white"
-            css={{ position: "absolute", top: 20, right: 20 }}
-          />
         </TabPanel>
         <TabPanel h="80vh">
           <Flex h="100%">

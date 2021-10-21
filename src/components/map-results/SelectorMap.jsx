@@ -14,7 +14,6 @@ import { useContext, useRef, useState, useEffect } from "react";
 
 import countyData from "../../data/counties.json";
 import data from "../../data/states.json";
-import { ShowSelectorMap, HideSelectorMap } from "../icons/ShowHideSelectorMap";
 import CountiesSelect from "components/CountiesSelect";
 import StatesSelect from "components/StatesSelect";
 import SelectFeatureContext from "context/SelectFeaturesContext";
@@ -26,9 +25,7 @@ const SelectorMap = (props) => {
     setStates: setStatesSelected,
   } = useContext(SelectFeatureContext);
   const [extentionOption, setExtentionOption] = useState("0");
-  const [showSelector, setShowSelector] = useState(true);
-  const showIconRef = useRef(null);
-  const hideIconRef = useRef(null);
+
   const [stateOptions, setstateOptions] = useState([]);
   const [countiesOptions, setCountiesOptions] = useState([]);
   const options = [
@@ -78,60 +75,49 @@ const SelectorMap = (props) => {
     setCountiesSelected({ type: "reset" });
   };
   return (
-    <FormControl {...props}>
+    <FormControl p="1rem" borderRadius="1rem" bgColor="white">
+      <h2 style={{ color: "#16609E" }}>Select an interest area</h2>
       <FormLabel display="flex" justifyContent="space-between">
-        <Text>
-          {showSelector
-            ? "Select scale for simulation"
-            : "Select an interest area"}
+        <Text display="flex" m="5% 0">
+          <h3>Select scale for simulation</h3>
           <Tooltip label="Lorem ipsum" fontSize="md" placement="top-start">
             <InfoIcon color="blue.800" ml="0.5rem" />
           </Tooltip>
         </Text>
-        {showSelector ? (
-          <ShowSelectorMap
-            ref={showIconRef}
-            onClick={() => setShowSelector(!showSelector)}
-          />
-        ) : (
-          <HideSelectorMap
-            ref={hideIconRef}
-            onClick={() => setShowSelector(!showSelector)}
-          />
-        )}
       </FormLabel>
-      {showSelector && (
-        <div>
-          <RadioGroup onChange={setExtentionOption} value={extentionOption}>
-            <HStack spacing="24px">
-              <Radio value="0">National</Radio>
-              <Radio value="1">State</Radio>
-              <Radio value="2">County</Radio>
-            </HStack>
-          </RadioGroup>
-          {extentionOption === "1" && (
-            <FormControl mt="1rem">
-              <StatesSelect
-                options={options}
-                extentionOption={extentionOption}
-              />
-            </FormControl>
-          )}
-          {extentionOption === "2" && (
-            <CountiesSelect options={options} optionsCounty={optionsCounty} />
-          )}
-          <Center>
-            <Button
-              mt="0.5rem"
-              variant="ghost"
-              colorScheme="blue"
-              onClick={handleResetSelected}
-            >
-              Reset
-            </Button>
-          </Center>
-        </div>
-      )}
+      <div>
+        <RadioGroup onChange={setExtentionOption} value={extentionOption}>
+          <HStack spacing="24px">
+            <Radio bg="white" border="1px" borderColor="#5B58AD" value="0">
+              National
+            </Radio>
+            <Radio bg="white" border="1px" borderColor="#5B58AD" value="1">
+              State
+            </Radio>
+            <Radio bg="white" border="1px" borderColor="#5B58AD" value="2">
+              County
+            </Radio>
+          </HStack>
+        </RadioGroup>
+        {extentionOption === "1" && (
+          <FormControl mt="1rem">
+            <StatesSelect options={options} extentionOption={extentionOption} />
+          </FormControl>
+        )}
+        {extentionOption === "2" && (
+          <CountiesSelect options={options} optionsCounty={optionsCounty} />
+        )}
+        <Center>
+          <Button
+            mt="0.5rem"
+            variant="ghost"
+            colorScheme="blue"
+            onClick={handleResetSelected}
+          >
+            Reset
+          </Button>
+        </Center>
+      </div>
     </FormControl>
   );
 };
