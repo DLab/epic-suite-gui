@@ -13,8 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import SelectorMap from "components/map-results/SelectorMap";
-
+import SelectorMapAccordion from "./SelectorMapAccordion";
 import ControlPanel from "./simulator/ControlPanel";
 
 export const MotionBox = motion<BoxProps>(Box);
@@ -44,7 +43,7 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
     <AnimatePresence>
       <MotionBox
         bg="#EEEEEE"
-        w="30%"
+        minWidth="25%"
         p="10px"
         variants={container}
         initial="hidden"
@@ -53,10 +52,10 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
         <Tabs>
           <Box display="flex" justifyContent="space-between">
             <TabList>
-              <Tab>
+              <Tab id="selectmap">
                 <Icon w={6} h={6} as={EditIcon} />
               </Tab>
-              <Tab>
+              <Tab id="controlpanel">
                 <Icon w={6} h={6} as={SettingsIcon} />
               </Tab>
             </TabList>
@@ -79,8 +78,8 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
             </Flex>
           </Box>
           <TabPanels>
-            <TabPanel>
-              <SelectorMap />
+            <TabPanel p="5% 0">
+              <SelectorMapAccordion />
             </TabPanel>
             <TabPanel>
               <ControlPanel />

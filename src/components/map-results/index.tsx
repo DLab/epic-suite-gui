@@ -32,9 +32,9 @@ const MapResult = () => {
   return (
     <Tabs>
       <TabList>
-        <Tab>Map</Tab>
-        <Tab>Results</Tab>
-        <Tab>Exports</Tab>
+        <Tab id="map">Map</Tab>
+        <Tab id="results">Results</Tab>
+        <Tab id="exports">Exports</Tab>
       </TabList>
       <TabPanels>
         <TabPanel h="80vh" css={{ position: "relative" }}>

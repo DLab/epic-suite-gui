@@ -19,7 +19,7 @@ import ResetAlerts from "components/ResetAlerts";
 import StatesSelect from "components/StatesSelect";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
-const SelectorMap = (props) => {
+const SelectorMap = () => {
   const {
     setMode,
     states,
@@ -75,11 +75,10 @@ const SelectorMap = (props) => {
   }, []);
 
   return (
-    <FormControl p="1rem">
-      <h2 style={{ color: "#16609E" }}>Select an interest area</h2>
+    <FormControl>
       <FormLabel display="flex" justifyContent="space-between">
         <Text display="flex" m="5% 0">
-          <h3>Select scale for simulation</h3>
+          <span>Select scale for simulation</span>
           <Tooltip label="Lorem ipsum" fontSize="md" placement="top-start">
             <InfoIcon color="blue.800" ml="0.5rem" />
           </Tooltip>
@@ -87,7 +86,7 @@ const SelectorMap = (props) => {
       </FormLabel>
       <div>
         <RadioGroup onChange={setExtentionOption} value={extentionOption}>
-          <HStack spacing="24px">
+          <HStack spacing="15px">
             <Radio bg="white" border="1px" borderColor="#5B58AD" value="0">
               National
             </Radio>
