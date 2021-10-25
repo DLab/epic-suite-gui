@@ -15,12 +15,15 @@ import { useContext, useRef, useState, useEffect } from "react";
 import countyData from "../../data/counties.json";
 import data from "../../data/states.json";
 import CountiesSelect from "components/CountiesSelect";
+import ResetAlerts from "components/ResetAlerts";
 import StatesSelect from "components/StatesSelect";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
 const SelectorMap = (props) => {
   const {
     setMode,
+    states,
+    counties,
     setCounties: setCountiesSelected,
     setStates: setStatesSelected,
   } = useContext(SelectFeatureContext);
@@ -28,6 +31,7 @@ const SelectorMap = (props) => {
 
   const [stateOptions, setstateOptions] = useState([]);
   const [countiesOptions, setCountiesOptions] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
   const options = [
     {
       label: "STATES",
@@ -41,16 +45,16 @@ const SelectorMap = (props) => {
     },
   ];
   const getStatesOptions = () => {
-    const states = data.data.map((state) => {
+    const statesOptions = data.data.map((state) => {
       return { value: state[1], label: state[2], fips: state[0] };
     });
-    return setstateOptions(states);
+    return setstateOptions(statesOptions);
   };
   const getCountiesOptions = () => {
-    const states = countyData.data.map((state) => {
+    const getCounties = countyData.data.map((state) => {
       return { value: state[5], label: state[7] };
     });
-    setCountiesOptions(states);
+    setCountiesOptions(getCounties);
   };
 
   useEffect(() => {
@@ -59,9 +63,9 @@ const SelectorMap = (props) => {
     if (extentionOption === "0") {
       setMode("National");
     } else if (extentionOption === "1") {
-      setMode("State");
+      setMode("States");
     } else {
-      setMode("County");
+      setMode("Counties");
     }
   }, [extentionOption, setCountiesSelected, setMode, setStatesSelected]);
 
@@ -70,12 +74,8 @@ const SelectorMap = (props) => {
     getCountiesOptions();
   }, []);
 
-  const handleResetSelected = () => {
-    setStatesSelected({ type: "reset" });
-    setCountiesSelected({ type: "reset" });
-  };
   return (
-    <FormControl p="1rem" borderRadius="1rem" bgColor="white">
+    <FormControl p="1rem">
       <h2 style={{ color: "#16609E" }}>Select an interest area</h2>
       <FormLabel display="flex" justifyContent="space-between">
         <Text display="flex" m="5% 0">
@@ -112,10 +112,16 @@ const SelectorMap = (props) => {
             mt="0.5rem"
             variant="ghost"
             colorScheme="blue"
-            onClick={handleResetSelected}
+            onClick={() => {
+              if (states.length === 0 && counties.length === 0) {
+                return;
+              }
+              setIsOpen(true);
+            }}
           >
             Reset
           </Button>
+          <ResetAlerts isOpen={isOpen} setIsOpen={setIsOpen} />
         </Center>
       </div>
     </FormControl>

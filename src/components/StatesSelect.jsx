@@ -10,6 +10,7 @@ const StatesSelect = ({ options, extentionOption }) => {
 
   return (
     <Select
+      className="reactSelect"
       name="states"
       options={options}
       placeholder={
@@ -19,6 +20,7 @@ const StatesSelect = ({ options, extentionOption }) => {
       }
       closeMenuOnSelect
       size="md"
+      styles={{ background: "red" }}
       onChange={({ fips }) => {
         if (statesSelected.includes(fips)) {
           setStatesSelected({ type: "remove-one", payload: [fips] });

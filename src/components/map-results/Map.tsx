@@ -23,9 +23,9 @@ const Map = () => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {mode === "State" && <StatesMap />}
+      {mode === "States" && <StatesMap />}
       {mode === "National" && <NationMap />}
-      {mode === "County" && <CountiesMap />}
+      {mode === "Counties" && <CountiesMap />}
     </MapContainer>
   );
 };

@@ -67,6 +67,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
       <FormControl mt="1rem">
         <Select
           name="states"
+          className="reactSelect"
           options={options}
           placeholder="Select all counties from a State"
           size="md"
@@ -92,6 +93,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
       <FormControl mt="1rem">
         <Select
           name="counties"
+          className="reactSelect"
           options={optionsCounty}
           placeholder="Select one or more Counties"
           size="md"
