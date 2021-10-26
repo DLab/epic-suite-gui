@@ -18,6 +18,7 @@ import SelectFeatureContext from "context/SelectFeaturesContext";
 interface StatesSelected {
   stateSelected?: string[];
   countiesSelected?: string[];
+  maxWidthFeaturesPanel: string;
 }
 
 interface DataCountiesObj {
@@ -34,6 +35,7 @@ type Acc = ObjStatesCounties[] | [];
 const StatesSelectedCheckbox = ({
   stateSelected,
   countiesSelected,
+  maxWidthFeaturesPanel,
 }: StatesSelected) => {
   const { setStates, setCounties } = useContext(SelectFeatureContext);
   const sortStrings = (property: string) => (a, b) => {
@@ -83,7 +85,7 @@ const StatesSelectedCheckbox = ({
         }, [])
     : [];
   return (
-    <CheckboxGroup>
+    <Box maxHeight={maxWidthFeaturesPanel} overflowY="auto">
       <VStack>
         {stateSelected &&
           statesOrdered.map((s) => {
@@ -151,7 +153,7 @@ const StatesSelectedCheckbox = ({
           </Accordion>
         )}
       </VStack>
-    </CheckboxGroup>
+    </Box>
   );
 };
 
