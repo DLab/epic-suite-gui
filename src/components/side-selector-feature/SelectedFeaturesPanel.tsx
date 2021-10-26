@@ -1,6 +1,5 @@
 import {
   Box,
-  Accordion,
   AccordionIcon,
   AccordionPanel,
   AccordionButton,
@@ -23,21 +22,21 @@ const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
     // <Accordion defaultIndex={[0]} allowMultiple bg="white">
     <AccordionItem>
       <h2>
-        <AccordionButton>
-          <Box flex="1" textAlign="left">
+        <AccordionButton _focus={{ boxShadow: "none" }}>
+          <Box color="#16609E" flex="1" textAlign="left">
             Selected areas
           </Box>
           <AccordionIcon />
         </AccordionButton>
       </h2>
-      <AccordionPanel>
+      <AccordionPanel bg="white">
         {mode === "States" && states.length > 0 && (
           <StatesSelectedCheckbox
             stateSelected={states}
             maxWidthFeaturesPanel={maxWidthFeaturesPanel}
           />
         )}
-        {mode === "States" && states.length <= 0 && <p> no states</p>}
+        {mode === "States" && states.length <= 0 && <p> No states</p>}
 
         {mode === "Counties" && counties.length > 0 && (
           <StatesSelectedCheckbox
@@ -45,8 +44,8 @@ const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
             maxWidthFeaturesPanel={maxWidthFeaturesPanel}
           />
         )}
-        {mode === "Counties" && counties.length <= 0 && <p> no counties</p>}
-        {mode === "National" && <p>national</p>}
+        {mode === "Counties" && counties.length <= 0 && <p> No counties</p>}
+        {mode === "National" && <p>National</p>}
       </AccordionPanel>
     </AccordionItem>
     // </Accordion>

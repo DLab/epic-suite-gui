@@ -3,8 +3,8 @@ import { Select } from "chakra-react-select";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
 
-import SelectFeatureContext from "../context/SelectFeaturesContext";
-import countyData from "../data/counties.json";
+import SelectFeatureContext from "../../context/SelectFeaturesContext";
+import countyData from "../../data/counties.json";
 
 const CountiesSelect = ({ options, optionsCounty }) => {
   const { counties: countiesSelected, setCounties: setCountiesSelected } =

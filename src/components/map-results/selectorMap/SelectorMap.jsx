@@ -12,11 +12,11 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useRef, useState, useEffect } from "react";
 
-import countyData from "../../data/counties.json";
-import data from "../../data/states.json";
-import CountiesSelect from "components/CountiesSelect";
+import countyData from "../../../data/counties.json";
+import data from "../../../data/states.json";
 import ResetAlerts from "components/ResetAlerts";
-import StatesSelect from "components/StatesSelect";
+import CountiesSelect from "components/statesCountiesSelects/CountiesSelect";
+import StatesSelect from "components/statesCountiesSelects/StatesSelect";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
 const SelectorMap = () => {

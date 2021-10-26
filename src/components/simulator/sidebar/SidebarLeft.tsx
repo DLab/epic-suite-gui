@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import SidebarClosed from "components/SidebarClosed";
-import SidebarOpen from "components/SidebarOpen";
+import SidebarClosed from "./SidebarClosed";
+import SidebarOpen from "./SidebarOpen";
 
 const SidebarLeft = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);

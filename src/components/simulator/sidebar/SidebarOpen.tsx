@@ -13,8 +13,8 @@ import {
 } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import SelectorMapAccordion from "./SelectorMapAccordion";
-import ControlPanel from "./simulator/ControlPanel";
+import SelectorMapAccordion from "../../map-results/selectorMap/SelectorMapAccordion";
+import ControlPanel from "../ControlPanel";
 
 export const MotionBox = motion<BoxProps>(Box);
 

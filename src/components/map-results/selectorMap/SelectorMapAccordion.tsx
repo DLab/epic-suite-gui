@@ -8,10 +8,11 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, useContext, useEffect } from "react";
 
+// import SelectedFeaturesPanel from "../side-selector-feature/";
+import SelectedFeaturesPanel from "components/side-selector-feature/SelectedFeaturesPanel";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
-import SelectorMap from "./map-results/SelectorMap";
-import SelectedFeaturesPanel from "./side-selector-feature/SelectedFeaturesPanel";
+import SelectorMap from "./SelectorMap";
 
 const SelectorMapAccordion = () => {
   const { mode } = useContext(SelectFeatureContext);
@@ -30,7 +31,9 @@ const SelectorMapAccordion = () => {
       defaultIndex={[0, 1]}
       allowMultiple
       onChange={(e) => {
-        if (e.length === 1) {
+        const toArray = Object.values(e);
+
+        if (toArray.length === 1) {
           setmaxWidthFeaturesPanel("68vh");
         } else if (mode === "States") {
           setmaxWidthFeaturesPanel("35vh");

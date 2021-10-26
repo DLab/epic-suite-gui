@@ -1,6 +1,5 @@
 import {
   Checkbox,
-  CheckboxGroup,
   VStack,
   Accordion,
   AccordionPanel,
@@ -8,6 +7,7 @@ import {
   AccordionItem,
   Box,
   AccordionIcon,
+  Flex,
 } from "@chakra-ui/react";
 import { useContext } from "react";
 
@@ -85,23 +85,26 @@ const StatesSelectedCheckbox = ({
         }, [])
     : [];
   return (
-    <Box maxHeight={maxWidthFeaturesPanel} overflowY="auto">
+    <Flex maxHeight={maxWidthFeaturesPanel} overflowY="auto">
       <VStack>
-        {stateSelected &&
-          statesOrdered.map((s) => {
-            return (
-              <Checkbox
-                size="sm"
-                defaultIsChecked
-                key={s.value}
-                onChange={() =>
-                  setStates({ type: "remove-one", payload: [s.value] })
-                }
-              >
-                {s.label}
-              </Checkbox>
-            );
-          })}
+        {stateSelected && (
+          <Flex direction="column">
+            {statesOrdered.map((s) => {
+              return (
+                <Checkbox
+                  size="sm"
+                  defaultIsChecked
+                  key={s.value}
+                  onChange={() =>
+                    setStates({ type: "remove-one", payload: [s.value] })
+                  }
+                >
+                  {s.label}
+                </Checkbox>
+              );
+            })}
+          </Flex>
+        )}
         {countiesSelected && (
           <Accordion allowMultiple>
             {countiesOrdered.map((c: ObjStatesCounties) => {
@@ -153,7 +156,7 @@ const StatesSelectedCheckbox = ({
           </Accordion>
         )}
       </VStack>
-    </Box>
+    </Flex>
   );
 };
 
