@@ -14,6 +14,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 import SelectorMapAccordion from "./SelectorMapAccordion";
+import SelectedFeaturesPanel from "./side-selector-feature/SelectedFeaturesPanel";
 import ControlPanel from "./simulator/ControlPanel";
 
 export const MotionBox = motion<BoxProps>(Box);
@@ -44,6 +45,7 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
       <MotionBox
         bg="#EEEEEE"
         minWidth="25%"
+        maxWidth="25%"
         p="10px"
         variants={container}
         initial="hidden"
@@ -80,6 +82,7 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
           <TabPanels>
             <TabPanel p="5% 0">
               <SelectorMapAccordion />
+              <SelectedFeaturesPanel />
             </TabPanel>
             <TabPanel>
               <ControlPanel />

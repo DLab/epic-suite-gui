@@ -27,15 +27,15 @@ const SelectedFeaturesPanel = () => {
           </AccordionButton>
         </h2>
         <AccordionPanel>
-          {mode === "State" && states.length > 0 && (
+          {mode === "States" && states.length > 0 && (
             <StatesSelectedCheckbox stateSelected={states} />
           )}
-          {mode === "State" && states.length <= 0 && <p> no states</p>}
+          {mode === "States" && states.length <= 0 && <p> no states</p>}
 
-          {mode === "County" && counties.length > 0 && (
+          {mode === "Counties" && counties.length > 0 && (
             <StatesSelectedCheckbox countiesSelected={counties} />
           )}
-          {mode === "County" && counties.length <= 0 && <p> no counties</p>}
+          {mode === "Counties" && counties.length <= 0 && <p> no counties</p>}
           {mode === "National" && <p>national</p>}
         </AccordionPanel>
       </AccordionItem>
