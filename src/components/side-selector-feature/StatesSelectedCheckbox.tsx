@@ -101,7 +101,7 @@ const StatesSelectedCheckbox = ({
             );
           })}
         {countiesSelected && (
-          <Accordion defaultIndex={[0]} allowMultiple>
+          <Accordion allowMultiple>
             {countiesOrdered.map((c: ObjStatesCounties) => {
               const checkbox = c.counties.map((cc) => {
                 if (countiesSelected.includes(cc.value)) {
