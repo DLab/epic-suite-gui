@@ -29,7 +29,7 @@ const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
           <AccordionIcon />
         </AccordionButton>
       </h2>
-      <AccordionPanel bg="white" p="1% 4%">
+      <AccordionPanel p="1% 4%">
         {mode === "States" && states.length > 0 && (
           <StatesSelectedCheckbox
             stateSelected={states}
