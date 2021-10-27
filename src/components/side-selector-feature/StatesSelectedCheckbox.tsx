@@ -1,12 +1,12 @@
+import { DeleteIcon } from "@chakra-ui/icons";
 import {
-  Checkbox,
-  CheckboxGroup,
-  VStack,
+  Text,
   Accordion,
   AccordionPanel,
   AccordionButton,
   AccordionItem,
   Box,
+  Flex,
   AccordionIcon,
 } from "@chakra-ui/react";
 import { useContext } from "react";
@@ -57,9 +57,7 @@ const StatesSelectedCheckbox = ({
   const countiesOrdered = countiesSelected
     ? countiesData.data
         .filter(
-          (c) =>
-            // countiesSelected.map((cs) => cs.substring(0, 2)).includes(`${c[0]}`)
-            countiesSelected.includes(`${c[5]}`)
+          (c) => countiesSelected.includes(`${c[5]}`)
           // filter all counties includes in selection
         )
         .reduce((acc: Acc, item) => {
@@ -83,75 +81,57 @@ const StatesSelectedCheckbox = ({
         }, [])
     : [];
   return (
-    <CheckboxGroup>
-      <VStack>
-        {stateSelected &&
-          statesOrdered.map((s) => {
-            return (
-              <Checkbox
-                size="sm"
-                defaultIsChecked
-                key={s.value}
-                onChange={() =>
+    <Box>
+      {stateSelected &&
+        statesOrdered.map((s) => {
+          return (
+            <Flex key={s.value} justifyContent="space-between" px="1.5rem">
+              {s.label}
+              <DeleteIcon
+                color="red.800"
+                onClick={() =>
                   setStates({ type: "remove-one", payload: [s.value] })
                 }
-              >
-                {s.label}
-              </Checkbox>
-            );
-          })}
-        {countiesSelected && (
-          <Accordion allowMultiple>
-            {countiesOrdered.map((c: ObjStatesCounties) => {
-              const checkbox = c.counties.map((cc) => {
-                if (countiesSelected.includes(cc.value)) {
-                  return (
-                    <Checkbox
-                      onChange={(e) => {
-                        setCounties({
-                          type: "remove-one",
-                          payload: [cc.value],
-                        });
-                      }}
-                      key={cc.value}
-                      defaultIsChecked
-                    >
-                      {cc.label}
-                    </Checkbox>
-                  );
-                }
-                return (
-                  <Checkbox
-                    onChange={(e) => {
+              />
+            </Flex>
+          );
+        })}
+      {countiesSelected && (
+        <Accordion allowMultiple>
+          {countiesOrdered.map((c: ObjStatesCounties) => {
+            const checkbox = c.counties.map((cc) => {
+              return (
+                <Flex key={cc.value} justifyContent="space-between" px="1.5rem">
+                  <Text color="gray.600">{cc.label}</Text>
+                  <DeleteIcon
+                    color="red.800"
+                    onClick={() => {
                       setCounties({
-                        type: "add",
+                        type: "remove-one",
                         payload: [cc.value],
                       });
                     }}
-                    key={cc.value}
-                  >
-                    {cc.label}
-                  </Checkbox>
-                );
-              });
-              return (
-                <AccordionItem>
-                  <h2>
-                    <AccordionButton>
-                      <Box flex="1" textAlign="left">
-                        {c.labelState}
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel>{checkbox}</AccordionPanel>
-                </AccordionItem>
+                  />
+                </Flex>
               );
-            })}
-          </Accordion>
-        )}
-      </VStack>
-    </CheckboxGroup>
+            });
+            return (
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                      {c.labelState}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel>{checkbox}</AccordionPanel>
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
+      )}
+    </Box>
   );
 };
 
