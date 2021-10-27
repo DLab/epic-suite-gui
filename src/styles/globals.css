@@ -15,8 +15,9 @@
 }
 .reactSelect > :nth-child(2) > :nth-child(1) > :nth-child(1) {
   color: black;
-  font-size: 13px;
+  font-size: 11px;
 }
 .reactSelect > :nth-child(2) > :nth-child(1) {
   background-color: white !important;
+  font-size: 12px;
 }

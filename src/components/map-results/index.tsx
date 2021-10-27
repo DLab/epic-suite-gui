@@ -15,7 +15,7 @@ import Results from "./Results";
 
 const Map = dynamic(() => import("./Map"), {
   loading: () => (
-    <Flex h="80vh" justifyContent="center" alignItems="center">
+    <Flex justifyContent="center" alignItems="center">
       <Spinner
         thickness="4px"
         speed="0.65s"
@@ -30,24 +30,24 @@ const Map = dynamic(() => import("./Map"), {
 
 const MapResult = () => {
   return (
-    <Tabs>
-      <TabList>
+    <Tabs maxHeight="80vh">
+      <TabList maxHeight="7vh">
         <Tab id="map">Map</Tab>
         <Tab id="results">Results</Tab>
         <Tab id="exports">Exports</Tab>
       </TabList>
       <TabPanels>
-        <TabPanel h="80vh" css={{ position: "relative" }}>
+        <TabPanel maxHeight="73vh" css={{ position: "relative" }}>
           <Map />
         </TabPanel>
-        <TabPanel h="80vh">
+        <TabPanel maxHeight="73vh" height="73vh">
           <Flex h="100%">
             <Center w="100%" bg="red.500">
               <Results />
             </Center>
           </Flex>
         </TabPanel>
-        <TabPanel h="80vh">
+        <TabPanel maxHeight="73vh" height="73vh">
           <Flex h="100%">
             <Center w="100%" bg="blue.500">
               <Exports />

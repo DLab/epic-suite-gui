@@ -20,9 +20,9 @@ const SelectorMapAccordion = () => {
 
   useEffect(() => {
     if (mode === "States") {
-      setmaxWidthFeaturesPanel("35vh");
+      setmaxWidthFeaturesPanel("26vh");
     } else if (mode === "Counties") {
-      setmaxWidthFeaturesPanel("16vh");
+      setmaxWidthFeaturesPanel("6vh");
     }
   }, [mode]);
 
@@ -34,24 +34,24 @@ const SelectorMapAccordion = () => {
         const toArray = Object.values(e);
 
         if (toArray.length === 1) {
-          setmaxWidthFeaturesPanel("68vh");
+          setmaxWidthFeaturesPanel("56vh");
         } else if (mode === "States") {
-          setmaxWidthFeaturesPanel("35vh");
+          setmaxWidthFeaturesPanel("26vh");
         } else if (mode === "Counties") {
-          setmaxWidthFeaturesPanel("16vh");
+          setmaxWidthFeaturesPanel("6vh");
         }
       }}
     >
       <AccordionItem>
         <h2>
           <AccordionButton>
-            <Box color="#16609E" flex="1" textAlign="left">
+            <Box color="#16609E" flex="1" textAlign="left" h="16px">
               Select an interest area
             </Box>
             <AccordionIcon />
           </AccordionButton>
         </h2>
-        <AccordionPanel pb={4}>
+        <AccordionPanel pb={0}>
           <SelectorMap />
         </AccordionPanel>
       </AccordionItem>

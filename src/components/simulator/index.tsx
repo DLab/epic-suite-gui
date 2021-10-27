@@ -7,7 +7,7 @@ import SidebarLeft from "./sidebar/SidebarLeft";
 
 const Simulator = () => {
   return (
-    <Flex h="100vh">
+    <Flex maxHeight="89vh">
       <SidebarLeft />
       <Flex w="100%" direction="column" justify="space-between">
         <MapResult />

@@ -63,14 +63,14 @@ const CountiesSelect = ({ options, optionsCounty }) => {
     return true;
   };
   return (
-    <>
-      <FormControl mt="1rem">
+    <Box>
+      <FormControl mt="0.6rem">
         <Select
           name="states"
           className="reactSelect"
           options={options}
           placeholder="Select all counties from a State"
-          size="md"
+          size="xs"
           onChange={({ fips }) => setCountyFeaturesByState(fips)}
         />
         <Box w="100%" textAlign="right" pt="0.3rem">
@@ -90,13 +90,13 @@ const CountiesSelect = ({ options, optionsCounty }) => {
           </Button>
         </Box>
       </FormControl>
-      <FormControl mt="1rem">
+      <FormControl mt="0.6rem">
         <Select
           name="counties"
           className="reactSelect"
           options={optionsCounty}
           placeholder="Select one or more Counties"
-          size="md"
+          size="xs"
           w="100%"
           onChange={({ value }) => setCountyFeature(value)}
         />
@@ -117,7 +117,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
           </Button>
         </Box>
       </FormControl>
-    </>
+    </Box>
   );
 };
 CountiesSelect.propTypes = {

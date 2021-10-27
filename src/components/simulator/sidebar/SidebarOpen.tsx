@@ -45,13 +45,15 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
         bg="#EEEEEE"
         minWidth="25%"
         maxWidth="25%"
-        p="10px"
+        h="89vh"
+        maxHeight="89vh"
+        p="1vh"
         variants={container}
         initial="hidden"
         animate="show"
       >
-        <Tabs>
-          <Box display="flex" justifyContent="space-between">
+        <Tabs h="87vh" maxHeight="87vh">
+          <Box display="flex" justifyContent="space-between" maxHeight="7vh">
             <TabList>
               <Tab id="selectmap">
                 <Icon w={6} h={6} as={EditIcon} />
@@ -78,7 +80,7 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
               />
             </Flex>
           </Box>
-          <TabPanels>
+          <TabPanels h="80vh" maxHeight="80vh">
             <TabPanel p="5% 0">
               <SelectorMapAccordion />
             </TabPanel>

@@ -75,28 +75,28 @@ const SelectorMap = () => {
   }, []);
 
   return (
-    <FormControl>
+    <FormControl maxHeight="51vh">
       <FormLabel display="flex" justifyContent="space-between">
-        <Text display="flex" m="5% 0">
+        <Text display="flex" m="1% 0" fontSize="14px">
           <span>Select scale for simulation</span>
         </Text>
       </FormLabel>
       <div>
         <RadioGroup onChange={setExtentionOption} value={extentionOption}>
-          <HStack spacing="15px">
+          <HStack spacing="8px">
             <Radio bg="white" border="1px" borderColor="#5B58AD" value="0">
-              National
+              <span style={{ fontSize: "14px" }}>National</span>
             </Radio>
             <Radio bg="white" border="1px" borderColor="#5B58AD" value="1">
-              State
+              <span style={{ fontSize: "14px" }}>State</span>
             </Radio>
             <Radio bg="white" border="1px" borderColor="#5B58AD" value="2">
-              County
+              <span style={{ fontSize: "14px" }}>County</span>
             </Radio>
           </HStack>
         </RadioGroup>
         {extentionOption === "1" && (
-          <FormControl mt="1rem">
+          <FormControl mt="0.6rem">
             <StatesSelect options={options} extentionOption={extentionOption} />
           </FormControl>
         )}

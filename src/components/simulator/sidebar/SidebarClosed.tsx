@@ -33,7 +33,7 @@ const SidebarClosed = ({
     <AnimatePresence>
       <MotionBox
         bg="#EEEEEE"
-        p="10px"
+        p="1vh"
         color="white"
         justifyContent="center"
         variants={container}
