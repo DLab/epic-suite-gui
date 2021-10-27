@@ -79,9 +79,6 @@ const SelectorMap = () => {
       <FormLabel display="flex" justifyContent="space-between">
         <Text display="flex" m="5% 0">
           <span>Select scale for simulation</span>
-          <Tooltip label="Lorem ipsum" fontSize="md" placement="top-start">
-            <InfoIcon color="blue.800" ml="0.5rem" />
-          </Tooltip>
         </Text>
       </FormLabel>
       <div>
