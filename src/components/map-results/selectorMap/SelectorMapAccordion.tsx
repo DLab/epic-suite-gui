@@ -55,7 +55,9 @@ const SelectorMapAccordion = () => {
           <SelectorMap />
         </AccordionPanel>
       </AccordionItem>
-      <SelectedFeaturesPanel maxWidthFeaturesPanel={maxWidthFeaturesPanel} />
+      {(mode === "States" || mode === "Counties") && (
+        <SelectedFeaturesPanel maxWidthFeaturesPanel={maxWidthFeaturesPanel} />
+      )}
     </Accordion>
   );
 };

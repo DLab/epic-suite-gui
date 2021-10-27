@@ -45,7 +45,6 @@ const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
           />
         )}
         {mode === "Counties" && counties.length <= 0 && <p> No counties</p>}
-        {mode === "National" && <p>National</p>}
       </AccordionPanel>
     </AccordionItem>
     // </Accordion>
