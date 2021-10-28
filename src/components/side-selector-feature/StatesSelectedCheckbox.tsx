@@ -87,7 +87,12 @@ const StatesSelectedCheckbox = ({
       {stateSelected &&
         statesOrdered.map((s) => {
           return (
-            <Flex key={s.value} justifyContent="space-between" px="1.5rem">
+            <Flex
+              key={s.value}
+              justifyContent="space-between"
+              px="1.5rem"
+              fontSize="14px"
+            >
               {s.label}
               <DeleteIcon
                 color="red.800"
@@ -104,7 +109,9 @@ const StatesSelectedCheckbox = ({
             const checkbox = c.counties.map((cc) => {
               return (
                 <Flex key={cc.value} justifyContent="space-between" px="1.5rem">
-                  <Text color="gray.600">{cc.label}</Text>
+                  <Text fontSize="14px" color="gray.600">
+                    {cc.label}
+                  </Text>
                   <DeleteIcon
                     color="red.800"
                     onClick={() => {
@@ -121,7 +128,7 @@ const StatesSelectedCheckbox = ({
               <AccordionItem>
                 <h2>
                   <AccordionButton>
-                    <Box flex="1" textAlign="left">
+                    <Box flex="1" textAlign="left" fontSize="14px">
                       {c.labelState}
                     </Box>
                     <AccordionIcon />

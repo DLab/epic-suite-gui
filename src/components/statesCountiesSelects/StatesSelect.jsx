@@ -19,7 +19,7 @@ const StatesSelect = ({ options, extentionOption }) => {
           : "Select all counties from a State"
       }
       closeMenuOnSelect
-      size="md"
+      size="sm"
       styles={{ background: "red" }}
       onChange={({ fips }) => {
         if (statesSelected.includes(fips)) {

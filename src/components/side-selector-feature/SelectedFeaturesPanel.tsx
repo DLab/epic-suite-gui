@@ -19,11 +19,10 @@ interface Props {
 const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
   const { mode, counties, states } = useContext(SelectFeatureContext);
   return (
-    // <Accordion defaultIndex={[0]} allowMultiple bg="white">
     <AccordionItem>
       <h2>
         <AccordionButton _focus={{ boxShadow: "none" }}>
-          <Box color="#16609E" flex="1" textAlign="left">
+          <Box fontSize="14px" color="#16609E" flex="1" textAlign="left">
             Selected areas
           </Box>
           <AccordionIcon />
@@ -36,7 +35,9 @@ const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
             maxWidthFeaturesPanel={maxWidthFeaturesPanel}
           />
         )}
-        {mode === "States" && states.length <= 0 && <p> No states</p>}
+        {mode === "States" && states.length <= 0 && (
+          <Text fontSize="14px"> No states</Text>
+        )}
 
         {mode === "Counties" && counties.length > 0 && (
           <StatesSelectedCheckbox
@@ -44,10 +45,11 @@ const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
             maxWidthFeaturesPanel={maxWidthFeaturesPanel}
           />
         )}
-        {mode === "Counties" && counties.length <= 0 && <p> No counties</p>}
+        {mode === "Counties" && counties.length <= 0 && (
+          <Text fontSize="14px"> No counties</Text>
+        )}
       </AccordionPanel>
     </AccordionItem>
-    // </Accordion>
   );
 };
 

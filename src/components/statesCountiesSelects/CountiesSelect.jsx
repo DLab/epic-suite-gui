@@ -70,7 +70,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
           className="reactSelect"
           options={options}
           placeholder="Select all counties from a State"
-          size="xs"
+          size="sm"
           onChange={({ fips }) => setCountyFeaturesByState(fips)}
         />
         <Box w="100%" textAlign="right" pt="0.3rem">
@@ -96,7 +96,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
           className="reactSelect"
           options={optionsCounty}
           placeholder="Select one or more Counties"
-          size="xs"
+          size="sm"
           w="100%"
           onChange={({ value }) => setCountyFeature(value)}
         />

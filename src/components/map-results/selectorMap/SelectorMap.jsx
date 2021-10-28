@@ -76,11 +76,6 @@ const SelectorMap = () => {
 
   return (
     <FormControl maxHeight="51vh">
-      <FormLabel display="flex" justifyContent="space-between">
-        <Text display="flex" m="1% 0" fontSize="14px">
-          <span>Select scale for simulation</span>
-        </Text>
-      </FormLabel>
       <div>
         <RadioGroup onChange={setExtentionOption} value={extentionOption}>
           <HStack spacing="8px">
