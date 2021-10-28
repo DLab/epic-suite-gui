@@ -2,7 +2,7 @@ import { Select } from "chakra-react-select";
 import PropTypes from "prop-types";
 import { useContext } from "react";
 
-import SelectFeatureContext from "../context/SelectFeaturesContext";
+import SelectFeatureContext from "../../context/SelectFeaturesContext";
 
 const StatesSelect = ({ options, extentionOption }) => {
   const { states: statesSelected, setStates: setStatesSelected } =
@@ -10,6 +10,7 @@ const StatesSelect = ({ options, extentionOption }) => {
 
   return (
     <Select
+      className="reactSelect"
       name="states"
       options={options}
       placeholder={
@@ -18,7 +19,8 @@ const StatesSelect = ({ options, extentionOption }) => {
           : "Select all counties from a State"
       }
       closeMenuOnSelect
-      size="md"
+      size="sm"
+      styles={{ background: "red" }}
       onChange={({ fips }) => {
         if (statesSelected.includes(fips)) {
           setStatesSelected({ type: "remove-one", payload: [fips] });

@@ -3,3 +3,21 @@
   will-change: auto;
   z-index: 0;
 }
+.reactSelect {
+  border-color: #adadad;
+}
+
+.reactSelect > :nth-child(2) > :nth-child(2) > :nth-child(2) {
+  background-color: white !important;
+}
+.reactSelect > :nth-child(2) > :nth-child(2) > :nth-child(1) {
+  display: none;
+}
+.reactSelect > :nth-child(2) > :nth-child(1) > :nth-child(1) {
+  color: black;
+  font-size: 11px;
+}
+.reactSelect > :nth-child(2) > :nth-child(1) {
+  background-color: white !important;
+  font-size: 12px;
+}

@@ -16,16 +16,16 @@ const Map = () => {
       className="will-change"
       center={[35, -100]}
       zoom={4}
-      style={{ height: "80vh", width: "100%" }}
+      style={{ height: "69vh", maxHeight: "69vh", width: "100%" }}
       scrollWheelZoom={false}
     >
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {mode === "State" && <StatesMap />}
+      {mode === "States" && <StatesMap />}
       {mode === "National" && <NationMap />}
-      {mode === "County" && <CountiesMap />}
+      {mode === "Counties" && <CountiesMap />}
     </MapContainer>
   );
 };

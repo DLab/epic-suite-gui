@@ -3,8 +3,8 @@ import { Select } from "chakra-react-select";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
 
-import SelectFeatureContext from "../context/SelectFeaturesContext";
-import countyData from "../data/counties.json";
+import SelectFeatureContext from "../../context/SelectFeaturesContext";
+import countyData from "../../data/counties.json";
 
 const CountiesSelect = ({ options, optionsCounty }) => {
   const { counties: countiesSelected, setCounties: setCountiesSelected } =
@@ -63,10 +63,11 @@ const CountiesSelect = ({ options, optionsCounty }) => {
     return true;
   };
   return (
-    <>
-      <FormControl mt="1rem">
+    <Box>
+      <FormControl mt="0.6rem">
         <Select
           name="states"
+          className="reactSelect"
           options={options}
           placeholder="Select all counties from a State"
           size="sm"
@@ -75,6 +76,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
         <Box w="100%" textAlign="right" pt="0.3rem">
           <Button
             size="xs"
+            m="0 3% 0 0"
             onClick={() => handleAddCounties(countyFeaturesByState)}
             colorScheme="blue"
           >
@@ -88,11 +90,12 @@ const CountiesSelect = ({ options, optionsCounty }) => {
           </Button>
         </Box>
       </FormControl>
-      <FormControl mt="1rem">
+      <FormControl mt="0.6rem">
         <Select
           name="counties"
+          className="reactSelect"
           options={optionsCounty}
-          placeholder="Select one or more counties..."
+          placeholder="Select one or more Counties"
           size="sm"
           w="100%"
           onChange={({ value }) => setCountyFeature(value)}
@@ -100,6 +103,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
         <Box w="100%" textAlign="right" pt="0.3rem">
           <Button
             size="xs"
+            m="0 3% 0 0"
             colorScheme="blue"
             onClick={() => handleAddCounties(countyFeature)}
           >
@@ -113,7 +117,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
           </Button>
         </Box>
       </FormControl>
-    </>
+    </Box>
   );
 };
 CountiesSelect.propTypes = {

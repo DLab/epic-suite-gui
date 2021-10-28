@@ -17,11 +17,8 @@ const StatesMap = () => {
     stateData,
     stateData.objects.states as GeometryObject
   );
-  const {
-    states: statesSelected,
-    setStates: setStatesSelected,
-    mode,
-  } = useContext(SelectFeatureContext);
+  const { states: statesSelected, setStates: setStatesSelected } =
+    useContext(SelectFeatureContext);
 
   const initialState: string | undefined = "";
 
