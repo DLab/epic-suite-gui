@@ -1,5 +1,5 @@
 import { createContext } from "react";
-// hasta acá
+
 export interface Action {
   type: string;
   payload?: string[];

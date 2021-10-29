@@ -3,6 +3,7 @@ import { useReducer, useState } from "react";
 
 import Simulator from "components/simulator/index";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import ControlPanelContext from "context/ControlPanelContext";
 import SelectFeatureContext, { Action } from "context/SelectFeaturesContext";
 
 const Home = () => {
@@ -30,13 +31,15 @@ const Home = () => {
   const [counties, setCounties] = useReducer(reducer, initialState);
   const [mode, setMode] = useState("National");
   return (
-    <SelectFeatureContext.Provider
-      value={{ states, setStates, counties, setCounties, mode, setMode }}
-    >
-      <Box>
-        <Simulator />
-      </Box>
-    </SelectFeatureContext.Provider>
+    <ControlPanelContext>
+      <SelectFeatureContext.Provider
+        value={{ states, setStates, counties, setCounties, mode, setMode }}
+      >
+        <Box>
+          <Simulator />
+        </Box>
+      </SelectFeatureContext.Provider>
+    </ControlPanelContext>
   );
 };
 
