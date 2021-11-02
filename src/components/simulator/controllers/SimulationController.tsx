@@ -1,22 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {
-  Box,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  Select,
-  Text,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Input,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Select, Text, Flex } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
+import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
 
 const SimulationController = () => {
@@ -34,7 +20,7 @@ const SimulationController = () => {
             setParameters({
               type: "set",
               target: "name",
-              payload: e.target.value,
+              payload: +e.target.value,
             });
           }}
         >
@@ -43,100 +29,38 @@ const SimulationController = () => {
       </Box>
       <Flex justify="space-between">
         <Box>
-          <Text flex="1" textAlign="left">
-            t_init
-          </Text>
-          <NumberInput
-            size="xs"
-            h="25px"
-            ml="10% "
-            defaultValue={t_init}
+          <NumberInputEpi
+            value={t_init}
+            setValue={setParameters}
             min={0}
-            onChange={(e) => {
-              setParameters({
-                type: "set",
-                target: "t_init",
-                payload: e,
-              });
-            }}
-          >
-            <NumberInputField w="70px" />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
+            max={Infinity}
+            nameParams="t_init"
+            type="number"
+          />
         </Box>
         <Box>
-          <Text flex="1" textAlign="left">
-            t_end
-          </Text>
-          <NumberInput
-            size="xs"
-            h="25px"
-            ml="10% "
-            defaultValue={t_end}
-            min={parseInt(t_init, 10) + 1}
-            onChange={(e) => {
-              setParameters({
-                type: "set",
-                target: "t_end",
-                payload: e,
-              });
-            }}
-          >
-            <NumberInputField w="70px" />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
+          <NumberInputEpi
+            value={t_end}
+            setValue={setParameters}
+            min={
+              typeof t_init === "string" ? parseInt(t_init, 10) + 1 : t_init + 1
+            }
+            max={Infinity}
+            nameParams="t_end"
+            type="number"
+          />
         </Box>
       </Flex>
       <Box>
-        <Text flex="1" textAlign="left">
-          timestep
-        </Text>
-        <Flex>
-          <Slider
-            size="md"
-            id="s1"
-            aria-label="timestep"
-            defaultValue={timestep}
-            min={0.01}
-            max={0.1}
-            mt="20px"
-            value={timestep}
-            step={0.01}
-            onChange={(e) => {
-              setParameters({ type: "set", target: "timestep", payload: e });
-            }}
-          >
-            <SliderTrack>
-              <SliderFilledTrack />
-            </SliderTrack>
-            <SliderThumb />
-          </Slider>
-          <NumberInput
-            size="xs"
-            h="100%"
-            ml="10% "
-            defaultValue={timestep}
-            value={timestep}
-            min={0.01}
-            max={0.1}
-            step={0.01}
-            onChange={(e) => {
-              setParameters({ type: "set", target: "timestep", payload: e });
-            }}
-          >
-            <NumberInputField w="70px" />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-        </Flex>
+        <NumberInputEpi
+          value={timestep}
+          setValue={setParameters}
+          min={0.01}
+          max={0.1}
+          step={0.01}
+          nameParams="timestep"
+          type="slider"
+        />
       </Box>
     </>
   );

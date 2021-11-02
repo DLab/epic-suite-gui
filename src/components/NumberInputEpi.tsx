@@ -52,6 +52,7 @@ const NumberInputEpi = ({
               min={+min}
               max={+max}
               step={step}
+              value={+value}
             >
               <NumberInputField />
               <NumberInputStepper>
@@ -63,6 +64,7 @@ const NumberInputEpi = ({
               flex="1"
               focusThumbOnChange={false}
               defaultValue={+value}
+              value={+value}
               step={step}
               min={+min}
               max={+max}

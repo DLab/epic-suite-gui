@@ -1,15 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import {
-  Text,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Flex,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
+import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
 
 const InitialConditions = () => {
@@ -17,104 +10,56 @@ const InitialConditions = () => {
   const { R, I, I_d, I_ac, E } = parameters;
   return (
     <>
-      <Flex mb="5%">
-        <Text flex="1" textAlign="left">
-          Recovered
-        </Text>
-        <NumberInput
-          size="xs"
-          defaultValue={R}
+      <Box>
+        <NumberInputEpi
+          value={R}
+          setValue={setParameters}
           min={0}
-          onChange={(e) => {
-            setParameters({ type: "set", target: "R", payload: e });
-          }}
-        >
-          <NumberInputField w="100px" />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-      </Flex>
-      <Flex mb="5%">
-        <Text flex="1" textAlign="left">
-          Active Infected
-        </Text>
-        <NumberInput
-          size="xs"
-          defaultValue={I}
+          max={Infinity}
+          nameParams="Recovered"
+          type="number"
+        />
+      </Box>
+      <Box>
+        <NumberInputEpi
+          value={I}
+          setValue={setParameters}
           min={0}
-          h="25px"
-          onChange={(e) => {
-            setParameters({ type: "set", target: "I", payload: e });
-          }}
-        >
-          <NumberInputField w="100px" />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-      </Flex>
-      <Flex mb="5%">
-        <Text flex="1" textAlign="left">
-          New daily Infected
-        </Text>
-        <NumberInput
-          size="xs"
-          defaultValue={I_d}
+          max={Infinity}
+          nameParams="Active Infected"
+          type="number"
+        />
+      </Box>
+      <Box>
+        <NumberInputEpi
+          value={I_d}
+          setValue={setParameters}
           min={0}
-          h="25px"
-          onChange={(e) => {
-            setParameters({ type: "set", target: "I_d", payload: e });
-          }}
-        >
-          <NumberInputField w="100px" />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-      </Flex>
-      <Flex mb="5%">
-        <Text flex="1" textAlign="left">
-          Exposed
-        </Text>
-        <NumberInput
-          size="xs"
-          defaultValue={E}
+          max={Infinity}
+          nameParams="New daily Infected"
+          type="number"
+        />
+      </Box>
+      <Box>
+        <NumberInputEpi
+          value={E}
+          setValue={setParameters}
           min={0}
-          onChange={(e) => {
-            setParameters({ type: "set", target: "E", payload: e });
-          }}
-        >
-          <NumberInputField w="100px" />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-      </Flex>
-      <Flex mb="5%">
-        <Text flex="1" textAlign="left">
-          Accumulate Infected
-        </Text>
-        <NumberInput
-          size="xs"
-          defaultValue={I_ac}
+          max={Infinity}
+          nameParams="Exposed"
+          type="number"
+        />
+      </Box>
+      <Box>
+        <NumberInputEpi
+          value={I_ac}
+          setValue={setParameters}
           min={0}
-          h="25px"
-          onChange={(e) => {
-            setParameters({ type: "set", target: "I_ac", payload: e });
-          }}
-        >
-          <NumberInputField w="100px" />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-      </Flex>
+          max={Infinity}
+          nameParams="Accumulate Infected"
+          type="number"
+        />
+      </Box>
     </>
   );
 };
