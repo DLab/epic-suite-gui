@@ -8,7 +8,7 @@ interface ActionsEpidemicData {
 interface EpidemicsData {
   name: string;
   compartments?: string[];
-  t_init: number;
+  t_init: string;
   t_end: number;
   timestep: number;
   pI_det: number;
@@ -32,7 +32,7 @@ interface EpidemicAttributes {
 const initialState: EpidemicsData = {
   name: "SEIR",
   compartments: [],
-  t_init: 0,
+  t_init: "0",
   t_end: 1,
   timestep: 0.01,
   pI_det: 0.01,

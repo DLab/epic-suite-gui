@@ -80,7 +80,7 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
               />
             </Flex>
           </Box>
-          <TabPanels h="80vh" maxHeight="80vh">
+          <TabPanels h="80vh" maxHeight="80vh" overflowY="auto">
             <TabPanel p="5% 0">
               <SelectorMapAccordion />
             </TabPanel>
