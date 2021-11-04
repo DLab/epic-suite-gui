@@ -33,11 +33,8 @@ const StatesMap = () => {
   const onEachFeature = (feature, layer) => {
     layer.on({
       click: () => {
-        setStatesSelected({ type: "add", payload: [feature.id] });
+        setStatesSelected({ type: "handle-select", payload: [feature.id] });
       },
-    });
-    layer.on("contextmenu ", () => {
-      setStatesSelected({ type: "remove-one", payload: [feature.id] });
     });
     layer.on("mouseover", () => {
       dispatch({ type: "set", payload: feature.properties.name });

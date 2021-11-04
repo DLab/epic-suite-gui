@@ -21,11 +21,17 @@ const Home = () => {
       return acc;
     }, []);
   };
+
   const reducer = (state: string[], action: Action) => {
     switch (action.type) {
       case "add":
         // return [...state, ...action.payload];
         return eliminateDuplicatesData(state, action.payload);
+      case "handle-select":
+        if (state.includes(action.payload[0])) {
+          return state.filter((s: string) => s !== action.payload[0]);
+        }
+        return [...state, ...action.payload];
       case "remove":
         return [...action.payload];
       case "remove-one":

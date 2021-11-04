@@ -49,10 +49,7 @@ const CountiesMap = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const eventsMap = (feature, layer) => {
     layer.on("click", () => {
-      setCountiesSelected({ type: "add", payload: [feature.id] });
-    });
-    layer.on("contextmenu ", () => {
-      setCountiesSelected({ type: "remove-one", payload: [feature.id] });
+      setCountiesSelected({ type: "handle-select", payload: [feature.id] });
     });
     layer.on("mouseover", () => {
       dispatch({ type: "set", payload: feature.properties.name });
