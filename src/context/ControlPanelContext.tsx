@@ -36,7 +36,7 @@ const initialState: EpidemicsData = {
   t_end: 1,
   timestep: 0.01,
   pI_det: 0.01,
-  beta: 0.001,
+  beta: 0.01,
   mu: 1,
   r_R_S: 0.001,
   alfa: 0,

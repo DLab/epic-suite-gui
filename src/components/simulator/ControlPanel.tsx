@@ -3,9 +3,8 @@ import { Button, Box, Accordion } from "@chakra-ui/react";
 
 import AcordionContent from "components/AcordionContent";
 import InitialConditions from "components/simulator/controllers/InitialConditions";
-import SimulationController from "components/simulator/controllers/SimulationController";
+import ModelController from "components/simulator/controllers/ModelController";
 
-import EpidemiologicParameters from "./controllers/EpidemiologicParameters";
 import InterventionsParameters from "./controllers/InterventionsParameters";
 
 const ControlPanel = () => {
@@ -14,21 +13,18 @@ const ControlPanel = () => {
       <h2 style={{ textAlign: "center", color: "#16609E" }}>Control Panel</h2>
       <Box p="5px" mt="15px" textAlign="center">
         <Accordion allowMultiple>
+          <AcordionContent title="Model">
+            <ModelController />
+          </AcordionContent>
           <AcordionContent title="Initial Conditions">
             <InitialConditions />
           </AcordionContent>
-          <AcordionContent title="Simulation">
-            <SimulationController />
-          </AcordionContent>
-          <AcordionContent title="Epidemiologic">
-            <EpidemiologicParameters />
-          </AcordionContent>
-          <AcordionContent title="Intervention">
+          <AcordionContent title="Interventions">
             <InterventionsParameters />
           </AcordionContent>
         </Accordion>
         <Button colorScheme="teal" size="md" mt="20px">
-          Start
+          Add Model
         </Button>
       </Box>
     </>
