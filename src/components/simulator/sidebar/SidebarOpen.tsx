@@ -1,5 +1,4 @@
-import { ChevronLeftIcon, SettingsIcon, EditIcon } from "@chakra-ui/icons";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ChevronLeftIcon, SettingsIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -14,7 +13,8 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 import SelectorMapAccordion from "../../map-results/selectorMap/SelectorMapAccordion";
-import ControlPanel from "../ControlPanel";
+import ModelBuilder from "../ModelBuilder";
+import PlanetIcon from "components/icons/PlanetIcon";
 
 export const MotionBox = motion<BoxProps>(Box);
 
@@ -55,11 +55,11 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
         <Tabs h="87vh" maxHeight="87vh">
           <Box display="flex" justifyContent="space-between" maxHeight="7vh">
             <TabList>
-              <Tab id="selectmap">
-                <Icon w={6} h={6} as={EditIcon} />
-              </Tab>
-              <Tab id="controlpanel">
+              <Tab id="ModelBuilder">
                 <Icon w={6} h={6} as={SettingsIcon} />
+              </Tab>
+              <Tab id="selectmap">
+                <PlanetIcon w={6} h={6} />
               </Tab>
             </TabList>
             <Flex
@@ -81,11 +81,11 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
             </Flex>
           </Box>
           <TabPanels h="80vh" maxHeight="80vh" overflowY="auto">
+            <TabPanel>
+              <ModelBuilder />
+            </TabPanel>
             <TabPanel p="5% 0">
               <SelectorMapAccordion />
-            </TabPanel>
-            <TabPanel>
-              <ControlPanel />
             </TabPanel>
           </TabPanels>
         </Tabs>
