@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Button, Box, Accordion } from "@chakra-ui/react";
 
 import AcordionContent from "components/AcordionContent";
@@ -7,10 +6,10 @@ import ModelController from "components/simulator/controllers/ModelController";
 
 import InterventionsParameters from "./controllers/InterventionsParameters";
 
-const ControlPanel = () => {
+const ModelBuilder = () => {
   return (
     <>
-      <h2 style={{ textAlign: "center", color: "#16609E" }}>Control Panel</h2>
+      <h2 style={{ textAlign: "center", color: "#16609E" }}>Model Builder</h2>
       <Box p="5px" mt="15px" textAlign="center">
         <Accordion allowMultiple>
           <AcordionContent title="Model">
@@ -31,4 +30,4 @@ const ControlPanel = () => {
   );
 };
 
-export default ControlPanel;
+export default ModelBuilder;
