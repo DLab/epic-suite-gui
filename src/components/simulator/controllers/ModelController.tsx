@@ -1,16 +1,43 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, Select, Text, Flex } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import {
+  Box,
+  Select,
+  Text,
+  Flex,
+  Input,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton,
+} from "@chakra-ui/react";
+import { useContext, useState } from "react";
 
 import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
 
 const ModelController = () => {
   const { setParameters, parameters } = useContext(ControlPanel);
-  const { t_init, t_end, timestep } = parameters;
+  const { t_init, t_end, timestep, name_model } = parameters;
+  // const [invalid, setInValid] = useState(false);
+  // const [isAlert, setIsAlert] = useState(false);
   return (
     <>
       <Box>
+        <Text flex="1" textAlign="left">
+          Model Name
+        </Text>
+        <Input
+          value={name_model}
+          onChange={(e) => {
+            setParameters({
+              type: "set",
+              target: "name_model",
+              payload: e.target.value,
+            });
+          }}
+        />
+
         <Text flex="1" textAlign="left">
           Model
         </Text>
