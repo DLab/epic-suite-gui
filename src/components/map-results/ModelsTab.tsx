@@ -13,32 +13,12 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
+import { EpidemicsData } from "../../context/ControlPanelContext";
+
 import ModelDetails from "./ModelDetails";
 
-type ModelsData = {
-  model_name: string;
-  name: string;
-  compartments?: string[];
-  t_init: number;
-  t_end: number;
-  timestep: number;
-  pI_det: number;
-  beta: number;
-  mu: number;
-  r_R_S: number;
-  alfa: number;
-  tE_I: number;
-  tI_R: number;
-  population: number;
-  R: number;
-  I: number;
-  I_d: number;
-  I_ac: number;
-  E: number;
-};
-
 const ModelsTab = () => {
-  const [data, setData] = useState<ModelsData[] | []>({});
+  const [data, setData] = useState<EpidemicsData[] | []>([]);
   const [viewDetails, setViewDetails] = useState(false);
   const [modelDetails, setmodelDetails] = useState([]);
 
@@ -48,7 +28,7 @@ const ModelsTab = () => {
     };
     setTimeout(() => {
       datamodels = JSON.parse(sessionStorage.getItem("models"));
-      if (datamodels === null) {
+      if (datamodels === null || datamodels === undefined) {
         getData();
       }
       setData(datamodels.data);
@@ -56,9 +36,9 @@ const ModelsTab = () => {
     setData(datamodels.data);
   };
 
-  const chargeData = () => {
-    const x = JSON.parse(sessionStorage.getItem("models"));
-    setData(x);
+  const loadData = () => {
+    const dataLoaded = JSON.parse(sessionStorage.getItem("models"));
+    setData(dataLoaded.data);
   };
 
   // const viewModelDetails = (name: string) => {
@@ -72,8 +52,8 @@ const ModelsTab = () => {
     const modelDataFilter = data.filter(
       (model) => model.parameters.name_model !== name
     );
-    sessionStorage.setItem("models", JSON.stringify(modelDataFilter));
-    chargeData();
+    sessionStorage.setItem("models", JSON.stringify({ data: modelDataFilter }));
+    loadData();
   };
 
   useEffect(() => {
