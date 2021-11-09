@@ -1,12 +1,26 @@
-import { Button, Box, Accordion } from "@chakra-ui/react";
+import { Box, Accordion } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 import AcordionContent from "components/AcordionContent";
 import InitialConditions from "components/simulator/controllers/InitialConditions";
 import ModelController from "components/simulator/controllers/ModelController";
+import ToastMessage from "components/ToastMessage";
+import { EpidemicsData } from "context/ControlPanelContext";
 
 import InterventionsParameters from "./controllers/InterventionsParameters";
 
+interface Models {
+  spatialSelection: string[] | [];
+  parameters: EpidemicsData;
+}
 const ModelBuilder = () => {
+  useEffect(() => {
+    const sessionStorageObject = window.sessionStorage.getItem("models");
+    if (!sessionStorageObject) {
+      window.sessionStorage.setItem("models", JSON.stringify({ data: [] }));
+    }
+  }, []);
+
   return (
     <>
       <h2 style={{ textAlign: "center", color: "#16609E" }}>Model Builder</h2>
@@ -22,9 +36,7 @@ const ModelBuilder = () => {
             <InterventionsParameters />
           </AcordionContent>
         </Accordion>
-        <Button colorScheme="teal" size="md" mt="20px">
-          Add Model
-        </Button>
+        <ToastMessage />
       </Box>
     </>
   );

@@ -5,7 +5,8 @@ interface ActionsEpidemicData {
   payload: string | number;
   target: string;
 }
-interface EpidemicsData {
+export interface EpidemicsData {
+  name_model: string;
   name: string;
   compartments?: string[];
   t_init: number;
@@ -30,6 +31,7 @@ interface EpidemicAttributes {
   setParameters: (values: ActionsEpidemicData) => void;
 }
 const initialState: EpidemicsData = {
+  name_model: "Model 1",
   name: "SEIR",
   compartments: [],
   t_init: 0,
