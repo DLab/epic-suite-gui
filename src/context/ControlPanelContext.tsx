@@ -33,7 +33,7 @@ interface EpidemicAttributes {
 const initialState: EpidemicsData = {
   name_model: "Model 1",
   name: "SEIR",
-  compartments: [],
+  compartments: ["S", "E", "I", "R"],
   t_init: 0,
   t_end: 1,
   timestep: 0.01,

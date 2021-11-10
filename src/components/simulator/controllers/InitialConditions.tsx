@@ -16,7 +16,7 @@ const InitialConditions = () => {
           setValue={setParameters}
           min={0}
           max={Infinity}
-          nameParams="Recovered"
+          nameParams="R"
           type="number"
         />
       </Box>
@@ -26,7 +26,7 @@ const InitialConditions = () => {
           setValue={setParameters}
           min={0}
           max={Infinity}
-          nameParams="Active Infected"
+          nameParams="I"
           type="number"
         />
       </Box>
@@ -36,7 +36,7 @@ const InitialConditions = () => {
           setValue={setParameters}
           min={0}
           max={Infinity}
-          nameParams="New daily Infected"
+          nameParams="I_d"
           type="number"
         />
       </Box>
@@ -46,7 +46,7 @@ const InitialConditions = () => {
           setValue={setParameters}
           min={0}
           max={Infinity}
-          nameParams="Exposed"
+          nameParams="E"
           type="number"
         />
       </Box>
@@ -56,7 +56,7 @@ const InitialConditions = () => {
           setValue={setParameters}
           min={0}
           max={Infinity}
-          nameParams="Accumulate Infected"
+          nameParams="I_ac"
           type="number"
         />
       </Box>
