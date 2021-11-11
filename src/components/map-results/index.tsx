@@ -11,6 +11,7 @@ import {
 import dynamic from "next/dynamic";
 
 import Exports from "./Exports";
+import ModelsTab from "./ModelsTab";
 import Results from "./Results";
 
 const Map = dynamic(() => import("./Map"), {
@@ -30,13 +31,17 @@ const Map = dynamic(() => import("./Map"), {
 
 const MapResult = () => {
   return (
-    <Tabs maxHeight="80vh">
+    <Tabs isLazy maxHeight="80vh">
       <TabList maxHeight="7vh">
+        <Tab id="map">Models</Tab>
         <Tab id="map">Map</Tab>
         <Tab id="results">Results</Tab>
         <Tab id="exports">Exports</Tab>
       </TabList>
       <TabPanels>
+        <TabPanel maxHeight="73vh" height="73vh" bg="#FAFAFA" overflowY="auto">
+          <ModelsTab />
+        </TabPanel>
         <TabPanel maxHeight="73vh" css={{ position: "relative" }}>
           <Map />
         </TabPanel>
