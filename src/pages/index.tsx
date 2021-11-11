@@ -4,11 +4,10 @@ import { useReducer, useState } from "react";
 import Simulator from "components/simulator/index";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import ControlPanelContext from "context/ControlPanelContext";
+import ModelsContext from "context/ModelsContext";
 import SelectFeatureContext, { Action } from "context/SelectFeaturesContext";
 
 const Home = () => {
-  // hasta acá funciona
-
   const initialState: string[] = [];
   const eliminateDuplicatesData = (
     baseDataArray: string[] | [],
@@ -25,7 +24,6 @@ const Home = () => {
   const reducer = (state: string[], action: Action) => {
     switch (action.type) {
       case "add":
-        // return [...state, ...action.payload];
         return eliminateDuplicatesData(state, action.payload);
       case "handle-select":
         if (state.includes(action.payload[0])) {
@@ -48,15 +46,17 @@ const Home = () => {
   const [counties, setCounties] = useReducer(reducer, initialState);
   const [mode, setMode] = useState("National");
   return (
-    <ControlPanelContext>
-      <SelectFeatureContext.Provider
-        value={{ states, setStates, counties, setCounties, mode, setMode }}
-      >
-        <Box>
-          <Simulator />
-        </Box>
-      </SelectFeatureContext.Provider>
-    </ControlPanelContext>
+    <ModelsContext>
+      <ControlPanelContext>
+        <SelectFeatureContext.Provider
+          value={{ states, setStates, counties, setCounties, mode, setMode }}
+        >
+          <Box>
+            <Simulator />
+          </Box>
+        </SelectFeatureContext.Provider>
+      </ControlPanelContext>
+    </ModelsContext>
   );
 };
 

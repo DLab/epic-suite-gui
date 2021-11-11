@@ -31,7 +31,7 @@ const Map = dynamic(() => import("./Map"), {
 
 const MapResult = () => {
   return (
-    <Tabs maxHeight="80vh">
+    <Tabs isLazy maxHeight="80vh">
       <TabList maxHeight="7vh">
         <Tab id="map">Models</Tab>
         <Tab id="map">Map</Tab>

@@ -12,62 +12,40 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
-import { EpidemicsData } from "../../context/ControlPanelContext";
+import { ModelsSaved } from "context/ModelsContext";
 
 import ModelDetails from "./ModelDetails";
 
-interface ModelType {
-  spatialSelection: [];
-  parameters: EpidemicsData;
-}
-
 const ModelsTab = () => {
-  const [data, setData] = useState<ModelType[]>([]);
+  const { parameters, setParameters } = useContext(ModelsSaved);
+  const [data, setData] = useState([]);
   const [viewDetails, setViewDetails] = useState(false);
   const [modelDetails, setmodelDetails] = useState([]);
 
-  const getData = () => {
-    let datamodels = {
-      data: [],
-    };
-    setTimeout(() => {
-      datamodels = JSON.parse(sessionStorage.getItem("models"));
-      if (datamodels === null || datamodels === undefined) {
-        getData();
-      }
-      setData(datamodels.data);
-    }, 500);
-    setData(datamodels.data);
-  };
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.localStorage.getItem("models")
+    ) {
+      const asdf = window.localStorage.getItem("models");
+      setData(JSON.parse(asdf));
+    }
+  }, [parameters]);
 
-  const loadData = () => {
-    const dataLoaded = JSON.parse(sessionStorage.getItem("models"));
-    setData(dataLoaded.data);
+  const deleteModel = (name: string) => {
+    localStorage.clear();
+    const modelDataFilter = data.filter((model) => model.id !== name);
+    localStorage.setItem("models", JSON.stringify(modelDataFilter));
+    setParameters({ type: "remove", element: `${name}` });
   };
 
   const viewModelDetails = (name: string) => {
-    const details = data.filter(
-      (model) => model.parameters.name_model === name
-    );
+    const details = data.filter((model) => model.id === name);
     setmodelDetails(details);
     setViewDetails(true);
   };
-
-  const deleteModel = (name: string) => {
-    sessionStorage.clear();
-    const modelDataFilter = data.filter(
-      (model) => model.parameters.name_model !== name
-    );
-    sessionStorage.setItem("models", JSON.stringify({ data: modelDataFilter }));
-    loadData();
-  };
-
-  useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
@@ -89,7 +67,7 @@ const ModelsTab = () => {
               <Tbody>
                 {data.map((model) => {
                   return (
-                    <Tr>
+                    <Tr key={model.id}>
                       <Td>
                         <Checkbox defaultIsChecked />
                       </Td>
@@ -103,21 +81,19 @@ const ModelsTab = () => {
                           cursor="pointer"
                           onClick={() => {
                             setViewDetails(false);
-                            viewModelDetails(model.parameters.name_model);
+                            viewModelDetails(model.id);
                           }}
                         />
                       </Td>
                       <Td>
-                        <Icon color="#16609E" as={EditIcon} cursor="pointer" />
+                        <Icon color="#16609E" as={EditIcon} />
                       </Td>
                       <Td>
                         <Icon
                           color="#16609E"
                           as={DeleteIcon}
                           cursor="pointer"
-                          onClick={() => {
-                            deleteModel(model.parameters.name_model);
-                          }}
+                          onClick={() => deleteModel(model.id)}
                         />
                       </Td>
                     </Tr>
