@@ -24,7 +24,7 @@ interface ModelType {
 }
 
 const ModelsTab = () => {
-  const [data, setData] = useState<ModelType[] | []>([]);
+  const [data, setData] = useState<ModelType[]>([]);
   const [viewDetails, setViewDetails] = useState(false);
   const [modelDetails, setmodelDetails] = useState([]);
 
