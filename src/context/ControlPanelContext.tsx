@@ -1,4 +1,4 @@
-import { createContext, useReducer, ReactNode } from "react";
+import { createContext, useReducer } from "react";
 
 interface ActionsEpidemicData {
   type: string;

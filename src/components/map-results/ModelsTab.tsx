@@ -11,76 +11,28 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
-import ModelDetails from "./ModelDetails";
-
-type ModelsData = {
-  model_name: string;
-  name: string;
-  compartments?: string[];
-  t_init: number;
-  t_end: number;
-  timestep: number;
-  pI_det: number;
-  beta: number;
-  mu: number;
-  r_R_S: number;
-  alfa: number;
-  tE_I: number;
-  tI_R: number;
-  population: number;
-  R: number;
-  I: number;
-  I_d: number;
-  I_ac: number;
-  E: number;
-};
+import { ModelsSaved } from "context/ModelsContext";
 
 const ModelsTab = () => {
-  const [data, setData] = useState<ModelsData[] | []>({});
-  const [viewDetails, setViewDetails] = useState(false);
-  const [modelDetails, setmodelDetails] = useState([]);
-
-  const getData = () => {
-    let datamodels = {
-      data: [],
-    };
-    setTimeout(() => {
-      datamodels = JSON.parse(sessionStorage.getItem("models"));
-      if (datamodels === null) {
-        getData();
-      }
-      setData(datamodels.data);
-    }, 500);
-    setData(datamodels.data);
-  };
-
-  const chargeData = () => {
-    const x = JSON.parse(sessionStorage.getItem("models"));
-    setData(x);
-  };
-
-  // const viewModelDetails = (name: string) => {
-  //   const details = data.filter((model) => model.name === name);
-  //   setmodelDetails(details);
-  //   setViewDetails(true);
-  // };
-
-  const deleteModel = (name: string) => {
-    sessionStorage.clear();
-    const modelDataFilter = data.filter(
-      (model) => model.parameters.name_model !== name
-    );
-    sessionStorage.setItem("models", JSON.stringify(modelDataFilter));
-    chargeData();
-  };
-
+  const { parameters, setParameters } = useContext(ModelsSaved);
+  const [data, setData] = useState([]);
   useEffect(() => {
-    getData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+    if (
+      typeof window !== "undefined" &&
+      window.localStorage.getItem("models")
+    ) {
+      const asdf = window.localStorage.getItem("models");
+      setData(JSON.parse(asdf));
+    }
+  }, [parameters]);
+  const deleteModel = (name: string) => {
+    localStorage.clear();
+    const modelDataFilter = data.filter((model) => model.id !== name);
+    localStorage.setItem("models", JSON.stringify(modelDataFilter));
+    setParameters({ type: "remove", element: `${name}` });
+  };
   return (
     <>
       {data.length > 0 ? (
@@ -100,7 +52,7 @@ const ModelsTab = () => {
             <Tbody>
               {data.map((model) => {
                 return (
-                  <Tr>
+                  <Tr key={model.id}>
                     <Td>
                       <Checkbox defaultIsChecked />
                     </Td>
@@ -108,13 +60,7 @@ const ModelsTab = () => {
                     <Td>{model.parameters.name}</Td>
                     <Td>{model.parameters.E}</Td>
                     <Td>
-                      <Icon
-                        color="#16609E"
-                        as={ViewIcon}
-                        // onClick={() => {
-                        //   viewModelDetails(model.name);
-                        // }}
-                      />
+                      <Icon color="#16609E" as={ViewIcon} />
                     </Td>
                     <Td>
                       <Icon color="#16609E" as={EditIcon} />
@@ -123,9 +69,7 @@ const ModelsTab = () => {
                       <Icon
                         color="#16609E"
                         as={DeleteIcon}
-                        onClick={() => {
-                          deleteModel(model.parameters.name_model);
-                        }}
+                        onClick={() => deleteModel(model.id)}
                       />
                     </Td>
                   </Tr>
@@ -139,7 +83,6 @@ const ModelsTab = () => {
           <Text>There is not models added</Text>
         </Flex>
       )}
-      {/* {viewDetails && <ModelDetails details={modelDetails} />} */}
     </>
   );
 };

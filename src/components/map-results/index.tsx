@@ -9,7 +9,6 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
 
 import Exports from "./Exports";
 import ModelsTab from "./ModelsTab";
@@ -31,65 +30,8 @@ const Map = dynamic(() => import("./Map"), {
 });
 
 const MapResult = () => {
-  useEffect(() => {
-    const model = {
-      data: [
-        {
-          spatialSelection: [],
-          parameters: {
-            name_model: "Model 1",
-            name: "SEIR",
-            compartments: [],
-            t_init: 0,
-            t_end: 1,
-            timestep: 0.01,
-            pI_det: 0.01,
-            beta: 0.01,
-            mu: 1,
-            r_R_S: 0.001,
-            alfa: 0,
-            tE_I: 0,
-            tI_R: 0,
-            population: 0,
-            R: 0,
-            I: 0,
-            I_d: 0,
-            I_ac: 0,
-            E: 0,
-          },
-        },
-        {
-          spatialSelection: [],
-          parameters: {
-            name_model: "Model 2",
-            name: "SEIR",
-            compartments: [],
-            t_init: 0,
-            t_end: 1,
-            timestep: 0.01,
-            pI_det: 0.01,
-            beta: 0.01,
-            mu: 1,
-            r_R_S: 0.001,
-            alfa: 0,
-            tE_I: 0,
-            tI_R: 0,
-            population: 0,
-            R: 0,
-            I: 0,
-            I_d: 0,
-            I_ac: 0,
-            E: 0,
-          },
-        },
-      ],
-    };
-
-    sessionStorage.setItem("models", JSON.stringify(model));
-  }, []);
-
   return (
-    <Tabs maxHeight="80vh">
+    <Tabs isLazy maxHeight="80vh">
       <TabList maxHeight="7vh">
         <Tab id="map">Models</Tab>
         <Tab id="map">Map</Tab>

@@ -1,26 +1,30 @@
 import { Button, useToast } from "@chakra-ui/react";
 import { useContext } from "react";
 
-import { ControlPanel, EpidemicsData } from "context/ControlPanelContext";
+import { ControlPanel } from "context/ControlPanelContext";
+import {
+  ModelsSaved,
+  DataParameters,
+  ModelAttributes,
+} from "context/ModelsContext";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
-interface Models {
-  spatialSelection: string[] | [];
-  parameters: EpidemicsData;
-}
 const ToastMessage = () => {
   const toast = useToast();
   const { states, counties, mode } = useContext(SelectFeatureContext);
+  const { parameters: modelsParameters, setParameters } =
+    useContext(ModelsSaved);
   const { parameters } = useContext(ControlPanel);
-  const handleDataSessionStorage = () => {
+  const handleDataLocalStorage = () => {
     try {
-      const sessionStorageExist = window.sessionStorage.getItem("models");
-      if (!sessionStorageExist) {
-        window.sessionStorage.setItem("models", JSON.stringify({ data: [] }));
+      const localStorageExist = window.localStorage.getItem("models");
+      if (!localStorageExist) {
+        window.localStorage.setItem("models", JSON.stringify([]));
       }
-      const dataParameters: Models = {
+      const dataParameters: DataParameters = {
         spatialSelection: [],
         parameters,
+        id: Date.now(),
       };
       if (mode === "States") {
         dataParameters.spatialSelection = states;
@@ -29,14 +33,18 @@ const ToastMessage = () => {
       } else {
         dataParameters.spatialSelection = [];
       }
-      const dataModelsCreated = JSON.parse(
-        sessionStorage.getItem("models")
-      ).data;
-
-      sessionStorage.setItem(
-        "models",
-        JSON.stringify({ data: [...dataModelsCreated, dataParameters] })
+      const dataModelsCreated: ModelAttributes["parameters"] = JSON.parse(
+        localStorage.getItem("models")
       );
+
+      localStorage.setItem(
+        "models",
+        JSON.stringify([...dataModelsCreated, dataParameters])
+      );
+      setParameters({
+        type: "add",
+        payload: dataParameters,
+      });
       toast({
         position: "bottom-left",
         title: "Model Created",
@@ -58,7 +66,7 @@ const ToastMessage = () => {
   };
   return (
     <Button
-      onClick={() => handleDataSessionStorage()}
+      onClick={() => handleDataLocalStorage()}
       colorScheme="teal"
       size="md"
       mt="20px"

@@ -5,19 +5,14 @@ import AcordionContent from "components/AcordionContent";
 import InitialConditions from "components/simulator/controllers/InitialConditions";
 import ModelController from "components/simulator/controllers/ModelController";
 import ToastMessage from "components/ToastMessage";
-import { EpidemicsData } from "context/ControlPanelContext";
 
 import InterventionsParameters from "./controllers/InterventionsParameters";
 
-interface Models {
-  spatialSelection: string[] | [];
-  parameters: EpidemicsData;
-}
 const ModelBuilder = () => {
   useEffect(() => {
-    const sessionStorageObject = window.sessionStorage.getItem("models");
-    if (!sessionStorageObject) {
-      window.sessionStorage.setItem("models", JSON.stringify({ data: [] }));
+    const localStorageObject = window.localStorage.getItem("models");
+    if (!localStorageObject) {
+      window.localStorage.setItem("models", JSON.stringify([]));
     }
   }, []);
 
