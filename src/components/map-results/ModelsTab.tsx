@@ -51,8 +51,14 @@ const ModelsTab = () => {
     <>
       {data.length > 0 ? (
         <Flex>
-          <Flex w="60%" h="50%">
-            <Table size="md" bg="#FFFFFF">
+          <Flex
+            w="60%"
+            h="50%"
+            borderRadius="md"
+            border="1px solid"
+            borderColor="#b7b7b7"
+          >
+            <Table size="md" bg="#FFFFFF" borderRadius="md">
               <Thead>
                 <Tr>
                   <Th> </Th>
@@ -103,7 +109,16 @@ const ModelsTab = () => {
             </Table>
           </Flex>
           {viewDetails && (
-            <Flex bg="#FFFFFF" w="40%" m="0 5%" p="2% 5%" direction="column">
+            <Flex
+              bg="#FFFFFF"
+              w="40%"
+              m="0 5%"
+              p="2%"
+              direction="column"
+              borderRadius="md"
+              border="1px solid"
+              borderColor="#b7b7b7"
+            >
               <Box textAlign="end">
                 <Icon
                   as={CloseIcon}
@@ -115,9 +130,6 @@ const ModelsTab = () => {
                   }}
                 />
               </Box>
-              <Text textAlign="center" fontWeight="400">
-                Details
-              </Text>
               <ModelDetails details={modelDetails} />{" "}
             </Flex>
           )}

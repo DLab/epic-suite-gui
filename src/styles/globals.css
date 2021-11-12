@@ -21,3 +21,6 @@
   background-color: white !important;
   font-size: 12px;
 }
+tbody > tr:last-child td {
+  border-bottom: none;
+}
