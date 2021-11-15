@@ -1,9 +1,18 @@
-import { createContext, useReducer } from "react";
+import { number } from "prop-types";
+import { createContext, useReducer, useState } from "react";
 
 interface ActionsEpidemicData {
   type: string;
-  payload: string | number;
-  target: string;
+  payload?: string | number | EpidemicsData;
+  target?: string;
+  updateData?: EpidemicsData;
+}
+interface ActionModeModel {
+  type: Model;
+}
+export enum Model {
+  Update = "Update",
+  Add = "Add",
 }
 export interface EpidemicsData {
   name_model: string;
@@ -27,8 +36,12 @@ export interface EpidemicsData {
   E: number;
 }
 interface EpidemicAttributes {
+  mode: Model;
   parameters?: EpidemicsData;
   setParameters: (values: ActionsEpidemicData) => void;
+  setMode: (value: Model) => void;
+  idModelUpdate: number;
+  setIdModelUpdate: (value: number) => void;
 }
 const initialState: EpidemicsData = {
   name_model: "Model 1",
@@ -52,8 +65,12 @@ const initialState: EpidemicsData = {
   E: 0,
 };
 export const ControlPanel = createContext<EpidemicAttributes>({
+  mode: Model.Add,
+  setMode: () => {},
   parameters: initialState,
   setParameters: () => {},
+  idModelUpdate: 0,
+  setIdModelUpdate: () => {},
 });
 
 // eslint-disable-next-line react/prop-types
@@ -67,11 +84,26 @@ const ControlPanelContext: React.FC = ({ children }) => {
         [action.target]: action.payload,
       };
     }
+    if (action.type === "update") {
+      return action.updateData;
+    }
     return state;
   };
+
   const [params, setParameters] = useReducer(reducer, initialStateRed);
+  const [mode, setMode] = useState<Model>(Model.Add);
+  const [idModelUpdate, setIdModelUpdate] = useState(0);
   return (
-    <ControlPanel.Provider value={{ parameters: params, setParameters }}>
+    <ControlPanel.Provider
+      value={{
+        parameters: params,
+        setParameters,
+        mode,
+        setMode,
+        idModelUpdate,
+        setIdModelUpdate,
+      }}
+    >
       {children}
     </ControlPanel.Provider>
   );

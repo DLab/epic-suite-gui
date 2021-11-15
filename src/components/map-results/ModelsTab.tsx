@@ -14,12 +14,22 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 
+import {
+  ControlPanel,
+  EpidemicsData,
+  Model,
+} from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
 
 import ModelDetails from "./ModelDetails";
 
 const ModelsTab = () => {
   const { parameters, setParameters } = useContext(ModelsSaved);
+  const {
+    setParameters: setParams,
+    setMode,
+    setIdModelUpdate,
+  } = useContext(ControlPanel);
   const [data, setData] = useState([]);
   const [viewDetails, setViewDetails] = useState(false);
   const [modelDetails, setmodelDetails] = useState([]);
@@ -32,6 +42,7 @@ const ModelsTab = () => {
       const asdf = window.localStorage.getItem("models");
       setData(JSON.parse(asdf));
     }
+    setViewDetails(false);
   }, [parameters]);
 
   const deleteModel = (name: string) => {
@@ -40,7 +51,11 @@ const ModelsTab = () => {
     localStorage.setItem("models", JSON.stringify(modelDataFilter));
     setParameters({ type: "remove", element: `${name}` });
   };
-
+  const updateModel = (id: number, dataForUpdate: EpidemicsData) => {
+    setMode(Model.Update);
+    setIdModelUpdate(id);
+    setParams({ type: "update", updateData: dataForUpdate });
+  };
   const viewModelDetails = (name: string) => {
     const details = data.filter((model) => model.id === name);
     setmodelDetails(details);
@@ -92,7 +107,14 @@ const ModelsTab = () => {
                         />
                       </Td>
                       <Td>
-                        <Icon color="#16609E" as={EditIcon} />
+                        <Icon
+                          color="#16609E"
+                          as={EditIcon}
+                          cursor="pointer"
+                          onClick={() => {
+                            updateModel(model.id, model.parameters);
+                          }}
+                        />
                       </Td>
                       <Td>
                         <Icon

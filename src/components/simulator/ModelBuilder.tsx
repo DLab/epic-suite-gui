@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import AcordionContent from "components/AcordionContent";
 import InitialConditions from "components/simulator/controllers/InitialConditions";
 import ModelController from "components/simulator/controllers/ModelController";
-import ToastMessage from "components/ToastMessage";
+import ToastMessage from "components/simulator/controllers/ToastMessage";
 
 import InterventionsParameters from "./controllers/InterventionsParameters";
 
