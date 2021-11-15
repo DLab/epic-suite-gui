@@ -9,7 +9,6 @@ export interface ActionsModelsData {
 }
 
 export interface DataParameters {
-  spatialSelection: string[] | [];
   parameters: EpidemicsData;
   id: number;
 }
@@ -36,6 +35,13 @@ const ModelsContext: React.FC = ({ children }) => {
         return [...state, action.payload];
       case "remove":
         return state.filter((e: DataParameters) => e.id !== +action.element);
+      case "update":
+        return state.map((e) => {
+          if (e.id === +action.element) {
+            e.parameters = action.payload.parameters;
+          }
+          return e;
+        });
       default:
         return state;
     }
