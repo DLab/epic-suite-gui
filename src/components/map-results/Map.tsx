@@ -42,7 +42,7 @@ const Map = () => {
       </Button>
     </MapContainer>
   ) : (
-    <GeoSelectionsTab />
+    <GeoSelectionsTab setSeeSelections={setSeeSelections} />
   );
 };
 

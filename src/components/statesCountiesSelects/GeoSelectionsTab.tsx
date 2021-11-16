@@ -11,16 +11,22 @@ import {
   Flex,
   Text,
   Box,
+  Button,
 } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 
+import GeoSelectionsDetails from "components/map-results/selectorMap/GeoSelectionsDetails";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
-const GeoSelectionsTab = () => {
+interface Props {
+  setSeeSelections: (value: boolean) => void;
+}
+
+const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
   const { geoSelections, setGeoSelections } = useContext(SelectFeatureContext);
   const [data, setData] = useState([]);
   const [viewDetails, setViewDetails] = useState(false);
-  const [geoSelectionDetails, setgeoSelectionDetails] = useState([]);
+  const [geoSelectionDetails, setGeoSelectionDetails] = useState([]);
 
   useEffect(() => {
     if (
@@ -41,6 +47,12 @@ const GeoSelectionsTab = () => {
     );
     localStorage.setItem("geoSelection", JSON.stringify(geoSelectionFilter));
     setGeoSelections({ type: "removeGeoSelection", element: `${id}` });
+  };
+
+  const viewGeoSelectionsDetails = (id: string) => {
+    const details = data.filter((geoSelection) => geoSelection.id === id);
+    setGeoSelectionDetails(details);
+    setViewDetails(true);
   };
 
   return (
@@ -74,7 +86,14 @@ const GeoSelectionsTab = () => {
                       <Td>{geoSelection.name}</Td>
                       <Td>{geoSelection.mode}</Td>
                       <Td>
-                        <Icon color="#16609E" as={ViewIcon} cursor="pointer" />
+                        <Icon
+                          color="#16609E"
+                          as={ViewIcon}
+                          cursor="pointer"
+                          onClick={() => {
+                            viewGeoSelectionsDetails(geoSelection.id);
+                          }}
+                        />
                       </Td>
                       <Td>
                         <Icon
@@ -112,7 +131,7 @@ const GeoSelectionsTab = () => {
                   }}
                 />
               </Box>
-              <h1>Details</h1>
+              <GeoSelectionsDetails details={geoSelectionDetails} />
             </Flex>
           )}
         </Flex>
@@ -121,6 +140,17 @@ const GeoSelectionsTab = () => {
           <Text>There is not geographic selections added</Text>
         </Flex>
       )}
+      <Button
+        colorScheme="teal"
+        size="md"
+        mt="20px"
+        zIndex="1000"
+        onClick={() => {
+          setSeeSelections(false);
+        }}
+      >
+        See Map
+      </Button>
     </>
   );
 };

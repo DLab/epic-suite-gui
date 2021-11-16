@@ -42,7 +42,12 @@ const MapResult = () => {
         <TabPanel maxHeight="73vh" height="73vh" bg="#FAFAFA" overflowY="auto">
           <ModelsTab />
         </TabPanel>
-        <TabPanel maxHeight="73vh" css={{ position: "relative" }}>
+        <TabPanel
+          maxHeight="73vh"
+          css={{ position: "relative" }}
+          bg="#FAFAFA"
+          overflowY="auto"
+        >
           <Map />
         </TabPanel>
         <TabPanel maxHeight="73vh" height="73vh">
