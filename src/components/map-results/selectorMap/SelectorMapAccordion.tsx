@@ -8,7 +8,6 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, useContext, useEffect } from "react";
 
-// import SelectedFeaturesPanel from "../side-selector-feature/";
 import SelectedFeaturesPanel from "components/side-selector-feature/SelectedFeaturesPanel";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
@@ -25,6 +24,13 @@ const SelectorMapAccordion = () => {
       setmaxWidthFeaturesPanel("14vh");
     }
   }, [mode]);
+
+  useEffect(() => {
+    const localStorageObject = window.localStorage.getItem("geoSelection");
+    if (!localStorageObject) {
+      window.localStorage.setItem("geoSelection", JSON.stringify([]));
+    }
+  }, []);
 
   return (
     <Accordion

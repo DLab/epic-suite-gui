@@ -7,7 +7,15 @@ import ControlPanelContext from "context/ControlPanelContext";
 import ModelsContext from "context/ModelsContext";
 import SelectFeatureContext, { Action } from "context/SelectFeaturesContext";
 
+export interface DataGeoSelections {
+  id: number;
+  name: string;
+  mode: string;
+  featureSelected: string[];
+}
+
 const Home = () => {
+  const initialStateGeoSelections: DataGeoSelections | [] = [];
   const initialState: string[] = [];
   const eliminateDuplicatesData = (
     baseDataArray: string[] | [],
@@ -38,18 +46,37 @@ const Home = () => {
         return [...action.payload];
       case "reset":
         return [];
+      case "addGeoSelection":
+        return [...state, action.geoPayload];
+      case "removeGeoSelection":
+        return state.filter(
+          (geoSelection) => geoSelection.id !== +action.element
+        );
       default:
         return state;
     }
   };
   const [states, setStates] = useReducer(reducer, initialState);
   const [counties, setCounties] = useReducer(reducer, initialState);
+  const [geoSelections, setGeoSelections] = useReducer(
+    reducer,
+    initialStateGeoSelections
+  );
   const [mode, setMode] = useState("National");
   return (
     <ModelsContext>
       <ControlPanelContext>
         <SelectFeatureContext.Provider
-          value={{ states, setStates, counties, setCounties, mode, setMode }}
+          value={{
+            states,
+            setStates,
+            counties,
+            setCounties,
+            mode,
+            setMode,
+            geoSelections,
+            setGeoSelections,
+          }}
         >
           <Box>
             <Simulator />

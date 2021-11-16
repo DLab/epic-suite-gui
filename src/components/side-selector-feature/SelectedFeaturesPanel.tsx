@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useContext } from "react";
 
+import GeoToastMessage from "components/map-results/selectorMap/GeoToastMessage";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
 import StatesSelectedCheckbox from "./StatesSelectedCheckbox";
@@ -48,6 +49,7 @@ const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
         {mode === "Counties" && counties.length <= 0 && (
           <Text fontSize="14px"> No counties</Text>
         )}
+        <GeoToastMessage />
       </AccordionPanel>
     </AccordionItem>
   );

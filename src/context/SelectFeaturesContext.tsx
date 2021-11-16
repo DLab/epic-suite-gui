@@ -1,8 +1,17 @@
 import { createContext } from "react";
 
+export interface DataGeoSelections {
+  id: number;
+  name?: string;
+  mode: string;
+  featureSelected: string[];
+}
+
 export interface Action {
   type: string;
   payload?: string[];
+  geoPayload?: DataGeoSelections;
+  element?: string;
 }
 
 interface StatesProps {
@@ -12,6 +21,8 @@ interface StatesProps {
   setStates: (value: Action) => void;
   counties?: string[] | null | undefined;
   setCounties: (value: Action) => void;
+  geoSelections: DataGeoSelections[] | [];
+  setGeoSelections: (values: Action) => void;
 }
 
 const SelectFeatureContext = createContext<StatesProps>({
@@ -21,6 +32,8 @@ const SelectFeatureContext = createContext<StatesProps>({
   setStates: () => {},
   counties: [],
   setCounties: () => {},
+  geoSelections: [],
+  setGeoSelections: () => {},
 });
 
 export default SelectFeatureContext;

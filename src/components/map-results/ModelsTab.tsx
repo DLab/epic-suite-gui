@@ -39,8 +39,8 @@ const ModelsTab = () => {
       typeof window !== "undefined" &&
       window.localStorage.getItem("models")
     ) {
-      const asdf = window.localStorage.getItem("models");
-      setData(JSON.parse(asdf));
+      const localStorageModelsData = window.localStorage.getItem("models");
+      setData(JSON.parse(localStorageModelsData));
     }
     setViewDetails(false);
   }, [parameters]);
