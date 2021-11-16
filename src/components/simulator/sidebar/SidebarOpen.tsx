@@ -45,14 +45,14 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
         bg="#EEEEEE"
         minWidth="25%"
         maxWidth="25%"
-        h="89vh"
-        maxHeight="89vh"
+        h="92vh"
+        maxHeight="92vh"
         p="1vh"
         variants={container}
         initial="hidden"
         animate="show"
       >
-        <Tabs h="87vh" maxHeight="87vh">
+        <Tabs h="90vh" maxHeight="90vh">
           <Box display="flex" justifyContent="space-between" maxHeight="7vh">
             <TabList>
               <Tab id="ModelBuilder">
@@ -80,7 +80,7 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
               />
             </Flex>
           </Box>
-          <TabPanels h="80vh" maxHeight="80vh" overflowY="auto">
+          <TabPanels h="83vh" maxHeight="83vh" overflowY="auto">
             <TabPanel>
               <ModelBuilder />
             </TabPanel>

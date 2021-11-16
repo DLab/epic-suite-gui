@@ -2,7 +2,7 @@ import { Box, Container, Stack, Text } from "@chakra-ui/react";
 
 export default function Footer() {
   return (
-    <Box bg="#16609E" color="white" w="100%" maxHeight="9vh">
+    <Box bg="#16609E" color="white" w="100%" maxHeight="8vh">
       <Container
         as={Stack}
         w="100%"
@@ -11,7 +11,7 @@ export default function Footer() {
         spacing={4}
         justify={{ base: "center", md: "space-between" }}
         align={{ base: "center", md: "center" }}
-        maxHeight="9vh"
+        maxHeight="8vh"
       >
         <Text>© 2020 Chakra Templates. All rights reserved</Text>
       </Container>
