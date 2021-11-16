@@ -46,6 +46,13 @@ const Home = () => {
         return [...action.payload];
       case "reset":
         return [];
+      default:
+        return state;
+    }
+  };
+
+  const reducerGeoSelections = (state: DataGeoSelections[], action: Action) => {
+    switch (action.type) {
       case "addGeoSelection":
         return [...state, action.geoPayload];
       case "removeGeoSelection":
@@ -56,10 +63,11 @@ const Home = () => {
         return state;
     }
   };
+
   const [states, setStates] = useReducer(reducer, initialState);
   const [counties, setCounties] = useReducer(reducer, initialState);
   const [geoSelections, setGeoSelections] = useReducer(
-    reducer,
+    reducerGeoSelections,
     initialStateGeoSelections
   );
   const [mode, setMode] = useState("National");
