@@ -46,7 +46,7 @@ const ModelsTab = () => {
   }, [parameters]);
 
   const deleteModel = (name: string) => {
-    localStorage.clear();
+    localStorage.removeItem("models");
     const modelDataFilter = data.filter((model) => model.id !== name);
     localStorage.setItem("models", JSON.stringify(modelDataFilter));
     setParameters({ type: "remove", element: `${name}` });
