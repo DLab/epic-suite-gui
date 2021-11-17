@@ -5,8 +5,10 @@ import {
   AccordionButton,
   AccordionItem,
   Text,
+  Input,
+  Flex,
 } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 
 import GeoToastMessage from "components/map-results/selectorMap/GeoToastMessage";
 import SelectFeatureContext from "context/SelectFeaturesContext";
@@ -19,8 +21,29 @@ interface Props {
 
 const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
   const { mode, counties, states } = useContext(SelectFeatureContext);
+  const [selectionName, setSelectionName] = useState("Geo Selection 1");
   return (
     <AccordionItem>
+      <Flex direction="column" p="2% 5%">
+        <Text
+          flex="1"
+          textAlign="left"
+          color="#16609E"
+          fontSize="14px"
+          h="16px"
+        >
+          Selection Name
+        </Text>
+        <Input
+          size="sm"
+          bg="#ffffff"
+          fontSize="14px"
+          value={selectionName}
+          onChange={(e) => {
+            setSelectionName(e.target.value);
+          }}
+        />
+      </Flex>
       <h2>
         <AccordionButton _focus={{ boxShadow: "none" }}>
           <Box fontSize="14px" color="#16609E" flex="1" textAlign="left">
@@ -49,8 +72,10 @@ const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
         {mode === "Counties" && counties.length <= 0 && (
           <Text fontSize="14px"> No counties</Text>
         )}
-        <GeoToastMessage />
       </AccordionPanel>
+      <Box textAlign="center">
+        <GeoToastMessage selectionName={selectionName} />
+      </Box>
     </AccordionItem>
   );
 };

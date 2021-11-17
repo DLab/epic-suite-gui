@@ -15,6 +15,7 @@ const ModelController = () => {
           Model Name
         </Text>
         <Input
+          size="sm"
           value={name_model}
           onChange={(e) => {
             setParameters({

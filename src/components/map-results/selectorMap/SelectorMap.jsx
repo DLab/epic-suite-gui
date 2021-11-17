@@ -7,8 +7,6 @@ import {
   HStack,
   Button,
   Center,
-  Tooltip,
-  Text,
 } from "@chakra-ui/react";
 import { useContext, useRef, useState, useEffect } from "react";
 
@@ -103,6 +101,7 @@ const SelectorMap = () => {
             mt="0.5rem"
             variant="ghost"
             colorScheme="blue"
+            fontSize="14px"
             onClick={() => {
               if (states.length === 0 && counties.length === 0) {
                 return;

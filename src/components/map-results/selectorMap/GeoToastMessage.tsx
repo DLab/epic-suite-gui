@@ -3,7 +3,11 @@ import { useContext } from "react";
 
 import SelectFeatureContext from "context/SelectFeaturesContext";
 
-const GeoToastMessage = () => {
+interface Props {
+  selectionName: string;
+}
+
+const GeoToastMessage = ({ selectionName }: Props) => {
   const toast = useToast();
   const { states, counties, setGeoSelections, mode } =
     useContext(SelectFeatureContext);
@@ -16,7 +20,7 @@ const GeoToastMessage = () => {
       }
       const dataGeoSelections = {
         id: Date.now(),
-        name: "test",
+        name: selectionName,
         mode,
         featureSelected:
           (mode === "States" && states) || (mode === "Counties" && counties),
@@ -58,7 +62,7 @@ const GeoToastMessage = () => {
       <Button
         onClick={() => handleDataLocalStorage()}
         colorScheme="teal"
-        size="md"
+        size="sm"
         mt="20px"
       >
         Add Selection
