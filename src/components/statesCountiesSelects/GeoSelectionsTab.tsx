@@ -6,7 +6,6 @@ import {
   Tr,
   Th,
   Td,
-  Checkbox,
   Icon,
   Flex,
   Text,
@@ -69,7 +68,6 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
             <Table size="md" bg="#FFFFFF" borderRadius="md">
               <Thead>
                 <Tr>
-                  <Th> </Th>
                   <Th>Name</Th>
                   <Th>Scale</Th>
                   <Th> </Th>
@@ -80,9 +78,6 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
                 {data.map((geoSelection) => {
                   return (
                     <Tr key={geoSelection.id}>
-                      <Td>
-                        <Checkbox defaultIsChecked />
-                      </Td>
                       <Td>{geoSelection.name}</Td>
                       <Td>{geoSelection.mode}</Td>
                       <Td>

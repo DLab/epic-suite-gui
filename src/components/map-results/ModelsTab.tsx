@@ -6,7 +6,6 @@ import {
   Tr,
   Th,
   Td,
-  Checkbox,
   Icon,
   Flex,
   Text,
@@ -76,7 +75,6 @@ const ModelsTab = () => {
             <Table size="md" bg="#FFFFFF" borderRadius="md">
               <Thead>
                 <Tr>
-                  <Th> </Th>
                   <Th>Name</Th>
                   <Th>Model</Th>
                   <Th>Exposed</Th>
@@ -89,9 +87,6 @@ const ModelsTab = () => {
                 {data.map((model) => {
                   return (
                     <Tr key={model.id}>
-                      <Td>
-                        <Checkbox defaultIsChecked />
-                      </Td>
                       <Td>{model.parameters.name_model}</Td>
                       <Td>{model.parameters.name}</Td>
                       <Td>{model.parameters.E}</Td>
@@ -101,7 +96,6 @@ const ModelsTab = () => {
                           as={ViewIcon}
                           cursor="pointer"
                           onClick={() => {
-                            setViewDetails(false);
                             viewModelDetails(model.id);
                           }}
                         />
