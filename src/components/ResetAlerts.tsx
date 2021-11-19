@@ -18,7 +18,7 @@ interface Props {
 
 const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
   const {
-    mode,
+    scale,
     setCounties: setCountiesSelected,
     setStates: setStatesSelected,
   } = useContext(SelectFeatureContext);
@@ -44,7 +44,7 @@ const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            Are you sure? The selected {mode} will be deleted.
+            Are you sure? The selected {scale} will be deleted.
           </AlertDialogBody>
 
           <AlertDialogFooter>

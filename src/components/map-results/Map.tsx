@@ -11,7 +11,7 @@ import NationMap from "./NationMap";
 import StatesMap from "./StatesMap";
 
 const Map = () => {
-  const { mode } = useContext(SelectFeatureContext);
+  const { scale } = useContext(SelectFeatureContext);
   const [seeSelections, setSeeSelections] = useState(false);
 
   return !seeSelections ? (
@@ -26,9 +26,9 @@ const Map = () => {
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {mode === "States" && <StatesMap />}
-      {mode === "National" && <NationMap />}
-      {mode === "Counties" && <CountiesMap />}
+      {scale === "States" && <StatesMap />}
+      {scale === "National" && <NationMap />}
+      {scale === "Counties" && <CountiesMap />}
       <Button
         colorScheme="teal"
         size="md"

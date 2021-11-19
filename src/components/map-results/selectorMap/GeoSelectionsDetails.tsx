@@ -7,20 +7,23 @@ import {
   Box,
   Flex,
   AccordionIcon,
+  Button,
 } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
-import countiesData from "../../../data/counties.json";
-import stateData from "../../../data/states.json";
+import SelectFeatureContext, { Model } from "context/SelectFeaturesContext";
+import countiesData from "data/counties.json";
+import stateData from "data/states.json";
 
 interface DataGeoSelections {
   id: number;
   name: string;
-  mode: string;
+  scale: string;
   featureSelected: string[];
 }
 interface Props {
   details: DataGeoSelections[];
+  setSeeSelections: (value: boolean) => void;
 }
 
 interface DataCountiesObj {
@@ -33,9 +36,17 @@ interface ObjStatesCounties {
   labelState: string;
   counties: DataCountiesObj[];
 }
-type Acc = ObjStatesCounties[] | [];
+type Acc = ObjStatesCounties[];
 
-const GeoSelectionsDetails = ({ details }: Props) => {
+const GeoSelectionsDetails = ({ details, setSeeSelections }: Props) => {
+  const {
+    setMode,
+    setIdGeoSelectionUpdate,
+    setStates,
+    setCounties,
+    setScale,
+    setNameGeoSelection,
+  } = useContext(SelectFeatureContext);
   const [geoSelectionsDetails, setGeoSelectionsDetails] = useState([]);
   let statesOrdered;
   let countiesOrdered;
@@ -52,7 +63,7 @@ const GeoSelectionsDetails = ({ details }: Props) => {
 
   const order = (detail) => {
     detail.map((det) => {
-      if (det.mode === "States") {
+      if (det.scale === "States") {
         statesOrdered = det
           ? det.featureSelected
               .map((e) => ({
@@ -101,6 +112,18 @@ const GeoSelectionsDetails = ({ details }: Props) => {
 
   order(details);
 
+  const updateGeoSelection = (id, dataForUpdate, name, scale) => {
+    setMode(Model.Update);
+    setIdGeoSelectionUpdate(id);
+    setScale(scale);
+    setNameGeoSelection(name);
+    if (scale === "Counties") {
+      setCounties({ type: "update", updateData: dataForUpdate });
+    } else {
+      setStates({ type: "update", updateData: dataForUpdate });
+    }
+  };
+
   return (
     <>
       {geoSelectionsDetails.map((geoSelection) => {
@@ -109,8 +132,11 @@ const GeoSelectionsDetails = ({ details }: Props) => {
             <Text textAlign="center" fontWeight="400">
               {geoSelection.name}
             </Text>
+            <Text textAlign="center" fontWeight="400">
+              {geoSelection.scale}
+            </Text>
             <Box overflowY="auto">
-              {geoSelection.mode === "States" &&
+              {geoSelection.scale === "States" &&
                 statesOrdered?.map((s) => {
                   return (
                     <Flex
@@ -124,7 +150,7 @@ const GeoSelectionsDetails = ({ details }: Props) => {
                   );
                 })}
 
-              {geoSelection.mode === "Counties" && (
+              {geoSelection.scale === "Counties" && (
                 <Accordion allowMultiple>
                   {countiesOrdered?.map((c: ObjStatesCounties) => {
                     const checkbox = c.counties.map((cc) => {
@@ -157,6 +183,40 @@ const GeoSelectionsDetails = ({ details }: Props) => {
                 </Accordion>
               )}
             </Box>
+            <Flex justify="space-around">
+              <Button
+                colorScheme="teal"
+                size="sm"
+                mt="20px"
+                onClick={() => {
+                  updateGeoSelection(
+                    geoSelection.id,
+                    geoSelection.featureSelected,
+                    geoSelection.name,
+                    geoSelection.scale
+                  );
+                }}
+              >
+                Edit
+              </Button>
+              <Button
+                colorScheme="teal"
+                size="sm"
+                mt="20px"
+                onClick={() => {
+                  setSeeSelections(false);
+                  setScale(geoSelection.scale);
+                  updateGeoSelection(
+                    geoSelection.id,
+                    geoSelection.featureSelected,
+                    geoSelection.name,
+                    geoSelection.scale
+                  );
+                }}
+              >
+                Edit in map
+              </Button>
+            </Flex>
           </Flex>
         );
       })}

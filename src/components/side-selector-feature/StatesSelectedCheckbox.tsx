@@ -37,7 +37,9 @@ const StatesSelectedCheckbox = ({
   countiesSelected,
   maxWidthFeaturesPanel,
 }: StatesSelected) => {
-  const { setStates, setCounties } = useContext(SelectFeatureContext);
+  const { setStates, setCounties, states, counties } =
+    useContext(SelectFeatureContext);
+
   const sortStrings = (property: string) => (a, b) => {
     if (a[property] > b[property]) {
       return 1;
@@ -82,6 +84,7 @@ const StatesSelectedCheckbox = ({
           return [...acc, obj];
         }, [])
     : [];
+
   return (
     <Box maxHeight={maxWidthFeaturesPanel} overflowY="auto">
       {stateSelected &&

@@ -79,7 +79,7 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
                   return (
                     <Tr key={geoSelection.id}>
                       <Td>{geoSelection.name}</Td>
-                      <Td>{geoSelection.mode}</Td>
+                      <Td>{geoSelection.scale}</Td>
                       <Td>
                         <Icon
                           color="#16609E"
@@ -126,7 +126,10 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
                   }}
                 />
               </Box>
-              <GeoSelectionsDetails details={geoSelectionDetails} />
+              <GeoSelectionsDetails
+                details={geoSelectionDetails}
+                setSeeSelections={setSeeSelections}
+              />
             </Flex>
           )}
         </Flex>

@@ -8,7 +8,7 @@ import {
   Input,
   Flex,
 } from "@chakra-ui/react";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 
 import GeoToastMessage from "components/map-results/selectorMap/GeoToastMessage";
 import SelectFeatureContext from "context/SelectFeaturesContext";
@@ -20,8 +20,8 @@ interface Props {
 }
 
 const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
-  const { mode, counties, states } = useContext(SelectFeatureContext);
-  const [selectionName, setSelectionName] = useState("Geo Selection 1");
+  const { scale, counties, states, nameGeoSelection, setNameGeoSelection } =
+    useContext(SelectFeatureContext);
   return (
     <AccordionItem>
       <Flex direction="column" p="2% 5%">
@@ -38,9 +38,9 @@ const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
           size="sm"
           bg="#ffffff"
           fontSize="14px"
-          value={selectionName}
+          value={nameGeoSelection}
           onChange={(e) => {
-            setSelectionName(e.target.value);
+            setNameGeoSelection(e.target.value);
           }}
         />
       </Flex>
@@ -53,28 +53,28 @@ const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
         </AccordionButton>
       </h2>
       <AccordionPanel p="1% 4%">
-        {mode === "States" && states.length > 0 && (
+        {scale === "States" && states.length > 0 && (
           <StatesSelectedCheckbox
             stateSelected={states}
             maxWidthFeaturesPanel={maxWidthFeaturesPanel}
           />
         )}
-        {mode === "States" && states.length <= 0 && (
+        {scale === "States" && states.length <= 0 && (
           <Text fontSize="14px"> No states</Text>
         )}
 
-        {mode === "Counties" && counties.length > 0 && (
+        {scale === "Counties" && counties.length > 0 && (
           <StatesSelectedCheckbox
             countiesSelected={counties}
             maxWidthFeaturesPanel={maxWidthFeaturesPanel}
           />
         )}
-        {mode === "Counties" && counties.length <= 0 && (
+        {scale === "Counties" && counties.length <= 0 && (
           <Text fontSize="14px"> No counties</Text>
         )}
       </AccordionPanel>
       <Box textAlign="center">
-        <GeoToastMessage selectionName={selectionName} />
+        <GeoToastMessage />
       </Box>
     </AccordionItem>
   );

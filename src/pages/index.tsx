@@ -10,8 +10,13 @@ import SelectFeatureContext, { Action } from "context/SelectFeaturesContext";
 export interface DataGeoSelections {
   id: number;
   name: string;
-  mode: string;
+  scale: string;
   featureSelected: string[];
+}
+
+export enum Model {
+  Update = "Update",
+  Add = "Add",
 }
 
 const Home = () => {
@@ -46,6 +51,9 @@ const Home = () => {
         return [...action.payload];
       case "reset":
         return [];
+      case "update":
+        return action.updateData;
+
       default:
         return state;
     }
@@ -59,6 +67,13 @@ const Home = () => {
         return state.filter(
           (geoSelection) => geoSelection.id !== +action.element
         );
+      case "updateGeoSelection":
+        return state.map((e) => {
+          if (e.id === +action.element) {
+            e.featureSelected = action.geoPayload.featureSelected;
+          }
+          return [...state, e];
+        });
       default:
         return state;
     }
@@ -70,18 +85,27 @@ const Home = () => {
     reducerGeoSelections,
     initialStateGeoSelections
   );
-  const [mode, setMode] = useState("National");
+  const [scale, setScale] = useState("National");
+  const [nameGeoSelection, setNameGeoSelection] = useState("Geo Selection 1");
+  const [mode, setMode] = useState<Model>(Model.Add);
+  const [idGeoSelectionUpdate, setIdGeoSelectionUpdate] = useState(0);
   return (
     <ModelsContext>
       <ControlPanelContext>
         <SelectFeatureContext.Provider
           value={{
+            idGeoSelectionUpdate,
+            setIdGeoSelectionUpdate,
+            mode,
+            setMode,
             states,
             setStates,
             counties,
             setCounties,
-            mode,
-            setMode,
+            scale,
+            setScale,
+            nameGeoSelection,
+            setNameGeoSelection,
             geoSelections,
             setGeoSelections,
           }}

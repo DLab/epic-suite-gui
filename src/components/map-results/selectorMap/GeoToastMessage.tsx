@@ -1,16 +1,22 @@
 import { Button, useToast } from "@chakra-ui/react";
 import { useContext } from "react";
 
-import SelectFeatureContext from "context/SelectFeaturesContext";
+import SelectFeatureContext, { Model } from "context/SelectFeaturesContext";
 
-interface Props {
-  selectionName: string;
-}
-
-const GeoToastMessage = ({ selectionName }: Props) => {
+const GeoToastMessage = () => {
   const toast = useToast();
-  const { states, counties, setGeoSelections, mode } =
-    useContext(SelectFeatureContext);
+  const {
+    states,
+    counties,
+    setGeoSelections,
+    scale,
+    mode,
+    setMode,
+    idGeoSelectionUpdate,
+    setIdGeoSelectionUpdate,
+    nameGeoSelection,
+  } = useContext(SelectFeatureContext);
+
   const handleDataLocalStorage = () => {
     const bottomLeft = "bottom-left";
     try {
@@ -20,32 +26,66 @@ const GeoToastMessage = ({ selectionName }: Props) => {
       }
       const dataGeoSelections = {
         id: Date.now(),
-        name: selectionName,
-        mode,
+        name: nameGeoSelection,
+        scale,
         featureSelected:
-          (mode === "States" && states) || (mode === "Counties" && counties),
+          (scale === "States" && states) || (scale === "Counties" && counties),
       };
 
       const dataGeoSelectionsCreated = JSON.parse(
         localStorage.getItem("geoSelection")
       );
 
-      localStorage.setItem(
-        "geoSelection",
-        JSON.stringify([...dataGeoSelectionsCreated, dataGeoSelections])
-      );
-      setGeoSelections({
-        type: "addGeoSelection",
-        geoPayload: dataGeoSelections,
-      });
-      toast({
-        position: bottomLeft,
-        title: "Geographic Selection Created",
-        description: "Your geographic selection was created successfully",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
+      if (mode === Model.Update) {
+        const updateDataParameters = {
+          id: idGeoSelectionUpdate,
+          name: nameGeoSelection,
+          scale,
+          featureSelected:
+            (scale === "States" && states) ||
+            (scale === "Counties" && counties),
+        };
+        const indexDataToUpdate = dataGeoSelectionsCreated.findIndex(
+          (e) => e.id === idGeoSelectionUpdate
+        );
+        dataGeoSelectionsCreated[indexDataToUpdate] = updateDataParameters;
+        localStorage.setItem(
+          "geoSelection",
+          JSON.stringify(dataGeoSelectionsCreated)
+        );
+        setGeoSelections({
+          type: "updateGeoSelection",
+          element: `${idGeoSelectionUpdate}`,
+          geoPayload: dataGeoSelections,
+        });
+        setIdGeoSelectionUpdate(0);
+        toast({
+          position: bottomLeft,
+          title: "Selection Edited",
+          description: "Your selection was updated successfully",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        setMode(Model.Add);
+      } else {
+        localStorage.setItem(
+          "geoSelection",
+          JSON.stringify([...dataGeoSelectionsCreated, dataGeoSelections])
+        );
+        setGeoSelections({
+          type: "addGeoSelection",
+          geoPayload: dataGeoSelections,
+        });
+        toast({
+          position: bottomLeft,
+          title: "Geographic Selection Created",
+          description: "Your geographic selection was created successfully",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
     } catch (error) {
       toast({
         position: bottomLeft,
@@ -59,14 +99,41 @@ const GeoToastMessage = ({ selectionName }: Props) => {
   };
   return (
     <>
-      <Button
-        onClick={() => handleDataLocalStorage()}
-        colorScheme="teal"
-        size="sm"
-        mt="20px"
-      >
-        Add Selection
-      </Button>
+      {mode === Model.Add && (
+        <Button
+          onClick={() => handleDataLocalStorage()}
+          colorScheme="teal"
+          size="sm"
+          mt="20px"
+        >
+          Add Selection
+        </Button>
+      )}
+      {mode === Model.Update && (
+        <>
+          <Button
+            onClick={() => handleDataLocalStorage()}
+            colorScheme="teal"
+            size="sm"
+            mt="20px"
+          >
+            Update Selection
+          </Button>
+          <Button
+            onClick={() => {
+              setMode(Model.Add);
+              setIdGeoSelectionUpdate(0);
+            }}
+            colorScheme="teal"
+            variant="outline"
+            size="sm"
+            mt="20px"
+            ml="20px"
+          >
+            Cancel
+          </Button>
+        </>
+      )}
     </>
   );
 };

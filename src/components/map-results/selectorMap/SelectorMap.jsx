@@ -8,18 +8,20 @@ import {
   Button,
   Center,
 } from "@chakra-ui/react";
-import { useContext, useRef, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import countyData from "../../../data/counties.json";
 import data from "../../../data/states.json";
 import ResetAlerts from "components/ResetAlerts";
 import CountiesSelect from "components/statesCountiesSelects/CountiesSelect";
 import StatesSelect from "components/statesCountiesSelects/StatesSelect";
-import SelectFeatureContext from "context/SelectFeaturesContext";
+import SelectFeatureContext, { Model } from "context/SelectFeaturesContext";
 
 const SelectorMap = () => {
   const {
-    setMode,
+    mode,
+    scale,
+    setScale,
     states,
     counties,
     setCounties: setCountiesSelected,
@@ -27,7 +29,7 @@ const SelectorMap = () => {
   } = useContext(SelectFeatureContext);
   const [extentionOption, setExtentionOption] = useState("0");
 
-  const [stateOptions, setstateOptions] = useState([]);
+  const [stateOptions, setStateOptions] = useState([]);
   const [countiesOptions, setCountiesOptions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const options = [
@@ -46,7 +48,7 @@ const SelectorMap = () => {
     const statesOptions = data.data.map((state) => {
       return { value: state[1], label: state[2], fips: state[0] };
     });
-    return setstateOptions(statesOptions);
+    return setStateOptions(statesOptions);
   };
   const getCountiesOptions = () => {
     const getCounties = countyData.data.map((state) => {
@@ -56,16 +58,29 @@ const SelectorMap = () => {
   };
 
   useEffect(() => {
-    setStatesSelected({ type: "reset" });
-    setCountiesSelected({ type: "reset" });
-    if (extentionOption === "0") {
-      setMode("National");
-    } else if (extentionOption === "1") {
-      setMode("States");
+    if (scale === "National") {
+      setExtentionOption("0");
+    } else if (scale === "States") {
+      setExtentionOption("1");
     } else {
-      setMode("Counties");
+      setExtentionOption("2");
     }
-  }, [extentionOption, setCountiesSelected, setMode, setStatesSelected]);
+  }, [scale]);
+
+  useEffect(() => {
+    if (mode === Model.Add) {
+      setStatesSelected({ type: "reset" });
+      setCountiesSelected({ type: "reset" });
+    }
+    if (extentionOption === "0") {
+      setScale("National");
+    } else if (extentionOption === "1") {
+      setScale("States");
+    } else {
+      setScale("Counties");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [extentionOption, setCountiesSelected, setScale, setStatesSelected]);
 
   useEffect(() => {
     getStatesOptions();
@@ -77,15 +92,52 @@ const SelectorMap = () => {
       <div>
         <RadioGroup onChange={setExtentionOption} value={extentionOption}>
           <HStack spacing="8px">
-            <Radio bg="white" border="1px" borderColor="#5B58AD" value="0">
-              <span style={{ fontSize: "14px" }}>National</span>
-            </Radio>
-            <Radio bg="white" border="1px" borderColor="#5B58AD" value="1">
-              <span style={{ fontSize: "14px" }}>State</span>
-            </Radio>
-            <Radio bg="white" border="1px" borderColor="#5B58AD" value="2">
-              <span style={{ fontSize: "14px" }}>County</span>
-            </Radio>
+            {mode === Model.Add && (
+              <>
+                {" "}
+                <Radio bg="white" border="1px" borderColor="#5B58AD" value="0">
+                  <span style={{ fontSize: "14px" }}>National</span>
+                </Radio>
+                <Radio bg="white" border="1px" borderColor="#5B58AD" value="1">
+                  <span style={{ fontSize: "14px" }}>State</span>
+                </Radio>
+                <Radio bg="white" border="1px" borderColor="#5B58AD" value="2">
+                  <span style={{ fontSize: "14px" }}>County</span>
+                </Radio>
+              </>
+            )}
+            {mode === Model.Update && (
+              <>
+                {" "}
+                <Radio
+                  bg="white"
+                  border="1px"
+                  borderColor="#5B58AD"
+                  value="0"
+                  isDisabled
+                >
+                  <span style={{ fontSize: "14px" }}>National</span>
+                </Radio>
+                <Radio
+                  bg="white"
+                  border="1px"
+                  borderColor="#5B58AD"
+                  value="1"
+                  isDisabled
+                >
+                  <span style={{ fontSize: "14px" }}>State</span>
+                </Radio>
+                <Radio
+                  bg="white"
+                  border="1px"
+                  borderColor="#5B58AD"
+                  value="2"
+                  isDisabled
+                >
+                  <span style={{ fontSize: "14px" }}>County</span>
+                </Radio>
+              </>
+            )}
           </HStack>
         </RadioGroup>
         {extentionOption === "1" && (
