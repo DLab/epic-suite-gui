@@ -138,17 +138,19 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
           <Text>There is not geographic selections added</Text>
         </Flex>
       )}
-      <Button
-        colorScheme="teal"
-        size="md"
-        mt="20px"
-        zIndex="1000"
-        onClick={() => {
-          setSeeSelections(false);
-        }}
-      >
-        See Map
-      </Button>
+      <Flex justify="end">
+        <Button
+          colorScheme="teal"
+          size="md"
+          m="2% 5% 0 0"
+          zIndex="1000"
+          onClick={() => {
+            setSeeSelections(false);
+          }}
+        >
+          See Map
+        </Button>
+      </Flex>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import { useState, useContext } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -29,17 +29,19 @@ const Map = () => {
       {scale === "States" && <StatesMap />}
       {scale === "National" && <NationMap />}
       {scale === "Counties" && <CountiesMap />}
-      <Button
-        colorScheme="teal"
-        size="md"
-        mt="20px"
-        zIndex="1000"
-        onClick={() => {
-          setSeeSelections(true);
-        }}
-      >
-        See Selections
-      </Button>
+      <Flex h="100%" justify="end" align="flex-end">
+        <Button
+          colorScheme="teal"
+          size="md"
+          m="2%"
+          zIndex="1000"
+          onClick={() => {
+            setSeeSelections(true);
+          }}
+        >
+          See Selections
+        </Button>
+      </Flex>
     </MapContainer>
   ) : (
     <GeoSelectionsTab setSeeSelections={setSeeSelections} />
