@@ -1,7 +1,7 @@
 import { Button, useToast } from "@chakra-ui/react";
 import { useContext } from "react";
 
-import SelectFeatureContext, { Model } from "context/SelectFeaturesContext";
+import { Model, SelectFeature } from "context/SelectFeaturesContext";
 
 const GeoToastMessage = () => {
   const toast = useToast();
@@ -15,7 +15,7 @@ const GeoToastMessage = () => {
     idGeoSelectionUpdate,
     setIdGeoSelectionUpdate,
     nameGeoSelection,
-  } = useContext(SelectFeatureContext);
+  } = useContext(SelectFeature);
 
   const handleDataLocalStorage = () => {
     const bottomLeft = "bottom-left";

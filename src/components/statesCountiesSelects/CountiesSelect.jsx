@@ -3,12 +3,12 @@ import { Select } from "chakra-react-select";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
 
-import SelectFeatureContext from "../../context/SelectFeaturesContext";
+import { SelectFeature } from "../../context/SelectFeaturesContext";
 import countyData from "../../data/counties.json";
 
 const CountiesSelect = ({ options, optionsCounty }) => {
   const { counties: countiesSelected, setCounties: setCountiesSelected } =
-    useContext(SelectFeatureContext);
+    useContext(SelectFeature);
   const [countyFeature, setCountyFeature] = useState("");
   const [countyFeaturesByState, setCountyFeaturesByState] = useState("");
   const handleAddCountiesByState = (codState) => {

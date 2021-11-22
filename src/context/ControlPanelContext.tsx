@@ -1,4 +1,3 @@
-import { number } from "prop-types";
 import { createContext, useReducer, useState } from "react";
 
 interface ActionsEpidemicData {

@@ -15,7 +15,7 @@ import data from "../../../data/states.json";
 import ResetAlerts from "components/ResetAlerts";
 import CountiesSelect from "components/statesCountiesSelects/CountiesSelect";
 import StatesSelect from "components/statesCountiesSelects/StatesSelect";
-import SelectFeatureContext, { Model } from "context/SelectFeaturesContext";
+import { Model, SelectFeature } from "context/SelectFeaturesContext";
 
 const SelectorMap = () => {
   const {
@@ -26,7 +26,7 @@ const SelectorMap = () => {
     counties,
     setCounties: setCountiesSelected,
     setStates: setStatesSelected,
-  } = useContext(SelectFeatureContext);
+  } = useContext(SelectFeature);
   const [extentionOption, setExtentionOption] = useState("0");
 
   const [stateOptions, setStateOptions] = useState([]);

@@ -9,12 +9,12 @@ import {
 import React, { useState, useContext, useEffect } from "react";
 
 import SelectedFeaturesPanel from "components/side-selector-feature/SelectedFeaturesPanel";
-import SelectFeatureContext from "context/SelectFeaturesContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 
 import SelectorMap from "./SelectorMap";
 
 const SelectorMapAccordion = () => {
-  const { scale } = useContext(SelectFeatureContext);
+  const { scale } = useContext(SelectFeature);
   const [maxWidthFeaturesPanel, setmaxWidthFeaturesPanel] = useState("");
 
   useEffect(() => {

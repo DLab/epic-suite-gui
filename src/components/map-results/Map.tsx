@@ -3,7 +3,7 @@ import { useState, useContext } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-import SelectFeatureContext from "../../context/SelectFeaturesContext";
+import { SelectFeature } from "../../context/SelectFeaturesContext";
 import GeoSelectionsTab from "components/statesCountiesSelects/GeoSelectionsTab";
 
 import CountiesMap from "./CountiesMap";
@@ -11,7 +11,7 @@ import NationMap from "./NationMap";
 import StatesMap from "./StatesMap";
 
 const Map = () => {
-  const { scale } = useContext(SelectFeatureContext);
+  const { scale } = useContext(SelectFeature);
   const [seeSelections, setSeeSelections] = useState(false);
 
   return !seeSelections ? (

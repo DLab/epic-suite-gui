@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
-import SelectFeatureContext from "../context/SelectFeaturesContext";
+import { SelectFeature } from "../context/SelectFeaturesContext";
 
 interface Props {
   isOpen: boolean;
@@ -21,7 +21,7 @@ const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
     scale,
     setCounties: setCountiesSelected,
     setStates: setStatesSelected,
-  } = useContext(SelectFeatureContext);
+  } = useContext(SelectFeature);
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef();
 

@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
 
-import SelectFeatureContext, { Model } from "context/SelectFeaturesContext";
+import { Model, SelectFeature } from "context/SelectFeaturesContext";
 import countiesData from "data/counties.json";
 import stateData from "data/states.json";
 
@@ -46,7 +46,7 @@ const GeoSelectionsDetails = ({ details, setSeeSelections }: Props) => {
     setCounties,
     setScale,
     setNameGeoSelection,
-  } = useContext(SelectFeatureContext);
+  } = useContext(SelectFeature);
   const [geoSelectionsDetails, setGeoSelectionsDetails] = useState([]);
   let statesOrdered;
   let countiesOrdered;

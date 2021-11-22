@@ -11,7 +11,7 @@ import {
 import { useContext } from "react";
 
 import GeoToastMessage from "components/map-results/selectorMap/GeoToastMessage";
-import SelectFeatureContext from "context/SelectFeaturesContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 
 import StatesSelectedCheckbox from "./StatesSelectedCheckbox";
 
@@ -21,7 +21,7 @@ interface Props {
 
 const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
   const { scale, counties, states, nameGeoSelection, setNameGeoSelection } =
-    useContext(SelectFeatureContext);
+    useContext(SelectFeature);
   return (
     <AccordionItem>
       <Flex direction="column" p="2% 5%">

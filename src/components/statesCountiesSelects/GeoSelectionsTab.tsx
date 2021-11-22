@@ -15,14 +15,14 @@ import {
 import { useState, useEffect, useContext } from "react";
 
 import GeoSelectionsDetails from "components/map-results/selectorMap/GeoSelectionsDetails";
-import SelectFeatureContext from "context/SelectFeaturesContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 
 interface Props {
   setSeeSelections: (value: boolean) => void;
 }
 
 const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
-  const { geoSelections, setGeoSelections } = useContext(SelectFeatureContext);
+  const { geoSelections, setGeoSelections } = useContext(SelectFeature);
   const [data, setData] = useState([]);
   const [viewDetails, setViewDetails] = useState(false);
   const [geoSelectionDetails, setGeoSelectionDetails] = useState([]);
