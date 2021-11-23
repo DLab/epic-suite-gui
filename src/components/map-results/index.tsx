@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 
 import Exports from "./Exports";
 import ModelsTab from "./ModelsTab";
-import Results from "./Results";
+import Results from "./results/Results";
 
 const Map = dynamic(() => import("./Map"), {
   loading: () => (
@@ -51,9 +51,9 @@ const MapResult = () => {
         >
           <Map />
         </TabPanel>
-        <TabPanel maxHeight="77vh" height="77vh">
+        <TabPanel maxHeight="77vh" height="77vh" bg="#FAFAFA" overflowY="auto">
           <Flex h="100%">
-            <Center w="100%" bg="red.500">
+            <Center w="100%">
               <Results />
             </Center>
           </Flex>
