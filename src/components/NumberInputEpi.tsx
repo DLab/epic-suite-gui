@@ -20,6 +20,7 @@ interface Props {
   max?: number;
   min?: number;
   type: string;
+  isInitialParameters?: boolean;
 }
 
 const NumberInputEpi = ({
@@ -30,6 +31,7 @@ const NumberInputEpi = ({
   max,
   min,
   type,
+  isInitialParameters,
 }: Props) => {
   const handleChange = (val: string | number) => {
     if (val <= max && val >= min) {
@@ -79,11 +81,29 @@ const NumberInputEpi = ({
             </Slider>
           </>
         )}
-        {type === "number" && (
+        {type === "number" && !isInitialParameters && (
           <NumberInput
             maxW="100px"
             mr="1rem"
             defaultValue={value}
+            onChange={handleChange}
+            size="xs"
+            min={min}
+            max={max}
+            step={step}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        )}
+        {isInitialParameters && (
+          <NumberInput
+            maxW="100px"
+            mr="1rem"
+            value={value}
             onChange={handleChange}
             size="xs"
             min={min}

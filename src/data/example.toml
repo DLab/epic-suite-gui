@@ -1,0 +1,101 @@
+title = "Example of a SEIR Configuration File"
+date = "2021-04-20"
+user = "Samuel"
+
+[[simulations]]
+[simulations.model]
+name = "SEIR"
+compartments = [ "S", "E", "I", "R" ]
+
+[simulations.data]
+datafile = false
+importdata = false
+initdate = ""
+country = ""
+state = ""
+county = ""
+healthservice = ""
+loc_name = ""
+
+[simulations.parameters.static]
+t_init = 0
+t_end = 500
+timestep = 0.01
+k_I = 0
+k_R = 0
+seroprevfactor = 1
+expinfection = 0
+mu = 0.5
+pI_det = 1
+
+[simulations.parameters.dynamic]
+beta = 0.2
+alpha = 1
+S_f = 0
+E_f = 0
+I_f = 0
+R_f = 0
+tE_I = 5
+tI_R = 10
+rR_S = 0
+
+[simulations.initialconditions]
+population = 1_000_000
+R = 5_000
+I = 0
+I_det = 6_000
+I_d = 0
+I_d_det = 3_000
+I_ac = 0
+I_ac_det = 15_000
+E = false
+E_d = false
+
+[[simulations]]
+[simulations.model]
+name = "SEIR"
+compartments = [ "S", "E", "I", "R" ]
+
+[simulations.data]
+datafile = false
+importdata = false
+initdate = ""
+country = ""
+state = ""
+county = ""
+healthservice = ""
+loc_name = ""
+
+[simulations.parameters.static]
+t_init = 0
+t_end = 500
+timestep = 0.01
+k_I = 0
+k_R = 0
+seroprevfactor = 1
+expinfection = 0
+mu = 0.5
+pI_det = 1
+
+[simulations.parameters.dynamic]
+beta = 0.2
+alpha = 1
+S_f = 0
+E_f = 0
+I_f = 0
+R_f = 0
+tE_I = 5
+tI_R = 10
+rR_S = 0
+
+[simulations.initialconditions]
+population = 1_000_000
+R = 5_000
+I = 0
+I_det = 6_000
+I_d = 0
+I_d_det = 3_000
+I_ac = 0
+I_ac_det = 15_000
+E = false
+E_d = false

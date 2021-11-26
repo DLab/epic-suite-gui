@@ -6,6 +6,7 @@ import Simulator from "components/simulator/index";
 import ControlPanelContext from "context/ControlPanelContext";
 import ModelsContext from "context/ModelsContext";
 import SelectFeatureContext, { Action } from "context/SelectFeaturesContext";
+import SimulationContext from "context/SimulationContext";
 
 const Home = () => {
   const initialState: string[] = [];
@@ -46,17 +47,19 @@ const Home = () => {
   const [counties, setCounties] = useReducer(reducer, initialState);
   const [mode, setMode] = useState("National");
   return (
-    <ModelsContext>
-      <ControlPanelContext>
-        <SelectFeatureContext.Provider
-          value={{ states, setStates, counties, setCounties, mode, setMode }}
-        >
-          <Box>
-            <Simulator />
-          </Box>
-        </SelectFeatureContext.Provider>
-      </ControlPanelContext>
-    </ModelsContext>
+    <SimulationContext>
+      <ModelsContext>
+        <ControlPanelContext>
+          <SelectFeatureContext.Provider
+            value={{ states, setStates, counties, setCounties, mode, setMode }}
+          >
+            <Box>
+              <Simulator />
+            </Box>
+          </SelectFeatureContext.Provider>
+        </ControlPanelContext>
+      </ModelsContext>
+    </SimulationContext>
   );
 };
 
