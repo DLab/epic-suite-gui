@@ -8,9 +8,56 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
+  Spinner,
+  Checkbox,
 } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
+import { useState, useEffect } from "react";
 
+import data from "data/SEIRresults.json";
+
+const Graphic = dynamic(() => import("./Graphic"), {
+  loading: () => (
+    <Flex justifyContent="center" alignItems="center">
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
+    </Flex>
+  ),
+  ssr: false,
+});
 const Results = () => {
+  const [simulationKeys, setSimulationKeys] = useState([]);
+  const [savedSimulationKeys, setSavedSimulationKeys] = useState<string[]>([]);
+  const [allGraphicData, setAllGraphicData] = useState([]);
+
+  async function getRandomPhoto() {
+    const res = await fetch(`/api/simulator`);
+    return res.json();
+  }
+
+  useEffect(() => {
+    const getData = getRandomPhoto();
+    setSimulationKeys(Object.keys(getData));
+  }, []);
+
+  const saveKeys = (ischecked, id) => {
+    const isInclude = savedSimulationKeys.includes(id);
+    if (ischecked && !isInclude) {
+      return setSavedSimulationKeys([...savedSimulationKeys, id]);
+    }
+    if (!ischecked && isInclude) {
+      return setSavedSimulationKeys(
+        savedSimulationKeys.filter((key) => key !== id)
+      );
+    }
+    return savedSimulationKeys;
+  };
+
   return (
     <Flex w="100%" p="5px" mt="15px" h="100%" textAlign="center">
       <Flex
@@ -31,41 +78,58 @@ const Results = () => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} bg="#FFFFFF">
-              Contenido
-            </AccordionPanel>
-          </AccordionItem>
-          <AccordionItem bg="#16609E" mb="30px">
-            <h2>
-              <AccordionButton color="white">
-                <Box flex="1" textAlign="left">
-                  Name 2
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4} bg="#FFFFFF">
-              Contenido
+              <Flex flexWrap="wrap">
+                {simulationKeys.map((key) => {
+                  return (
+                    <Checkbox
+                      size="sm"
+                      m="2% 5%"
+                      id={key}
+                      onChange={(e) => {
+                        saveKeys(e.target.checked, e.target.id);
+                      }}
+                    >
+                      {key}
+                    </Checkbox>
+                  );
+                })}
+              </Flex>
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
-        <Button colorScheme="teal" size="md" mt="20px">
+        <Button
+          colorScheme="teal"
+          size="md"
+          mt="20px"
+          onClick={() => {
+            setAllGraphicData([...allGraphicData, savedSimulationKeys]);
+          }}
+        >
           Chart
         </Button>
       </Flex>
       <Flex w="75%" direction="column" justify="space-between">
         <Flex flexWrap="wrap" h="100%">
-          <Box w="40%" h="40%">
-            Gráfico 1
-          </Box>
-          <Box w="40%" h="40%">
-            Gráfico 2
-          </Box>
-          <Box w="40%" h="40%">
-            Gráfico 3
-          </Box>
-          <Box w="40%" h="40%">
-            Gráfico 4
-          </Box>
+          {allGraphicData.map((graphicData, index) => {
+            return (
+              <Box w="40%">
+                <Graphic savedSimulationKeys={graphicData} />
+                <Button
+                  onClick={() => {
+                    const aux = allGraphicData.filter((x, y) => {
+                      if (y === index) {
+                        return false;
+                      }
+                      return true;
+                    });
+                    setAllGraphicData(aux);
+                  }}
+                >
+                  Delete
+                </Button>
+              </Box>
+            );
+          })}
         </Flex>
         <Flex
           direction="column"
