@@ -14,7 +14,7 @@ import {
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 
-import data from "data/SEIRresults.json";
+// import data from "data/SEIRresults.json";
 
 const Graphic = dynamic(() => import("./Graphic"), {
   loading: () => (
@@ -35,14 +35,20 @@ const Results = () => {
   const [savedSimulationKeys, setSavedSimulationKeys] = useState<string[]>([]);
   const [allGraphicData, setAllGraphicData] = useState([]);
 
+  const model = ["S", "E", "I", "R"];
+
   async function getRandomPhoto() {
-    const res = await fetch(`/api/simulator`);
+    const res = await fetch(`/api/simulator`, {
+      method: "GET",
+    });
     return res.json();
   }
 
   useEffect(() => {
-    const getData = getRandomPhoto();
-    setSimulationKeys(Object.keys(getData));
+    getRandomPhoto().then((e) => {
+      const getData = e;
+      setSimulationKeys(Object.keys(getData));
+    });
   }, []);
 
   const saveKeys = (ischecked, id) => {
@@ -70,7 +76,7 @@ const Results = () => {
         <Accordion allowMultiple>
           <AccordionItem bg="#16609E" mb="30px">
             <h2>
-              <AccordionButton color="white">
+              <AccordionButton color="white" _focus={{ boxShadow: "none" }}>
                 <Box flex="1" textAlign="left">
                   Name 1
                 </Box>
@@ -78,22 +84,70 @@ const Results = () => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} bg="#FFFFFF">
-              <Flex flexWrap="wrap">
-                {simulationKeys.map((key) => {
-                  return (
-                    <Checkbox
-                      size="sm"
-                      m="2% 5%"
-                      id={key}
-                      onChange={(e) => {
-                        saveKeys(e.target.checked, e.target.id);
-                      }}
-                    >
-                      {key}
-                    </Checkbox>
-                  );
-                })}
-              </Flex>
+              <Accordion defaultIndex={[0]} allowMultiple>
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton _focus={{ boxShadow: "none" }}>
+                      <Box flex="1" textAlign="left">
+                        Results
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <Flex flexWrap="wrap">
+                      {simulationKeys.map((key) => {
+                        if (model.includes(key)) {
+                          return (
+                            <Checkbox
+                              size="sm"
+                              m="2% 5%"
+                              id={key}
+                              onChange={(e) => {
+                                saveKeys(e.target.checked, e.target.id);
+                              }}
+                            >
+                              {key}
+                            </Checkbox>
+                          );
+                        }
+                        return false;
+                      })}
+                    </Flex>
+                  </AccordionPanel>
+                </AccordionItem>
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton _focus={{ boxShadow: "none" }}>
+                      <Box flex="1" textAlign="left">
+                        Parameters
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <Flex flexWrap="wrap">
+                      {simulationKeys.map((key) => {
+                        if (!model.includes(key)) {
+                          return (
+                            <Checkbox
+                              size="sm"
+                              m="2% 5%"
+                              id={key}
+                              onChange={(e) => {
+                                saveKeys(e.target.checked, e.target.id);
+                              }}
+                            >
+                              {key}
+                            </Checkbox>
+                          );
+                        }
+                        return false;
+                      })}
+                    </Flex>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
