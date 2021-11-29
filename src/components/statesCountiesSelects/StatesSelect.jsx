@@ -2,11 +2,11 @@ import { Select } from "chakra-react-select";
 import PropTypes from "prop-types";
 import { useContext } from "react";
 
-import SelectFeatureContext from "../../context/SelectFeaturesContext";
+import { SelectFeature } from "../../context/SelectFeaturesContext";
 
 const StatesSelect = ({ options, extentionOption }) => {
   const { states: statesSelected, setStates: setStatesSelected } =
-    useContext(SelectFeatureContext);
+    useContext(SelectFeature);
 
   return (
     <Select

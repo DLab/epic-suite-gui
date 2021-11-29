@@ -13,7 +13,7 @@ import { useContext } from "react";
 
 import countiesData from "../../data/counties.json";
 import stateData from "../../data/states.json";
-import SelectFeatureContext from "context/SelectFeaturesContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 
 interface StatesSelected {
   stateSelected?: string[];
@@ -37,7 +37,9 @@ const StatesSelectedCheckbox = ({
   countiesSelected,
   maxWidthFeaturesPanel,
 }: StatesSelected) => {
-  const { setStates, setCounties } = useContext(SelectFeatureContext);
+  const { setStates, setCounties, states, counties } =
+    useContext(SelectFeature);
+
   const sortStrings = (property: string) => (a, b) => {
     if (a[property] > b[property]) {
       return 1;
@@ -82,6 +84,7 @@ const StatesSelectedCheckbox = ({
           return [...acc, obj];
         }, [])
     : [];
+
   return (
     <Box maxHeight={maxWidthFeaturesPanel} overflowY="auto">
       {stateSelected &&
