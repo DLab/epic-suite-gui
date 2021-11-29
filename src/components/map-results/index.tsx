@@ -34,7 +34,7 @@ const Map = dynamic(() => import("./Map"), {
 
 const MapResult = () => {
   return (
-    <Tabs isLazy maxHeight="80vh">
+    <Tabs isLazy maxHeight="84vh">
       <TabList maxHeight="7vh">
         <Tab id="models">Models</Tab>
         <Tab id="map">Map</Tab>
@@ -43,13 +43,19 @@ const MapResult = () => {
         <Tab id="exports">Exports</Tab>
       </TabList>
       <TabPanels>
-        <TabPanel maxHeight="73vh" height="73vh" bg="#FAFAFA" overflowY="auto">
+        <TabPanel maxHeight="77vh" height="77vh" bg="#FAFAFA" overflowY="auto">
           <ModelsTab />
         </TabPanel>
-        <TabPanel maxHeight="73vh" css={{ position: "relative" }}>
+        <TabPanel
+          maxHeight="77vh"
+          height="77vh"
+          css={{ position: "relative" }}
+          bg="#FAFAFA"
+          overflowY="auto"
+        >
           <Map />
         </TabPanel>
-        <TabPanel maxHeight="73vh" height="73vh">
+        <TabPanel maxHeight="77vh" height="77vh">
           <SimulationTab />
           <Box h="10%">
             <Center>
@@ -57,14 +63,14 @@ const MapResult = () => {
             </Center>
           </Box>
         </TabPanel>
-        <TabPanel maxHeight="73vh" height="73vh">
+        <TabPanel maxHeight="77vh" height="77vh">
           <Flex h="100%">
             <Center w="100%">
               <Results />
             </Center>
           </Flex>
         </TabPanel>
-        <TabPanel maxHeight="73vh" height="73vh">
+        <TabPanel maxHeight="77vh" height="77vh">
           <Flex h="100%">
             <Center w="100%" bg="blue.500">
               <Exports />

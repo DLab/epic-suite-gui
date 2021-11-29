@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
-import SelectFeatureContext from "../context/SelectFeaturesContext";
+import { SelectFeature } from "../context/SelectFeaturesContext";
 
 interface Props {
   isOpen: boolean;
@@ -18,10 +18,10 @@ interface Props {
 
 const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
   const {
-    mode,
+    scale,
     setCounties: setCountiesSelected,
     setStates: setStatesSelected,
-  } = useContext(SelectFeatureContext);
+  } = useContext(SelectFeature);
   const onClose = () => setIsOpen(false);
   const cancelRef = React.useRef();
 
@@ -44,7 +44,7 @@ const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            Are you sure? The selected {mode} will be deleted.
+            Are you sure? The selected {scale} will be deleted.
           </AlertDialogBody>
 
           <AlertDialogFooter>

@@ -8,23 +8,29 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, useContext, useEffect } from "react";
 
-// import SelectedFeaturesPanel from "../side-selector-feature/";
 import SelectedFeaturesPanel from "components/side-selector-feature/SelectedFeaturesPanel";
-import SelectFeatureContext from "context/SelectFeaturesContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 
 import SelectorMap from "./SelectorMap";
 
 const SelectorMapAccordion = () => {
-  const { mode } = useContext(SelectFeatureContext);
+  const { scale } = useContext(SelectFeature);
   const [maxWidthFeaturesPanel, setmaxWidthFeaturesPanel] = useState("");
 
   useEffect(() => {
-    if (mode === "States") {
+    if (scale === "States") {
       setmaxWidthFeaturesPanel("27vh");
-    } else if (mode === "Counties") {
+    } else if (scale === "Counties") {
       setmaxWidthFeaturesPanel("14vh");
     }
-  }, [mode]);
+  }, [scale]);
+
+  useEffect(() => {
+    const localStorageObject = window.localStorage.getItem("geoSelection");
+    if (!localStorageObject) {
+      window.localStorage.setItem("geoSelection", JSON.stringify([]));
+    }
+  }, []);
 
   return (
     <Accordion
@@ -35,9 +41,9 @@ const SelectorMapAccordion = () => {
 
         if (toArray.length === 1) {
           setmaxWidthFeaturesPanel("56vh");
-        } else if (mode === "States") {
+        } else if (scale === "States") {
           setmaxWidthFeaturesPanel("27vh");
-        } else if (mode === "Counties") {
+        } else if (scale === "Counties") {
           setmaxWidthFeaturesPanel("14vh");
         }
       }}
@@ -61,7 +67,7 @@ const SelectorMapAccordion = () => {
           <SelectorMap />
         </AccordionPanel>
       </AccordionItem>
-      {(mode === "States" || mode === "Counties") && (
+      {(scale === "States" || scale === "Counties") && (
         <SelectedFeaturesPanel maxWidthFeaturesPanel={maxWidthFeaturesPanel} />
       )}
     </Accordion>

@@ -16,7 +16,7 @@ export default function Navbar() {
   return (
     <>
       <Box color="white" px={4} bg="#16609E">
-        <Flex h="11vh" alignItems="center" justifyContent="space-between">
+        <Flex h="8vh" alignItems="center" justifyContent="space-between">
           <IconButton
             size="md"
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}

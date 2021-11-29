@@ -4,7 +4,7 @@ import * as topojson from "topojson-client";
 import { GeometryObject, Topology } from "topojson-specification";
 
 import us_ from "../../data/counties-10m.json";
-import SelectFeatureContext from "context/SelectFeaturesContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 
 interface ActionTooltip {
   type: string;
@@ -13,7 +13,7 @@ interface ActionTooltip {
 
 const CountiesMap = () => {
   const { counties: countiesSelected, setCounties: setCountiesSelected } =
-    useContext(SelectFeatureContext);
+    useContext(SelectFeature);
 
   const initialState: string | undefined = "";
 

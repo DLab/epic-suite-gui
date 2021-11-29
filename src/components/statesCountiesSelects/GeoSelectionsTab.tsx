@@ -1,4 +1,4 @@
-import { ViewIcon, EditIcon, DeleteIcon, CloseIcon } from "@chakra-ui/icons";
+import { ViewIcon, DeleteIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Table,
   Thead,
@@ -10,54 +10,47 @@ import {
   Flex,
   Text,
   Box,
+  Button,
 } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 
-import {
-  ControlPanel,
-  EpidemicsData,
-  Model,
-} from "context/ControlPanelContext";
-import { ModelsSaved } from "context/ModelsContext";
+import GeoSelectionsDetails from "components/map-results/selectorMap/GeoSelectionsDetails";
+import { SelectFeature } from "context/SelectFeaturesContext";
 
-import ModelDetails from "./ModelDetails";
+interface Props {
+  setSeeSelections: (value: boolean) => void;
+}
 
-const ModelsTab = () => {
-  const { parameters, setParameters } = useContext(ModelsSaved);
-  const {
-    setParameters: setParams,
-    setMode,
-    setIdModelUpdate,
-  } = useContext(ControlPanel);
+const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
+  const { geoSelections, setGeoSelections } = useContext(SelectFeature);
   const [data, setData] = useState([]);
   const [viewDetails, setViewDetails] = useState(false);
-  const [modelDetails, setmodelDetails] = useState([]);
+  const [geoSelectionDetails, setGeoSelectionDetails] = useState([]);
 
   useEffect(() => {
     if (
       typeof window !== "undefined" &&
-      window.localStorage.getItem("models")
+      window.localStorage.getItem("geoSelection")
     ) {
-      const localStorageModelsData = window.localStorage.getItem("models");
-      setData(JSON.parse(localStorageModelsData));
+      const localStorageGeoSelection =
+        window.localStorage.getItem("geoSelection");
+      setData(JSON.parse(localStorageGeoSelection));
     }
     setViewDetails(false);
-  }, [parameters]);
+  }, [geoSelections]);
 
-  const deleteModel = (name: string) => {
-    localStorage.removeItem("models");
-    const modelDataFilter = data.filter((model) => model.id !== name);
-    localStorage.setItem("models", JSON.stringify(modelDataFilter));
-    setParameters({ type: "remove", element: `${name}` });
+  const deleteGeoSelection = (id: string) => {
+    localStorage.clear();
+    const geoSelectionFilter = data.filter(
+      (geoSelection) => geoSelection.id !== id
+    );
+    localStorage.setItem("geoSelection", JSON.stringify(geoSelectionFilter));
+    setGeoSelections({ type: "removeGeoSelection", element: `${id}` });
   };
-  const updateModel = (id: number, dataForUpdate: EpidemicsData) => {
-    setMode(Model.Update);
-    setIdModelUpdate(id);
-    setParams({ type: "update", updateData: dataForUpdate });
-  };
-  const viewModelDetails = (name: string) => {
-    const details = data.filter((model) => model.id === name);
-    setmodelDetails(details);
+
+  const viewGeoSelectionsDetails = (id: string) => {
+    const details = data.filter((geoSelection) => geoSelection.id === id);
+    setGeoSelectionDetails(details);
     setViewDetails(true);
   };
 
@@ -76,37 +69,24 @@ const ModelsTab = () => {
               <Thead>
                 <Tr>
                   <Th>Name</Th>
-                  <Th>Model</Th>
-                  <Th>Exposed</Th>
-                  <Th> </Th>
+                  <Th>Scale</Th>
                   <Th> </Th>
                   <Th> </Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {data.map((model) => {
+                {data.map((geoSelection) => {
                   return (
-                    <Tr key={model.id}>
-                      <Td>{model.parameters.name_model}</Td>
-                      <Td>{model.parameters.name}</Td>
-                      <Td>{model.parameters.E}</Td>
+                    <Tr key={geoSelection.id}>
+                      <Td>{geoSelection.name}</Td>
+                      <Td>{geoSelection.scale}</Td>
                       <Td>
                         <Icon
                           color="#16609E"
                           as={ViewIcon}
                           cursor="pointer"
                           onClick={() => {
-                            viewModelDetails(model.id);
-                          }}
-                        />
-                      </Td>
-                      <Td>
-                        <Icon
-                          color="#16609E"
-                          as={EditIcon}
-                          cursor="pointer"
-                          onClick={() => {
-                            updateModel(model.id, model.parameters);
+                            viewGeoSelectionsDetails(geoSelection.id);
                           }}
                         />
                       </Td>
@@ -115,7 +95,7 @@ const ModelsTab = () => {
                           color="#16609E"
                           as={DeleteIcon}
                           cursor="pointer"
-                          onClick={() => deleteModel(model.id)}
+                          onClick={() => deleteGeoSelection(geoSelection.id)}
                         />
                       </Td>
                     </Tr>
@@ -146,17 +126,33 @@ const ModelsTab = () => {
                   }}
                 />
               </Box>
-              <ModelDetails details={modelDetails} />{" "}
+              <GeoSelectionsDetails
+                details={geoSelectionDetails}
+                setSeeSelections={setSeeSelections}
+              />
             </Flex>
           )}
         </Flex>
       ) : (
         <Flex color="#858585" justify="center" fontSize="24px" mt="15%">
-          <Text>There is not models added</Text>
+          <Text>There is not geographic selections added</Text>
         </Flex>
       )}
+      <Flex justify="end">
+        <Button
+          colorScheme="teal"
+          size="md"
+          m="2% 5% 0 0"
+          zIndex="1000"
+          onClick={() => {
+            setSeeSelections(false);
+          }}
+        >
+          See Map
+        </Button>
+      </Flex>
     </>
   );
 };
 
-export default ModelsTab;
+export default GeoSelectionsTab;
