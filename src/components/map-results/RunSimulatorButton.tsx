@@ -63,9 +63,10 @@ const RunSimulatorButton = () => {
         const { parameters: modelParameters } = models.find(
           (m) => m.id === e.idModel
         );
-        const { mode, featureSelected } = geoSelection.find(
-          (g) => g.id === e.idGeo
-        );
+        const geoselectionItems =
+          geoSelection.find((g) => g.id === e.idGeo) || {};
+        const { mode, featureSelected } =
+          (typeof geoselectionItems !== "undefined" && geoselectionItems) || {};
         return {
           idGraph: e.idGraph,
           model: {
@@ -77,8 +78,8 @@ const RunSimulatorButton = () => {
             importdata: false,
             initdate: "",
             country: "USA",
-            state: mode === "State" && featureSelected,
-            county: mode === "County" && featureSelected,
+            state: mode === "State" ? featureSelected : "",
+            county: mode === "County" ? featureSelected : "",
             healthservice: "",
             loc_name: "",
           },

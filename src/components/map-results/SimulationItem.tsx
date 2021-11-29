@@ -1,14 +1,6 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import {
-  Tr,
-  Td,
-  Checkbox,
-  Icon,
-  Select,
-  Button,
-  Spinner,
-} from "@chakra-ui/react";
-import { useState, useEffect, useContext } from "react";
+import { Tr, Td, Icon, Select, Button, Spinner } from "@chakra-ui/react";
+import { useState, useEffect, useContext, useCallback } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
@@ -24,6 +16,7 @@ interface Props {
 }
 const RealConditions = "real-conditions";
 
+// eslint-disable-next-line complexity
 const SimulationItem = ({ idSimulation }: Props) => {
   const { parameters } = useContext(ModelsSaved);
   const { setInitialConditions: setInitialConditionsContext } =
@@ -66,6 +59,17 @@ const SimulationItem = ({ idSimulation }: Props) => {
       setInitialConditions(simInitialConditions);
     }
   }, [idSimulation, simulation]);
+  const getDefaultValueParameters = useCallback(
+    (field) => {
+      return simulation.find((sim) => sim.idSim === idSimulation)[field];
+    },
+    [simulation, idSimulation]
+  );
+  useEffect(() => {
+    setOptionFeature(getDefaultValueParameters("typeSelection"));
+    setIdGeoSelection(getDefaultValueParameters("idGeo"));
+    setIdGraph(getDefaultValueParameters("idGraph"));
+  }, [getDefaultValueParameters]);
   /* dispatch to simulationContext data about type selection 
   when select value is changed. Besides, modify other contexts values */
   const valueOptionFeature = (e: string) => {
@@ -154,7 +158,25 @@ const SimulationItem = ({ idSimulation }: Props) => {
       <Td>
         <Select
           placeholder="select a model"
-          onChange={(e) => selectSimulation(+e.target.value, "idModel")}
+          onChange={(e) => {
+            selectSimulation(+e.target.value, "idModel");
+            setIdGeoSelection(0);
+            setIdGraph(0);
+            valueOptionFeature(OptionFeature.None);
+            setIdSimulationUpdating({ type: "set", payload: 0 });
+            selectSimulation(
+              {
+                population: 0,
+                R: 0,
+                I: 0,
+                I_d: 0,
+                I_ac: 0,
+                E: 0,
+              },
+              "initialConditions"
+            );
+          }}
+          value={getDefaultValueParameters("idModel") ?? 0}
         >
           {models.length > 0 &&
             models.map((param) => {
@@ -168,7 +190,9 @@ const SimulationItem = ({ idSimulation }: Props) => {
       </Td>
       <Td>
         <Select
-          defaultValue={OptionFeature.None}
+          value={
+            getDefaultValueParameters("typeSelection") || OptionFeature.None
+          }
           placeholder="Choose feature selection"
           onChange={(e) => {
             valueOptionFeature(e.target.value);
@@ -196,7 +220,14 @@ const SimulationItem = ({ idSimulation }: Props) => {
         <Select
           disabled={optionFeature === OptionFeature.None}
           placeholder="Name Selection"
-          defaultValue={0}
+          value={
+            // eslint-disable-next-line no-nested-ternary
+            optionFeature === OptionFeature.Geographic
+              ? getDefaultValueParameters("idGeo")
+              : optionFeature === OptionFeature.Graph
+              ? getDefaultValueParameters("idGraph")
+              : 0
+          }
           onChange={(e) => {
             setIdGeoSelection(+e.target.value);
             setIdGraph(+e.target.value);
