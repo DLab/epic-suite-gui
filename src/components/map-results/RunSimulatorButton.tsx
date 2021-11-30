@@ -3,12 +3,15 @@ import TOML from "@iarna/toml";
 import { useContext, useState, useEffect } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
 
 const RunSimulatorButton = () => {
   const toast = useToast();
   const { simulation } = useContext(SimulationSetted);
   const { parameters } = useContext(ModelsSaved);
+  const { geoSelections: geoSelectionsElementsContext } =
+    useContext(SelectFeature);
   const [models, setModels] = useState([]);
   const [geoSelection, setGeoSelection] = useState([]);
   const [isSimulating, setisSimulating] = useState(false);
@@ -27,7 +30,7 @@ const RunSimulatorButton = () => {
       const dataLocalStorageGeo = window.localStorage.getItem("geoSelection");
       setGeoSelection(JSON.parse(dataLocalStorageGeo));
     }
-  }, [parameters]);
+  }, [parameters, geoSelectionsElementsContext]);
 
   const verifyNotEmptySimulations = (sim: SimulatorParams[] | []) => {
     return sim.every(
@@ -65,7 +68,7 @@ const RunSimulatorButton = () => {
         );
         const geoselectionItems =
           geoSelection.find((g) => g.id === e.idGeo) || {};
-        const { mode, featureSelected } =
+        const { scale, featureSelected } =
           (typeof geoselectionItems !== "undefined" && geoselectionItems) || {};
         return {
           idGraph: e.idGraph,
@@ -78,12 +81,12 @@ const RunSimulatorButton = () => {
             importdata: false,
             initdate: "",
             country: "USA",
-            state: mode === "State" ? featureSelected : "",
-            county: mode === "County" ? featureSelected : "",
+            state: scale === "States" ? featureSelected : "",
+            county: scale === "Counties" ? featureSelected : "",
             healthservice: "",
             loc_name: "",
           },
-          mode,
+          scale,
           parameters: {
             static: {
               t_init: modelParameters.t_init,

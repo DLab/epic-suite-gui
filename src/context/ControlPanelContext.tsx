@@ -1,8 +1,8 @@
 import { createContext, useReducer, useState } from "react";
-
+// Updated into ActionsEpidemicData payload: add string[] type
 interface ActionsEpidemicData {
   type: string;
-  payload?: string | number | EpidemicsData;
+  payload?: string | number | EpidemicsData | string[];
   target?: string;
   updateData?: EpidemicsData;
 }

@@ -77,7 +77,6 @@ const ModelsTab = () => {
                 <Tr>
                   <Th>Name</Th>
                   <Th>Model</Th>
-                  <Th>Exposed</Th>
                   <Th> </Th>
                   <Th> </Th>
                   <Th> </Th>
@@ -89,7 +88,6 @@ const ModelsTab = () => {
                     <Tr key={model.id}>
                       <Td>{model.parameters.name_model}</Td>
                       <Td>{model.parameters.name}</Td>
-                      <Td>{model.parameters.E}</Td>
                       <Td>
                         <Icon
                           color="#16609E"
