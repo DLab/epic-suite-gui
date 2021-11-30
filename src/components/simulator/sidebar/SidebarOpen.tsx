@@ -41,7 +41,7 @@ const container = {
 };
 
 const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
-  const { idSimulationUpdating } = useContext(SimulationSetted);
+  const { simulation, idSimulationUpdating } = useContext(SimulationSetted);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -101,7 +101,7 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
                 Initial Conditions
               </h2>
               <Box p="5px" mt="15px" textAlign="center">
-                {idSimulationUpdating !== 0 && (
+                {idSimulationUpdating !== 0 && simulation.length > 0 && (
                   <Accordion allowMultiple>
                     <AcordionContent title="Initial Conditions">
                       <InitialConditions />

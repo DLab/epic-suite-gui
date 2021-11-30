@@ -2,13 +2,17 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
+  Button,
   HStack,
   IconButton,
+  Icon,
   Menu,
   useDisclosure,
   Stack,
 } from "@chakra-ui/react";
 import Link from "next/link";
+
+import EpicSuiteIcon from "../icons/EpicSuiteIcon";
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,24 +30,33 @@ export default function Navbar() {
           />
           <Menu>
             <HStack spacing={8} alignItems="center">
-              <Link href="/">Logo</Link>
+              <Link href="/" passHref>
+                <Icon
+                  as={EpicSuiteIcon}
+                  w={50}
+                  h={50}
+                  cursor="pointer"
+                  aria-label="EPIc Suite Logo"
+                  fill="none"
+                />
+              </Link>
             </HStack>
-            <HStack as="nav" spacing={4} display={{ base: "none", md: "flex" }}>
-              <Link href="/404">Documentation</Link>
-              <Link href="/404">About</Link>
-              <Link href="/404">Logo 1</Link>
-              <Link href="/404">Logo 2</Link>
+            <HStack as="nav" spacing={2} display={{ base: "none", md: "flex" }}>
+              <Button colorScheme="white" variant="link">
+                <Link href="/404">Documentation</Link>
+              </Button>
+              <Button colorScheme="white" variant="link">
+                About
+              </Button>
             </HStack>
           </Menu>
         </Flex>
 
         {isOpen ? (
           <Box pb={4} display={{ md: "none" }}>
-            <Stack as="nav" spacing={4}>
+            <Stack as="nav" spacing={2}>
               <Link href="/Documentation">Documentation</Link>
               <Link href="/About">About</Link>
-              <Link href="/404">Logo 1</Link>
-              <Link href="/404">Logo 2</Link>
             </Stack>
           </Box>
         ) : null}

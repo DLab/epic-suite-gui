@@ -21,6 +21,7 @@ interface Props {
   min?: number;
   type: string;
   isInitialParameters?: boolean;
+  isDisabled?: boolean;
 }
 
 const NumberInputEpi = ({
@@ -32,6 +33,7 @@ const NumberInputEpi = ({
   min,
   type,
   isInitialParameters,
+  isDisabled,
 }: Props) => {
   const handleChange = (val: string | number) => {
     if (val <= max && val >= min) {
@@ -41,7 +43,9 @@ const NumberInputEpi = ({
 
   return (
     <>
-      <Text align="left">{nameParams}</Text>
+      <Text align="left" color={isDisabled && "gray.200"}>
+        {nameParams}
+      </Text>
       <Flex mb="0.5rem">
         {type === "slider" && (
           <>
@@ -91,6 +95,8 @@ const NumberInputEpi = ({
             min={min}
             max={max}
             step={step}
+            variant="filled"
+            isDisabled
           >
             <NumberInputField />
             <NumberInputStepper>

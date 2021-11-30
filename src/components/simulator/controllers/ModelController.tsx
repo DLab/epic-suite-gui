@@ -32,14 +32,28 @@ const ModelController = () => {
         <Select
           size="sm"
           onChange={(e) => {
+            if (e.target.value === "SEIR") {
+              setParameters({
+                type: "set",
+                target: "compartments",
+                payload: ["S", "E", "I", "R"],
+              });
+            } else {
+              setParameters({
+                type: "set",
+                target: "compartments",
+                payload: ["S", "I", "R"],
+              });
+            }
             setParameters({
               type: "set",
               target: "name",
-              payload: +e.target.value,
+              payload: e.target.value,
             });
           }}
         >
           <option value="SEIR">SEIR</option>
+          <option value="SIR">SIR</option>
         </Select>
       </Box>
       <Flex justify="space-between">
