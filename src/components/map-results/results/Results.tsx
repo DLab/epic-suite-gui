@@ -164,13 +164,17 @@ const Results = () => {
         </Button>
       </Flex>
       <Flex w="75%" direction="column" justify="space-between">
-        <Flex flexWrap="wrap" h="100%">
+        <Flex flexWrap="wrap" h="100%" overflowY="auto" justify="center">
           {allGraphicData.map((graphicData, index) => {
             return (
-              <Box w="40%">
-                <Flex>
+              <Box w="320px">
+                <Flex justify="end">
                   {" "}
+                  <SeeGraphic graphicData={graphicData} />
                   <DeleteIcon
+                    color="#16609E"
+                    ml="2%"
+                    cursor="pointer"
                     onClick={() => {
                       const aux = allGraphicData.filter((x, y) => {
                         if (y === index) {
@@ -183,7 +187,6 @@ const Results = () => {
                   >
                     Delete
                   </DeleteIcon>
-                  <SeeGraphic graphicData={graphicData} />
                 </Flex>
                 <Graphic
                   savedSimulationKeys={graphicData}

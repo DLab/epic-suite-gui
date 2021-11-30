@@ -2,7 +2,7 @@ import { createIcon } from "@chakra-ui/icons";
 
 const SeeGraphIcon = createIcon({
   displayName: "SeeGraphIcon",
-  viewBox: "0 0 24 24",
+  viewBox: "0 0 30 30",
   path: (
     <>
       <path

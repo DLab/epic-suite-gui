@@ -39,12 +39,16 @@ const SeeGraphic = ({ graphicData }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Icon as={SeeGraphicIcon} onClick={onOpen} />
+      <Icon
+        as={SeeGraphicIcon}
+        onClick={onOpen}
+        cursor="pointer"
+        fontSize="1.4rem"
+      />
 
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
-          {/* <ModalHeader>Modal Title</ModalHeader> */}
           <ModalCloseButton />
           <ModalBody>
             <Graphic
