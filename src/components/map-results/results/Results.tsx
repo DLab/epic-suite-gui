@@ -1,3 +1,4 @@
+import { DeleteIcon, SmallAddIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -14,7 +15,7 @@ import {
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 
-// import data from "data/SEIRresults.json";
+import SeeGraphic from "./SeeGraphic";
 
 const Graphic = dynamic(() => import("./Graphic"), {
   loading: () => (
@@ -167,20 +168,28 @@ const Results = () => {
           {allGraphicData.map((graphicData, index) => {
             return (
               <Box w="40%">
-                <Graphic savedSimulationKeys={graphicData} />
-                <Button
-                  onClick={() => {
-                    const aux = allGraphicData.filter((x, y) => {
-                      if (y === index) {
-                        return false;
-                      }
-                      return true;
-                    });
-                    setAllGraphicData(aux);
-                  }}
-                >
-                  Delete
-                </Button>
+                <Flex>
+                  {" "}
+                  <DeleteIcon
+                    onClick={() => {
+                      const aux = allGraphicData.filter((x, y) => {
+                        if (y === index) {
+                          return false;
+                        }
+                        return true;
+                      });
+                      setAllGraphicData(aux);
+                    }}
+                  >
+                    Delete
+                  </DeleteIcon>
+                  <SeeGraphic graphicData={graphicData} />
+                </Flex>
+                <Graphic
+                  savedSimulationKeys={graphicData}
+                  width="320"
+                  height="240"
+                />
               </Box>
             );
           })}

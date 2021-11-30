@@ -5,21 +5,21 @@ import data from "data/SEIRresults.json";
 
 interface Props {
   savedSimulationKeys: string[];
+  width: string;
+  height: string;
 }
 
-const Graphic = ({ savedSimulationKeys }: Props) => {
+const Graphic = ({ savedSimulationKeys, width, height }: Props) => {
   const [axios, setAxios] = useState([]);
 
   const graphSimulation = () => {
-    const filterData = savedSimulationKeys.map((x) => {
-      return data[x];
-    });
-
-    return filterData.map((x) => {
+    return savedSimulationKeys.map((x) => {
+      const y = data[x];
       return {
-        x: Object.keys(x),
-        y: Object.values(x),
+        x: Object.keys(y),
+        y: Object.values(y),
         type: "scatter",
+        name: x,
       };
     });
   };
@@ -34,8 +34,8 @@ const Graphic = ({ savedSimulationKeys }: Props) => {
     <Plot
       data={axios}
       layout={{
-        width: 320,
-        height: 240,
+        width: parseInt(width, 10),
+        height: parseInt(height, 10),
         title: "Graphic: Name 1",
         xaxis: {
           autorange: true,
