@@ -24,9 +24,6 @@ const ModelBuilder = () => {
           <AcordionContent title="Model">
             <ModelController />
           </AcordionContent>
-          <AcordionContent title="Initial Conditions">
-            <InitialConditions />
-          </AcordionContent>
           <AcordionContent title="Interventions">
             <InterventionsParameters />
           </AcordionContent>

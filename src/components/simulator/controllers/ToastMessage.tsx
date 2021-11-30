@@ -34,7 +34,7 @@ const ToastMessage = () => {
           id: idModelUpdate,
         };
         const indexDataToUpdate = dataModelsCreated.findIndex(
-          (e) => e.id === idModelUpdate
+          (e: DataParameters) => e.id === idModelUpdate
         );
         dataModelsCreated[indexDataToUpdate] = updateDataParameters;
         localStorage.setItem("models", JSON.stringify(dataModelsCreated));

@@ -5,18 +5,21 @@ import Simulator from "components/simulator/index";
 import ControlPanelContext from "context/ControlPanelContext";
 import ModelsContext from "context/ModelsContext";
 import SelectFeatureContext from "context/SelectFeaturesContext";
+import SimulationContext from "context/SimulationContext";
 
 const Home = () => {
   return (
-    <ModelsContext>
-      <ControlPanelContext>
-        <SelectFeatureContext>
-          <Box>
-            <Simulator />
-          </Box>
-        </SelectFeatureContext>
-      </ControlPanelContext>
-    </ModelsContext>
+    <SimulationContext>
+      <ModelsContext>
+        <ControlPanelContext>
+          <SelectFeatureContext>
+            <Box>
+              <Simulator />
+            </Box>
+          </SelectFeatureContext>
+        </ControlPanelContext>
+      </ModelsContext>
+    </SimulationContext>
   );
 };
 

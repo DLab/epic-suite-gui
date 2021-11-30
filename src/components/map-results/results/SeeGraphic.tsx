@@ -1,9 +1,7 @@
-import { SmallAddIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalFooter,
   ModalBody,
   ModalCloseButton,
@@ -11,9 +9,12 @@ import {
   useDisclosure,
   Flex,
   Spinner,
+  Icon,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import React from "react";
+
+import SeeGraphicIcon from "../../icons/SeeGraphIcon";
 
 interface Props {
   graphicData: string[];
@@ -38,7 +39,7 @@ const SeeGraphic = ({ graphicData }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <SmallAddIcon onClick={onOpen}>See</SmallAddIcon>
+      <Icon as={SeeGraphicIcon} onClick={onOpen} />
 
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
