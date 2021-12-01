@@ -71,7 +71,7 @@ const RunSimulatorButton = () => {
         const { scale, featureSelected } =
           (typeof geoselectionItems !== "undefined" && geoselectionItems) || {};
         return {
-          idGraph: e.idGraph,
+          idSim: e.idSim,
           model: {
             name: modelParameters.name,
             compartments: modelParameters.compartments,
