@@ -24,7 +24,3 @@
 tbody > tr:last-child td {
   border-bottom: none;
 }
-
-.indent {
-  text-indent: 10px;
-}
