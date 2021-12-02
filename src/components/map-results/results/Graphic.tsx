@@ -3,8 +3,13 @@ import Plot from "react-plotly.js";
 
 import data from "data/SEIRresults.json";
 
+interface Ref {
+  name: string;
+  keys: [];
+}
+
 interface Props {
-  savedSimulationKeys: string[];
+  savedSimulationKeys: Ref[];
   width: string;
   height: string;
 }
@@ -13,20 +18,32 @@ const Graphic = ({ savedSimulationKeys, width, height }: Props) => {
   const [axios, setAxios] = useState([]);
 
   const graphSimulation = () => {
-    return savedSimulationKeys.map((x) => {
-      const y = data[x];
-      return {
-        x: Object.keys(y),
-        y: Object.values(y),
-        type: "scatter",
-        name: x,
-      };
+    return savedSimulationKeys.map((simKey) => {
+      const simKeyFilter = data.filter((sim) => {
+        return sim.name === simKey.name;
+      });
+      const savedKeys = simKey.keys;
+      return savedKeys.map((key) => {
+        const simulationKeys = simKeyFilter[0][key];
+        return {
+          x: Object.keys(simulationKeys),
+          y: Object.values(simulationKeys),
+          type: "scatter",
+          name: `${key}-${simKeyFilter[0].name}`,
+        };
+      });
     });
   };
-
   useEffect(() => {
     const axiosData = graphSimulation();
-    setAxios(axiosData);
+    let dataToGraph = [];
+    axiosData.forEach((simulation) => {
+      simulation.forEach((parameter) => {
+        dataToGraph = [...dataToGraph, parameter];
+        return dataToGraph;
+      });
+    });
+    setAxios(dataToGraph);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [savedSimulationKeys]);
 

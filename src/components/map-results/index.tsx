@@ -63,7 +63,7 @@ const MapResult = () => {
             </Center>
           </Box>
         </TabPanel>
-        <TabPanel maxHeight="77vh" height="77vh">
+        <TabPanel maxHeight="77vh" height="77vh" bg="#FAFAFA">
           <Flex h="100%">
             <Center w="100%">
               <Results />

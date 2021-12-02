@@ -17,6 +17,11 @@ import { useState, useEffect } from "react";
 
 import SeeGraphic from "./SeeGraphic";
 
+interface Ref {
+  name: string;
+  keys: string[];
+}
+
 const Graphic = dynamic(() => import("./Graphic"), {
   loading: () => (
     <Flex justifyContent="center" alignItems="center">
@@ -32,13 +37,17 @@ const Graphic = dynamic(() => import("./Graphic"), {
   ssr: false,
 });
 const Results = () => {
+  // para ver mostar las keys de los parametros en los checkbox
   const [simulationKeys, setSimulationKeys] = useState([]);
+  // para ver las keys que se repiten segun key+nombre de la simulación
   const [savedSimulationKeys, setSavedSimulationKeys] = useState<string[]>([]);
+  const [savedSimulation, setSavedSimulation] = useState<Ref[]>([]);
+  // va juntando todas las simulaciones para poder ver más de un gráfico
   const [allGraphicData, setAllGraphicData] = useState([]);
 
   const model = ["S", "E", "I", "R"];
 
-  async function getRandomPhoto() {
+  async function getGraphicData() {
     const res = await fetch(`/api/simulator`, {
       method: "GET",
     });
@@ -46,18 +55,56 @@ const Results = () => {
   }
 
   useEffect(() => {
-    getRandomPhoto().then((e) => {
-      const getData = e;
-      setSimulationKeys(Object.keys(getData));
+    getGraphicData().then((e) => {
+      setSimulationKeys(e);
     });
   }, []);
 
-  const saveKeys = (ischecked, id) => {
+  const saveKeys = (ischecked, id, value, name) => {
     const isInclude = savedSimulationKeys.includes(id);
+    const isSimulationSaved = savedSimulation.filter((simulation) => {
+      return simulation.name === name;
+    });
+
     if (ischecked && !isInclude) {
+      if (isSimulationSaved.length === 0) {
+        setSavedSimulation([...savedSimulation, { name, keys: [value] }]);
+      } else {
+        setSavedSimulation(
+          savedSimulation.map((simulation) => {
+            let simulationAux = simulation;
+            if (simulation.name === isSimulationSaved[0].name) {
+              simulationAux = {
+                name: simulation.name,
+                keys: [...simulation.keys, value],
+              };
+            }
+
+            return simulationAux;
+          })
+        );
+      }
+
       return setSavedSimulationKeys([...savedSimulationKeys, id]);
     }
     if (!ischecked && isInclude) {
+      let modifiedSimulations = savedSimulation.map((simulation) => {
+        let simulationAux = simulation;
+        if (simulation.name === isSimulationSaved[0].name) {
+          const simulationAuxFiltered = simulationAux.keys.filter(
+            (simulationValue) => simulationValue !== value
+          );
+          simulationAux = {
+            name: simulation.name,
+            keys: simulationAuxFiltered,
+          };
+        }
+        return simulationAux;
+      });
+      modifiedSimulations = modifiedSimulations.filter((simulation) => {
+        return simulation.keys.length > 0;
+      });
+      setSavedSimulation(modifiedSimulations);
       return setSavedSimulationKeys(
         savedSimulationKeys.filter((key) => key !== id)
       );
@@ -75,102 +122,119 @@ const Results = () => {
         justify="space-between"
       >
         <Accordion allowMultiple>
-          <AccordionItem bg="#16609E" mb="30px">
-            <h2>
-              <AccordionButton color="white" _focus={{ boxShadow: "none" }}>
-                <Box flex="1" textAlign="left">
-                  Name 1
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4} bg="#FFFFFF">
-              <Accordion defaultIndex={[0]} allowMultiple>
-                <AccordionItem>
-                  <h2>
-                    <AccordionButton _focus={{ boxShadow: "none" }}>
-                      <Box flex="1" textAlign="left">
-                        Results
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    <Flex flexWrap="wrap">
-                      {simulationKeys.map((key) => {
-                        if (model.includes(key)) {
-                          return (
-                            <Checkbox
-                              size="sm"
-                              m="2% 5%"
-                              id={key}
-                              onChange={(e) => {
-                                saveKeys(e.target.checked, e.target.id);
-                              }}
-                            >
-                              {key}
-                            </Checkbox>
-                          );
-                        }
-                        return false;
-                      })}
-                    </Flex>
-                  </AccordionPanel>
-                </AccordionItem>
-                <AccordionItem>
-                  <h2>
-                    <AccordionButton _focus={{ boxShadow: "none" }}>
-                      <Box flex="1" textAlign="left">
-                        Parameters
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  <AccordionPanel pb={4}>
-                    <Flex flexWrap="wrap">
-                      {simulationKeys.map((key) => {
-                        if (!model.includes(key)) {
-                          return (
-                            <Checkbox
-                              size="sm"
-                              m="2% 5%"
-                              id={key}
-                              onChange={(e) => {
-                                saveKeys(e.target.checked, e.target.id);
-                              }}
-                            >
-                              {key}
-                            </Checkbox>
-                          );
-                        }
-                        return false;
-                      })}
-                    </Flex>
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            </AccordionPanel>
-          </AccordionItem>
+          {simulationKeys.map((simulation) => {
+            return (
+              <AccordionItem bg="#16609E" mb="30px">
+                <h2>
+                  <AccordionButton color="white" _focus={{ boxShadow: "none" }}>
+                    <Box flex="1" textAlign="left">
+                      {simulation.name}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={4} bg="#FFFFFF">
+                  <Accordion defaultIndex={[0]} allowMultiple>
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton _focus={{ boxShadow: "none" }}>
+                          <Box flex="1" textAlign="left">
+                            Results
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel pb={4}>
+                        <Flex flexWrap="wrap">
+                          {Object.keys(simulation).map((key) => {
+                            if (model.includes(key)) {
+                              return (
+                                <Checkbox
+                                  size="sm"
+                                  m="2% 5%"
+                                  id={`${key + simulation.name}`}
+                                  value={key}
+                                  onChange={(e) => {
+                                    saveKeys(
+                                      e.target.checked,
+                                      e.target.id,
+                                      e.target.value,
+                                      simulation.name
+                                    );
+                                  }}
+                                >
+                                  {key}
+                                </Checkbox>
+                              );
+                            }
+                            return false;
+                          })}
+                        </Flex>
+                      </AccordionPanel>
+                    </AccordionItem>
+                    <AccordionItem>
+                      <h2>
+                        <AccordionButton _focus={{ boxShadow: "none" }}>
+                          <Box flex="1" textAlign="left">
+                            Parameters
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel pb={4}>
+                        <Flex flexWrap="wrap">
+                          {Object.keys(simulation).map((key) => {
+                            if (!model.includes(key)) {
+                              return (
+                                <Checkbox
+                                  size="sm"
+                                  m="2% 5%"
+                                  id={`${key + simulation.name}`}
+                                  value={key}
+                                  // eslint-disable-next-line sonarjs/no-identical-functions
+                                  onChange={(e) => {
+                                    saveKeys(
+                                      e.target.checked,
+                                      e.target.id,
+                                      e.target.value,
+                                      simulation.name
+                                    );
+                                  }}
+                                >
+                                  {key}
+                                </Checkbox>
+                              );
+                            }
+                            return false;
+                          })}
+                        </Flex>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  </Accordion>
+                </AccordionPanel>
+              </AccordionItem>
+            );
+          })}
         </Accordion>
         <Button
           colorScheme="teal"
           size="md"
           mt="20px"
           onClick={() => {
-            setAllGraphicData([...allGraphicData, savedSimulationKeys]);
+            setAllGraphicData([...allGraphicData, savedSimulation]);
           }}
         >
           Chart
         </Button>
       </Flex>
       <Flex w="75%" direction="column" justify="space-between">
-        <Flex flexWrap="wrap" h="100%" overflowY="auto" justify="center">
+        <Flex flexWrap="wrap" h="100%" overflowY="auto" justify="space-evenly">
           {allGraphicData.map((graphicData, index) => {
             return (
               <Box w="320px">
-                <Flex justify="end">
+                {/* <Flex justify="end">
                   {" "}
-                  <SeeGraphic graphicData={graphicData} />
+                  <SeeGraphic graphicData={graphicData.keys} />
                   <DeleteIcon
                     color="#16609E"
                     ml="2%"
@@ -187,7 +251,7 @@ const Results = () => {
                   >
                     Delete
                   </DeleteIcon>
-                </Flex>
+                </Flex> */}
                 <Graphic
                   savedSimulationKeys={graphicData}
                   width="320"
