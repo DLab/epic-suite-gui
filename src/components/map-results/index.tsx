@@ -10,8 +10,12 @@ import {
   Box,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
+import { useContext } from "react";
+
+import { TabIndex } from "context/TabContext";
 
 import Exports from "./Exports";
+import GraphTab from "./GraphTab";
 import ModelsTab from "./ModelsTab";
 import Results from "./results/Results";
 import RunSimulatorButton from "./RunSimulatorButton";
@@ -33,11 +37,18 @@ const Map = dynamic(() => import("./Map"), {
 });
 
 const MapResult = () => {
+  const { index: tabIndex, setIndex } = useContext(TabIndex);
   return (
-    <Tabs isLazy maxHeight="84vh">
+    <Tabs
+      isLazy
+      maxHeight="84vh"
+      index={tabIndex}
+      onChange={(index) => setIndex(index)}
+    >
       <TabList maxHeight="7vh">
         <Tab id="models">Models</Tab>
         <Tab id="map">Map</Tab>
+        <Tab id="graph">Graph</Tab>
         <Tab id="simulationTab">Simulation</Tab>
         <Tab id="results">Results</Tab>
         <Tab id="exports">Exports</Tab>
@@ -54,6 +65,13 @@ const MapResult = () => {
           overflowY="auto"
         >
           <Map />
+        </TabPanel>
+        <TabPanel maxHeight="77vh" height="77vh">
+          <Flex h="100%">
+            <Center w="100%">
+              <GraphTab />
+            </Center>
+          </Flex>
         </TabPanel>
         <TabPanel maxHeight="77vh" height="77vh">
           <SimulationTab />

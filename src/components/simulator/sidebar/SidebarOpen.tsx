@@ -16,11 +16,14 @@ import { useContext, useState, useEffect } from "react";
 
 import SelectorMapAccordion from "../../map-results/selectorMap/SelectorMapAccordion";
 import InitialConditions from "../controllers/InitialConditions";
+import GraphBuilder from "../GraphBuilder";
 import ModelBuilder from "../ModelBuilder";
 import AcordionContent from "components/AcordionContent";
+import GraphIcon from "components/icons/GraphIcon";
 import PlanetIcon from "components/icons/PlanetIcon";
 import SimulationIcon from "components/icons/SimulationIcon";
 import { SimulationSetted } from "context/SimulationContext";
+import { TabIndex } from "context/TabContext";
 
 export const MotionBox = motion<BoxProps>(Box);
 
@@ -45,6 +48,7 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const { index: tabIndex, setIndex } = useContext(TabIndex);
   return (
     <AnimatePresence>
       <MotionBox
@@ -58,7 +62,12 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
         initial="hidden"
         animate="show"
       >
-        <Tabs h="90vh" maxHeight="90vh">
+        <Tabs
+          h="90vh"
+          maxHeight="90vh"
+          index={tabIndex}
+          onChange={(index) => setIndex(index)}
+        >
           <Box display="flex" justifyContent="space-between" maxHeight="7vh">
             <TabList>
               <Tab id="ModelBuilder">
@@ -66,6 +75,9 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
               </Tab>
               <Tab id="selectmap">
                 <Icon w={6} h={6} as={PlanetIcon} />
+              </Tab>
+              <Tab id="GraphBuilder">
+                <Icon w={6} h={6} as={GraphIcon} />
               </Tab>
               <Tab id="simulationConfig">
                 <SimulationIcon w={6} h={6} />
@@ -95,6 +107,9 @@ const SidebarOpen = ({ isSidebarOpen, setIsSidebarOpen }: SidebarOpenProps) => {
             </TabPanel>
             <TabPanel p="5% 0">
               <SelectorMapAccordion />
+            </TabPanel>
+            <TabPanel p="5% 0">
+              <GraphBuilder />
             </TabPanel>
             <TabPanel p="5% 0">
               <h2 style={{ textAlign: "center", color: "#16609E" }}>
