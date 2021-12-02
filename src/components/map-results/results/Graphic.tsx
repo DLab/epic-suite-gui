@@ -12,9 +12,10 @@ interface Props {
   savedSimulationKeys?: Ref[];
   width: string;
   height: string;
+  index: number;
 }
 
-const Graphic = ({ savedSimulationKeys, width, height }: Props) => {
+const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
   const [axios, setAxios] = useState([]);
 
   const graphSimulation = () => {
@@ -54,7 +55,7 @@ const Graphic = ({ savedSimulationKeys, width, height }: Props) => {
       layout={{
         width: parseInt(width, 10),
         height: parseInt(height, 10),
-        title: "Graphic: Name 1",
+        title: `Graphic ${index + 1}`,
         xaxis: {
           autorange: true,
         },

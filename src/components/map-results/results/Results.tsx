@@ -243,7 +243,7 @@ const Results = () => {
                 <Box w="320px">
                   <Flex justify="end">
                     {" "}
-                    <SeeGraphic savedKeys={graphicData} />
+                    <SeeGraphic savedKeys={graphicData} index={index} />
                     <DeleteIcon
                       color="#16609E"
                       ml="2%"
@@ -263,6 +263,7 @@ const Results = () => {
                   </Flex>
                   <Graphic
                     savedSimulationKeys={graphicData}
+                    index={index}
                     width="320"
                     height="240"
                   />

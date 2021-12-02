@@ -23,6 +23,7 @@ interface SimulationKeys {
 
 interface Props {
   savedKeys?: SimulationKeys[];
+  index: number;
 }
 
 const Graphic = dynamic(() => import("./Graphic"), {
@@ -40,7 +41,7 @@ const Graphic = dynamic(() => import("./Graphic"), {
   ssr: false,
 });
 
-const SeeGraphic = ({ savedKeys }: Props) => {
+const SeeGraphic = ({ savedKeys, index }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -62,6 +63,7 @@ const SeeGraphic = ({ savedKeys }: Props) => {
                     savedSimulationKeys={savedKeys}
                     width="500"
                     height="340"
+                    index={index}
                   />
                 </ModalBody>
 
