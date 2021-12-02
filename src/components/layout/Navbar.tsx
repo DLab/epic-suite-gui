@@ -20,20 +20,24 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { pathname } = useRouter();
   const {
     isOpen: isOpenModal,
     onOpen: onOpenModal,
     onClose: onCloseModal,
   } = useDisclosure();
   useEffect(() => {
-    setTimeout(() => onOpenModal(), 1000);
-  }, [onOpenModal]);
+    if (pathname === "/") {
+      setTimeout(() => onOpenModal(), 1000);
+    }
+  }, [onOpenModal, pathname]);
   return (
     <>
       <Box color="white" px={4} bg="#16609E">
@@ -58,18 +62,28 @@ export default function Navbar() {
                 />
               </Link>
             </HStack>
-            <HStack as="nav" spacing={2} display={{ base: "none", md: "flex" }}>
-              <Button colorScheme="white" variant="link">
-                <Link href="/404">Documentation</Link>
-              </Button>
-              <Button onClick={onOpenModal} colorScheme="white" variant="link">
-                About
-              </Button>
-            </HStack>
+            {pathname === "/" && (
+              <HStack
+                as="nav"
+                spacing={2}
+                display={{ base: "none", md: "flex" }}
+              >
+                <Button colorScheme="white" variant="link">
+                  <Link href="/404">Documentation</Link>
+                </Button>
+                <Button
+                  onClick={onOpenModal}
+                  colorScheme="white"
+                  variant="link"
+                >
+                  About
+                </Button>
+              </HStack>
+            )}
           </Menu>
         </Flex>
 
-        {isOpen ? (
+        {isOpen && pathname === "/" ? (
           <Box pb={4} display={{ md: "none" }}>
             <Stack as="nav" spacing={2}>
               <Button colorScheme="white" variant="link">
