@@ -34,6 +34,7 @@ const Graphic = ({ savedSimulationKeys, width, height }: Props) => {
       });
     });
   };
+
   useEffect(() => {
     const axiosData = graphSimulation();
     let dataToGraph = [];

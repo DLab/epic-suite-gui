@@ -121,7 +121,7 @@ const Results = () => {
         direction="column"
         justify="space-between"
       >
-        <Accordion allowMultiple>
+        <Accordion allowMultiple h="85%" overflowY="auto">
           {simulationKeys.map((simulation) => {
             return (
               <AccordionItem bg="#16609E" mb="30px">
@@ -216,51 +216,66 @@ const Results = () => {
             );
           })}
         </Accordion>
-        <Button
-          colorScheme="teal"
-          size="md"
-          mt="20px"
-          onClick={() => {
-            setAllGraphicData([...allGraphicData, savedSimulation]);
-          }}
-        >
-          Chart
-        </Button>
+        <Box h="15%">
+          <Button
+            colorScheme="teal"
+            size="md"
+            mt="20px"
+            minH="30px"
+            onClick={() => {
+              setAllGraphicData([...allGraphicData, savedSimulation]);
+            }}
+          >
+            Chart
+          </Button>
+        </Box>
       </Flex>
       <Flex w="75%" direction="column" justify="space-between">
-        <Flex flexWrap="wrap" h="100%" overflowY="auto" justify="space-evenly">
-          {allGraphicData.map((graphicData, index) => {
-            return (
-              <Box w="320px">
-                <Flex justify="end">
-                  {" "}
-                  <SeeGraphic savedKeys={graphicData} />
-                  <DeleteIcon
-                    color="#16609E"
-                    ml="2%"
-                    cursor="pointer"
-                    onClick={() => {
-                      const aux = allGraphicData.filter((x, y) => {
-                        if (y === index) {
-                          return false;
-                        }
-                        return true;
-                      });
-                      setAllGraphicData(aux);
-                    }}
-                  >
-                    Delete
-                  </DeleteIcon>
-                </Flex>
-                <Graphic
-                  savedSimulationKeys={graphicData}
-                  width="320"
-                  height="240"
-                />
-              </Box>
-            );
-          })}
-        </Flex>
+        {allGraphicData.length > 0 ? (
+          <Flex
+            flexWrap="wrap"
+            h="100%"
+            overflowY="auto"
+            justify="space-evenly"
+          >
+            {allGraphicData.map((graphicData, index) => {
+              return (
+                <Box w="320px">
+                  <Flex justify="end">
+                    {" "}
+                    <SeeGraphic savedKeys={graphicData} />
+                    <DeleteIcon
+                      color="#16609E"
+                      ml="2%"
+                      cursor="pointer"
+                      onClick={() => {
+                        const aux = allGraphicData.filter((x, y) => {
+                          if (y === index) {
+                            return false;
+                          }
+                          return true;
+                        });
+                        setAllGraphicData(aux);
+                      }}
+                    >
+                      Delete
+                    </DeleteIcon>
+                  </Flex>
+                  <Graphic
+                    savedSimulationKeys={graphicData}
+                    width="320"
+                    height="240"
+                  />
+                </Box>
+              );
+            })}
+          </Flex>
+        ) : (
+          <Flex h="100%" justify="center" align="center">
+            <Text> There are no graphics to show.</Text>
+          </Flex>
+        )}
+
         <Flex
           direction="column"
           alignItems="center"
