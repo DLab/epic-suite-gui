@@ -516,35 +516,6 @@
           "properties": { "name": "Wisconsin" }
         },
         {
-          "type": "MultiPolygon",
-          "arcs": [[[382]], [[383]], [[384]]],
-          "id": "60",
-          "properties": { "name": "American Samoa" }
-        },
-        {
-          "type": "MultiPolygon",
-          "arcs": [[[385]]],
-          "id": "66",
-          "properties": { "name": "Guam" }
-        },
-        {
-          "type": "MultiPolygon",
-          "arcs": [
-            [[386]],
-            [[387]],
-            [[388]],
-            [[389]],
-            [[390]],
-            [[391]],
-            [[392]],
-            [[393]]
-          ],
-          "id": "69",
-          "properties": {
-            "name": "Commonwealth of the Northern Mariana Islands"
-          }
-        },
-        {
           "type": "Polygon",
           "arcs": [[-231, -292, -253, -175, -150, -239]],
           "id": "31",
@@ -555,18 +526,6 @@
           "arcs": [[-214, 394, -168]],
           "id": "45",
           "properties": { "name": "South Carolina" }
-        },
-        {
-          "type": "MultiPolygon",
-          "arcs": [[[395]], [[396]], [[397]], [[398]], [[399]]],
-          "id": "72",
-          "properties": { "name": "Puerto Rico" }
-        },
-        {
-          "type": "MultiPolygon",
-          "arcs": [[[400]], [[401]], [[402]]],
-          "id": "78",
-          "properties": { "name": "United States Virgin Islands" }
         },
         {
           "type": "Polygon",

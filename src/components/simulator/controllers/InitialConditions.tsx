@@ -1,16 +1,45 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, NumberInput, Button } from "@chakra-ui/react";
+import { Box, Button, useToast } from "@chakra-ui/react";
 import React, { useContext, useState, useEffect } from "react";
 
 import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
-import { SimulationSetted } from "context/SimulationContext";
+import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
 
 const InitialConditions = () => {
+  const toast = useToast();
   const { initialConditions, setInitialConditions } = useContext(ControlPanel);
-  const { setSimulation, idSimulationUpdating, setIdSimulationUpdating } =
-    useContext(SimulationSetted);
+  const {
+    simulation,
+    setSimulation,
+    idSimulationUpdating,
+    setIdSimulationUpdating,
+  } = useContext(SimulationSetted);
+  const [models, setModels] = useState(false);
   const { population, R, I, I_d, I_ac, E } = initialConditions;
+  const { idModel } =
+    simulation.find(
+      ({ idSim }: SimulatorParams) => idSim === idSimulationUpdating
+    ) ?? {};
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.localStorage.getItem("models") &&
+      idModel
+    ) {
+      const dataLocalStorageModel = JSON.parse(
+        window.localStorage.getItem("models")
+      );
+      const {
+        parameters: { name },
+      } = dataLocalStorageModel.find((dl) => dl.id === idModel);
+      if (name === "SEIR") setModels(true);
+    }
+  }, [idModel]);
+
+  // const {
+  //   parameters: { name },
+  // } = paramsModel.find(({ id }: DataParameters) => id === idModel);
   return (
     <>
       <Box>
@@ -55,17 +84,20 @@ const InitialConditions = () => {
           isInitialParameters
         />
       </Box>
+
       <Box>
         <NumberInputEpi
-          value={E}
+          value={models ? E : 0}
           setValue={setInitialConditions}
           min={0}
           max={Infinity}
           nameParams="E"
           type="number"
-          isInitialParameters
+          isInitialParameters={!!models}
+          isDisabled={!models}
         />
       </Box>
+
       <Box>
         <NumberInputEpi
           value={I_ac}
@@ -86,6 +118,14 @@ const InitialConditions = () => {
             id: idSimulationUpdating,
           });
           setIdSimulationUpdating({ type: "set", payload: 0 });
+          toast({
+            position: "bottom-left",
+            title: "Updated success",
+            description: "Updating Initial conditions was success",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
         }}
       >
         Update

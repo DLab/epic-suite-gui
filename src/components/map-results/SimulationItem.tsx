@@ -4,6 +4,7 @@ import { useState, useEffect, useContext, useCallback } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 import {
   OptionFeature,
   SimulationSetted,
@@ -19,6 +20,8 @@ const RealConditions = "real-conditions";
 // eslint-disable-next-line complexity
 const SimulationItem = ({ idSimulation }: Props) => {
   const { parameters } = useContext(ModelsSaved);
+  const { geoSelections: geoSelectionsElementsContext } =
+    useContext(SelectFeature);
   const { setInitialConditions: setInitialConditionsContext } =
     useContext(ControlPanel);
   const { simulation, setIdSimulationUpdating, setSimulation } =
@@ -48,7 +51,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
       const dataLocalStorageGeo = window.localStorage.getItem("geoSelection");
       setGeoSelection(JSON.parse(dataLocalStorageGeo));
     }
-  }, [parameters]);
+  }, [parameters, geoSelectionsElementsContext]);
 
   useEffect(() => {
     setInitialConditions(null);
@@ -61,7 +64,9 @@ const SimulationItem = ({ idSimulation }: Props) => {
   }, [idSimulation, simulation]);
   const getDefaultValueParameters = useCallback(
     (field) => {
-      return simulation.find((sim) => sim.idSim === idSimulation)[field];
+      return simulation.find(
+        ({ idSim }: SimulatorParams) => idSim === idSimulation
+      )[field];
     },
     [simulation, idSimulation]
   );
@@ -147,9 +152,25 @@ const SimulationItem = ({ idSimulation }: Props) => {
       return false;
     }
     if (method === "POST")
-      postData(url, spatialSelection).then((e) => {
-        setInitialConditions(e);
-        selectSimulation(e, "initialConditions");
+      postData(url, spatialSelection).then((data) => {
+        const { idModel } = simulation.find((s) => s.idSim === idSimulation);
+        const { name } = models.find((m) => m.id === idModel).parameters;
+        if (name !== "SEIR") {
+          setInitialConditions({
+            ...data,
+            E: 0,
+          });
+          selectSimulation(
+            {
+              ...data,
+              E: 0,
+            },
+            "initialConditions"
+          );
+        } else {
+          setInitialConditions(data);
+          selectSimulation(data, "initialConditions");
+        }
       });
     return false;
   };
