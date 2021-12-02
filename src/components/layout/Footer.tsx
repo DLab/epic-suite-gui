@@ -13,7 +13,9 @@ export default function Footer() {
         align={{ base: "center", md: "center" }}
         maxHeight="8vh"
       >
-        <Text>© 2020 Chakra Templates. All rights reserved</Text>
+        <Text>
+          Laboratorio de Biología Computacional, Fundación Ciencia & Vida
+        </Text>
       </Container>
     </Box>
   );
