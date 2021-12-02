@@ -16,8 +16,13 @@ import React from "react";
 
 import SeeGraphicIcon from "../../icons/SeeGraphIcon";
 
+interface SimulationKeys {
+  name: string;
+  keys: [];
+}
+
 interface Props {
-  graphicData: string[];
+  savedKeys?: SimulationKeys[];
 }
 
 const Graphic = dynamic(() => import("./Graphic"), {
@@ -35,7 +40,7 @@ const Graphic = dynamic(() => import("./Graphic"), {
   ssr: false,
 });
 
-const SeeGraphic = ({ graphicData }: Props) => {
+const SeeGraphic = ({ savedKeys }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -45,26 +50,31 @@ const SeeGraphic = ({ graphicData }: Props) => {
         cursor="pointer"
         fontSize="1.4rem"
       />
+      {savedKeys.map(() => {
+        return (
+          <>
+            <Modal isOpen={isOpen} onClose={onClose} size="xl">
+              <ModalOverlay />
+              <ModalContent>
+                <ModalCloseButton />
+                <ModalBody>
+                  <Graphic
+                    savedSimulationKeys={savedKeys}
+                    width="500"
+                    height="340"
+                  />
+                </ModalBody>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalBody>
-            <Graphic
-              savedSimulationKeys={graphicData}
-              width="500"
-              height="340"
-            />
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+                <ModalFooter>
+                  <Button colorScheme="blue" mr={3} onClick={onClose}>
+                    Close
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </>
+        );
+      })}
     </>
   );
 };

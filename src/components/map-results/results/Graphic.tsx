@@ -9,7 +9,7 @@ interface Ref {
 }
 
 interface Props {
-  savedSimulationKeys: Ref[];
+  savedSimulationKeys?: Ref[];
   width: string;
   height: string;
 }

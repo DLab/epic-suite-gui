@@ -232,9 +232,9 @@ const Results = () => {
           {allGraphicData.map((graphicData, index) => {
             return (
               <Box w="320px">
-                {/* <Flex justify="end">
+                <Flex justify="end">
                   {" "}
-                  <SeeGraphic graphicData={graphicData.keys} />
+                  <SeeGraphic savedKeys={graphicData} />
                   <DeleteIcon
                     color="#16609E"
                     ml="2%"
@@ -251,7 +251,7 @@ const Results = () => {
                   >
                     Delete
                   </DeleteIcon>
-                </Flex> */}
+                </Flex>
                 <Graphic
                   savedSimulationKeys={graphicData}
                   width="320"
