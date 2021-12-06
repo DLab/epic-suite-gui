@@ -24,3 +24,13 @@
 tbody > tr:last-child td {
   border-bottom: none;
 }
+.js-plotly-plot .plotly .modebar {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.js-plotly-plot .plotly .modebar--hover > :not(.watermark) {
+  display: flex;
+}
+.js-plotly-plot .plotly .modebar {
+  width: 100%;
+}
