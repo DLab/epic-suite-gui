@@ -1,4 +1,4 @@
-import { DeleteIcon, SmallAddIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -15,6 +15,7 @@ import {
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 
+import Exports from "./Exports";
 import SeeGraphic from "./SeeGraphic";
 
 interface Ref {
@@ -276,23 +277,7 @@ const Results = () => {
             <Text> There are no graphics to show.</Text>
           </Flex>
         )}
-
-        <Flex
-          direction="column"
-          alignItems="center"
-          borderTop="1px solid #a7a1a1d6"
-          m="0 5%"
-        >
-          <Text mt="1%">Exports</Text>
-          <Flex w="100%" justify="space-around">
-            <Button colorScheme="teal" size="md" mt="20px">
-              CSV
-            </Button>
-            <Button colorScheme="teal" size="md" mt="20px">
-              JSON
-            </Button>
-          </Flex>
-        </Flex>
+        <Exports />
       </Flex>
     </Flex>
   );

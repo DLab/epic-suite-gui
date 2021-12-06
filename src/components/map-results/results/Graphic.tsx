@@ -57,11 +57,20 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
         height: parseInt(height, 10),
         title: `Graphic ${index + 1}`,
         xaxis: {
+          title: {
+            text: "Time",
+          },
           autorange: true,
         },
         yaxis: {
+          title: {
+            text: "Population",
+          },
           autorange: true,
         },
+      }}
+      config={{
+        editable: true,
       }}
     />
   );

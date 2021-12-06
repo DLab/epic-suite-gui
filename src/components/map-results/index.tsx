@@ -14,7 +14,6 @@ import { useContext } from "react";
 
 import { TabIndex } from "context/TabContext";
 
-import Exports from "./Exports";
 import GraphTab from "./GraphTab";
 import ModelsTab from "./ModelsTab";
 import Results from "./results/Results";
@@ -51,7 +50,6 @@ const MapResult = () => {
         <Tab id="graph">Graph</Tab>
         <Tab id="simulationTab">Simulation</Tab>
         <Tab id="results">Results</Tab>
-        <Tab id="exports">Exports</Tab>
       </TabList>
       <TabPanels>
         <TabPanel maxHeight="77vh" height="77vh" bg="#FAFAFA" overflowY="auto">
@@ -85,13 +83,6 @@ const MapResult = () => {
           <Flex h="100%">
             <Center w="100%">
               <Results />
-            </Center>
-          </Flex>
-        </TabPanel>
-        <TabPanel maxHeight="77vh" height="77vh">
-          <Flex h="100%">
-            <Center w="100%" bg="blue.500">
-              <Exports />
             </Center>
           </Flex>
         </TabPanel>
