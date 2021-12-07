@@ -1,7 +1,25 @@
-import { Flex, Button, Text } from "@chakra-ui/react";
-import React from "react";
+import { Flex, Button, Text, Link } from "@chakra-ui/react";
+import { Parser } from "json2csv";
+import React, { useState, useEffect } from "react";
 
-const Exports = () => {
+interface Props {
+  data: string;
+}
+
+const Exports = ({ data }: Props) => {
+  const [simulationKeys, setSimulationKeys] = useState("");
+  const [csvContent, setCsvContent] = useState("");
+
+  useEffect(() => {
+    const graphicData = data ? JSON.parse(data) : "";
+    if (graphicData) {
+      const json2csvParser = new Parser();
+      const csv = json2csvParser.parse(graphicData);
+      setSimulationKeys(graphicData);
+      setCsvContent(csv);
+    }
+  }, [data]);
+
   return (
     <Flex
       direction="column"
@@ -12,10 +30,24 @@ const Exports = () => {
       <Text mt="1%">Exports</Text>
       <Flex w="100%" justify="space-around">
         <Button colorScheme="teal" size="md" mt="20px">
-          CSV
+          <Link
+            download="simulation.csv"
+            href={`data:text/json;charset=utf-8,${encodeURIComponent(
+              csvContent
+            )}`}
+          >
+            CSV
+          </Link>
         </Button>
         <Button colorScheme="teal" size="md" mt="20px">
-          JSON
+          <Link
+            download="simulation.json"
+            href={`data:text/json;charset=utf-8,${encodeURIComponent(
+              JSON.stringify(simulationKeys)
+            )}`}
+          >
+            JSON
+          </Link>
         </Button>
       </Flex>
     </Flex>

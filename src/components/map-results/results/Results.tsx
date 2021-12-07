@@ -11,7 +11,9 @@ import {
   AccordionIcon,
   Spinner,
   Checkbox,
+  Link,
 } from "@chakra-ui/react";
+// import FileSaver from "file-saver";
 import dynamic from "next/dynamic";
 import { useState, useEffect, useContext } from "react";
 
@@ -186,7 +188,7 @@ const Results = () => {
                           <AccordionPanel pb={4}>
                             <Flex flexWrap="wrap">
                               {Object.keys(simulation).map((key) => {
-                                if (!model.includes(key)) {
+                                if (!model.includes(key) && key !== "name") {
                                   return (
                                     <Checkbox
                                       size="sm"
@@ -278,7 +280,7 @@ const Results = () => {
                 <Text> There are no graphics to show.</Text>
               </Flex>
             )}
-            <Exports />
+            <Exports data={responseSim} />
           </Flex>
         </>
       ) : (
