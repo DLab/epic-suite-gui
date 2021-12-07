@@ -145,16 +145,24 @@ const SimulationItem = ({ idSimulation }: Props) => {
     if (!body) {
       return false;
     }
-    const spatialSelection = geoSelection.find(
+    const { featureSelected: spatialSelection, scale } = geoSelection.find(
       (element) => element.id === body
-    ).featureSelected;
+    );
     if (!spatialSelection) {
       return false;
     }
+    const { idModel } = simulation.find((s) => s.idSim === idSimulation);
+    const { name, t_init: timeInit } = models.find(
+      (m) => m.id === idModel
+    ).parameters;
+    const configCalcInitialConditions = {
+      compartments: name,
+      timeInit,
+      scale,
+      spatialSelection,
+    };
     if (method === "POST")
-      postData(url, spatialSelection).then((data) => {
-        const { idModel } = simulation.find((s) => s.idSim === idSimulation);
-        const { name } = models.find((m) => m.id === idModel).parameters;
+      postData(url, configCalcInitialConditions).then((data) => {
         if (name !== "SEIR") {
           setInitialConditions({
             ...data,

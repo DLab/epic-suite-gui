@@ -5,9 +5,12 @@ import { useContext, useState, useEffect } from "react";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
+import { TabIndex } from "context/TabContext";
+import data from "data/SEIRresults.json";
 
 const RunSimulatorButton = () => {
   const toast = useToast();
+  const { aux, setAux, setIndex } = useContext(TabIndex);
   const { simulation } = useContext(SimulationSetted);
   const { parameters } = useContext(ModelsSaved);
   const { geoSelections: geoSelectionsElementsContext } =
@@ -116,8 +119,10 @@ const RunSimulatorButton = () => {
       const toml = TOML.stringify(obj);
       if (simulationsSelected.length > 0) {
         setisSimulating(true);
+        setAux(JSON.stringify(data));
         setTimeout(() => {
           setisSimulating(false);
+          setIndex(4);
         }, 6000);
       }
     }
