@@ -32,6 +32,7 @@
     "@types/topojson-specification": "^1.0.2",
     "chakra-react-select": "^1.2.2",
     "framer-motion": "^4.1.17",
+    "json2csv": "^5.0.6",
     "leaflet": "^1.7.1",
     "next": "^11.1.2",
     "next-pwa": "^5.3.1",

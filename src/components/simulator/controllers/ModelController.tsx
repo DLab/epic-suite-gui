@@ -131,7 +131,7 @@ const ModelController = () => {
         value={parameters.pI_det}
         setValue={setParameters}
         nameParams="pI_det"
-        step={1}
+        step={0.01}
         min={0.01}
         max={1}
         type="slider"

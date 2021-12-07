@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
-// import data from "data/SEIRresults.json";
 import { TabIndex } from "context/TabContext";
 
 interface Ref {
