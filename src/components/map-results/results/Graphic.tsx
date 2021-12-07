@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
-import data from "data/SEIRresults.json";
+// import data from "data/SEIRresults.json";
+import { TabIndex } from "context/TabContext";
 
 interface Ref {
   name: string;
@@ -17,7 +18,8 @@ interface Props {
 
 const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
   const [axios, setAxios] = useState([]);
-
+  const { aux } = useContext(TabIndex);
+  const data = JSON.parse(aux);
   const graphSimulation = () => {
     return savedSimulationKeys.map((simKey) => {
       const simKeyFilter = data.filter((sim) => {
