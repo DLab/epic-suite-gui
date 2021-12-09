@@ -1,5 +1,4 @@
 import { Button, Spinner, Text, useToast } from "@chakra-ui/react";
-import TOML from "@iarna/toml";
 import { useContext, useState, useEffect } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
@@ -65,7 +64,7 @@ const RunSimulatorButton = () => {
     }
     if (simulation.length > 0 && verifyNotEmptySimulations(simulation)) {
       // build object simulation template for toml
-      const simulationsSelected = simulation.map((e) => {
+      const simulationsSelected = simulation.map((e, i) => {
         const { parameters: modelParameters } = models.find(
           (m) => m.id === e.idModel
         );
@@ -89,7 +88,6 @@ const RunSimulatorButton = () => {
             healthservice: "",
             loc_name: "",
           },
-          scale,
           parameters: {
             static: {
               t_init: modelParameters.t_init,
@@ -109,14 +107,13 @@ const RunSimulatorButton = () => {
           initialconditions: e.initialConditions,
         };
       });
-      // simulations obj
-      const obj = {
-        title: "Example of a SEIR Configuration File",
-        date: "2021-04-20",
-        user: "Samuel",
-        simulation: simulationsSelected,
-      };
-      const toml = TOML.stringify(obj);
+      const objConfig = simulationsSelected.reduce((acc, it, i) => {
+        return {
+          ...acc,
+          [`sim${i + 1}`]: it,
+        };
+      }, {});
+      // console.log(objConfig);
       if (simulationsSelected.length > 0) {
         setisSimulating(true);
         setAux(JSON.stringify(data));

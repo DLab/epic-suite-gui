@@ -5,7 +5,7 @@ export enum OptionFeature {
   Graph = "Graph",
   Geographic = "Geographic",
 }
-interface InitialConditions {
+export interface InitialConditions {
   population: number;
   R: number;
   I: number;

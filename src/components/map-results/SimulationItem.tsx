@@ -11,6 +11,7 @@ import {
   SimulatorParams,
 } from "context/SimulationContext";
 import { postData } from "utils/fetchData";
+import reducerValuesObjects from "utils/reducerValuesObject";
 
 interface Props {
   idSimulation: number;
@@ -141,7 +142,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
       id: idSimulation,
     });
   };
-  const handleFetch = (url, method, body) => {
+  const handleFetch = async (url, method, body) => {
     if (!body) {
       return false;
     }
@@ -157,29 +158,32 @@ const SimulationItem = ({ idSimulation }: Props) => {
     ).parameters;
     const configCalcInitialConditions = {
       compartments: name,
-      timeInit,
+      timeInit: "2020-03-25",
       scale,
       spatialSelection,
     };
-    if (method === "POST")
-      postData(url, configCalcInitialConditions).then((data) => {
-        if (name !== "SEIR") {
-          setInitialConditions({
+    if (method === "POST") {
+      const data = await postData(url, configCalcInitialConditions);
+      // console.log("error?", data);
+
+      if (name !== "SEIR") {
+        setInitialConditions({
+          ...data,
+          E: 0,
+        });
+        selectSimulation(
+          {
             ...data,
             E: 0,
-          });
-          selectSimulation(
-            {
-              ...data,
-              E: 0,
-            },
-            "initialConditions"
-          );
-        } else {
-          setInitialConditions(data);
-          selectSimulation(data, "initialConditions");
-        }
-      });
+          },
+          "initialConditions"
+        );
+      } else {
+        setInitialConditions(data);
+        selectSimulation(data, "initialConditions");
+      }
+    }
+
     return false;
   };
   return (
@@ -261,7 +265,11 @@ const SimulationItem = ({ idSimulation }: Props) => {
             setIdGeoSelection(+e.target.value);
             setIdGraph(+e.target.value);
             if (optionFeature === OptionFeature.Geographic) {
-              handleFetch("/api/parameters", "POST", +e.target.value);
+              handleFetch(
+                "http://192.168.2.216:5000/initCond",
+                "POST",
+                +e.target.value
+              );
             }
             selectSimulation(
               +e.target.value,
@@ -333,7 +341,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
               }
             }}
           >
-            {initialConditions ? (
+            {reducerValuesObjects(initialConditions) > 0 ? (
               "Update Conditions"
             ) : (
               <Spinner
@@ -341,7 +349,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
                 speed="0.65s"
                 emptyColor="gray.200"
                 color="blue.500"
-                size="xl"
+                size="md"
               />
             )}
           </Button>
