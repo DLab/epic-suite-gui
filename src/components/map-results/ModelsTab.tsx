@@ -150,7 +150,7 @@ const ModelsTab = () => {
         </Flex>
       ) : (
         <Flex color="#858585" justify="center" fontSize="24px" mt="15%">
-          <Text>There is not models added</Text>
+          <Text>There are no models added</Text>
         </Flex>
       )}
     </>

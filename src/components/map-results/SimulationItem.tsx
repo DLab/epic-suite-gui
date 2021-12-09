@@ -1,5 +1,7 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import { Tr, Td, Icon, Select, Button, Spinner } from "@chakra-ui/react";
+import moment from "moment";
+// import { format, addDays } from "date-fns";
 import { useState, useEffect, useContext, useCallback } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
@@ -156,9 +158,13 @@ const SimulationItem = ({ idSimulation }: Props) => {
     const { name, t_init: timeInit } = models.find(
       (m) => m.id === idModel
     ).parameters;
+
+    const getDateInit = () => {
+      return moment("2020-1-22").add(timeInit, "day").format("YYYY-MM-D");
+    };
     const configCalcInitialConditions = {
       compartments: name,
-      timeInit,
+      timeInit: getDateInit(),
       scale,
       spatialSelection,
     };
