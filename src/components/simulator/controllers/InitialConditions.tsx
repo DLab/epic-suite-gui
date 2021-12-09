@@ -120,8 +120,8 @@ const InitialConditions = () => {
           setIdSimulationUpdating({ type: "set", payload: 0 });
           toast({
             position: "bottom-left",
-            title: "Updated success",
-            description: "Updating Initial conditions was success",
+            title: "Updated successful",
+            description: "Updating Initial conditions was successful",
             status: "success",
             duration: 3000,
             isClosable: true,
