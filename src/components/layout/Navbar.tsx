@@ -102,15 +102,21 @@ export default function Navbar() {
           <ModalHeader>About</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Stack direction="row" boxSize="150px" objectFit="cover" mb="10">
-              <Image src="/dlab.png" alt="Logo dlab" />
-              <Image src="/fundacion.png" alt="Logo Fundación Ciencia y Vida" />
-            </Stack>
             <Text as="i" color="gray.600">
               EPIc Suite is an open source application developed by the
               Computational BiologyLaboratory of Fundacion Ciencia & Vida, which
               is funded by the AFOSR project N° FA9550-20-1-0196.
             </Text>
+            <Flex mt="8" justify="space-between" maxW="100%">
+              <Image src="/dlab.png" alt="Logo dlab" w="32%" h="fit-content" />
+              <Image
+                src="/fundacion.png"
+                alt="Logo Fundación Ciencia y Vida"
+                w="32%"
+                h="fit-content"
+              />
+              <Image src="/afosr.png" alt="Logo dlab" w="25%" h="fit-content" />
+            </Flex>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onCloseModal}>
