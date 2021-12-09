@@ -1,21 +1,13 @@
-import axios from "axios";
-
 export const getData = async (url) => {
   const res = await fetch(url);
   return res.json();
 };
 export const postData = async (url, body) => {
-  try {
-    const data = await axios.post(url, body, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        // eslint-disable-next-line prettier/prettier
-        mode: "no-cors",
-      },
-    });
-    return data.data;
-  } catch (error) {
-    // console.log("fetchData", error);
-    return error;
-  }
+  const res = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  // eslint-disable-next-line sonarjs/prefer-immediate-return
+  const asdf = await res.json();
+  return asdf;
 };

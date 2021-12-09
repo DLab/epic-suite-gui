@@ -158,14 +158,12 @@ const SimulationItem = ({ idSimulation }: Props) => {
     ).parameters;
     const configCalcInitialConditions = {
       compartments: name,
-      timeInit: "2020-03-25",
+      timeInit,
       scale,
       spatialSelection,
     };
     if (method === "POST") {
       const data = await postData(url, configCalcInitialConditions);
-      // console.log("error?", data);
-
       if (name !== "SEIR") {
         setInitialConditions({
           ...data,
