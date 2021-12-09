@@ -14,9 +14,14 @@ interface Props {
 
 const AcordionContent = ({ title, children }: Props) => {
   return (
-    <AccordionItem id={title} bg="#16609E" mb="30px">
+    <AccordionItem id={title} mb="30px">
       <h2>
-        <AccordionButton color="white">
+        <AccordionButton
+          bg="#16609E"
+          color="white"
+          _hover={{ backgroundColor: "#16609E" }}
+          _focus={{ boxShadow: "none" }}
+        >
           <Box flex="1" textAlign="left">
             {title}
           </Box>

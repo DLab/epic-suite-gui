@@ -65,6 +65,7 @@ const ModelController = () => {
             max={Infinity}
             nameParams="t_init"
             type="number"
+            isInitialParameters
           />
         </Box>
         <Box>
@@ -77,6 +78,7 @@ const ModelController = () => {
             max={Infinity}
             nameParams="t_end"
             type="number"
+            isInitialParameters
           />
         </Box>
       </Flex>
@@ -95,7 +97,7 @@ const ModelController = () => {
         value={parameters.beta}
         setValue={setParameters}
         nameParams="beta"
-        step={0.001}
+        step={0.01}
         min={0.01}
         max={0.5}
         type="slider"
@@ -105,6 +107,7 @@ const ModelController = () => {
         setValue={setParameters}
         nameParams="r_R_S"
         type="number"
+        isInitialParameters
       />
       <NumberInputEpi
         value={parameters.mu}
@@ -112,7 +115,7 @@ const ModelController = () => {
         nameParams="mu"
         step={0.01}
         min={0.01}
-        max={20}
+        max={5}
         type="slider"
       />
       <NumberInputEpi
@@ -120,18 +123,20 @@ const ModelController = () => {
         setValue={setParameters}
         nameParams="tI_R"
         type="number"
+        isInitialParameters
       />
       <NumberInputEpi
         value={parameters.tE_I}
         setValue={setParameters}
         nameParams="tE_I"
         type="number"
+        isInitialParameters
       />
       <NumberInputEpi
         value={parameters.pI_det}
         setValue={setParameters}
         nameParams="pI_det"
-        step={1}
+        step={0.01}
         min={0.01}
         max={1}
         type="slider"
