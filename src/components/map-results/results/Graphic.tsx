@@ -57,7 +57,7 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
         width: +width,
         height: +height,
         title: `Graphic ${index + 1}`,
-        legend: { xanchor: "end", x: 0.5, y: 1 },
+        legend: { xanchor: "end", x: 20, y: 1 },
         xaxis: {
           title: {
             text: "Time",
