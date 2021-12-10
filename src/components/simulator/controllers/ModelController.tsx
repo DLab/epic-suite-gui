@@ -72,9 +72,7 @@ const ModelController = () => {
           <NumberInputEpi
             value={t_end}
             setValue={setParameters}
-            min={
-              typeof t_init === "string" ? parseInt(t_init, 10) + 1 : t_init + 1
-            }
+            min={1}
             max={Infinity}
             nameParams="t_end"
             type="number"

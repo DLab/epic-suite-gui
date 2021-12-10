@@ -5,7 +5,6 @@ import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
-// import data from "data/SEIRresults.json";
 import { postData } from "utils/fetchData";
 
 const RunSimulatorButton = () => {
@@ -42,28 +41,15 @@ const RunSimulatorButton = () => {
     );
   };
   const handleJsonToToml = async () => {
-    if (!verifyNotEmptySimulations(simulation)) {
-      toast({
-        position: "bottom-left",
-        title: "Simulation failed",
-        description:
-          "There is a simulation model with incomplete parameters. \n Check your simulations!",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
-    if (simulation.length < 1) {
-      toast({
-        position: "bottom-left",
-        title: "Simulation failed",
-        description: "You must add a simulation at least",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
-    if (simulation.length > 0 && verifyNotEmptySimulations(simulation)) {
+    try {
+      if (!verifyNotEmptySimulations(simulation)) {
+        throw new Error(
+          "There is a simulation model with incomplete parameters. \n Check your simulations!"
+        );
+      }
+      if (simulation.length < 1) {
+        throw new Error("You must add a simulation at least");
+      }
       // build object simulation template for toml
       const simulationsSelected = simulation.map((e, i) => {
         const { parameters: modelParameters } = models.find(
@@ -102,7 +88,7 @@ const RunSimulatorButton = () => {
               alpha: modelParameters.alfa,
               tE_I: modelParameters.tE_I,
               tI_R: modelParameters.tI_R,
-              rR_S: 0,
+              rR_S: modelParameters.r_R_S,
             },
           },
           initialconditions: {
@@ -121,30 +107,40 @@ const RunSimulatorButton = () => {
           [`sim${i + 1}`]: it,
         };
       }, {});
-      // descomentar en la mañana para seguir trabaja
-      // try {
-      //   if (simulationsSelected.length > 0) {
-      //     const datas = await postData(
-      //       "http://192.168.2.131:5003/simulate",
-      //       objConfig
-      //     );
-      //     const val = Object.values(datas.results);
-      //     const keys = Object.keys(datas.results);
-
-      //     const data = val
-      //       .map((e) => JSON.parse(e))
-      //       .map((o, i) => ({
-      //         name: keys[i],
-      //         ...o,
-      //       }));
-      //     setisSimulating(true);
-      //     setAux(JSON.stringify(data));
-      //     setIndex(4);
-      //   }
-      // } catch (error) {
-      //   // eslint-disable-next-line no-console
-      //   console.log(error);
-      // }
+      if (simulationsSelected.length > 0) {
+        const datas = await postData(
+          "http://192.168.2.131:5003/simulate",
+          objConfig
+        );
+        const val = Object.values(datas.results);
+        const keys = Object.keys(datas.results);
+        const data = val
+          .map((simString: string) => JSON.parse(simString))
+          .map((sim, i) => ({
+            name: keys[i],
+            ...sim,
+          }));
+        setisSimulating(true);
+        setAux(JSON.stringify(data));
+        setIndex(4);
+      }
+      toast({
+        position: "bottom-left",
+        title: "Simulation success",
+        description: "Your simulation was completed successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        position: "bottom-left",
+        title: "Simulation failed",
+        description: `${error.message}`,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
