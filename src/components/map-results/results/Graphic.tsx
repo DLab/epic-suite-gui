@@ -54,14 +54,8 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
     <Plot
       data={axios}
       layout={{
-        width: parseInt(width, 10),
-        height: parseInt(height, 10),
-        margin: {
-          l: 65,
-          r: 50,
-          b: 70,
-          t: 60,
-        },
+        width: +width,
+        height: +height,
         title: `Graphic ${index + 1}`,
         legend: { xanchor: "end", x: 0.5, y: 1 },
         xaxis: {

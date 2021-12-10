@@ -1,7 +1,14 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Tr, Td, Icon, Select, Button, Spinner } from "@chakra-ui/react";
+import {
+  Tr,
+  Td,
+  Icon,
+  Select,
+  Button,
+  Spinner,
+  useToast,
+} from "@chakra-ui/react";
 import moment from "moment";
-// import { format, addDays } from "date-fns";
 import { useState, useEffect, useContext, useCallback } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
@@ -13,6 +20,7 @@ import {
   SimulatorParams,
 } from "context/SimulationContext";
 import { postData } from "utils/fetchData";
+import reducerValuesObjects from "utils/reducerValuesObject";
 
 interface Props {
   idSimulation: number;
@@ -21,6 +29,7 @@ const RealConditions = "real-conditions";
 
 // eslint-disable-next-line complexity
 const SimulationItem = ({ idSimulation }: Props) => {
+  const toast = useToast();
   const { parameters } = useContext(ModelsSaved);
   const { geoSelections: geoSelectionsElementsContext } =
     useContext(SelectFeature);
@@ -143,50 +152,107 @@ const SimulationItem = ({ idSimulation }: Props) => {
       id: idSimulation,
     });
   };
-  const handleFetch = (url, method, body) => {
-    if (!body) {
-      return false;
-    }
-    const { featureSelected: spatialSelection, scale } = geoSelection.find(
-      (element) => element.id === body
-    );
-    if (!spatialSelection) {
-      return false;
-    }
-    const { idModel } = simulation.find((s) => s.idSim === idSimulation);
-    const { name, t_init: timeInit } = models.find(
-      (m) => m.id === idModel
-    ).parameters;
+  const handleFetch = async (url, method, body) => {
+    try {
+      if (!body) {
+        throw new Error("There's no geographics areas selected");
+      }
+      const { featureSelected: spatialSelection, scale } = geoSelection.find(
+        (element) => element.id === body
+      );
+      if (!spatialSelection) {
+        throw new Error(
+          "Spatial selection hasn't states or counties selected. \n Check it before set initial conditions"
+        );
+      }
+      const { idModel } = simulation.find((s) => s.idSim === idSimulation);
+      const { name, t_init: timeInit } = models.find(
+        (m) => m.id === idModel
+      ).parameters;
 
-    const getDateInit = () => {
-      return moment("2020-1-22").add(timeInit, "day").format("YYYY-MM-D");
-    };
-    const configCalcInitialConditions = {
-      compartments: name,
-      timeInit: getDateInit(),
-      scale,
-      spatialSelection,
-    };
-    if (method === "POST")
-      postData(url, configCalcInitialConditions).then((data) => {
+      const getDateInit = () => {
+        return moment("2020-01-22").add(timeInit, "day").format("YYYY-MM-D");
+      };
+      const configCalcInitialConditions = {
+        compartments: name,
+        timeInit: getDateInit(),
+        scale,
+        spatialSelection,
+      };
+      if (method === "POST") {
+        const {
+          E,
+          I,
+          I_new: daily,
+          I_acum: acum,
+          R,
+          population,
+        } = await postData(url, configCalcInitialConditions);
         if (name !== "SEIR") {
           setInitialConditions({
-            ...data,
+            I,
+            I_d: daily,
+            I_ac: acum,
+            population,
+            R,
             E: 0,
           });
           selectSimulation(
             {
-              ...data,
+              I,
+              I_d: daily,
+              I_ac: acum,
+              population,
+              R,
               E: 0,
             },
             "initialConditions"
           );
         } else {
-          setInitialConditions(data);
-          selectSimulation(data, "initialConditions");
+          setInitialConditions({
+            I,
+            I_d: daily,
+            I_ac: acum,
+            population,
+            R,
+            E,
+          });
+          selectSimulation(
+            {
+              I,
+              I_d: daily,
+              I_ac: acum,
+              population,
+              R,
+              E,
+            },
+            "initialConditions"
+          );
         }
+      }
+    } catch (error) {
+      setIdGeoSelection(0);
+      setIdSimulationUpdating({ type: "set", payload: 0 });
+      setInitialConditionsContext({
+        type: RealConditions,
+        real: {
+          population: 0,
+          R: 0,
+          I: 0,
+          I_d: 0,
+          I_ac: 0,
+          E: 0,
+        },
       });
-    return false;
+      toast({
+        position: "bottom-left",
+        title: "Error",
+        description: `${error.message}`,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
   return (
     <Tr>
@@ -267,7 +333,11 @@ const SimulationItem = ({ idSimulation }: Props) => {
             setIdGeoSelection(+e.target.value);
             setIdGraph(+e.target.value);
             if (optionFeature === OptionFeature.Geographic) {
-              handleFetch("/api/parameters", "POST", +e.target.value);
+              handleFetch(
+                "http://192.168.2.216:5000/initCond",
+                "POST",
+                +e.target.value
+              );
             }
             selectSimulation(
               +e.target.value,
@@ -339,7 +409,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
               }
             }}
           >
-            {initialConditions ? (
+            {reducerValuesObjects(initialConditions) > 0 ? (
               "Update Conditions"
             ) : (
               <Spinner
@@ -347,7 +417,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
                 speed="0.65s"
                 emptyColor="gray.200"
                 color="blue.500"
-                size="xl"
+                size="md"
               />
             )}
           </Button>

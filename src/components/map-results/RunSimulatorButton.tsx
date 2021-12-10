@@ -1,12 +1,11 @@
 import { Button, Spinner, Text, useToast } from "@chakra-ui/react";
-import TOML from "@iarna/toml";
 import { useContext, useState, useEffect } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
-import data from "data/SEIRresults.json";
+import { postData } from "utils/fetchData";
 
 const RunSimulatorButton = () => {
   const toast = useToast();
@@ -41,31 +40,18 @@ const RunSimulatorButton = () => {
         (e.idGeo !== 0 || e.idGraph !== 0) && e.idModel !== 0
     );
   };
-  const handleJsonToToml = () => {
-    if (!verifyNotEmptySimulations(simulation)) {
-      toast({
-        position: "bottom-left",
-        title: "Simulation failed",
-        description:
-          "There is a simulation model with incomplete parameters. \n Check your simulations!",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
-    if (simulation.length < 1) {
-      toast({
-        position: "bottom-left",
-        title: "Simulation failed",
-        description: "You must add a simulation at least",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
-    if (simulation.length > 0 && verifyNotEmptySimulations(simulation)) {
+  const handleJsonToToml = async () => {
+    try {
+      if (!verifyNotEmptySimulations(simulation)) {
+        throw new Error(
+          "There is a simulation model with incomplete parameters. \n Check your simulations!"
+        );
+      }
+      if (simulation.length < 1) {
+        throw new Error("You must add a simulation at least");
+      }
       // build object simulation template for toml
-      const simulationsSelected = simulation.map((e) => {
+      const simulationsSelected = simulation.map((e, i) => {
         const { parameters: modelParameters } = models.find(
           (m) => m.id === e.idModel
         );
@@ -82,14 +68,13 @@ const RunSimulatorButton = () => {
           data: {
             datafile: false,
             importdata: false,
-            initdate: "",
+            initdate: "2020-03-22",
             country: "USA",
             state: scale === "States" ? featureSelected : "",
             county: scale === "Counties" ? featureSelected : "",
             healthservice: "",
             loc_name: "",
           },
-          scale,
           parameters: {
             static: {
               t_init: modelParameters.t_init,
@@ -100,33 +85,65 @@ const RunSimulatorButton = () => {
             },
             dynamic: {
               beta: modelParameters.beta,
-              alpha: modelParameters.alpha,
+              alpha: modelParameters.alfa,
               tE_I: modelParameters.tE_I,
               tI_R: modelParameters.tI_R,
-              rR_S: modelParameters.r_R_s,
+              rR_S: modelParameters.r_R_S,
             },
           },
-          initialconditions: e.initialConditions,
+          initialconditions: {
+            I: +e.initialConditions.I,
+            I_d: +e.initialConditions.I_d,
+            I_ac: +e.initialConditions.I_ac,
+            population: +e.initialConditions.population,
+            R: +e.initialConditions.R,
+            E: +e.initialConditions.E,
+          },
         };
       });
-      // simulations obj
-      const obj = {
-        title: "Example of a SEIR Configuration File",
-        date: "2021-04-20",
-        user: "Samuel",
-        simulation: simulationsSelected,
-      };
-      const toml = TOML.stringify(obj);
+      const objConfig = simulationsSelected.reduce((acc, it, i) => {
+        return {
+          ...acc,
+          [`sim${i + 1}`]: it,
+        };
+      }, {});
       if (simulationsSelected.length > 0) {
+        const datas = await postData(
+          "http://192.168.2.131:5003/simulate",
+          objConfig
+        );
+        const val = Object.values(datas.results);
+        const keys = Object.keys(datas.results);
+        const data = val
+          .map((simString: string) => JSON.parse(simString))
+          .map((sim, i) => ({
+            name: keys[i],
+            ...sim,
+          }));
         setisSimulating(true);
         setAux(JSON.stringify(data));
-        setTimeout(() => {
-          setisSimulating(false);
-          setIndex(4);
-        }, 6000);
+        setIndex(4);
       }
+      toast({
+        position: "bottom-left",
+        title: "Simulation success",
+        description: "Your simulation was completed successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        position: "bottom-left",
+        title: "Simulation failed",
+        description: `${error.message}`,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
+
   return (
     <>
       <Button

@@ -11,7 +11,7 @@ const InterventionsParameters = () => {
       setValue={setParameters}
       nameParams="alfa"
       step={0.01}
-      min={0}
+      min={0.01}
       max={1}
       type="slider"
     />
