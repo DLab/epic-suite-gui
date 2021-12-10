@@ -268,7 +268,7 @@ const Results = () => {
                       <Graphic
                         savedSimulationKeys={graphicData}
                         index={index}
-                        width="320"
+                        width="340"
                         height="240"
                       />
                     </Box>
