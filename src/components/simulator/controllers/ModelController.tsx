@@ -106,6 +106,7 @@ const ModelController = () => {
         value={parameters.r_R_S}
         setValue={setParameters}
         nameParams="r_R_S"
+        min={0}
         type="number"
         isInitialParameters
       />
@@ -123,6 +124,7 @@ const ModelController = () => {
         setValue={setParameters}
         nameParams="tI_R"
         type="number"
+        min={0.01}
         isInitialParameters
       />
       <NumberInputEpi
@@ -131,6 +133,7 @@ const ModelController = () => {
         nameParams="tE_I"
         type="number"
         isInitialParameters
+        min={0.01}
       />
       <NumberInputEpi
         value={parameters.pI_det}
