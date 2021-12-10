@@ -180,7 +180,7 @@ const Results = () => {
                           <h2>
                             <AccordionButton _focus={{ boxShadow: "none" }}>
                               <Box flex="1" textAlign="left">
-                                Parameters
+                                Other Data
                               </Box>
                               <AccordionIcon />
                             </AccordionButton>
