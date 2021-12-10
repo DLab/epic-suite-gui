@@ -52,11 +52,24 @@ const Results = () => {
   const { aux: responseSim } = useContext(TabIndex);
   const model = ["S", "E", "I", "R"];
 
+  const setInitialParameters = (data) => {
+    data.forEach((simulation) => {
+      Object.keys(simulation).forEach((key) => {
+        if (model.includes(key) && key !== "name") {
+          const id = `${key + simulation.name}`;
+          // console.log(id);
+        }
+      });
+    });
+  };
+
   useEffect(() => {
     const graphicData = responseSim ? JSON.parse(responseSim) : "";
     if (graphicData) {
       setSimulationKeys(graphicData);
     }
+    setInitialParameters(graphicData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseSim]);
 
   const saveKeys = (ischecked, id, value, name) => {
@@ -158,6 +171,7 @@ const Results = () => {
                                       m="2% 5%"
                                       id={`${key + simulation.name}`}
                                       value={key}
+                                      defaultIsChecked
                                       onChange={(e) => {
                                         saveKeys(
                                           e.target.checked,
