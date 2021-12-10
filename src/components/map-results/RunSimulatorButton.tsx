@@ -7,6 +7,8 @@ import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
 import { postData } from "utils/fetchData";
 
+const bottonLeft = "bottom-left";
+
 const RunSimulatorButton = () => {
   const toast = useToast();
   const { aux, setAux, setIndex } = useContext(TabIndex);
@@ -125,7 +127,7 @@ const RunSimulatorButton = () => {
         setIndex(4);
       }
       toast({
-        position: "bottom-left",
+        position: bottonLeft,
         title: "Simulation success",
         description: "Your simulation was completed successfully",
         status: "success",
@@ -133,14 +135,25 @@ const RunSimulatorButton = () => {
         isClosable: true,
       });
     } catch (error) {
-      toast({
-        position: "bottom-left",
-        title: "Simulation failed",
-        description: `${error.message}`,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      if (error.response.status === 400) {
+        toast({
+          position: bottonLeft,
+          title: "Simulation failed",
+          description: "Parameters are invalid. Check your models!",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          position: bottonLeft,
+          title: "Simulation failed",
+          description: `${error.message}`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
     }
   };
 
