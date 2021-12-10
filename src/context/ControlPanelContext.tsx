@@ -67,11 +67,11 @@ const initialState: EpidemicsData = {
   timestep: 0.01,
   pI_det: 0.01,
   beta: 0.01,
-  mu: 1,
+  mu: 0.01,
   r_R_S: 0.001,
-  alfa: 0,
-  tE_I: 0,
-  tI_R: 0,
+  alfa: 0.01,
+  tE_I: 0.01,
+  tI_R: 0.01,
 };
 const initialConditions: InitialConditions = {
   population: 0,
