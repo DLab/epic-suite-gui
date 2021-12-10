@@ -5,7 +5,8 @@ import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
-import data from "data/SEIRresults.json";
+// import data from "data/SEIRresults.json";
+import { postData } from "utils/fetchData";
 
 const RunSimulatorButton = () => {
   const toast = useToast();
@@ -40,7 +41,7 @@ const RunSimulatorButton = () => {
         (e.idGeo !== 0 || e.idGraph !== 0) && e.idModel !== 0
     );
   };
-  const handleJsonToToml = () => {
+  const handleJsonToToml = async () => {
     if (!verifyNotEmptySimulations(simulation)) {
       toast({
         position: "bottom-left",
@@ -81,7 +82,7 @@ const RunSimulatorButton = () => {
           data: {
             datafile: false,
             importdata: false,
-            initdate: "",
+            initdate: "2020-03-22",
             country: "USA",
             state: scale === "States" ? featureSelected : "",
             county: scale === "Counties" ? featureSelected : "",
@@ -98,13 +99,20 @@ const RunSimulatorButton = () => {
             },
             dynamic: {
               beta: modelParameters.beta,
-              alpha: modelParameters.alpha,
+              alpha: modelParameters.alfa,
               tE_I: modelParameters.tE_I,
               tI_R: modelParameters.tI_R,
-              rR_S: modelParameters.r_R_s,
+              rR_S: 0,
             },
           },
-          initialconditions: e.initialConditions,
+          initialconditions: {
+            I: +e.initialConditions.I,
+            I_d: +e.initialConditions.I_d,
+            I_ac: +e.initialConditions.I_ac,
+            population: +e.initialConditions.population,
+            R: +e.initialConditions.R,
+            E: +e.initialConditions.E,
+          },
         };
       });
       const objConfig = simulationsSelected.reduce((acc, it, i) => {
@@ -113,17 +121,33 @@ const RunSimulatorButton = () => {
           [`sim${i + 1}`]: it,
         };
       }, {});
-      // console.log(objConfig);
-      if (simulationsSelected.length > 0) {
-        setisSimulating(true);
-        setAux(JSON.stringify(data));
-        setTimeout(() => {
-          setisSimulating(false);
-          setIndex(4);
-        }, 6000);
-      }
+      // descomentar en la mañana para seguir trabaja
+      // try {
+      //   if (simulationsSelected.length > 0) {
+      //     const datas = await postData(
+      //       "http://192.168.2.131:5003/simulate",
+      //       objConfig
+      //     );
+      //     const val = Object.values(datas.results);
+      //     const keys = Object.keys(datas.results);
+
+      //     const data = val
+      //       .map((e) => JSON.parse(e))
+      //       .map((o, i) => ({
+      //         name: keys[i],
+      //         ...o,
+      //       }));
+      //     setisSimulating(true);
+      //     setAux(JSON.stringify(data));
+      //     setIndex(4);
+      //   }
+      // } catch (error) {
+      //   // eslint-disable-next-line no-console
+      //   console.log(error);
+      // }
     }
   };
+
   return (
     <>
       <Button

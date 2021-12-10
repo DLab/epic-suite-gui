@@ -1,7 +1,6 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import { Tr, Td, Icon, Select, Button, Spinner } from "@chakra-ui/react";
 import moment from "moment";
-// import { format, addDays } from "date-fns";
 import { useState, useEffect, useContext, useCallback } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
@@ -160,7 +159,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
     ).parameters;
 
     const getDateInit = () => {
-      return moment("2020-1-22").add(timeInit, "day").format("YYYY-MM-D");
+      return moment("2020-01-22").add(timeInit, "day").format("YYYY-MM-D");
     };
     const configCalcInitialConditions = {
       compartments: name,
@@ -169,22 +168,54 @@ const SimulationItem = ({ idSimulation }: Props) => {
       spatialSelection,
     };
     if (method === "POST") {
-      const data = await postData(url, configCalcInitialConditions);
+      const {
+        E,
+        I,
+        I_new: daily,
+        I_acum: acum,
+        R,
+        population,
+      } = await postData(url, configCalcInitialConditions);
       if (name !== "SEIR") {
         setInitialConditions({
-          ...data,
+          I,
+          I_d: daily,
+          I_ac: acum,
+          population,
+          R,
           E: 0,
         });
         selectSimulation(
           {
-            ...data,
+            I,
+            I_d: daily,
+            I_ac: acum,
+            population,
+            R,
             E: 0,
           },
           "initialConditions"
         );
       } else {
-        setInitialConditions(data);
-        selectSimulation(data, "initialConditions");
+        setInitialConditions({
+          I,
+          I_d: daily,
+          I_ac: acum,
+          population,
+          R,
+          E,
+        });
+        selectSimulation(
+          {
+            I,
+            I_d: daily,
+            I_ac: acum,
+            population,
+            R,
+            E,
+          },
+          "initialConditions"
+        );
       }
     }
 
