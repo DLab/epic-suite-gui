@@ -60,29 +60,6 @@ const Exports = ({ data }: Props) => {
           </Link>
         </MenuList>
       </Menu>
-      {/* <Text mt="1%">Exports</Text>
-      <Flex w="100%" justify="space-around">
-        <Button colorScheme="teal" size="md" mt="20px">
-          <Link
-            download="simulation.csv"
-            href={`data:text/json;charset=utf-8,${encodeURIComponent(
-              csvContent
-            )}`}
-          >
-            CSV
-          </Link>
-        </Button>
-        <Button colorScheme="teal" size="md" mt="20px">
-          <Link
-            download="simulation.json"
-            href={`data:text/json;charset=utf-8,${encodeURIComponent(
-              JSON.stringify(simulationKeys)
-            )}`}
-          >
-            JSON
-          </Link>
-        </Button>
-      </Flex> */}
     </Flex>
   );
 };
