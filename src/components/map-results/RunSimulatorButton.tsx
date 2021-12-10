@@ -106,7 +106,7 @@ const RunSimulatorButton = () => {
       const objConfig = simulationsSelected.reduce((acc, it, i) => {
         return {
           ...acc,
-          [`sim${i + 1}`]: it,
+          [`Sim ${i + 1}`]: it,
         };
       }, {});
       if (simulationsSelected.length > 0) {
