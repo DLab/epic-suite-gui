@@ -17,8 +17,9 @@ const GeoToastMessage = () => {
     nameGeoSelection,
   } = useContext(SelectFeature);
 
+  const bottomLeft = "bottom-left";
+
   const handleDataLocalStorage = () => {
-    const bottomLeft = "bottom-left";
     try {
       const localStorageExist = window.localStorage.getItem("geoSelection");
       if (!localStorageExist) {
@@ -46,7 +47,7 @@ const GeoToastMessage = () => {
             (scale === "Counties" && counties),
         };
         const indexDataToUpdate = dataGeoSelectionsCreated.findIndex(
-          (e) => e.id === idGeoSelectionUpdate
+          (e: { id: number }) => e.id === idGeoSelectionUpdate
         );
         dataGeoSelectionsCreated[indexDataToUpdate] = updateDataParameters;
         localStorage.setItem(
@@ -97,11 +98,26 @@ const GeoToastMessage = () => {
       });
     }
   };
+
+  const verifyGeoselection = () => {
+    if (states.length !== 0 || counties.length !== 0) {
+      handleDataLocalStorage();
+    } else {
+      toast({
+        position: bottomLeft,
+        title: "Warning",
+        description: "At least one geographic area must be selected.",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
   return (
     <>
       {mode === Model.Add && (
         <Button
-          onClick={() => handleDataLocalStorage()}
+          onClick={() => verifyGeoselection()}
           colorScheme="teal"
           size="sm"
           mt="20px"
@@ -112,7 +128,7 @@ const GeoToastMessage = () => {
       {mode === Model.Update && (
         <>
           <Button
-            onClick={() => handleDataLocalStorage()}
+            onClick={() => verifyGeoselection()}
             colorScheme="teal"
             size="sm"
             mt="20px"
