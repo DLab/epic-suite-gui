@@ -1,4 +1,14 @@
-import { Flex, Button, Text, Link } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+  Flex,
+  Button,
+  Text,
+  Link,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
 import { Parser } from "json2csv";
 import React, { useState, useEffect } from "react";
 
@@ -21,35 +31,35 @@ const Exports = ({ data }: Props) => {
   }, [data]);
 
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      borderTop="1px solid #a7a1a1d6"
-      m="0 5%"
-    >
-      <Text mt="1%">Exports</Text>
-      <Flex w="100%" justify="space-around">
-        <Button colorScheme="teal" size="md" mt="20px">
+    <Flex direction="column" alignItems="end" m="0 5%">
+      <Menu>
+        <MenuButton
+          as={Button}
+          size="sm"
+          colorScheme="teal"
+          rightIcon={<ChevronDownIcon />}
+        >
+          Exports
+        </MenuButton>
+        <MenuList>
           <Link
             download="simulation.csv"
             href={`data:text/json;charset=utf-8,${encodeURIComponent(
               csvContent
             )}`}
           >
-            CSV
+            <MenuItem>CSV</MenuItem>
           </Link>
-        </Button>
-        <Button colorScheme="teal" size="md" mt="20px">
           <Link
             download="simulation.json"
             href={`data:text/json;charset=utf-8,${encodeURIComponent(
               JSON.stringify(simulationKeys)
             )}`}
           >
-            JSON
+            <MenuItem>JSON</MenuItem>
           </Link>
-        </Button>
-      </Flex>
+        </MenuList>
+      </Menu>
     </Flex>
   );
 };
