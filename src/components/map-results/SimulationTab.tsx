@@ -25,7 +25,11 @@ const SimulationTab = () => {
         <Table size="md" bg="#FFFFFF" borderRadius="md">
           <Thead>
             <Tr>
-              <Th minW="200px">
+              <Th>Model Parameters</Th>
+              <Th>Graph / Spatial</Th>
+              <Th>Selection</Th>
+              <Th>Initial Conditions</Th>
+              <Th minW="10px">
                 {" "}
                 <Flex justifyContent="center" alignItems="flex-end" w="100%">
                   <Tooltip label="Add Simulation">
@@ -59,11 +63,6 @@ const SimulationTab = () => {
                   </Tooltip>
                 </Flex>
               </Th>
-              <Th>Model Parameters</Th>
-              <Th>Graph / Spatial</Th>
-              <Th>Selection</Th>
-              <Th>Initial Conditions</Th>
-              <Th> </Th>
             </Tr>
           </Thead>
           <Tbody>
