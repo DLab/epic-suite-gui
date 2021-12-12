@@ -70,7 +70,7 @@ const RunSimulatorButton = () => {
           data: {
             datafile: false,
             importdata: false,
-            initdate: "2020-03-22",
+            initdate: modelParameters.t_init,
             country: "USA",
             state: scale === "States" ? featureSelected : "",
             county: scale === "Counties" ? featureSelected : "",

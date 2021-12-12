@@ -170,12 +170,9 @@ const SimulationItem = ({ idSimulation }: Props) => {
         (m) => m.id === idModel
       ).parameters;
 
-      const getDateInit = () => {
-        return moment("2020-01-22").add(timeInit, "day").format("YYYY-MM-D");
-      };
       const configCalcInitialConditions = {
         compartments: name,
-        timeInit: getDateInit(),
+        timeInit,
         scale,
         spatialSelection,
       };
