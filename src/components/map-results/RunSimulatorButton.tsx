@@ -90,7 +90,7 @@ const RunSimulatorButton = () => {
               alpha: modelParameters.alfa,
               tE_I: modelParameters.tE_I,
               tI_R: modelParameters.tI_R,
-              rR_S: modelParameters.r_R_S,
+              rR_S: modelParameters.rR_S,
             },
           },
           initialconditions: {

@@ -9,10 +9,10 @@ import {
   Box,
   Flex,
   Tooltip,
+  IconButton,
 } from "@chakra-ui/react";
 import { useContext } from "react";
 
-import PlusIcon from "components/icons/PlusIcon";
 import { SimulationSetted, OptionFeature } from "context/SimulationContext";
 
 import SimulationItem from "./SimulationItem";
@@ -21,7 +21,7 @@ const SimulationTab = () => {
   const { simulation, setSimulation } = useContext(SimulationSetted);
   return (
     <Flex h="92%" maxH="92%" flexWrap="wrap" overflowY="scroll">
-      <Box>
+      <Box w="100%">
         <Table size="md" bg="#FFFFFF" borderRadius="md">
           <Thead>
             <Tr>
@@ -33,12 +33,14 @@ const SimulationTab = () => {
                 {" "}
                 <Flex justifyContent="center" alignItems="flex-end" w="100%">
                   <Tooltip label="Add Simulation">
-                    <Icon
-                      color="#16609E"
-                      w="22px"
-                      h="22px"
+                    <IconButton
+                      bg="#16609E"
+                      color="#FFFFFF"
+                      aria-label="Call Segun"
+                      size="sm"
                       cursor="pointer"
-                      as={AddIcon}
+                      _hover={{ bg: "blue.500" }}
+                      icon={<AddIcon />}
                       onClick={() =>
                         setSimulation({
                           type: "add",
