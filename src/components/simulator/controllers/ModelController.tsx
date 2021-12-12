@@ -103,7 +103,7 @@ const ModelController = () => {
       <NumberInputEpi
         value={parameters.r_R_S}
         setValue={setParameters}
-        nameParams="r_R_S"
+        nameParams="rR_S"
         min={0}
         type="number"
         isInitialParameters
