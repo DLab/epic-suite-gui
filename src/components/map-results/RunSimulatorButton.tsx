@@ -90,7 +90,7 @@ const RunSimulatorButton = () => {
               alpha: modelParameters.alfa,
               tE_I: modelParameters.tE_I,
               tI_R: modelParameters.tI_R,
-              rR_S: modelParameters.r_R_S,
+              rR_S: modelParameters.rR_S,
             },
           },
           initialconditions: {
@@ -106,7 +106,7 @@ const RunSimulatorButton = () => {
       const objConfig = simulationsSelected.reduce((acc, it, i) => {
         return {
           ...acc,
-          [`sim${i + 1}`]: it,
+          [`Sim ${i + 1}`]: it,
         };
       }, {});
       if (simulationsSelected.length > 0) {

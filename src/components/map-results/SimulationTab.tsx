@@ -1,7 +1,18 @@
-import { Table, Thead, Tbody, Tr, Th, Icon, Box, Flex } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Icon,
+  Box,
+  Flex,
+  Tooltip,
+  IconButton,
+} from "@chakra-ui/react";
 import { useContext } from "react";
 
-import PlusIcon from "components/icons/PlusIcon";
 import { SimulationSetted, OptionFeature } from "context/SimulationContext";
 
 import SimulationItem from "./SimulationItem";
@@ -9,8 +20,8 @@ import SimulationItem from "./SimulationItem";
 const SimulationTab = () => {
   const { simulation, setSimulation } = useContext(SimulationSetted);
   return (
-    <Flex h="95%" flexWrap="wrap" overflowY="scroll">
-      <Box>
+    <Flex h="92%" maxH="92%" flexWrap="wrap" overflowY="scroll">
+      <Box w="100%">
         <Table size="md" bg="#FFFFFF" borderRadius="md">
           <Thead>
             <Tr>
@@ -18,7 +29,42 @@ const SimulationTab = () => {
               <Th>Graph / Spatial</Th>
               <Th>Selection</Th>
               <Th>Initial Conditions</Th>
-              <Th> </Th>
+              <Th minW="10px">
+                {" "}
+                <Flex justifyContent="center" alignItems="flex-end" w="100%">
+                  <Tooltip label="Add Simulation">
+                    <IconButton
+                      bg="#16609E"
+                      color="#FFFFFF"
+                      aria-label="Call Segun"
+                      size="sm"
+                      cursor="pointer"
+                      _hover={{ bg: "blue.500" }}
+                      icon={<AddIcon />}
+                      onClick={() =>
+                        setSimulation({
+                          type: "add",
+                          payload: {
+                            idSim: Date.now(),
+                            idModel: 0,
+                            idGeo: 0,
+                            idGraph: 0,
+                            typeSelection: OptionFeature.None,
+                            initialConditions: {
+                              population: 0,
+                              R: 0,
+                              I: 0,
+                              I_d: 0,
+                              I_ac: 0,
+                              E: 0,
+                            },
+                          },
+                        })
+                      }
+                    />
+                  </Tooltip>
+                </Flex>
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -29,36 +75,6 @@ const SimulationTab = () => {
           </Tbody>
         </Table>
       </Box>
-      <Flex justifyContent="center" alignItems="flex-end" w="100%" pb="1rem">
-        <Icon
-          stroke="#16609E"
-          fill="#ffffff"
-          w="40px"
-          h="40px"
-          as={PlusIcon}
-          cursor="pointer"
-          onClick={() =>
-            setSimulation({
-              type: "add",
-              payload: {
-                idSim: Date.now(),
-                idModel: 0,
-                idGeo: 0,
-                idGraph: 0,
-                typeSelection: OptionFeature.None,
-                initialConditions: {
-                  population: 0,
-                  R: 0,
-                  I: 0,
-                  I_d: 0,
-                  I_ac: 0,
-                  E: 0,
-                },
-              },
-            })
-          }
-        />
-      </Flex>
     </Flex>
   );
 };

@@ -73,7 +73,7 @@ const MapResult = () => {
         </TabPanel>
         <TabPanel maxHeight="77vh" height="77vh">
           <SimulationTab />
-          <Box h="10%">
+          <Box h="8%">
             <Center>
               <RunSimulatorButton />
             </Center>

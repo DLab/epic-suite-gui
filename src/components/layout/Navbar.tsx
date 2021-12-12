@@ -21,7 +21,6 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
 
@@ -33,11 +32,7 @@ export default function Navbar() {
     onOpen: onOpenModal,
     onClose: onCloseModal,
   } = useDisclosure();
-  useEffect(() => {
-    if (pathname === "/") {
-      setTimeout(() => onOpenModal(), 1000);
-    }
-  }, [onOpenModal, pathname]);
+
   return (
     <>
       <Box color="white" px={4} bg="#16609E">
@@ -82,19 +77,16 @@ export default function Navbar() {
             )}
           </Menu>
         </Flex>
-
-        {isOpen && pathname === "/" ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as="nav" spacing={2}>
-              <Button colorScheme="white" variant="link">
-                <Link href="/404">Documentation</Link>
-              </Button>
-              <Button onClick={onOpenModal} colorScheme="white" variant="link">
-                About
-              </Button>
-            </Stack>
-          </Box>
-        ) : null}
+        <Box pb={4} display={{ md: "none" }}>
+          <Stack as="nav" spacing={2}>
+            <Button colorScheme="white" variant="link">
+              <Link href="/404">Documentation</Link>
+            </Button>
+            <Button onClick={onOpenModal} colorScheme="white" variant="link">
+              About
+            </Button>
+          </Stack>
+        </Box>
       </Box>
       <Modal isOpen={isOpenModal} onClose={onCloseModal}>
         <ModalOverlay />
