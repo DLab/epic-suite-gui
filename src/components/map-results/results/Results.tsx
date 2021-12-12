@@ -53,12 +53,38 @@ const Results = () => {
   const model = ["S", "E", "I", "R"];
 
   const setInitialParameters = (data) => {
-    data.forEach((simulation) => {
-      Object.keys(simulation).forEach((key) => {
+    let initialParameters = [];
+    let initialId = [];
+    data.map((simulation) => {
+      return Object.keys(simulation).forEach((key) => {
+        const id = `${key + simulation.name}`;
         if (model.includes(key) && key !== "name") {
-          const id = `${key + simulation.name}`;
-          // console.log(id);
+          const isSimulationSaved = initialParameters.filter((sim) => {
+            return simulation.name === sim.name;
+          });
+
+          if (isSimulationSaved.length === 0) {
+            initialParameters = [
+              ...initialParameters,
+              { name: simulation.name, keys: [key] },
+            ];
+          } else {
+            initialParameters = initialParameters.map((sim) => {
+              let simulationAux = sim;
+              if (sim.name === isSimulationSaved[0].name) {
+                simulationAux = {
+                  name: sim.name,
+                  keys: [...sim.keys, key],
+                };
+              }
+
+              return simulationAux;
+            });
+          }
+          initialId = [...initialId, id];
         }
+        setSavedSimulationKeys(initialId);
+        return setSavedSimulation(initialParameters);
       });
     });
   };
@@ -67,8 +93,9 @@ const Results = () => {
     const graphicData = responseSim ? JSON.parse(responseSim) : "";
     if (graphicData) {
       setSimulationKeys(graphicData);
+      setInitialParameters(graphicData);
     }
-    setInitialParameters(graphicData);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseSim]);
 
