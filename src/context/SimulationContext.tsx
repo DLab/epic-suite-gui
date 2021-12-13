@@ -21,6 +21,7 @@ export interface SimulatorParams {
   idGraph: number;
   typeSelection: OptionFeature;
   initialConditions: InitialConditions;
+  t_init: string;
 }
 
 interface ActionsSimulationData {

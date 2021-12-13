@@ -34,3 +34,25 @@ tbody > tr:last-child td {
 .js-plotly-plot .plotly .modebar {
   width: 100%;
 }
+.react-datepicker__input-container > :nth-child(1) {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  padding-left: 3%;
+  border-radius: 4px;
+  margin: 0;
+  height: 40px;
+}
+.react-datepicker__input-container > :nth-child(1):focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 1px #3182ce;
+}
+
+.react-datepicker__input-container:focus-visible,
+.react-datepicker-ignore-onclickoutside:focus-visible,
+.react-datepicker-wrapper:focus-visible {
+  outline: none;
+}
+.react-datepicker-popper {
+  z-index: 2;
+}

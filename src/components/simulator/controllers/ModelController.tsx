@@ -5,6 +5,8 @@ import { useContext } from "react";
 import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
 
+import SelectDate from "./SelectDate";
+
 const ModelController = () => {
   const { setParameters, parameters } = useContext(ControlPanel);
   const { t_end, name_model } = parameters;
@@ -55,7 +57,24 @@ const ModelController = () => {
           <option value="SIR">SIR</option>
         </Select>
       </Box>
+      {/* <Box m="2% 0">
+        <Text flex="1" textAlign="left">
+          Initial Date
+        </Text>
+        <SelectDate setValue={setParameters} nameParams="t_init" />
+      </Box> */}
       <Flex justify="space-between">
+        {/* <Box>
+          <NumberInputEpi
+            value={t_init}
+            setValue={setParameters}
+            min={0}
+            max={Infinity}
+            nameParams="t_init"
+            type="number"
+            isInitialParameters
+          />
+        </Box> */}
         <Box>
           <NumberInputEpi
             value={t_end}

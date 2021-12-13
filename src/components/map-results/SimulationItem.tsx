@@ -11,6 +11,7 @@ import {
 import moment from "moment";
 import { useState, useEffect, useContext, useCallback } from "react";
 
+import SelectDate from "components/simulator/controllers/SelectDate";
 import { ControlPanel } from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
@@ -46,6 +47,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
   const [models, setModels] = useState([]);
   const [geoSelection, setGeoSelection] = useState([]);
   const [initialConditions, setInitialConditions] = useState(null);
+
   // get data from Localstorage and set models & geoSelection
   useEffect(() => {
     if (
@@ -165,17 +167,13 @@ const SimulationItem = ({ idSimulation }: Props) => {
           "Spatial selection hasn't states or counties selected. \n Check it before set initial conditions"
         );
       }
-      const { idModel } = simulation.find((s) => s.idSim === idSimulation);
-      const { name, t_init: timeInit } = models.find(
-        (m) => m.id === idModel
-      ).parameters;
-
-      const getDateInit = () => {
-        return moment("2020-01-22").add(timeInit, "day").format("YYYY-MM-D");
-      };
+      const { idModel, t_init: timeInit } = simulation.find(
+        (s) => s.idSim === idSimulation
+      );
+      const { name } = models.find((m) => m.id === idModel).parameters;
       const configCalcInitialConditions = {
         compartments: name,
-        timeInit: getDateInit(),
+        timeInit,
         scale,
         spatialSelection,
       };
@@ -288,6 +286,9 @@ const SimulationItem = ({ idSimulation }: Props) => {
               );
             })}
         </Select>
+      </Td>
+      <Td>
+        <SelectDate idSimulation={idSimulation} />
       </Td>
       <Td>
         <Select
