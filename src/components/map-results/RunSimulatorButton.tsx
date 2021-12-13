@@ -81,7 +81,7 @@ const RunSimulatorButton = () => {
           parameters: {
             static: {
               t_init: 0,
-              t_end: modelParameters.duration,
+              t_end: modelParameters.t_end,
               mu: modelParameters.mu,
               pI_det: modelParameters.pI_det,
             },
