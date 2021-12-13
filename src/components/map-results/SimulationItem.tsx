@@ -11,6 +11,7 @@ import {
 import moment from "moment";
 import { useState, useEffect, useContext, useCallback } from "react";
 
+import SelectDate from "components/simulator/controllers/SelectDate";
 import { ControlPanel } from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
@@ -46,6 +47,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
   const [models, setModels] = useState([]);
   const [geoSelection, setGeoSelection] = useState([]);
   const [initialConditions, setInitialConditions] = useState(null);
+  const [datepickerValue, setDatepickerValue] = useState("2020-03-22");
   // get data from Localstorage and set models & geoSelection
   useEffect(() => {
     if (
@@ -166,7 +168,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
         );
       }
       const { idModel } = simulation.find((s) => s.idSim === idSimulation);
-      const { name, t_init: timeInit } = models.find(
+      const { name, datepickerValue: timeInit } = models.find(
         (m) => m.id === idModel
       ).parameters;
 
@@ -313,6 +315,12 @@ const SimulationItem = ({ idSimulation }: Props) => {
           <option value={OptionFeature.Graph}>Graph</option>
           <option value={OptionFeature.Geographic}>Geographic</option>
         </Select>
+      </Td>
+      <Td>
+        <SelectDate
+          datepickerValue={datepickerValue}
+          setDatepickerValue={setDatepickerValue}
+        />
       </Td>
       <Td>
         <Select

@@ -9,7 +9,7 @@ import SelectDate from "./SelectDate";
 
 const ModelController = () => {
   const { setParameters, parameters } = useContext(ControlPanel);
-  const { t_init, t_end, timestep, name_model } = parameters;
+  const { t_end, name_model } = parameters;
   return (
     <>
       <Box>
@@ -27,7 +27,6 @@ const ModelController = () => {
             });
           }}
         />
-
         <Text flex="1" textAlign="left">
           Model
         </Text>
@@ -58,40 +57,43 @@ const ModelController = () => {
           <option value="SIR">SIR</option>
         </Select>
       </Box>
-      <Box m="2% 0">
+      {/* <Box m="2% 0">
         <Text flex="1" textAlign="left">
           Initial Date
         </Text>
         <SelectDate setValue={setParameters} nameParams="t_init" />
-      </Box>
+      </Box> */}
       <Flex justify="space-between">
+        {/* <Box>
+          <NumberInputEpi
+            value={t_init}
+            setValue={setParameters}
+            min={0}
+            max={Infinity}
+            nameParams="t_init"
+            type="number"
+            isInitialParameters
+          />
+        </Box> */}
         <Box>
           <NumberInputEpi
             value={t_end}
             setValue={setParameters}
             min={0}
+            step={1}
             max={Infinity}
             nameParams="t_end"
+            name="Duration"
             type="number"
             isInitialParameters
           />
         </Box>
       </Flex>
-      <Box>
-        <NumberInputEpi
-          value={timestep}
-          setValue={setParameters}
-          min={0.01}
-          max={0.1}
-          step={0.01}
-          nameParams="timestep"
-          type="slider"
-        />
-      </Box>
       <NumberInputEpi
         value={parameters.beta}
         setValue={setParameters}
         nameParams="beta"
+        name="Beta (β)"
         step={0.01}
         min={0.01}
         max={0.5}
@@ -101,6 +103,7 @@ const ModelController = () => {
         value={parameters.rR_S}
         setValue={setParameters}
         nameParams="rR_S"
+        step={0.01}
         min={0}
         type="number"
         isInitialParameters
@@ -109,6 +112,7 @@ const ModelController = () => {
         value={parameters.mu}
         setValue={setParameters}
         nameParams="mu"
+        name="Mu (μ)"
         step={0.01}
         min={0.01}
         max={5}

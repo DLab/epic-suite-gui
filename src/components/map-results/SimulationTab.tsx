@@ -27,6 +27,7 @@ const SimulationTab = () => {
             <Tr>
               <Th>Model Parameters</Th>
               <Th>Graph / Spatial</Th>
+              <Th>Initial Date</Th>
               <Th>Selection</Th>
               <Th>Initial Conditions</Th>
               <Th minW="10px">

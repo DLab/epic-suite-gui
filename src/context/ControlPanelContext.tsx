@@ -19,7 +19,6 @@ export interface EpidemicsData {
   compartments?: string[];
   t_init: string;
   t_end: number;
-  timestep: number;
   pI_det: number;
   beta: number;
   mu: number;
@@ -63,15 +62,14 @@ const initialState: EpidemicsData = {
   name: "SEIR",
   compartments: ["S", "E", "I", "R"],
   t_init: "",
-  t_end: 1,
-  timestep: 0.01,
-  pI_det: 0.01,
-  beta: 0.01,
-  mu: 0.01,
-  rR_S: 0.001,
-  alfa: 0.01,
-  tE_I: 0.01,
-  tI_R: 0.01,
+  t_end: 500,
+  pI_det: 1,
+  beta: 0.3,
+  mu: 1.5,
+  rR_S: 0,
+  alfa: 1,
+  tE_I: 4,
+  tI_R: 7,
 };
 const initialConditions: InitialConditions = {
   population: 0,

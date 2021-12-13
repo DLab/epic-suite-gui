@@ -10,6 +10,7 @@ const InterventionsParameters = () => {
       value={parameters.alfa}
       setValue={setParameters}
       nameParams="alfa"
+      name="Alfa (α)"
       step={0.01}
       min={0.01}
       max={1}

@@ -1,20 +1,19 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import moment from "moment";
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 interface Props {
-  setValue: (val: unknown) => void;
-  nameParams: string;
+  setDatepickerValue: (val: unknown) => void;
+  datepickerValue: string;
 }
 
-const SelectDate = ({ setValue, nameParams }: Props) => {
+const SelectDate = ({ setDatepickerValue, datepickerValue }: Props) => {
   const [startDate, setStartDate] = useState(new Date());
 
   const handleChange = (val: string | number) => {
-    setValue({ type: "set", payload: val, target: nameParams });
+    setDatepickerValue(val);
   };
 
   return (
