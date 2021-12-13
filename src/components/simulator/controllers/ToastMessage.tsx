@@ -28,9 +28,6 @@ const ToastMessage = () => {
       const dataModelsCreated: ModelAttributes["parameters"] = JSON.parse(
         localStorage.getItem("models")
       );
-      if (dataParameters.parameters.t_init >= dataParameters.parameters.t_end) {
-        throw new Error("Initial time can't be bigger than ending time");
-      }
       if (mode === Model.Update) {
         const updateDataParameters: DataParameters = {
           parameters,

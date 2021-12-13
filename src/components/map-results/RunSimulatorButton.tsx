@@ -11,7 +11,7 @@ const bottonLeft = "bottom-left";
 
 const RunSimulatorButton = () => {
   const toast = useToast();
-  const { aux, setAux, setIndex } = useContext(TabIndex);
+  const { setAux, setIndex } = useContext(TabIndex);
   const { simulation } = useContext(SimulationSetted);
   const { parameters } = useContext(ModelsSaved);
   const { geoSelections: geoSelectionsElementsContext } =
@@ -43,6 +43,7 @@ const RunSimulatorButton = () => {
     );
   };
   const handleJsonToToml = async () => {
+    setisSimulating(true);
     try {
       if (!verifyNotEmptySimulations(simulation)) {
         throw new Error(
@@ -70,7 +71,7 @@ const RunSimulatorButton = () => {
           data: {
             datafile: false,
             importdata: false,
-            initdate: "2020-03-22",
+            initdate: modelParameters.t_init,
             country: "USA",
             state: scale === "States" ? featureSelected : "",
             county: scale === "Counties" ? featureSelected : "",
@@ -79,9 +80,8 @@ const RunSimulatorButton = () => {
           },
           parameters: {
             static: {
-              t_init: modelParameters.t_init,
-              t_end: modelParameters.t_end,
-              timestep: modelParameters.timestep,
+              t_init: 0,
+              t_end: modelParameters.duration,
               mu: modelParameters.mu,
               pI_det: modelParameters.pI_det,
             },
@@ -122,7 +122,6 @@ const RunSimulatorButton = () => {
             name: keys[i],
             ...sim,
           }));
-        setisSimulating(true);
         setAux(JSON.stringify(data));
         setIndex(4);
       }
@@ -154,6 +153,8 @@ const RunSimulatorButton = () => {
           isClosable: true,
         });
       }
+    } finally {
+      setisSimulating(false);
     }
   };
 
