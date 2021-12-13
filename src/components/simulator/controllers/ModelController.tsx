@@ -60,7 +60,7 @@ const ModelController = () => {
           <NumberInputEpi
             value={duration}
             setValue={setParameters}
-            min={1}
+            min={0}
             max={Infinity}
             nameParams="duration"
             type="number"
@@ -78,7 +78,7 @@ const ModelController = () => {
         type="slider"
       />
       <NumberInputEpi
-        value={parameters.r_R_S}
+        value={parameters.rR_S}
         setValue={setParameters}
         nameParams="rR_S"
         min={0}

@@ -22,7 +22,7 @@ export interface EpidemicsData {
   pI_det: number;
   beta: number;
   mu: number;
-  r_R_S: number;
+  rR_S: number;
   alfa: number;
   tE_I: number;
   tI_R: number;
@@ -66,7 +66,7 @@ const initialState: EpidemicsData = {
   pI_det: 0.01,
   beta: 0.01,
   mu: 0.01,
-  r_R_S: 0.0,
+  rR_S: 0.001,
   alfa: 0.01,
   tE_I: 0.01,
   tI_R: 0.01,
