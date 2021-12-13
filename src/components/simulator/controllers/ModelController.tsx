@@ -72,7 +72,7 @@ const ModelController = () => {
           <NumberInputEpi
             value={t_end}
             setValue={setParameters}
-            min={1}
+            min={0}
             max={Infinity}
             nameParams="t_end"
             type="number"
