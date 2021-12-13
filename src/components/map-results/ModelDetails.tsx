@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import { Flex, Text, Box } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
@@ -12,12 +13,12 @@ const ModelDetails = ({ details }: Props) => {
     setModelDetails(details);
   }, [details]);
 
+  let index;
   return (
     <>
       {modelDetails.map((parameter) => {
         const values = Object.values(parameter.parameters);
         const keys = Object.keys(parameter.parameters);
-        let index;
         return (
           <Flex direction="column">
             <Text textAlign="center" fontWeight="400">
@@ -40,6 +41,16 @@ const ModelDetails = ({ details }: Props) => {
                           Name_model :
                         </Text>
                       );
+                    }
+                    if (key === "t_end") {
+                      return (
+                        <Text fontSize="14px" fontWeight="300">
+                          duration :
+                        </Text>
+                      );
+                    }
+                    if (key === "t_init") {
+                      return false;
                     }
                     return (
                       <Text fontSize="14px" fontWeight="300">

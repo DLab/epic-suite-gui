@@ -84,6 +84,7 @@ const ModelController = () => {
         value={parameters.rR_S}
         setValue={setParameters}
         nameParams="rR_S"
+        step={0.01}
         min={0}
         type="number"
         isInitialParameters
