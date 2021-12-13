@@ -1,19 +1,26 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import DatePicker from "react-datepicker";
+
+import { SimulationSetted } from "context/SimulationContext";
 
 import "react-datepicker/dist/react-datepicker.css";
 
 interface Props {
-  setDatepickerValue: (val: unknown) => void;
-  datepickerValue: string;
+  idSimulation: number;
 }
 
-const SelectDate = ({ setDatepickerValue, datepickerValue }: Props) => {
+const SelectDate = ({ idSimulation }: Props) => {
+  const { setSimulation } = useContext(SimulationSetted);
   const [startDate, setStartDate] = useState(new Date());
 
   const handleChange = (val: string | number) => {
-    setDatepickerValue(val);
+    setSimulation({
+      type: "update",
+      id: idSimulation,
+      target: "t_init",
+      element: val,
+    });
   };
 
   return (

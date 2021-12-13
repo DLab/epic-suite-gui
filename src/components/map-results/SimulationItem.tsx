@@ -47,7 +47,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
   const [models, setModels] = useState([]);
   const [geoSelection, setGeoSelection] = useState([]);
   const [initialConditions, setInitialConditions] = useState(null);
-  const [datepickerValue, setDatepickerValue] = useState("2020-03-22");
+
   // get data from Localstorage and set models & geoSelection
   useEffect(() => {
     if (
@@ -167,11 +167,10 @@ const SimulationItem = ({ idSimulation }: Props) => {
           "Spatial selection hasn't states or counties selected. \n Check it before set initial conditions"
         );
       }
-      const { idModel } = simulation.find((s) => s.idSim === idSimulation);
-      const { name, datepickerValue: timeInit } = models.find(
-        (m) => m.id === idModel
-      ).parameters;
-
+      const { idModel, t_init: timeInit } = simulation.find(
+        (s) => s.idSim === idSimulation
+      );
+      const { name } = models.find((m) => m.id === idModel).parameters;
       const configCalcInitialConditions = {
         compartments: name,
         timeInit,
@@ -289,6 +288,9 @@ const SimulationItem = ({ idSimulation }: Props) => {
         </Select>
       </Td>
       <Td>
+        <SelectDate idSimulation={idSimulation} />
+      </Td>
+      <Td>
         <Select
           value={
             getDefaultValueParameters("typeSelection") || OptionFeature.None
@@ -315,12 +317,6 @@ const SimulationItem = ({ idSimulation }: Props) => {
           <option value={OptionFeature.Graph}>Graph</option>
           <option value={OptionFeature.Geographic}>Geographic</option>
         </Select>
-      </Td>
-      <Td>
-        <SelectDate
-          datepickerValue={datepickerValue}
-          setDatepickerValue={setDatepickerValue}
-        />
       </Td>
       <Td>
         <Select

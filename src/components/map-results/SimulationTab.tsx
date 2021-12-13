@@ -11,6 +11,7 @@ import {
   Tooltip,
   IconButton,
 } from "@chakra-ui/react";
+import moment from "moment";
 import { useContext } from "react";
 
 import { SimulationSetted, OptionFeature } from "context/SimulationContext";
@@ -26,8 +27,8 @@ const SimulationTab = () => {
           <Thead>
             <Tr>
               <Th>Model Parameters</Th>
-              <Th>Graph / Spatial</Th>
               <Th>Initial Date</Th>
+              <Th>Graph / Spatial</Th>
               <Th>Selection</Th>
               <Th>Initial Conditions</Th>
               <Th minW="10px">
@@ -50,6 +51,7 @@ const SimulationTab = () => {
                             idModel: 0,
                             idGeo: 0,
                             idGraph: 0,
+                            t_init: moment().format("YYYY-MM-D"),
                             typeSelection: OptionFeature.None,
                             initialConditions: {
                               population: 0,
