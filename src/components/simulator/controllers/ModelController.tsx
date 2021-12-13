@@ -72,7 +72,7 @@ const ModelController = () => {
           <NumberInputEpi
             value={t_end}
             setValue={setParameters}
-            min={1}
+            min={0}
             max={Infinity}
             nameParams="t_end"
             type="number"
@@ -101,7 +101,7 @@ const ModelController = () => {
         type="slider"
       />
       <NumberInputEpi
-        value={parameters.r_R_S}
+        value={parameters.rR_S}
         setValue={setParameters}
         nameParams="rR_S"
         min={0}

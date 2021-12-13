@@ -1,4 +1,4 @@
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Tr,
   Td,
@@ -370,6 +370,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
           <Button
             colorScheme="teal"
             variant="link"
+            w="100%"
             onClick={() => {
               setIdSimulationUpdating({ type: "set", payload: idSimulation });
               if (!initialConditions) {
@@ -392,11 +393,12 @@ const SimulationItem = ({ idSimulation }: Props) => {
               }
             }}
           >
-            Set Conditions
+            <Icon color="#16609E" as={EditIcon} cursor="pointer" />
           </Button>
         )}
         {optionFeature === OptionFeature.Geographic && idGeoSelection !== 0 && (
           <Button
+            w="100%"
             colorScheme="teal"
             variant="link"
             onClick={() => {
@@ -410,7 +412,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
             }}
           >
             {reducerValuesObjects(initialConditions) > 0 ? (
-              "Update Conditions"
+              <Icon color="#16609E" as={EditIcon} cursor="pointer" />
             ) : (
               <Spinner
                 thickness="4px"

@@ -52,11 +52,51 @@ const Results = () => {
   const { aux: responseSim } = useContext(TabIndex);
   const model = ["S", "E", "I", "R"];
 
+  const setInitialParameters = (data) => {
+    let initialParameters = [];
+    let initialId = [];
+    data.map((simulation) => {
+      return Object.keys(simulation).forEach((key) => {
+        const id = `${key + simulation.name}`;
+        if (model.includes(key) && key !== "name") {
+          const isSimulationSaved = initialParameters.filter((sim) => {
+            return simulation.name === sim.name;
+          });
+
+          if (isSimulationSaved.length === 0) {
+            initialParameters = [
+              ...initialParameters,
+              { name: simulation.name, keys: [key] },
+            ];
+          } else {
+            initialParameters = initialParameters.map((sim) => {
+              let simulationAux = sim;
+              if (sim.name === isSimulationSaved[0].name) {
+                simulationAux = {
+                  name: sim.name,
+                  keys: [...sim.keys, key],
+                };
+              }
+
+              return simulationAux;
+            });
+          }
+          initialId = [...initialId, id];
+        }
+        setSavedSimulationKeys(initialId);
+        return setSavedSimulation(initialParameters);
+      });
+    });
+  };
+
   useEffect(() => {
     const graphicData = responseSim ? JSON.parse(responseSim) : "";
     if (graphicData) {
       setSimulationKeys(graphicData);
+      setInitialParameters(graphicData);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseSim]);
 
   const saveKeys = (ischecked, id, value, name) => {
@@ -158,6 +198,7 @@ const Results = () => {
                                       m="2% 5%"
                                       id={`${key + simulation.name}`}
                                       value={key}
+                                      defaultIsChecked
                                       onChange={(e) => {
                                         saveKeys(
                                           e.target.checked,
@@ -180,7 +221,7 @@ const Results = () => {
                           <h2>
                             <AccordionButton _focus={{ boxShadow: "none" }}>
                               <Box flex="1" textAlign="left">
-                                Parameters
+                                Other Data
                               </Box>
                               <AccordionIcon />
                             </AccordionButton>
