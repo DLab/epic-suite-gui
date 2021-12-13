@@ -37,7 +37,7 @@ const ModelDetails = ({ details }: Props) => {
                     if (key === "name") {
                       return (
                         <Text fontSize="14px" fontWeight="300">
-                          SEIR :
+                          Name_model :
                         </Text>
                       );
                     }
