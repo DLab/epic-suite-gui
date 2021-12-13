@@ -7,7 +7,7 @@ import { ControlPanel } from "context/ControlPanelContext";
 
 const ModelController = () => {
   const { setParameters, parameters } = useContext(ControlPanel);
-  const { duration, name_model } = parameters;
+  const { t_end, name_model } = parameters;
   return (
     <>
       <Box>
@@ -58,11 +58,11 @@ const ModelController = () => {
       <Flex justify="space-between">
         <Box>
           <NumberInputEpi
-            value={duration}
+            value={t_end}
             setValue={setParameters}
             min={0}
             max={Infinity}
-            nameParams="duration"
+            nameParams="Duration"
             type="number"
             isInitialParameters
           />
@@ -71,7 +71,7 @@ const ModelController = () => {
       <NumberInputEpi
         value={parameters.beta}
         setValue={setParameters}
-        nameParams="beta"
+        nameParams="Beta (β)"
         step={0.01}
         min={0.01}
         max={0.5}
@@ -88,7 +88,7 @@ const ModelController = () => {
       <NumberInputEpi
         value={parameters.mu}
         setValue={setParameters}
-        nameParams="mu"
+        nameParams="Mu (μ)"
         step={0.01}
         min={0.01}
         max={5}

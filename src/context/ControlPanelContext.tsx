@@ -18,7 +18,7 @@ export interface EpidemicsData {
   name: string;
   compartments?: string[];
   t_init: string;
-  duration: number;
+  t_end: number;
   pI_det: number;
   beta: number;
   mu: number;
@@ -62,7 +62,7 @@ const initialState: EpidemicsData = {
   name: "SEIR",
   compartments: ["S", "E", "I", "R"],
   t_init: "",
-  duration: 1,
+  t_end: 1,
   pI_det: 0.01,
   beta: 0.01,
   mu: 0.01,
