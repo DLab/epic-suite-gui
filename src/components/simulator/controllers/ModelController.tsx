@@ -61,8 +61,10 @@ const ModelController = () => {
             value={t_end}
             setValue={setParameters}
             min={0}
+            step={1}
             max={Infinity}
-            nameParams="Duration"
+            nameParams="t_end"
+            name="Duration"
             type="number"
             isInitialParameters
           />
@@ -71,7 +73,8 @@ const ModelController = () => {
       <NumberInputEpi
         value={parameters.beta}
         setValue={setParameters}
-        nameParams="Beta (β)"
+        nameParams="beta"
+        name="Beta (β)"
         step={0.01}
         min={0.01}
         max={0.5}
@@ -88,7 +91,8 @@ const ModelController = () => {
       <NumberInputEpi
         value={parameters.mu}
         setValue={setParameters}
-        nameParams="Mu (μ)"
+        nameParams="mu"
+        name="Mu (μ)"
         step={0.01}
         min={0.01}
         max={5}

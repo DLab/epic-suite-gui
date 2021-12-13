@@ -22,6 +22,7 @@ interface Props {
   type: string;
   isInitialParameters?: boolean;
   isDisabled?: boolean;
+  name?: string;
 }
 
 const NumberInputEpi = ({
@@ -34,6 +35,7 @@ const NumberInputEpi = ({
   type,
   isInitialParameters,
   isDisabled,
+  name,
 }: Props) => {
   const handleChange = (val: string | number) => {
     if (val <= max && val >= min) {
@@ -44,7 +46,7 @@ const NumberInputEpi = ({
   return (
     <>
       <Text align="left" color={isDisabled && "gray.200"}>
-        {nameParams}
+        {name ?? nameParams}
       </Text>
       <Flex mb="0.5rem">
         {type === "slider" && (
