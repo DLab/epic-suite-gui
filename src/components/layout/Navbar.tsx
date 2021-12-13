@@ -96,8 +96,8 @@ export default function Navbar() {
           <ModalBody>
             <Text as="i" color="gray.600">
               EPIc Suite is an open source application developed by the
-              Computational BiologyLaboratory of Fundacion Ciencia & Vida, which
-              is funded by the AFOSR project N° FA9550-20-1-0196.
+              Computational Biology Laboratory of Fundación Ciencia & Vida,
+              which is funded by the AFOSR project N° FA9550-20-1-0196.
             </Text>
             <Flex mt="8" justify="space-between" maxW="100%">
               <Image src="/dlab.png" alt="Logo dlab" w="32%" h="fit-content" />

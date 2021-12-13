@@ -14,7 +14,7 @@ export default function Footer() {
         maxHeight="8vh"
       >
         <Text>
-          Laboratorio de Biología Computacional, Fundación Ciencia & Vida
+          Computational Biology Laboratory (DLab), Fundación Ciencia & Vida
         </Text>
       </Container>
     </Box>
