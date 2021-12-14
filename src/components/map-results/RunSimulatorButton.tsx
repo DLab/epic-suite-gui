@@ -87,7 +87,7 @@ const RunSimulatorButton = () => {
             },
             dynamic: {
               beta: modelParameters.beta,
-              alpha: modelParameters.alfa,
+              alpha: modelParameters.alpha,
               tE_I: modelParameters.tE_I,
               tI_R: modelParameters.tI_R,
               rR_S: modelParameters.rR_S,

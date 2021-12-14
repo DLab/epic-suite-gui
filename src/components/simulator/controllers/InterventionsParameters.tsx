@@ -7,10 +7,11 @@ const InterventionsParameters = () => {
   const { parameters, setParameters } = useContext(ControlPanel);
   return (
     <NumberInputEpi
-      value={parameters.alfa}
+      value={parameters.alpha}
       setValue={setParameters}
-      nameParams="alfa"
-      name="Alfa (α)"
+      nameParams="alpha"
+      name="Alpha (α)"
+      description="Mobility"
       step={0.01}
       min={0.01}
       max={1}
