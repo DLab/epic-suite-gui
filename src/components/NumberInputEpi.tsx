@@ -1,3 +1,4 @@
+import { InfoIcon } from "@chakra-ui/icons";
 import {
   NumberInput,
   NumberInputField,
@@ -10,12 +11,15 @@ import {
   SliderTrack,
   SliderThumb,
   Text,
+  Tooltip,
+  Icon,
 } from "@chakra-ui/react";
 
 interface Props {
   value: number;
   setValue: (val: unknown) => void;
   nameParams: string;
+  description: string;
   step?: number;
   max?: number;
   min?: number;
@@ -36,6 +40,7 @@ const NumberInputEpi = ({
   isInitialParameters,
   isDisabled,
   name,
+  description,
 }: Props) => {
   const handleChange = (val: string | number) => {
     if (val <= max && val >= min) {
@@ -45,9 +50,14 @@ const NumberInputEpi = ({
 
   return (
     <>
-      <Text align="left" color={isDisabled && "gray.200"}>
-        {name ?? nameParams}
-      </Text>
+      <Flex align="center">
+        <Text align="left" color={isDisabled && "gray.200"}>
+          {name ?? nameParams}
+        </Text>
+        <Tooltip label={description}>
+          <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
+        </Tooltip>
+      </Flex>
       <Flex mb="0.5rem">
         {type === "slider" && (
           <>

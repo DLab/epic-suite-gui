@@ -11,6 +11,7 @@ const InterventionsParameters = () => {
       setValue={setParameters}
       nameParams="alpha"
       name="Alpha (α)"
+      description="Mobility"
       step={0.01}
       min={0.01}
       max={1}

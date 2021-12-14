@@ -46,42 +46,46 @@ const InitialConditions = () => {
         <NumberInputEpi
           value={population}
           setValue={setInitialConditions}
+          nameParams="population"
+          description="Total population"
           min={0}
           max={Infinity}
-          nameParams="population"
-          type="number"
           isInitialParameters
+          type="number"
         />
         <NumberInputEpi
           value={R}
           setValue={setInitialConditions}
+          nameParams="R"
+          description="Recovered"
           min={0}
           max={Infinity}
-          nameParams="R"
-          type="number"
           isInitialParameters
+          type="number"
         />
       </Box>
       <Box>
         <NumberInputEpi
           value={I}
           setValue={setInitialConditions}
+          nameParams="I"
+          description="Active infected"
           min={0}
           max={Infinity}
-          nameParams="I"
-          type="number"
           isInitialParameters
+          type="number"
         />
       </Box>
       <Box>
         <NumberInputEpi
           value={I_d}
           setValue={setInitialConditions}
+          nameParams="I_d"
+          description="New daily infected"
           min={0}
           max={Infinity}
-          nameParams="I_d"
-          type="number"
           isInitialParameters
+          type="number"
         />
       </Box>
 
@@ -89,12 +93,13 @@ const InitialConditions = () => {
         <NumberInputEpi
           value={models ? E : 0}
           setValue={setInitialConditions}
+          nameParams="E"
+          description="Exposed"
           min={0}
           max={Infinity}
-          nameParams="E"
-          type="number"
           isInitialParameters={!!models}
           isDisabled={!models}
+          type="number"
         />
       </Box>
 
@@ -102,11 +107,12 @@ const InitialConditions = () => {
         <NumberInputEpi
           value={I_ac}
           setValue={setInitialConditions}
+          nameParams="I_ac"
+          description="Accumulated infected"
           min={0}
           max={Infinity}
-          nameParams="I_ac"
-          type="number"
           isInitialParameters
+          type="number"
         />
       </Box>
       <Button

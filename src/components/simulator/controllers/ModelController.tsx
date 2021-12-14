@@ -57,35 +57,19 @@ const ModelController = () => {
           <option value="SIR">SIR</option>
         </Select>
       </Box>
-      {/* <Box m="2% 0">
-        <Text flex="1" textAlign="left">
-          Initial Date
-        </Text>
-        <SelectDate setValue={setParameters} nameParams="t_init" />
-      </Box> */}
       <Flex justify="space-between">
-        {/* <Box>
-          <NumberInputEpi
-            value={t_init}
-            setValue={setParameters}
-            min={0}
-            max={Infinity}
-            nameParams="t_init"
-            type="number"
-            isInitialParameters
-          />
-        </Box> */}
         <Box>
           <NumberInputEpi
             value={t_end}
             setValue={setParameters}
+            nameParams="t_end"
+            name="Duration"
+            description="Duration days"
             min={0}
             step={1}
             max={Infinity}
-            nameParams="t_end"
-            name="Duration"
-            type="number"
             isInitialParameters
+            type="number"
           />
         </Box>
       </Flex>
@@ -94,6 +78,7 @@ const ModelController = () => {
         setValue={setParameters}
         nameParams="beta"
         name="Beta (β)"
+        description="Infection rate"
         step={0.01}
         min={0.01}
         max={0.5}
@@ -103,16 +88,18 @@ const ModelController = () => {
         value={parameters.rR_S}
         setValue={setParameters}
         nameParams="rR_S"
+        description="Average immunity loss rate"
         step={0.01}
         min={0}
-        type="number"
         isInitialParameters
+        type="number"
       />
       <NumberInputEpi
         value={parameters.mu}
         setValue={setParameters}
         nameParams="mu"
         name="Mu (μ)"
+        description="Exposed/Infected Initial rate"
         step={0.01}
         min={0.01}
         max={5}
@@ -122,22 +109,25 @@ const ModelController = () => {
         value={parameters.tI_R}
         setValue={setParameters}
         nameParams="tI_R"
-        type="number"
+        description="Transition time between infectious and removed"
         min={0.01}
         isInitialParameters
+        type="number"
       />
       <NumberInputEpi
         value={parameters.tE_I}
         setValue={setParameters}
         nameParams="tE_I"
-        type="number"
-        isInitialParameters
+        description="Transition time between exposed and infectious"
         min={0.01}
+        isInitialParameters
+        type="number"
       />
       <NumberInputEpi
         value={parameters.pI_det}
         setValue={setParameters}
         nameParams="pI_det"
+        description="Underreport"
         step={0.01}
         min={0.01}
         max={1}

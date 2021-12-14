@@ -5,7 +5,6 @@ import {
   Tbody,
   Tr,
   Th,
-  Icon,
   Box,
   Flex,
   Tooltip,
