@@ -9,6 +9,7 @@ import countyData from "../../data/counties.json";
 const CountiesSelect = ({ options, optionsCounty }) => {
   const { counties: countiesSelected, setCounties: setCountiesSelected } =
     useContext(SelectFeature);
+  const [optionsCounties, setOptionsCounties] = useState([]);
   const [countyFeature, setCountyFeature] = useState("");
   const [countyFeaturesByState, setCountyFeaturesByState] = useState("");
   const handleAddCountiesByState = (codState) => {
@@ -62,6 +63,11 @@ const CountiesSelect = ({ options, optionsCounty }) => {
 
     return true;
   };
+  const handleOptionsCounties = (val) => {
+    return (
+      optionsCounty[0].options.filter((e) => e.value.startsWith(val)) ?? ""
+    );
+  };
   return (
     <Box>
       <FormControl mt="0.6rem">
@@ -71,30 +77,17 @@ const CountiesSelect = ({ options, optionsCounty }) => {
           options={options}
           placeholder="Select all counties from a State"
           size="sm"
-          onChange={({ fips }) => setCountyFeaturesByState(fips)}
+          onChange={({ fips }) => {
+            setCountyFeaturesByState(fips);
+            setOptionsCounties(handleOptionsCounties(fips));
+          }}
         />
-        <Box w="100%" textAlign="right" pt="0.3rem">
-          <Button
-            size="xs"
-            m="0 3% 0 0"
-            onClick={() => handleAddCounties(countyFeaturesByState)}
-            colorScheme="blue"
-          >
-            Add
-          </Button>
-          <Button
-            size="xs"
-            onClick={() => handleAddCounties(countyFeaturesByState, false)}
-          >
-            Remove
-          </Button>
-        </Box>
       </FormControl>
       <FormControl mt="0.6rem">
         <Select
           name="counties"
           className="reactSelect"
-          options={optionsCounty}
+          options={optionsCounties}
           placeholder="Select one or more Counties"
           size="sm"
           w="100%"
