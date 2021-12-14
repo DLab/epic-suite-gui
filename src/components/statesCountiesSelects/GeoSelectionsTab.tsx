@@ -40,7 +40,7 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
   }, [geoSelections]);
 
   const deleteGeoSelection = (id: string) => {
-    localStorage.clear();
+    localStorage.removeItem("geoSelection");
     const geoSelectionFilter = data.filter(
       (geoSelection) => geoSelection.id !== id
     );
