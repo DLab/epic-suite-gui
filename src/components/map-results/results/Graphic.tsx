@@ -56,6 +56,11 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
       layout={{
         width: +width,
         height: +height,
+        margin: {
+          l: 70,
+          b: 70,
+          t: 70,
+        },
         title: `Graphic ${index + 1}`,
         legend: { xanchor: "end", x: 20, y: 1 },
         xaxis: {

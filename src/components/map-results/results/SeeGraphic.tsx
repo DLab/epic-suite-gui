@@ -56,22 +56,16 @@ const SeeGraphic = ({ savedKeys, index }: Props) => {
           <>
             <Modal isOpen={isOpen} onClose={onClose} size="xl">
               <ModalOverlay />
-              <ModalContent>
+              <ModalContent textAlign="center" maxW="70vw" maxH="90vh">
                 <ModalCloseButton />
                 <ModalBody>
                   <Graphic
                     savedSimulationKeys={savedKeys}
-                    width="500"
-                    height="340"
+                    width="100%"
+                    height="95%"
                     index={index}
                   />
                 </ModalBody>
-
-                <ModalFooter>
-                  <Button colorScheme="blue" mr={3} onClick={onClose}>
-                    Close
-                  </Button>
-                </ModalFooter>
               </ModalContent>
             </Modal>
           </>

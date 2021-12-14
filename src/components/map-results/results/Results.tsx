@@ -284,7 +284,7 @@ const Results = () => {
               >
                 {allGraphicData.map((graphicData, index) => {
                   return (
-                    <Box w="320px">
+                    <Box>
                       <Flex justify="end">
                         {" "}
                         <SeeGraphic savedKeys={graphicData} index={index} />
@@ -308,8 +308,8 @@ const Results = () => {
                       <Graphic
                         savedSimulationKeys={graphicData}
                         index={index}
-                        width="400"
-                        height="320"
+                        width="470"
+                        height="340"
                       />
                     </Box>
                   );
