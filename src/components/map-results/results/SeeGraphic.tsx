@@ -15,14 +15,10 @@ import dynamic from "next/dynamic";
 import React from "react";
 
 import SeeGraphicIcon from "../../icons/SeeGraphIcon";
-
-interface SimulationKeys {
-  name: string;
-  keys: [];
-}
+import { SavedSimulationData } from "context/GraphicsContext";
 
 interface Props {
-  savedKeys?: SimulationKeys[];
+  savedKeys?: SavedSimulationData[];
   index: number;
 }
 

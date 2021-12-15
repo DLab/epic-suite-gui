@@ -13,19 +13,14 @@ import {
   Checkbox,
   Link,
 } from "@chakra-ui/react";
-// import FileSaver from "file-saver";
 import dynamic from "next/dynamic";
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 
+import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 
 import Exports from "./Exports";
 import SeeGraphic from "./SeeGraphic";
-
-interface Ref {
-  name: string;
-  keys: string[];
-}
 
 const Graphic = dynamic(() => import("./Graphic"), {
   loading: () => (
@@ -42,14 +37,17 @@ const Graphic = dynamic(() => import("./Graphic"), {
   ssr: false,
 });
 const Results = () => {
-  // para ver mostar las keys de los parametros en los checkbox
-  const [simulationKeys, setSimulationKeys] = useState([]);
-  // para ver las keys que se repiten segun key+nombre de la simulación
-  const [savedSimulationKeys, setSavedSimulationKeys] = useState<string[]>([]);
-  const [savedSimulation, setSavedSimulation] = useState<Ref[]>([]);
-  // va juntando todas las simulaciones para poder ver más de un gráfico
-  const [allGraphicData, setAllGraphicData] = useState([]);
   const { aux: responseSim } = useContext(TabIndex);
+  const {
+    simulationKeys,
+    setSimulationKeys,
+    savedSimulationKeys,
+    setSavedSimulationKeys,
+    savedSimulation,
+    setSavedSimulation,
+    allGraphicData,
+    setAllGraphicData,
+  } = useContext(GraphicsData);
   const model = ["S", "E", "I", "R"];
 
   // const setInitialParameters = (data) => {
