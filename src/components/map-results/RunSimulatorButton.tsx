@@ -1,6 +1,7 @@
 import { Button, Spinner, Text, useToast } from "@chakra-ui/react";
 import { useContext, useState, useEffect } from "react";
 
+import { GraphicsData } from "context/GraphicsContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
@@ -16,6 +17,7 @@ const RunSimulatorButton = () => {
   const { parameters } = useContext(ModelsSaved);
   const { geoSelections: geoSelectionsElementsContext } =
     useContext(SelectFeature);
+  const { setAllGraphicData } = useContext(GraphicsData);
   const [models, setModels] = useState([]);
   const [geoSelection, setGeoSelection] = useState([]);
   const [isSimulating, setisSimulating] = useState(false);
@@ -42,6 +44,7 @@ const RunSimulatorButton = () => {
         (e.idGeo !== 0 || e.idGraph !== 0) && e.idModel !== 0
     );
   };
+
   const handleJsonToToml = async () => {
     setisSimulating(true);
     try {
@@ -124,6 +127,7 @@ const RunSimulatorButton = () => {
           }));
         setAux(JSON.stringify(data));
         setIndex(4);
+        setAllGraphicData([]);
       }
       toast({
         position: bottonLeft,
@@ -134,7 +138,7 @@ const RunSimulatorButton = () => {
         isClosable: true,
       });
     } catch (error) {
-      if (error.response.status === 400) {
+      if (error.response?.status === 400) {
         toast({
           position: bottonLeft,
           title: "Simulation failed",

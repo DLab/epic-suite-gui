@@ -11,7 +11,6 @@ import {
   AccordionIcon,
   Spinner,
   Checkbox,
-  Link,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { useEffect, useContext } from "react";
@@ -93,6 +92,8 @@ const Results = () => {
       setSimulationKeys(graphicData);
       // setInitialParameters(graphicData);
     }
+    setSavedSimulationKeys([]);
+    setSavedSimulation([]);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseSim]);
