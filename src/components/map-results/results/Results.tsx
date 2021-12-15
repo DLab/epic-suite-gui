@@ -1,24 +1,13 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  Button,
-  Text,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-  Spinner,
-  Checkbox,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, Spinner, Button } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 
 import Exports from "./Exports";
+import ResultsSelection from "./ResultsSelection";
 import SeeGraphic from "./SeeGraphic";
 
 const Graphic = dynamic(() => import("./Graphic"), {
@@ -37,118 +26,8 @@ const Graphic = dynamic(() => import("./Graphic"), {
 });
 const Results = () => {
   const { aux: responseSim } = useContext(TabIndex);
-  const {
-    simulationKeys,
-    setSimulationKeys,
-    savedSimulationKeys,
-    setSavedSimulationKeys,
-    savedSimulation,
-    setSavedSimulation,
-    allGraphicData,
-    setAllGraphicData,
-  } = useContext(GraphicsData);
-  const model = ["S", "E", "I", "R"];
-
-  // const setInitialParameters = (data) => {
-  //   let initialParameters = [];
-  //   let initialId = [];
-  //   data.map((simulation) => {
-  //     return Object.keys(simulation).forEach((key) => {
-  //       const id = `${key + simulation.name}`;
-  //       if (model.includes(key) && key !== "name") {
-  //         const isSimulationSaved = initialParameters.filter((sim) => {
-  //           return simulation.name === sim.name;
-  //         });
-
-  //         if (isSimulationSaved.length === 0) {
-  //           initialParameters = [
-  //             ...initialParameters,
-  //             { name: simulation.name, keys: [key] },
-  //           ];
-  //         } else {
-  //           initialParameters = initialParameters.map((sim) => {
-  //             let simulationAux = sim;
-  //             if (sim.name === isSimulationSaved[0].name) {
-  //               simulationAux = {
-  //                 name: sim.name,
-  //                 keys: [...sim.keys, key],
-  //               };
-  //             }
-
-  //             return simulationAux;
-  //           });
-  //         }
-  //         initialId = [...initialId, id];
-  //       }
-  //       setSavedSimulationKeys(initialId);
-  //       return setSavedSimulation(initialParameters);
-  //     });
-  //   });
-  // };
-
-  useEffect(() => {
-    const graphicData = responseSim ? JSON.parse(responseSim) : "";
-    if (graphicData) {
-      setSimulationKeys(graphicData);
-      // setInitialParameters(graphicData);
-    }
-    setSavedSimulationKeys([]);
-    setSavedSimulation([]);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [responseSim]);
-
-  const saveKeys = (ischecked, id, value, name) => {
-    const isInclude = savedSimulationKeys.includes(id);
-    const isSimulationSaved = savedSimulation.filter((simulation) => {
-      return simulation.name === name;
-    });
-
-    if (ischecked && !isInclude) {
-      if (isSimulationSaved.length === 0) {
-        setSavedSimulation([...savedSimulation, { name, keys: [value] }]);
-      } else {
-        setSavedSimulation(
-          savedSimulation.map((simulation) => {
-            let simulationAux = simulation;
-            if (simulation.name === isSimulationSaved[0].name) {
-              simulationAux = {
-                name: simulation.name,
-                keys: [...simulation.keys, value],
-              };
-            }
-
-            return simulationAux;
-          })
-        );
-      }
-
-      return setSavedSimulationKeys([...savedSimulationKeys, id]);
-    }
-    if (!ischecked && isInclude) {
-      let modifiedSimulations = savedSimulation.map((simulation) => {
-        let simulationAux = simulation;
-        if (simulation.name === isSimulationSaved[0].name) {
-          const simulationAuxFiltered = simulationAux.keys.filter(
-            (simulationValue) => simulationValue !== value
-          );
-          simulationAux = {
-            name: simulation.name,
-            keys: simulationAuxFiltered,
-          };
-        }
-        return simulationAux;
-      });
-      modifiedSimulations = modifiedSimulations.filter((simulation) => {
-        return simulation.keys.length > 0;
-      });
-      setSavedSimulation(modifiedSimulations);
-      return setSavedSimulationKeys(
-        savedSimulationKeys.filter((key) => key !== id)
-      );
-    }
-    return savedSimulationKeys;
-  };
+  const { allGraphicData, setAllGraphicData, savedSimulation } =
+    useContext(GraphicsData);
 
   return (
     <Flex w="100%" p="5px" mt="15px" h="100%" textAlign="center">
@@ -161,104 +40,7 @@ const Results = () => {
             direction="column"
             justify="space-between"
           >
-            <Accordion allowMultiple h="85%" overflowY="auto">
-              {simulationKeys.map((simulation) => {
-                return (
-                  <AccordionItem bg="#16609E" mb="30px">
-                    <h2>
-                      <AccordionButton
-                        color="white"
-                        _focus={{ boxShadow: "none" }}
-                      >
-                        <Box flex="1" textAlign="left">
-                          {simulation.name}
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pb={4} bg="#FFFFFF">
-                      <Accordion defaultIndex={[0]} allowMultiple>
-                        <AccordionItem>
-                          <h2>
-                            <AccordionButton _focus={{ boxShadow: "none" }}>
-                              <Box flex="1" textAlign="left">
-                                Results
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel pb={4}>
-                            <Flex flexWrap="wrap">
-                              {Object.keys(simulation).map((key) => {
-                                if (model.includes(key)) {
-                                  return (
-                                    <Checkbox
-                                      size="sm"
-                                      m="2% 5%"
-                                      id={`${key + simulation.name}`}
-                                      value={key}
-                                      onChange={(e) => {
-                                        saveKeys(
-                                          e.target.checked,
-                                          e.target.id,
-                                          e.target.value,
-                                          simulation.name
-                                        );
-                                      }}
-                                    >
-                                      {key}
-                                    </Checkbox>
-                                  );
-                                }
-                                return false;
-                              })}
-                            </Flex>
-                          </AccordionPanel>
-                        </AccordionItem>
-                        <AccordionItem>
-                          <h2>
-                            <AccordionButton _focus={{ boxShadow: "none" }}>
-                              <Box flex="1" textAlign="left">
-                                Other Data
-                              </Box>
-                              <AccordionIcon />
-                            </AccordionButton>
-                          </h2>
-                          <AccordionPanel pb={4}>
-                            <Flex flexWrap="wrap">
-                              {Object.keys(simulation).map((key) => {
-                                if (!model.includes(key) && key !== "name") {
-                                  return (
-                                    <Checkbox
-                                      size="sm"
-                                      m="2% 5%"
-                                      id={`${key + simulation.name}`}
-                                      value={key}
-                                      // eslint-disable-next-line sonarjs/no-identical-functions
-                                      onChange={(e) => {
-                                        saveKeys(
-                                          e.target.checked,
-                                          e.target.id,
-                                          e.target.value,
-                                          simulation.name
-                                        );
-                                      }}
-                                    >
-                                      {key}
-                                    </Checkbox>
-                                  );
-                                }
-                                return false;
-                              })}
-                            </Flex>
-                          </AccordionPanel>
-                        </AccordionItem>
-                      </Accordion>
-                    </AccordionPanel>
-                  </AccordionItem>
-                );
-              })}
-            </Accordion>
+            <ResultsSelection />
             <Box h="15%">
               <Button
                 colorScheme="teal"
