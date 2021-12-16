@@ -8,11 +8,11 @@ import {
   Spinner,
   useToast,
 } from "@chakra-ui/react";
-import moment from "moment";
 import { useState, useEffect, useContext, useCallback } from "react";
 
 import SelectDate from "components/simulator/controllers/SelectDate";
 import { ControlPanel } from "context/ControlPanelContext";
+import { GraphicsData } from "context/GraphicsContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import {
@@ -38,6 +38,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
     useContext(ControlPanel);
   const { simulation, setIdSimulationUpdating, setSimulation } =
     useContext(SimulationSetted);
+  const { setAllGraphicData } = useContext(GraphicsData);
   // set state into components for optionfeature -> Graph - Geographic - ""
   const [optionFeature, setOptionFeature] = useState<OptionFeature>(
     OptionFeature.None
@@ -432,9 +433,10 @@ const SimulationItem = ({ idSimulation }: Props) => {
           color="#16609E"
           as={DeleteIcon}
           cursor="pointer"
-          onClick={() =>
-            setSimulation({ type: "remove", element: idSimulation })
-          }
+          onClick={() => {
+            setSimulation({ type: "remove", element: idSimulation });
+            setAllGraphicData([]);
+          }}
         />
       </Td>
     </Tr>
