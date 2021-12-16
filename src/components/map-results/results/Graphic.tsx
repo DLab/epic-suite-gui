@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
+import { SavedSimulationData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 
-interface Ref {
-  name: string;
-  keys: [];
-}
-
 interface Props {
-  savedSimulationKeys?: Ref[];
+  savedSimulationKeys?: SavedSimulationData[];
   width: string;
   height: string;
   index: number;
@@ -63,6 +59,7 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
         },
         title: `Graphic ${index + 1}`,
         legend: { xanchor: "end", x: 20, y: 1 },
+        showlegend: true,
         xaxis: {
           title: {
             text: "Time",
