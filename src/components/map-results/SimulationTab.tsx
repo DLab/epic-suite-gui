@@ -1,4 +1,4 @@
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, InfoIcon } from "@chakra-ui/icons";
 import {
   Table,
   Thead,
@@ -9,6 +9,7 @@ import {
   Flex,
   Tooltip,
   IconButton,
+  Icon,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { useContext } from "react";
@@ -25,8 +26,14 @@ const SimulationTab = () => {
         <Table size="md" bg="#FFFFFF" borderRadius="md">
           <Thead>
             <Tr>
+              <Th>Name Simulation</Th>
               <Th>Model Parameters</Th>
-              <Th>Initial Date</Th>
+              <Th>
+                Initial Date
+                <Tooltip label="Disabled on graph simulation">
+                  <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
+                </Tooltip>
+              </Th>
               <Th>Graph / Spatial</Th>
               <Th>Selection</Th>
               <Th>Initial Conditions</Th>
@@ -46,6 +53,7 @@ const SimulationTab = () => {
                         setSimulation({
                           type: "add",
                           payload: {
+                            name: "",
                             idSim: Date.now(),
                             idModel: 0,
                             idGeo: 0,
@@ -71,6 +79,7 @@ const SimulationTab = () => {
           </Thead>
           <Tbody>
             {simulation.length > 0 &&
+              simulation &&
               simulation.map((e) => (
                 <SimulationItem key={e.idSim} idSimulation={e.idSim} />
               ))}

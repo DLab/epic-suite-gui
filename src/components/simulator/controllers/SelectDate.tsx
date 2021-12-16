@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import DatePicker from "react-datepicker";
 
 import { SimulationSetted } from "context/SimulationContext";
@@ -11,9 +11,14 @@ interface Props {
 }
 
 const SelectDate = ({ idSimulation }: Props) => {
-  const { setSimulation } = useContext(SimulationSetted);
-  const [startDate, setStartDate] = useState(new Date());
-
+  const { simulation, setSimulation } = useContext(SimulationSetted);
+  const [startDate, setStartDate] = useState(
+    new Date(
+      moment(simulation.find((s) => s.idSim === idSimulation).t_init).format(
+        "YYYY/MM/D"
+      )
+    )
+  );
   const handleChange = (val: string | number) => {
     setSimulation({
       type: "update",
@@ -22,16 +27,16 @@ const SelectDate = ({ idSimulation }: Props) => {
       element: val,
     });
   };
-
   return (
     <DatePicker
-      classNa
+      dateFormat="yyyy/MM/dd"
       selected={startDate}
       onChange={(date) => {
-        const x = moment(date).format("YYYY-MM-D");
+        const x = moment(date).format("YYYY/MM/D");
         setStartDate(date);
         handleChange(x);
       }}
+      openToDate={new Date()}
     />
   );
 };

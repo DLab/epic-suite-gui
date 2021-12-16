@@ -7,13 +7,14 @@ import {
   Button,
   Spinner,
   useToast,
+  Input,
 } from "@chakra-ui/react";
-import moment from "moment";
+import _ from "lodash";
 import { useState, useEffect, useContext, useCallback } from "react";
 
 import SelectDate from "components/simulator/controllers/SelectDate";
 import { ControlPanel } from "context/ControlPanelContext";
-import { ModelsSaved } from "context/ModelsContext";
+import { DataParameters, ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import {
   OptionFeature,
@@ -32,8 +33,7 @@ const RealConditions = "real-conditions";
 const SimulationItem = ({ idSimulation }: Props) => {
   const toast = useToast();
   const { parameters } = useContext(ModelsSaved);
-  const { geoSelections: geoSelectionsElementsContext } =
-    useContext(SelectFeature);
+  const { geoSelections } = useContext(SelectFeature);
   const { setInitialConditions: setInitialConditionsContext } =
     useContext(ControlPanel);
   const { simulation, setIdSimulationUpdating, setSimulation } =
@@ -42,29 +42,14 @@ const SimulationItem = ({ idSimulation }: Props) => {
   const [optionFeature, setOptionFeature] = useState<OptionFeature>(
     OptionFeature.None
   );
-  const [idGeoSelection, setIdGeoSelection] = useState(0);
-  const [idGraph, setIdGraph] = useState(0);
-  const [models, setModels] = useState([]);
-  const [geoSelection, setGeoSelection] = useState([]);
+  const [idGeoSelection, setIdGeoSelection] = useState<number>(0);
+  const [idGraph, setIdGraph] = useState<number>(0);
+  // const [modelsCopy, setModelsCopy] = useState({});
+  // const [geoSelectionCopy, setGeoSelectionCopy] = useState([]);
   const [initialConditions, setInitialConditions] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // get data from Localstorage and set models & geoSelection
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.localStorage.getItem("models")
-    ) {
-      const dataLocalStorageModel = window.localStorage.getItem("models");
-      setModels(JSON.parse(dataLocalStorageModel));
-    }
-    if (
-      typeof window !== "undefined" &&
-      window.localStorage.getItem("geoSelection")
-    ) {
-      const dataLocalStorageGeo = window.localStorage.getItem("geoSelection");
-      setGeoSelection(JSON.parse(dataLocalStorageGeo));
-    }
-  }, [parameters, geoSelectionsElementsContext]);
 
   useEffect(() => {
     setInitialConditions(null);
@@ -90,76 +75,83 @@ const SimulationItem = ({ idSimulation }: Props) => {
   }, [getDefaultValueParameters]);
   /* dispatch to simulationContext data about type selection 
   when select value is changed. Besides, modify other contexts values */
-  const valueOptionFeature = (e: string) => {
-    switch (e) {
-      case OptionFeature.Geographic:
-        setOptionFeature(OptionFeature.Geographic);
-        setSimulation({
-          type: "update",
-          element: OptionFeature.Geographic,
-          target: "typeSelection",
-          id: idSimulation,
-        });
-        setSimulation({
-          type: "update",
-          element: 0,
-          target: "idGraph",
-          id: idSimulation,
-        });
-        break;
-      case OptionFeature.Graph:
-        setOptionFeature(OptionFeature.Graph);
-        setSimulation({
-          type: "update",
-          element: OptionFeature.Graph,
-          target: "typeSelection",
-          id: idSimulation,
-        });
-        setSimulation({
-          type: "update",
-          element: 0,
-          target: "idGeo",
-          id: idSimulation,
-        });
-        break;
-      default:
-        setOptionFeature(OptionFeature.None);
-        setSimulation({
-          type: "update",
-          element: OptionFeature.None,
-          target: "typeSelection",
-          id: idSimulation,
-        });
-        setSimulation({
-          type: "update",
-          element: 0,
-          target: "idGeo",
-          id: idSimulation,
-        });
-        setSimulation({
-          type: "update",
-          element: 0,
-          target: "idGraph",
-          id: idSimulation,
-        });
-        break;
-    }
-  };
+  const valueOptionFeature = useCallback(
+    (e: string) => {
+      switch (e) {
+        case OptionFeature.Geographic:
+          setOptionFeature(OptionFeature.Geographic);
+          setSimulation({
+            type: "update",
+            element: OptionFeature.Geographic,
+            target: "typeSelection",
+            id: idSimulation,
+          });
+          setSimulation({
+            type: "update",
+            element: 0,
+            target: "idGraph",
+            id: idSimulation,
+          });
+          break;
+        case OptionFeature.Graph:
+          setOptionFeature(OptionFeature.Graph);
+          setSimulation({
+            type: "update",
+            element: OptionFeature.Graph,
+            target: "typeSelection",
+            id: idSimulation,
+          });
+          setSimulation({
+            type: "update",
+            element: 0,
+            target: "idGeo",
+            id: idSimulation,
+          });
+          break;
+        default:
+          setOptionFeature(OptionFeature.None);
+          setSimulation({
+            type: "update",
+            element: OptionFeature.None,
+            target: "typeSelection",
+            id: idSimulation,
+          });
+          setSimulation({
+            type: "update",
+            element: 0,
+            target: "idGeo",
+            id: idSimulation,
+          });
+          setSimulation({
+            type: "update",
+            element: 0,
+            target: "idGraph",
+            id: idSimulation,
+          });
+          break;
+      }
+    },
+    [idSimulation, setSimulation]
+  );
   // update any property in simulationContext
-  const selectSimulation = (e, target) => {
-    setSimulation({
-      type: "update",
-      element: e,
-      target,
-      id: idSimulation,
-    });
-  };
+  const selectSimulation = useCallback(
+    (e, target) => {
+      setSimulation({
+        type: "update",
+        element: e,
+        target,
+        id: idSimulation,
+      });
+    },
+    [idSimulation, setSimulation]
+  );
   const handleFetch = async (url, method, body) => {
     try {
+      setIsLoading(true);
       if (!body) {
         throw new Error("There's no geographics areas selected");
       }
-      const { featureSelected: spatialSelection, scale } = geoSelection.find(
+      const { featureSelected: spatialSelection, scale } = geoSelections.find(
         (element) => element.id === body
       );
       if (!spatialSelection) {
@@ -167,10 +159,16 @@ const SimulationItem = ({ idSimulation }: Props) => {
           "Spatial selection hasn't states or counties selected. \n Check it before set initial conditions"
         );
       }
+
       const { idModel, t_init: timeInit } = simulation.find(
         (s) => s.idSim === idSimulation
       );
-      const { name } = models.find((m) => m.id === idModel).parameters;
+      if (idModel === 0) {
+        throw new Error("Choose a model please");
+      }
+      const { name } = parameters.find(
+        (m: DataParameters) => m.id === idModel
+      ).parameters;
       const configCalcInitialConditions = {
         compartments: name,
         timeInit,
@@ -229,6 +227,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
         }
       }
     } catch (error) {
+      setIsLoading(false);
       setIdGeoSelection(0);
       setIdSimulationUpdating({ type: "set", payload: 0 });
       setInitialConditionsContext({
@@ -252,8 +251,42 @@ const SimulationItem = ({ idSimulation }: Props) => {
       });
     }
   };
+  useEffect(() => {
+    // usar lodash para comparar objetos
+    // console.log(parameters,geoSelections);
+    valueOptionFeature(OptionFeature.None);
+    setIdGeoSelection(0);
+    setIdGraph(0);
+    setIdSimulationUpdating({ type: "set", payload: 0 });
+    selectSimulation(
+      {
+        population: 0,
+        R: 0,
+        I: 0,
+        I_d: 0,
+        I_ac: 0,
+        E: 0,
+      },
+      "initialConditions"
+    );
+  }, [
+    parameters,
+    geoSelections,
+    valueOptionFeature,
+    setIdSimulationUpdating,
+    selectSimulation,
+  ]);
   return (
     <Tr>
+      <Td>
+        <Input
+          placeholder="Add simulation name"
+          size="sm"
+          onChange={(e) => {
+            selectSimulation(e.target.value, "name");
+          }}
+        />
+      </Td>
       <Td>
         <Select
           placeholder="select a model"
@@ -277,8 +310,8 @@ const SimulationItem = ({ idSimulation }: Props) => {
           }}
           value={getDefaultValueParameters("idModel") ?? 0}
         >
-          {models.length > 0 &&
-            models.map((param) => {
+          {parameters.length > 0 &&
+            parameters.map((param: DataParameters) => {
               return (
                 <option key={param.id} value={param.id}>
                   {param.parameters.name_model}
@@ -288,7 +321,9 @@ const SimulationItem = ({ idSimulation }: Props) => {
         </Select>
       </Td>
       <Td>
-        <SelectDate idSimulation={idSimulation} />
+        {optionFeature !== OptionFeature.Graph && (
+          <SelectDate idSimulation={idSimulation} />
+        )}
       </Td>
       <Td>
         <Select
@@ -353,8 +388,8 @@ const SimulationItem = ({ idSimulation }: Props) => {
           }}
         >
           {optionFeature === OptionFeature.Geographic &&
-            geoSelection.length > 0 &&
-            geoSelection.map((e) => {
+            geoSelections.length > 0 &&
+            geoSelections.map((e) => {
               return (
                 <option key={e.id} value={e.id}>
                   {e.name}
@@ -412,9 +447,10 @@ const SimulationItem = ({ idSimulation }: Props) => {
               }
             }}
           >
-            {reducerValuesObjects(initialConditions) > 0 ? (
+            {reducerValuesObjects(initialConditions) > 0 && (
               <Icon color="#16609E" as={EditIcon} cursor="pointer" />
-            ) : (
+            )}
+            {isLoading ? (
               <Spinner
                 thickness="4px"
                 speed="0.65s"
@@ -422,6 +458,8 @@ const SimulationItem = ({ idSimulation }: Props) => {
                 color="blue.500"
                 size="md"
               />
+            ) : (
+              ""
             )}
           </Button>
         )}

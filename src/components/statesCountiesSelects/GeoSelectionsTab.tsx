@@ -23,40 +23,33 @@ interface Props {
 
 const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
   const { geoSelections, setGeoSelections } = useContext(SelectFeature);
-  const [data, setData] = useState([]);
   const [viewDetails, setViewDetails] = useState(false);
   const [geoSelectionDetails, setGeoSelectionDetails] = useState([]);
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.localStorage.getItem("geoSelection")
-    ) {
-      const localStorageGeoSelection =
-        window.localStorage.getItem("geoSelection");
-      setData(JSON.parse(localStorageGeoSelection));
-    }
     setViewDetails(false);
   }, [geoSelections]);
 
-  const deleteGeoSelection = (id: string) => {
+  const deleteGeoSelection = (id: number) => {
     localStorage.removeItem("geoSelection");
-    const geoSelectionFilter = data.filter(
-      (geoSelection) => geoSelection.id !== id
+    const geoSelectionFilter = geoSelections.filter(
+      (geoSelection) => geoSelection.id !== +id
     );
     localStorage.setItem("geoSelection", JSON.stringify(geoSelectionFilter));
     setGeoSelections({ type: "removeGeoSelection", element: `${id}` });
   };
 
-  const viewGeoSelectionsDetails = (id: string) => {
-    const details = data.filter((geoSelection) => geoSelection.id === id);
+  const viewGeoSelectionsDetails = (id: number) => {
+    const details = geoSelections.filter(
+      (geoSelection) => geoSelection.id === id
+    );
     setGeoSelectionDetails(details);
     setViewDetails(true);
   };
 
   return (
     <>
-      {data.length > 0 ? (
+      {geoSelections.length > 0 ? (
         <Flex>
           <Flex
             w="60%"
@@ -75,7 +68,7 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
                 </Tr>
               </Thead>
               <Tbody>
-                {data.map((geoSelection) => {
+                {geoSelections.map((geoSelection) => {
                   return (
                     <Tr key={geoSelection.id}>
                       <Td>{geoSelection.name}</Td>

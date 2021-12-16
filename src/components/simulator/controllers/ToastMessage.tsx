@@ -7,7 +7,6 @@ import {
   DataParameters,
   ModelAttributes,
 } from "context/ModelsContext";
-import SelectFeatureContext from "context/SelectFeaturesContext";
 
 const ToastMessage = () => {
   const toast = useToast();
@@ -17,10 +16,6 @@ const ToastMessage = () => {
   const handleDataLocalStorage = () => {
     const bottomLeft = "bottom-left";
     try {
-      const localStorageExist = window.localStorage.getItem("models");
-      if (!localStorageExist) {
-        window.localStorage.setItem("models", JSON.stringify([]));
-      }
       const dataParameters: DataParameters = {
         parameters,
         id: Date.now(),

@@ -36,6 +36,7 @@
     "framer-motion": "^4.1.17",
     "json2csv": "^5.0.6",
     "leaflet": "^1.7.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "next": "^11.1.2",
     "next-pwa": "^5.3.1",

@@ -6,6 +6,7 @@ export interface ActionsModelsData {
   type: string;
   payload?: DataParameters;
   element?: string;
+  initial?: DataParameters[];
 }
 
 export interface DataParameters {
@@ -42,6 +43,8 @@ const ModelsContext: React.FC = ({ children }) => {
           }
           return e;
         });
+      case "set":
+        return [...state, ...action.initial];
       default:
         return state;
     }

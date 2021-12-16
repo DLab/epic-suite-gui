@@ -34,19 +34,19 @@ const ModelsTab = () => {
   const [modelDetails, setmodelDetails] = useState([]);
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.localStorage.getItem("models")
-    ) {
-      const localStorageModelsData = window.localStorage.getItem("models");
-      setData(JSON.parse(localStorageModelsData));
-    }
+    // if (
+    //   typeof window !== "undefined" &&
+    //   window.localStorage.getItem("models")
+    // ) {
+    //   const localStorageModelsData = window.localStorage.getItem("models");
+    //   setData(JSON.parse(localStorageModelsData));
+    // }
     setViewDetails(false);
   }, [parameters]);
 
   const deleteModel = (name: string) => {
     localStorage.removeItem("models");
-    const modelDataFilter = data.filter((model) => model.id !== name);
+    const modelDataFilter = parameters.filter((model) => model.id !== +name);
     localStorage.setItem("models", JSON.stringify(modelDataFilter));
     setParameters({ type: "remove", element: `${name}` });
   };
@@ -56,14 +56,14 @@ const ModelsTab = () => {
     setParams({ type: "update", updateData: dataForUpdate });
   };
   const viewModelDetails = (name: string) => {
-    const details = data.filter((model) => model.id === name);
+    const details = parameters.filter((model) => model.id === +name);
     setmodelDetails(details);
     setViewDetails(true);
   };
 
   return (
     <>
-      {data.length > 0 ? (
+      {parameters.length > 0 ? (
         <Flex>
           <Flex
             w="60%"
@@ -83,7 +83,7 @@ const ModelsTab = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {data.map((model) => {
+                {parameters.map((model) => {
                   return (
                     <Tr key={model.id}>
                       <Td>{model.parameters.name_model}</Td>
