@@ -400,7 +400,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
             setIdGraph(+e.target.value);
             if (optionFeature === OptionFeature.Geographic) {
               handleFetch(
-                "http://192.168.2.216:5010/initCond",
+                "http://192.168.2.131:5010/initCond",
                 "POST",
                 +e.target.value
               );
