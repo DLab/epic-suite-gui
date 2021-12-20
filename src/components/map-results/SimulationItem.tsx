@@ -9,6 +9,7 @@ import {
   useToast,
   Input,
 } from "@chakra-ui/react";
+import _ from "lodash";
 import { useState, useEffect, useContext, useCallback } from "react";
 
 import SelectDate from "components/simulator/controllers/SelectDate";
@@ -32,7 +33,8 @@ const RealConditions = "real-conditions";
 // eslint-disable-next-line complexity
 const SimulationItem = ({ idSimulation }: Props) => {
   const toast = useToast();
-  const { parameters } = useContext(ModelsSaved);
+  const { parameters, setInitialParameters, initialParameters } =
+    useContext(ModelsSaved);
   const { geoSelections } = useContext(SelectFeature);
   const { setInitialConditions: setInitialConditionsContext } =
     useContext(ControlPanel);
@@ -45,22 +47,29 @@ const SimulationItem = ({ idSimulation }: Props) => {
   );
   const [idGeoSelection, setIdGeoSelection] = useState<number>(0);
   const [idGraph, setIdGraph] = useState<number>(0);
+  const [newModels, setNewModels] = useState(initialParameters);
+  // const { idModel } =
+  //   simulation.find((s: SimulatorParams) => s.idSim === idSimulation) || {};
+  // const initialState =
+  //   initialParameters.find((p: DataParameters) => p.id === idModel)
+  //     .parameters || {};
+
+  // const reducer = (action,payload)=>{
+  //   switch (action.type) {
+  //     case "add":
+
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // }
+  // const [model, modelDispatch] = useReducer(reducer, initialState)
   // const [modelsCopy, setModelsCopy] = useState({});
   // const [geoSelectionCopy, setGeoSelectionCopy] = useState([]);
   const [initialConditions, setInitialConditions] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // get data from Localstorage and set models & geoSelection
-
-  useEffect(() => {
-    setInitialConditions(null);
-    const simInitialConditions = simulation.find(
-      (e: SimulatorParams) => e.idSim === idSimulation
-    ).initialConditions;
-    if (simInitialConditions) {
-      setInitialConditions(simInitialConditions);
-    }
-  }, [idSimulation, simulation]);
   const getDefaultValueParameters = useCallback(
     (field) => {
       return simulation.find(
@@ -250,33 +259,52 @@ const SimulationItem = ({ idSimulation }: Props) => {
         duration: 3000,
         isClosable: true,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
-    // usar lodash para comparar objetos
-    // console.log(parameters,geoSelections);
-    valueOptionFeature(OptionFeature.None);
-    setIdGeoSelection(0);
-    setIdGraph(0);
-    setIdSimulationUpdating({ type: "set", payload: 0 });
-    selectSimulation(
-      {
-        population: 0,
-        R: 0,
-        I: 0,
-        I_d: 0,
-        I_ac: 0,
-        E: 0,
-      },
-      "initialConditions"
-    );
-  }, [
-    parameters,
-    geoSelections,
-    valueOptionFeature,
-    setIdSimulationUpdating,
-    selectSimulation,
-  ]);
+    setInitialConditions(null);
+    const simInitialConditions = simulation.find(
+      (e: SimulatorParams) => e.idSim === idSimulation
+    ).initialConditions;
+    if (simInitialConditions) {
+      setInitialConditions(simInitialConditions);
+    }
+    if (!_.isEqual(parameters, initialParameters)) {
+      const dif: DataParameters[] | [] = _.differenceWith(
+        parameters,
+        initialParameters,
+        _.isEqual
+      );
+      if (dif.length > 0) {
+        const simIdModel = simulation.find((sim) => sim.idSim === idSimulation);
+        const someDif = dif.some(
+          (d: DataParameters) => d.id === simIdModel.idModel
+        );
+        if (!someDif) {
+          setInitialParameters({ type: "reset", initial: parameters });
+        } else {
+          valueOptionFeature(OptionFeature.None);
+          setIdGeoSelection(0);
+          setIdGraph(0);
+          setIdSimulationUpdating({ type: "set", payload: 0 });
+          selectSimulation(
+            {
+              population: 0,
+              R: 0,
+              I: 0,
+              I_d: 0,
+              I_ac: 0,
+              E: 0,
+            },
+            "initialConditions"
+          );
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idSimulation, simulation, parameters]);
   return (
     <Tr>
       <Td>
@@ -286,6 +314,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
           onChange={(e) => {
             selectSimulation(e.target.value, "name");
           }}
+          value={getDefaultValueParameters("name")}
         />
       </Td>
       <Td>

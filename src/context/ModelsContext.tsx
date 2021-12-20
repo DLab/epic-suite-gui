@@ -14,12 +14,16 @@ export interface DataParameters {
   id: number;
 }
 export interface ModelAttributes {
+  initialParameters: DataParameters[] | [];
+  setInitialParameters: (values: ActionsModelsData) => void;
   parameters: DataParameters[] | [];
   setParameters: (values: ActionsModelsData) => void;
 }
 
 export const ModelsSaved = createContext<ModelAttributes>({
   parameters: [],
+  initialParameters: [],
+  setInitialParameters: () => {},
   setParameters: () => {},
 });
 
@@ -45,13 +49,26 @@ const ModelsContext: React.FC = ({ children }) => {
         });
       case "set":
         return [...state, ...action.initial];
+      case "reset":
+        return [...action.initial];
       default:
         return state;
     }
   };
   const [params, setParameters] = useReducer(reducer, initialStateRed);
+  const [initialParameters, setInitialParameters] = useReducer(
+    reducer,
+    initialStateRed
+  );
   return (
-    <ModelsSaved.Provider value={{ parameters: params, setParameters }}>
+    <ModelsSaved.Provider
+      value={{
+        parameters: params,
+        setParameters,
+        initialParameters,
+        setInitialParameters,
+      }}
+    >
       {children}
     </ModelsSaved.Provider>
   );

@@ -11,7 +11,7 @@ import SidebarOpen from "./sidebar/SidebarOpen";
 
 const Simulator = () => {
   // set initial models and geoSelections from localstorage.
-  const { setParameters } = useContext(ModelsSaved);
+  const { setParameters, setInitialParameters } = useContext(ModelsSaved);
   const { setGeoSelections } = useContext(SelectFeature);
   useEffect(() => {
     if (
@@ -20,6 +20,10 @@ const Simulator = () => {
     ) {
       const dataLocalStorageModel = window.localStorage.getItem("models");
       setParameters({
+        type: "set",
+        initial: JSON.parse(dataLocalStorageModel),
+      });
+      setInitialParameters({
         type: "set",
         initial: JSON.parse(dataLocalStorageModel),
       });
@@ -34,7 +38,7 @@ const Simulator = () => {
         initial: JSON.parse(dataLocalStorageGeo),
       });
     }
-  }, [setGeoSelections, setParameters]);
+  }, [setGeoSelections, setParameters, setInitialParameters]);
 
   return (
     <TabContext>
