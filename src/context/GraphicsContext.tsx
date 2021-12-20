@@ -9,7 +9,15 @@ interface LooseObject {
   [key: string]: unknown;
 }
 
-interface SimulationKeysData {
+interface CheckedObject {
+  [key: string]: boolean;
+}
+
+interface CheckedItems {
+  [key: string]: CheckedObject;
+}
+
+export interface SimulationKeysData {
   E: LooseObject;
   E_ac: LooseObject;
   E_d: LooseObject;
@@ -41,6 +49,8 @@ interface GraphicsProps {
   setSavedSimulation: (value: SavedSimulationData[]) => void;
   allGraphicData: SavedSimulationData[][];
   setAllGraphicData?: (value: SavedSimulationData[][]) => void;
+  checkedItems: CheckedItems;
+  setCheckedItems: (value: CheckedItems) => void;
 }
 
 export const GraphicsData = createContext<GraphicsProps>({
@@ -52,6 +62,8 @@ export const GraphicsData = createContext<GraphicsProps>({
   setSavedSimulation: () => {},
   allGraphicData: [],
   setAllGraphicData: () => {},
+  checkedItems: {},
+  setCheckedItems: () => {},
 });
 
 const GraphicsContext: React.FC = ({ children }) => {
@@ -66,6 +78,7 @@ const GraphicsContext: React.FC = ({ children }) => {
   const [allGraphicData, setAllGraphicData] = useState<SavedSimulationData[][]>(
     []
   );
+  const [checkedItems, setCheckedItems] = useState({});
 
   return (
     <GraphicsData.Provider
@@ -78,6 +91,8 @@ const GraphicsContext: React.FC = ({ children }) => {
         setSavedSimulation,
         allGraphicData,
         setAllGraphicData,
+        checkedItems,
+        setCheckedItems,
       }}
     >
       {children}
