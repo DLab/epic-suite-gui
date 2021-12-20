@@ -236,25 +236,27 @@ const ResultsSelection = () => {
             </h2>
             <AccordionPanel pb={4} bg="#FFFFFF">
               <Accordion defaultIndex={[0]} allowMultiple>
-                <Flex flexWrap="wrap">
-                  <Checkbox
-                    m="2% 0"
-                    onChange={(e) => {
-                      const keyList = {};
-                      Object.keys(simulation).forEach((key) => {
-                        if (model.includes(key)) {
-                          keyList[key] = e.target.checked;
-                        }
-                      });
-                      setCheckedItems({
-                        ...checkedItems,
-                        [simulation.name]: keyList,
-                      });
-                      checkParentChecked(simulation, e.target.checked);
-                    }}
-                  >
-                    Results
-                  </Checkbox>
+                <Checkbox
+                  w="100%"
+                  m="2% 0"
+                  fontWeight={500}
+                  onChange={(e) => {
+                    const keyList = {};
+                    Object.keys(simulation).forEach((key) => {
+                      if (model.includes(key)) {
+                        keyList[key] = e.target.checked;
+                      }
+                    });
+                    setCheckedItems({
+                      ...checkedItems,
+                      [simulation.name]: keyList,
+                    });
+                    checkParentChecked(simulation, e.target.checked);
+                  }}
+                >
+                  Results
+                </Checkbox>
+                <Flex flexWrap="wrap" ml="3%">
                   {Object.keys(simulation).map((key) => {
                     if (model.includes(key)) {
                       return (
