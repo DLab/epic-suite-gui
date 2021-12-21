@@ -5,6 +5,7 @@ import AcordionContent from "components/AcordionContent";
 import InitialConditions from "components/simulator/controllers/InitialConditions";
 import ModelController from "components/simulator/controllers/ModelController";
 import ToastMessage from "components/simulator/controllers/ToastMessage";
+import createIdComponent from "utils/createIdcomponent";
 
 import InterventionsParameters from "./controllers/InterventionsParameters";
 
@@ -18,9 +19,14 @@ const ModelBuilder = () => {
 
   return (
     <>
-      <h2 style={{ textAlign: "center", color: "#16609E" }}>Model Builder</h2>
-      <Box p="5px" mt="15px" textAlign="center">
-        <Accordion allowMultiple>
+      <h2
+        id={createIdComponent()}
+        style={{ textAlign: "center", color: "#16609E" }}
+      >
+        Model Builder
+      </h2>
+      <Box id={createIdComponent()} p="5px" mt="15px" textAlign="center">
+        <Accordion id={createIdComponent()} allowMultiple>
           <AcordionContent title="Model">
             <ModelController />
           </AcordionContent>

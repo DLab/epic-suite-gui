@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 
 import { SelectFeature } from "../../context/SelectFeaturesContext";
 import countyData from "../../data/counties.json";
+import createIdComponent from "utils/createIdcomponent";
 
 const CountiesSelect = ({ options, optionsCounty }) => {
   const { counties: countiesSelected, setCounties: setCountiesSelected } =
@@ -69,9 +70,10 @@ const CountiesSelect = ({ options, optionsCounty }) => {
     );
   };
   return (
-    <Box>
-      <FormControl mt="0.6rem">
+    <Box id={createIdComponent()}>
+      <FormControl id={createIdComponent()} mt="0.6rem">
         <Select
+          id={createIdComponent()}
           name="states"
           className="reactSelect"
           options={options}
@@ -83,8 +85,9 @@ const CountiesSelect = ({ options, optionsCounty }) => {
           }}
         />
       </FormControl>
-      <FormControl mt="0.6rem">
+      <FormControl id={createIdComponent()} mt="0.6rem">
         <Select
+          id={createIdComponent()}
           name="counties"
           className="reactSelect"
           options={optionsCounties}
@@ -93,8 +96,9 @@ const CountiesSelect = ({ options, optionsCounty }) => {
           w="100%"
           onChange={({ value }) => setCountyFeature(value)}
         />
-        <Box w="100%" textAlign="right" pt="0.3rem">
+        <Box id={createIdComponent()} w="100%" textAlign="right" pt="0.3rem">
           <Button
+            id={createIdComponent()}
             size="xs"
             m="0 3% 0 0"
             colorScheme="blue"
@@ -103,6 +107,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
             Add
           </Button>
           <Button
+            id={createIdComponent()}
             size="xs"
             onClick={() => handleAddCounties(countyFeature, false)}
           >

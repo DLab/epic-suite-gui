@@ -4,6 +4,7 @@ import { useContext } from "react";
 
 import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
+import createIdComponent from "utils/createIdcomponent";
 
 import SelectDate from "./SelectDate";
 
@@ -12,11 +13,12 @@ const ModelController = () => {
   const { t_end, name_model } = parameters;
   return (
     <>
-      <Box>
-        <Text flex="1" textAlign="left">
+      <Box id={createIdComponent()}>
+        <Text id={createIdComponent()} flex="1" textAlign="left">
           Model Name
         </Text>
         <Input
+          id={createIdComponent()}
           size="sm"
           value={name_model}
           onChange={(e) => {
@@ -27,10 +29,11 @@ const ModelController = () => {
             });
           }}
         />
-        <Text flex="1" textAlign="left">
+        <Text id={createIdComponent()} flex="1" textAlign="left">
           Model
         </Text>
         <Select
+          id={createIdComponent()}
           size="sm"
           onChange={(e) => {
             if (e.target.value === "SEIR") {
@@ -57,8 +60,8 @@ const ModelController = () => {
           <option value="SIR">SIR</option>
         </Select>
       </Box>
-      <Flex justify="space-between">
-        <Box>
+      <Flex id={createIdComponent()} justify="space-between">
+        <Box id={createIdComponent()}>
           <NumberInputEpi
             value={t_end}
             setValue={setParameters}

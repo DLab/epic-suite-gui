@@ -13,6 +13,7 @@ import dynamic from "next/dynamic";
 import { useContext } from "react";
 
 import { TabIndex } from "context/TabContext";
+import createIdComponent from "utils/createIdcomponent";
 
 import GraphTab from "./GraphTab";
 import ModelsTab from "./ModelsTab";
@@ -22,8 +23,9 @@ import SimulationTab from "./SimulationTab";
 
 const Map = dynamic(() => import("./Map"), {
   loading: () => (
-    <Flex justifyContent="center" alignItems="center">
+    <Flex id={createIdComponent()} justifyContent="center" alignItems="center">
       <Spinner
+        id={createIdComponent()}
         thickness="4px"
         speed="0.65s"
         emptyColor="gray.200"
@@ -39,23 +41,31 @@ const MapResult = () => {
   const { index: tabIndex, setIndex } = useContext(TabIndex);
   return (
     <Tabs
+      id={createIdComponent()}
       isLazy
       maxHeight="84vh"
       index={tabIndex}
       onChange={(index) => setIndex(index)}
     >
-      <TabList maxHeight="7vh">
-        <Tab id="models">Models</Tab>
-        <Tab id="map">Map</Tab>
-        <Tab id="graph">Graph</Tab>
-        <Tab id="simulationTab">Simulation</Tab>
-        <Tab id="results">Results</Tab>
+      <TabList maxHeight="7vh" id={createIdComponent()}>
+        <Tab id={createIdComponent()}>Models</Tab>
+        <Tab id={createIdComponent()}>Map</Tab>
+        <Tab id={createIdComponent()}>Graph</Tab>
+        <Tab id={createIdComponent()}>Simulation</Tab>
+        <Tab id={createIdComponent()}>Results</Tab>
       </TabList>
-      <TabPanels>
-        <TabPanel maxHeight="77vh" height="77vh" bg="#FAFAFA" overflowY="auto">
+      <TabPanels id={createIdComponent()}>
+        <TabPanel
+          id={createIdComponent()}
+          maxHeight="77vh"
+          height="77vh"
+          bg="#FAFAFA"
+          overflowY="auto"
+        >
           <ModelsTab />
         </TabPanel>
         <TabPanel
+          id={createIdComponent()}
           maxHeight="77vh"
           height="77vh"
           css={{ position: "relative" }}
@@ -64,24 +74,29 @@ const MapResult = () => {
         >
           <Map />
         </TabPanel>
-        <TabPanel maxHeight="77vh" height="77vh">
-          <Flex h="100%">
-            <Center w="100%">
+        <TabPanel id={createIdComponent()} maxHeight="77vh" height="77vh">
+          <Flex id={createIdComponent()} h="100%">
+            <Center id={createIdComponent()} w="100%">
               <GraphTab />
             </Center>
           </Flex>
         </TabPanel>
-        <TabPanel maxHeight="77vh" height="77vh">
+        <TabPanel id={createIdComponent()} maxHeight="77vh" height="77vh">
           <SimulationTab />
-          <Box h="8%">
-            <Center>
+          <Box id={createIdComponent()} h="8%">
+            <Center id={createIdComponent()}>
               <RunSimulatorButton />
             </Center>
           </Box>
         </TabPanel>
-        <TabPanel maxHeight="77vh" height="77vh" bg="#FAFAFA">
-          <Flex h="100%">
-            <Center w="100%">
+        <TabPanel
+          id={createIdComponent()}
+          maxHeight="77vh"
+          height="77vh"
+          bg="#FAFAFA"
+        >
+          <Flex id={createIdComponent()} h="100%">
+            <Center id={createIdComponent()} w="100%">
               <Results />
             </Center>
           </Flex>

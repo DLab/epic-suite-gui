@@ -1,4 +1,4 @@
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, InfoIcon } from "@chakra-ui/icons";
 import {
   Table,
   Thead,
@@ -9,32 +9,66 @@ import {
   Flex,
   Tooltip,
   IconButton,
+  Icon,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { useContext } from "react";
 
 import { SimulationSetted, OptionFeature } from "context/SimulationContext";
+import createIdComponent from "utils/createIdcomponent";
 
 import SimulationItem from "./SimulationItem";
 
 const SimulationTab = () => {
   const { simulation, setSimulation } = useContext(SimulationSetted);
   return (
-    <Flex h="92%" maxH="92%" flexWrap="wrap" overflowY="scroll">
-      <Box w="100%">
-        <Table size="md" bg="#FFFFFF" borderRadius="md">
-          <Thead>
+    <Flex
+      id={createIdComponent()}
+      h="92%"
+      maxH="92%"
+      flexWrap="wrap"
+      overflowY="scroll"
+    >
+      <Box id={createIdComponent()} w="100%">
+        <Table
+          id={createIdComponent()}
+          size="md"
+          bg="#FFFFFF"
+          borderRadius="md"
+        >
+          <Thead id={createIdComponent()}>
             <Tr>
+              <Th>Name Simulation</Th>
               <Th>Model Parameters</Th>
-              <Th>Initial Date</Th>
+              <Th>
+                Initial Date
+                <Tooltip
+                  id={createIdComponent()}
+                  label="Disabled on graph simulation"
+                >
+                  <Icon
+                    id={createIdComponent()}
+                    as={InfoIcon}
+                    ml="10%"
+                    w="14px "
+                    color="teal"
+                  />
+                </Tooltip>
+              </Th>
               <Th>Graph / Spatial</Th>
               <Th>Selection</Th>
               <Th>Initial Conditions</Th>
               <Th minW="10px">
                 {" "}
-                <Flex justifyContent="center" alignItems="flex-end" w="100%">
-                  <Tooltip label="Add Simulation">
+                <Flex
+                  id={createIdComponent()}
+                  justifyContent="center"
+                  alignItems="flex-end"
+                  w="100%"
+                >
+                  <Tooltip id={createIdComponent()} label="Add Simulation">
                     <IconButton
+                      id={createIdComponent()}
                       bg="#16609E"
                       color="#FFFFFF"
                       aria-label="Call Segun"
@@ -46,6 +80,7 @@ const SimulationTab = () => {
                         setSimulation({
                           type: "add",
                           payload: {
+                            name: "",
                             idSim: Date.now(),
                             idModel: 0,
                             idGeo: 0,
@@ -71,8 +106,12 @@ const SimulationTab = () => {
           </Thead>
           <Tbody>
             {simulation.length > 0 &&
+              simulation &&
               simulation.map((e) => (
-                <SimulationItem key={e.idSim} idSimulation={e.idSim} />
+                <SimulationItem
+                  key={createIdComponent()}
+                  idSimulation={e.idSim}
+                />
               ))}
           </Tbody>
         </Table>

@@ -12,6 +12,7 @@ import React, { useEffect, useContext } from "react";
 
 import { GraphicsData, SimulationKeysData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
+import createIdComponent from "utils/createIdcomponent";
 
 const ResultsSelection = () => {
   const { aux: responseSim } = useContext(TabIndex);
@@ -222,13 +223,17 @@ const ResultsSelection = () => {
   }, [responseSim]);
 
   return (
-    <Accordion allowMultiple h="85%" overflowY="auto">
+    <Accordion id={createIdComponent()} allowMultiple h="85%" overflowY="auto">
       {simulationKeys.map((simulation) => {
         return (
-          <AccordionItem bg="#16609E" mb="30px">
-            <h2>
-              <AccordionButton color="white" _focus={{ boxShadow: "none" }}>
-                <Box flex="1" textAlign="left">
+          <AccordionItem id={createIdComponent()} bg="#16609E" mb="30px">
+            <h2 id={createIdComponent()}>
+              <AccordionButton
+                id={createIdComponent()}
+                color="white"
+                _focus={{ boxShadow: "none" }}
+              >
+                <Box id={createIdComponent()} flex="1" textAlign="left">
                   {simulation.name}
                 </Box>
                 <AccordionIcon />
@@ -291,23 +296,27 @@ const ResultsSelection = () => {
                   })}
                 </Flex>
                 <AccordionItem>
-                  <h2>
-                    <AccordionButton _focus={{ boxShadow: "none" }}>
-                      <Box flex="1" textAlign="left">
+                  <h2 id={createIdComponent()}>
+                    <AccordionButton
+                      id={createIdComponent()}
+                      _focus={{ boxShadow: "none" }}
+                    >
+                      <Box id={createIdComponent()} flex="1" textAlign="left">
                         Other Data
                       </Box>
                       <AccordionIcon />
                     </AccordionButton>
                   </h2>
-                  <AccordionPanel pb={4}>
-                    <Flex flexWrap="wrap">
+                  <AccordionPanel id={createIdComponent()} pb={4}>
+                    <Flex id={createIdComponent()} flexWrap="wrap">
                       {Object.keys(simulation).map((key) => {
                         if (!model.includes(key) && key !== "name") {
                           return (
                             <Checkbox
+                              id={createIdComponent()}
                               size="sm"
                               m="2% 5%"
-                              id={`${key + simulation.name}`}
+                              // id={`${key + simulation.name}`}
                               value={key}
                               // eslint-disable-next-line sonarjs/no-identical-functions
                               onChange={(e) => {

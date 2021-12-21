@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 
 import { SelectFeature } from "../../context/SelectFeaturesContext";
 import GeoSelectionsTab from "components/statesCountiesSelects/GeoSelectionsTab";
+import createIdComponent from "utils/createIdcomponent";
 
 import CountiesMap from "./CountiesMap";
 import NationMap from "./NationMap";
@@ -29,8 +30,9 @@ const Map = () => {
       {scale === "States" && <StatesMap />}
       {scale === "National" && <NationMap />}
       {scale === "Counties" && <CountiesMap />}
-      <Flex h="100%" justify="end" align="flex-end">
+      <Flex id={createIdComponent()} h="100%" justify="end" align="flex-end">
         <Button
+          id={createIdComponent()}
           colorScheme="teal"
           size="md"
           m="2%"

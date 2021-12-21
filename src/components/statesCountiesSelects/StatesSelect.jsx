@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useContext } from "react";
 
 import { SelectFeature } from "../../context/SelectFeaturesContext";
+import createIdComponent from "utils/createIdcomponent";
 
 const StatesSelect = ({ options, extentionOption }) => {
   const { states: statesSelected, setStates: setStatesSelected } =
@@ -10,6 +11,7 @@ const StatesSelect = ({ options, extentionOption }) => {
 
   return (
     <Select
+      id={createIdComponent()}
       className="reactSelect"
       name="states"
       options={options}

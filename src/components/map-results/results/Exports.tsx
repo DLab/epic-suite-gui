@@ -12,6 +12,8 @@ import {
 import { Parser } from "json2csv";
 import React, { useState, useEffect } from "react";
 
+import createIdComponent from "utils/createIdcomponent";
+
 interface Props {
   data: string;
 }
@@ -31,9 +33,10 @@ const Exports = ({ data }: Props) => {
   }, [data]);
 
   return (
-    <Flex direction="column" alignItems="end" m="0 5%">
-      <Menu>
+    <Flex id={createIdComponent()} direction="column" alignItems="end" m="0 5%">
+      <Menu id={createIdComponent()}>
         <MenuButton
+          id={createIdComponent()}
           as={Button}
           size="sm"
           colorScheme="teal"
@@ -43,20 +46,22 @@ const Exports = ({ data }: Props) => {
         </MenuButton>
         <MenuList>
           <Link
+            id={createIdComponent()}
             download="simulation.csv"
             href={`data:text/json;charset=utf-8,${encodeURIComponent(
               csvContent
             )}`}
           >
-            <MenuItem>CSV</MenuItem>
+            <MenuItem id={createIdComponent()}>CSV</MenuItem>
           </Link>
           <Link
+            id={createIdComponent()}
             download="simulation.json"
             href={`data:text/json;charset=utf-8,${encodeURIComponent(
               JSON.stringify(simulationKeys)
             )}`}
           >
-            <MenuItem>JSON</MenuItem>
+            <MenuItem id={createIdComponent()}>JSON</MenuItem>
           </Link>
         </MenuList>
       </Menu>

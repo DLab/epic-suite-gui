@@ -14,6 +14,7 @@ export interface Action {
   element?: string;
   target?: string;
   updateData?: string[];
+  initial?: DataGeoSelections[];
 }
 
 export enum Model {
@@ -111,6 +112,8 @@ const SelectFeatureContext: React.FC = ({ children }) => {
           }
           return e;
         });
+      case "setInitialSelection":
+        return [...state, ...action.initial];
       default:
         return state;
     }
