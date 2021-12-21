@@ -7,6 +7,7 @@ import GraphicsContext from "context/GraphicsContext";
 import ModelsContext from "context/ModelsContext";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 import SimulationContext from "context/SimulationContext";
+import createIdComponent from "utils/createIdcomponent";
 
 const Home = () => {
   return (
@@ -15,7 +16,7 @@ const Home = () => {
         <ControlPanelContext>
           <SelectFeatureContext>
             <GraphicsContext>
-              <Box>
+              <Box id={createIdComponent()}>
                 <Simulator />
               </Box>
             </GraphicsContext>

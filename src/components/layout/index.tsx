@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ReactNode } from "react";
 
+import createIdComponent from "utils/createIdcomponent";
+
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
@@ -17,7 +19,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <Navbar />
-      <Box>{children}</Box>
+      <Box id={createIdComponent()}>{children}</Box>
       {router.pathname !== "/" && <Footer />}
     </>
   );

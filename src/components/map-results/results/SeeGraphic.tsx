@@ -16,6 +16,7 @@ import React from "react";
 
 import SeeGraphicIcon from "../../icons/SeeGraphIcon";
 import { SavedSimulationData } from "context/GraphicsContext";
+import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
   savedKeys?: SavedSimulationData[];
@@ -24,8 +25,9 @@ interface Props {
 
 const Graphic = dynamic(() => import("./Graphic"), {
   loading: () => (
-    <Flex justifyContent="center" alignItems="center">
+    <Flex id={createIdComponent()} justifyContent="center" alignItems="center">
       <Spinner
+        id={createIdComponent()}
         thickness="4px"
         speed="0.65s"
         emptyColor="gray.200"
@@ -42,6 +44,7 @@ const SeeGraphic = ({ savedKeys, index }: Props) => {
   return (
     <>
       <Icon
+        id={createIdComponent()}
         as={SeeGraphicIcon}
         onClick={onOpen}
         cursor="pointer"
@@ -50,11 +53,21 @@ const SeeGraphic = ({ savedKeys, index }: Props) => {
       {savedKeys.map(() => {
         return (
           <>
-            <Modal isOpen={isOpen} onClose={onClose} size="xl">
-              <ModalOverlay />
-              <ModalContent textAlign="center" maxW="70vw" maxH="90vh">
-                <ModalCloseButton />
-                <ModalBody>
+            <Modal
+              id={createIdComponent()}
+              isOpen={isOpen}
+              onClose={onClose}
+              size="xl"
+            >
+              <ModalOverlay id={createIdComponent()} />
+              <ModalContent
+                id={createIdComponent()}
+                textAlign="center"
+                maxW="70vw"
+                maxH="90vh"
+              >
+                <ModalCloseButton id={createIdComponent()} />
+                <ModalBody id={createIdComponent()}>
                   <Graphic
                     savedSimulationKeys={savedKeys}
                     width="100%"

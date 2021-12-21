@@ -6,6 +6,7 @@ import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
+import createIdComponent from "utils/createIdcomponent";
 import { postData } from "utils/fetchData";
 
 const bottonLeft = "bottom-left";
@@ -165,6 +166,7 @@ const RunSimulatorButton = () => {
   return (
     <>
       <Button
+        id={createIdComponent()}
         onClick={() => handleJsonToToml()}
         colorScheme="blue"
         color="white"
@@ -172,12 +174,15 @@ const RunSimulatorButton = () => {
         {isSimulating ? (
           <>
             <Spinner
+              id={createIdComponent()}
               thickness="4px"
               speed="0.65s"
               emptyColor="gray.200"
               color="blue.500"
             />
-            <Text pl="1rem">Simulating...</Text>
+            <Text id={createIdComponent()} pl="1rem">
+              Simulating...
+            </Text>
           </>
         ) : (
           `Run`

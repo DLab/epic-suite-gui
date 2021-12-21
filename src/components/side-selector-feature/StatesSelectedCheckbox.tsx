@@ -14,6 +14,7 @@ import { useContext } from "react";
 import countiesData from "../../data/counties.json";
 import stateData from "../../data/states.json";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import createIdComponent from "utils/createIdcomponent";
 
 interface StatesSelected {
   stateSelected?: string[];
@@ -86,11 +87,16 @@ const StatesSelectedCheckbox = ({
     : [];
 
   return (
-    <Box maxHeight={maxWidthFeaturesPanel} overflowY="auto">
+    <Box
+      id={createIdComponent()}
+      maxHeight={maxWidthFeaturesPanel}
+      overflowY="auto"
+    >
       {stateSelected &&
         statesOrdered.map((s) => {
           return (
             <Flex
+              id={createIdComponent()}
               key={s.value}
               justifyContent="space-between"
               px="1.5rem"
@@ -98,6 +104,7 @@ const StatesSelectedCheckbox = ({
             >
               {s.label}
               <DeleteIcon
+                id={createIdComponent()}
                 color="red.800"
                 onClick={() =>
                   setStates({ type: "remove-one", payload: [s.value] })
@@ -107,15 +114,25 @@ const StatesSelectedCheckbox = ({
           );
         })}
       {countiesSelected && (
-        <Accordion allowMultiple>
+        <Accordion id={createIdComponent()} allowMultiple>
           {countiesOrdered.map((c: ObjStatesCounties) => {
             const checkbox = c.counties.map((cc) => {
               return (
-                <Flex key={cc.value} justifyContent="space-between" px="1.5rem">
-                  <Text fontSize="14px" color="gray.600">
+                <Flex
+                  id={createIdComponent()}
+                  key={cc.value}
+                  justifyContent="space-between"
+                  px="1.5rem"
+                >
+                  <Text
+                    id={createIdComponent()}
+                    fontSize="14px"
+                    color="gray.600"
+                  >
                     {cc.label}
                   </Text>
                   <DeleteIcon
+                    id={createIdComponent()}
                     color="red.800"
                     onClick={() => {
                       setCounties({
@@ -128,16 +145,23 @@ const StatesSelectedCheckbox = ({
               );
             });
             return (
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Box flex="1" textAlign="left" fontSize="14px">
+              <AccordionItem id={createIdComponent()}>
+                <h2 id={createIdComponent()}>
+                  <AccordionButton id={createIdComponent()}>
+                    <Box
+                      id={createIdComponent()}
+                      flex="1"
+                      textAlign="left"
+                      fontSize="14px"
+                    >
                       {c.labelState}
                     </Box>
-                    <AccordionIcon />
+                    <AccordionIcon id={createIdComponent()} />
                   </AccordionButton>
                 </h2>
-                <AccordionPanel>{checkbox}</AccordionPanel>
+                <AccordionPanel id={createIdComponent()}>
+                  {checkbox}
+                </AccordionPanel>
               </AccordionItem>
             );
           })}

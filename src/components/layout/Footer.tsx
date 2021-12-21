@@ -1,9 +1,18 @@
 import { Box, Container, Stack, Text } from "@chakra-ui/react";
 
+import createIdComponent from "utils/createIdcomponent";
+
 export default function Footer() {
   return (
-    <Box bg="#16609E" color="white" w="100%" maxHeight="8vh">
+    <Box
+      id={createIdComponent()}
+      bg="#16609E"
+      color="white"
+      w="100%"
+      maxHeight="8vh"
+    >
       <Container
+        id={createIdComponent()}
         as={Stack}
         w="100%"
         py={4}
@@ -13,7 +22,7 @@ export default function Footer() {
         align={{ base: "center", md: "center" }}
         maxHeight="8vh"
       >
-        <Text>
+        <Text id={createIdComponent()}>
           Computational Biology Laboratory (DLab), Fundación Ciencia & Vida
         </Text>
       </Container>

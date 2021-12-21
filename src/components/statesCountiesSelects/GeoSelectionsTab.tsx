@@ -16,6 +16,7 @@ import { useState, useEffect, useContext } from "react";
 
 import GeoSelectionsDetails from "components/map-results/selectorMap/GeoSelectionsDetails";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
   setSeeSelections: (value: boolean) => void;
@@ -50,15 +51,21 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
   return (
     <>
       {geoSelections.length > 0 ? (
-        <Flex>
+        <Flex id={createIdComponent()}>
           <Flex
+            id={createIdComponent()}
             w="60%"
             h="50%"
             borderRadius="md"
             border="1px solid"
             borderColor="#b7b7b7"
           >
-            <Table size="md" bg="#FFFFFF" borderRadius="md">
+            <Table
+              id={createIdComponent()}
+              size="md"
+              bg="#FFFFFF"
+              borderRadius="md"
+            >
               <Thead>
                 <Tr>
                   <Th>Name</Th>
@@ -70,11 +77,12 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
               <Tbody>
                 {geoSelections.map((geoSelection) => {
                   return (
-                    <Tr key={geoSelection.id}>
+                    <Tr key={createIdComponent()}>
                       <Td>{geoSelection.name}</Td>
                       <Td>{geoSelection.scale}</Td>
                       <Td>
                         <Icon
+                          id={createIdComponent()}
                           color="#16609E"
                           as={ViewIcon}
                           cursor="pointer"
@@ -85,6 +93,7 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
                       </Td>
                       <Td>
                         <Icon
+                          id={createIdComponent()}
                           color="#16609E"
                           as={DeleteIcon}
                           cursor="pointer"
@@ -99,6 +108,7 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
           </Flex>
           {viewDetails && (
             <Flex
+              id={createIdComponent()}
               bg="#FFFFFF"
               w="40%"
               m="0 5%"
@@ -108,8 +118,9 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
               border="1px solid"
               borderColor="#b7b7b7"
             >
-              <Box textAlign="end">
+              <Box textAlign="end" id={createIdComponent()}>
                 <Icon
+                  id={createIdComponent()}
                   as={CloseIcon}
                   cursor="pointer"
                   color="#16609E"
@@ -127,12 +138,19 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
           )}
         </Flex>
       ) : (
-        <Flex color="#858585" justify="center" fontSize="24px" mt="15%">
+        <Flex
+          id={createIdComponent()}
+          color="#858585"
+          justify="center"
+          fontSize="24px"
+          mt="15%"
+        >
           <Text>There is not geographic selections added</Text>
         </Flex>
       )}
-      <Flex justify="end">
+      <Flex id={createIdComponent()} justify="end">
         <Button
+          id={createIdComponent()}
           colorScheme="teal"
           size="md"
           m="2% 5% 0 0"

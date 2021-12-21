@@ -22,6 +22,7 @@ import {
   SimulationSetted,
   SimulatorParams,
 } from "context/SimulationContext";
+import createIdComponent from "utils/createIdcomponent";
 import { postData } from "utils/fetchData";
 import reducerValuesObjects from "utils/reducerValuesObject";
 
@@ -264,6 +265,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
     }
   };
   useEffect(() => {
+    // console.log("newModels", initialParameters);
     setInitialConditions(null);
     const simInitialConditions = simulation.find(
       (e: SimulatorParams) => e.idSim === idSimulation
@@ -282,9 +284,12 @@ const SimulationItem = ({ idSimulation }: Props) => {
         const someDif = dif.some(
           (d: DataParameters) => d.id === simIdModel.idModel
         );
+        // console.log("someDif", someDif);
         if (!someDif) {
+          // console.log("initial parameters con diferencias que no afectan");
           setInitialParameters({ type: "reset", initial: parameters });
         } else {
+          // console.log("initial parameters con diferencias que SI afectan");
           valueOptionFeature(OptionFeature.None);
           setIdGeoSelection(0);
           setIdGraph(0);
@@ -302,13 +307,26 @@ const SimulationItem = ({ idSimulation }: Props) => {
           );
         }
       }
+      // console.log("dif", dif.length);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idSimulation, simulation, parameters]);
+    // console.log("pase", idSimulation);
+    // console.log(parameters, initialParameters);
+    // console.log("is equal", _.isEqual(parameters, initialParameters));
+  }, [
+    idSimulation,
+    simulation,
+    parameters,
+    initialParameters,
+    setInitialParameters,
+    valueOptionFeature,
+    setIdSimulationUpdating,
+    selectSimulation,
+  ]);
   return (
     <Tr>
       <Td>
         <Input
+          id={createIdComponent()}
           placeholder="Add simulation name"
           size="sm"
           onChange={(e) => {
@@ -319,6 +337,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
       </Td>
       <Td>
         <Select
+          id={createIdComponent()}
           placeholder="select a model"
           onChange={(e) => {
             selectSimulation(+e.target.value, "idModel");
@@ -343,7 +362,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
           {parameters.length > 0 &&
             parameters.map((param: DataParameters) => {
               return (
-                <option key={param.id} value={param.id}>
+                <option key={createIdComponent()} value={param.id}>
                   {param.parameters.name_model}
                 </option>
               );
@@ -357,6 +376,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
       </Td>
       <Td>
         <Select
+          id={createIdComponent()}
           value={
             getDefaultValueParameters("typeSelection") || OptionFeature.None
           }
@@ -385,6 +405,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
       </Td>
       <Td>
         <Select
+          id={createIdComponent()}
           disabled={optionFeature === OptionFeature.None}
           placeholder="Name Selection"
           value={
@@ -400,7 +421,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
             setIdGraph(+e.target.value);
             if (optionFeature === OptionFeature.Geographic) {
               handleFetch(
-                "http://192.168.2.131:5010/initCond",
+                "http://192.168.2.131:5000/initCond",
                 "POST",
                 +e.target.value
               );
@@ -421,19 +442,22 @@ const SimulationItem = ({ idSimulation }: Props) => {
             geoSelections.length > 0 &&
             geoSelections.map((e) => {
               return (
-                <option key={e.id} value={e.id}>
+                <option key={createIdComponent()} value={e.id}>
                   {e.name}
                 </option>
               );
             })}
           {optionFeature === OptionFeature.Graph && (
-            <option value={1}>one Node</option>
+            <option id={createIdComponent()} value={1}>
+              one Node
+            </option>
           )}
         </Select>
       </Td>
       <Td>
         {optionFeature === OptionFeature.Graph && idGraph !== 0 && (
           <Button
+            id={createIdComponent()}
             colorScheme="teal"
             variant="link"
             w="100%"
@@ -459,11 +483,17 @@ const SimulationItem = ({ idSimulation }: Props) => {
               }
             }}
           >
-            <Icon color="#16609E" as={EditIcon} cursor="pointer" />
+            <Icon
+              id={createIdComponent()}
+              color="#16609E"
+              as={EditIcon}
+              cursor="pointer"
+            />
           </Button>
         )}
         {optionFeature === OptionFeature.Geographic && idGeoSelection !== 0 && (
           <Button
+            id={createIdComponent()}
             w="100%"
             colorScheme="teal"
             variant="link"
@@ -478,10 +508,16 @@ const SimulationItem = ({ idSimulation }: Props) => {
             }}
           >
             {reducerValuesObjects(initialConditions) > 0 && (
-              <Icon color="#16609E" as={EditIcon} cursor="pointer" />
+              <Icon
+                id={createIdComponent()}
+                color="#16609E"
+                as={EditIcon}
+                cursor="pointer"
+              />
             )}
             {isLoading ? (
               <Spinner
+                id={createIdComponent()}
                 thickness="4px"
                 speed="0.65s"
                 emptyColor="gray.200"
@@ -497,6 +533,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
       <Td>
         {/* delete component from table */}
         <Icon
+          id={createIdComponent()}
           color="#16609E"
           as={DeleteIcon}
           cursor="pointer"

@@ -55,17 +55,27 @@ const ModelsContext: React.FC = ({ children }) => {
         return state;
     }
   };
+  const reducerInitialParameters = (
+    state: ModelAttributes["parameters"],
+    action: ActionsModelsData
+  ) => {
+    if (action.type === "reset") {
+      return [...action.initial];
+    }
+    return state;
+  };
+  const initialStateParameters: DataParameters | [] = [];
   const [params, setParameters] = useReducer(reducer, initialStateRed);
-  const [initialParameters, setInitialParameters] = useReducer(
-    reducer,
-    initialStateRed
+  const [initialParames, setInitialParameters] = useReducer(
+    reducerInitialParameters,
+    initialStateParameters
   );
   return (
     <ModelsSaved.Provider
       value={{
         parameters: params,
         setParameters,
-        initialParameters,
+        initialParameters: initialParames,
         setInitialParameters,
       }}
     >

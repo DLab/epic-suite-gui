@@ -5,6 +5,7 @@ import { useContext } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
+import createIdComponent from "utils/createIdcomponent";
 
 import Exports from "./Exports";
 import ResultsSelection from "./ResultsSelection";
@@ -12,8 +13,9 @@ import SeeGraphic from "./SeeGraphic";
 
 const Graphic = dynamic(() => import("./Graphic"), {
   loading: () => (
-    <Flex justifyContent="center" alignItems="center">
+    <Flex id={createIdComponent()} justifyContent="center" alignItems="center">
       <Spinner
+        id={createIdComponent()}
         thickness="4px"
         speed="0.65s"
         emptyColor="gray.200"
@@ -30,10 +32,18 @@ const Results = () => {
     useContext(GraphicsData);
 
   return (
-    <Flex w="100%" p="5px" mt="15px" h="100%" textAlign="center">
+    <Flex
+      id={createIdComponent()}
+      w="100%"
+      p="5px"
+      mt="15px"
+      h="100%"
+      textAlign="center"
+    >
       {responseSim ? (
         <>
           <Flex
+            id={createIdComponent()}
             minWidth="25%"
             maxWidth="25%"
             w="25%"
@@ -41,8 +51,9 @@ const Results = () => {
             justify="space-between"
           >
             <ResultsSelection />
-            <Box h="15%">
+            <Box id={createIdComponent()} h="15%">
               <Button
+                id={createIdComponent()}
                 colorScheme="teal"
                 size="md"
                 mt="20px"
@@ -55,9 +66,15 @@ const Results = () => {
               </Button>
             </Box>
           </Flex>
-          <Flex w="75%" direction="column" justify="space-between">
+          <Flex
+            w="75%"
+            id={createIdComponent()}
+            direction="column"
+            justify="space-between"
+          >
             {allGraphicData.length > 0 ? (
               <Flex
+                id={createIdComponent()}
                 flexWrap="wrap"
                 h="100%"
                 overflowY="auto"
@@ -65,11 +82,12 @@ const Results = () => {
               >
                 {allGraphicData.map((graphicData, index) => {
                   return (
-                    <Box>
-                      <Flex justify="end">
+                    <Box id={createIdComponent()}>
+                      <Flex justify="end" id={createIdComponent()}>
                         {" "}
                         <SeeGraphic savedKeys={graphicData} index={index} />
                         <DeleteIcon
+                          id={createIdComponent()}
                           color="#16609E"
                           ml="2%"
                           cursor="pointer"
@@ -97,16 +115,30 @@ const Results = () => {
                 })}
               </Flex>
             ) : (
-              <Flex h="100%" justify="center" align="center">
-                <Text> There are no graphics to show.</Text>
+              <Flex
+                id={createIdComponent()}
+                h="100%"
+                justify="center"
+                align="center"
+              >
+                <Text id={createIdComponent()}>
+                  {" "}
+                  There are no graphics to show.
+                </Text>
               </Flex>
             )}
             <Exports data={responseSim} />
           </Flex>
         </>
       ) : (
-        <Flex h="100%" w="100%" justify="center" align="center">
-          <Text> Nothing here.</Text>
+        <Flex
+          id={createIdComponent()}
+          h="100%"
+          w="100%"
+          justify="center"
+          align="center"
+        >
+          <Text id={createIdComponent()}> Nothing here.</Text>
         </Flex>
       )}
     </Flex>

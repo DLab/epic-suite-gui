@@ -6,6 +6,7 @@ import Footer from "components/layout/Footer";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import TabContext from "context/TabContext";
+import createIdComponent from "utils/createIdcomponent";
 
 import SidebarOpen from "./sidebar/SidebarOpen";
 
@@ -24,7 +25,7 @@ const Simulator = () => {
         initial: JSON.parse(dataLocalStorageModel),
       });
       setInitialParameters({
-        type: "set",
+        type: "reset",
         initial: JSON.parse(dataLocalStorageModel),
       });
     }
@@ -42,9 +43,14 @@ const Simulator = () => {
 
   return (
     <TabContext>
-      <Flex maxHeight="92vh">
+      <Flex id={createIdComponent()} maxHeight="92vh">
         <SidebarOpen />
-        <Flex w="100%" direction="column" justify="space-between">
+        <Flex
+          id={createIdComponent()}
+          w="100%"
+          direction="column"
+          justify="space-between"
+        >
           <MapResult />
           <Footer />
         </Flex>
