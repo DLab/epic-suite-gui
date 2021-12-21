@@ -4,7 +4,8 @@ import React, { useContext, useState, useEffect } from "react";
 
 import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
-import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
+import { SimulationSetted } from "context/SimulationContext";
+import { SimulatorParams } from "types/SimulationTypes";
 
 const InitialConditions = () => {
   const toast = useToast();

@@ -13,12 +13,9 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 
-import {
-  ControlPanel,
-  EpidemicsData,
-  Model,
-} from "context/ControlPanelContext";
+import { ControlPanel } from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
+import { EpidemicsData, Model } from "types/ControlPanelTypes";
 
 import ModelDetails from "./ModelDetails";
 

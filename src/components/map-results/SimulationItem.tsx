@@ -15,11 +15,8 @@ import { ControlPanel } from "context/ControlPanelContext";
 import { GraphicsData } from "context/GraphicsContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
-import {
-  OptionFeature,
-  SimulationSetted,
-  SimulatorParams,
-} from "context/SimulationContext";
+import { SimulationSetted } from "context/SimulationContext";
+import { OptionFeature, SimulatorParams } from "types/SimulationTypes";
 import { postData } from "utils/fetchData";
 import reducerValuesObjects from "utils/reducerValuesObject";
 

@@ -14,6 +14,7 @@ import { useContext } from "react";
 import countiesData from "../../data/counties.json";
 import stateData from "../../data/states.json";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import { DataCountiesObj, ObjStatesCounties } from "types/SelectFeaturesTypes";
 
 interface StatesSelected {
   stateSelected?: string[];
@@ -21,16 +22,6 @@ interface StatesSelected {
   maxWidthFeaturesPanel: string;
 }
 
-interface DataCountiesObj {
-  value: string;
-  label: string;
-}
-
-interface ObjStatesCounties {
-  state: string;
-  labelState: string;
-  counties: DataCountiesObj[];
-}
 type Acc = ObjStatesCounties[] | [];
 const StatesSelectedCheckbox = ({
   stateSelected,

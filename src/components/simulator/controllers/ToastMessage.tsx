@@ -1,13 +1,10 @@
 import { Button, useToast } from "@chakra-ui/react";
 import { useContext } from "react";
 
-import { ControlPanel, Model } from "context/ControlPanelContext";
-import {
-  ModelsSaved,
-  DataParameters,
-  ModelAttributes,
-} from "context/ModelsContext";
-import SelectFeatureContext from "context/SelectFeaturesContext";
+import { ControlPanel } from "context/ControlPanelContext";
+import { ModelsSaved } from "context/ModelsContext";
+import { Model } from "types/ControlPanelTypes";
+import { DataParameters, ModelAttributes } from "types/ModelsTypes";
 
 const ToastMessage = () => {
   const toast = useToast();

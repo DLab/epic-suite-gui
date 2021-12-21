@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
-import { SavedSimulationData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
+import { SavedSimulationData } from "types/GraphicsTypes";
 
 interface Props {
   savedSimulationKeys?: SavedSimulationData[];

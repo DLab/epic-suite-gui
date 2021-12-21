@@ -11,31 +11,21 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
 
-import { Model, SelectFeature } from "context/SelectFeaturesContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 import countiesData from "data/counties.json";
 import stateData from "data/states.json";
+import { Model } from "types/ControlPanelTypes";
+import {
+  DataGeoSelections,
+  DataCountiesObj,
+  ObjStatesCounties,
+} from "types/SelectFeaturesTypes";
 
-interface DataGeoSelections {
-  id: number;
-  name: string;
-  scale: string;
-  featureSelected: string[];
-}
 interface Props {
   details: DataGeoSelections[];
   setSeeSelections: (value: boolean) => void;
 }
 
-interface DataCountiesObj {
-  value: string;
-  label: string;
-}
-
-interface ObjStatesCounties {
-  state: string;
-  labelState: string;
-  counties: DataCountiesObj[];
-}
 type Acc = ObjStatesCounties[];
 
 const GeoSelectionsDetails = ({ details, setSeeSelections }: Props) => {
