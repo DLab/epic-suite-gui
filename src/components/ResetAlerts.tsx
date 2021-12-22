@@ -10,6 +10,7 @@ import {
 import React, { useContext } from "react";
 
 import { SelectFeature } from "../context/SelectFeaturesContext";
+import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
   isOpen: boolean;
@@ -33,25 +34,35 @@ const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
 
   return (
     <AlertDialog
+      id={createIdComponent()}
       isOpen={isOpen}
       leastDestructiveRef={cancelRef}
       onClose={onClose}
     >
-      <AlertDialogOverlay>
-        <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+      <AlertDialogOverlay id={createIdComponent()}>
+        <AlertDialogContent id={createIdComponent()}>
+          <AlertDialogHeader
+            id={createIdComponent()}
+            fontSize="lg"
+            fontWeight="bold"
+          >
             Delete Selections
           </AlertDialogHeader>
 
-          <AlertDialogBody>
+          <AlertDialogBody id={createIdComponent()}>
             Are you sure? The selected {scale} will be deleted.
           </AlertDialogBody>
 
-          <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
+          <AlertDialogFooter id={createIdComponent()}>
+            <Button id={createIdComponent()} ref={cancelRef} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme="blue" onClick={handleResetSelected} ml={3}>
+            <Button
+              id={createIdComponent()}
+              colorScheme="blue"
+              onClick={handleResetSelected}
+              ml={3}
+            >
               Reset
             </Button>
           </AlertDialogFooter>

@@ -11,11 +11,14 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import { useState, useEffect, useContext } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { EpidemicsData, Model } from "types/ControlPanelTypes";
+import { DataParameters } from "types/ModelsTypes";
+import createIdComponent from "utils/createIdcomponent";
 
 import ModelDetails from "./ModelDetails";
 
@@ -31,19 +34,14 @@ const ModelsTab = () => {
   const [modelDetails, setmodelDetails] = useState([]);
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.localStorage.getItem("models")
-    ) {
-      const localStorageModelsData = window.localStorage.getItem("models");
-      setData(JSON.parse(localStorageModelsData));
-    }
     setViewDetails(false);
   }, [parameters]);
 
   const deleteModel = (name: string) => {
     localStorage.removeItem("models");
-    const modelDataFilter = data.filter((model) => model.id !== name);
+    const modelDataFilter = parameters.filter(
+      (model: DataParameters) => model.id !== +name
+    );
     localStorage.setItem("models", JSON.stringify(modelDataFilter));
     setParameters({ type: "remove", element: `${name}` });
   };
@@ -53,24 +51,32 @@ const ModelsTab = () => {
     setParams({ type: "update", updateData: dataForUpdate });
   };
   const viewModelDetails = (name: string) => {
-    const details = data.filter((model) => model.id === name);
+    const details = parameters.filter(
+      (model: DataParameters) => model.id === +name
+    );
     setmodelDetails(details);
     setViewDetails(true);
   };
 
   return (
     <>
-      {data.length > 0 ? (
-        <Flex>
+      {parameters.length > 0 ? (
+        <Flex id={createIdComponent()}>
           <Flex
+            id={createIdComponent()}
             w="60%"
             h="50%"
             borderRadius="md"
             border="1px solid"
             borderColor="#b7b7b7"
           >
-            <Table size="md" bg="#FFFFFF" borderRadius="md">
-              <Thead>
+            <Table
+              id={createIdComponent()}
+              size="md"
+              bg="#FFFFFF"
+              borderRadius="md"
+            >
+              <Thead id={createIdComponent()}>
                 <Tr>
                   <Th>Name</Th>
                   <Th>Model</Th>
@@ -80,13 +86,14 @@ const ModelsTab = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {data.map((model) => {
+                {parameters.map((model) => {
                   return (
-                    <Tr key={model.id}>
+                    <Tr key={createIdComponent()}>
                       <Td>{model.parameters.name_model}</Td>
                       <Td>{model.parameters.name}</Td>
                       <Td>
                         <Icon
+                          id={createIdComponent()}
                           color="#16609E"
                           as={ViewIcon}
                           cursor="pointer"
@@ -97,6 +104,7 @@ const ModelsTab = () => {
                       </Td>
                       <Td>
                         <Icon
+                          id={createIdComponent()}
                           color="#16609E"
                           as={EditIcon}
                           cursor="pointer"
@@ -107,6 +115,7 @@ const ModelsTab = () => {
                       </Td>
                       <Td>
                         <Icon
+                          id={createIdComponent()}
                           color="#16609E"
                           as={DeleteIcon}
                           cursor="pointer"
@@ -121,6 +130,7 @@ const ModelsTab = () => {
           </Flex>
           {viewDetails && (
             <Flex
+              id={createIdComponent()}
               bg="#FFFFFF"
               w="40%"
               m="0 5%"
@@ -130,8 +140,9 @@ const ModelsTab = () => {
               border="1px solid"
               borderColor="#b7b7b7"
             >
-              <Box textAlign="end">
+              <Box textAlign="end" id={createIdComponent()}>
                 <Icon
+                  id={createIdComponent()}
                   as={CloseIcon}
                   cursor="pointer"
                   color="#16609E"
@@ -146,8 +157,14 @@ const ModelsTab = () => {
           )}
         </Flex>
       ) : (
-        <Flex color="#858585" justify="center" fontSize="24px" mt="15%">
-          <Text>There are no models added</Text>
+        <Flex
+          id={createIdComponent()}
+          color="#858585"
+          justify="center"
+          fontSize="24px"
+          mt="15%"
+        >
+          <Text id={createIdComponent()}>There are no models added</Text>
         </Flex>
       )}
     </>

@@ -80,6 +80,8 @@ const SelectFeatureContext: React.FC = ({ children }) => {
           }
           return e;
         });
+      case "setInitialSelection":
+        return [...state, ...action.initial];
       default:
         return state;
     }

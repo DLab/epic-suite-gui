@@ -2,6 +2,8 @@
 import { Flex, Text, Box } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
+import createIdComponent from "utils/createIdcomponent";
+
 interface Props {
   details: string[];
 }
@@ -20,31 +22,43 @@ const ModelDetails = ({ details }: Props) => {
         const values = Object.values(parameter.parameters);
         const keys = Object.keys(parameter.parameters);
         return (
-          <Flex direction="column">
-            <Text textAlign="center" fontWeight="400">
+          <Flex id={createIdComponent()} direction="column">
+            <Text id={createIdComponent()} textAlign="center" fontWeight="400">
               {parameter.parameters.name_model}
             </Text>
-            <Flex justifyContent="center">
-              <Box>
+            <Flex id={createIdComponent()} justifyContent="center">
+              <Box id={createIdComponent()}>
                 {keys.map((key) => {
                   if (key !== "compartments") {
                     if (key === "name_model") {
                       return (
-                        <Text fontSize="14px" fontWeight="300">
+                        <Text
+                          id={createIdComponent()}
+                          fontSize="14px"
+                          fontWeight="300"
+                        >
                           Name :
                         </Text>
                       );
                     }
                     if (key === "name") {
                       return (
-                        <Text fontSize="14px" fontWeight="300">
+                        <Text
+                          id={createIdComponent()}
+                          fontSize="14px"
+                          fontWeight="300"
+                        >
                           Name_model :
                         </Text>
                       );
                     }
                     if (key === "t_end") {
                       return (
-                        <Text fontSize="14px" fontWeight="300">
+                        <Text
+                          id={createIdComponent()}
+                          fontSize="14px"
+                          fontWeight="300"
+                        >
                           duration :
                         </Text>
                       );
@@ -53,7 +67,11 @@ const ModelDetails = ({ details }: Props) => {
                       return false;
                     }
                     return (
-                      <Text fontSize="14px" fontWeight="300">
+                      <Text
+                        id={createIdComponent()}
+                        fontSize="14px"
+                        fontWeight="300"
+                      >
                         {key} :
                       </Text>
                     );
@@ -62,11 +80,15 @@ const ModelDetails = ({ details }: Props) => {
                   return false;
                 })}
               </Box>
-              <Box ml="5%">
+              <Box ml="5%" id={createIdComponent()}>
                 {values.map((value, i) => {
                   if (i !== index) {
                     return (
-                      <Text fontSize="14px" fontWeight="300">
+                      <Text
+                        id={createIdComponent()}
+                        fontSize="14px"
+                        fontWeight="300"
+                      >
                         {value}
                       </Text>
                     );

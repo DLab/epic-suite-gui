@@ -7,6 +7,21 @@ import {
   SimulationType,
 } from "types/SimulationTypes";
 
+export enum OptionFeature {
+  None = "",
+  Graph = "Graph",
+  Geographic = "Geographic",
+}
+
+export interface InitialConditions {
+  population: number;
+  R: number;
+  I: number;
+  I_d: number;
+  I_ac: number;
+  E: number;
+}
+
 export const SimulationSetted = createContext<SimulationType>({
   idSimulationUpdating: 0,
   setIdSimulationUpdating: () => {},

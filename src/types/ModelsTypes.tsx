@@ -4,6 +4,7 @@ export interface ActionsModelsData {
   type: string;
   payload?: DataParameters;
   element?: string;
+  initial?: DataParameters[];
 }
 
 export interface DataParameters {
@@ -13,4 +14,6 @@ export interface DataParameters {
 export interface ModelAttributes {
   parameters: DataParameters[] | [];
   setParameters: (values: ActionsModelsData) => void;
+  initialParameters: DataParameters[] | [];
+  setInitialParameters: (values: ActionsModelsData) => void;
 }

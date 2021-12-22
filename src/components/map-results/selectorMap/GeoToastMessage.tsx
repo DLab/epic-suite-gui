@@ -3,6 +3,7 @@ import { useContext } from "react";
 
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { Model } from "types/ControlPanelTypes";
+import createIdComponent from "utils/createIdcomponent";
 
 const GeoToastMessage = () => {
   const toast = useToast();
@@ -118,6 +119,7 @@ const GeoToastMessage = () => {
     <>
       {mode === Model.Add && (
         <Button
+          id={createIdComponent()}
           onClick={() => verifyGeoselection()}
           colorScheme="teal"
           size="sm"
@@ -129,6 +131,7 @@ const GeoToastMessage = () => {
       {mode === Model.Update && (
         <>
           <Button
+            id={createIdComponent()}
             onClick={() => verifyGeoselection()}
             colorScheme="teal"
             size="sm"
@@ -141,6 +144,7 @@ const GeoToastMessage = () => {
               setMode(Model.Add);
               setIdGeoSelectionUpdate(0);
             }}
+            id={createIdComponent()}
             colorScheme="teal"
             variant="outline"
             size="sm"

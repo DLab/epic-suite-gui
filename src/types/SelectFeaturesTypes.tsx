@@ -14,6 +14,7 @@ export interface Action {
   element?: string;
   target?: string;
   updateData?: string[];
+  initial?: DataGeoSelections[];
 }
 
 export interface StatesProps {

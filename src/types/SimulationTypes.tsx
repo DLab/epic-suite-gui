@@ -14,6 +14,7 @@ export interface InitialConditions {
 }
 
 export interface SimulatorParams {
+  name: string;
   idSim: number;
   idModel: number;
   idGeo: number;

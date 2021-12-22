@@ -17,6 +17,7 @@ import CountiesSelect from "components/statesCountiesSelects/CountiesSelect";
 import StatesSelect from "components/statesCountiesSelects/StatesSelect";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { Model } from "types/ControlPanelTypes";
+import createIdComponent from "utils/createIdcomponent";
 
 const SelectorMap = () => {
   const {
@@ -89,21 +90,49 @@ const SelectorMap = () => {
   }, []);
 
   return (
-    <FormControl maxHeight="51vh">
-      <div>
-        <RadioGroup onChange={setExtentionOption} value={extentionOption}>
-          <HStack spacing="8px">
+    <FormControl maxHeight="51vh" id={createIdComponent()}>
+      <div id={createIdComponent()}>
+        <RadioGroup
+          id={createIdComponent()}
+          onChange={setExtentionOption}
+          value={extentionOption}
+        >
+          <HStack id={createIdComponent()} spacing="8px">
             {mode === Model.Add && (
               <>
                 {" "}
-                <Radio bg="white" border="1px" borderColor="#5B58AD" value="0">
-                  <span style={{ fontSize: "14px" }}>National</span>
+                <Radio
+                  id={createIdComponent()}
+                  bg="white"
+                  border="1px"
+                  borderColor="#5B58AD"
+                  value="0"
+                >
+                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
+                    National
+                  </span>
                 </Radio>
-                <Radio bg="white" border="1px" borderColor="#5B58AD" value="1">
-                  <span style={{ fontSize: "14px" }}>State</span>
+                <Radio
+                  id={createIdComponent()}
+                  bg="white"
+                  border="1px"
+                  borderColor="#5B58AD"
+                  value="1"
+                >
+                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
+                    State
+                  </span>
                 </Radio>
-                <Radio bg="white" border="1px" borderColor="#5B58AD" value="2">
-                  <span style={{ fontSize: "14px" }}>County</span>
+                <Radio
+                  id={createIdComponent()}
+                  bg="white"
+                  border="1px"
+                  borderColor="#5B58AD"
+                  value="2"
+                >
+                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
+                    County
+                  </span>
                 </Radio>
               </>
             )}
@@ -111,46 +140,60 @@ const SelectorMap = () => {
               <>
                 {" "}
                 <Radio
+                  id={createIdComponent()}
                   bg="white"
                   border="1px"
                   borderColor="#5B58AD"
                   value="0"
                   isDisabled
                 >
-                  <span style={{ fontSize: "14px" }}>National</span>
+                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
+                    National
+                  </span>
                 </Radio>
                 <Radio
+                  id={createIdComponent()}
                   bg="white"
                   border="1px"
                   borderColor="#5B58AD"
                   value="1"
                   isDisabled
                 >
-                  <span style={{ fontSize: "14px" }}>State</span>
+                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
+                    State
+                  </span>
                 </Radio>
                 <Radio
+                  id={createIdComponent()}
                   bg="white"
                   border="1px"
                   borderColor="#5B58AD"
                   value="2"
                   isDisabled
                 >
-                  <span style={{ fontSize: "14px" }}>County</span>
+                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
+                    County
+                  </span>
                 </Radio>
               </>
             )}
           </HStack>
         </RadioGroup>
         {extentionOption === "1" && (
-          <FormControl mt="0.6rem">
+          <FormControl id={createIdComponent()} mt="0.6rem">
             <StatesSelect options={options} extentionOption={extentionOption} />
           </FormControl>
         )}
         {extentionOption === "2" && (
-          <CountiesSelect options={options} optionsCounty={optionsCounty} />
+          <CountiesSelect
+            id={createIdComponent()}
+            options={options}
+            optionsCounty={optionsCounty}
+          />
         )}
-        <Center>
+        <Center id={createIdComponent()}>
           <Button
+            id={createIdComponent()}
             mt="0.5rem"
             variant="ghost"
             colorScheme="blue"
@@ -164,7 +207,11 @@ const SelectorMap = () => {
           >
             Reset
           </Button>
-          <ResetAlerts isOpen={isOpen} setIsOpen={setIsOpen} />
+          <ResetAlerts
+            id={createIdComponent()}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+          />
         </Center>
       </div>
     </FormControl>

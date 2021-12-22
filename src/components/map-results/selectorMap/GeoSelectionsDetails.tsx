@@ -20,6 +20,7 @@ import {
   DataCountiesObj,
   ObjStatesCounties,
 } from "types/SelectFeaturesTypes";
+import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
   details: DataGeoSelections[];
@@ -118,14 +119,14 @@ const GeoSelectionsDetails = ({ details, setSeeSelections }: Props) => {
     <>
       {geoSelectionsDetails.map((geoSelection) => {
         return (
-          <Flex direction="column">
-            <Text textAlign="center" fontWeight="400">
+          <Flex id={createIdComponent()} direction="column">
+            <Text id={createIdComponent()} textAlign="center" fontWeight="400">
               {geoSelection.name}
             </Text>
-            <Text textAlign="center" fontWeight="400">
+            <Text id={createIdComponent()} textAlign="center" fontWeight="400">
               {geoSelection.scale}
             </Text>
-            <Box overflowY="auto">
+            <Box id={createIdComponent()} overflowY="auto">
               {geoSelection.scale === "States" &&
                 statesOrdered?.map((s) => {
                   return (
@@ -141,40 +142,52 @@ const GeoSelectionsDetails = ({ details, setSeeSelections }: Props) => {
                 })}
 
               {geoSelection.scale === "Counties" && (
-                <Accordion allowMultiple>
+                <Accordion id={createIdComponent()} allowMultiple>
                   {countiesOrdered?.map((c: ObjStatesCounties) => {
                     const checkbox = c.counties.map((cc) => {
                       return (
                         <Flex
-                          key={cc.value}
+                          id={createIdComponent()}
                           justifyContent="space-between"
                           px="1.5rem"
                         >
-                          <Text fontSize="14px" color="gray.600">
+                          <Text
+                            id={createIdComponent()}
+                            fontSize="14px"
+                            color="gray.600"
+                          >
                             {cc.label}
                           </Text>
                         </Flex>
                       );
                     });
                     return (
-                      <AccordionItem>
-                        <h2>
-                          <AccordionButton>
-                            <Box flex="1" textAlign="left" fontSize="14px">
+                      <AccordionItem id={createIdComponent()}>
+                        <h2 id={createIdComponent()}>
+                          <AccordionButton id={createIdComponent()}>
+                            <Box
+                              id={createIdComponent()}
+                              flex="1"
+                              textAlign="left"
+                              fontSize="14px"
+                            >
                               {c.labelState}
                             </Box>
-                            <AccordionIcon />
+                            <AccordionIcon id={createIdComponent()} />
                           </AccordionButton>
                         </h2>
-                        <AccordionPanel>{checkbox}</AccordionPanel>
+                        <AccordionPanel id={createIdComponent()}>
+                          {checkbox}
+                        </AccordionPanel>
                       </AccordionItem>
                     );
                   })}
                 </Accordion>
               )}
             </Box>
-            <Flex justify="space-around">
+            <Flex id={createIdComponent()} justify="space-around">
               <Button
+                id={createIdComponent()}
                 colorScheme="teal"
                 size="sm"
                 mt="20px"
@@ -190,6 +203,7 @@ const GeoSelectionsDetails = ({ details, setSeeSelections }: Props) => {
                 Edit
               </Button>
               <Button
+                id={createIdComponent()}
                 colorScheme="teal"
                 size="sm"
                 mt="20px"

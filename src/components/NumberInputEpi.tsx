@@ -15,6 +15,8 @@ import {
   Icon,
 } from "@chakra-ui/react";
 
+import createIdComponent from "utils/createIdcomponent";
+
 interface Props {
   value: number;
   setValue: (val: unknown) => void;
@@ -50,18 +52,29 @@ const NumberInputEpi = ({
 
   return (
     <>
-      <Flex align="center">
-        <Text align="left" color={isDisabled && "gray.200"}>
+      <Flex align="center" id={createIdComponent()}>
+        <Text
+          id={createIdComponent()}
+          align="left"
+          color={isDisabled && "gray.200"}
+        >
           {name ?? nameParams}
         </Text>
-        <Tooltip label={description}>
-          <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
+        <Tooltip id={createIdComponent()} label={description}>
+          <Icon
+            id={createIdComponent()}
+            as={InfoIcon}
+            ml="10%"
+            w="14px "
+            color="teal"
+          />
         </Tooltip>
       </Flex>
-      <Flex mb="0.5rem">
+      <Flex id={createIdComponent()} mb="0.5rem">
         {type === "slider" && (
           <>
             <NumberInput
+              id={createIdComponent()}
               maxW="100px"
               mr="1rem"
               defaultValue={+value}
@@ -72,13 +85,14 @@ const NumberInputEpi = ({
               step={step}
               value={+value}
             >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
+              <NumberInputField id={createIdComponent()} />
+              <NumberInputStepper id={createIdComponent()}>
+                <NumberIncrementStepper id={createIdComponent()} />
+                <NumberDecrementStepper id={createIdComponent()} />
               </NumberInputStepper>
             </NumberInput>
             <Slider
+              id={createIdComponent()}
               flex="1"
               focusThumbOnChange={false}
               defaultValue={+value}
@@ -88,10 +102,14 @@ const NumberInputEpi = ({
               max={+max}
               onChange={handleChange}
             >
-              <SliderTrack>
-                <SliderFilledTrack />
+              <SliderTrack id={createIdComponent()}>
+                <SliderFilledTrack id={createIdComponent()} />
               </SliderTrack>
-              <SliderThumb fontSize="sm" boxSize="32px">
+              <SliderThumb
+                id={createIdComponent()}
+                fontSize="sm"
+                boxSize="32px"
+              >
                 {value}
               </SliderThumb>
             </Slider>
@@ -99,6 +117,7 @@ const NumberInputEpi = ({
         )}
         {type === "number" && !isInitialParameters && (
           <NumberInput
+            id={createIdComponent()}
             maxW="100px"
             mr="1rem"
             defaultValue={value}
@@ -111,14 +130,15 @@ const NumberInputEpi = ({
             isDisabled
           >
             <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
+            <NumberInputStepper id={createIdComponent()}>
+              <NumberIncrementStepper id={createIdComponent()} />
+              <NumberDecrementStepper id={createIdComponent()} />
             </NumberInputStepper>
           </NumberInput>
         )}
         {isInitialParameters && (
           <NumberInput
+            id={createIdComponent()}
             maxW="100px"
             mr="1rem"
             value={value}
@@ -128,10 +148,10 @@ const NumberInputEpi = ({
             max={max}
             step={step}
           >
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
+            <NumberInputField id={createIdComponent()} />
+            <NumberInputStepper id={createIdComponent()}>
+              <NumberIncrementStepper id={createIdComponent()} />
+              <NumberDecrementStepper id={createIdComponent()} />
             </NumberInputStepper>
           </NumberInput>
         )}

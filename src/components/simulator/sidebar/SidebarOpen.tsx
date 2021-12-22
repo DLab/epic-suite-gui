@@ -28,6 +28,7 @@ import PlanetIcon from "components/icons/PlanetIcon";
 import SimulationIcon from "components/icons/SimulationIcon";
 import { SimulationSetted } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
+import createIdComponent from "utils/createIdcomponent";
 
 export const MotionBox = motion<BoxProps>(Box);
 // animation for entire component
@@ -79,6 +80,7 @@ const SidebarOpen = () => {
   return (
     <AnimatePresence>
       <MotionBox
+        id={createIdComponent()}
         bg="#EEEEEE"
         h="92vh"
         maxHeight="92vh"
@@ -88,34 +90,47 @@ const SidebarOpen = () => {
         animate={isSideBarOpen ? "show" : "hidden"}
       >
         <Tabs
+          id={createIdComponent()}
           h="90vh"
           maxHeight="90vh"
           index={tabIndex}
           onChange={(index) => setIndex(index)}
         >
-          <Box display="flex" justifyContent="space-between" maxHeight="7vh">
+          <Box
+            id={createIdComponent()}
+            display="flex"
+            justifyContent="space-between"
+            maxHeight="7vh"
+          >
             <MotionBox
+              id={createIdComponent()}
               visibility={isSideBarOpen ? "visible" : "hidden"}
               variants={tabListContainer}
               initial={isSideBarOpen ? "hidden" : "show"}
               animate={isSideBarOpen ? "show" : "hidden"}
             >
               <TabList>
-                <Tab id="ModelBuilder">
-                  <Icon w={6} h={6} as={SettingsIcon} />
+                <Tab id={createIdComponent()}>
+                  <Icon
+                    id={createIdComponent()}
+                    w={6}
+                    h={6}
+                    as={SettingsIcon}
+                  />
                 </Tab>
-                <Tab id="selectmap">
+                <Tab id={createIdComponent()}>
                   <Icon w={6} h={6} as={PlanetIcon} />
                 </Tab>
-                <Tab id="GraphBuilder">
+                <Tab id={createIdComponent()}>
                   <Icon w={6} h={6} as={GraphIcon} />
                 </Tab>
-                <Tab id="simulationConfig">
+                <Tab id={createIdComponent()}>
                   <SimulationIcon w={6} h={6} />
                 </Tab>
               </TabList>
             </MotionBox>
             <Flex
+              id={createIdComponent()}
               justify="center"
               align="center"
               bg="#16609E"
@@ -125,6 +140,7 @@ const SidebarOpen = () => {
               color="white"
             >
               <Icon
+                id={createIdComponent()}
                 as={isSideBarOpen ? ChevronLeftIcon : ChevronRightIcon}
                 w={8}
                 h={8}
@@ -134,28 +150,42 @@ const SidebarOpen = () => {
             </Flex>
           </Box>
           <MotionBox
+            id={createIdComponent()}
             visibility={isSideBarOpen ? "visible" : "hidden"}
             variants={tabListContainer}
             initial={isSideBarOpen ? "hidden" : "show"}
             animate={isSideBarOpen ? "show" : "hidden"}
           >
-            <TabPanels h="83vh" maxHeight="83vh" overflowY="auto">
-              <TabPanel>
+            <TabPanels
+              id={createIdComponent()}
+              h="83vh"
+              maxHeight="83vh"
+              overflowY="auto"
+            >
+              <TabPanel id={createIdComponent()}>
                 <ModelBuilder />
               </TabPanel>
-              <TabPanel p="5% 0">
+              <TabPanel id={createIdComponent()} p="5% 0">
                 <SelectorMapAccordion />
               </TabPanel>
-              <TabPanel p="5% 0">
+              <TabPanel id={createIdComponent()} p="5% 0">
                 <GraphBuilder />
               </TabPanel>
-              <TabPanel p="5% 0">
-                <h2 style={{ textAlign: "center", color: "#16609E" }}>
+              <TabPanel id={createIdComponent()} p="5% 0">
+                <h2
+                  id={createIdComponent()}
+                  style={{ textAlign: "center", color: "#16609E" }}
+                >
                   Initial Conditions
                 </h2>
-                <Box p="5px" mt="15px" textAlign="center">
+                <Box
+                  id={createIdComponent()}
+                  p="5px"
+                  mt="15px"
+                  textAlign="center"
+                >
                   {idSimulationUpdating !== 0 && simulation.length > 0 && (
-                    <Accordion allowMultiple>
+                    <Accordion id={createIdComponent()} allowMultiple>
                       <AcordionContent title="Initial Conditions">
                         <InitialConditions />
                       </AcordionContent>

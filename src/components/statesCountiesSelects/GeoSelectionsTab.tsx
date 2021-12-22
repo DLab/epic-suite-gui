@@ -16,6 +16,7 @@ import { useState, useEffect, useContext } from "react";
 
 import GeoSelectionsDetails from "components/map-results/selectorMap/GeoSelectionsDetails";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
   setSeeSelections: (value: boolean) => void;
@@ -23,49 +24,48 @@ interface Props {
 
 const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
   const { geoSelections, setGeoSelections } = useContext(SelectFeature);
-  const [data, setData] = useState([]);
   const [viewDetails, setViewDetails] = useState(false);
   const [geoSelectionDetails, setGeoSelectionDetails] = useState([]);
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.localStorage.getItem("geoSelection")
-    ) {
-      const localStorageGeoSelection =
-        window.localStorage.getItem("geoSelection");
-      setData(JSON.parse(localStorageGeoSelection));
-    }
     setViewDetails(false);
   }, [geoSelections]);
 
-  const deleteGeoSelection = (id: string) => {
+  const deleteGeoSelection = (id: number) => {
     localStorage.removeItem("geoSelection");
-    const geoSelectionFilter = data.filter(
-      (geoSelection) => geoSelection.id !== id
+    const geoSelectionFilter = geoSelections.filter(
+      (geoSelection) => geoSelection.id !== +id
     );
     localStorage.setItem("geoSelection", JSON.stringify(geoSelectionFilter));
     setGeoSelections({ type: "removeGeoSelection", element: `${id}` });
   };
 
-  const viewGeoSelectionsDetails = (id: string) => {
-    const details = data.filter((geoSelection) => geoSelection.id === id);
+  const viewGeoSelectionsDetails = (id: number) => {
+    const details = geoSelections.filter(
+      (geoSelection) => geoSelection.id === id
+    );
     setGeoSelectionDetails(details);
     setViewDetails(true);
   };
 
   return (
     <>
-      {data.length > 0 ? (
-        <Flex>
+      {geoSelections.length > 0 ? (
+        <Flex id={createIdComponent()}>
           <Flex
+            id={createIdComponent()}
             w="60%"
             h="50%"
             borderRadius="md"
             border="1px solid"
             borderColor="#b7b7b7"
           >
-            <Table size="md" bg="#FFFFFF" borderRadius="md">
+            <Table
+              id={createIdComponent()}
+              size="md"
+              bg="#FFFFFF"
+              borderRadius="md"
+            >
               <Thead>
                 <Tr>
                   <Th>Name</Th>
@@ -75,13 +75,14 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
                 </Tr>
               </Thead>
               <Tbody>
-                {data.map((geoSelection) => {
+                {geoSelections.map((geoSelection) => {
                   return (
-                    <Tr key={geoSelection.id}>
+                    <Tr key={createIdComponent()}>
                       <Td>{geoSelection.name}</Td>
                       <Td>{geoSelection.scale}</Td>
                       <Td>
                         <Icon
+                          id={createIdComponent()}
                           color="#16609E"
                           as={ViewIcon}
                           cursor="pointer"
@@ -92,6 +93,7 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
                       </Td>
                       <Td>
                         <Icon
+                          id={createIdComponent()}
                           color="#16609E"
                           as={DeleteIcon}
                           cursor="pointer"
@@ -106,6 +108,7 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
           </Flex>
           {viewDetails && (
             <Flex
+              id={createIdComponent()}
               bg="#FFFFFF"
               w="40%"
               m="0 5%"
@@ -115,8 +118,9 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
               border="1px solid"
               borderColor="#b7b7b7"
             >
-              <Box textAlign="end">
+              <Box textAlign="end" id={createIdComponent()}>
                 <Icon
+                  id={createIdComponent()}
                   as={CloseIcon}
                   cursor="pointer"
                   color="#16609E"
@@ -134,12 +138,19 @@ const GeoSelectionsTab = ({ setSeeSelections }: Props) => {
           )}
         </Flex>
       ) : (
-        <Flex color="#858585" justify="center" fontSize="24px" mt="15%">
+        <Flex
+          id={createIdComponent()}
+          color="#858585"
+          justify="center"
+          fontSize="24px"
+          mt="15%"
+        >
           <Text>There is not geographic selections added</Text>
         </Flex>
       )}
-      <Flex justify="end">
+      <Flex id={createIdComponent()} justify="end">
         <Button
+          id={createIdComponent()}
           colorScheme="teal"
           size="md"
           m="2% 5% 0 0"

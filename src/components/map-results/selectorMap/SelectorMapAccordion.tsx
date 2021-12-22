@@ -10,6 +10,7 @@ import React, { useState, useContext, useEffect } from "react";
 
 import SelectedFeaturesPanel from "components/side-selector-feature/SelectedFeaturesPanel";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import createIdComponent from "utils/createIdcomponent";
 
 import SelectorMap from "./SelectorMap";
 
@@ -34,6 +35,7 @@ const SelectorMapAccordion = () => {
 
   return (
     <Accordion
+      id={createIdComponent()}
       defaultIndex={[0, 1]}
       allowMultiple
       onChange={(e) => {
@@ -48,10 +50,11 @@ const SelectorMapAccordion = () => {
         }
       }}
     >
-      <AccordionItem>
-        <h2>
-          <AccordionButton>
+      <AccordionItem id={createIdComponent()}>
+        <h2 id={createIdComponent()}>
+          <AccordionButton id={createIdComponent()}>
             <Box
+              id={createIdComponent()}
               color="#16609E"
               fontSize="14px"
               flex="1"
@@ -63,7 +66,7 @@ const SelectorMapAccordion = () => {
             <AccordionIcon />
           </AccordionButton>
         </h2>
-        <AccordionPanel pb={0}>
+        <AccordionPanel id={createIdComponent()} pb={0}>
           <SelectorMap />
         </AccordionPanel>
       </AccordionItem>

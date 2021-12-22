@@ -23,6 +23,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
+import createIdComponent from "utils/createIdcomponent";
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -35,19 +36,26 @@ export default function Navbar() {
 
   return (
     <>
-      <Box color="white" px={4} bg="#16609E">
-        <Flex h="8vh" alignItems="center" justifyContent="space-between">
+      <Box id={createIdComponent()} color="white" px={4} bg="#16609E">
+        <Flex
+          id={createIdComponent()}
+          h="8vh"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <IconButton
+            id={createIdComponent()}
             size="md"
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label="Open Menu"
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <Menu>
-            <HStack spacing={8} alignItems="center">
+          <Menu id={createIdComponent()}>
+            <HStack id={createIdComponent()} spacing={8} alignItems="center">
               <Link href="/" passHref>
                 <Icon
+                  id={createIdComponent()}
                   as={EpicSuiteIcon}
                   w={50}
                   h={50}
@@ -59,14 +67,20 @@ export default function Navbar() {
             </HStack>
             {pathname === "/" && (
               <HStack
+                id={createIdComponent()}
                 as="nav"
                 spacing={2}
                 display={{ base: "none", md: "flex" }}
               >
-                <Button colorScheme="white" variant="link">
+                <Button
+                  id={createIdComponent()}
+                  colorScheme="white"
+                  variant="link"
+                >
                   <Link href="/404">Documentation</Link>
                 </Button>
                 <Button
+                  id={createIdComponent()}
                   onClick={onOpenModal}
                   colorScheme="white"
                   variant="link"
@@ -77,41 +91,73 @@ export default function Navbar() {
             )}
           </Menu>
         </Flex>
-        <Box pb={4} display={{ md: "none" }}>
-          <Stack as="nav" spacing={2}>
-            <Button colorScheme="white" variant="link">
+        <Box id={createIdComponent()} pb={4} display={{ md: "none" }}>
+          <Stack id={createIdComponent()} as="nav" spacing={2}>
+            <Button id={createIdComponent()} colorScheme="white" variant="link">
               <Link href="/404">Documentation</Link>
             </Button>
-            <Button onClick={onOpenModal} colorScheme="white" variant="link">
+            <Button
+              id={createIdComponent()}
+              onClick={onOpenModal}
+              colorScheme="white"
+              variant="link"
+            >
               About
             </Button>
           </Stack>
         </Box>
       </Box>
-      <Modal isOpen={isOpenModal} onClose={onCloseModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>About</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text as="i" color="gray.600">
+      <Modal
+        id={createIdComponent()}
+        isOpen={isOpenModal}
+        onClose={onCloseModal}
+      >
+        <ModalOverlay id={createIdComponent()} />
+        <ModalContent id={createIdComponent()}>
+          <ModalHeader id={createIdComponent()}>About</ModalHeader>
+          <ModalCloseButton id={createIdComponent()} />
+          <ModalBody id={createIdComponent()}>
+            <Text id={createIdComponent()} as="i" color="gray.600">
               EPIc Suite is an open source application developed by the
               Computational Biology Laboratory of Fundación Ciencia & Vida,
               which is funded by the AFOSR project N° FA9550-20-1-0196.
             </Text>
-            <Flex mt="8" justify="space-between" maxW="100%">
-              <Image src="/dlab.png" alt="Logo dlab" w="32%" h="fit-content" />
+            <Flex
+              id={createIdComponent()}
+              mt="8"
+              justify="space-between"
+              maxW="100%"
+            >
               <Image
+                id={createIdComponent()}
+                src="/dlab.png"
+                alt="Logo dlab"
+                w="32%"
+                h="fit-content"
+              />
+              <Image
+                id={createIdComponent()}
                 src="/fundacion.png"
                 alt="Logo Fundación Ciencia y Vida"
                 w="32%"
                 h="fit-content"
               />
-              <Image src="/afosr.png" alt="Logo dlab" w="25%" h="fit-content" />
+              <Image
+                id={createIdComponent()}
+                src="/afosr.png"
+                alt="Logo dlab"
+                w="25%"
+                h="fit-content"
+              />
             </Flex>
           </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onCloseModal}>
+          <ModalFooter id={createIdComponent()}>
+            <Button
+              id={createIdComponent()}
+              colorScheme="blue"
+              mr={3}
+              onClick={onCloseModal}
+            >
               Close
             </Button>
           </ModalFooter>

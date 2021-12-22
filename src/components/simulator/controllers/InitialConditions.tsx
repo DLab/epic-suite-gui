@@ -6,6 +6,7 @@ import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { SimulatorParams } from "types/SimulationTypes";
+import createIdComponent from "utils/createIdcomponent";
 
 const InitialConditions = () => {
   const toast = useToast();
@@ -43,7 +44,7 @@ const InitialConditions = () => {
   // } = paramsModel.find(({ id }: DataParameters) => id === idModel);
   return (
     <>
-      <Box>
+      <Box id={createIdComponent()}>
         <NumberInputEpi
           value={population}
           setValue={setInitialConditions}
@@ -65,7 +66,7 @@ const InitialConditions = () => {
           type="number"
         />
       </Box>
-      <Box>
+      <Box id={createIdComponent()}>
         <NumberInputEpi
           value={I}
           setValue={setInitialConditions}
@@ -77,7 +78,7 @@ const InitialConditions = () => {
           type="number"
         />
       </Box>
-      <Box>
+      <Box id={createIdComponent()}>
         <NumberInputEpi
           value={I_d}
           setValue={setInitialConditions}
@@ -90,7 +91,7 @@ const InitialConditions = () => {
         />
       </Box>
 
-      <Box>
+      <Box id={createIdComponent()}>
         <NumberInputEpi
           value={models ? E : 0}
           setValue={setInitialConditions}
@@ -104,7 +105,7 @@ const InitialConditions = () => {
         />
       </Box>
 
-      <Box>
+      <Box id={createIdComponent()}>
         <NumberInputEpi
           value={I_ac}
           setValue={setInitialConditions}
@@ -117,6 +118,7 @@ const InitialConditions = () => {
         />
       </Box>
       <Button
+        id={createIdComponent()}
         colorScheme="teal"
         onClick={() => {
           setSimulation({
@@ -138,6 +140,7 @@ const InitialConditions = () => {
         Update
       </Button>
       <Button
+        id={createIdComponent()}
         ml="0.5rem"
         colorScheme="gray"
         onClick={() => setIdSimulationUpdating({ type: "set", payload: 0 })}
