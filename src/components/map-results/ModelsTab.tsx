@@ -18,7 +18,7 @@ import {
   EpidemicsData,
   Model,
 } from "context/ControlPanelContext";
-import { ModelsSaved } from "context/ModelsContext";
+import { DataParameters, ModelsSaved } from "context/ModelsContext";
 import createIdComponent from "utils/createIdcomponent";
 
 import ModelDetails from "./ModelDetails";
@@ -35,19 +35,14 @@ const ModelsTab = () => {
   const [modelDetails, setmodelDetails] = useState([]);
 
   useEffect(() => {
-    // if (
-    //   typeof window !== "undefined" &&
-    //   window.localStorage.getItem("models")
-    // ) {
-    //   const localStorageModelsData = window.localStorage.getItem("models");
-    //   setData(JSON.parse(localStorageModelsData));
-    // }
     setViewDetails(false);
   }, [parameters]);
 
   const deleteModel = (name: string) => {
     localStorage.removeItem("models");
-    const modelDataFilter = parameters.filter((model) => model.id !== +name);
+    const modelDataFilter = parameters.filter(
+      (model: DataParameters) => model.id !== +name
+    );
     localStorage.setItem("models", JSON.stringify(modelDataFilter));
     setParameters({ type: "remove", element: `${name}` });
   };
@@ -57,7 +52,9 @@ const ModelsTab = () => {
     setParams({ type: "update", updateData: dataForUpdate });
   };
   const viewModelDetails = (name: string) => {
-    const details = parameters.filter((model) => model.id === +name);
+    const details = parameters.filter(
+      (model: DataParameters) => model.id === +name
+    );
     setmodelDetails(details);
     setViewDetails(true);
   };
