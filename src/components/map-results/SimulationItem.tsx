@@ -34,8 +34,7 @@ const RealConditions = "real-conditions";
 // eslint-disable-next-line complexity
 const SimulationItem = ({ idSimulation }: Props) => {
   const toast = useToast();
-  const { parameters, setInitialParameters, initialParameters } =
-    useContext(ModelsSaved);
+  const { parameters } = useContext(ModelsSaved);
   const { geoSelections } = useContext(SelectFeature);
   const { setInitialConditions: setInitialConditionsContext } =
     useContext(ControlPanel);
@@ -48,26 +47,6 @@ const SimulationItem = ({ idSimulation }: Props) => {
   );
   const [idGeoSelection, setIdGeoSelection] = useState<number>(0);
   const [idGraph, setIdGraph] = useState<number>(0);
-  const [newModels, setNewModels] = useState(initialParameters);
-  // const { idModel } =
-  //   simulation.find((s: SimulatorParams) => s.idSim === idSimulation) || {};
-  // const initialState =
-  //   initialParameters.find((p: DataParameters) => p.id === idModel)
-  //     .parameters || {};
-
-  // const reducer = (action,payload)=>{
-  //   switch (action.type) {
-  //     case "add":
-
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // }
-  // const [model, modelDispatch] = useReducer(reducer, initialState)
-  // const [modelsCopy, setModelsCopy] = useState({});
-  // const [geoSelectionCopy, setGeoSelectionCopy] = useState([]);
   const [initialConditions, setInitialConditions] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -265,7 +244,6 @@ const SimulationItem = ({ idSimulation }: Props) => {
     }
   };
   useEffect(() => {
-    // console.log("newModels", initialParameters);
     setInitialConditions(null);
     const simInitialConditions = simulation.find(
       (e: SimulatorParams) => e.idSim === idSimulation
@@ -273,55 +251,7 @@ const SimulationItem = ({ idSimulation }: Props) => {
     if (simInitialConditions) {
       setInitialConditions(simInitialConditions);
     }
-    if (!_.isEqual(parameters, initialParameters)) {
-      const dif: DataParameters[] | [] = _.differenceWith(
-        parameters,
-        initialParameters,
-        _.isEqual
-      );
-      if (dif.length > 0) {
-        const simIdModel = simulation.find((sim) => sim.idSim === idSimulation);
-        const someDif = dif.some(
-          (d: DataParameters) => d.id === simIdModel.idModel
-        );
-        // console.log("someDif", someDif);
-        if (!someDif) {
-          // console.log("initial parameters con diferencias que no afectan");
-          setInitialParameters({ type: "reset", initial: parameters });
-        } else {
-          // console.log("initial parameters con diferencias que SI afectan");
-          valueOptionFeature(OptionFeature.None);
-          setIdGeoSelection(0);
-          setIdGraph(0);
-          setIdSimulationUpdating({ type: "set", payload: 0 });
-          selectSimulation(
-            {
-              population: 0,
-              R: 0,
-              I: 0,
-              I_d: 0,
-              I_ac: 0,
-              E: 0,
-            },
-            "initialConditions"
-          );
-        }
-      }
-      // console.log("dif", dif.length);
-    }
-    // console.log("pase", idSimulation);
-    // console.log(parameters, initialParameters);
-    // console.log("is equal", _.isEqual(parameters, initialParameters));
-  }, [
-    idSimulation,
-    simulation,
-    parameters,
-    initialParameters,
-    setInitialParameters,
-    valueOptionFeature,
-    setIdSimulationUpdating,
-    selectSimulation,
-  ]);
+  }, [idSimulation, simulation]);
   return (
     <Tr>
       <Td>
