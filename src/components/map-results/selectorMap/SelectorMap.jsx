@@ -15,7 +15,8 @@ import data from "../../../data/states.json";
 import ResetAlerts from "components/ResetAlerts";
 import CountiesSelect from "components/statesCountiesSelects/CountiesSelect";
 import StatesSelect from "components/statesCountiesSelects/StatesSelect";
-import { Model, SelectFeature } from "context/SelectFeaturesContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
+import { Model } from "types/ControlPanelTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 const SelectorMap = () => {

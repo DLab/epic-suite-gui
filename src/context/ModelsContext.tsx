@@ -1,24 +1,10 @@
 import { createContext, useReducer } from "react";
 
-import { EpidemicsData } from "context/ControlPanelContext";
-
-export interface ActionsModelsData {
-  type: string;
-  payload?: DataParameters;
-  element?: string;
-  initial?: DataParameters[];
-}
-
-export interface DataParameters {
-  parameters: EpidemicsData;
-  id: number;
-}
-export interface ModelAttributes {
-  initialParameters: DataParameters[] | [];
-  setInitialParameters: (values: ActionsModelsData) => void;
-  parameters: DataParameters[] | [];
-  setParameters: (values: ActionsModelsData) => void;
-}
+import {
+  ActionsModelsData,
+  DataParameters,
+  ModelAttributes,
+} from "types/ModelsTypes";
 
 export const ModelsSaved = createContext<ModelAttributes>({
   parameters: [],

@@ -15,7 +15,7 @@ import dynamic from "next/dynamic";
 import React from "react";
 
 import SeeGraphicIcon from "../../icons/SeeGraphIcon";
-import { SavedSimulationData } from "context/GraphicsContext";
+import { SavedSimulationData } from "types/GraphicsTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 interface Props {

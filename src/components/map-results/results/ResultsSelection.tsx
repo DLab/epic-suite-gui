@@ -10,8 +10,9 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useContext } from "react";
 
-import { GraphicsData, SimulationKeysData } from "context/GraphicsContext";
+import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
+import { SimulationKeysData } from "types/GraphicsTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 const ResultsSelection = () => {

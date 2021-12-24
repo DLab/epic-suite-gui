@@ -13,12 +13,10 @@ import {
 } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 
-import {
-  ControlPanel,
-  EpidemicsData,
-  Model,
-} from "context/ControlPanelContext";
-import { DataParameters, ModelsSaved } from "context/ModelsContext";
+import { ControlPanel } from "context/ControlPanelContext";
+import { ModelsSaved } from "context/ModelsContext";
+import { EpidemicsData, Model } from "types/ControlPanelTypes";
+import { DataParameters } from "types/ModelsTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 import ModelDetails from "./ModelDetails";

@@ -14,7 +14,8 @@ import {
 import moment from "moment";
 import { useContext } from "react";
 
-import { SimulationSetted, OptionFeature } from "context/SimulationContext";
+import { SimulationSetted } from "context/SimulationContext";
+import { OptionFeature } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 import SimulationItem from "./SimulationItem";

@@ -4,8 +4,9 @@ import { useContext, useState, useEffect } from "react";
 import { GraphicsData } from "context/GraphicsContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
-import { SimulationSetted, SimulatorParams } from "context/SimulationContext";
+import { SimulationSetted } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
+import { SimulatorParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 import { postData } from "utils/fetchData";
 

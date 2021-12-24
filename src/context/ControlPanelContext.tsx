@@ -1,62 +1,14 @@
 import { createContext, useReducer, useState } from "react";
-// Updated into ActionsEpidemicData payload: add string[] type
-interface ActionsEpidemicData {
-  type: string;
-  payload?: string | number | EpidemicsData | string[];
-  target?: string;
-  updateData?: EpidemicsData;
-}
-interface ActionModeModel {
-  type: Model;
-}
-export enum Model {
-  Update = "Update",
-  Add = "Add",
-}
-export interface EpidemicsData {
-  name_model: string;
-  name: string;
-  compartments?: string[];
-  t_init: string;
-  t_end: number;
-  pI_det: number;
-  beta: number;
-  mu: number;
-  rR_S: number;
-  alpha: number;
-  tE_I: number;
-  tI_R: number;
-}
 
-// actions
-interface ActionsInitialConditions {
-  type: string;
-  payload?: number;
-  target?: string;
-  real?: InitialConditions;
-}
-// initialConditions
-interface InitialConditions {
-  population: number;
-  R: number;
-  I: number;
-  I_d: number;
-  I_ac: number;
-  E: number;
-}
+import {
+  ActionsEpidemicData,
+  Model,
+  EpidemicsData,
+  ActionsInitialConditions,
+  InitialConditions,
+  EpidemicAttributes,
+} from "types/ControlPanelTypes";
 
-interface EpidemicAttributes {
-  mode: Model;
-  parameters?: EpidemicsData;
-  setParameters: (values: ActionsEpidemicData) => void;
-  setMode: (value: Model) => void;
-  idModelUpdate: number;
-  setIdModelUpdate: (value: number) => void;
-  initialConditions: InitialConditions;
-  setInitialConditions: (value: ActionsInitialConditions) => void;
-  idSimulation: number;
-  setIdSimulation: (value: number) => void;
-}
 const initialState: EpidemicsData = {
   name_model: "Model 1",
   name: "SEIR",

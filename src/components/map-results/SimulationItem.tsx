@@ -15,13 +15,11 @@ import { useState, useEffect, useContext, useCallback } from "react";
 import SelectDate from "components/simulator/controllers/SelectDate";
 import { ControlPanel } from "context/ControlPanelContext";
 import { GraphicsData } from "context/GraphicsContext";
-import { DataParameters, ModelsSaved } from "context/ModelsContext";
+import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
-import {
-  OptionFeature,
-  SimulationSetted,
-  SimulatorParams,
-} from "context/SimulationContext";
+import { SimulationSetted } from "context/SimulationContext";
+import { DataParameters } from "types/ModelsTypes";
+import { OptionFeature, SimulatorParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 import { postData } from "utils/fetchData";
 import reducerValuesObjects from "utils/reducerValuesObject";
