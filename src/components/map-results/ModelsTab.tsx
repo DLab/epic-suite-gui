@@ -11,7 +11,6 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
-import dynamic from "next/dynamic";
 import { useState, useEffect, useContext } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
