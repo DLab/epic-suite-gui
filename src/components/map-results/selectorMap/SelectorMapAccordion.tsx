@@ -35,7 +35,6 @@ const SelectorMapAccordion = () => {
 
   return (
     <Accordion
-      id={createIdComponent()}
       defaultIndex={[0, 1]}
       allowMultiple
       onChange={(e) => {
@@ -50,11 +49,10 @@ const SelectorMapAccordion = () => {
         }
       }}
     >
-      <AccordionItem id={createIdComponent()}>
-        <h2 id={createIdComponent()}>
-          <AccordionButton id={createIdComponent()}>
+      <AccordionItem id="accordion-selector-map">
+        <h2>
+          <AccordionButton>
             <Box
-              id={createIdComponent()}
               color="#16609E"
               fontSize="14px"
               flex="1"
@@ -66,7 +64,7 @@ const SelectorMapAccordion = () => {
             <AccordionIcon />
           </AccordionButton>
         </h2>
-        <AccordionPanel id={createIdComponent()} pb={0}>
+        <AccordionPanel pb={0}>
           <SelectorMap />
         </AccordionPanel>
       </AccordionItem>

@@ -60,22 +60,16 @@ const ModelsTab = () => {
   return (
     <>
       {parameters.length > 0 ? (
-        <Flex id={createIdComponent()}>
+        <Flex>
           <Flex
-            id={createIdComponent()}
             w="60%"
             h="50%"
             borderRadius="md"
             border="1px solid"
             borderColor="#b7b7b7"
           >
-            <Table
-              id={createIdComponent()}
-              size="md"
-              bg="#FFFFFF"
-              borderRadius="md"
-            >
-              <Thead id={createIdComponent()}>
+            <Table size="md" bg="#FFFFFF" borderRadius="md">
+              <Thead>
                 <Tr>
                   <Th>Name</Th>
                   <Th>Model</Th>
@@ -92,7 +86,6 @@ const ModelsTab = () => {
                       <Td>{model.parameters.name}</Td>
                       <Td>
                         <Icon
-                          id={createIdComponent()}
                           color="#16609E"
                           as={ViewIcon}
                           cursor="pointer"
@@ -103,7 +96,6 @@ const ModelsTab = () => {
                       </Td>
                       <Td>
                         <Icon
-                          id={createIdComponent()}
                           color="#16609E"
                           as={EditIcon}
                           cursor="pointer"
@@ -114,7 +106,6 @@ const ModelsTab = () => {
                       </Td>
                       <Td>
                         <Icon
-                          id={createIdComponent()}
                           color="#16609E"
                           as={DeleteIcon}
                           cursor="pointer"
@@ -129,7 +120,6 @@ const ModelsTab = () => {
           </Flex>
           {viewDetails && (
             <Flex
-              id={createIdComponent()}
               bg="#FFFFFF"
               w="40%"
               m="0 5%"
@@ -139,9 +129,8 @@ const ModelsTab = () => {
               border="1px solid"
               borderColor="#b7b7b7"
             >
-              <Box textAlign="end" id={createIdComponent()}>
+              <Box textAlign="end">
                 <Icon
-                  id={createIdComponent()}
                   as={CloseIcon}
                   cursor="pointer"
                   color="#16609E"
@@ -156,14 +145,8 @@ const ModelsTab = () => {
           )}
         </Flex>
       ) : (
-        <Flex
-          id={createIdComponent()}
-          color="#858585"
-          justify="center"
-          fontSize="24px"
-          mt="15%"
-        >
-          <Text id={createIdComponent()}>There are no models added</Text>
+        <Flex color="#858585" justify="center" fontSize="24px" mt="15%">
+          <Text>There are no models added</Text>
         </Flex>
       )}
     </>

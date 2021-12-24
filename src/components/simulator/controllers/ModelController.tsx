@@ -13,12 +13,11 @@ const ModelController = () => {
   const { t_end, name_model } = parameters;
   return (
     <>
-      <Box id={createIdComponent()}>
-        <Text id={createIdComponent()} flex="1" textAlign="left">
+      <Box>
+        <Text flex="1" textAlign="left">
           Model Name
         </Text>
         <Input
-          id={createIdComponent()}
           size="sm"
           value={name_model}
           onChange={(e) => {
@@ -29,11 +28,10 @@ const ModelController = () => {
             });
           }}
         />
-        <Text id={createIdComponent()} flex="1" textAlign="left">
+        <Text flex="1" textAlign="left">
           Model
         </Text>
         <Select
-          id={createIdComponent()}
           size="sm"
           onChange={(e) => {
             if (e.target.value === "SEIR") {
@@ -60,8 +58,8 @@ const ModelController = () => {
           <option value="SIR">SIR</option>
         </Select>
       </Box>
-      <Flex id={createIdComponent()} justify="space-between">
-        <Box id={createIdComponent()}>
+      <Flex justify="space-between">
+        <Box>
           <NumberInputEpi
             value={t_end}
             setValue={setParameters}

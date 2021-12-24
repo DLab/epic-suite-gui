@@ -82,7 +82,6 @@ const ToastMessage = () => {
     <>
       {mode === Model.Add && (
         <Button
-          id={createIdComponent()}
           onClick={() => handleDataLocalStorage()}
           colorScheme="teal"
           size="md"
@@ -94,7 +93,6 @@ const ToastMessage = () => {
       {mode === Model.Update && (
         <>
           <Button
-            id={createIdComponent()}
             onClick={() => handleDataLocalStorage()}
             colorScheme="yellow"
             color="gray.800"
@@ -104,7 +102,6 @@ const ToastMessage = () => {
             Update Model
           </Button>
           <Button
-            id={createIdComponent()}
             onClick={() => {
               setMode(Model.Add);
               setIdModelUpdate(0);

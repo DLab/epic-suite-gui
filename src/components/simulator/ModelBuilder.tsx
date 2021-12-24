@@ -19,14 +19,9 @@ const ModelBuilder = () => {
 
   return (
     <>
-      <h2
-        id={createIdComponent()}
-        style={{ textAlign: "center", color: "#16609E" }}
-      >
-        Model Builder
-      </h2>
-      <Box id={createIdComponent()} p="5px" mt="15px" textAlign="center">
-        <Accordion id={createIdComponent()} allowMultiple>
+      <h2 style={{ textAlign: "center", color: "#16609E" }}>Model Builder</h2>
+      <Box p="5px" mt="15px" textAlign="center">
+        <Accordion allowMultiple>
           <AcordionContent title="Model">
             <ModelController />
           </AcordionContent>
