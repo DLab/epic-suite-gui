@@ -17,21 +17,20 @@ interface Props {
 const AcordionContent = ({ title, children }: Props) => {
   return (
     <AccordionItem id={title} mb="30px">
-      <h2 id={createIdComponent()}>
+      <h2>
         <AccordionButton
-          id={createIdComponent()}
           bg="#16609E"
           color="white"
           _hover={{ backgroundColor: "#16609E" }}
           _focus={{ boxShadow: "none" }}
         >
-          <Box id={createIdComponent()} flex="1" textAlign="left">
+          <Box flex="1" textAlign="left">
             {title}
           </Box>
           <AccordionIcon />
         </AccordionButton>
       </h2>
-      <AccordionPanel id={createIdComponent()} pb={4} bg="#FAFAFA">
+      <AccordionPanel pb={4} bg="#FAFAFA">
         {children}
       </AccordionPanel>
     </AccordionItem>

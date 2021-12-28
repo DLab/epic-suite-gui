@@ -19,7 +19,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <>
       <Navbar />
-      <Box id={createIdComponent()}>{children}</Box>
+      <Box>{children}</Box>
       {router.pathname !== "/" && <Footer />}
     </>
   );

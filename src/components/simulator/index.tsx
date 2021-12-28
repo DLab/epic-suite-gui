@@ -43,14 +43,9 @@ const Simulator = () => {
 
   return (
     <TabContext>
-      <Flex id={createIdComponent()} maxHeight="92vh">
+      <Flex maxHeight="92vh">
         <SidebarOpen />
-        <Flex
-          id={createIdComponent()}
-          w="100%"
-          direction="column"
-          justify="space-between"
-        >
+        <Flex w="100%" direction="column" justify="space-between">
           <MapResult />
           <Footer />
         </Flex>

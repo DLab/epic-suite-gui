@@ -80,7 +80,6 @@ const SidebarOpen = () => {
   return (
     <AnimatePresence>
       <MotionBox
-        id={createIdComponent()}
         bg="#EEEEEE"
         h="92vh"
         maxHeight="92vh"
@@ -90,47 +89,35 @@ const SidebarOpen = () => {
         animate={isSideBarOpen ? "show" : "hidden"}
       >
         <Tabs
-          id={createIdComponent()}
+          id="sidebar-tabs"
           h="90vh"
           maxHeight="90vh"
           index={tabIndex}
           onChange={(index) => setIndex(index)}
         >
-          <Box
-            id={createIdComponent()}
-            display="flex"
-            justifyContent="space-between"
-            maxHeight="7vh"
-          >
+          <Box display="flex" justifyContent="space-between" maxHeight="7vh">
             <MotionBox
-              id={createIdComponent()}
               visibility={isSideBarOpen ? "visible" : "hidden"}
               variants={tabListContainer}
               initial={isSideBarOpen ? "hidden" : "show"}
               animate={isSideBarOpen ? "show" : "hidden"}
             >
               <TabList>
-                <Tab id={createIdComponent()}>
-                  <Icon
-                    id={createIdComponent()}
-                    w={6}
-                    h={6}
-                    as={SettingsIcon}
-                  />
+                <Tab>
+                  <Icon w={6} h={6} as={SettingsIcon} />
                 </Tab>
-                <Tab id={createIdComponent()}>
+                <Tab>
                   <Icon w={6} h={6} as={PlanetIcon} />
                 </Tab>
-                <Tab id={createIdComponent()}>
+                <Tab>
                   <Icon w={6} h={6} as={GraphIcon} />
                 </Tab>
-                <Tab id={createIdComponent()}>
-                  <SimulationIcon w={6} h={6} />
+                <Tab>
+                  <SimulationIcon w={6} h={6} id="a" />
                 </Tab>
               </TabList>
             </MotionBox>
             <Flex
-              id={createIdComponent()}
               justify="center"
               align="center"
               bg="#16609E"
@@ -140,7 +127,6 @@ const SidebarOpen = () => {
               color="white"
             >
               <Icon
-                id={createIdComponent()}
                 as={isSideBarOpen ? ChevronLeftIcon : ChevronRightIcon}
                 w={8}
                 h={8}
@@ -150,42 +136,28 @@ const SidebarOpen = () => {
             </Flex>
           </Box>
           <MotionBox
-            id={createIdComponent()}
             visibility={isSideBarOpen ? "visible" : "hidden"}
             variants={tabListContainer}
             initial={isSideBarOpen ? "hidden" : "show"}
             animate={isSideBarOpen ? "show" : "hidden"}
           >
-            <TabPanels
-              id={createIdComponent()}
-              h="83vh"
-              maxHeight="83vh"
-              overflowY="auto"
-            >
-              <TabPanel id={createIdComponent()}>
+            <TabPanels h="83vh" maxHeight="83vh" overflowY="auto">
+              <TabPanel>
                 <ModelBuilder />
               </TabPanel>
-              <TabPanel id={createIdComponent()} p="5% 0">
+              <TabPanel p="5% 0">
                 <SelectorMapAccordion />
               </TabPanel>
-              <TabPanel id={createIdComponent()} p="5% 0">
+              <TabPanel p="5% 0">
                 <GraphBuilder />
               </TabPanel>
-              <TabPanel id={createIdComponent()} p="5% 0">
-                <h2
-                  id={createIdComponent()}
-                  style={{ textAlign: "center", color: "#16609E" }}
-                >
+              <TabPanel p="5% 0">
+                <h2 style={{ textAlign: "center", color: "#16609E" }}>
                   Initial Conditions
                 </h2>
-                <Box
-                  id={createIdComponent()}
-                  p="5px"
-                  mt="15px"
-                  textAlign="center"
-                >
+                <Box p="5px" mt="15px" textAlign="center">
                   {idSimulationUpdating !== 0 && simulation.length > 0 && (
-                    <Accordion id={createIdComponent()} allowMultiple>
+                    <Accordion allowMultiple>
                       <AcordionContent title="Initial Conditions">
                         <InitialConditions />
                       </AcordionContent>

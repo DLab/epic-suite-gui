@@ -1,5 +1,6 @@
 import { InfoIcon } from "@chakra-ui/icons";
 import {
+  Box,
   FormControl,
   FormLabel,
   Radio,
@@ -90,49 +91,42 @@ const SelectorMap = () => {
   }, []);
 
   return (
-    <FormControl maxHeight="51vh" id={createIdComponent()}>
-      <div id={createIdComponent()}>
-        <RadioGroup
-          id={createIdComponent()}
-          onChange={setExtentionOption}
-          value={extentionOption}
-        >
-          <HStack id={createIdComponent()} spacing="8px">
+    <FormControl maxHeight="51vh">
+      <div>
+        <RadioGroup onChange={setExtentionOption} value={extentionOption}>
+          <HStack spacing="8px">
             {mode === Model.Add && (
               <>
                 {" "}
                 <Radio
-                  id={createIdComponent()}
+                  id="radio-national"
+                  name="radio-national"
                   bg="white"
                   border="1px"
                   borderColor="#5B58AD"
                   value="0"
                 >
-                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
-                    National
-                  </span>
+                  <span style={{ fontSize: "14px" }}>National</span>
                 </Radio>
                 <Radio
-                  id={createIdComponent()}
+                  id="radio-state"
+                  name="radio-state"
                   bg="white"
                   border="1px"
                   borderColor="#5B58AD"
                   value="1"
                 >
-                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
-                    State
-                  </span>
+                  <span style={{ fontSize: "14px" }}>State</span>
                 </Radio>
                 <Radio
-                  id={createIdComponent()}
+                  id="radio-county"
+                  name="radio-county"
                   bg="white"
                   border="1px"
                   borderColor="#5B58AD"
                   value="2"
                 >
-                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
-                    County
-                  </span>
+                  <span style={{ fontSize: "14px" }}>County</span>
                 </Radio>
               </>
             )}
@@ -140,60 +134,52 @@ const SelectorMap = () => {
               <>
                 {" "}
                 <Radio
-                  id={createIdComponent()}
+                  id="radio-national"
+                  name="radio-national"
                   bg="white"
                   border="1px"
                   borderColor="#5B58AD"
                   value="0"
                   isDisabled
                 >
-                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
-                    National
-                  </span>
+                  <span style={{ fontSize: "14px" }}>National</span>
                 </Radio>
                 <Radio
-                  id={createIdComponent()}
+                  id="radio-state"
+                  name="radio-state"
                   bg="white"
                   border="1px"
                   borderColor="#5B58AD"
                   value="1"
                   isDisabled
                 >
-                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
-                    State
-                  </span>
+                  <span style={{ fontSize: "14px" }}>State</span>
                 </Radio>
                 <Radio
-                  id={createIdComponent()}
+                  id="radio-county"
+                  name="radio-county"
                   bg="white"
                   border="1px"
                   borderColor="#5B58AD"
                   value="2"
                   isDisabled
                 >
-                  <span id={createIdComponent()} style={{ fontSize: "14px" }}>
-                    County
-                  </span>
+                  <span style={{ fontSize: "14px" }}>County</span>
                 </Radio>
               </>
             )}
           </HStack>
         </RadioGroup>
         {extentionOption === "1" && (
-          <FormControl id={createIdComponent()} mt="0.6rem">
+          <FormControl mt="0.6rem">
             <StatesSelect options={options} extentionOption={extentionOption} />
           </FormControl>
         )}
         {extentionOption === "2" && (
-          <CountiesSelect
-            id={createIdComponent()}
-            options={options}
-            optionsCounty={optionsCounty}
-          />
+          <CountiesSelect options={options} optionsCounty={optionsCounty} />
         )}
-        <Center id={createIdComponent()}>
+        <Center>
           <Button
-            id={createIdComponent()}
             mt="0.5rem"
             variant="ghost"
             colorScheme="blue"
@@ -207,11 +193,7 @@ const SelectorMap = () => {
           >
             Reset
           </Button>
-          <ResetAlerts
-            id={createIdComponent()}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-          />
+          <ResetAlerts isOpen={isOpen} setIsOpen={setIsOpen} />
         </Center>
       </div>
     </FormControl>

@@ -16,7 +16,7 @@ const Home = () => {
         <ControlPanelContext>
           <SelectFeatureContext>
             <GraphicsContext>
-              <Box id={createIdComponent()}>
+              <Box>
                 <Simulator />
               </Box>
             </GraphicsContext>

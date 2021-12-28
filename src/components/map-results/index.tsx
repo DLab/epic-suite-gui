@@ -23,9 +23,8 @@ import SimulationTab from "./SimulationTab";
 
 const Map = dynamic(() => import("./Map"), {
   loading: () => (
-    <Flex id={createIdComponent()} justifyContent="center" alignItems="center">
+    <Flex justifyContent="center" alignItems="center">
       <Spinner
-        id={createIdComponent()}
         thickness="4px"
         speed="0.65s"
         emptyColor="gray.200"
@@ -41,31 +40,24 @@ const MapResult = () => {
   const { index: tabIndex, setIndex } = useContext(TabIndex);
   return (
     <Tabs
-      id={createIdComponent()}
+      id="tab-content"
       isLazy
       maxHeight="84vh"
       index={tabIndex}
       onChange={(index) => setIndex(index)}
     >
-      <TabList maxHeight="7vh" id={createIdComponent()}>
-        <Tab id={createIdComponent()}>Models</Tab>
-        <Tab id={createIdComponent()}>Map</Tab>
-        <Tab id={createIdComponent()}>Graph</Tab>
-        <Tab id={createIdComponent()}>Simulation</Tab>
-        <Tab id={createIdComponent()}>Results</Tab>
+      <TabList maxHeight="7vh">
+        <Tab>Models</Tab>
+        <Tab>Map</Tab>
+        <Tab>Graph</Tab>
+        <Tab>Simulation</Tab>
+        <Tab>Results</Tab>
       </TabList>
-      <TabPanels id={createIdComponent()}>
-        <TabPanel
-          id={createIdComponent()}
-          maxHeight="77vh"
-          height="77vh"
-          bg="#FAFAFA"
-          overflowY="auto"
-        >
+      <TabPanels>
+        <TabPanel maxHeight="77vh" height="77vh" bg="#FAFAFA" overflowY="auto">
           <ModelsTab />
         </TabPanel>
         <TabPanel
-          id={createIdComponent()}
           maxHeight="77vh"
           height="77vh"
           css={{ position: "relative" }}
@@ -74,29 +66,24 @@ const MapResult = () => {
         >
           <Map />
         </TabPanel>
-        <TabPanel id={createIdComponent()} maxHeight="77vh" height="77vh">
-          <Flex id={createIdComponent()} h="100%">
-            <Center id={createIdComponent()} w="100%">
+        <TabPanel maxHeight="77vh" height="77vh">
+          <Flex h="100%">
+            <Center w="100%">
               <GraphTab />
             </Center>
           </Flex>
         </TabPanel>
-        <TabPanel id={createIdComponent()} maxHeight="77vh" height="77vh">
+        <TabPanel maxHeight="77vh" height="77vh">
           <SimulationTab />
-          <Box id={createIdComponent()} h="8%">
-            <Center id={createIdComponent()}>
+          <Box h="8%">
+            <Center>
               <RunSimulatorButton />
             </Center>
           </Box>
         </TabPanel>
-        <TabPanel
-          id={createIdComponent()}
-          maxHeight="77vh"
-          height="77vh"
-          bg="#FAFAFA"
-        >
-          <Flex id={createIdComponent()} h="100%">
-            <Center id={createIdComponent()} w="100%">
+        <TabPanel maxHeight="77vh" height="77vh" bg="#FAFAFA">
+          <Flex h="100%">
+            <Center w="100%">
               <Results />
             </Center>
           </Flex>

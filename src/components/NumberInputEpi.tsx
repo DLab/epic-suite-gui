@@ -52,29 +52,18 @@ const NumberInputEpi = ({
 
   return (
     <>
-      <Flex align="center" id={createIdComponent()}>
-        <Text
-          id={createIdComponent()}
-          align="left"
-          color={isDisabled && "gray.200"}
-        >
+      <Flex align="center">
+        <Text align="left" color={isDisabled && "gray.200"}>
           {name ?? nameParams}
         </Text>
-        <Tooltip id={createIdComponent()} label={description}>
-          <Icon
-            id={createIdComponent()}
-            as={InfoIcon}
-            ml="10%"
-            w="14px "
-            color="teal"
-          />
+        <Tooltip label={description}>
+          <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
         </Tooltip>
       </Flex>
-      <Flex id={createIdComponent()} mb="0.5rem">
+      <Flex mb="0.5rem">
         {type === "slider" && (
           <>
             <NumberInput
-              id={createIdComponent()}
               maxW="100px"
               mr="1rem"
               defaultValue={+value}
@@ -85,31 +74,27 @@ const NumberInputEpi = ({
               step={step}
               value={+value}
             >
-              <NumberInputField id={createIdComponent()} />
-              <NumberInputStepper id={createIdComponent()}>
-                <NumberIncrementStepper id={createIdComponent()} />
-                <NumberDecrementStepper id={createIdComponent()} />
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
             <Slider
-              id={createIdComponent()}
               flex="1"
               focusThumbOnChange={false}
               defaultValue={+value}
+              id="slider-number-input"
               value={+value}
               step={step}
               min={+min}
               max={+max}
               onChange={handleChange}
             >
-              <SliderTrack id={createIdComponent()}>
-                <SliderFilledTrack id={createIdComponent()} />
+              <SliderTrack>
+                <SliderFilledTrack />
               </SliderTrack>
-              <SliderThumb
-                id={createIdComponent()}
-                fontSize="sm"
-                boxSize="32px"
-              >
+              <SliderThumb fontSize="sm" boxSize="32px">
                 {value}
               </SliderThumb>
             </Slider>
@@ -117,7 +102,6 @@ const NumberInputEpi = ({
         )}
         {type === "number" && !isInitialParameters && (
           <NumberInput
-            id={createIdComponent()}
             maxW="100px"
             mr="1rem"
             defaultValue={value}
@@ -130,15 +114,14 @@ const NumberInputEpi = ({
             isDisabled
           >
             <NumberInputField />
-            <NumberInputStepper id={createIdComponent()}>
-              <NumberIncrementStepper id={createIdComponent()} />
-              <NumberDecrementStepper id={createIdComponent()} />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
         )}
         {isInitialParameters && (
           <NumberInput
-            id={createIdComponent()}
             maxW="100px"
             mr="1rem"
             value={value}
@@ -148,10 +131,10 @@ const NumberInputEpi = ({
             max={max}
             step={step}
           >
-            <NumberInputField id={createIdComponent()} />
-            <NumberInputStepper id={createIdComponent()}>
-              <NumberIncrementStepper id={createIdComponent()} />
-              <NumberDecrementStepper id={createIdComponent()} />
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
         )}

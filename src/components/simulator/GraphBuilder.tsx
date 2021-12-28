@@ -6,7 +6,7 @@ import createIdComponent from "utils/createIdcomponent";
 const GraphBuilder = () => {
   return (
     <>
-      <Text textAlign="center" id={createIdComponent()} color="#16609E">
+      <Text textAlign="center" color="#16609E">
         Graph Builder
       </Text>
     </>
