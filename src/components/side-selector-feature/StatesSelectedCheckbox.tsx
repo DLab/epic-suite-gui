@@ -20,14 +20,12 @@ import createIdComponent from "utils/createIdcomponent";
 interface StatesSelected {
   stateSelected?: string[];
   countiesSelected?: string[];
-  maxWidthFeaturesPanel: string;
 }
 
 type Acc = ObjStatesCounties[] | [];
 const StatesSelectedCheckbox = ({
   stateSelected,
   countiesSelected,
-  maxWidthFeaturesPanel,
 }: StatesSelected) => {
   const { setStates, setCounties, states, counties } =
     useContext(SelectFeature);
@@ -78,11 +76,7 @@ const StatesSelectedCheckbox = ({
     : [];
 
   return (
-    <Box
-      id={createIdComponent()}
-      maxHeight={maxWidthFeaturesPanel}
-      overflowY="auto"
-    >
+    <Box id={createIdComponent()} overflowY="auto">
       {stateSelected &&
         statesOrdered.map((s) => {
           return (

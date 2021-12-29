@@ -13,7 +13,12 @@ import {
 import dynamic from "next/dynamic";
 import { useContext } from "react";
 
+import GraphTab from "../graphTab/GraphTab";
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
+import ModelsTab from "../map-results/ModelsTab";
+import Results from "../map-results/results/Results";
+import RunSimulatorButton from "../map-results/RunSimulatorButton";
+import SimulationTab from "../map-results/SimulationTab";
 import GraphIcon from "components/icons/GraphIcon";
 import InfoIcon from "components/icons/InfoIcon";
 import ModelsIcon from "components/icons/ModelsIcon";
@@ -22,13 +27,7 @@ import ResultsIcon from "components/icons/ResultsIcon";
 import SimulationIcon from "components/icons/SimulationIcon";
 import { TabIndex } from "context/TabContext";
 
-import GraphTab from "./GraphTab";
-import ModelsTab from "./ModelsTab";
-import Results from "./results/Results";
-import RunSimulatorButton from "./RunSimulatorButton";
-import SimulationTab from "./SimulationTab";
-
-const Map = dynamic(() => import("./Map"), {
+const Map = dynamic(() => import("../map-tab"), {
   loading: () => (
     <Flex justifyContent="center" alignItems="center">
       <Spinner
@@ -43,7 +42,7 @@ const Map = dynamic(() => import("./Map"), {
   ssr: false,
 });
 
-const MapResult = () => {
+const MainContentTab = () => {
   const { index: tabIndex, setIndex } = useContext(TabIndex);
   return (
     <Tabs
@@ -54,7 +53,13 @@ const MapResult = () => {
       onChange={(index) => setIndex(index)}
       display="flex"
     >
-      <TabList display="flex" flexDirection="column" h="100vh" bg="#16609E">
+      <TabList
+        display="flex"
+        flexDirection="column"
+        h="100vh"
+        bg="#16609E"
+        border="none"
+      >
         <Box textAlign="center" m="10% 0">
           <Icon
             as={EpicSuiteIcon}
@@ -87,18 +92,16 @@ const MapResult = () => {
           </Box>
         </Flex>
       </TabList>
-      <TabPanels h="100vh" bg="#FAFAFA">
+      <TabPanels h="100vh" bg="#F2F2F0">
         <TabPanel overflowY="auto">
           <ModelsTab />
         </TabPanel>
-        <TabPanel css={{ position: "relative" }} overflowY="auto">
+        <TabPanel h="100vh" overflowY="auto" bg="#F2F2F0">
           <Map />
         </TabPanel>
-        <TabPanel>
+        <TabPanel h="100%">
           <Flex h="100%">
-            <Center w="100%">
-              <GraphTab />
-            </Center>
+            <GraphTab />
           </Flex>
         </TabPanel>
         <TabPanel>
@@ -121,4 +124,4 @@ const MapResult = () => {
   );
 };
 
-export default MapResult;
+export default MainContentTab;

@@ -1,14 +1,9 @@
-import { Flex } from "@chakra-ui/react";
 import { useEffect, useContext } from "react";
 
-import MapResult from "../map-results/index";
-import Footer from "components/layout/Footer";
+import MainContentTab from "../mainContent/index";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import TabContext from "context/TabContext";
-import createIdComponent from "utils/createIdcomponent";
-
-import SidebarOpen from "./sidebar/SidebarOpen";
 
 const Simulator = () => {
   // set initial models and geoSelections from localstorage.
@@ -43,7 +38,7 @@ const Simulator = () => {
 
   return (
     <TabContext>
-      <MapResult />
+      <MainContentTab />
     </TabContext>
   );
 };

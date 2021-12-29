@@ -7,14 +7,12 @@ import {
   Box,
   Flex,
   AccordionIcon,
-  Button,
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
 
 import { SelectFeature } from "context/SelectFeaturesContext";
 import countiesData from "data/counties.json";
 import stateData from "data/states.json";
-import { Model } from "types/ControlPanelTypes";
 import {
   DataGeoSelections,
   DataCountiesObj,
@@ -24,20 +22,11 @@ import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
   details: DataGeoSelections[];
-  setSeeSelections: (value: boolean) => void;
 }
 
 type Acc = ObjStatesCounties[];
 
-const GeoSelectionsDetails = ({ details, setSeeSelections }: Props) => {
-  const {
-    setMode,
-    setIdGeoSelectionUpdate,
-    setStates,
-    setCounties,
-    setScale,
-    setNameGeoSelection,
-  } = useContext(SelectFeature);
+const GeoSelectionsDetails = ({ details }: Props) => {
   const [geoSelectionsDetails, setGeoSelectionsDetails] = useState([]);
   let statesOrdered;
   let countiesOrdered;
@@ -102,18 +91,6 @@ const GeoSelectionsDetails = ({ details, setSeeSelections }: Props) => {
   }, [details]);
 
   order(details);
-
-  const updateGeoSelection = (id, dataForUpdate, name, scale) => {
-    setMode(Model.Update);
-    setIdGeoSelectionUpdate(id);
-    setScale(scale);
-    setNameGeoSelection(name);
-    if (scale === "Counties") {
-      setCounties({ type: "update", updateData: dataForUpdate });
-    } else {
-      setStates({ type: "update", updateData: dataForUpdate });
-    }
-  };
 
   return (
     <>
@@ -185,42 +162,6 @@ const GeoSelectionsDetails = ({ details, setSeeSelections }: Props) => {
                 </Accordion>
               )}
             </Box>
-            <Flex id={createIdComponent()} justify="space-around">
-              <Button
-                id={createIdComponent()}
-                colorScheme="teal"
-                size="sm"
-                mt="20px"
-                onClick={() => {
-                  updateGeoSelection(
-                    geoSelection.id,
-                    geoSelection.featureSelected,
-                    geoSelection.name,
-                    geoSelection.scale
-                  );
-                }}
-              >
-                Edit
-              </Button>
-              <Button
-                id={createIdComponent()}
-                colorScheme="teal"
-                size="sm"
-                mt="20px"
-                onClick={() => {
-                  setSeeSelections(false);
-                  setScale(geoSelection.scale);
-                  updateGeoSelection(
-                    geoSelection.id,
-                    geoSelection.featureSelected,
-                    geoSelection.name,
-                    geoSelection.scale
-                  );
-                }}
-              >
-                Edit in map
-              </Button>
-            </Flex>
           </Flex>
         );
       })}

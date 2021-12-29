@@ -5,12 +5,13 @@ import {
   AccordionPanel,
   AccordionIcon,
   Box,
+  Text,
+  Flex,
 } from "@chakra-ui/react";
 import React, { useState, useContext, useEffect } from "react";
 
 import SelectedFeaturesPanel from "components/side-selector-feature/SelectedFeaturesPanel";
 import { SelectFeature } from "context/SelectFeaturesContext";
-import createIdComponent from "utils/createIdcomponent";
 
 import SelectorMap from "./SelectorMap";
 
@@ -34,44 +35,12 @@ const SelectorMapAccordion = () => {
   }, []);
 
   return (
-    <Accordion
-      defaultIndex={[0, 1]}
-      allowMultiple
-      onChange={(e) => {
-        const toArray = Object.values(e);
-
-        if (toArray.length === 1) {
-          setmaxWidthFeaturesPanel("56vh");
-        } else if (scale === "States") {
-          setmaxWidthFeaturesPanel("27vh");
-        } else if (scale === "Counties") {
-          setmaxWidthFeaturesPanel("14vh");
-        }
-      }}
-    >
-      <AccordionItem id="accordion-selector-map">
-        <h2>
-          <AccordionButton>
-            <Box
-              color="#16609E"
-              fontSize="14px"
-              flex="1"
-              textAlign="left"
-              h="16px"
-            >
-              Select scale for simulation
-            </Box>
-            <AccordionIcon />
-          </AccordionButton>
-        </h2>
-        <AccordionPanel pb={0}>
-          <SelectorMap />
-        </AccordionPanel>
-      </AccordionItem>
+    <Flex direction="column" w="28%" p="0 2%">
+      <SelectorMap />
       {(scale === "States" || scale === "Counties") && (
-        <SelectedFeaturesPanel maxWidthFeaturesPanel={maxWidthFeaturesPanel} />
+        <SelectedFeaturesPanel />
       )}
-    </Accordion>
+    </Flex>
   );
 };
 

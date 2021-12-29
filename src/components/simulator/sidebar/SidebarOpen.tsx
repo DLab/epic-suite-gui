@@ -1,8 +1,4 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  SettingsIcon,
-} from "@chakra-ui/icons";
+import { SettingsIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -15,10 +11,10 @@ import {
   Icon,
   Accordion,
 } from "@chakra-ui/react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useContext, useState } from "react";
+import { motion } from "framer-motion";
+import { useContext } from "react";
 
-import SelectorMapAccordion from "../../map-results/selectorMap/SelectorMapAccordion";
+import SelectorMapAccordion from "../../map-tab/selectorMap/SelectorMapAccordion";
 import InitialConditions from "../controllers/InitialConditions";
 import GraphBuilder from "../GraphBuilder";
 import ModelBuilder from "../ModelBuilder";
