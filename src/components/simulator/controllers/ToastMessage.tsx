@@ -1,4 +1,5 @@
-import { Button, useToast } from "@chakra-ui/react";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { Button, IconButton, useToast } from "@chakra-ui/react";
 import { useContext } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
@@ -7,7 +8,11 @@ import { Model } from "types/ControlPanelTypes";
 import { DataParameters, ModelAttributes } from "types/ModelsTypes";
 import createIdComponent from "utils/createIdcomponent";
 
-const ToastMessage = () => {
+interface Props {
+  closeUpdatingModel: (values: boolean) => void;
+}
+
+const ToastMessage = ({ closeUpdatingModel }: Props) => {
   const toast = useToast();
   const { setParameters } = useContext(ModelsSaved);
   const { parameters, mode, setMode, idModelUpdate, setIdModelUpdate } =
@@ -80,7 +85,7 @@ const ToastMessage = () => {
   };
   return (
     <>
-      {mode === Model.Add && (
+      {/* {mode === Model.Add && (
         <Button
           onClick={() => handleDataLocalStorage()}
           colorScheme="teal"
@@ -89,10 +94,43 @@ const ToastMessage = () => {
         >
           Add Model
         </Button>
-      )}
+      )} */}
       {mode === Model.Update && (
         <>
-          <Button
+          <IconButton
+            id={createIdComponent()}
+            color="#ffffff"
+            aria-label="Call Segun"
+            size="sm"
+            cursor="pointer"
+            bgGradient="linear(to-r, teal.500, green.500)"
+            _hover={{
+              bgGradient: "linear(to-r, teal.800, green.800)",
+            }}
+            icon={<CheckIcon />}
+            onClick={() => {
+              handleDataLocalStorage();
+              closeUpdatingModel(false);
+            }}
+          />
+          <IconButton
+            id={createIdComponent()}
+            color="#ffffff"
+            aria-label="Call Segun"
+            size="sm"
+            cursor="pointer"
+            bgGradient="linear(to-r, red.500, pink.500)"
+            _hover={{
+              bgGradient: "linear(to-r, red.800, pink.800)",
+            }}
+            icon={<CloseIcon />}
+            onClick={() => {
+              setMode(Model.Add);
+              setIdModelUpdate(0);
+              closeUpdatingModel(false);
+            }}
+          />
+          {/* <Button
             onClick={() => handleDataLocalStorage()}
             colorScheme="yellow"
             color="gray.800"
@@ -113,7 +151,7 @@ const ToastMessage = () => {
             ml="20px"
           >
             Cancel
-          </Button>
+          </Button> */}
         </>
       )}
     </>

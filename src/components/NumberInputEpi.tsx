@@ -15,7 +15,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 
-import createIdComponent from "utils/createIdcomponent";
+import VariableTimeDepenentButton from "./simulator/controllers/VariableTimeDependentButton";
 
 interface Props {
   value: number;
@@ -59,6 +59,7 @@ const NumberInputEpi = ({
         <Tooltip label={description}>
           <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
         </Tooltip>
+        <VariableTimeDepenentButton name={name ?? nameParams} />
       </Flex>
       <Flex mb="0.5rem">
         {type === "slider" && (
@@ -66,7 +67,7 @@ const NumberInputEpi = ({
             <NumberInput
               maxW="100px"
               mr="1rem"
-              defaultValue={+value}
+              // defaultValue={+value}
               onChange={handleChange}
               size="xs"
               min={+min}
@@ -83,7 +84,7 @@ const NumberInputEpi = ({
             <Slider
               flex="1"
               focusThumbOnChange={false}
-              defaultValue={+value}
+              // defaultValue={+value}
               id="slider-number-input"
               value={+value}
               step={step}
@@ -104,7 +105,7 @@ const NumberInputEpi = ({
           <NumberInput
             maxW="100px"
             mr="1rem"
-            defaultValue={value}
+            // defaultValue={value}
             onChange={handleChange}
             size="xs"
             min={min}

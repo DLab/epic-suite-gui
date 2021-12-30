@@ -44,7 +44,7 @@ const Simulator = () => {
   return (
     <TabContext>
       <Flex maxHeight="92vh">
-        <SidebarOpen />
+        {/* <SidebarOpen /> */}
         <Flex w="100%" direction="column" justify="space-between">
           <MapResult />
           <Footer />

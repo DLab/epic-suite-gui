@@ -4,9 +4,6 @@ import { useContext } from "react";
 
 import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
-import createIdComponent from "utils/createIdcomponent";
-
-import SelectDate from "./SelectDate";
 
 const ModelController = () => {
   const { setParameters, parameters } = useContext(ControlPanel);
