@@ -30,6 +30,7 @@ import createIdComponent from "utils/createIdcomponent";
 const ModelsPills = () => {
   const { parameters, setParameters } = useContext(ModelsSaved);
   const {
+    parameters: params,
     setParameters: setParams,
     setMode,
     setIdModelUpdate,
@@ -51,7 +52,7 @@ const ModelsPills = () => {
     setParams({ type: "update", updateData: dataForUpdate });
   };
   useEffect(() => {
-    if (parameters.length > 1) {
+    if (parameters.length > 0) {
       setIdModel(parameters[parameters.length - 1].id);
       setTabIndex(parameters.length - 1);
     } else {
@@ -79,15 +80,15 @@ const ModelsPills = () => {
                   _selected={{ color: "white", bg: "blue.500" }}
                   onClick={() => {
                     setIdModel(id);
+                    setIsEditing(true);
                   }}
                 >
                   <p>{ParametersModels.name_model}</p>
                 </Tab>
               )
             )}
-            <Tooltip id={createIdComponent()} label="Create Model">
+            <Tooltip label="Create Model">
               <IconButton
-                id={createIdComponent()}
                 bg="#16609E"
                 color="#FFFFFF"
                 aria-label="Call Segun"
@@ -96,10 +97,11 @@ const ModelsPills = () => {
                 _hover={{ bg: "blue.500" }}
                 icon={<AddIcon />}
                 onClick={() => {
+                  const idNew = Date.now();
                   setParameters({
                     type: "add",
                     payload: {
-                      id: Date.now(),
+                      id: idNew,
                       parameters: initialState,
                     },
                   });
@@ -108,26 +110,28 @@ const ModelsPills = () => {
                     JSON.stringify([
                       ...parameters,
                       {
-                        id: Date.now(),
+                        id: idNew,
                         parameters: initialState,
                       },
                     ])
                   );
+                  setIdModel(idNew);
+                  setIsEditing(true);
+                  updateModel(idNew, initialState);
                 }}
               />
             </Tooltip>
           </TabList>
-
-          <TabPanels display="flex">
-            {parameters.map(
-              ({ parameters: ParametersModels, id }: DataParameters) => (
-                <TabPanel
-                  w="100%"
-                  key={createIdComponent()}
-                  border="2px"
-                  borderColor="gray.200"
-                >
-                  {!isEditing ? (
+          {!isEditing && (
+            <TabPanels display="flex">
+              {parameters.map(
+                ({ parameters: ParametersModels, id }: DataParameters) => (
+                  <TabPanel
+                    w="100%"
+                    key={createIdComponent()}
+                    border="2px"
+                    borderColor="gray.200"
+                  >
                     <>
                       <Heading fontSize={24} as="h2">
                         {ParametersModels.name_model}
@@ -151,45 +155,84 @@ const ModelsPills = () => {
                       </Heading>
                       <Text>Alpha (α): {ParametersModels.alpha}</Text>
                     </>
-                  ) : (
-                    <ModelBuilder />
-                  )}
-                </TabPanel>
-              )
+                  </TabPanel>
+                )
+              )}
+            </TabPanels>
+          )}
+          {isEditing && <ModelBuilder />}
+          <Flex direction="column">
+            <IconButton
+              color="#16609E"
+              aria-label="Call Segun"
+              size="sm"
+              cursor="pointer"
+              _hover={{ bg: "blue.500", color: "#ffffff" }}
+              icon={<EditIcon />}
+              onClick={() => {
+                setIsEditing(true);
+                updateModel(
+                  idModel,
+                  parameters.find((e) => e.id === idModel).parameters
+                );
+              }}
+            />
+            <IconButton
+              color="#16609E"
+              aria-label="Call Segun"
+              size="sm"
+              cursor="pointer"
+              _hover={{ bg: "blue.500", color: "#ffffff" }}
+              icon={<DeleteIcon />}
+              onClick={() => {
+                deleteModel(`${idModel}`);
+              }}
+            />
+            {isEditing && (
+              <ToastMessage
+                isEditing={isEditing}
+                closeUpdatingModel={setIsEditing}
+              />
             )}
-            <Flex direction="column">
-              <IconButton
-                id={createIdComponent()}
-                color="#16609E"
-                aria-label="Call Segun"
-                size="sm"
-                cursor="pointer"
-                _hover={{ bg: "blue.500", color: "#ffffff" }}
-                icon={<EditIcon />}
-                onClick={() => {
-                  setIsEditing(true);
-                  updateModel(
-                    idModel,
-                    parameters.find((e) => e.id === idModel).parameters
-                  );
-                }}
-              />
-              <IconButton
-                id={createIdComponent()}
-                color="#16609E"
-                aria-label="Call Segun"
-                size="sm"
-                cursor="pointer"
-                _hover={{ bg: "blue.500", color: "#ffffff" }}
-                icon={<DeleteIcon />}
-                onClick={() => deleteModel(`${idModel}`)}
-              />
-              {isEditing && <ToastMessage closeUpdatingModel={setIsEditing} />}
-            </Flex>
-          </TabPanels>
+          </Flex>
         </Tabs>
       ) : (
-        <p>nada</p>
+        <Tabs>
+          <Tooltip label="Create Model">
+            <IconButton
+              bg="#16609E"
+              color="#FFFFFF"
+              aria-label="Call Segun"
+              size="sm"
+              cursor="pointer"
+              _hover={{ bg: "blue.500" }}
+              icon={<AddIcon />}
+              onClick={() => {
+                const idM = Date.now();
+                setParameters({
+                  type: "add",
+                  payload: {
+                    id: idM,
+                    parameters: initialState,
+                  },
+                });
+                localStorage.setItem(
+                  "models",
+                  JSON.stringify([
+                    ...parameters,
+                    {
+                      id: idM,
+                      parameters: initialState,
+                    },
+                  ])
+                );
+                setIdModel(idM);
+                setIsEditing(true);
+                updateModel(idM, initialState);
+              }}
+            />
+          </Tooltip>
+        </Tabs>
       )}
     </>
   );

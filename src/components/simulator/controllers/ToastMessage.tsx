@@ -10,9 +10,10 @@ import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
   closeUpdatingModel: (values: boolean) => void;
+  isEditing: boolean;
 }
 
-const ToastMessage = ({ closeUpdatingModel }: Props) => {
+const ToastMessage = ({ closeUpdatingModel, isEditing }: Props) => {
   const toast = useToast();
   const { setParameters } = useContext(ModelsSaved);
   const { parameters, mode, setMode, idModelUpdate, setIdModelUpdate } =
@@ -95,7 +96,7 @@ const ToastMessage = ({ closeUpdatingModel }: Props) => {
           Add Model
         </Button>
       )} */}
-      {mode === Model.Update && (
+      {mode === Model.Update && isEditing && (
         <>
           <IconButton
             id={createIdComponent()}

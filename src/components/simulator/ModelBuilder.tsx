@@ -12,7 +12,13 @@ import InterventionsParameters from "./controllers/InterventionsParameters";
 const ModelBuilder = () => {
   return (
     <>
-      <Box p="5px" mt="15px" textAlign="center">
+      <Box
+        p="1rem"
+        w="100%"
+        border="2px"
+        borderColor="gray.200"
+        textAlign="center"
+      >
         <ModelController />
         <InterventionsParameters />
       </Box>
