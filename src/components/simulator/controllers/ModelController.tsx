@@ -1,16 +1,24 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, Select, Text, Flex, Input } from "@chakra-ui/react";
+import {
+  Box,
+  Stack,
+  Text,
+  Flex,
+  Input,
+  Radio,
+  RadioGroup,
+} from "@chakra-ui/react";
 import { useContext } from "react";
 
 import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
-import createIdComponent from "utils/createIdcomponent";
-
-import SelectDate from "./SelectDate";
 
 const ModelController = () => {
-  const { setParameters, parameters } = useContext(ControlPanel);
-  const { t_end, name_model } = parameters;
+  const {
+    setParameters,
+    parameters: { t_end, name_model, name, beta, pI_det, rR_S, tE_I, tI_R, mu },
+  } = useContext(ControlPanel);
+
   return (
     <>
       <Box>
@@ -31,14 +39,21 @@ const ModelController = () => {
         <Text flex="1" textAlign="left">
           Model
         </Text>
-        <Select
+        <RadioGroup
           size="sm"
+          value={name}
           onChange={(e) => {
-            if (e.target.value === "SEIR") {
+            if (e === "SEIR") {
               setParameters({
                 type: "set",
                 target: "compartments",
                 payload: ["S", "E", "I", "R"],
+              });
+            } else if (e === "SEIRHVD") {
+              setParameters({
+                type: "set",
+                target: "compartments",
+                payload: ["S", "E", "I", "R", "H", "V", "D"],
               });
             } else {
               setParameters({
@@ -50,13 +65,16 @@ const ModelController = () => {
             setParameters({
               type: "set",
               target: "name",
-              payload: e.target.value,
+              payload: e,
             });
           }}
         >
-          <option value="SEIR">SEIR</option>
-          <option value="SIR">SIR</option>
-        </Select>
+          <Stack direction="row">
+            <Radio value="SEIR">SEIR</Radio>
+            <Radio value="SIR">SIR</Radio>
+            <Radio value="SEIRHVD">SEIRHVD</Radio>
+          </Stack>
+        </RadioGroup>
       </Box>
       <Flex justify="space-between">
         <Box>
@@ -75,7 +93,7 @@ const ModelController = () => {
         </Box>
       </Flex>
       <NumberInputEpi
-        value={parameters.beta}
+        value={beta}
         setValue={setParameters}
         nameParams="beta"
         name="Beta (β)"
@@ -86,7 +104,7 @@ const ModelController = () => {
         type="slider"
       />
       <NumberInputEpi
-        value={parameters.rR_S}
+        value={rR_S}
         setValue={setParameters}
         nameParams="rR_S"
         description="Average immunity loss rate"
@@ -96,7 +114,7 @@ const ModelController = () => {
         type="number"
       />
       <NumberInputEpi
-        value={parameters.mu}
+        value={mu}
         setValue={setParameters}
         nameParams="mu"
         name="Mu (μ)"
@@ -107,7 +125,7 @@ const ModelController = () => {
         type="slider"
       />
       <NumberInputEpi
-        value={parameters.tI_R}
+        value={tI_R}
         setValue={setParameters}
         nameParams="tI_R"
         description="Transition time between infectious and removed"
@@ -116,7 +134,7 @@ const ModelController = () => {
         type="number"
       />
       <NumberInputEpi
-        value={parameters.tE_I}
+        value={tE_I}
         setValue={setParameters}
         nameParams="tE_I"
         description="Transition time between exposed and infectious"
@@ -125,7 +143,7 @@ const ModelController = () => {
         type="number"
       />
       <NumberInputEpi
-        value={parameters.pI_det}
+        value={pI_det}
         setValue={setParameters}
         nameParams="pI_det"
         description="Underreport"

@@ -10,26 +10,17 @@ import createIdComponent from "utils/createIdcomponent";
 import InterventionsParameters from "./controllers/InterventionsParameters";
 
 const ModelBuilder = () => {
-  useEffect(() => {
-    const localStorageObject = window.localStorage.getItem("models");
-    if (!localStorageObject) {
-      window.localStorage.setItem("models", JSON.stringify([]));
-    }
-  }, []);
-
   return (
     <>
-      <h2 style={{ textAlign: "center", color: "#16609E" }}>Model Builder</h2>
-      <Box p="5px" mt="15px" textAlign="center">
-        <Accordion allowMultiple>
-          <AcordionContent title="Model">
-            <ModelController />
-          </AcordionContent>
-          <AcordionContent title="Interventions">
-            <InterventionsParameters />
-          </AcordionContent>
-        </Accordion>
-        <ToastMessage />
+      <Box
+        p="1rem"
+        w="100%"
+        border="2px"
+        borderColor="gray.200"
+        textAlign="center"
+      >
+        <ModelController />
+        <InterventionsParameters />
       </Box>
     </>
   );

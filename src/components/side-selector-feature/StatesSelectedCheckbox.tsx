@@ -61,7 +61,9 @@ const StatesSelectedCheckbox = ({
             labelState: item[2] as string,
             counties: [{ value: item[5], label: item[4] }] as DataCountiesObj[],
           };
-          const indexState = acc.findIndex((c) => c.state === item[0]);
+          const indexState = acc.findIndex(
+            (c: ObjStatesCounties) => c.state === item[0]
+          );
           // isExist in object ? push : return actual value
           if (indexState >= 0) {
             acc[indexState].counties.push({

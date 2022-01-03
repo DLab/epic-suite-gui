@@ -9,7 +9,7 @@ import {
   EpidemicAttributes,
 } from "types/ControlPanelTypes";
 
-const initialState: EpidemicsData = {
+export const initialState: EpidemicsData = {
   name_model: "Model 1",
   name: "SEIR",
   compartments: ["S", "E", "I", "R"],
