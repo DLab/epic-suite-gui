@@ -16,6 +16,7 @@ import {
   Text,
   Heading,
   Flex,
+  useToast,
 } from "@chakra-ui/react";
 import { useContext, useState, useEffect } from "react";
 
@@ -28,6 +29,7 @@ import { EpidemicsData, Model } from "types/ControlPanelTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 const ModelsPills = () => {
+  const toast = useToast();
   const { parameters, setParameters } = useContext(ModelsSaved);
   const {
     parameters: params,
@@ -68,6 +70,19 @@ const ModelsPills = () => {
           display="flex"
           index={tabIndex}
           onChange={(e) => {
+            if (isEditing) {
+              setMode(Model.Add);
+              setIsEditing(false);
+              setIdModelUpdate(0);
+              toast({
+                position: "bottom-left",
+                title: "Mode Edition was stopped",
+                description: "Your model wasn't updated",
+                status: "warning",
+                duration: 2000,
+                isClosable: true,
+              });
+            }
             setTabIndex(e);
             setIdModel(parameters[e].id);
           }}
@@ -93,31 +108,34 @@ const ModelsPills = () => {
                 color="#FFFFFF"
                 aria-label="Call Segun"
                 size="sm"
+                isDisabled={isEditing}
                 cursor="pointer"
                 _hover={{ bg: "blue.500" }}
                 icon={<AddIcon />}
                 onClick={() => {
-                  const idNew = Date.now();
-                  setParameters({
-                    type: "add",
-                    payload: {
-                      id: idNew,
-                      parameters: initialState,
-                    },
-                  });
-                  localStorage.setItem(
-                    "models",
-                    JSON.stringify([
-                      ...parameters,
-                      {
+                  if (!isEditing) {
+                    const idNew = Date.now();
+                    setParameters({
+                      type: "add",
+                      payload: {
                         id: idNew,
                         parameters: initialState,
                       },
-                    ])
-                  );
-                  setIdModel(idNew);
-                  setIsEditing(true);
-                  updateModel(idNew, initialState);
+                    });
+                    localStorage.setItem(
+                      "models",
+                      JSON.stringify([
+                        ...parameters,
+                        {
+                          id: idNew,
+                          parameters: initialState,
+                        },
+                      ])
+                    );
+                    setIdModel(idNew);
+                    setIsEditing(true);
+                    updateModel(idNew, initialState);
+                  }
                 }}
               />
             </Tooltip>
@@ -167,14 +185,17 @@ const ModelsPills = () => {
               aria-label="Call Segun"
               size="sm"
               cursor="pointer"
+              isDisabled={isEditing}
               _hover={{ bg: "blue.500", color: "#ffffff" }}
               icon={<EditIcon />}
               onClick={() => {
-                setIsEditing(true);
-                updateModel(
-                  idModel,
-                  parameters.find((e) => e.id === idModel).parameters
-                );
+                if (!isEditing) {
+                  setIsEditing(true);
+                  updateModel(
+                    idModel,
+                    parameters.find((e) => e.id === idModel).parameters
+                  );
+                }
               }}
             />
             <IconButton
@@ -184,8 +205,11 @@ const ModelsPills = () => {
               cursor="pointer"
               _hover={{ bg: "blue.500", color: "#ffffff" }}
               icon={<DeleteIcon />}
+              isDisabled={isEditing}
               onClick={() => {
-                deleteModel(`${idModel}`);
+                if (!isEditing) {
+                  deleteModel(`${idModel}`);
+                }
               }}
             />
             {isEditing && (
@@ -205,30 +229,33 @@ const ModelsPills = () => {
               aria-label="Call Segun"
               size="sm"
               cursor="pointer"
+              isDisabled={isEditing}
               _hover={{ bg: "blue.500" }}
               icon={<AddIcon />}
               onClick={() => {
-                const idM = Date.now();
-                setParameters({
-                  type: "add",
-                  payload: {
-                    id: idM,
-                    parameters: initialState,
-                  },
-                });
-                localStorage.setItem(
-                  "models",
-                  JSON.stringify([
-                    ...parameters,
-                    {
+                if (!isEditing) {
+                  const idM = Date.now();
+                  setParameters({
+                    type: "add",
+                    payload: {
                       id: idM,
                       parameters: initialState,
                     },
-                  ])
-                );
-                setIdModel(idM);
-                setIsEditing(true);
-                updateModel(idM, initialState);
+                  });
+                  localStorage.setItem(
+                    "models",
+                    JSON.stringify([
+                      ...parameters,
+                      {
+                        id: idM,
+                        parameters: initialState,
+                      },
+                    ])
+                  );
+                  setIdModel(idM);
+                  updateModel(idM, initialState);
+                  setIsEditing(true);
+                }
               }}
             />
           </Tooltip>
