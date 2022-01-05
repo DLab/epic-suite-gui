@@ -1,5 +1,5 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Box, Flex, Text, Spinner, Button } from "@chakra-ui/react";
+import { Box, Flex, Text, Spinner, Button, HStack } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { useContext } from "react";
 
@@ -32,16 +32,20 @@ const Results = () => {
     useContext(GraphicsData);
 
   return (
-    <Flex
-      id={createIdComponent()}
-      w="100%"
-      p="5px"
-      mt="15px"
-      h="100%"
-      textAlign="center"
-    >
+    <Flex w="100%" p="5px" h="100%" direction="column">
+      <Box h="5vh" mh="5vh">
+        <Text color="#16609E" fontSize="18px" fontWeight="bold">
+          Results
+        </Text>
+      </Box>
       {responseSim ? (
-        <>
+        <Flex
+          w="100%"
+          h="87vh"
+          id={createIdComponent()}
+          mt="1%"
+          textAlign="center"
+        >
           <Flex
             id={createIdComponent()}
             minWidth="25%"
@@ -77,6 +81,7 @@ const Results = () => {
                 id={createIdComponent()}
                 flexWrap="wrap"
                 h="100%"
+                maxH="80vh"
                 overflowY="auto"
                 justify="space-evenly"
               >
@@ -121,24 +126,22 @@ const Results = () => {
                 justify="center"
                 align="center"
               >
-                <Text id={createIdComponent()}>
-                  {" "}
+                {" "}
+                <Text color="gray.600" fontSize="xl">
                   There are no graphics to show.
                 </Text>
               </Flex>
             )}
             <Exports data={responseSim} />
           </Flex>
-        </>
+        </Flex>
       ) : (
-        <Flex
-          id={createIdComponent()}
-          h="100%"
-          w="100%"
-          justify="center"
-          align="center"
-        >
-          <Text id={createIdComponent()}> Nothing here.</Text>
+        <Flex h="88vh" w="100%" justify="center" align="center">
+          <HStack h="100%" w="100%" justify="center" alignItems="center">
+            <Text color="gray.600" fontSize="4xl">
+              Nothing Here
+            </Text>
+          </HStack>
         </Flex>
       )}
     </Flex>

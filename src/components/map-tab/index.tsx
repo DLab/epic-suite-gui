@@ -1,4 +1,4 @@
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, Box, Text } from "@chakra-ui/react";
 import { useState, useContext } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -15,27 +15,34 @@ const Map = () => {
   const { scale } = useContext(SelectFeature);
 
   return (
-    <Flex h="100%">
-      <SelectorMapAccordion />
-      <Flex direction="column" w="73%" align="center">
-        <Flex w="80%" justify="center">
-          <MapContainer
-            className="will-change"
-            center={[38, -96]}
-            zoom={3.5}
-            style={{ height: "61vh", maxHeight: "61vh", width: "100%" }}
-            scrollWheelZoom={false}
-          >
-            <TileLayer
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {scale === "States" && <StatesMap />}
-            {scale === "National" && <NationMap />}
-            {scale === "Counties" && <CountiesMap />}
-          </MapContainer>
+    <Flex h="100%" direction="column">
+      <Box h="5vh" mh="5vh">
+        <Text color="#16609E" fontSize="18px" fontWeight="bold">
+          Geographic Selection
+        </Text>
+      </Box>
+      <Flex mt="1%">
+        <SelectorMapAccordion />
+        <Flex direction="column" w="73%" align="center">
+          <Flex w="80%" justify="center">
+            <MapContainer
+              className="will-change"
+              center={[38, -96]}
+              zoom={3.5}
+              style={{ height: "61vh", maxHeight: "61vh", width: "100%" }}
+              scrollWheelZoom={false}
+            >
+              <TileLayer
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              {scale === "States" && <StatesMap />}
+              {scale === "National" && <NationMap />}
+              {scale === "Counties" && <CountiesMap />}
+            </MapContainer>
+          </Flex>
+          <GeoSelectionsTab />
         </Flex>
-        <GeoSelectionsTab />
       </Flex>
     </Flex>
   );

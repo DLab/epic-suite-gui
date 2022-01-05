@@ -141,11 +141,7 @@ const SimulationTab = () => {
           </Tooltip>
           <HStack h="100%" w="100%" justify="center" alignItems="center">
             <Text color="gray.600" fontSize="4xl">
-              <HStack h="100%" w="100%" justify="center" alignItems="center">
-                <Text color="gray.600" fontSize="4xl">
-                  Nothing Here
-                </Text>
-              </HStack>
+              Nothing Here
             </Text>
           </HStack>
         </Tabs>

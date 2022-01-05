@@ -13,9 +13,9 @@ import {
 import dynamic from "next/dynamic";
 import { useContext } from "react";
 
-import GraphTab from "../graphTab/GraphTab";
+import GraphTab from "../graph-tab/GraphTab";
+import Results from "../graphics-tab/Results";
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
-import Results from "../map-results/results/Results";
 import ModelsTab from "../models-tab/ModelsTab";
 import SimulationTab from "../simulations-tab";
 import RunSimulatorButton from "../simulations-tab/RunSimulatorButton";
@@ -106,16 +106,10 @@ const MainContentTab = () => {
         </TabPanel>
         <TabPanel maxH="100vh" h="100%">
           <SimulationTab />
-          {/* <Box mt="2%">
-            <Center>
-              {" "}
-              <RunSimulatorButton />{" "}
-            </Center>
-          </Box> */}
         </TabPanel>
-        <TabPanel>
-          <Flex h="100%">
-            <Center w="100%">
+        <TabPanel h="100vh" maxH="100vh">
+          <Flex maxh="100vh">
+            <Center w="100%" maxh="100vh">
               <Results />
             </Center>
           </Flex>
