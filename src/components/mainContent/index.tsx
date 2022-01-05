@@ -15,10 +15,10 @@ import { useContext } from "react";
 
 import GraphTab from "../graphTab/GraphTab";
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
-import ModelsTab from "../map-results/ModelsTab";
 import Results from "../map-results/results/Results";
-import RunSimulatorButton from "../map-results/RunSimulatorButton";
-import SimulationTab from "../map-results/SimulationTab";
+import ModelsTab from "../models-tab/ModelsTab";
+import SimulationTab from "../simulations-tab";
+import RunSimulatorButton from "../simulations-tab/RunSimulatorButton";
 import GraphIcon from "components/icons/GraphIcon";
 import InfoIcon from "components/icons/InfoIcon";
 import ModelsIcon from "components/icons/ModelsIcon";
@@ -104,13 +104,14 @@ const MainContentTab = () => {
             <GraphTab />
           </Flex>
         </TabPanel>
-        <TabPanel>
+        <TabPanel maxH="100vh" h="100%">
           <SimulationTab />
-          <Box h="8%">
+          {/* <Box mt="2%">
             <Center>
-              <RunSimulatorButton />
+              {" "}
+              <RunSimulatorButton />{" "}
             </Center>
-          </Box>
+          </Box> */}
         </TabPanel>
         <TabPanel>
           <Flex h="100%">
