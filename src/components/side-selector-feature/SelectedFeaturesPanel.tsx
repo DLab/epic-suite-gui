@@ -43,7 +43,14 @@ const SelectedFeaturesPanel = () => {
           }}
         />
       </Flex>
-      <Box bg="#FAFAFA" borderRadius="1px" mt="5%" p="3%" overscrollY="auto">
+      <Box
+        bg="#FAFAFA"
+        borderRadius="1px"
+        mt="5%"
+        p="3%"
+        overflowY="auto"
+        maxH="22vh"
+      >
         <Text fontSize="14px" color="#16609E" flex="1" textAlign="left">
           Selected areas
         </Text>

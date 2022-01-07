@@ -151,27 +151,33 @@ const ModelsPills = () => {
                     borderColor="gray.200"
                   >
                     <>
-                      <Heading fontSize={24} as="h2">
+                      <Heading fontSize={18} as="h2">
                         {ParametersModels.name_model}
                       </Heading>
-                      <Text>Model: {ParametersModels.name}</Text>
-                      <Heading pt="1rem" fontSize={24} as="h3">
+                      <Text fontSize={14}>Model: {ParametersModels.name}</Text>
+                      <Heading pt="1rem" fontSize={18} as="h3">
                         Models parameters
                       </Heading>
-                      <Text>
+                      <Text fontSize={14}>
                         Duration: {ParametersModels.t_end}{" "}
                         {ParametersModels.t_end === 1 ? "day" : "days."}
                       </Text>
-                      <Text>Beta (β): {ParametersModels.beta}</Text>
-                      <Text>Mu (μ): {ParametersModels.mu}</Text>
-                      <Text>pI_det: {ParametersModels.pI_det}</Text>
-                      <Text>rR_S: {ParametersModels.rR_S}</Text>
-                      <Text>tE_I: {ParametersModels.tE_I}</Text>
-                      <Text>tI_R: {ParametersModels.tI_R}</Text>
-                      <Heading pt="1rem" fontSize={24} as="h3">
+                      <Text fontSize={14}>
+                        Beta (β): {ParametersModels.beta}
+                      </Text>
+                      <Text fontSize={14}>Mu (μ): {ParametersModels.mu}</Text>
+                      <Text fontSize={14}>
+                        pI_det: {ParametersModels.pI_det}
+                      </Text>
+                      <Text fontSize={14}>rR_S: {ParametersModels.rR_S}</Text>
+                      <Text fontSize={14}>tE_I: {ParametersModels.tE_I}</Text>
+                      <Text fontSize={14}>tI_R: {ParametersModels.tI_R}</Text>
+                      <Heading pt="1rem" fontSize={18} as="h3">
                         Interventions parameters
                       </Heading>
-                      <Text>Alpha (α): {ParametersModels.alpha}</Text>
+                      <Text fontSize={14}>
+                        Alpha (α): {ParametersModels.alpha}
+                      </Text>
                     </>
                   </TabPanel>
                 )

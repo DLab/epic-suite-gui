@@ -13,7 +13,10 @@ import {
   Center,
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useCallback, useContext } from "react";
+import { MapContainer, TileLayer } from "react-leaflet";
 
+import "leaflet/dist/leaflet.css";
+import CountiesMap from "components/map-tab/CountiesMap";
 import InitialConditions from "components/simulator/controllers/InitialConditions";
 import SelectDate from "components/simulator/controllers/SelectDate";
 import { ControlPanel } from "context/ControlPanelContext";
@@ -21,11 +24,15 @@ import { GraphicsData } from "context/GraphicsContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
+import { Model } from "types/ControlPanelTypes";
 import { DataParameters } from "types/ModelsTypes";
+import { DataGeoSelections } from "types/SelectFeaturesTypes";
 import { OptionFeature, SimulatorParams } from "types/SimulationTypes";
 import { postData } from "utils/fetchData";
 
+import AreaSelectedBox from "./AreaSelectedBox";
 import RunSimulatorButton from "./RunSimulatorButton";
+import StatesSimulationMap from "./StatesSimulationMap";
 
 export interface InitialConditionsContext {
   population: number;
@@ -38,20 +45,38 @@ export interface InitialConditionsContext {
 
 interface Props {
   idSimulation: number;
+  idGeo: number;
   intialConditionsSim: InitialConditionsContext;
+  typeSelection: string;
 }
 
 // eslint-disable-next-line complexity
-const SimulationTabPannel = ({ idSimulation, intialConditionsSim }: Props) => {
+const SimulationTabPannel = ({
+  idSimulation,
+  idGeo,
+  intialConditionsSim,
+  typeSelection,
+}: // eslint-disable-next-line sonarjs/cognitive-complexity
+Props) => {
   const toast = useToast();
   const [idGeoSelection, setIdGeoSelection] = useState<number>(0);
   const [idGraph, setIdGraph] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [geoAreaSelected, setGeoAreaSelected] = useState<DataGeoSelections>({
+    id: 0,
+    name: "",
+    scale: "",
+    featureSelected: [],
+  });
   const [initialConditions, setInitialConditions] = useState(null);
   const [initialConditionsMode, setInitialConditionsMode] = useState("view");
   const { simulation, setIdSimulationUpdating, setSimulation } =
     useContext(SimulationSetted);
-  const { geoSelections } = useContext(SelectFeature);
+  const {
+    geoSelections,
+    scale: scaleResults,
+    setScale,
+  } = useContext(SelectFeature);
   const { setInitialConditions: setInitialConditionsContext } =
     useContext(ControlPanel);
   const { setAllGraphicData } = useContext(GraphicsData);
@@ -250,10 +275,19 @@ const SimulationTabPannel = ({ idSimulation, intialConditionsSim }: Props) => {
     }
   };
 
+  // const getGeoSelection = (value) => {
+  //   const geoSelectionInfo = geoSelections.find(
+  //     (element) => element.id === value
+  //   );
+  //   setGeoAreaSelected(geoSelectionInfo);
+  //   return geoSelectionInfo;
+  // };
+
   useEffect(() => {
     setOptionFeature(getDefaultValueParameters("typeSelection"));
     setIdGeoSelection(getDefaultValueParameters("idGeo"));
     setIdGraph(getDefaultValueParameters("idGraph"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getDefaultValueParameters]);
   /* dispatch to simulationContext data about type selection 
   when select value is changed. Besides, modify other contexts values */
@@ -326,7 +360,7 @@ const SimulationTabPannel = ({ idSimulation, intialConditionsSim }: Props) => {
               {parameters.length > 0 &&
                 parameters.map((param: DataParameters) => {
                   return (
-                    <option value={param.id}>
+                    <option key={param.id} value={param.id}>
                       {param.parameters.name_model}
                     </option>
                   );
@@ -340,7 +374,6 @@ const SimulationTabPannel = ({ idSimulation, intialConditionsSim }: Props) => {
             {optionFeature !== OptionFeature.Graph && (
               <SelectDate idSimulation={idSimulation} />
             )}
-            {/* <SelectDate idSimulation={idSimulation} /> */}
           </Box>
           <Box mb="3%">
             <Text fontSize="14px" fontWeight={500}>
@@ -372,8 +405,12 @@ const SimulationTabPannel = ({ idSimulation, intialConditionsSim }: Props) => {
                 );
               }}
             >
-              <option value={OptionFeature.Graph}>Graph</option>
-              <option value={OptionFeature.Geographic}>Geographic</option>
+              <option key="graph" value={OptionFeature.Graph}>
+                Graph
+              </option>
+              <option key="geographic" value={OptionFeature.Geographic}>
+                Geographic
+              </option>
             </Select>
           </Box>
           <Box mb="3%">
@@ -398,6 +435,8 @@ const SimulationTabPannel = ({ idSimulation, intialConditionsSim }: Props) => {
                 setIdGeoSelection(+e.target.value);
                 setIdGraph(+e.target.value);
                 if (optionFeature === OptionFeature.Geographic) {
+                  // const geoSelection = getGeoSelection(+e.target.value);
+                  // setScale(geoSelection.scale);
                   handleFetch(
                     "http://192.168.2.131:5000/initCond",
                     "POST",
@@ -419,10 +458,16 @@ const SimulationTabPannel = ({ idSimulation, intialConditionsSim }: Props) => {
               {optionFeature === OptionFeature.Geographic &&
                 geoSelections.length > 0 &&
                 geoSelections.map((e) => {
-                  return <option value={e.id}>{e.name}</option>;
+                  return (
+                    <option key={e.id} value={e.id}>
+                      {e.name}
+                    </option>
+                  );
                 })}
               {optionFeature === OptionFeature.Graph && (
-                <option value={1}>one Node</option>
+                <option key="one-node" value={1}>
+                  one Node
+                </option>
               )}
             </Select>
           </Box>
@@ -434,19 +479,14 @@ const SimulationTabPannel = ({ idSimulation, intialConditionsSim }: Props) => {
           </Center>
         </Box>
       </Flex>
-
       <Flex direction="column" w="65%" m="0 2%">
-        <Flex
-          h="50%"
-          bg="#c8cdcd"
-          borderRadius="6px"
-          justify="center"
-          align="center"
-          mb="2%"
-          boxShadow="sm"
-        >
-          <Text>In construction...</Text>
-        </Flex>
+        <AreaSelectedBox
+          idGeo={idGeo}
+          typeSelection={typeSelection}
+          geoAreaSelected={geoAreaSelected.featureSelected}
+          optionFeature={optionFeature}
+          geoSelectionScale={geoAreaSelected.scale}
+        />
         <Box h="50%" bg="#FAFAFA" borderRadius="6px" p="2%" boxShadow="sm">
           <Flex justify="space-between">
             <Text fontSize="14px" fontWeight={500}>
@@ -516,18 +556,6 @@ const SimulationTabPannel = ({ idSimulation, intialConditionsSim }: Props) => {
                   }}
                 />
               )}
-            {/* {initialConditionsMode === "view" && (
-              <IconButton
-                bg="#16609E"
-                color="#FFFFFF"
-                aria-label="Call Segun"
-                size="sm"
-                cursor="pointer"
-                _hover={{ bg: "blue.500" }}
-                icon={<EditIcon />}
-                onClick={() => setInitialConditionsMode("edit")}
-              />
-            )} */}
           </Flex>
           <InitialConditions
             idSimulation={idSimulation}

@@ -71,7 +71,7 @@ const GeoSelectionsTab = () => {
       direction="column"
       w="100%"
       h="100%"
-      maxHeight="38vh"
+      maxHeight="44vh"
       overflowY="auto"
     >
       <Text m="1% 0" color="#16609E" fontSize="16px">

@@ -24,12 +24,12 @@ const Map = () => {
       <Flex mt="1%">
         <SelectorMapAccordion />
         <Flex direction="column" w="73%" align="center">
-          <Flex w="80%" justify="center">
+          <Flex w="80%" justify="center" h="45vh">
             <MapContainer
               className="will-change"
               center={[38, -96]}
-              zoom={3.5}
-              style={{ height: "61vh", maxHeight: "61vh", width: "100%" }}
+              zoom={3.48}
+              style={{ height: "45vh", maxHeight: "45vh", width: "90%" }}
               scrollWheelZoom={false}
             >
               <TileLayer

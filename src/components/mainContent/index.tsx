@@ -14,7 +14,7 @@ import dynamic from "next/dynamic";
 import { useContext } from "react";
 
 import GraphTab from "../graph-tab/GraphTab";
-import Results from "../graphics-tab/Results";
+import Results from "../graphics-tab";
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
 import ModelsTab from "../models-tab/ModelsTab";
 import SimulationTab from "../simulations-tab";
@@ -93,10 +93,10 @@ const MainContentTab = () => {
         </Flex>
       </TabList>
       <TabPanels h="100vh" bg="#F2F2F0">
-        <TabPanel overflowY="auto">
+        <TabPanel overflowY="auto" maxH="100vh">
           <ModelsTab />
         </TabPanel>
-        <TabPanel h="100vh" overflowY="auto" bg="#F2F2F0">
+        <TabPanel h="100vh" bg="#F2F2F0">
           <Map />
         </TabPanel>
         <TabPanel h="100%">

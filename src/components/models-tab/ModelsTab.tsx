@@ -10,7 +10,14 @@ const ModelsTab = () => {
   const { parameters } = useContext(ModelsSaved);
   return (
     <>
-      <Heading as="h2" size="lg" color="#16609E" w="100%">
+      <Heading
+        fontSize="18px"
+        h="5vh"
+        mh="5vh"
+        fontWeight="bold"
+        color="#16609E"
+        w="100%"
+      >
         Models
       </Heading>
 

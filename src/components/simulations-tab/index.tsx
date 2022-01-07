@@ -14,18 +14,37 @@ import {
   Heading,
   Flex,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import moment from "moment";
+import dynamic from "next/dynamic";
 import React, { useContext, useState, useEffect } from "react";
 
+import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { OptionFeature } from "types/SimulationTypes";
 
-import SimulationTabPannel from "./SimulationTabPannel";
+// import SimulationTabPannel from "./SimulationTabPannel";
+
+const SimulationTabPannel = dynamic(() => import("./SimulationTabPannel"), {
+  loading: () => (
+    <Flex justifyContent="center" alignItems="center">
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
+    </Flex>
+  ),
+  ssr: false,
+});
 
 const SimulationTab = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);
   const { simulation, setSimulation } = useContext(SimulationSetted);
+  const { setStates, setCounties } = useContext(SelectFeature);
 
   const addSimulation = () => {
     setSimulation({
@@ -73,6 +92,8 @@ const SimulationTab = () => {
             h="88vh"
             mh="88vh"
             index={tabIndex}
+            isLazy
+            key="simulation-tab"
             onChange={(e) => {
               setTabIndex(e);
             }}
@@ -81,13 +102,19 @@ const SimulationTab = () => {
               {simulation.map((sim, index) => {
                 if (sim.name !== "") {
                   return (
-                    <Tab _selected={{ color: "white", bg: "blue.500" }}>
+                    <Tab
+                      key={sim.id}
+                      _selected={{ color: "white", bg: "blue.500" }}
+                    >
                       {sim.name}
                     </Tab>
                   );
                 }
                 return (
-                  <Tab _selected={{ color: "white", bg: "blue.500" }}>
+                  <Tab
+                    key={sim.id}
+                    _selected={{ color: "white", bg: "blue.500" }}
+                  >
                     Sim {index + 1}
                   </Tab>
                 );
@@ -114,10 +141,13 @@ const SimulationTab = () => {
                     overflowY="auto"
                     p="0"
                     h="100%"
+                    key={sim.id}
                   >
                     <SimulationTabPannel
                       intialConditionsSim={sim.initialConditions}
                       idSimulation={sim.idSim}
+                      idGeo={sim.idGeo}
+                      typeSelection={sim.typeSelection}
                     />
                   </TabPanel>
                 );
@@ -126,7 +156,13 @@ const SimulationTab = () => {
           </Tabs>
         </>
       ) : (
-        <Tabs display="flex" mt="1%" h="80vh" mh="80vh">
+        <Tabs
+          key="simulation-empty-tab"
+          display="flex"
+          mt="1%"
+          h="80vh"
+          mh="80vh"
+        >
           <Tooltip label="Create Model">
             <IconButton
               bg="#16609E"
