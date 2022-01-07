@@ -14,7 +14,6 @@ interface Props {
   typeSelection: string;
   geoAreaSelected: string[];
   optionFeature: OptionFeature;
-  geoSelectionScale: string;
 }
 
 const AreaSelectedBox = ({
@@ -22,15 +21,21 @@ const AreaSelectedBox = ({
   typeSelection,
   geoAreaSelected,
   optionFeature,
-  geoSelectionScale,
 }: Props) => {
-  // const { scale: scaleResults, setScale } = useContext(SelectFeature);
+  const {
+    scale: scaleResults,
+    setScale,
+    geoSelections,
+  } = useContext(SelectFeature);
 
   useEffect(() => {
-    // console.log("Hola", idGeo, geoSelectionScale, geoAreaSelected);
-    // setScale(geoSelectionScale);
+    setScale("States");
+    const geoSelection = geoSelections.find((element) => element.id === idGeo);
+    if (geoSelection !== undefined) {
+      setScale(geoSelection.scale);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [idGeo]);
 
   return (
     <>
@@ -71,13 +76,13 @@ const AreaSelectedBox = ({
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              {geoSelectionScale === "States" && (
+              {scaleResults === "States" && (
                 <StatesSimulationMap
                   geoAreaSelected={geoAreaSelected}
                   idGeo={idGeo}
                 />
               )}
-              {geoSelectionScale === "Counties" && (
+              {scaleResults === "Counties" && (
                 <CountiesSimulationMap
                   geoAreaSelected={geoAreaSelected}
                   idGeo={idGeo}

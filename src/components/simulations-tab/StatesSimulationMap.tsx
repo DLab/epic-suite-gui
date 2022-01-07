@@ -43,7 +43,6 @@ const StateSimulationMap = ({ geoAreaSelected, idGeo }: Props) => {
       const geoSelection = geoSelections.find(
         (element) => element.id === idGeo
       );
-
       setStatesSelected(geoSelection.featureSelected);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

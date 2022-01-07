@@ -7,16 +7,12 @@ import {
   Select,
   useToast,
   IconButton,
-  Button,
   Icon,
-  Spinner,
   Center,
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useCallback, useContext } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
-import CountiesMap from "components/map-tab/CountiesMap";
 import InitialConditions from "components/simulator/controllers/InitialConditions";
 import SelectDate from "components/simulator/controllers/SelectDate";
 import { ControlPanel } from "context/ControlPanelContext";
@@ -24,7 +20,6 @@ import { GraphicsData } from "context/GraphicsContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
-import { Model } from "types/ControlPanelTypes";
 import { DataParameters } from "types/ModelsTypes";
 import { DataGeoSelections } from "types/SelectFeaturesTypes";
 import { OptionFeature, SimulatorParams } from "types/SimulationTypes";
@@ -32,7 +27,6 @@ import { postData } from "utils/fetchData";
 
 import AreaSelectedBox from "./AreaSelectedBox";
 import RunSimulatorButton from "./RunSimulatorButton";
-import StatesSimulationMap from "./StatesSimulationMap";
 
 export interface InitialConditionsContext {
   population: number;
@@ -72,11 +66,7 @@ Props) => {
   const [initialConditionsMode, setInitialConditionsMode] = useState("view");
   const { simulation, setIdSimulationUpdating, setSimulation } =
     useContext(SimulationSetted);
-  const {
-    geoSelections,
-    scale: scaleResults,
-    setScale,
-  } = useContext(SelectFeature);
+  const { geoSelections } = useContext(SelectFeature);
   const { setInitialConditions: setInitialConditionsContext } =
     useContext(ControlPanel);
   const { setAllGraphicData } = useContext(GraphicsData);
@@ -275,14 +265,6 @@ Props) => {
     }
   };
 
-  // const getGeoSelection = (value) => {
-  //   const geoSelectionInfo = geoSelections.find(
-  //     (element) => element.id === value
-  //   );
-  //   setGeoAreaSelected(geoSelectionInfo);
-  //   return geoSelectionInfo;
-  // };
-
   useEffect(() => {
     setOptionFeature(getDefaultValueParameters("typeSelection"));
     setIdGeoSelection(getDefaultValueParameters("idGeo"));
@@ -435,8 +417,6 @@ Props) => {
                 setIdGeoSelection(+e.target.value);
                 setIdGraph(+e.target.value);
                 if (optionFeature === OptionFeature.Geographic) {
-                  // const geoSelection = getGeoSelection(+e.target.value);
-                  // setScale(geoSelection.scale);
                   handleFetch(
                     "http://192.168.2.131:5000/initCond",
                     "POST",
@@ -485,7 +465,6 @@ Props) => {
           typeSelection={typeSelection}
           geoAreaSelected={geoAreaSelected.featureSelected}
           optionFeature={optionFeature}
-          geoSelectionScale={geoAreaSelected.scale}
         />
         <Box h="50%" bg="#FAFAFA" borderRadius="6px" p="2%" boxShadow="sm">
           <Flex justify="space-between">

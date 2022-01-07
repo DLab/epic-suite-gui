@@ -98,30 +98,38 @@ const SimulationTab = () => {
               setTabIndex(e);
             }}
           >
-            <TabList display="flex" flexDirection="column">
-              {simulation.map((sim, index) => {
-                if (sim.name !== "") {
+            <Box>
+              <TabList
+                display="flex"
+                flexDirection="column"
+                maxH="80vh"
+                overflowY="auto"
+              >
+                {simulation.map((sim, index) => {
+                  if (sim.name !== "") {
+                    return (
+                      <Tab
+                        key={sim.id}
+                        _selected={{ color: "white", bg: "blue.500" }}
+                      >
+                        {sim.name}
+                      </Tab>
+                    );
+                  }
                   return (
                     <Tab
                       key={sim.id}
                       _selected={{ color: "white", bg: "blue.500" }}
                     >
-                      {sim.name}
+                      Sim {index + 1}
                     </Tab>
                   );
-                }
-                return (
-                  <Tab
-                    key={sim.id}
-                    _selected={{ color: "white", bg: "blue.500" }}
-                  >
-                    Sim {index + 1}
-                  </Tab>
-                );
-              })}
+                })}
+              </TabList>
               <Tooltip label="Create Model">
                 <IconButton
                   bg="#16609E"
+                  w="100%"
                   color="#FFFFFF"
                   aria-label="Call Segun"
                   size="sm"
@@ -131,7 +139,7 @@ const SimulationTab = () => {
                   onClick={() => addSimulation()}
                 />
               </Tooltip>
-            </TabList>
+            </Box>
             <TabPanels>
               {simulation.map((sim, index) => {
                 return (
