@@ -12,12 +12,11 @@ interface ActionTooltip {
 }
 
 interface Props {
-  geoAreaSelected: string[];
   idGeo: number;
 }
 
-const StateSimulationMap = ({ geoAreaSelected, idGeo }: Props) => {
-  const { geoSelections, setScale } = useContext(SelectFeature);
+const StateSimulationMap = ({ idGeo }: Props) => {
+  const { geoSelections } = useContext(SelectFeature);
   const stateData = stateData_ as unknown as Topology;
   const data = topojson.feature(
     stateData,

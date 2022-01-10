@@ -59,7 +59,9 @@ const NumberInputEpi = ({
         <Tooltip label={description}>
           <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
         </Tooltip>
-        <VariableTimeDepenentButton name={name ?? nameParams} />
+        {!isInitialParameters && (
+          <VariableTimeDepenentButton name={name ?? nameParams} />
+        )}
       </Flex>
       <Flex mb="0.5rem">
         {type === "slider" && (

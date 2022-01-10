@@ -38,6 +38,7 @@ export interface InitialConditionsContext {
 }
 
 interface Props {
+  idModel: number;
   idSimulation: number;
   idGeo: number;
   intialConditionsSim: InitialConditionsContext;
@@ -46,6 +47,7 @@ interface Props {
 
 // eslint-disable-next-line complexity
 const SimulationTabPannel = ({
+  idModel: idModelSelected,
   idSimulation,
   idGeo,
   intialConditionsSim,
@@ -56,7 +58,7 @@ Props) => {
   const [idGeoSelection, setIdGeoSelection] = useState<number>(0);
   const [idGraph, setIdGraph] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [geoAreaSelected, setGeoAreaSelected] = useState<DataGeoSelections>({
+  const [geoAreaSelected] = useState<DataGeoSelections>({
     id: 0,
     name: "",
     scale: "",
@@ -156,6 +158,88 @@ Props) => {
     [idSimulation, setSimulation]
   );
 
+  const getModelById = (id) => {
+    return parameters.find((m: DataParameters) => m.id === id).parameters;
+  };
+
+  const postInitialConditionsByModel = (
+    name,
+    E,
+    I,
+    daily,
+    acum,
+    R,
+    population,
+    H,
+    V,
+    D
+  ) => {
+    if (name === "SEIR") {
+      setInitialConditions({
+        I,
+        I_d: daily,
+        I_ac: acum,
+        population,
+        R,
+        E,
+      });
+      selectSimulation(
+        {
+          I,
+          I_d: daily,
+          I_ac: acum,
+          population,
+          R,
+          E,
+        },
+        "initialConditions"
+      );
+    }
+    if (name === "SIR") {
+      setInitialConditions({
+        I,
+        I_d: daily,
+        I_ac: acum,
+        population,
+        R,
+      });
+      selectSimulation(
+        {
+          I,
+          I_d: daily,
+          I_ac: acum,
+          population,
+          R,
+        },
+        "initialConditions"
+      );
+    }
+    if (name === "SEIRHVD") {
+      setInitialConditions({
+        I,
+        I_d: daily,
+        I_ac: acum,
+        population,
+        R,
+        // H,
+        // V,
+        // D,
+      });
+      selectSimulation(
+        {
+          I,
+          I_d: daily,
+          I_ac: acum,
+          population,
+          // H,
+          // V,
+          // D,
+        },
+        "initialConditions"
+      );
+    }
+  };
+
   const handleFetch = async (url, method, body) => {
     try {
       setIsLoading(true);
@@ -177,9 +261,7 @@ Props) => {
       if (idModel === 0) {
         throw new Error("Choose a model please");
       }
-      const { name } = parameters.find(
-        (m: DataParameters) => m.id === idModel
-      ).parameters;
+      const { name } = getModelById(idModel);
       const configCalcInitialConditions = {
         compartments: name,
         timeInit,
@@ -194,48 +276,22 @@ Props) => {
           I_acum: acum,
           R,
           population,
+          H,
+          V,
+          D,
         } = await postData(url, configCalcInitialConditions);
-        if (name !== "SEIR") {
-          setInitialConditions({
-            I,
-            I_d: daily,
-            I_ac: acum,
-            population,
-            R,
-            E: 0,
-          });
-          selectSimulation(
-            {
-              I,
-              I_d: daily,
-              I_ac: acum,
-              population,
-              R,
-              E: 0,
-            },
-            "initialConditions"
-          );
-        } else {
-          setInitialConditions({
-            I,
-            I_d: daily,
-            I_ac: acum,
-            population,
-            R,
-            E,
-          });
-          selectSimulation(
-            {
-              I,
-              I_d: daily,
-              I_ac: acum,
-              population,
-              R,
-              E,
-            },
-            "initialConditions"
-          );
-        }
+        postInitialConditionsByModel(
+          name,
+          E,
+          I,
+          daily,
+          acum,
+          R,
+          population,
+          H,
+          V,
+          D
+        );
       }
     } catch (error) {
       setIsLoading(false);
@@ -537,6 +593,7 @@ Props) => {
               )}
           </Flex>
           <InitialConditions
+            idModel={idModelSelected}
             idSimulation={idSimulation}
             intialConditionsSim={intialConditionsSim}
             initialConditionsMode={initialConditionsMode}

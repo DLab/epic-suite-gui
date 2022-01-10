@@ -4,7 +4,9 @@ import React, { useContext, useState, useEffect } from "react";
 
 import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
+import { ModelsSaved } from "context/ModelsContext";
 import { SimulationSetted } from "context/SimulationContext";
+import { DataParameters } from "types/ModelsTypes";
 import { SimulatorParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
@@ -18,6 +20,7 @@ export interface InitialConditionsContext {
 }
 
 interface Props {
+  idModel: number;
   idSimulation: number;
   intialConditionsSim: InitialConditionsContext;
   initialConditionsMode: string;
@@ -25,6 +28,7 @@ interface Props {
 }
 
 const InitialConditions = ({
+  idModel: idModelSelected,
   idSimulation,
   intialConditionsSim,
   initialConditionsMode,
@@ -39,12 +43,29 @@ const InitialConditions = ({
     idSimulationUpdating,
     setIdSimulationUpdating,
   } = useContext(SimulationSetted);
+  const { parameters } = useContext(ModelsSaved);
   const [models, setModels] = useState(false);
+  const [modelName, setModelName] = useState("SEIR");
   const { population, R, I, I_d, I_ac, E } = initialConditions;
   const { idModel } =
     simulation.find(
       ({ idSim }: SimulatorParams) => idSim === idSimulationUpdating
     ) ?? {};
+
+  useEffect(() => {
+    if (idModelSelected !== 0) {
+      const getIdModel = simulation.find(
+        ({ idSim }: SimulatorParams) => idSim === idSimulation
+      );
+
+      const getModelById = parameters.find(
+        (m: DataParameters) => m.id === getIdModel.idModel
+      ).parameters;
+
+      setModelName(getModelById.name);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idModelSelected, idModel]);
 
   useEffect(() => {
     if (initialConditionsMode === "edit") {
@@ -64,7 +85,7 @@ const InitialConditions = ({
       if (name === "SEIR") setModels(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idModel, idSimulation, intialConditionsSim]);
+  }, [idModel, idSimulation, intialConditionsSim, modelName]);
 
   return (
     <Flex direction="column">
@@ -119,20 +140,21 @@ const InitialConditions = ({
                 type="number"
               />
             </Box>
-
-            <Box id={createIdComponent()}>
-              <NumberInputEpi
-                value={models ? intialConditionsSim.E : 0}
-                setValue={setInitialConditions}
-                nameParams="E"
-                description="Exposed"
-                min={0}
-                max={Infinity}
-                isInitialParameters={!!models}
-                isDisabled={!models}
-                type="number"
-              />
-            </Box>
+            {modelName === "SEIR" && (
+              <Box id={createIdComponent()}>
+                <NumberInputEpi
+                  value={models ? intialConditionsSim.E : 0}
+                  setValue={setInitialConditions}
+                  nameParams="E"
+                  description="Exposed"
+                  min={0}
+                  max={Infinity}
+                  isInitialParameters={!!models}
+                  isDisabled={!models}
+                  type="number"
+                />
+              </Box>
+            )}
 
             <Box id={createIdComponent()}>
               <NumberInputEpi
@@ -198,20 +220,21 @@ const InitialConditions = ({
                 type="number"
               />
             </Box>
-
-            <Box id={createIdComponent()}>
-              <NumberInputEpi
-                value={models ? E : 0}
-                setValue={setInitialConditions}
-                nameParams="E"
-                description="Exposed"
-                min={0}
-                max={Infinity}
-                isInitialParameters={!!models}
-                isDisabled={!models}
-                type="number"
-              />
-            </Box>
+            {modelName === "SEIR" && (
+              <Box id={createIdComponent()}>
+                <NumberInputEpi
+                  value={models ? E : 0}
+                  setValue={setInitialConditions}
+                  nameParams="E"
+                  description="Exposed"
+                  min={0}
+                  max={Infinity}
+                  isInitialParameters={!!models}
+                  isDisabled={!models}
+                  type="number"
+                />
+              </Box>
+            )}
 
             <Box id={createIdComponent()}>
               <NumberInputEpi

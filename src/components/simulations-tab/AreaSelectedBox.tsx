@@ -77,10 +77,7 @@ const AreaSelectedBox = ({
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               {scaleResults === "States" && (
-                <StatesSimulationMap
-                  geoAreaSelected={geoAreaSelected}
-                  idGeo={idGeo}
-                />
+                <StatesSimulationMap idGeo={idGeo} />
               )}
               {scaleResults === "Counties" && (
                 <CountiesSimulationMap

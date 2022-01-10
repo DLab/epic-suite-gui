@@ -10,25 +10,19 @@ import {
   IconButton,
   Box,
   HStack,
-  Center,
-  Heading,
   Flex,
-  useToast,
   Spinner,
 } from "@chakra-ui/react";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import React, { useContext, useState, useEffect } from "react";
 
-import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { OptionFeature } from "types/SimulationTypes";
 
-// import SimulationTabPannel from "./SimulationTabPannel";
-
 const SimulationTabPannel = dynamic(() => import("./SimulationTabPannel"), {
   loading: () => (
-    <Flex justifyContent="center" alignItems="center">
+    <Flex justifyContent="center" alignItems="center" w="100%">
       <Spinner
         thickness="4px"
         speed="0.65s"
@@ -44,7 +38,6 @@ const SimulationTabPannel = dynamic(() => import("./SimulationTabPannel"), {
 const SimulationTab = () => {
   const [tabIndex, setTabIndex] = useState<number>(0);
   const { simulation, setSimulation } = useContext(SimulationSetted);
-  const { setStates, setCounties } = useContext(SelectFeature);
 
   const addSimulation = () => {
     setSimulation({
@@ -99,37 +92,35 @@ const SimulationTab = () => {
             }}
           >
             <Box>
-              <TabList
-                display="flex"
-                flexDirection="column"
-                maxH="80vh"
-                overflowY="auto"
-              >
-                {simulation.map((sim, index) => {
-                  if (sim.name !== "") {
+              <Flex maxH="82vh" overflowY="auto">
+                <TabList display="flex" flexDirection="column">
+                  {simulation.map((sim, index) => {
+                    if (sim.name !== "") {
+                      return (
+                        <Tab
+                          key={sim.id}
+                          _selected={{ color: "white", bg: "blue.500" }}
+                        >
+                          {sim.name}
+                        </Tab>
+                      );
+                    }
                     return (
                       <Tab
                         key={sim.id}
                         _selected={{ color: "white", bg: "blue.500" }}
                       >
-                        {sim.name}
+                        Sim {index + 1}
                       </Tab>
                     );
-                  }
-                  return (
-                    <Tab
-                      key={sim.id}
-                      _selected={{ color: "white", bg: "blue.500" }}
-                    >
-                      Sim {index + 1}
-                    </Tab>
-                  );
-                })}
-              </TabList>
+                  })}
+                </TabList>
+              </Flex>
               <Tooltip label="Create Model">
                 <IconButton
                   bg="#16609E"
                   w="100%"
+                  mt="4%"
                   color="#FFFFFF"
                   aria-label="Call Segun"
                   size="sm"
@@ -152,6 +143,7 @@ const SimulationTab = () => {
                     key={sim.id}
                   >
                     <SimulationTabPannel
+                      idModel={sim.idModel}
                       intialConditionsSim={sim.initialConditions}
                       idSimulation={sim.idSim}
                       idGeo={sim.idGeo}
