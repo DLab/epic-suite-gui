@@ -9,6 +9,9 @@ import {
   IconButton,
   Icon,
   Center,
+  Radio,
+  RadioGroup,
+  Stack,
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useCallback, useContext } from "react";
 
@@ -66,6 +69,8 @@ Props) => {
   });
   const [initialConditions, setInitialConditions] = useState(null);
   const [initialConditionsMode, setInitialConditionsMode] = useState("view");
+  const [modelType, setModelType] = useState("SEIR");
+  const [geoSelectionNoCounties, setGeoSelectionNoCounties] = useState([]);
   const { simulation, setIdSimulationUpdating, setSimulation } =
     useContext(SimulationSetted);
   const { geoSelections } = useContext(SelectFeature);
@@ -221,6 +226,7 @@ Props) => {
         I_ac: acum,
         population,
         R,
+        E,
         // H,
         // V,
         // D,
@@ -231,6 +237,8 @@ Props) => {
           I_d: daily,
           I_ac: acum,
           population,
+          R,
+          E,
           // H,
           // V,
           // D,
@@ -331,6 +339,14 @@ Props) => {
   when select value is changed. Besides, modify other contexts values */
 
   useEffect(() => {
+    if (idModelSelected !== 0) {
+      setModelType(getModelById(idModelSelected).name);
+      const getGeoSelectionNoCounties = geoSelections.filter((e) => {
+        return e.scale !== "Counties";
+      });
+      setGeoSelectionNoCounties(getGeoSelectionNoCounties);
+    }
+
     setInitialConditions(null);
     const simInitialConditions = simulation.find(
       (e: SimulatorParams) => e.idSim === idSimulation
@@ -338,7 +354,8 @@ Props) => {
     if (simInitialConditions) {
       setInitialConditions(simInitialConditions);
     }
-  }, [idSimulation, simulation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idSimulation, simulation, idModelSelected]);
 
   return (
     <>
@@ -417,16 +434,13 @@ Props) => {
             <Text fontSize="14px" fontWeight={500}>
               Type Area
             </Text>
-            <Select
-              w="13rem"
-              fontSize="14px"
+            <RadioGroup
               size="sm"
               value={
                 getDefaultValueParameters("typeSelection") || OptionFeature.None
               }
-              placeholder="Choose feature selection"
               onChange={(e) => {
-                valueOptionFeature(e.target.value);
+                valueOptionFeature(e);
                 setIdGeoSelection(0);
                 setIdGraph(0);
                 setIdSimulationUpdating({ type: "set", payload: 0 });
@@ -443,13 +457,11 @@ Props) => {
                 );
               }}
             >
-              <option key="graph" value={OptionFeature.Graph}>
-                Graph
-              </option>
-              <option key="geographic" value={OptionFeature.Geographic}>
-                Geographic
-              </option>
-            </Select>
+              <Stack direction="row">
+                <Radio value={OptionFeature.Graph}>Graph</Radio>
+                <Radio value={OptionFeature.Geographic}>Geographic</Radio>
+              </Stack>
+            </RadioGroup>
           </Box>
           <Box mb="3%">
             <Text fontSize="14px" fontWeight={500}>
@@ -493,7 +505,19 @@ Props) => {
             >
               {optionFeature === OptionFeature.Geographic &&
                 geoSelections.length > 0 &&
+                modelType !== "SEIRHVD" &&
                 geoSelections.map((e) => {
+                  return (
+                    <option key={e.id} value={e.id}>
+                      {e.name}
+                    </option>
+                  );
+                })}
+              {optionFeature === OptionFeature.Geographic &&
+                geoSelections.length > 0 &&
+                modelType === "SEIRHVD" &&
+                // eslint-disable-next-line sonarjs/no-identical-functions
+                geoSelectionNoCounties.map((e) => {
                   return (
                     <option key={e.id} value={e.id}>
                       {e.name}

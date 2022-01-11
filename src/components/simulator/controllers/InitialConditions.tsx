@@ -140,7 +140,7 @@ const InitialConditions = ({
                 type="number"
               />
             </Box>
-            {modelName === "SEIR" && (
+            {modelName !== "SIR" && (
               <Box id={createIdComponent()}>
                 <NumberInputEpi
                   value={models ? intialConditionsSim.E : 0}
@@ -220,7 +220,7 @@ const InitialConditions = ({
                 type="number"
               />
             </Box>
-            {modelName === "SEIR" && (
+            {modelName !== "SIR" && (
               <Box id={createIdComponent()}>
                 <NumberInputEpi
                   value={models ? E : 0}

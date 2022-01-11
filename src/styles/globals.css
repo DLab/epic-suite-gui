@@ -57,3 +57,19 @@ tbody > tr:last-child td {
 .react-datepicker-popper {
   z-index: 2;
 }
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #d9d7d7;
+}
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(#155a95, #80afdb);
+  border-radius: 25px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(#3182ce, #e9e9e9);
+}
