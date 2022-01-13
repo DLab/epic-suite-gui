@@ -164,7 +164,7 @@ Props) => {
   );
 
   const getModelById = (id) => {
-    return parameters.find((m: DataParameters) => m.id === id).parameters;
+    return parameters.find((m: DataParameters) => m.id === id)?.parameters;
   };
 
   const postInitialConditionsByModel = (
@@ -340,7 +340,7 @@ Props) => {
 
   useEffect(() => {
     if (idModelSelected !== 0) {
-      setModelType(getModelById(idModelSelected).name);
+      setModelType(getModelById(idModelSelected)?.name);
       const getGeoSelectionNoCounties = geoSelections.filter((e) => {
         return e.scale !== "Counties";
       });

@@ -60,9 +60,9 @@ const InitialConditions = ({
 
       const getModelById = parameters.find(
         (m: DataParameters) => m.id === getIdModel.idModel
-      ).parameters;
+      )?.parameters;
 
-      setModelName(getModelById.name);
+      setModelName(getModelById?.name);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idModelSelected, idModel]);
