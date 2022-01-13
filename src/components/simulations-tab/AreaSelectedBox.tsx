@@ -23,16 +23,16 @@ const AreaSelectedBox = ({
   optionFeature,
 }: Props) => {
   const {
-    scale: scaleResults,
-    setScale,
+    simulationScale: scaleResults,
+    setSimulationScale,
     geoSelections,
   } = useContext(SelectFeature);
 
   useEffect(() => {
-    setScale("States");
+    setSimulationScale("States");
     const geoSelection = geoSelections.find((element) => element.id === idGeo);
     if (geoSelection !== undefined) {
-      setScale(geoSelection.scale);
+      setSimulationScale(geoSelection.scale);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idGeo]);

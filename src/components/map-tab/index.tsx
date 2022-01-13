@@ -1,5 +1,5 @@
-import { Button, Flex, Box, Text } from "@chakra-ui/react";
-import { useState, useContext } from "react";
+import { Flex, Box, Text } from "@chakra-ui/react";
+import { useContext } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 

@@ -48,7 +48,6 @@ const MainContentTab = () => {
     <Tabs
       id="tab-content"
       h="100vh"
-      isLazy
       index={tabIndex}
       onChange={(index) => setIndex(index)}
       display="flex"

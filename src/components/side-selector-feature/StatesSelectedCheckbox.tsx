@@ -27,8 +27,7 @@ const StatesSelectedCheckbox = ({
   stateSelected,
   countiesSelected,
 }: StatesSelected) => {
-  const { setStates, setCounties, states, counties } =
-    useContext(SelectFeature);
+  const { setStates, setCounties } = useContext(SelectFeature);
 
   const sortStrings = (property: string) => (a, b) => {
     if (a[property] > b[property]) {

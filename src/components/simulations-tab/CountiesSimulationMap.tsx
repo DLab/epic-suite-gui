@@ -1,10 +1,11 @@
 import { useContext, useReducer, useState, useEffect } from "react";
-import { GeoJSON, Tooltip } from "react-leaflet";
+import { GeoJSON, Tooltip, useMap } from "react-leaflet";
 import * as topojson from "topojson-client";
 import { GeometryObject, Topology } from "topojson-specification";
 
 import us_ from "../../data/counties-10m.json";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import { TabIndex } from "context/TabContext";
 
 interface ActionTooltip {
   type: string;
@@ -20,6 +21,8 @@ const CountiesSimulationMap = ({ geoAreaSelected, idGeo }: Props) => {
   const { geoSelections } = useContext(SelectFeature);
   const us = us_ as unknown as Topology;
   const data = topojson.feature(us, us.objects.counties as GeometryObject);
+  const map = useMap();
+  const { index: tabIndex } = useContext(TabIndex);
 
   const [countiesSelected, setCountiesSelected] = useState([]);
 
@@ -43,6 +46,13 @@ const CountiesSimulationMap = ({ geoAreaSelected, idGeo }: Props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idGeo]);
+
+  useEffect(() => {
+    if (tabIndex === 3) {
+      map.invalidateSize(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabIndex]);
 
   const handleSelectFeature = (feature) => {
     let color;

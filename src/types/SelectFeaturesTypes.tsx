@@ -24,6 +24,8 @@ export interface StatesProps {
   setNameGeoSelection: (value: string) => void;
   scale: string;
   setScale: (value: string) => void;
+  simulationScale: string;
+  setSimulationScale: (value: string) => void;
   states: string[];
   setStates: (value: Action) => void;
   counties?: string[] | null | undefined;

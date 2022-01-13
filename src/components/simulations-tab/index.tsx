@@ -19,6 +19,7 @@ import React, { useContext, useState, useEffect } from "react";
 
 import { SimulationSetted } from "context/SimulationContext";
 import { OptionFeature } from "types/SimulationTypes";
+import createIdComponent from "utils/createIdcomponent";
 
 const SimulationTabPannel = dynamic(() => import("./SimulationTabPannel"), {
   loading: () => (
@@ -86,7 +87,6 @@ const SimulationTab = () => {
             mh="88vh"
             index={tabIndex}
             isLazy
-            key="simulation-tab"
             onChange={(e) => {
               setTabIndex(e);
             }}
@@ -98,7 +98,7 @@ const SimulationTab = () => {
                     if (sim.name !== "") {
                       return (
                         <Tab
-                          key={sim.id}
+                          key={createIdComponent()}
                           _selected={{ color: "white", bg: "blue.500" }}
                         >
                           {sim.name}
@@ -107,7 +107,7 @@ const SimulationTab = () => {
                     }
                     return (
                       <Tab
-                        key={sim.id}
+                        key={createIdComponent()}
                         _selected={{ color: "white", bg: "blue.500" }}
                       >
                         Sim {index + 1}
@@ -132,7 +132,7 @@ const SimulationTab = () => {
               </Tooltip>
             </Box>
             <TabPanels>
-              {simulation.map((sim, index) => {
+              {simulation.map((sim) => {
                 return (
                   <TabPanel
                     display="flex"
@@ -140,7 +140,7 @@ const SimulationTab = () => {
                     overflowY="auto"
                     p="0"
                     h="100%"
-                    key={sim.id}
+                    key={createIdComponent()}
                   >
                     <SimulationTabPannel
                       idModel={sim.idModel}

@@ -5,15 +5,9 @@ import createIdComponent from "utils/createIdcomponent";
 
 const GraphTab = () => {
   return (
-    <HStack
-      h="100%"
-      w="100%"
-      justify="center"
-      alignItems="center"
-      id={createIdComponent()}
-    >
-      <Icon id={createIdComponent()} w={12} h={12} as={ToolsIcon} />
-      <Text id={createIdComponent()} color="gray.600" fontSize="4xl">
+    <HStack h="100%" w="100%" justify="center" alignItems="center">
+      <Icon w={12} h={12} as={ToolsIcon} />
+      <Text color="gray.600" fontSize="4xl">
         In construction...
       </Text>
     </HStack>

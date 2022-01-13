@@ -16,6 +16,8 @@ export const SelectFeature = createContext<StatesProps>({
   setNameGeoSelection: () => {},
   scale: "National",
   setScale: () => {},
+  simulationScale: "States",
+  setSimulationScale: () => {},
   states: [],
   setStates: () => {},
   counties: [],
@@ -77,6 +79,7 @@ const SelectFeatureContext: React.FC = ({ children }) => {
         return state.map((e) => {
           if (e.id === +action.element) {
             e.featureSelected = action.geoPayload.featureSelected;
+            e.name = action.geoPayload.name;
           }
           return e;
         });
@@ -94,6 +97,7 @@ const SelectFeatureContext: React.FC = ({ children }) => {
     initialStateGeoSelections
   );
   const [scale, setScale] = useState("National");
+  const [simulationScale, setSimulationScale] = useState("States");
   const [nameGeoSelection, setNameGeoSelection] = useState("Geo Selection 1");
   const [mode, setMode] = useState<Model>(Model.Add);
   const [idGeoSelectionUpdate, setIdGeoSelectionUpdate] = useState(0);
@@ -111,6 +115,8 @@ const SelectFeatureContext: React.FC = ({ children }) => {
         setCounties,
         scale,
         setScale,
+        simulationScale,
+        setSimulationScale,
         nameGeoSelection,
         setNameGeoSelection,
         geoSelections,

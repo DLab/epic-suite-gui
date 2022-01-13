@@ -1,10 +1,11 @@
 import { useContext, useReducer, useEffect, useState } from "react";
-import { GeoJSON, Tooltip } from "react-leaflet";
+import { GeoJSON, Tooltip, useMap } from "react-leaflet";
 import * as topojson from "topojson-client";
 import { GeometryObject, Topology } from "topojson-specification";
 
 import stateData_ from "../../data/states-10m.json";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import { TabIndex } from "context/TabContext";
 
 interface ActionTooltip {
   type: string;
@@ -22,6 +23,8 @@ const StateSimulationMap = ({ idGeo }: Props) => {
     stateData,
     stateData.objects.states as GeometryObject
   );
+  const map = useMap();
+  const { index: tabIndex } = useContext(TabIndex);
 
   const [statesSelected, setStatesSelected] = useState([]);
 
@@ -42,10 +45,17 @@ const StateSimulationMap = ({ idGeo }: Props) => {
       const geoSelection = geoSelections.find(
         (element) => element.id === idGeo
       );
-      setStatesSelected(geoSelection.featureSelected);
+      setStatesSelected(geoSelection?.featureSelected);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idGeo]);
+
+  useEffect(() => {
+    if (tabIndex === 3) {
+      map.invalidateSize(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabIndex]);
 
   const onEachFeature = (feature, layer) => {
     layer.on("mouseover", () => {
@@ -57,7 +67,7 @@ const StateSimulationMap = ({ idGeo }: Props) => {
     let color;
     const stateId = feature.id;
 
-    if (statesSelected.includes(stateId)) {
+    if (statesSelected?.includes(stateId)) {
       color = "#e4b721";
     } else {
       color = "#1777c7";
