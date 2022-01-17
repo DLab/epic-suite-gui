@@ -132,7 +132,7 @@ const SimulationTab = () => {
               </Tooltip>
             </Box>
             <TabPanels>
-              {simulation.map((sim) => {
+              {simulation.map((sim, index) => {
                 return (
                   <TabPanel
                     display="flex"
@@ -148,6 +148,7 @@ const SimulationTab = () => {
                       idSimulation={sim.idSim}
                       idGeo={sim.idGeo}
                       typeSelection={sim.typeSelection}
+                      index={index}
                     />
                   </TabPanel>
                 );

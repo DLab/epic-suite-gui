@@ -46,6 +46,7 @@ interface Props {
   idGeo: number;
   intialConditionsSim: InitialConditionsContext;
   typeSelection: string;
+  index: number;
 }
 
 // eslint-disable-next-line complexity
@@ -55,6 +56,7 @@ const SimulationTabPannel = ({
   idGeo,
   intialConditionsSim,
   typeSelection,
+  index,
 }: // eslint-disable-next-line sonarjs/cognitive-complexity
 Props) => {
   const toast = useToast();
@@ -70,6 +72,7 @@ Props) => {
   const [initialConditions, setInitialConditions] = useState(null);
   const [initialConditionsMode, setInitialConditionsMode] = useState("view");
   const [modelType, setModelType] = useState("SEIR");
+  const [nameSim, setNameSim] = useState("");
   const [geoSelectionNoCounties, setGeoSelectionNoCounties] = useState([]);
   const { simulation, setIdSimulationUpdating, setSimulation } =
     useContext(SimulationSetted);
@@ -357,6 +360,15 @@ Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idSimulation, simulation, idModelSelected]);
 
+  useEffect(() => {
+    const getName = getDefaultValueParameters("name");
+    if (getName === "") {
+      selectSimulation(`Sim ${index + 1}`, "name");
+    } else {
+      setNameSim(getName);
+    }
+  }, [getDefaultValueParameters, index, selectSimulation]);
+
   return (
     <>
       <Flex
@@ -378,9 +390,12 @@ Props) => {
               placeholder="Add simulation name"
               size="sm"
               onChange={(e) => {
-                selectSimulation(e.target.value, "name");
+                setNameSim(e.target.value);
               }}
-              value={getDefaultValueParameters("name")}
+              onBlur={() => {
+                selectSimulation(nameSim, "name");
+              }}
+              value={nameSim}
             />
           </Box>
           <Box mb="3%">
