@@ -109,9 +109,12 @@ const RunSimulatorButton = () => {
         };
       });
       const objConfig = simulationsSelected.reduce((acc, it, i) => {
+        const simName = simulation.find((sim: SimulatorParams) => {
+          return sim.idSim === it.idSim;
+        });
         return {
           ...acc,
-          [`Sim ${i + 1}`]: it,
+          [`${simName.name}`]: it,
         };
       }, {});
       if (simulationsSelected.length > 0) {
