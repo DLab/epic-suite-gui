@@ -7,24 +7,21 @@ import GraphicsContext from "context/GraphicsContext";
 import ModelsContext from "context/ModelsContext";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 import SimulationContext from "context/SimulationContext";
-import createIdComponent from "utils/createIdcomponent";
 
 const Home = () => {
-  return (
-    <SimulationContext>
-      <ModelsContext>
-        <ControlPanelContext>
-          <SelectFeatureContext>
-            <GraphicsContext>
-              <Box>
-                <Simulator />
-              </Box>
-            </GraphicsContext>
-          </SelectFeatureContext>
-        </ControlPanelContext>
-      </ModelsContext>
-    </SimulationContext>
-  );
+    return (
+        <SimulationContext>
+            <ModelsContext>
+                <ControlPanelContext>
+                    <SelectFeatureContext>
+                        <GraphicsContext>
+                            <Simulator />
+                        </GraphicsContext>
+                    </SelectFeatureContext>
+                </ControlPanelContext>
+            </ModelsContext>
+        </SimulationContext>
+    );
 };
 
 export default Home;

@@ -1,101 +1,80 @@
 import {
-  Box,
-  AccordionIcon,
-  AccordionPanel,
-  AccordionButton,
-  AccordionItem,
-  Text,
-  Input,
-  Flex,
+    Box,
+    Accordion,
+    AccordionIcon,
+    AccordionPanel,
+    AccordionButton,
+    AccordionItem,
+    Text,
+    Input,
+    Flex,
 } from "@chakra-ui/react";
 import { useContext } from "react";
 
-import GeoToastMessage from "components/map-results/selectorMap/GeoToastMessage";
+import GeoToastMessage from "components/map-tab/selectorMap/GeoToastMessage";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import createIdComponent from "utils/createIdcomponent";
 
 import StatesSelectedCheckbox from "./StatesSelectedCheckbox";
 
-interface Props {
-  maxWidthFeaturesPanel: string;
-}
-
-const SelectedFeaturesPanel = ({ maxWidthFeaturesPanel }: Props) => {
-  const { scale, counties, states, nameGeoSelection, setNameGeoSelection } =
-    useContext(SelectFeature);
-  return (
-    <AccordionItem id={createIdComponent()}>
-      <Flex id={createIdComponent()} direction="column" p="2% 5%">
-        <Text
-          id={createIdComponent()}
-          flex="1"
-          textAlign="left"
-          color="#16609E"
-          fontSize="14px"
-          h="16px"
-        >
-          Selection Name
-        </Text>
-        <Input
-          id={createIdComponent()}
-          size="sm"
-          bg="#ffffff"
-          fontSize="14px"
-          value={nameGeoSelection}
-          onChange={(e) => {
-            setNameGeoSelection(e.target.value);
-          }}
-        />
-      </Flex>
-      <h2 id={createIdComponent()}>
-        <AccordionButton
-          id={createIdComponent()}
-          _focus={{ boxShadow: "none" }}
-        >
-          <Box
-            id={createIdComponent()}
-            fontSize="14px"
-            color="#16609E"
-            flex="1"
-            textAlign="left"
-          >
-            Selected areas
-          </Box>
-          <AccordionIcon id={createIdComponent()} />
-        </AccordionButton>
-      </h2>
-      <AccordionPanel id={createIdComponent()} p="1% 4%">
-        {scale === "States" && states.length > 0 && (
-          <StatesSelectedCheckbox
-            stateSelected={states}
-            maxWidthFeaturesPanel={maxWidthFeaturesPanel}
-          />
-        )}
-        {scale === "States" && states.length <= 0 && (
-          <Text id={createIdComponent()} fontSize="14px">
-            {" "}
-            No states
-          </Text>
-        )}
-
-        {scale === "Counties" && counties.length > 0 && (
-          <StatesSelectedCheckbox
-            countiesSelected={counties}
-            maxWidthFeaturesPanel={maxWidthFeaturesPanel}
-          />
-        )}
-        {scale === "Counties" && counties.length <= 0 && (
-          <Text id={createIdComponent()} fontSize="14px">
-            {" "}
-            No counties
-          </Text>
-        )}
-      </AccordionPanel>
-      <Box id={createIdComponent()} textAlign="center">
-        <GeoToastMessage />
-      </Box>
-    </AccordionItem>
-  );
+const SelectedFeaturesPanel = () => {
+    const { scale, counties, states, nameGeoSelection, setNameGeoSelection } =
+        useContext(SelectFeature);
+    return (
+        <>
+            <Flex direction="column" p="2% 0">
+                <Text
+                    flex="1"
+                    textAlign="left"
+                    mb="2%"
+                    color="#16609E"
+                    fontSize="14px"
+                    h="16px"
+                >
+                    Set Name
+                </Text>
+                <Input
+                    size="sm"
+                    bg="#ffffff"
+                    fontSize="14px"
+                    value={nameGeoSelection}
+                    onChange={(e) => {
+                        setNameGeoSelection(e.target.value);
+                    }}
+                />
+            </Flex>
+            <Box
+                bg="#FAFAFA"
+                borderRadius="1px"
+                mt="5%"
+                p="3%"
+                overflowY="auto"
+                maxH="22vh"
+            >
+                <Text fontSize="14px" color="#16609E" flex="1" textAlign="left">
+                    Selected areas
+                </Text>
+                {scale === "States" && states.length > 0 && (
+                    <StatesSelectedCheckbox stateSelected={states} />
+                )}
+                {scale === "States" && states.length <= 0 && (
+                    <Text fontSize="14px"> No states selected</Text>
+                )}
+                {scale === "Counties" && counties.length > 0 && (
+                    <StatesSelectedCheckbox countiesSelected={counties} />
+                )}
+                {scale === "Counties" && counties.length <= 0 && (
+                    <Text id={createIdComponent()} fontSize="14px">
+                        {" "}
+                        No counties
+                    </Text>
+                )}
+            </Box>
+            <Box id={createIdComponent()} textAlign="center">
+                <GeoToastMessage />
+            </Box>
+        </>
+    );
 };
 
 export default SelectedFeaturesPanel;

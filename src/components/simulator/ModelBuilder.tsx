@@ -1,7 +1,8 @@
 import { Box, Flex, Portal } from "@chakra-ui/react";
+// import SectionVariableDependentTime from "components/map-results/SectionVariableDependentTime";
 import { useState } from "react";
 
-import SectionVariableDependentTime from "components/map-results/SectionVariableDependentTime";
+import SectionVariableDependentTime from "components/map-tab/SectionVariableDependentTime";
 import ModelController from "components/simulator/controllers/ModelController";
 import VariableDependentTime, {
     NameFunction,

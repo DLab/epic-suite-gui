@@ -49,18 +49,25 @@ const NumberInputEpi = ({
             setValue({ type: "set", payload: +val, target: nameParams });
         }
     };
+
     return (
         <>
             <Flex align="center">
-                <Text align="left" color={isDisabled && "gray.200"}>
+                <Text
+                    align="left"
+                    fontSize="14px"
+                    color={isDisabled && "gray.200"}
+                >
                     {name ?? nameParams}
                 </Text>
                 <Tooltip label={description}>
                     <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
                 </Tooltip>
-                <VariableTimeDepenentButton name={name ?? nameParams} />
+                {!isInitialParameters && (
+                    <VariableTimeDepenentButton name={name ?? nameParams} />
+                )}
             </Flex>
-            <Flex pb="0.5rem">
+            <Flex mb="0.5rem">
                 {type === "slider" && (
                     <>
                         <NumberInput

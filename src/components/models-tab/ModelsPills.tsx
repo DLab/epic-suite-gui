@@ -22,6 +22,7 @@ import {
 import { useContext, useState, useEffect } from "react";
 
 import { DataParameters } from "../../types/ModelsTypes";
+import ViewVariableDependentTime from "components/map-tab/ViewVariableDependentTime";
 import ToastMessage from "components/simulator/controllers/ToastMessage";
 import ModelBuilder from "components/simulator/ModelBuilder";
 import { ControlPanel, initialState } from "context/ControlPanelContext";
@@ -30,7 +31,7 @@ import { EpidemicsData, Model } from "types/ControlPanelTypes";
 import VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
 
-import ViewVariableDependentTime from "./ViewVariableDependentTime";
+// import ViewVariableDependentTime from "./ViewVariableDependentTime";
 
 const ModelsPills = () => {
     const toast = useToast();
