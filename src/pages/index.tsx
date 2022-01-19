@@ -9,19 +9,19 @@ import SelectFeatureContext from "context/SelectFeaturesContext";
 import SimulationContext from "context/SimulationContext";
 
 const Home = () => {
-  return (
-    <SimulationContext>
-      <ModelsContext>
-        <ControlPanelContext>
-          <SelectFeatureContext>
-            <GraphicsContext>
-              <Simulator />
-            </GraphicsContext>
-          </SelectFeatureContext>
-        </ControlPanelContext>
-      </ModelsContext>
-    </SimulationContext>
-  );
+    return (
+        <SimulationContext>
+            <ModelsContext>
+                <ControlPanelContext>
+                    <SelectFeatureContext>
+                        <GraphicsContext>
+                            <Simulator />
+                        </GraphicsContext>
+                    </SelectFeatureContext>
+                </ControlPanelContext>
+            </ModelsContext>
+        </SimulationContext>
+    );
 };
 
 export default Home;

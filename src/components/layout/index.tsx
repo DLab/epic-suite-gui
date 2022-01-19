@@ -5,13 +5,13 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 
 type LayoutProps = {
-  children: ReactNode;
+    children: ReactNode;
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  const router = useRouter();
+    const router = useRouter();
 
-  return <Box>{children}</Box>;
+    return <Box>{children}</Box>;
 };
 
 export default Layout;

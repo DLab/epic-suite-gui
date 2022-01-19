@@ -6,37 +6,37 @@ import { SelectFeature } from "../../context/SelectFeaturesContext";
 import createIdComponent from "utils/createIdcomponent";
 
 const StatesSelect = ({ options, extentionOption }) => {
-  const { states: statesSelected, setStates: setStatesSelected } =
-    useContext(SelectFeature);
+    const { states: statesSelected, setStates: setStatesSelected } =
+        useContext(SelectFeature);
 
-  return (
-    <Select
-      id={createIdComponent()}
-      className="reactSelect"
-      name="states"
-      options={options}
-      placeholder={
-        extentionOption === "1"
-          ? "Select one or more States"
-          : "Select all counties from a State"
-      }
-      closeMenuOnSelect
-      size="sm"
-      styles={{ background: "red" }}
-      onChange={({ fips }) => {
-        if (statesSelected.includes(fips)) {
-          setStatesSelected({ type: "remove-one", payload: [fips] });
-        } else {
-          setStatesSelected({ type: "add", payload: [fips] });
-        }
-      }}
-    />
-  );
+    return (
+        <Select
+            id={createIdComponent()}
+            className="reactSelect"
+            name="states"
+            options={options}
+            placeholder={
+                extentionOption === "1"
+                    ? "Select one or more States"
+                    : "Select all counties from a State"
+            }
+            closeMenuOnSelect
+            size="sm"
+            styles={{ background: "red" }}
+            onChange={({ fips }) => {
+                if (statesSelected.includes(fips)) {
+                    setStatesSelected({ type: "remove-one", payload: [fips] });
+                } else {
+                    setStatesSelected({ type: "add", payload: [fips] });
+                }
+            }}
+        />
+    );
 };
 
 StatesSelect.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.any),
-  extentionOption: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.any),
+    extentionOption: PropTypes.string,
 };
 
 export default StatesSelect;
