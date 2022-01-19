@@ -15,6 +15,7 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
     NumberInput,
+    useToast,
 } from "@chakra-ui/react";
 import { useReducer, useState, useContext } from "react";
 
@@ -47,6 +48,7 @@ const SectionVariableDependentTime = ({
         reducerVariableDependent,
         valuesVariablesDependent
     );
+    const toast = useToast();
     return (
         <Box>
             <Skeleton h="30vh">
@@ -228,12 +230,32 @@ const SectionVariableDependentTime = ({
                         size="sm"
                         colorScheme="blue"
                         onClick={() => {
-                            setParameters({
-                                type: "setVariableDependent",
-                                target: values["name"],
-                                payloadVariableDependent: values,
-                            });
-                            showSectionVariable(false);
+                            const isCorrectRange = values["rangeDays"].every(
+                                (e, i, arr) => {
+                                    if (i > 0) {
+                                        return e[0] >= arr[i - 1][1];
+                                    }
+                                    return true;
+                                }
+                            );
+                            if (isCorrectRange) {
+                                setParameters({
+                                    type: "setVariableDependent",
+                                    target: values["name"],
+                                    payloadVariableDependent: values,
+                                });
+                                showSectionVariable(false);
+                            } else {
+                                toast({
+                                    title: "Failed setting function",
+                                    description:
+                                        "Days ranges are wrong. Fix it for setting please!",
+                                    status: "error",
+                                    duration: 4000,
+                                    isClosable: true,
+                                    position: "bottom-left",
+                                });
+                            }
                         }}
                     >
                         Set

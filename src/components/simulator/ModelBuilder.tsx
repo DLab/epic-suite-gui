@@ -28,8 +28,8 @@ const ModelBuilder = ({ isEditing, setIsEditing }: Props) => {
         });
     return (
         <Flex justifyContent="space-between">
-            <Flex w="100%">
-                <Flex justifyContent="space-between">
+            <Flex w={showSectionVariable ? "75%" : "100%"}>
+                <Flex>
                     <Box
                         p="1rem"
                         border="2px"
@@ -43,7 +43,7 @@ const ModelBuilder = ({ isEditing, setIsEditing }: Props) => {
                         />
                     </Box>
                 </Flex>
-                <Flex direction="column">
+                <Flex w="5%" direction="column">
                     <ToastMessage
                         isEditing={isEditing}
                         closeUpdatingModel={setIsEditing}
@@ -51,18 +51,18 @@ const ModelBuilder = ({ isEditing, setIsEditing }: Props) => {
                 </Flex>
             </Flex>
             {showSectionVariable && (
-                <Box
+                <Flex
                     p="1rem"
                     border="2px"
                     borderColor="gray.200"
                     textAlign="center"
-                    w="80%"
+                    w="100%"
                 >
                     <SectionVariableDependentTime
                         valuesVariablesDependent={dataViewVariable}
                         showSectionVariable={setShowSectionVariable}
                     />
-                </Box>
+                </Flex>
             )}
         </Flex>
     );

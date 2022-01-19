@@ -165,7 +165,7 @@ const ModelsPills = () => {
                                     <TabPanel
                                         key={createIdComponent()}
                                         border="2px"
-                                        w="50%"
+                                        w="60%"
                                         borderColor="gray.200"
                                     >
                                         <>

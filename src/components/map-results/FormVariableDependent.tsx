@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import {
     NumberInput,
     NumberInputField,
@@ -12,6 +13,7 @@ import {
     Stack,
     Radio,
     RadioGroup,
+    useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -42,6 +44,7 @@ interface TransProps extends DataSetters {
     gw?: number;
     transition: TransitionFunction;
 }
+
 export const StaticInputs = ({ value, id, setVal, close }: StaticsProps) => {
     const [state, setstate] = useState<number>(value);
     return (
@@ -52,6 +55,8 @@ export const StaticInputs = ({ value, id, setVal, close }: StaticsProps) => {
                 w="30%"
                 ml="0.5"
                 size="sm"
+                min={0}
+                step={0.01}
                 value={state}
                 onChange={(e) => setstate(+e)}
             >
@@ -99,6 +104,7 @@ export const SinoInputs = ({
     const [maxVal, setMaxVal] = useState(max);
     const [periodVal, setPeriodVal] = useState(period);
     const [initPhaseVal, setInitPhaseVal] = useState(initPhase);
+    const toast = useToast();
     return (
         <Flex direction="column">
             <Text>Sinusoidal</Text>
@@ -109,6 +115,8 @@ export const SinoInputs = ({
                         w="35%"
                         size="xs"
                         value={minVal}
+                        min={0}
+                        step={0.01}
                         onChange={(e) => setMinVal(+e)}
                     >
                         <NumberInputField />
@@ -124,6 +132,9 @@ export const SinoInputs = ({
                         w="35%"
                         size="xs"
                         value={maxVal}
+                        min={0}
+                        step={0.01}
+                        isInvalid={maxVal <= minVal}
                         onChange={(e) => setMaxVal(+e)}
                     >
                         <NumberInputField />
@@ -139,6 +150,8 @@ export const SinoInputs = ({
                         w="35%"
                         size="xs"
                         value={periodVal}
+                        min={0}
+                        step={0.01}
                         onChange={(e) => setPeriodVal(+e)}
                     >
                         <NumberInputField />
@@ -172,18 +185,30 @@ export const SinoInputs = ({
                 <Button
                     size="xs"
                     onClick={() => {
-                        setVal({
-                            type: "editElement",
-                            index: id,
-                            payloadTypeElement: {
-                                name: "sinusoidal",
-                                min: minVal,
-                                max: maxVal,
-                                period: periodVal,
-                                initPhase: initPhaseVal,
-                            },
-                        });
-                        close();
+                        if (minVal >= maxVal) {
+                            toast({
+                                title: "Failed setting function",
+                                description:
+                                    "min must to be lesser than max. Fix it for setting please!",
+                                status: "error",
+                                duration: 4000,
+                                isClosable: true,
+                                position: "bottom-right",
+                            });
+                        } else {
+                            setVal({
+                                type: "editElement",
+                                index: id,
+                                payloadTypeElement: {
+                                    name: "sinusoidal",
+                                    min: minVal,
+                                    max: maxVal,
+                                    period: periodVal,
+                                    initPhase: initPhaseVal,
+                                },
+                            });
+                            close();
+                        }
                     }}
                 >
                     Set
@@ -210,6 +235,7 @@ export const SquareInputs = ({
     const [periodVal, setPeriodVal] = useState(period);
     const [initPhaseVal, setInitPhaseVal] = useState(initPhase);
     const [dutyVal, setDutyVal] = useState(duty);
+    const toast = useToast();
     return (
         <Flex direction="column">
             <Text>Square</Text>
@@ -220,6 +246,8 @@ export const SquareInputs = ({
                     value={minVal}
                     onChange={(e) => setMinVal(+e)}
                     w="35%"
+                    min={0}
+                    step={0.01}
                 >
                     <NumberInputField />
                     <NumberInputStepper>
@@ -233,6 +261,9 @@ export const SquareInputs = ({
                     value={maxVal}
                     onChange={(e) => setMaxVal(+e)}
                     w="35%"
+                    min={0}
+                    step={0.01}
+                    isInvalid={maxVal <= minVal}
                 >
                     <NumberInputField />
                     <NumberInputStepper>
@@ -258,6 +289,8 @@ export const SquareInputs = ({
                     w="35%"
                     size="xs"
                     value={dutyVal}
+                    min={0}
+                    step={0.01}
                     onChange={(e) => setDutyVal(+e)}
                 >
                     <NumberInputField />
@@ -288,19 +321,31 @@ export const SquareInputs = ({
                 <Button
                     size="xs"
                     onClick={() => {
-                        setVal({
-                            type: "editElement",
-                            index: id,
-                            payloadTypeElement: {
-                                name: "square",
-                                min: minVal,
-                                max: maxVal,
-                                period: periodVal,
-                                initPhase: initPhaseVal,
-                                duty: dutyVal,
-                            },
-                        });
-                        close();
+                        if (minVal >= maxVal) {
+                            toast({
+                                title: "Failed setting function",
+                                description:
+                                    "min must to be lesser than max. Fix it for setting please!",
+                                status: "error",
+                                duration: 4000,
+                                isClosable: true,
+                                position: "bottom-right",
+                            });
+                        } else {
+                            setVal({
+                                type: "editElement",
+                                index: id,
+                                payloadTypeElement: {
+                                    name: "square",
+                                    min: minVal,
+                                    max: maxVal,
+                                    period: periodVal,
+                                    initPhase: initPhaseVal,
+                                    duty: dutyVal,
+                                },
+                            });
+                            close();
+                        }
                     }}
                 >
                     Set
@@ -328,6 +373,7 @@ export const TransitionInputs = ({
     const [maxVal, setMaxVal] = useState(max);
     const [concavityVal, setConcavityVal] = useState(concavity);
     const [gwVal, setGwVal] = useState(gw);
+    const toast = useToast();
     return (
         <Flex direction="column" p="0.5rem">
             <Text>Transition</Text>
@@ -360,6 +406,8 @@ export const TransitionInputs = ({
                     w="35%"
                     size="xs"
                     value={minVal}
+                    min={0}
+                    step={0.01}
                     onChange={(e) => setMinVal(+e)}
                 >
                     <NumberInputField />
@@ -373,7 +421,10 @@ export const TransitionInputs = ({
                     w="35%"
                     size="xs"
                     value={maxVal}
+                    min={0}
+                    step={0.01}
                     onChange={(e) => setMaxVal(+e)}
+                    isInvalid={maxVal <= minVal}
                 >
                     <NumberInputField />
                     <NumberInputStepper>
@@ -387,6 +438,8 @@ export const TransitionInputs = ({
                         w="35%"
                         size="xs"
                         value={concavityVal}
+                        min={0}
+                        step={0.01}
                         onChange={(e) => setConcavityVal(+e)}
                     >
                         <NumberInputField />
@@ -402,6 +455,8 @@ export const TransitionInputs = ({
                                 w="35%"
                                 size="xs"
                                 value={gwVal}
+                                min={0}
+                                step={0.01}
                                 onChange={(e) => setGwVal(+e)}
                             >
                                 <NumberInputField />
@@ -418,19 +473,31 @@ export const TransitionInputs = ({
                 <Button
                     size="xs"
                     onClick={() => {
-                        setVal({
-                            type: "editElement",
-                            index: id,
-                            payloadTypeElement: {
-                                name: "transition",
-                                min: minVal,
-                                max: maxVal,
-                                transition: transitionVal,
-                                concavity: concavityVal,
-                                gw: gwVal,
-                            },
-                        });
-                        close();
+                        if (minVal >= maxVal) {
+                            toast({
+                                title: "Failed setting function",
+                                description:
+                                    "min must to be lesser than max. Fix it for setting please!",
+                                status: "error",
+                                duration: 4000,
+                                isClosable: true,
+                                position: "bottom-right",
+                            });
+                        } else {
+                            setVal({
+                                type: "editElement",
+                                index: id,
+                                payloadTypeElement: {
+                                    name: "transition",
+                                    min: minVal,
+                                    max: maxVal,
+                                    transition: transitionVal,
+                                    concavity: concavityVal,
+                                    gw: gwVal,
+                                },
+                            });
+                            close();
+                        }
                     }}
                 >
                     Set

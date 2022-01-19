@@ -134,28 +134,6 @@ const ToastMessage = ({ closeUpdatingModel, isEditing }: Props) => {
                             closeUpdatingModel(false);
                         }}
                     />
-                    {/* <Button
-            onClick={() => handleDataLocalStorage()}
-            colorScheme="yellow"
-            color="gray.800"
-            size="md"
-            mt="20px"
-          >
-            Update Model
-          </Button>
-          <Button
-            onClick={() => {
-              setMode(Model.Add);
-              setIdModelUpdate(0);
-            }}
-            colorScheme="red"
-            color="white"
-            size="md"
-            mt="20px"
-            ml="20px"
-          >
-            Cancel
-          </Button> */}
                 </>
             )}
         </>

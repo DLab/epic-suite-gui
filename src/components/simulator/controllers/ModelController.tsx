@@ -346,27 +346,31 @@ const ModelController = ({ showSectionVariable, setDataView }: Props) => {
                     </Flex>
                 </FormControl>
             </Flex>
-            <NumberInputEpi
-                value={mu}
-                setValue={setParameters}
-                nameParams="mu"
-                name="Mu (μ)"
-                description="Exposed/Infected Initial rate"
-                step={0.01}
-                min={0.01}
-                max={5}
-                type="slider"
-            />
-            <NumberInputEpi
-                value={pI_det}
-                setValue={setParameters}
-                nameParams="pI_det"
-                description="Underreport"
-                step={0.01}
-                min={0.01}
-                max={1}
-                type="slider"
-            />
+            <Box py="0.5rem">
+                <NumberInputEpi
+                    value={mu}
+                    setValue={setParameters}
+                    nameParams="mu"
+                    name="Mu (μ)"
+                    description="Exposed/Infected Initial rate"
+                    step={0.01}
+                    min={0.01}
+                    max={5}
+                    type="slider"
+                />
+            </Box>
+            <Box py="0.5rem">
+                <NumberInputEpi
+                    value={pI_det}
+                    setValue={setParameters}
+                    nameParams="pI_det"
+                    description="Underreport"
+                    step={0.01}
+                    min={0.01}
+                    max={1}
+                    type="slider"
+                />
+            </Box>
             <Flex justifyContent="space-between" wrap="wrap">
                 <FormControl display="flex" alignItems="center">
                     <Flex w="50%" justifyContent="space-between">

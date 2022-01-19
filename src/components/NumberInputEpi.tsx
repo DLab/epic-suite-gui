@@ -60,15 +60,15 @@ const NumberInputEpi = ({
                 </Tooltip>
                 <VariableTimeDepenentButton name={name ?? nameParams} />
             </Flex>
-            <Flex mb="0.5rem">
+            <Flex pb="0.5rem">
                 {type === "slider" && (
                     <>
                         <NumberInput
-                            maxW="100px"
+                            maxW="70px"
                             mr="1rem"
                             // defaultValue={+value}
                             onChange={handleChange}
-                            size="xs"
+                            size="sm"
                             min={+min}
                             max={+max}
                             step={step}
@@ -102,11 +102,11 @@ const NumberInputEpi = ({
                 )}
                 {type === "number" && !isInitialParameters && (
                     <NumberInput
-                        maxW="100px"
+                        maxW="70px"
                         mr="1rem"
                         // defaultValue={value}
                         onChange={handleChange}
-                        size="xs"
+                        size="sm"
                         min={min}
                         max={max}
                         step={step}
@@ -122,11 +122,11 @@ const NumberInputEpi = ({
                 )}
                 {isInitialParameters && (
                     <NumberInput
-                        maxW="100px"
+                        maxW="70px"
                         mr="1rem"
                         value={value}
                         onChange={handleChange}
-                        size="xs"
+                        size="sm"
                         min={min}
                         max={max}
                         step={step}
