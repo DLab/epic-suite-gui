@@ -192,21 +192,26 @@ const ModelsPills = () => {
                                             </Text>
                                             <Text>
                                                 Beta (β):{" "}
-                                                <IconButton
-                                                    color="#16609E"
-                                                    aria-label="Call Segun"
-                                                    size="sm"
-                                                    cursor="pointer"
-                                                    icon={<ViewIcon />}
-                                                    onClick={() => {
-                                                        setDataViewVariable(
-                                                            ParametersModels.beta
-                                                        );
-                                                        setShowViewVariable(
-                                                            true
-                                                        );
-                                                    }}
-                                                />
+                                                {ParametersModels.beta
+                                                    .isEnabled ? (
+                                                    <IconButton
+                                                        color="#16609E"
+                                                        aria-label="Call Segun"
+                                                        size="sm"
+                                                        cursor="pointer"
+                                                        icon={<ViewIcon />}
+                                                        onClick={() => {
+                                                            setDataViewVariable(
+                                                                ParametersModels.beta
+                                                            );
+                                                            setShowViewVariable(
+                                                                true
+                                                            );
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    ParametersModels.beta.val
+                                                )}
                                             </Text>
                                             <Text>
                                                 Mu (μ): {ParametersModels.mu}
@@ -217,57 +222,72 @@ const ModelsPills = () => {
                                             </Text>
                                             <Text>
                                                 rR_S:{" "}
-                                                <IconButton
-                                                    color="#16609E"
-                                                    aria-label="Call Segun"
-                                                    size="sm"
-                                                    cursor="pointer"
-                                                    icon={<ViewIcon />}
-                                                    onClick={() => {
-                                                        setDataViewVariable(
-                                                            ParametersModels.rR_S
-                                                        );
-                                                        setShowViewVariable(
-                                                            true
-                                                        );
-                                                    }}
-                                                />
+                                                {ParametersModels.rR_S
+                                                    .isEnabled ? (
+                                                    <IconButton
+                                                        color="#16609E"
+                                                        aria-label="Call Segun"
+                                                        size="sm"
+                                                        cursor="pointer"
+                                                        icon={<ViewIcon />}
+                                                        onClick={() => {
+                                                            setDataViewVariable(
+                                                                ParametersModels.rR_S
+                                                            );
+                                                            setShowViewVariable(
+                                                                true
+                                                            );
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    ParametersModels.rR_S.val
+                                                )}
                                             </Text>
                                             <Text>
                                                 tE_I:{" "}
-                                                <IconButton
-                                                    color="#16609E"
-                                                    aria-label="Call Segun"
-                                                    size="sm"
-                                                    cursor="pointer"
-                                                    icon={<ViewIcon />}
-                                                    onClick={() => {
-                                                        setDataViewVariable(
-                                                            ParametersModels.tE_I
-                                                        );
-                                                        setShowViewVariable(
-                                                            true
-                                                        );
-                                                    }}
-                                                />
+                                                {ParametersModels.tE_I
+                                                    .isEnabled ? (
+                                                    <IconButton
+                                                        color="#16609E"
+                                                        aria-label="Call Segun"
+                                                        size="sm"
+                                                        cursor="pointer"
+                                                        icon={<ViewIcon />}
+                                                        onClick={() => {
+                                                            setDataViewVariable(
+                                                                ParametersModels.tE_I
+                                                            );
+                                                            setShowViewVariable(
+                                                                true
+                                                            );
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    ParametersModels.tE_I.val
+                                                )}
                                             </Text>
                                             <Text>
                                                 tI_R:{" "}
-                                                <IconButton
-                                                    color="#16609E"
-                                                    aria-label="Call Segun"
-                                                    size="sm"
-                                                    cursor="pointer"
-                                                    icon={<ViewIcon />}
-                                                    onClick={() => {
-                                                        setDataViewVariable(
-                                                            ParametersModels.tI_R
-                                                        );
-                                                        setShowViewVariable(
-                                                            true
-                                                        );
-                                                    }}
-                                                />
+                                                {ParametersModels.tI_R
+                                                    .isEnabled ? (
+                                                    <IconButton
+                                                        color="#16609E"
+                                                        aria-label="Call Segun"
+                                                        size="sm"
+                                                        cursor="pointer"
+                                                        icon={<ViewIcon />}
+                                                        onClick={() => {
+                                                            setDataViewVariable(
+                                                                ParametersModels.tI_R
+                                                            );
+                                                            setShowViewVariable(
+                                                                true
+                                                            );
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    ParametersModels.tI_R.val
+                                                )}
                                             </Text>
                                             <Heading
                                                 pt="1rem"
@@ -278,21 +298,26 @@ const ModelsPills = () => {
                                             </Heading>
                                             <Text>
                                                 Alpha (α):{" "}
-                                                <IconButton
-                                                    color="#16609E"
-                                                    aria-label="Call Segun"
-                                                    size="sm"
-                                                    cursor="pointer"
-                                                    icon={<ViewIcon />}
-                                                    onClick={() => {
-                                                        setDataViewVariable(
-                                                            ParametersModels.alpha
-                                                        );
-                                                        setShowViewVariable(
-                                                            true
-                                                        );
-                                                    }}
-                                                />
+                                                {ParametersModels.alpha
+                                                    .isEnabled ? (
+                                                    <IconButton
+                                                        color="#16609E"
+                                                        aria-label="Call Segun"
+                                                        size="sm"
+                                                        cursor="pointer"
+                                                        icon={<ViewIcon />}
+                                                        onClick={() => {
+                                                            setDataViewVariable(
+                                                                ParametersModels.alpha
+                                                            );
+                                                            setShowViewVariable(
+                                                                true
+                                                            );
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    ParametersModels.alpha.val
+                                                )}
                                             </Text>
                                         </>
                                     </TabPanel>
