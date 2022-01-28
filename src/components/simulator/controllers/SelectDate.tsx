@@ -1,5 +1,5 @@
-import moment from "moment";
-import React, { useState, useEffect, useContext } from "react";
+import { format } from "date-fns";
+import React, { useState, useContext } from "react";
 import DatePicker from "react-datepicker";
 
 import { SimulationSetted } from "context/SimulationContext";
@@ -15,11 +15,8 @@ const SelectDate = ({ idSimulation }: Props) => {
     const { simulation, setSimulation } = useContext(SimulationSetted);
     const [startDate, setStartDate] = useState(
         new Date(
-            moment(
-                simulation.find(
-                    (s: SimulatorParams) => s.idSim === idSimulation
-                ).t_init
-            ).format("YYYY/MM/D")
+            simulation.find((s: SimulatorParams) => s.idSim === idSimulation)
+                .t_init ?? Date.now()
         )
     );
     const handleChange = (val: string | number) => {
@@ -35,8 +32,8 @@ const SelectDate = ({ idSimulation }: Props) => {
             dateFormat="yyyy/MM/dd"
             selected={startDate}
             onChange={(date) => {
-                const x = moment(date).format("YYYY/MM/D");
-                setStartDate(date);
+                const x = format(date, "yyyy/MM/dd");
+                setStartDate(new Date(x));
                 handleChange(x);
             }}
             openToDate={new Date()}
@@ -44,6 +41,3 @@ const SelectDate = ({ idSimulation }: Props) => {
     );
 };
 export default SelectDate;
-
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css';

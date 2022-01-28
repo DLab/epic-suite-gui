@@ -8,12 +8,20 @@ import {
     AccordionIcon,
     Checkbox,
 } from "@chakra-ui/react";
+import add from "date-fns/add";
 import React, { useEffect, useContext } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
+import { ModelsSaved } from "context/ModelsContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
+import { SimulationSetted } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
 import { SimulationKeysData } from "types/GraphicsTypes";
+import { DataParameters } from "types/ModelsTypes";
 import createIdComponent from "utils/createIdcomponent";
+import { postData } from "utils/fetchData";
+
+import RealDataCheckBoxs from "./RealDataCheckBoxs";
 
 const ResultsSelection = () => {
     const { aux: responseSim } = useContext(TabIndex);
@@ -27,6 +35,13 @@ const ResultsSelection = () => {
         checkedItems,
         setCheckedItems,
     } = useContext(GraphicsData);
+    const { simulation: simSetted } = useContext(SimulationSetted);
+    const { geoSelections } = useContext(SelectFeature);
+    const { parameters } = useContext(ModelsSaved);
+
+    // Real Data Context
+    const { setRealDataSimulationKeys } = useContext(GraphicsData);
+    //
 
     const model = ["S", "E", "I", "R"];
 
@@ -235,6 +250,59 @@ const ResultsSelection = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [responseSim]);
 
+    // Para obtener data real
+    const getObjectConfig = () => {
+        const simulationsSelected = simSetted.map((e, i) => {
+            const { parameters: modelParameters } = parameters.find(
+                (m: DataParameters) => m.id === e.idModel
+            );
+            const geoSetted = geoSelections.find((geo) => geo.id === e.idGeo);
+            const timeEnd = add(new Date(e.t_init), {
+                days: modelParameters.t_end,
+            });
+            return {
+                name: e.name,
+                compartments: modelParameters.name,
+                timeInit: e.t_init,
+                timeEnd,
+                scale: geoSetted.scale,
+                spatialSelection: geoSetted.featureSelected,
+            };
+        });
+
+        return simulationsSelected.reduce((acc, it) => {
+            return {
+                ...acc,
+                [`${it.name}`]: it,
+            };
+        }, {});
+    };
+
+    const getGraphicRealData = async () => {
+        const objectConfig = getObjectConfig();
+        const res = await postData(
+            "http://192.168.2.131:5001/realData",
+            objectConfig
+        );
+        const val = Object.values(res.result);
+        const keys = Object.keys(res.result);
+        const realDataKeys = val
+            .map((simString: string) => simString)
+            .map((sim, i) => ({
+                name: keys[i],
+                // eslint-disable-next-line @typescript-eslint/ban-types
+                ...(sim as {}),
+            }));
+
+        return setRealDataSimulationKeys(realDataKeys);
+    };
+
+    useEffect(() => {
+        getGraphicRealData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [responseSim]);
+    // Para obtener data real //
+
     return (
         <Accordion
             id={createIdComponent()}
@@ -336,6 +404,20 @@ const ResultsSelection = () => {
                                         }
                                         return false;
                                     })}
+                                </Flex>
+                                <Box
+                                    w="100%"
+                                    m="2% 7%"
+                                    textAlign="start"
+                                    fontWeight={500}
+                                >
+                                    Data
+                                </Box>
+                                <Flex flexWrap="wrap" ml="3%">
+                                    <RealDataCheckBoxs
+                                        simName={simulation.name}
+                                        saveKeys={saveKeys}
+                                    />
                                 </Flex>
                                 <AccordionItem>
                                     <h2 id={createIdComponent()}>

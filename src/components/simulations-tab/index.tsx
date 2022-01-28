@@ -13,7 +13,7 @@ import {
     Flex,
     Spinner,
 } from "@chakra-ui/react";
-import moment from "moment";
+import { format } from "date-fns";
 import dynamic from "next/dynamic";
 import React, { useContext, useState, useEffect } from "react";
 
@@ -49,7 +49,7 @@ const SimulationTab = () => {
                 idModel: 0,
                 idGeo: 0,
                 idGraph: 0,
-                t_init: moment().format("YYYY-MM-D"),
+                t_init: format(new Date(), "yyyy/MM/dd"),
                 typeSelection: OptionFeature.None,
                 initialConditions: {
                     population: 0,

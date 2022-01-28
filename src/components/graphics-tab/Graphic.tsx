@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
+import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import { SavedSimulationData } from "types/GraphicsTypes";
 
@@ -12,16 +13,36 @@ interface Props {
 }
 
 const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
+    const { realDataSimulationKeys } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
     const graphSimulation = () => {
         return savedSimulationKeys.map((simKey) => {
+            // para obtener toda la data de una simulación
             const simKeyFilter = data.filter((sim) => {
                 return sim.name === simKey.name;
             });
+            // para obtener toda la data REAL de una simulación
+            const simRealDataKeyFilter = realDataSimulationKeys.filter(
+                (sim) => {
+                    return sim.name === simKey.name;
+                }
+            );
+            // para obtener las keys seleccionadas de la simulación
             const savedKeys = simKey.keys;
             return savedKeys.map((key) => {
+                if (key.includes("Real")) {
+                    // para encontrar la data según la key guardada
+                    const filterKey = key.slice(0, -5);
+                    const simulationKeys = simRealDataKeyFilter[0][filterKey];
+                    return {
+                        x: Object.keys(simulationKeys),
+                        y: Object.values(simulationKeys),
+                        mode: "markers",
+                        name: `${key}-${simRealDataKeyFilter[0].name}`,
+                    };
+                }
                 const simulationKeys = simKeyFilter[0][key];
                 return {
                     x: Object.keys(simulationKeys),
