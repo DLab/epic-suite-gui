@@ -39,7 +39,7 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
                     return {
                         x: Object.keys(simulationKeys),
                         y: Object.values(simulationKeys),
-                        mode: "markers",
+                        mode: "lines+markers",
                         name: `${key}-${simRealDataKeyFilter[0].name}`,
                     };
                 }

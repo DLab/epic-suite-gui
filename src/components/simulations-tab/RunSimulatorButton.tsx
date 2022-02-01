@@ -1,5 +1,5 @@
 import { Button, Spinner, Text, useToast } from "@chakra-ui/react";
-import add from "date-fns/add";
+import { format, add, parseISO } from "date-fns";
 import { useContext, useState, useEffect } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
@@ -68,8 +68,8 @@ const RunSimulatorButton = () => {
             return {
                 name: e.name,
                 compartments: modelParameters.name,
-                timeInit: e.t_init,
-                timeEnd,
+                timeInit: format(new Date(e.t_init), "yyyy-MM-dd"),
+                timeEnd: format(timeEnd, "yyyy-MM-dd"),
                 scale: geoSetted.scale,
                 spatialSelection: geoSetted.featureSelected,
             };
@@ -196,6 +196,7 @@ const RunSimulatorButton = () => {
                 getGraphicRealData();
                 setIndex(4);
                 setAllGraphicData([]);
+                setRealDataSimulationKeys([]);
             }
             toast({
                 position: bottonLeft,
