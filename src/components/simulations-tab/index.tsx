@@ -52,7 +52,7 @@ const SimulationTab = () => {
                 t_init: format(new Date(), "yyyy/MM/dd"),
                 typeSelection: OptionFeature.None,
                 initialConditions: {
-                    population: 0,
+                    S: 0,
                     R: 0,
                     I: 0,
                     I_d: 0,

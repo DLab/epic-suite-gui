@@ -14,12 +14,18 @@ export enum OptionFeature {
 }
 
 export interface InitialConditions {
-    population: number;
+    S: number;
     R: number;
     I: number;
     I_d: number;
     I_ac: number;
-    E: number;
+    E?: number;
+    H?: number;
+    H_acum?: number;
+    V?: number;
+    V_acum?: number;
+    D?: number;
+    D_acum?: number;
 }
 
 export const SimulationSetted = createContext<SimulationType>({

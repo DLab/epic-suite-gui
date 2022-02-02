@@ -129,7 +129,7 @@ const NumberInputEpi = ({
                 )}
                 {isInitialParameters && (
                     <NumberInput
-                        maxW="70px"
+                        maxW="120px"
                         mr="1rem"
                         value={value}
                         onChange={handleChange}

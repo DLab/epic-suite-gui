@@ -28,15 +28,16 @@ const ModelBuilder = ({ isEditing, setIsEditing }: Props) => {
             val: 0.3,
         });
     return (
-        <Flex justifyContent="space-between">
+        <Flex justifyContent="space-between" ml="2%">
             <Flex w={showSectionVariable ? "75%" : "100%"}>
                 <Flex>
                     <Box
                         p="1rem"
-                        border="2px"
-                        borderColor="gray.200"
                         textAlign="center"
                         w="100%"
+                        borderRadius="6px"
+                        boxShadow="sm"
+                        bg="#FAFAFA"
                     >
                         <ModelController
                             showSectionVariable={setShowSectionVariable}
@@ -54,8 +55,9 @@ const ModelBuilder = ({ isEditing, setIsEditing }: Props) => {
             {showSectionVariable && (
                 <Flex
                     p="1rem"
-                    border="2px"
-                    borderColor="gray.200"
+                    borderRadius="6px"
+                    boxShadow="sm"
+                    bg="#FAFAFA"
                     textAlign="center"
                     w="100%"
                 >
