@@ -85,12 +85,18 @@ export const initialState: EpidemicsData = {
     },
 };
 const initialConditions: InitialConditions = {
-    population: 0,
+    S: 0,
     R: 0,
     I: 0,
     I_d: 0,
     I_ac: 0,
     E: 0,
+    H: 0,
+    H_acum: 0,
+    V: 0,
+    V_acum: 0,
+    D: 0,
+    D_acum: 0,
 };
 export const ControlPanel = createContext<EpidemicAttributes>({
     mode: Model.Add,

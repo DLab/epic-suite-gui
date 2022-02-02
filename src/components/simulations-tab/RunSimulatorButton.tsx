@@ -1,12 +1,22 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import { Button, Spinner, Text, useToast } from "@chakra-ui/react";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
+import { DataParameters } from "types/ModelsTypes";
+import { DataGeoSelections } from "types/SelectFeaturesTypes";
 import { SimulatorParams } from "types/SimulationTypes";
+import VariableDependentTime, {
+    NameFunction,
+    Sine,
+    Square,
+    StaticValue,
+    Transition,
+} from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
 import { postData } from "utils/fetchData";
 
@@ -20,27 +30,47 @@ const RunSimulatorButton = () => {
     const { geoSelections: geoSelectionsElementsContext } =
         useContext(SelectFeature);
     const { setAllGraphicData } = useContext(GraphicsData);
-    const [models, setModels] = useState([]);
-    const [geoSelection, setGeoSelection] = useState([]);
     const [isSimulating, setisSimulating] = useState(false);
-    useEffect(() => {
-        if (
-            typeof window !== "undefined" &&
-            window.localStorage.getItem("models")
-        ) {
-            const dataLocalStorageModel = window.localStorage.getItem("models");
-            setModels(JSON.parse(dataLocalStorageModel));
-        }
-        if (
-            typeof window !== "undefined" &&
-            window.localStorage.getItem("geoSelection")
-        ) {
-            const dataLocalStorageGeo =
-                window.localStorage.getItem("geoSelection");
-            setGeoSelection(JSON.parse(dataLocalStorageGeo));
-        }
-    }, [parameters, geoSelectionsElementsContext]);
-
+    const createObjectVariableDependent = (params: VariableDependentTime) => {
+        const variableDependent = {
+            function: "events",
+            values: [],
+            days: [],
+            default: params.default,
+        };
+        params.type.forEach(
+            (p: Sine | Square | Transition | StaticValue, i) => {
+                variableDependent.days.push(params.rangeDays[i]);
+                switch (p.name) {
+                    case NameFunction.sinusoidal:
+                        variableDependent.values.push({
+                            function: "sine",
+                            min_val: p.min,
+                            max_val: p.max,
+                            period: p["period"],
+                            initphase: p["initPhase"],
+                        });
+                        break;
+                    case NameFunction.square:
+                        variableDependent.values.push({
+                            function: "square",
+                            min_val: p.min,
+                            max_val: p.max,
+                            period: p["period"],
+                            initphase: p["initPhase"],
+                            duty: p["duty"],
+                            t_init: params.rangeDays[i][0],
+                            t_end: params.rangeDays[i][1],
+                        });
+                        break;
+                    default:
+                        variableDependent.values.push(p["value"]);
+                        break;
+                }
+            }
+        );
+        return variableDependent;
+    };
     const verifyNotEmptySimulations = (sim: SimulatorParams[] | []) => {
         return sim.every(
             (e: SimulatorParams) =>
@@ -48,6 +78,7 @@ const RunSimulatorButton = () => {
         );
     };
 
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     const handleJsonToToml = async () => {
         setisSimulating(true);
         try {
@@ -61,12 +92,17 @@ const RunSimulatorButton = () => {
             }
             // build object simulation template for toml
             const simulationsSelected = simulation.map((e, i) => {
-                const { parameters: modelParameters } = models.find(
-                    (m) => m.id === e.idModel
+                const { parameters: modelParameters } = parameters.find(
+                    (m: DataParameters) => m.id === e.idModel
                 );
                 const geoselectionItems =
-                    geoSelection.find((g) => g.id === e.idGeo) || {};
-                const { scale, featureSelected } =
+                    geoSelectionsElementsContext.find(
+                        (g) => g.id === e.idGeo
+                    ) || {};
+                const {
+                    scale,
+                    featureSelected,
+                }: { scale?: string; featureSelected?: string[] } =
                     (typeof geoselectionItems !== "undefined" &&
                         geoselectionItems) ||
                     {};
@@ -94,18 +130,38 @@ const RunSimulatorButton = () => {
                             pI_det: modelParameters.pI_det,
                         },
                         dynamic: {
-                            beta: modelParameters.beta,
-                            alpha: modelParameters.alpha,
-                            tE_I: modelParameters.tE_I,
-                            tI_R: modelParameters.tI_R,
-                            rR_S: modelParameters.rR_S,
+                            beta: !modelParameters.beta.isEnabled
+                                ? modelParameters.beta.val
+                                : createObjectVariableDependent(
+                                      modelParameters.beta
+                                  ),
+                            alpha: !modelParameters.alpha.isEnabled
+                                ? modelParameters.alpha.val
+                                : createObjectVariableDependent(
+                                      modelParameters.alpha
+                                  ),
+                            tE_I: !modelParameters.tE_I.isEnabled
+                                ? modelParameters.tE_I.val
+                                : createObjectVariableDependent(
+                                      modelParameters.tE_I
+                                  ),
+                            tI_R: !modelParameters.tI_R.isEnabled
+                                ? modelParameters.tI_R.val
+                                : createObjectVariableDependent(
+                                      modelParameters.tI_R
+                                  ),
+                            rR_S: !modelParameters.rR_S.isEnabled
+                                ? modelParameters.rR_S.val
+                                : createObjectVariableDependent(
+                                      modelParameters.rR_S
+                                  ),
                         },
                     },
                     initialconditions: {
                         I: +e.initialConditions.I,
                         I_d: +e.initialConditions.I_d,
                         I_ac: +e.initialConditions.I_ac,
-                        population: +e.initialConditions.population,
+                        population: +e.initialConditions.S,
                         R: +e.initialConditions.R,
                         E: +e.initialConditions.E,
                     },

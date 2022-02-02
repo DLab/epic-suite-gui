@@ -6,6 +6,10 @@ import {
     IconButton,
     Input,
     Select,
+    Stat,
+    StatGroup,
+    StatLabel,
+    StatNumber,
     Text,
 } from "@chakra-ui/react";
 
@@ -23,13 +27,7 @@ interface Props {
 
 const ViewVariableDependentTime = ({ data, close }: Props) => {
     return (
-        <Box
-            px="10"
-            py="1rem"
-            border="2px"
-            borderRadius={10}
-            borderColor="gray.200"
-        >
+        <Box px="10" py="1rem" borderRadius="6px" boxShadow="sm" bg="#FAFAFA">
             <Heading textAlign="justify">
                 <Flex justifyContent="space-between" alignItems="center">
                     {data.name.toLocaleUpperCase()}{" "}
@@ -42,10 +40,28 @@ const ViewVariableDependentTime = ({ data, close }: Props) => {
                 </Flex>
             </Heading>
             {data.rangeDays.map((range, i) => (
-                <Text key={createIdComponent()}>
-                    range: {i + 1} init: {range[0]} end: {range[1]} type
-                    Function: {data.type[i].name} Default: {data.default}
-                </Text>
+                <StatGroup w="35rem">
+                    <Stat>
+                        <StatLabel>Range: </StatLabel>
+                        <StatNumber>{i + 1}</StatNumber>
+                    </Stat>
+                    <Stat>
+                        <StatLabel>Init: </StatLabel>
+                        <StatNumber>{range[0]}</StatNumber>
+                    </Stat>
+                    <Stat>
+                        <StatLabel>End: </StatLabel>
+                        <StatNumber>{range[1]}</StatNumber>
+                    </Stat>
+                    <Stat>
+                        <StatLabel>Type Function: </StatLabel>
+                        <StatNumber>{data.type[i].name}</StatNumber>
+                    </Stat>
+                    <Stat>
+                        <StatLabel>Default: </StatLabel>
+                        <StatNumber>{data.default}</StatNumber>
+                    </Stat>
+                </StatGroup>
             ))}
         </Box>
     );
