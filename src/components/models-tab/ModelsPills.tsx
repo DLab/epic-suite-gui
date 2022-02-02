@@ -16,13 +16,14 @@ import {
 import { useContext, useState, useEffect } from "react";
 
 import { DataParameters } from "../../types/ModelsTypes";
-import ViewVariableDependentTime from "components/map-tab/ViewVariableDependentTime";
 import ModelBuilder from "components/simulator/ModelBuilder";
 import { ControlPanel, initialState } from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { EpidemicsData, Model } from "types/ControlPanelTypes";
 import VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
+
+import ViewVariableDependentTime from "./ViewVariableDependentTime";
 
 const ModelsPills = () => {
     const toast = useToast();
