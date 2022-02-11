@@ -6,9 +6,7 @@ import {
     Button,
     useToast,
     Flex,
-    Stack,
     Text,
-    Center,
     Stat,
     StatLabel,
     StatNumber,
@@ -21,24 +19,10 @@ import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SimulationSetted } from "context/SimulationContext";
+import { InitialConditions as InitialConditionsContext } from "types/ControlPanelTypes";
 import { DataParameters } from "types/ModelsTypes";
 import { SimulatorParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
-
-export interface InitialConditionsContext {
-    S: number;
-    R: number;
-    I: number;
-    I_d: number;
-    I_ac: number;
-    E?: number;
-    H?: number;
-    H_acum?: number;
-    V?: number;
-    V_acum?: number;
-    D?: number;
-    D_acum?: number;
-}
 
 interface Props {
     idModel: number;
@@ -68,8 +52,26 @@ const InitialConditions = ({
     const { parameters } = useContext(ModelsSaved);
     const [models, setModels] = useState(false);
     const [modelName, setModelName] = useState("SEIR");
-    const { S, R, I, I_d, I_ac, E, H, H_acum, V, V_acum, D, D_acum } =
-        initialConditions;
+    const {
+        S,
+        R,
+        I,
+        I_d,
+        I_ac,
+        E,
+        H,
+        H_acum,
+        V,
+        V_acum,
+        D,
+        D_acum,
+        Iv,
+        Iv_d,
+        Iv_ac,
+        H_d,
+        D_d,
+        H_cap,
+    } = initialConditions;
     const { idModel } =
         simulation.find(
             ({ idSim }: SimulatorParams) => idSim === idSimulationUpdating
@@ -189,10 +191,75 @@ const InitialConditions = ({
                             <>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel>H</StatLabel>
+                                        <StatLabel>Iv</StatLabel>
+                                        <StatNumber>
+                                            {new Intl.NumberFormat().format(
+                                                intialConditionsSim.Iv
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Vaccinated Inffected
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box>
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>Iv_d</StatLabel>
+                                        <StatNumber>
+                                            {new Intl.NumberFormat().format(
+                                                intialConditionsSim.V
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Daily new Vaccinated Infected
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box>
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>Iv_ac</StatLabel>
+                                        <StatNumber>
+                                            {new Intl.NumberFormat().format(
+                                                intialConditionsSim.V_acum
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Accumulated Vaccinated Infected
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box>
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>H_cap</StatLabel>
+                                        <StatNumber>
+                                            {new Intl.NumberFormat().format(
+                                                intialConditionsSim.H_cap
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Hospitalization Capacity
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box>
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>H_d</StatLabel>
                                         <StatNumber>
                                             {new Intl.NumberFormat().format(
                                                 intialConditionsSim.H
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Daily new Hospitalized
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box>
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>H</StatLabel>
+                                        <StatNumber>
+                                            {new Intl.NumberFormat().format(
+                                                intialConditionsSim.H_acum
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
@@ -202,50 +269,15 @@ const InitialConditions = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel>H_acum</StatLabel>
-                                        <StatNumber>
-                                            {new Intl.NumberFormat().format(
-                                                intialConditionsSim.H_acum
-                                            )}
-                                        </StatNumber>
-                                        <StatHelpText>
-                                            Hospitalized accumulated
-                                        </StatHelpText>
-                                    </Stat>
-                                </Box>
-                                <Box w="25%">
-                                    <Stat>
-                                        <StatLabel>V</StatLabel>
-                                        <StatNumber>
-                                            {new Intl.NumberFormat().format(
-                                                intialConditionsSim.V
-                                            )}
-                                        </StatNumber>
-                                        <StatHelpText>Vaccunated</StatHelpText>
-                                    </Stat>
-                                </Box>
-                                <Box w="25%">
-                                    <Stat>
-                                        <StatLabel>V_acum</StatLabel>
-                                        <StatNumber>
-                                            {new Intl.NumberFormat().format(
-                                                intialConditionsSim.V_acum
-                                            )}
-                                        </StatNumber>
-                                        <StatHelpText>
-                                            Vaccunated accumulated
-                                        </StatHelpText>
-                                    </Stat>
-                                </Box>
-                                <Box w="25%">
-                                    <Stat>
-                                        <StatLabel>D</StatLabel>
+                                        <StatLabel>D_d</StatLabel>
                                         <StatNumber>
                                             {new Intl.NumberFormat().format(
                                                 intialConditionsSim.D
                                             )}
                                         </StatNumber>
-                                        <StatHelpText>Deaths</StatHelpText>
+                                        <StatHelpText>
+                                            Daily new Deaths
+                                        </StatHelpText>
                                     </Stat>
                                 </Box>
                                 <Box w="25%">
@@ -256,9 +288,7 @@ const InitialConditions = ({
                                                 intialConditionsSim.D_acum
                                             )}
                                         </StatNumber>
-                                        <StatHelpText>
-                                            Deaths accumulated
-                                        </StatHelpText>
+                                        <StatHelpText>Deaths</StatHelpText>
                                     </Stat>
                                 </Box>
                             </>
@@ -345,22 +375,10 @@ const InitialConditions = ({
                             <>
                                 <Box id={createIdComponent()}>
                                     <NumberInputEpi
-                                        value={H}
+                                        value={Iv}
                                         setValue={setInitialConditions}
-                                        nameParams="H"
-                                        description="H"
-                                        min={0}
-                                        max={Infinity}
-                                        isInitialParameters
-                                        type="number"
-                                    />
-                                </Box>
-                                <Box id={createIdComponent()}>
-                                    <NumberInputEpi
-                                        value={H_acum}
-                                        setValue={setInitialConditions}
-                                        nameParams="H_acum"
-                                        description="H_acum"
+                                        nameParams="Iv"
+                                        description="Iv"
                                         min={0}
                                         max={Infinity}
                                         isInitialParameters
@@ -372,7 +390,8 @@ const InitialConditions = ({
                                         value={V ?? 0}
                                         setValue={setInitialConditions}
                                         nameParams="V"
-                                        description="V"
+                                        name="Iv_d"
+                                        description="Iv_d"
                                         min={0}
                                         max={Infinity}
                                         isInitialParameters
@@ -381,10 +400,48 @@ const InitialConditions = ({
                                 </Box>
                                 <Box id={createIdComponent()}>
                                     <NumberInputEpi
-                                        value={V_acum}
+                                        value={V_acum ?? 0}
                                         setValue={setInitialConditions}
+                                        name="Iv_ac"
                                         nameParams="V_acum"
-                                        description="V_acum"
+                                        description="Iv_ac"
+                                        min={0}
+                                        max={Infinity}
+                                        isInitialParameters
+                                        type="number"
+                                    />
+                                </Box>
+                                <Box id={createIdComponent()}>
+                                    <NumberInputEpi
+                                        value={H_cap ?? 0}
+                                        setValue={setInitialConditions}
+                                        nameParams="H_cap"
+                                        description="H_cap"
+                                        min={0}
+                                        max={Infinity}
+                                        isInitialParameters
+                                        type="number"
+                                    />
+                                </Box>
+                                <Box id={createIdComponent()}>
+                                    <NumberInputEpi
+                                        value={H_d ?? 0}
+                                        setValue={setInitialConditions}
+                                        nameParams="H_d"
+                                        description="H_d"
+                                        min={0}
+                                        max={Infinity}
+                                        isInitialParameters
+                                        type="number"
+                                    />
+                                </Box>
+                                <Box id={createIdComponent()}>
+                                    <NumberInputEpi
+                                        value={H_acum}
+                                        setValue={setInitialConditions}
+                                        nameParams="H_acum"
+                                        name="H"
+                                        description="H"
                                         min={0}
                                         max={Infinity}
                                         isInitialParameters
@@ -395,20 +452,23 @@ const InitialConditions = ({
                                     <NumberInputEpi
                                         value={D}
                                         setValue={setInitialConditions}
+                                        name="D_d"
                                         nameParams="D"
-                                        description="D"
+                                        description="D_d"
                                         min={0}
                                         max={Infinity}
                                         isInitialParameters
                                         type="number"
                                     />
                                 </Box>
+
                                 <Box id={createIdComponent()}>
                                     <NumberInputEpi
                                         value={D_acum}
                                         setValue={setInitialConditions}
                                         nameParams="D_acum"
-                                        description="D_acum"
+                                        name="D"
+                                        description="D"
                                         min={0}
                                         max={Infinity}
                                         isInitialParameters
@@ -427,7 +487,6 @@ const InitialConditions = ({
                         mr="10%"
                         colorScheme="teal"
                         onClick={() => {
-                            // hasta aca
                             setSimulation({
                                 type: "update-initial-conditions",
                                 payloadInitialConditions: initialConditions,

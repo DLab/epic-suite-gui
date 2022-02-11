@@ -1,3 +1,5 @@
+/* eslint-disable sonarjs/cognitive-complexity */
+/* eslint-disable complexity */
 /* eslint-disable @typescript-eslint/dot-notation */
 import { Button, Spinner, Text, useToast } from "@chakra-ui/react";
 import { format, add } from "date-fns";
@@ -9,17 +11,13 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
 import { DataParameters } from "types/ModelsTypes";
-import { DataGeoSelections } from "types/SelectFeaturesTypes";
 import { SimulatorParams } from "types/SimulationTypes";
-import VariableDependentTime, {
-    NameFunction,
-    Sine,
-    Square,
-    StaticValue,
-    Transition,
-} from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
 import { postData } from "utils/fetchData";
+
+import getSEIRHVDObj from "./getSEIRHVDObj";
+import getSEIRObj from "./getSEIRObj";
+import getSIRObj from "./getSIRObj";
 
 const bottonLeft = "bottom-left";
 
@@ -38,46 +36,7 @@ const RunSimulatorButton = () => {
         useContext(SelectFeature);
     const { setAllGraphicData } = useContext(GraphicsData);
     const [isSimulating, setisSimulating] = useState(false);
-    const createObjectVariableDependent = (params: VariableDependentTime) => {
-        const variableDependent = {
-            function: "events",
-            values: [],
-            days: [],
-            default: params.default,
-        };
-        params.type.forEach(
-            (p: Sine | Square | Transition | StaticValue, i) => {
-                variableDependent.days.push(params.rangeDays[i]);
-                switch (p.name) {
-                    case NameFunction.sinusoidal:
-                        variableDependent.values.push({
-                            function: "sine",
-                            min_val: p.min,
-                            max_val: p.max,
-                            period: p["period"],
-                            initphase: p["initPhase"],
-                        });
-                        break;
-                    case NameFunction.square:
-                        variableDependent.values.push({
-                            function: "square",
-                            min_val: p.min,
-                            max_val: p.max,
-                            period: p["period"],
-                            initphase: p["initPhase"],
-                            duty: p["duty"],
-                            t_init: params.rangeDays[i][0],
-                            t_end: params.rangeDays[i][1],
-                        });
-                        break;
-                    default:
-                        variableDependent.values.push(p["value"]);
-                        break;
-                }
-            }
-        );
-        return variableDependent;
-    };
+
     const verifyNotEmptySimulations = (sim: SimulatorParams[] | []) => {
         return sim.every(
             (e: SimulatorParams) =>
@@ -99,12 +58,16 @@ const RunSimulatorButton = () => {
                 compartments: modelParameters.name,
                 timeInit: format(new Date(e.t_init), "yyyy-MM-dd"),
                 timeEnd: format(timeEnd, "yyyy-MM-dd"),
-                scale: geoSetted.scale,
-                spatialSelection: geoSetted.featureSelected,
+                scale: geoSetted?.scale,
+                spatialSelection: geoSetted?.featureSelected,
             };
         });
 
-        return simulationsSelected.reduce((acc, it) => {
+        const geoSimulationsOnly = simulationsSelected.filter((sim) => {
+            return sim.scale !== undefined;
+        });
+
+        return geoSimulationsOnly.reduce((acc, it) => {
             return {
                 ...acc,
                 [`${it.name}`]: it,
@@ -114,21 +77,54 @@ const RunSimulatorButton = () => {
 
     const getGraphicRealData = async () => {
         const objectConfig = getObjectConfig();
-        const res = await postData(
-            "http://192.168.2.131:5001/realData",
-            objectConfig
-        );
-        const val = Object.values(res.result);
-        const keys = Object.keys(res.result);
-        const realDataKeys = val
-            .map((simString: string) => simString)
-            .map((sim, i) => ({
-                name: keys[i],
-                // eslint-disable-next-line @typescript-eslint/ban-types
-                ...(sim as {}),
-            }));
+        if (Object.keys(objectConfig).length > 0) {
+            const res = await postData(
+                "http://192.168.2.131:5001/realData",
+                objectConfig
+            );
+            const val = Object.values(res.result);
+            const keys = Object.keys(res.result);
+            const realDataKeys = val
+                .map((simString: string) => simString)
+                .map((sim, i) => ({
+                    name: keys[i],
+                    // eslint-disable-next-line @typescript-eslint/ban-types
+                    ...(sim as {}),
+                }));
 
-        return setRealDataSimulationKeys(realDataKeys);
+            return setRealDataSimulationKeys(realDataKeys);
+        }
+        return false;
+    };
+
+    const getSimulationSelectedObj = () => {
+        return simulation.map((e) => {
+            const { parameters: modelParameters } = parameters.find(
+                (m: DataParameters) => m.id === e.idModel
+            );
+            const geoselectionItems =
+                geoSelectionsElementsContext.find((g) => g.id === e.idGeo) ||
+                {};
+            const {
+                scale,
+                featureSelected,
+            }: { scale?: string; featureSelected?: string[] } =
+                (typeof geoselectionItems !== "undefined" &&
+                    geoselectionItems) ||
+                {};
+            if (modelParameters.name === "SEIRHVD") {
+                return getSEIRHVDObj(
+                    e,
+                    modelParameters,
+                    scale,
+                    featureSelected
+                );
+            }
+            if (modelParameters.name === "SIR") {
+                return getSIRObj(e, modelParameters, scale, featureSelected);
+            }
+            return getSEIRObj(e, modelParameters, scale, featureSelected);
+        });
     };
 
     // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -144,82 +140,9 @@ const RunSimulatorButton = () => {
                 throw new Error("You must add a simulation at least");
             }
             // build object simulation template for toml
-            const simulationsSelected = simulation.map((e, i) => {
-                const { parameters: modelParameters } = parameters.find(
-                    (m: DataParameters) => m.id === e.idModel
-                );
-                const geoselectionItems =
-                    geoSelectionsElementsContext.find(
-                        (g) => g.id === e.idGeo
-                    ) || {};
-                const {
-                    scale,
-                    featureSelected,
-                }: { scale?: string; featureSelected?: string[] } =
-                    (typeof geoselectionItems !== "undefined" &&
-                        geoselectionItems) ||
-                    {};
-                return {
-                    idSim: e.idSim,
-                    model: {
-                        name: modelParameters.name,
-                        compartments: modelParameters.compartments,
-                    },
-                    data: {
-                        datafile: false,
-                        importdata: false,
-                        initdate: "2020-03-22",
-                        country: "USA",
-                        state: scale === "States" ? featureSelected : "",
-                        county: scale === "Counties" ? featureSelected : "",
-                        healthservice: "",
-                        loc_name: "",
-                    },
-                    parameters: {
-                        static: {
-                            t_init: 0,
-                            t_end: modelParameters.t_end,
-                            mu: modelParameters.mu,
-                            pI_det: modelParameters.pI_det,
-                        },
-                        dynamic: {
-                            beta: !modelParameters.beta.isEnabled
-                                ? modelParameters.beta.val
-                                : createObjectVariableDependent(
-                                      modelParameters.beta
-                                  ),
-                            alpha: !modelParameters.alpha.isEnabled
-                                ? modelParameters.alpha.val
-                                : createObjectVariableDependent(
-                                      modelParameters.alpha
-                                  ),
-                            tE_I: !modelParameters.tE_I.isEnabled
-                                ? modelParameters.tE_I.val
-                                : createObjectVariableDependent(
-                                      modelParameters.tE_I
-                                  ),
-                            tI_R: !modelParameters.tI_R.isEnabled
-                                ? modelParameters.tI_R.val
-                                : createObjectVariableDependent(
-                                      modelParameters.tI_R
-                                  ),
-                            rR_S: !modelParameters.rR_S.isEnabled
-                                ? modelParameters.rR_S.val
-                                : createObjectVariableDependent(
-                                      modelParameters.rR_S
-                                  ),
-                        },
-                    },
-                    initialconditions: {
-                        I: +e.initialConditions.I,
-                        I_d: +e.initialConditions.I_d,
-                        I_ac: +e.initialConditions.I_ac,
-                        population: +e.initialConditions.S,
-                        R: +e.initialConditions.R,
-                        E: +e.initialConditions.E,
-                    },
-                };
-            });
+
+            const simulationsSelected = getSimulationSelectedObj();
+
             const objConfig = simulationsSelected.reduce((acc, it, i) => {
                 const simName = simulation.find((sim: SimulatorParams) => {
                     return sim.idSim === it.idSim;

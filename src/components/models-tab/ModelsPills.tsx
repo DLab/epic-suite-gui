@@ -23,6 +23,11 @@ import { EpidemicsData, Model } from "types/ControlPanelTypes";
 import VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
 
+import EpidemiologicSEIR from "./SEIR-model-pill-content/EpidemiologicSEIR";
+import EpidemiologicSEIRHVD from "./SEIRHVD-model-pill-content/EpidemiologicSEIRHVD";
+import InterventionsSEIRHVD from "./SEIRHVD-model-pill-content/InterventionsSEIRHVD";
+import StateTransitionSEIRHVD from "./SEIRHVD-model-pill-content/StateTransitionSEIRHVD";
+import SubreportSEIRHVD from "./SEIRHVD-model-pill-content/SubreportSEIRHVD";
 import ViewVariableDependentTime from "./ViewVariableDependentTime";
 
 const ModelsPills = () => {
@@ -219,79 +224,34 @@ const ModelsPills = () => {
                                             <Text>
                                                 Mu (μ): {ParametersModels.mu}
                                             </Text>
-                                            <Text>
-                                                pI_det:{" "}
-                                                {ParametersModels.pI_det}
-                                            </Text>
-                                            <Text>
-                                                rR_S:{" "}
-                                                {ParametersModels.rR_S
-                                                    .isEnabled ? (
-                                                    <IconButton
-                                                        color="#16609E"
-                                                        aria-label="Call Segun"
-                                                        size="sm"
-                                                        cursor="pointer"
-                                                        icon={<ViewIcon />}
-                                                        onClick={() => {
-                                                            setDataViewVariable(
-                                                                ParametersModels.rR_S
-                                                            );
-                                                            setShowViewVariable(
-                                                                true
-                                                            );
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    ParametersModels.rR_S.val
-                                                )}
-                                            </Text>
-                                            <Text>
-                                                tE_I:{" "}
-                                                {ParametersModels.tE_I
-                                                    .isEnabled ? (
-                                                    <IconButton
-                                                        color="#16609E"
-                                                        aria-label="Call Segun"
-                                                        size="sm"
-                                                        cursor="pointer"
-                                                        icon={<ViewIcon />}
-                                                        onClick={() => {
-                                                            setDataViewVariable(
-                                                                ParametersModels.tE_I
-                                                            );
-                                                            setShowViewVariable(
-                                                                true
-                                                            );
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    ParametersModels.tE_I.val
-                                                )}
-                                            </Text>
-                                            <Text>
-                                                tI_R:{" "}
-                                                {ParametersModels.tI_R
-                                                    .isEnabled ? (
-                                                    <IconButton
-                                                        color="#16609E"
-                                                        aria-label="Call Segun"
-                                                        size="sm"
-                                                        cursor="pointer"
-                                                        icon={<ViewIcon />}
-                                                        onClick={() => {
-                                                            setDataViewVariable(
-                                                                ParametersModels.tI_R
-                                                            );
-                                                            setShowViewVariable(
-                                                                true
-                                                            );
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    ParametersModels.tI_R.val
-                                                )}
-                                            </Text>
+                                            {ParametersModels.name !==
+                                                "SEIRHVD" && (
+                                                <EpidemiologicSEIR
+                                                    ParametersModels={
+                                                        ParametersModels
+                                                    }
+                                                    setDataViewVariable={
+                                                        setDataViewVariable
+                                                    }
+                                                    setShowViewVariable={
+                                                        setShowViewVariable
+                                                    }
+                                                />
+                                            )}
+                                            {ParametersModels.name ===
+                                                "SEIRHVD" && (
+                                                <EpidemiologicSEIRHVD
+                                                    ParametersModels={
+                                                        ParametersModels
+                                                    }
+                                                    setDataViewVariable={
+                                                        setDataViewVariable
+                                                    }
+                                                    setShowViewVariable={
+                                                        setShowViewVariable
+                                                    }
+                                                />
+                                            )}
                                             <Heading
                                                 pt="1rem"
                                                 fontSize={24}
@@ -322,6 +282,48 @@ const ModelsPills = () => {
                                                     ParametersModels.alpha.val
                                                 )}
                                             </Text>
+                                            {ParametersModels.name ===
+                                                "SEIRHVD" && (
+                                                <InterventionsSEIRHVD
+                                                    ParametersModels={
+                                                        ParametersModels
+                                                    }
+                                                    setDataViewVariable={
+                                                        setDataViewVariable
+                                                    }
+                                                    setShowViewVariable={
+                                                        setShowViewVariable
+                                                    }
+                                                />
+                                            )}
+                                            {ParametersModels.name ===
+                                                "SEIRHVD" && (
+                                                <StateTransitionSEIRHVD
+                                                    ParametersModels={
+                                                        ParametersModels
+                                                    }
+                                                    setDataViewVariable={
+                                                        setDataViewVariable
+                                                    }
+                                                    setShowViewVariable={
+                                                        setShowViewVariable
+                                                    }
+                                                />
+                                            )}
+                                            {ParametersModels.name ===
+                                                "SEIRHVD" && (
+                                                <SubreportSEIRHVD
+                                                    ParametersModels={
+                                                        ParametersModels
+                                                    }
+                                                    setDataViewVariable={
+                                                        setDataViewVariable
+                                                    }
+                                                    setShowViewVariable={
+                                                        setShowViewVariable
+                                                    }
+                                                />
+                                            )}
                                         </>
                                     </TabPanel>
                                 )

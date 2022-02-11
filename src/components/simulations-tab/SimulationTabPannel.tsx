@@ -45,6 +45,8 @@ export interface InitialConditionsContext {
     V_acum?: number;
     D?: number;
     D_acum?: number;
+    Iv?: number;
+    H_cap?: number;
 }
 
 interface Props {
@@ -191,7 +193,9 @@ Props) => {
         V,
         V_acum,
         D,
-        D_acum
+        D_acum,
+        Iv,
+        H_cap
     ) => {
         if (Compartment === "SEIR") {
             setInitialConditions({
@@ -241,12 +245,14 @@ Props) => {
                 S,
                 R,
                 E,
-                H,
-                H_acum,
-                V,
-                V_acum,
-                D,
-                D_acum,
+                H_d: H,
+                H: H_acum,
+                Iv_d: V,
+                Iv_ac: V_acum,
+                D_d: D,
+                D: D_acum,
+                Iv,
+                H_cap,
             });
             selectSimulation(
                 {
@@ -256,12 +262,14 @@ Props) => {
                     S,
                     R,
                     E,
-                    H,
-                    H_acum,
-                    V,
-                    V_acum,
-                    D,
-                    D_acum,
+                    H_d: H,
+                    H: H_acum,
+                    Iv_d: V,
+                    Iv_ac: V_acum,
+                    D_d: D,
+                    D: D_acum,
+                    Iv,
+                    H_cap,
                 },
                 "initialConditions"
             );
@@ -317,6 +325,8 @@ Props) => {
                     V_acum,
                     D,
                     D_acum,
+                    Iv,
+                    H_cap,
                 } = result[nameModel];
                 postInitialConditionsByModel(
                     Compartment,
@@ -331,7 +341,9 @@ Props) => {
                     V,
                     V_acum,
                     D,
-                    D_acum
+                    D_acum,
+                    Iv,
+                    H_cap
                 );
             }
         } catch (error) {
@@ -466,6 +478,8 @@ Props) => {
                                         V_acum: 0,
                                         D: 0,
                                         D_acum: 0,
+                                        Iv: 0,
+                                        H_cap: 0,
                                     },
                                     "initialConditions"
                                 );
@@ -529,6 +543,8 @@ Props) => {
                                         V_acum: 0,
                                         D: 0,
                                         D_acum: 0,
+                                        Iv: 0,
+                                        H_cap: 0,
                                     },
                                     "initialConditions"
                                 );

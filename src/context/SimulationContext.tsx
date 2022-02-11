@@ -26,6 +26,8 @@ export interface InitialConditions {
     V_acum?: number;
     D?: number;
     D_acum?: number;
+    H_cap?: number;
+    Iv?: number;
 }
 
 export const SimulationSetted = createContext<SimulationType>({

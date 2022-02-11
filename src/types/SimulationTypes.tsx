@@ -17,6 +17,8 @@ export interface InitialConditions {
     V_acum?: number;
     D?: number;
     D_acum?: number;
+    Iv?: number;
+    H_cap?: number;
 }
 
 export interface SimulatorParams {
