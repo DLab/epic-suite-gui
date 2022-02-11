@@ -120,7 +120,7 @@ const InitialConditions = ({
                         <Box w="25%">
                             <Stat>
                                 <StatLabel>S</StatLabel>
-                                <StatNumber>
+                                <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
                                         intialConditionsSim.S
                                     )}
@@ -131,7 +131,7 @@ const InitialConditions = ({
                         <Box w="25%">
                             <Stat>
                                 <StatLabel>R</StatLabel>
-                                <StatNumber>
+                                <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
                                         intialConditionsSim.R
                                     )}
@@ -142,7 +142,7 @@ const InitialConditions = ({
                         <Box w="25%">
                             <Stat>
                                 <StatLabel>I</StatLabel>
-                                <StatNumber>
+                                <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
                                         intialConditionsSim.I
                                     )}
@@ -153,7 +153,7 @@ const InitialConditions = ({
                         <Box w="25%">
                             <Stat>
                                 <StatLabel>I_d</StatLabel>
-                                <StatNumber>
+                                <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
                                         intialConditionsSim.I_d
                                     )}
@@ -164,7 +164,7 @@ const InitialConditions = ({
                         <Box w="25%">
                             <Stat>
                                 <StatLabel>I_ac</StatLabel>
-                                <StatNumber>
+                                <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
                                         intialConditionsSim.I_ac
                                     )}
@@ -178,7 +178,7 @@ const InitialConditions = ({
                             <Box w="25%">
                                 <Stat>
                                     <StatLabel>E</StatLabel>
-                                    <StatNumber>
+                                    <StatNumber fontSize="xl">
                                         {new Intl.NumberFormat().format(
                                             intialConditionsSim.E
                                         )}
@@ -192,7 +192,7 @@ const InitialConditions = ({
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>Iv</StatLabel>
-                                        <StatNumber>
+                                        <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
                                                 intialConditionsSim.Iv
                                             )}
@@ -205,7 +205,7 @@ const InitialConditions = ({
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>Iv_d</StatLabel>
-                                        <StatNumber>
+                                        <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
                                                 intialConditionsSim.V
                                             )}
@@ -218,7 +218,7 @@ const InitialConditions = ({
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>Iv_ac</StatLabel>
-                                        <StatNumber>
+                                        <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
                                                 intialConditionsSim.V_acum
                                             )}
@@ -231,7 +231,7 @@ const InitialConditions = ({
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>H_cap</StatLabel>
-                                        <StatNumber>
+                                        <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
                                                 intialConditionsSim.H_cap
                                             )}
@@ -244,7 +244,7 @@ const InitialConditions = ({
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>H_d</StatLabel>
-                                        <StatNumber>
+                                        <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
                                                 intialConditionsSim.H
                                             )}
@@ -257,7 +257,7 @@ const InitialConditions = ({
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>H</StatLabel>
-                                        <StatNumber>
+                                        <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
                                                 intialConditionsSim.H_acum
                                             )}
@@ -270,7 +270,7 @@ const InitialConditions = ({
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>D_d</StatLabel>
-                                        <StatNumber>
+                                        <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
                                                 intialConditionsSim.D
                                             )}
@@ -283,7 +283,7 @@ const InitialConditions = ({
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>D</StatLabel>
-                                        <StatNumber>
+                                        <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
                                                 intialConditionsSim.D_acum
                                             )}

@@ -12,7 +12,7 @@ import {
     Switch,
     FormControl,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import NumberInputEpi from "../../NumberInputEpi";
 import FunctionIcon from "components/icons/FunctionIcon";
@@ -91,6 +91,11 @@ const ModelController = ({ showSectionVariable, setDataView }: Props) => {
         pR_S.isEnabled,
         tR_S.isEnabled,
     ]);
+
+    useEffect(() => {
+        setModelAux(name);
+    }, [name]);
+
     return (
         <Box w="100%">
             <Box>
@@ -113,7 +118,7 @@ const ModelController = ({ showSectionVariable, setDataView }: Props) => {
                 </Text>
                 <RadioGroup
                     size="sm"
-                    value={name}
+                    value={modelAux}
                     onChange={(e) => {
                         if (e === "SEIR") {
                             setParameters({

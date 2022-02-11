@@ -176,6 +176,7 @@ const ModelsPills = () => {
                                         ml="2%"
                                         boxShadow="sm"
                                         bg="#FAFAFA"
+                                        overflowY="auto"
                                     >
                                         <>
                                             <Heading fontSize={24} as="h2">

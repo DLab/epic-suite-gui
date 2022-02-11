@@ -38,6 +38,7 @@ const ModelBuilder = ({ isEditing, setIsEditing }: Props) => {
                         borderRadius="6px"
                         boxShadow="sm"
                         bg="#FAFAFA"
+                        overflowY="auto"
                     >
                         <ModelController
                             showSectionVariable={setShowSectionVariable}

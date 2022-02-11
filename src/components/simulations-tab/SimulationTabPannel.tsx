@@ -552,9 +552,22 @@ Props) => {
                         >
                             <Stack direction="row">
                                 <Radio value={OptionFeature.Graph}>Graph</Radio>
-                                <Radio value={OptionFeature.Geographic}>
+                                {/* <Radio value={OptionFeature.Geographic}>
                                     Geographic
-                                </Radio>
+                                </Radio> */}
+                                {/* Borrar cuando se implementen las condiciones iniciales para SEIRHVD */}
+                                {modelType === "SEIRHVD" ? (
+                                    <Radio
+                                        isDisabled
+                                        value={OptionFeature.Geographic}
+                                    >
+                                        Geographic
+                                    </Radio>
+                                ) : (
+                                    <Radio value={OptionFeature.Geographic}>
+                                        Geographic
+                                    </Radio>
+                                )}
                             </Stack>
                         </RadioGroup>
                     </Box>
@@ -652,6 +665,7 @@ Props) => {
                     borderRadius="6px"
                     p="2%"
                     boxShadow="sm"
+                    overflowY="auto"
                 >
                     <Flex justify="space-between">
                         <Text fontSize="14px" fontWeight={500}>

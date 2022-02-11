@@ -143,7 +143,6 @@ const SimulationTab = () => {
                                     <TabPanel
                                         display="flex"
                                         ml="2%"
-                                        overflowY="auto"
                                         p="0"
                                         h="100%"
                                         key={createIdComponent()}
