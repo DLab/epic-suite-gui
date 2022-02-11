@@ -69,25 +69,25 @@ const getSIRObj = (e, modelParameters, scale, featureSelected) => {
         parameters: {
             static: {
                 t_init: 0,
-                t_end: modelParameters.t_end,
-                mu: modelParameters.mu,
-                pI_det: modelParameters.pI_det,
+                t_end: +modelParameters.t_end,
+                mu: +modelParameters.mu,
+                pI_det: +modelParameters.pI_det,
             },
             dynamic: {
                 beta: !modelParameters.beta.isEnabled
-                    ? modelParameters.beta.val
+                    ? +modelParameters.beta.val
                     : createObjectVariableDependent(modelParameters.beta),
                 alpha: !modelParameters.alpha.isEnabled
-                    ? modelParameters.alpha.val
+                    ? +modelParameters.alpha.val
                     : createObjectVariableDependent(modelParameters.alpha),
                 tE_I: !modelParameters.tE_I.isEnabled
-                    ? modelParameters.tE_I.val
+                    ? +modelParameters.tE_I.val
                     : createObjectVariableDependent(modelParameters.tE_I),
                 tI_R: !modelParameters.tI_R.isEnabled
-                    ? modelParameters.tI_R.val
+                    ? +modelParameters.tI_R.val
                     : createObjectVariableDependent(modelParameters.tI_R),
                 rR_S: !modelParameters.rR_S.isEnabled
-                    ? modelParameters.rR_S.val
+                    ? +modelParameters.rR_S.val
                     : createObjectVariableDependent(modelParameters.rR_S),
             },
         },

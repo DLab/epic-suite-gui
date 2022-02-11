@@ -45,9 +45,10 @@ const NumberInputEpi = ({
     description,
 }: Props) => {
     const handleChange = (val: string | number) => {
-        if (val <= max && val >= min) {
-            setValue({ type: "set", payload: +val, target: nameParams });
-        }
+        // if (val <= max && val >= min) {
+        //     setValue({ type: "set", payload: +val, target: nameParams });
+        // }
+        setValue({ type: "set", payload: val, target: nameParams });
     };
 
     return (
@@ -79,7 +80,7 @@ const NumberInputEpi = ({
                             min={+min}
                             max={+max}
                             step={step}
-                            value={+value}
+                            value={value}
                         >
                             <NumberInputField />
                             <NumberInputStepper>
@@ -114,7 +115,7 @@ const NumberInputEpi = ({
                         // defaultValue={value}
                         onChange={handleChange}
                         size="sm"
-                        min={min}
+                        min={0}
                         max={max}
                         step={step}
                         variant="filled"

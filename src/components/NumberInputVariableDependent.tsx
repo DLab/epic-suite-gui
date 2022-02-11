@@ -32,25 +32,25 @@ const NumberInputVariableDependent = ({
     description,
 }: Props) => {
     const handleChange = (val: string | number) => {
-        if (+val <= max && +val >= min) {
-            setValue({
-                type: "setVariableDependent",
-                payloadVariableDependent: {
-                    rangeDays: [[0, 500]],
-                    type: [
-                        {
-                            name: NameFunction.static,
-                            value: +val,
-                        },
-                    ],
-                    name: nameParams,
-                    default: 7,
-                    isEnabled: false,
-                    val: +val,
-                },
-                target: nameParams,
-            });
-        }
+        // if (+val <= max && +val >= min) {
+        setValue({
+            type: "setVariableDependent",
+            payloadVariableDependent: {
+                rangeDays: [[0, 500]],
+                type: [
+                    {
+                        name: NameFunction.static,
+                        value: +val,
+                    },
+                ],
+                name: nameParams,
+                default: 7,
+                isEnabled: false,
+                val,
+            },
+            target: nameParams,
+        });
+        // }
     };
     return (
         <>

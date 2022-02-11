@@ -113,9 +113,9 @@ const SeirhvdController = ({
                 nameParams="population"
                 name="population"
                 description="Population at the beginning of the simulation"
-                min={1}
                 step={1}
                 max={Infinity}
+                min={1}
                 isInitialParameters
                 type="number"
             />

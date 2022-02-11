@@ -69,90 +69,90 @@ const getSEIRHVDObj = (e, modelParameters, scale, featureSelected) => {
         parameters: {
             static: {
                 t_init: 0,
-                t_end: modelParameters.t_end,
-                mu: modelParameters.mu,
-                pI_det: modelParameters.pI_det,
-                population: modelParameters.population,
-                populationfraction: modelParameters.populationfraction,
-                pIcr_det: modelParameters.pIcr_det,
-                pIm_det: modelParameters.pIm_det,
-                pIv_det: modelParameters.pIv_det,
+                t_end: +modelParameters.t_end,
+                mu: +modelParameters.mu,
+                pI_det: +modelParameters.pI_det,
+                population: +modelParameters.population,
+                populationfraction: +modelParameters.populationfraction,
+                pIcr_det: +modelParameters.pIcr_det,
+                pIm_det: +modelParameters.pIm_det,
+                pIv_det: +modelParameters.pIv_det,
             },
             dynamic: {
                 beta: !modelParameters.beta.isEnabled
-                    ? modelParameters.beta.val
+                    ? +modelParameters.beta.val
                     : createObjectVariableDependent(modelParameters.beta),
                 alpha: !modelParameters.alpha.isEnabled
-                    ? modelParameters.alpha.val
+                    ? +modelParameters.alpha.val
                     : createObjectVariableDependent(modelParameters.alpha),
                 tE_I: !modelParameters.tE_I.isEnabled
-                    ? modelParameters.tE_I.val
+                    ? +modelParameters.tE_I.val
                     : createObjectVariableDependent(modelParameters.tE_I),
                 tI_R: !modelParameters.tI_R.isEnabled
-                    ? modelParameters.tI_R.val
+                    ? +modelParameters.tI_R.val
                     : createObjectVariableDependent(modelParameters.tI_R),
                 rR_S: !modelParameters.rR_S.isEnabled
-                    ? modelParameters.rR_S.val
+                    ? +modelParameters.rR_S.val
                     : createObjectVariableDependent(modelParameters.rR_S),
                 Beta_v: !modelParameters.Beta_v.isEnabled
-                    ? modelParameters.Beta_v.val
+                    ? +modelParameters.Beta_v.val
                     : createObjectVariableDependent(modelParameters.Beta_v),
                 vac_d: !modelParameters.vac_d.isEnabled
-                    ? modelParameters.vac_d.val
+                    ? +modelParameters.vac_d.val
                     : createObjectVariableDependent(modelParameters.vac_d),
                 vac_eff: !modelParameters.vac_eff.isEnabled
-                    ? modelParameters.vac_eff.val
+                    ? +modelParameters.vac_eff.val
                     : createObjectVariableDependent(modelParameters.vac_eff),
                 pE_Im: !modelParameters.pE_Im.isEnabled
-                    ? modelParameters.pE_Im.val
+                    ? +modelParameters.pE_Im.val
                     : createObjectVariableDependent(modelParameters.pE_Im),
                 tE_Im: !modelParameters.tE_Im.isEnabled
-                    ? modelParameters.tE_Im.val
+                    ? +modelParameters.tE_Im.val
                     : createObjectVariableDependent(modelParameters.tE_Im),
                 pE_Icr: !modelParameters.pE_Icr.isEnabled
-                    ? modelParameters.pE_Icr.val
+                    ? +modelParameters.pE_Icr.val
                     : createObjectVariableDependent(modelParameters.pE_Icr),
                 tE_Icr: !modelParameters.tE_Icr.isEnabled
-                    ? modelParameters.tE_Icr.val
+                    ? +modelParameters.tE_Icr.val
                     : createObjectVariableDependent(modelParameters.tE_Icr),
                 tEv_Iv: !modelParameters.tEv_Iv.isEnabled
-                    ? modelParameters.tEv_Iv.val
+                    ? +modelParameters.tEv_Iv.val
                     : createObjectVariableDependent(modelParameters.tEv_Iv),
                 tIm_R: !modelParameters.tIm_R.isEnabled
-                    ? modelParameters.tIm_R.val
+                    ? +modelParameters.tIm_R.val
                     : createObjectVariableDependent(modelParameters.tIm_R),
                 tIcr_H: !modelParameters.tIcr_H.isEnabled
-                    ? modelParameters.tIcr_H.val
+                    ? +modelParameters.tIcr_H.val
                     : createObjectVariableDependent(modelParameters.tIcr_H),
                 pIv_R: !modelParameters.pIv_R.isEnabled
-                    ? modelParameters.pIv_R.val
+                    ? +modelParameters.pIv_R.val
                     : createObjectVariableDependent(modelParameters.pIv_R),
                 tIv_R: !modelParameters.tIv_R.isEnabled
-                    ? modelParameters.tIv_R.val
+                    ? +modelParameters.tIv_R.val
                     : createObjectVariableDependent(modelParameters.tIv_R),
                 pIv_H: !modelParameters.pIv_H.isEnabled
-                    ? modelParameters.pIv_H.val
+                    ? +modelParameters.pIv_H.val
                     : createObjectVariableDependent(modelParameters.pIv_H),
                 tIv_H: !modelParameters.tIv_H.isEnabled
-                    ? modelParameters.tIv_H.val
+                    ? +modelParameters.tIv_H.val
                     : createObjectVariableDependent(modelParameters.tIv_H),
                 pH_R: !modelParameters.pH_R.isEnabled
-                    ? modelParameters.pH_R.val
+                    ? +modelParameters.pH_R.val
                     : createObjectVariableDependent(modelParameters.pH_R),
                 tH_R: !modelParameters.tH_R.isEnabled
-                    ? modelParameters.tH_R.val
+                    ? +modelParameters.tH_R.val
                     : createObjectVariableDependent(modelParameters.tH_R),
                 pH_D: !modelParameters.pH_D.isEnabled
-                    ? modelParameters.pH_D.val
+                    ? +modelParameters.pH_D.val
                     : createObjectVariableDependent(modelParameters.pH_D),
                 tH_D: !modelParameters.tH_D.isEnabled
-                    ? modelParameters.tH_D.val
+                    ? +modelParameters.tH_D.val
                     : createObjectVariableDependent(modelParameters.tH_D),
                 pR_S: !modelParameters.pR_S.isEnabled
-                    ? modelParameters.pR_S.val
+                    ? +modelParameters.pR_S.val
                     : createObjectVariableDependent(modelParameters.pR_S),
                 tR_S: !modelParameters.tR_S.isEnabled
-                    ? modelParameters.tR_S.val
+                    ? +modelParameters.tR_S.val
                     : createObjectVariableDependent(modelParameters.tR_S),
             },
         },
