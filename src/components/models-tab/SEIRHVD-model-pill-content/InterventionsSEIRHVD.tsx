@@ -20,7 +20,7 @@ const InterventionsSEIRHVD = ({
         <>
             <Text>
                 vac_d:{" "}
-                {ParametersModels.vac_d.isEnabled ? (
+                {ParametersModels.vac_d?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -33,12 +33,12 @@ const InterventionsSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.vac_d.val
+                    ParametersModels.vac_d?.val
                 )}
             </Text>
             <Text>
                 vac_eff:{" "}
-                {ParametersModels.vac_eff.isEnabled ? (
+                {ParametersModels.vac_eff?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -51,7 +51,7 @@ const InterventionsSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.vac_eff.val
+                    ParametersModels.vac_eff?.val
                 )}
             </Text>
         </>

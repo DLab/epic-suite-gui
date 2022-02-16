@@ -20,7 +20,7 @@ const EpidemiologicSEIRHVD = ({
         <>
             <Text>
                 Beta_v:{" "}
-                {ParametersModels.Beta_v.isEnabled ? (
+                {ParametersModels.Beta_v?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -33,11 +33,11 @@ const EpidemiologicSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.Beta_v.val
+                    ParametersModels.Beta_v?.val
                 )}
             </Text>
             <Text>
-                populationfraction: {ParametersModels.populationfraction}
+                populationfraction: {ParametersModels?.populationfraction}
             </Text>
             <Text>population: {ParametersModels.population}</Text>
         </>

@@ -55,7 +55,7 @@ const NumberInputVariableDependent = ({
     return (
         <>
             <NumberInput
-                maxW="60px"
+                maxW="72px"
                 mr="1rem"
                 // defaultValue={value}
                 value={value}

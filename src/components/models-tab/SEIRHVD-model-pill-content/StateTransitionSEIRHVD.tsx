@@ -25,7 +25,7 @@ const StateTransitionSEIRHVD = ({
             </Heading>
             <Text>
                 pE_Im:{" "}
-                {ParametersModels.pE_Im.isEnabled ? (
+                {ParametersModels.pE_Im?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -38,30 +38,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.pE_Im.val
-                )}
-            </Text>
-            <Text>
-                tE_Im:{" "}
-                {ParametersModels.tE_Im.isEnabled ? (
-                    <IconButton
-                        color="#16609E"
-                        aria-label="Call Segun"
-                        size="sm"
-                        cursor="pointer"
-                        icon={<ViewIcon />}
-                        onClick={() => {
-                            setDataViewVariable(ParametersModels.tE_Im);
-                            setShowViewVariable(true);
-                        }}
-                    />
-                ) : (
-                    ParametersModels.tE_Im.val
+                    ParametersModels.pE_Im?.val
                 )}
             </Text>
             <Text>
                 pE_Icr:{" "}
-                {ParametersModels.pE_Icr.isEnabled ? (
+                {ParametersModels.pE_Icr?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -74,12 +56,30 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.pE_Icr.val
+                    ParametersModels.pE_Icr?.val
+                )}
+            </Text>
+            <Text>
+                tE_Im:{" "}
+                {ParametersModels.tE_Im?.isEnabled ? (
+                    <IconButton
+                        color="#16609E"
+                        aria-label="Call Segun"
+                        size="sm"
+                        cursor="pointer"
+                        icon={<ViewIcon />}
+                        onClick={() => {
+                            setDataViewVariable(ParametersModels.tE_Im);
+                            setShowViewVariable(true);
+                        }}
+                    />
+                ) : (
+                    ParametersModels.tE_Im?.val
                 )}
             </Text>
             <Text>
                 tE_Icr:{" "}
-                {ParametersModels.tE_Icr.isEnabled ? (
+                {ParametersModels.tE_Icr?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -92,12 +92,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.tE_Icr.val
+                    ParametersModels.tE_Icr?.val
                 )}
             </Text>
             <Text>
                 tEv_Iv:{" "}
-                {ParametersModels.tEv_Iv.isEnabled ? (
+                {ParametersModels.tEv_Iv?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -110,12 +110,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.tEv_Iv.val
+                    ParametersModels.tEv_Iv?.val
                 )}
             </Text>
             <Text>
                 tIm_R:{" "}
-                {ParametersModels.tIm_R.isEnabled ? (
+                {ParametersModels.tIm_R?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -128,12 +128,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.tIm_R.val
+                    ParametersModels.tIm_R?.val
                 )}
             </Text>
             <Text>
                 tIcr_H:{" "}
-                {ParametersModels.tIcr_H.isEnabled ? (
+                {ParametersModels.tIcr_H?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -146,12 +146,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.tIcr_H.val
+                    ParametersModels.tIcr_H?.val
                 )}
             </Text>
             <Text>
                 pIv_R:{" "}
-                {ParametersModels.pIv_R.isEnabled ? (
+                {ParametersModels.pIv_R?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -164,12 +164,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.pIv_R.val
+                    ParametersModels.pIv_R?.val
                 )}
             </Text>
             <Text>
                 tIv_R:{" "}
-                {ParametersModels.tIv_R.isEnabled ? (
+                {ParametersModels.tIv_R?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -182,12 +182,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.tIv_R.val
+                    ParametersModels.tIv_R?.val
                 )}
             </Text>
             <Text>
                 pIv_H:{" "}
-                {ParametersModels.pIv_H.isEnabled ? (
+                {ParametersModels.pIv_H?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -200,12 +200,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.pIv_H.val
+                    ParametersModels.pIv_H?.val
                 )}
             </Text>
             <Text>
                 tIv_H:{" "}
-                {ParametersModels.tIv_H.isEnabled ? (
+                {ParametersModels.tIv_H?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -218,12 +218,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.tIv_H.val
+                    ParametersModels.tIv_H?.val
                 )}
             </Text>
             <Text>
                 pH_R:{" "}
-                {ParametersModels.pH_R.isEnabled ? (
+                {ParametersModels.pH_R?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -236,12 +236,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.pH_R.val
+                    ParametersModels.pH_R?.val
                 )}
             </Text>
             <Text>
                 tH_R:{" "}
-                {ParametersModels.tH_R.isEnabled ? (
+                {ParametersModels.tH_R?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -254,12 +254,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.tH_R.val
+                    ParametersModels.tH_R?.val
                 )}
             </Text>
             <Text>
                 pH_D:{" "}
-                {ParametersModels.pH_D.isEnabled ? (
+                {ParametersModels.pH_D?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -272,12 +272,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.pH_D.val
+                    ParametersModels.pH_D?.val
                 )}
             </Text>
             <Text>
                 tH_D:{" "}
-                {ParametersModels.tH_D.isEnabled ? (
+                {ParametersModels.tH_D?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -290,12 +290,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.tH_D.val
+                    ParametersModels.tH_D?.val
                 )}
             </Text>
             <Text>
                 pR_S:{" "}
-                {ParametersModels.pR_S.isEnabled ? (
+                {ParametersModels.pR_S?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -308,12 +308,12 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.pR_S.val
+                    ParametersModels.pR_S?.val
                 )}
             </Text>
             <Text>
                 tR_S:{" "}
-                {ParametersModels.tR_S.isEnabled ? (
+                {ParametersModels.tR_S?.isEnabled ? (
                     <IconButton
                         color="#16609E"
                         aria-label="Call Segun"
@@ -326,7 +326,7 @@ const StateTransitionSEIRHVD = ({
                         }}
                     />
                 ) : (
-                    ParametersModels.tR_S.val
+                    ParametersModels.tR_S?.val
                 )}
             </Text>
         </>

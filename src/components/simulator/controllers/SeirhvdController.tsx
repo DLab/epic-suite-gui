@@ -5,6 +5,9 @@ import React, { useContext } from "react";
 import FunctionIcon from "components/icons/FunctionIcon";
 import NumberInputEpi from "components/NumberInputEpi";
 import NumberInputVariableDependent from "components/NumberInputVariableDependent";
+import PEImNumberInput from "components/PEImNumberInput";
+import PhdPhrNumberInput from "components/PhdPhrNumberInput";
+import PIvRPIvHNumberInput from "components/PIvRPIvHNumberInput";
 import { ControlPanel } from "context/ControlPanelContext";
 import VariableDependentTime from "types/VariableDependentTime";
 
@@ -32,25 +35,20 @@ const SeirhvdController = ({
             pIv_det,
             vac_d,
             vac_eff,
-            pE_Im,
             tE_Im,
-            pE_Icr,
             tE_Icr,
             tEv_Iv,
             tIm_R,
             tIcr_H,
-            pIv_R,
             tIv_R,
-            pIv_H,
             tIv_H,
-            pH_R,
             tH_R,
-            pH_D,
             tH_D,
             pR_S,
             tR_S,
         },
     } = useContext(ControlPanel);
+
     return (
         <>
             <FormControl display="flex" alignItems="center">
@@ -130,61 +128,12 @@ const SeirhvdController = ({
                 max={1}
                 type="slider"
             />
-
-            <FormControl display="flex" alignItems="center">
-                <Flex w="50%" justifyContent="space-between">
-                    <span>pE_Im</span>
-                    <NumberInputVariableDependent
-                        value={pE_Im.val}
-                        setValue={setParameters}
-                        nameParams="pE_Im"
-                        name="pE_Im"
-                        description="Fraction of E that turn into Im"
-                        step={0.01}
-                        min={0}
-                        max={1}
-                        isDisabled={isEnableIconButton[9]}
-                    />
-                </Flex>
-                <Flex alignItems="center" w="50%" justifyContent="flex-end">
-                    <span>Set function</span>
-                    <Switch
-                        ml="0.5rem"
-                        isChecked={isEnableIconButton[9]}
-                        onChange={(e) => {
-                            setIsEnableIconButton([
-                                ...isEnableIconButton.slice(0, 9),
-                                e.target.checked,
-                                ...isEnableIconButton.slice(10),
-                            ]);
-                            if (!e.target.checked) {
-                                showSectionVariable(false);
-                            }
-                            setParameters({
-                                type: "switch",
-                                target: "pE_Im",
-                                switch: e.target.checked,
-                            });
-                        }}
-                    />
-
-                    <IconButton
-                        fill="white"
-                        bg="#FFFFFF"
-                        color="#16609E"
-                        aria-label="Call Segun"
-                        size="sm"
-                        isDisabled={!isEnableIconButton[9]}
-                        cursor="pointer"
-                        icon={<FunctionIcon />}
-                        ml="1rem"
-                        onClick={() => {
-                            showSectionVariable(true);
-                            setDataView(pE_Im);
-                        }}
-                    />
-                </Flex>
-            </FormControl>
+            <PEImNumberInput
+                showSectionVariable={showSectionVariable}
+                setDataView={setDataView}
+                isEnableIconButton={isEnableIconButton}
+                setIsEnableIconButton={setIsEnableIconButton}
+            />
             <FormControl display="flex" alignItems="center">
                 <Flex w="50%" justifyContent="space-between">
                     <span>tE_Im</span>
@@ -234,60 +183,6 @@ const SeirhvdController = ({
                         onClick={() => {
                             showSectionVariable(true);
                             setDataView(tE_Im);
-                        }}
-                    />
-                </Flex>
-            </FormControl>
-            <FormControl display="flex" alignItems="center">
-                <Flex w="50%" justifyContent="space-between">
-                    <span>pE_Icr</span>
-                    <NumberInputVariableDependent
-                        value={pE_Icr.val}
-                        setValue={setParameters}
-                        nameParams="pE_Icr"
-                        name="pE_Icr"
-                        description="Fraction of E that turn into Icr"
-                        step={0.01}
-                        min={0}
-                        max={1}
-                        isDisabled={isEnableIconButton[11]}
-                    />
-                </Flex>
-                <Flex alignItems="center" w="50%" justifyContent="flex-end">
-                    <span>Set function</span>
-                    <Switch
-                        ml="0.5rem"
-                        isChecked={isEnableIconButton[11]}
-                        onChange={(e) => {
-                            setIsEnableIconButton([
-                                ...isEnableIconButton.slice(0, 11),
-                                e.target.checked,
-                                // ...isEnableIconButton.slice(12),
-                            ]);
-                            if (!e.target.checked) {
-                                showSectionVariable(false);
-                            }
-                            setParameters({
-                                type: "switch",
-                                target: "pE_Icr",
-                                switch: e.target.checked,
-                            });
-                        }}
-                    />
-
-                    <IconButton
-                        fill="white"
-                        bg="#FFFFFF"
-                        color="#16609E"
-                        aria-label="Call Segun"
-                        size="sm"
-                        isDisabled={!isEnableIconButton[11]}
-                        cursor="pointer"
-                        icon={<FunctionIcon />}
-                        ml="1rem"
-                        onClick={() => {
-                            showSectionVariable(true);
-                            setDataView(pE_Icr);
                         }}
                     />
                 </Flex>
@@ -504,60 +399,13 @@ const SeirhvdController = ({
                     />
                 </Flex>
             </FormControl>
-            <FormControl display="flex" alignItems="center">
-                <Flex w="50%" justifyContent="space-between">
-                    <span>pIv_R</span>
-                    <NumberInputVariableDependent
-                        value={pIv_R.val}
-                        setValue={setParameters}
-                        nameParams="pIv_R"
-                        name="pIv_R"
-                        description="Fraction of Iv that turn into R"
-                        step={0.01}
-                        min={0}
-                        max={1}
-                        isDisabled={isEnableIconButton[16]}
-                    />
-                </Flex>
-                <Flex alignItems="center" w="50%" justifyContent="flex-end">
-                    <span>Set function</span>
-                    <Switch
-                        ml="0.5rem"
-                        isChecked={isEnableIconButton[16]}
-                        onChange={(e) => {
-                            setIsEnableIconButton([
-                                ...isEnableIconButton.slice(0, 16),
-                                e.target.checked,
-                                ...isEnableIconButton.slice(17),
-                            ]);
-                            if (!e.target.checked) {
-                                showSectionVariable(false);
-                            }
-                            setParameters({
-                                type: "switch",
-                                target: "pIv_R",
-                                switch: e.target.checked,
-                            });
-                        }}
-                    />
+            <PIvRPIvHNumberInput
+                showSectionVariable={showSectionVariable}
+                setDataView={setDataView}
+                isEnableIconButton={isEnableIconButton}
+                setIsEnableIconButton={setIsEnableIconButton}
+            />
 
-                    <IconButton
-                        fill="white"
-                        bg="#FFFFFF"
-                        color="#16609E"
-                        aria-label="Call Segun"
-                        size="sm"
-                        isDisabled={!isEnableIconButton[16]}
-                        cursor="pointer"
-                        icon={<FunctionIcon />}
-                        ml="1rem"
-                        onClick={() => {
-                            showSectionVariable(true);
-                            setDataView(pIv_R);
-                        }}
-                    />
-                </Flex>
-            </FormControl>
             <FormControl display="flex" alignItems="center">
                 <Flex w="50%" justifyContent="space-between">
                     <span>tIv_R</span>
@@ -581,7 +429,6 @@ const SeirhvdController = ({
                             setIsEnableIconButton([
                                 ...isEnableIconButton.slice(0, 17),
                                 e.target.checked,
-                                // ...isEnableIconButton.slice(18),
                             ]);
                             if (!e.target.checked) {
                                 showSectionVariable(false);
@@ -607,60 +454,6 @@ const SeirhvdController = ({
                         onClick={() => {
                             showSectionVariable(true);
                             setDataView(tIv_R);
-                        }}
-                    />
-                </Flex>
-            </FormControl>
-            <FormControl display="flex" alignItems="center">
-                <Flex w="50%" justifyContent="space-between">
-                    <span>pIv_H</span>
-                    <NumberInputVariableDependent
-                        value={pIv_H.val}
-                        setValue={setParameters}
-                        nameParams="pIv_H"
-                        name="pIv_H"
-                        description="Fraction of Iv that turn into H"
-                        step={0.01}
-                        min={0}
-                        max={1}
-                        isDisabled={isEnableIconButton[18]}
-                    />
-                </Flex>
-                <Flex alignItems="center" w="50%" justifyContent="flex-end">
-                    <span>Set function</span>
-                    <Switch
-                        ml="0.5rem"
-                        isChecked={isEnableIconButton[18]}
-                        onChange={(e) => {
-                            setIsEnableIconButton([
-                                ...isEnableIconButton.slice(0, 18),
-                                e.target.checked,
-                                ...isEnableIconButton.slice(19),
-                            ]);
-                            if (!e.target.checked) {
-                                showSectionVariable(false);
-                            }
-                            setParameters({
-                                type: "switch",
-                                target: "pIv_H",
-                                switch: e.target.checked,
-                            });
-                        }}
-                    />
-
-                    <IconButton
-                        fill="white"
-                        bg="#FFFFFF"
-                        color="#16609E"
-                        aria-label="Call Segun"
-                        size="sm"
-                        isDisabled={!isEnableIconButton[18]}
-                        cursor="pointer"
-                        icon={<FunctionIcon />}
-                        ml="1rem"
-                        onClick={() => {
-                            showSectionVariable(true);
-                            setDataView(pIv_H);
                         }}
                     />
                 </Flex>
@@ -718,60 +511,12 @@ const SeirhvdController = ({
                     />
                 </Flex>
             </FormControl>
-            <FormControl display="flex" alignItems="center">
-                <Flex w="50%" justifyContent="space-between">
-                    <span>pH_R</span>
-                    <NumberInputVariableDependent
-                        value={pH_R.val}
-                        setValue={setParameters}
-                        nameParams="pH_R"
-                        name="pH_R"
-                        description="Fraction of H that turn into R"
-                        step={0.01}
-                        min={0}
-                        max={1}
-                        isDisabled={isEnableIconButton[20]}
-                    />
-                </Flex>
-                <Flex alignItems="center" w="50%" justifyContent="flex-end">
-                    <span>Set function</span>
-                    <Switch
-                        ml="0.5rem"
-                        isChecked={isEnableIconButton[20]}
-                        onChange={(e) => {
-                            setIsEnableIconButton([
-                                ...isEnableIconButton.slice(0, 20),
-                                e.target.checked,
-                                ...isEnableIconButton.slice(21),
-                            ]);
-                            if (!e.target.checked) {
-                                showSectionVariable(false);
-                            }
-                            setParameters({
-                                type: "switch",
-                                target: "pH_R",
-                                switch: e.target.checked,
-                            });
-                        }}
-                    />
-
-                    <IconButton
-                        fill="white"
-                        bg="#FFFFFF"
-                        color="#16609E"
-                        aria-label="Call Segun"
-                        size="sm"
-                        isDisabled={!isEnableIconButton[20]}
-                        cursor="pointer"
-                        icon={<FunctionIcon />}
-                        ml="1rem"
-                        onClick={() => {
-                            showSectionVariable(true);
-                            setDataView(pH_R);
-                        }}
-                    />
-                </Flex>
-            </FormControl>
+            <PhdPhrNumberInput
+                showSectionVariable={showSectionVariable}
+                setDataView={setDataView}
+                isEnableIconButton={isEnableIconButton}
+                setIsEnableIconButton={setIsEnableIconButton}
+            />
             <FormControl display="flex" alignItems="center">
                 <Flex w="50%" justifyContent="space-between">
                     <span>tH_R</span>
@@ -821,60 +566,6 @@ const SeirhvdController = ({
                         onClick={() => {
                             showSectionVariable(true);
                             setDataView(tH_R);
-                        }}
-                    />
-                </Flex>
-            </FormControl>
-            <FormControl display="flex" alignItems="center">
-                <Flex w="50%" justifyContent="space-between">
-                    <span>pH_D</span>
-                    <NumberInputVariableDependent
-                        value={pH_D.val}
-                        setValue={setParameters}
-                        nameParams="pH_D"
-                        name="pH_D"
-                        description="Fraction of H that turn into D"
-                        step={0.01}
-                        min={0}
-                        max={1}
-                        isDisabled={isEnableIconButton[22]}
-                    />
-                </Flex>
-                <Flex alignItems="center" w="50%" justifyContent="flex-end">
-                    <span>Set function</span>
-                    <Switch
-                        ml="0.5rem"
-                        isChecked={isEnableIconButton[22]}
-                        onChange={(e) => {
-                            setIsEnableIconButton([
-                                ...isEnableIconButton.slice(0, 22),
-                                e.target.checked,
-                                // ...isEnableIconButton.slice(23),
-                            ]);
-                            if (!e.target.checked) {
-                                showSectionVariable(false);
-                            }
-                            setParameters({
-                                type: "switch",
-                                target: "pH_D",
-                                switch: e.target.checked,
-                            });
-                        }}
-                    />
-
-                    <IconButton
-                        fill="white"
-                        bg="#FFFFFF"
-                        color="#16609E"
-                        aria-label="Call Segun"
-                        size="sm"
-                        isDisabled={!isEnableIconButton[22]}
-                        cursor="pointer"
-                        icon={<FunctionIcon />}
-                        ml="1rem"
-                        onClick={() => {
-                            showSectionVariable(true);
-                            setDataView(pH_D);
                         }}
                     />
                 </Flex>
