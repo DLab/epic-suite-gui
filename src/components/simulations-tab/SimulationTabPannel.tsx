@@ -415,6 +415,9 @@ Props) => {
         } else {
             setNameSim(getName);
         }
+        return () => {
+            setNameSim("");
+        };
     }, [getDefaultValueParameters, index, selectSimulation]);
 
     return (
