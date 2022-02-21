@@ -2,7 +2,7 @@ import { Box, Flex, Portal } from "@chakra-ui/react";
 // import SectionVariableDependentTime from "components/map-results/SectionVariableDependentTime";
 import { useState } from "react";
 
-import SectionVariableDependentTime from "components/map-tab/SectionVariableDependentTime";
+import SectionVariableDependentTime from "components/models-tab/SectionVariableDependentTime";
 import ModelController from "components/simulator/controllers/ModelController";
 import VariableDependentTime, {
     NameFunction,
@@ -28,15 +28,17 @@ const ModelBuilder = ({ isEditing, setIsEditing }: Props) => {
             val: 0.3,
         });
     return (
-        <Flex justifyContent="space-between">
+        <Flex justifyContent="space-between" ml="2%">
             <Flex w={showSectionVariable ? "75%" : "100%"}>
                 <Flex>
                     <Box
                         p="1rem"
-                        border="2px"
-                        borderColor="gray.200"
                         textAlign="center"
                         w="100%"
+                        borderRadius="6px"
+                        boxShadow="sm"
+                        bg="#FAFAFA"
+                        overflowY="auto"
                     >
                         <ModelController
                             showSectionVariable={setShowSectionVariable}
@@ -54,8 +56,9 @@ const ModelBuilder = ({ isEditing, setIsEditing }: Props) => {
             {showSectionVariable && (
                 <Flex
                     p="1rem"
-                    border="2px"
-                    borderColor="gray.200"
+                    borderRadius="6px"
+                    boxShadow="sm"
+                    bg="#FAFAFA"
                     textAlign="center"
                     w="100%"
                 >

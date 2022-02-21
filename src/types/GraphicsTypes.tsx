@@ -38,9 +38,20 @@ export interface SimulationKeysData {
     t: LooseObject;
 }
 
+export interface KeysRealData {
+    S?: LooseObject;
+    I?: LooseObject;
+    E?: LooseObject;
+    R?: LooseObject;
+    name?: string;
+    prevState?: null;
+}
+
 export interface GraphicsProps {
     simulationKeys: SimulationKeysData[];
     setSimulationKeys: (value: SimulationKeysData[]) => void;
+    realDataSimulationKeys: KeysRealData[];
+    setRealDataSimulationKeys: (value: KeysRealData[]) => void;
     savedSimulationKeys: string[];
     setSavedSimulationKeys: (value: string[]) => void;
     savedSimulation: SavedSimulationData[];

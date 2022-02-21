@@ -1,5 +1,5 @@
 import { ViewIcon, EditIcon, DeleteIcon, CloseIcon } from "@chakra-ui/icons";
-import { Flex, Text, Box, Heading } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import { useContext } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";

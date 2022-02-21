@@ -15,6 +15,8 @@ import { TabIndex } from "context/TabContext";
 import { SimulationKeysData } from "types/GraphicsTypes";
 import createIdComponent from "utils/createIdcomponent";
 
+import RealDataCheckBoxs from "./RealDataCheckBoxs";
+
 const ResultsSelection = () => {
     const { aux: responseSim } = useContext(TabIndex);
     const {
@@ -336,6 +338,20 @@ const ResultsSelection = () => {
                                         }
                                         return false;
                                     })}
+                                </Flex>
+                                <Box
+                                    w="100%"
+                                    m="2% 7%"
+                                    textAlign="start"
+                                    fontWeight={500}
+                                >
+                                    Data
+                                </Box>
+                                <Flex flexWrap="wrap" ml="3%">
+                                    <RealDataCheckBoxs
+                                        simName={simulation.name}
+                                        saveKeys={saveKeys}
+                                    />
                                 </Flex>
                                 <AccordionItem>
                                     <h2 id={createIdComponent()}>

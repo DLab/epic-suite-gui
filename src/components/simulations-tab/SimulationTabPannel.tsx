@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
     Box,
@@ -32,12 +33,20 @@ import AreaSelectedBox from "./AreaSelectedBox";
 import RunSimulatorButton from "./RunSimulatorButton";
 
 export interface InitialConditionsContext {
-    population: number;
+    S: number;
     R: number;
     I: number;
     I_d: number;
     I_ac: number;
-    E: number;
+    E?: number;
+    H?: number;
+    H_acum?: number;
+    V?: number;
+    V_acum?: number;
+    D?: number;
+    D_acum?: number;
+    Iv?: number;
+    H_cap?: number;
 }
 
 interface Props {
@@ -70,7 +79,7 @@ Props) => {
         featureSelected: [],
     });
     const [initialConditions, setInitialConditions] = useState(null);
-    const [initialConditionsMode, setInitialConditionsMode] = useState("view");
+    const [initialConditionsMode, setInitialConditionsMode] = useState(false);
     const [modelType, setModelType] = useState("SEIR");
     const [nameSim, setNameSim] = useState("");
     const [geoSelectionNoCounties, setGeoSelectionNoCounties] = useState([]);
@@ -79,7 +88,8 @@ Props) => {
     const { geoSelections } = useContext(SelectFeature);
     const { setInitialConditions: setInitialConditionsContext } =
         useContext(ControlPanel);
-    const { setAllGraphicData } = useContext(GraphicsData);
+    const { setAllGraphicData, setRealDataSimulationKeys } =
+        useContext(GraphicsData);
     const [optionFeature, setOptionFeature] = useState<OptionFeature>(
         OptionFeature.None
     );
@@ -171,80 +181,95 @@ Props) => {
     };
 
     const postInitialConditionsByModel = (
-        name,
+        Compartment,
         E,
         I,
-        daily,
-        acum,
+        I_acum,
+        I_active,
         R,
-        population,
+        S,
         H,
+        H_acum,
         V,
-        D
+        V_acum,
+        D,
+        D_acum,
+        Iv,
+        H_cap
     ) => {
-        if (name === "SEIR") {
+        if (Compartment === "SEIR") {
             setInitialConditions({
-                I,
-                I_d: daily,
-                I_ac: acum,
-                population,
+                I: I_active,
+                I_d: I,
+                I_ac: I_acum,
+                S,
                 R,
                 E,
             });
             selectSimulation(
                 {
-                    I,
-                    I_d: daily,
-                    I_ac: acum,
-                    population,
+                    I: I_active,
+                    I_d: I,
+                    I_ac: I_acum,
+                    S,
                     R,
                     E,
                 },
                 "initialConditions"
             );
         }
-        if (name === "SIR") {
+        if (Compartment === "SIR") {
             setInitialConditions({
-                I,
-                I_d: daily,
-                I_ac: acum,
-                population,
+                I: I_active,
+                I_d: I,
+                I_ac: I_acum,
+                S,
                 R,
             });
             selectSimulation(
                 {
-                    I,
-                    I_d: daily,
-                    I_ac: acum,
-                    population,
+                    I: I_active,
+                    I_d: I,
+                    I_ac: I_acum,
+                    S,
                     R,
                 },
                 "initialConditions"
             );
         }
-        if (name === "SEIRHVD") {
+        if (Compartment === "SEIRHVD") {
             setInitialConditions({
-                I,
-                I_d: daily,
-                I_ac: acum,
-                population,
+                I: I_active,
+                I_d: I,
+                I_ac: I_acum,
+                S,
                 R,
                 E,
-                // H,
-                // V,
-                // D,
+                H_d: H,
+                H: H_acum,
+                Iv_d: V,
+                Iv_ac: V_acum,
+                D_d: D,
+                D: D_acum,
+                Iv,
+                H_cap,
             });
             selectSimulation(
                 {
-                    I,
-                    I_d: daily,
-                    I_ac: acum,
-                    population,
+                    I: I_active,
+                    I_d: I,
+                    I_ac: I_acum,
+                    S,
                     R,
                     E,
-                    // H,
-                    // V,
-                    // D,
+                    H_d: H,
+                    H: H_acum,
+                    Iv_d: V,
+                    Iv_ac: V_acum,
+                    D_d: D,
+                    D: D_acum,
+                    Iv,
+                    H_cap,
                 },
                 "initialConditions"
             );
@@ -265,7 +290,11 @@ Props) => {
                 );
             }
 
-            const { idModel, t_init: timeInit } = simulation.find(
+            const {
+                idModel,
+                t_init: timeInit,
+                name: nameModel,
+            } = simulation.find(
                 (s: SimulatorParams) => s.idSim === idSimulation
             );
             if (idModel === 0) {
@@ -274,33 +303,47 @@ Props) => {
             const { name } = getModelById(idModel);
             const configCalcInitialConditions = {
                 compartments: name,
-                timeInit,
+                timeInit: timeInit.split("/").join("-"),
                 scale,
                 spatialSelection,
             };
             if (method === "POST") {
+                const { result } = await postData(url, {
+                    [nameModel]: configCalcInitialConditions,
+                });
                 const {
+                    Compartment,
                     E,
                     I,
-                    I_new: daily,
-                    I_acum: acum,
+                    I_acum,
+                    I_active,
                     R,
-                    population,
+                    S,
                     H,
+                    H_acum,
                     V,
+                    V_acum,
                     D,
-                } = await postData(url, configCalcInitialConditions);
+                    D_acum,
+                    Iv,
+                    H_cap,
+                } = result[nameModel];
                 postInitialConditionsByModel(
-                    name,
+                    Compartment,
                     E,
                     I,
-                    daily,
-                    acum,
+                    I_acum,
+                    I_active,
                     R,
-                    population,
+                    S,
                     H,
+                    H_acum,
                     V,
-                    D
+                    V_acum,
+                    D,
+                    D_acum,
+                    Iv,
+                    H_cap
                 );
             }
         } catch (error) {
@@ -310,12 +353,18 @@ Props) => {
             setInitialConditionsContext({
                 type: RealConditions,
                 real: {
-                    population: 0,
+                    S: 0,
                     R: 0,
                     I: 0,
                     I_d: 0,
                     I_ac: 0,
                     E: 0,
+                    H: 0,
+                    H_acum: 0,
+                    V: 0,
+                    V_acum: 0,
+                    D: 0,
+                    D_acum: 0,
                 },
             });
             toast({
@@ -417,12 +466,20 @@ Props) => {
                                 });
                                 selectSimulation(
                                     {
-                                        population: 0,
+                                        S: 0,
                                         R: 0,
                                         I: 0,
                                         I_d: 0,
                                         I_ac: 0,
                                         E: 0,
+                                        H: 0,
+                                        H_acum: 0,
+                                        V: 0,
+                                        V_acum: 0,
+                                        D: 0,
+                                        D_acum: 0,
+                                        Iv: 0,
+                                        H_cap: 0,
                                     },
                                     "initialConditions"
                                 );
@@ -444,7 +501,14 @@ Props) => {
                             Date
                         </Text>
                         {optionFeature !== OptionFeature.Graph && (
-                            <SelectDate idSimulation={idSimulation} />
+                            <SelectDate
+                                idSimulation={idSimulation}
+                                valueOptionFeature={valueOptionFeature}
+                                setIdGeo={setIdGeoSelection}
+                                setIdGraph={setIdGraph}
+                                setIdSim={setIdSimulationUpdating}
+                                selectSim={selectSimulation}
+                            />
                         )}
                     </Box>
                     <Box mb="3%">
@@ -467,12 +531,20 @@ Props) => {
                                 });
                                 selectSimulation(
                                     {
-                                        population: 0,
+                                        S: 0,
                                         R: 0,
                                         I: 0,
                                         I_d: 0,
                                         I_ac: 0,
                                         E: 0,
+                                        H: 0,
+                                        H_acum: 0,
+                                        V: 0,
+                                        V_acum: 0,
+                                        D: 0,
+                                        D_acum: 0,
+                                        Iv: 0,
+                                        H_cap: 0,
                                     },
                                     "initialConditions"
                                 );
@@ -480,9 +552,22 @@ Props) => {
                         >
                             <Stack direction="row">
                                 <Radio value={OptionFeature.Graph}>Graph</Radio>
-                                <Radio value={OptionFeature.Geographic}>
+                                {/* <Radio value={OptionFeature.Geographic}>
                                     Geographic
-                                </Radio>
+                                </Radio> */}
+                                {/* Borrar cuando se implementen las condiciones iniciales para SEIRHVD */}
+                                {modelType === "SEIRHVD" ? (
+                                    <Radio
+                                        isDisabled
+                                        value={OptionFeature.Geographic}
+                                    >
+                                        Geographic
+                                    </Radio>
+                                ) : (
+                                    <Radio value={OptionFeature.Geographic}>
+                                        Geographic
+                                    </Radio>
+                                )}
                             </Stack>
                         </RadioGroup>
                     </Box>
@@ -511,7 +596,7 @@ Props) => {
                                     optionFeature === OptionFeature.Geographic
                                 ) {
                                     handleFetch(
-                                        "http://192.168.2.131:5000/initCond",
+                                        "http://192.168.2.131:5001/initCond",
                                         "POST",
                                         +e.target.value
                                     );
@@ -580,6 +665,7 @@ Props) => {
                     borderRadius="6px"
                     p="2%"
                     boxShadow="sm"
+                    overflowY="auto"
                 >
                     <Flex justify="space-between">
                         <Text fontSize="14px" fontWeight={500}>
@@ -587,7 +673,7 @@ Props) => {
                         </Text>
                         {optionFeature === OptionFeature.Graph &&
                             idGraph !== 0 &&
-                            initialConditionsMode === "view" && (
+                            !initialConditionsMode && (
                                 <IconButton
                                     bg="#16609E"
                                     color="#FFFFFF"
@@ -597,21 +683,23 @@ Props) => {
                                     _hover={{ bg: "blue.500" }}
                                     icon={<EditIcon />}
                                     onClick={() => {
-                                        setInitialConditionsMode("edit");
-                                        setIdSimulationUpdating({
-                                            type: "set",
-                                            payload: idSimulation,
-                                        });
+                                        setInitialConditionsMode(true);
                                         if (!initialConditions) {
                                             setInitialConditionsContext({
                                                 type: RealConditions,
                                                 real: {
-                                                    population: 0,
+                                                    S: 0,
                                                     R: 0,
                                                     I: 0,
                                                     I_d: 0,
                                                     I_ac: 0,
                                                     E: 0,
+                                                    D: 0,
+                                                    D_acum: 0,
+                                                    H: 0,
+                                                    H_acum: 0,
+                                                    V: 0,
+                                                    V_acum: 0,
                                                 },
                                             });
                                         } else {
@@ -625,7 +713,7 @@ Props) => {
                             )}
                         {optionFeature === OptionFeature.Geographic &&
                             idGeoSelection !== 0 &&
-                            initialConditionsMode === "view" && (
+                            !initialConditionsMode && (
                                 <IconButton
                                     bg="#16609E"
                                     color="#FFFFFF"
@@ -635,12 +723,8 @@ Props) => {
                                     _hover={{ bg: "blue.500" }}
                                     icon={<EditIcon />}
                                     onClick={() => {
-                                        setInitialConditionsMode("edit");
+                                        setInitialConditionsMode(true);
                                         if (initialConditions) {
-                                            setIdSimulationUpdating({
-                                                type: "set",
-                                                payload: idSimulation,
-                                            });
                                             setInitialConditionsContext({
                                                 type: RealConditions,
                                                 real: initialConditions,
@@ -666,6 +750,7 @@ Props) => {
                 onClick={() => {
                     setSimulation({ type: "remove", element: idSimulation });
                     setAllGraphicData([]);
+                    setRealDataSimulationKeys([]);
                 }}
             />
         </>

@@ -114,8 +114,8 @@ const SectionVariableDependentTime = ({
                     border="1px"
                     p="0.5"
                     borderColor="gray.200"
-                    maxH="30vh"
-                    h="30vh"
+                    maxH="40vh"
+                    h="40vh"
                     overflowY="scroll"
                 >
                     {values["rangeDays"].map((range: number[], i: number) => (

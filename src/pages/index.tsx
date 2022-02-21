@@ -1,5 +1,3 @@
-import { Box } from "@chakra-ui/react";
-
 import Simulator from "components/simulator/index";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import ControlPanelContext from "context/ControlPanelContext";
