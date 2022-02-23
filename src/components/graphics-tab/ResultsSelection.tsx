@@ -11,14 +11,20 @@ import {
 import React, { useEffect, useContext } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
+import { ModelsSaved } from "context/ModelsContext";
+import { SimulationSetted } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
 import { SimulationKeysData } from "types/GraphicsTypes";
+import { DataParameters } from "types/ModelsTypes";
+import { SimulatorParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 import RealDataCheckBoxs from "./RealDataCheckBoxs";
 
 const ResultsSelection = () => {
     const { aux: responseSim } = useContext(TabIndex);
+    const { simulation: simulationSetted } = useContext(SimulationSetted);
+    const { parameters } = useContext(ModelsSaved);
     const {
         simulationKeys,
         setSimulationKeys,
@@ -30,7 +36,7 @@ const ResultsSelection = () => {
         setCheckedItems,
     } = useContext(GraphicsData);
 
-    const model = ["S", "E", "I", "R"];
+    const model = ["S", "E", "I", "R", "H", "V", "D"];
 
     const saveKeys = (ischecked, id, value, name) => {
         const isInclude = savedSimulationKeys.includes(id);
@@ -237,6 +243,16 @@ const ResultsSelection = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [responseSim]);
 
+    const getCompartments = (simulation) => {
+        const simByName = simulationSetted.find(
+            (sim: SimulatorParams) => sim.name === simulation.name
+        );
+        const paramById = parameters.find(
+            (simParams: DataParameters) => simByName?.idModel === simParams.id
+        );
+        return paramById?.parameters.compartments;
+    };
+
     return (
         <Accordion
             id={createIdComponent()}
@@ -277,7 +293,13 @@ const ResultsSelection = () => {
                                         const keyList = {};
                                         Object.keys(simulation).forEach(
                                             (key) => {
-                                                if (model.includes(key)) {
+                                                const simCompartments =
+                                                    getCompartments(simulation);
+                                                if (
+                                                    simCompartments.includes(
+                                                        key
+                                                    )
+                                                ) {
                                                     keyList[key] =
                                                         e.target.checked;
                                                 }
@@ -297,7 +319,9 @@ const ResultsSelection = () => {
                                 </Checkbox>
                                 <Flex flexWrap="wrap" ml="3%">
                                     {Object.keys(simulation).map((key) => {
-                                        if (model.includes(key)) {
+                                        const simCompartments =
+                                            getCompartments(simulation);
+                                        if (simCompartments?.includes(key)) {
                                             return (
                                                 <Checkbox
                                                     isChecked={
@@ -379,8 +403,14 @@ const ResultsSelection = () => {
                                         >
                                             {Object.keys(simulation).map(
                                                 (key) => {
+                                                    const simCompartments =
+                                                        getCompartments(
+                                                            simulation
+                                                        );
                                                     if (
-                                                        !model.includes(key) &&
+                                                        !simCompartments?.includes(
+                                                            key
+                                                        ) &&
                                                         key !== "name"
                                                     ) {
                                                         return (
@@ -388,7 +418,6 @@ const ResultsSelection = () => {
                                                                 id={createIdComponent()}
                                                                 size="sm"
                                                                 m="2% 5%"
-                                                                // id={`${key + simulation.name}`}
                                                                 value={key}
                                                                 // eslint-disable-next-line sonarjs/no-identical-functions
                                                                 onChange={(
