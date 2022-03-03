@@ -3,6 +3,7 @@ import { Text, Flex, Icon } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
+import GraphIcon from "components/icons/GraphIcon";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { OptionFeature } from "types/SimulationTypes";
 
@@ -104,7 +105,15 @@ const AreaSelectedBox = ({
                     align="center"
                     mb="2%"
                     boxShadow="sm"
+                    direction="column"
                 >
+                    <Icon
+                        w={20}
+                        h={20}
+                        as={GraphIcon}
+                        color="#666666"
+                        m="5% 0"
+                    />
                     <Text>In construction...</Text>
                 </Flex>
             )}

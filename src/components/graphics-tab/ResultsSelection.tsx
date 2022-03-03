@@ -36,7 +36,7 @@ const ResultsSelection = () => {
         setCheckedItems,
     } = useContext(GraphicsData);
 
-    const model = ["S", "E", "I", "R", "H", "V", "D"];
+    const model = ["S", "E", "I", "R"];
 
     const saveKeys = (ischecked, id, value, name) => {
         const isInclude = savedSimulationKeys.includes(id);
