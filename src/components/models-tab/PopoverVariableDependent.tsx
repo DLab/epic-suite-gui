@@ -27,11 +27,13 @@ interface DataPopover {
     value?: number;
     min?: number;
     max?: number;
+    initvalue?: number;
+    endvalue?: number;
     concavity?: number;
     initPhase?: TypePhase;
     period?: number;
     duty?: number;
-    transition?: TransitionFunction;
+    ftype?: TransitionFunction;
     gw?: number;
 }
 const PopoverVariableDependent = ({ data, setValues, i }: Props) => {
@@ -82,9 +84,9 @@ const PopoverVariableDependent = ({ data, setValues, i }: Props) => {
                 )}
                 {data.name === "transition" && (
                     <TransitionInputs
-                        min={data.min}
-                        max={data.max}
-                        transition={data.transition}
+                        initvalue={data.initvalue}
+                        endvalue={data.endvalue}
+                        ftype={data.ftype}
                         concavity={data.concavity}
                         gw={data.gw}
                         setVal={setValues}
