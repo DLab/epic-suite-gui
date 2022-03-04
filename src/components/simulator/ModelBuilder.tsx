@@ -29,7 +29,7 @@ const ModelBuilder = ({ isEditing, setIsEditing }: Props) => {
         });
     return (
         <Flex justifyContent="space-between" ml="2%">
-            <Flex w={showSectionVariable ? "75%" : "100%"}>
+            <Flex w={showSectionVariable ? "50%" : "100%"}>
                 <Flex>
                     <Box
                         p="1rem"

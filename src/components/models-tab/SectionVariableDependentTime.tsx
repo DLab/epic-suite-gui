@@ -68,7 +68,7 @@ const SectionVariableDependentTime = ({
                             onChange={(e) =>
                                 setValues({
                                     type: "editDefault",
-                                    index: +e,
+                                    index: e,
                                 })
                             }
                         >
@@ -183,8 +183,8 @@ const SectionVariableDependentTime = ({
                                         );
                                     }}
                                 >
-                                    <option value="transition">
-                                        transition
+                                    <option value={NameFunction.transition}>
+                                        {NameFunction.transition}
                                     </option>
                                     <option value={NameFunction.static}>
                                         {NameFunction.static}
@@ -213,7 +213,7 @@ const SectionVariableDependentTime = ({
                                         onClick={() => {
                                             setValues({
                                                 type: "delete",
-                                                index: i,
+                                                index: `${i}`,
                                             });
                                             setIdRangeUpdating(-1);
                                             setIsRangeUpdating(false);
@@ -242,7 +242,10 @@ const SectionVariableDependentTime = ({
                                 setParameters({
                                     type: "setVariableDependent",
                                     target: values["name"],
-                                    payloadVariableDependent: values,
+                                    payloadVariableDependent: {
+                                        ...values,
+                                        default: +values["default"],
+                                    },
                                 });
                                 showSectionVariable(false);
                             } else {

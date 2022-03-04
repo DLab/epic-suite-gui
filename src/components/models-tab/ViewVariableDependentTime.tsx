@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/dot-notation */
+/* eslint-disable no-nested-ternary */
 import { CloseIcon } from "@chakra-ui/icons";
 import {
     Box,
@@ -17,6 +19,10 @@ import VariableDependentTime, {
     NameFunction,
 } from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
+import showOnlySelectedAttributes, {
+    findValueByKeyInMatrix,
+    getSubTypeTransitionFunction,
+} from "utils/showOnlySelectedAttributes";
 
 type EmptyObject = Record<string, never>;
 
@@ -40,28 +46,63 @@ const ViewVariableDependentTime = ({ data, close }: Props) => {
                 </Flex>
             </Heading>
             {data.rangeDays.map((range, i) => (
-                <StatGroup w="35rem">
-                    <Stat>
-                        <StatLabel>Range: </StatLabel>
-                        <StatNumber>{i + 1}</StatNumber>
-                    </Stat>
-                    <Stat>
-                        <StatLabel>Init: </StatLabel>
-                        <StatNumber>{range[0]}</StatNumber>
-                    </Stat>
-                    <Stat>
-                        <StatLabel>End: </StatLabel>
-                        <StatNumber>{range[1]}</StatNumber>
-                    </Stat>
-                    <Stat>
-                        <StatLabel>Type Function: </StatLabel>
-                        <StatNumber>{data.type[i].name}</StatNumber>
-                    </Stat>
-                    <Stat>
-                        <StatLabel>Default: </StatLabel>
-                        <StatNumber>{data.default}</StatNumber>
-                    </Stat>
-                </StatGroup>
+                <>
+                    <StatGroup w="50vw">
+                        <Stat>
+                            <StatLabel>Range: </StatLabel>
+                            <StatNumber>{i + 1}</StatNumber>
+                        </Stat>
+                        <Stat>
+                            <StatLabel>Init: </StatLabel>
+                            <StatNumber>{range[0]}</StatNumber>
+                        </Stat>
+                        <Stat>
+                            <StatLabel>End: </StatLabel>
+                            <StatNumber>{range[1]}</StatNumber>
+                        </Stat>
+                        <Stat>
+                            <StatLabel>Type Function: </StatLabel>
+                            <StatNumber>{data.type[i].name}</StatNumber>
+                        </Stat>
+                        <Stat>
+                            <StatLabel>Default: </StatLabel>
+                            <StatNumber>{data.default}</StatNumber>
+                        </Stat>
+                    </StatGroup>
+                    <StatGroup>
+                        {Object.entries(data.type[i]).map(
+                            ([key, values], _i, array) => {
+                                if (
+                                    key === "gw" &&
+                                    !findValueByKeyInMatrix(array, "ftype", 1)
+                                ) {
+                                    return (
+                                        <Stat>
+                                            <StatLabel>{key}</StatLabel>
+                                            <StatLabel>-</StatLabel>
+                                        </Stat>
+                                    );
+                                }
+
+                                if (key !== "name") {
+                                    return (
+                                        <Stat>
+                                            <StatLabel>{key}</StatLabel>
+                                            <StatNumber>
+                                                {showOnlySelectedAttributes(
+                                                    key,
+                                                    values,
+                                                    getSubTypeTransitionFunction
+                                                )}
+                                            </StatNumber>
+                                        </Stat>
+                                    );
+                                }
+                                return <></>;
+                            }
+                        )}
+                    </StatGroup>
+                </>
             ))}
         </Box>
     );

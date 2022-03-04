@@ -23,8 +23,8 @@ const createObjectVariableDependent = (params: VariableDependentTime) => {
             case NameFunction.sinusoidal:
                 variableDependent.values.push({
                     function: "sine",
-                    min_val: p.min,
-                    max_val: p.max,
+                    min_val: p["min"],
+                    max_val: p["max"],
                     period: p["period"],
                     initphase: p["initPhase"],
                 });
@@ -32,11 +32,23 @@ const createObjectVariableDependent = (params: VariableDependentTime) => {
             case NameFunction.square:
                 variableDependent.values.push({
                     function: "square",
-                    min_val: p.min,
-                    max_val: p.max,
+                    min_val: p["min"],
+                    max_val: p["max"],
                     period: p["period"],
                     initphase: p["initPhase"],
                     duty: p["duty"],
+                    t_init: params.rangeDays[i][0],
+                    t_end: params.rangeDays[i][1],
+                });
+                break;
+            case NameFunction.transition:
+                variableDependent.values.push({
+                    function: "transition",
+                    ftype: p["ftype"],
+                    concavity: p["concavity"],
+                    gw: p["gw"],
+                    initvalue: p["initvalue"],
+                    endvalue: p["endvalue"],
                     t_init: params.rangeDays[i][0],
                     t_end: params.rangeDays[i][1],
                 });
