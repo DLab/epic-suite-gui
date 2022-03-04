@@ -3,12 +3,12 @@ import { Box, Flex, Portal } from "@chakra-ui/react";
 import { useState } from "react";
 
 import SectionVariableDependentTime from "components/models-tab/SectionVariableDependentTime";
-import ModelController from "components/simulator/controllers/ModelController";
+import ModelController from "components/models-tab/ModelController";
 import VariableDependentTime, {
     NameFunction,
 } from "types/VariableDependentTime";
 
-import ToastMessage from "./controllers/ToastMessage";
+import ToastMessage from "../simulator/controllers/ToastMessage";
 
 interface Props {
     isEditing: boolean;
