@@ -7,6 +7,7 @@ import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import createIdComponent from "utils/createIdcomponent";
 
+import DoubleYAxis from "./DoubleYAxis";
 import Exports from "./Exports";
 import ResultsSelection from "./ResultsSelection";
 import SeeGraphic from "./SeeGraphic";
@@ -100,6 +101,9 @@ const Results = () => {
                                                 id={createIdComponent()}
                                             >
                                                 {" "}
+                                                <DoubleYAxis
+                                                    savedKeys={graphicData}
+                                                />
                                                 <SeeGraphic
                                                     savedKeys={graphicData}
                                                     index={index}
