@@ -22,11 +22,11 @@ import React, { useEffect, useState } from "react";
 import DoubleYaxisIcon from "../icons/DoubleYaxisIcon";
 import RightArrow from "../icons/RightArrow";
 import LeftArrow from "components/icons/LeftArrow";
-import { SavedSimulationData } from "types/GraphicsTypes";
+import { DoubleYAxisData } from "types/GraphicsTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
-    savedKeys?: SavedSimulationData[];
+    savedKeys?: DoubleYAxisData[];
 }
 
 const DoubleYAxis = ({ savedKeys }: Props) => {
@@ -35,7 +35,7 @@ const DoubleYAxis = ({ savedKeys }: Props) => {
     const [rightAxis, setRightAxis] = useState([]);
 
     useEffect(() => {
-        setLeftAxis(savedKeys);
+        setLeftAxis(savedKeys[0].leftAxis);
     }, [savedKeys]);
 
     const getParametersSetted = (axis, name, k) => {
@@ -177,13 +177,13 @@ const DoubleYAxis = ({ savedKeys }: Props) => {
                 fontSize="1.4rem"
                 key="double-axis-open-icon"
             />
-            {savedKeys.map((ks) => {
+            {savedKeys.map((e) => {
                 return (
                     <Modal
                         isOpen={isOpen}
                         onClose={onClose}
                         size="xl"
-                        key={ks.name}
+                        key={`${e.leftAxis[0].name}`}
                     >
                         <ModalOverlay />
                         <ModalContent

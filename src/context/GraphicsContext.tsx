@@ -4,6 +4,7 @@ import {
     SavedSimulationData,
     GraphicsProps,
     KeysRealData,
+    DoubleYAxisData,
 } from "types/GraphicsTypes";
 
 export const GraphicsData = createContext<GraphicsProps>({
@@ -36,9 +37,9 @@ const GraphicsContext: React.FC = ({ children }) => {
         SavedSimulationData[]
     >([]);
     // va juntando todas las simulaciones para poder ver más de un gráfico
-    const [allGraphicData, setAllGraphicData] = useState<
-        SavedSimulationData[][]
-    >([]);
+    const [allGraphicData, setAllGraphicData] = useState<DoubleYAxisData[][]>(
+        []
+    );
     const [checkedItems, setCheckedItems] = useState({});
 
     return (

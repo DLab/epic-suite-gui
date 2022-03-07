@@ -15,11 +15,11 @@ import dynamic from "next/dynamic";
 import React from "react";
 
 import SeeGraphicIcon from "../icons/SeeGraphIcon";
-import { SavedSimulationData } from "types/GraphicsTypes";
+import { DoubleYAxisData } from "types/GraphicsTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
-    savedKeys?: SavedSimulationData[];
+    savedKeys?: DoubleYAxisData[];
     index: number;
 }
 

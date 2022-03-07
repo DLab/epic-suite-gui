@@ -1,3 +1,8 @@
+export interface DoubleYAxisData {
+    leftAxis: SavedSimulationData[];
+    rightAxis: SavedSimulationData[] | unknown;
+}
+
 export interface SavedSimulationData {
     name: string;
     keys: string[];
@@ -56,8 +61,8 @@ export interface GraphicsProps {
     setSavedSimulationKeys: (value: string[]) => void;
     savedSimulation: SavedSimulationData[];
     setSavedSimulation: (value: SavedSimulationData[]) => void;
-    allGraphicData: SavedSimulationData[][];
-    setAllGraphicData?: (value: SavedSimulationData[][]) => void;
+    allGraphicData: DoubleYAxisData[][];
+    setAllGraphicData?: (value: DoubleYAxisData[][]) => void;
     checkedItems: CheckedItems;
     setCheckedItems: (value: CheckedItems) => void;
 }

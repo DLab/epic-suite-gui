@@ -70,8 +70,17 @@ const Results = () => {
                                 onClick={() => {
                                     setAllGraphicData([
                                         ...allGraphicData,
-                                        savedSimulation,
+                                        [
+                                            {
+                                                leftAxis: savedSimulation,
+                                                rightAxis: {},
+                                            },
+                                        ],
                                     ]);
+                                    // setAllGraphicData([
+                                    //     ...allGraphicData,
+                                    //     savedSimulation,
+                                    // ]);
                                 }}
                             >
                                 Chart
@@ -100,7 +109,6 @@ const Results = () => {
                                                 justify="end"
                                                 id={createIdComponent()}
                                             >
-                                                {" "}
                                                 <DoubleYAxis
                                                     savedKeys={graphicData}
                                                 />

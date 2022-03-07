@@ -3,10 +3,10 @@ import Plot from "react-plotly.js";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
-import { SavedSimulationData } from "types/GraphicsTypes";
+import { DoubleYAxisData } from "types/GraphicsTypes";
 
 interface Props {
-    savedSimulationKeys?: SavedSimulationData[];
+    savedSimulationKeys?: DoubleYAxisData[];
     width: string;
     height: string;
     index: number;
@@ -18,7 +18,7 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
     const graphSimulation = () => {
-        return savedSimulationKeys.map((simKey) => {
+        return savedSimulationKeys[0].leftAxis.map((simKey) => {
             // para obtener toda la data de una simulación
             const simKeyFilter = data.filter((sim) => {
                 return sim.name === simKey.name;
