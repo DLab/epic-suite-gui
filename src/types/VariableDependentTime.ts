@@ -26,24 +26,24 @@ export enum NameFunction {
     transition = "transition",
 }
 export enum TypePhase {
-    min = "min",
-    max = "max",
+    min = 0,
+    max = 1,
 }
 export interface Square extends Sine {
     duty: number;
 }
 
 export enum TransitionFunction {
-    linear = "linear",
-    quadratic = "quadratic",
-    sigmoidal = "sigmoidal",
+    linear = 0,
+    quadratic = 1,
+    sigmoidal = 2,
 }
 
 export interface Transition {
     name: NameFunction;
-    transition: TransitionFunction;
-    min: number;
-    max: number;
+    ftype: TransitionFunction;
+    initvalue: number;
+    endvalue: number;
     concavity: number;
     gw?: number;
 }

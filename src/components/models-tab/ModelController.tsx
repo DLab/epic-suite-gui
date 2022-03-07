@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useState, useEffect } from "react";
 
-import NumberInputEpi from "../../NumberInputEpi";
+import NumberInputEpi from "../NumberInputEpi";
 import FunctionIcon from "components/icons/FunctionIcon";
 import NumberInputVariableDependent from "components/NumberInputVariableDependent";
 import { ControlPanel } from "context/ControlPanelContext";

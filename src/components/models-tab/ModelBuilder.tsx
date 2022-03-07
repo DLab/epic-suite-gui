@@ -2,13 +2,12 @@ import { Box, Flex, Portal } from "@chakra-ui/react";
 // import SectionVariableDependentTime from "components/map-results/SectionVariableDependentTime";
 import { useState } from "react";
 
+import ToastMessage from "../simulator/controllers/ToastMessage";
+import ModelController from "components/models-tab/ModelController";
 import SectionVariableDependentTime from "components/models-tab/SectionVariableDependentTime";
-import ModelController from "components/simulator/controllers/ModelController";
 import VariableDependentTime, {
     NameFunction,
 } from "types/VariableDependentTime";
-
-import ToastMessage from "./controllers/ToastMessage";
 
 interface Props {
     isEditing: boolean;
@@ -29,7 +28,7 @@ const ModelBuilder = ({ isEditing, setIsEditing }: Props) => {
         });
     return (
         <Flex justifyContent="space-between" ml="2%">
-            <Flex w={showSectionVariable ? "75%" : "100%"}>
+            <Flex w={showSectionVariable ? "50%" : "100%"}>
                 <Flex>
                     <Box
                         p="1rem"

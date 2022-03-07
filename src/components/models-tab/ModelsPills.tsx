@@ -16,7 +16,7 @@ import {
 import { useContext, useState, useEffect } from "react";
 
 import { DataParameters } from "../../types/ModelsTypes";
-import ModelBuilder from "components/simulator/ModelBuilder";
+import ModelBuilder from "components/models-tab/ModelBuilder";
 import { ControlPanel, initialState } from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { EpidemicsData, Model } from "types/ControlPanelTypes";

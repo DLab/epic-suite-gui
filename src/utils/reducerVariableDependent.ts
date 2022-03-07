@@ -10,7 +10,7 @@ import VariableDependentTime, {
 
 interface Actions {
     type: string;
-    index?: number;
+    index?: string;
     payloadType?: VariableDependentTime["type"];
     range?: number[];
     payloadTypeElement?: Sine | Square | StaticValue | Transition;
@@ -30,7 +30,7 @@ const reducer = (state: VariableDependentTime, actions: Actions) => {
     if (actions.type === "editElement") {
         const newType = state.type.map(
             (e: Sine | Square | StaticValue | Transition, i: number) => {
-                if (i === actions.index) {
+                if (i === +actions.index) {
                     return actions.payloadTypeElement;
                 }
                 return e;
@@ -60,15 +60,15 @@ const reducer = (state: VariableDependentTime, actions: Actions) => {
     if (actions.type === "delete") {
         return {
             ...state,
-            rangeDays: state.rangeDays.filter((_e, i) => i !== actions.index),
-            type: state.type.filter((e, i) => i !== actions.index),
+            rangeDays: state.rangeDays.filter((_e, i) => i !== +actions.index),
+            type: state.type.filter((e, i) => i !== +actions.index),
         };
     }
     if (actions.type === "updateDay") {
         return {
             ...state,
             rangeDays: state.rangeDays.map((e, i) => {
-                if (i === actions.index) {
+                if (i === +actions.index) {
                     return actions.range;
                 }
                 return e;
@@ -113,7 +113,7 @@ export const handleNameFunctionSelect = (e, i, setValues) => {
                     max: 1,
                     period: 1,
                     initPhase: TypePhase.min,
-                    duty: 3,
+                    duty: 1,
                 },
 
                 index: i,
@@ -124,9 +124,9 @@ export const handleNameFunctionSelect = (e, i, setValues) => {
                 type: "editElement",
                 payloadTypeElement: {
                     name: NameFunction.transition,
-                    transition: TransitionFunction.linear,
-                    min: 0,
-                    max: 1,
+                    ftype: TransitionFunction.linear,
+                    initvalue: 0,
+                    endvalue: 1,
                     concavity: 1,
                     gw: 0,
                 },

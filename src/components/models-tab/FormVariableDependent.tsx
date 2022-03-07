@@ -38,15 +38,15 @@ interface SquareProps extends SineProps {
     duty: number;
 }
 interface TransProps extends DataSetters {
-    min: number;
-    max: number;
+    initvalue: number;
+    endvalue: number;
     concavity: number;
     gw?: number;
-    transition: TransitionFunction;
+    ftype: TransitionFunction;
 }
 
 export const StaticInputs = ({ value, id, setVal, close }: StaticsProps) => {
-    const [state, setstate] = useState<number>(value);
+    const [state, setstate] = useState<string>(`${value}`);
     return (
         <Flex alignItems="center">
             <Text>Static</Text>
@@ -58,7 +58,7 @@ export const StaticInputs = ({ value, id, setVal, close }: StaticsProps) => {
                 min={0}
                 step={0.01}
                 value={state}
-                onChange={(e) => setstate(+e)}
+                onChange={(e) => setstate(e)}
             >
                 <NumberInputField />
                 <NumberInputStepper>
@@ -75,7 +75,7 @@ export const StaticInputs = ({ value, id, setVal, close }: StaticsProps) => {
                             index: id,
                             payloadTypeElement: {
                                 name: "static",
-                                value: state,
+                                value: +state,
                             },
                         });
                         close();
@@ -100,10 +100,10 @@ export const SinoInputs = ({
     setVal,
     close,
 }: SineProps) => {
-    const [minVal, setMinVal] = useState(min);
-    const [maxVal, setMaxVal] = useState(max);
+    const [minVal, setMinVal] = useState(`${min}`);
+    const [maxVal, setMaxVal] = useState<string>(`${max}`);
     const [periodVal, setPeriodVal] = useState(period);
-    const [initPhaseVal, setInitPhaseVal] = useState(initPhase);
+    const [initPhaseVal, setInitPhaseVal] = useState<number>(initPhase);
     const toast = useToast();
     return (
         <Flex direction="column">
@@ -117,7 +117,7 @@ export const SinoInputs = ({
                         value={minVal}
                         min={0}
                         step={0.01}
-                        onChange={(e) => setMinVal(+e)}
+                        onChange={(e) => setMinVal(e)}
                     >
                         <NumberInputField />
                         <NumberInputStepper>
@@ -135,7 +135,7 @@ export const SinoInputs = ({
                         min={0}
                         step={0.01}
                         isInvalid={maxVal <= minVal}
-                        onChange={(e) => setMaxVal(+e)}
+                        onChange={(e) => setMaxVal(e)}
                     >
                         <NumberInputField />
                         <NumberInputStepper>
@@ -164,10 +164,10 @@ export const SinoInputs = ({
                 <Flex>
                     InitPhase:
                     <RadioGroup
-                        value={`${initPhaseVal}`}
+                        value={initPhaseVal}
                         size="sm"
                         onChange={(e) => {
-                            if (e === TypePhase.min) {
+                            if (+e === TypePhase.min) {
                                 setInitPhaseVal(TypePhase.min);
                             } else {
                                 setInitPhaseVal(TypePhase.max);
@@ -175,8 +175,8 @@ export const SinoInputs = ({
                         }}
                     >
                         <Stack direction="row">
-                            <Radio value={TypePhase.min}>{TypePhase.min}</Radio>
-                            <Radio value={TypePhase.max}>{TypePhase.max}</Radio>
+                            <Radio value={TypePhase.min}>min</Radio>
+                            <Radio value={TypePhase.max}>max</Radio>
                         </Stack>
                     </RadioGroup>
                 </Flex>
@@ -201,8 +201,8 @@ export const SinoInputs = ({
                                 index: id,
                                 payloadTypeElement: {
                                     name: "sinusoidal",
-                                    min: minVal,
-                                    max: maxVal,
+                                    min: +minVal,
+                                    max: +maxVal,
                                     period: periodVal,
                                     initPhase: initPhaseVal,
                                 },
@@ -230,11 +230,11 @@ export const SquareInputs = ({
     setVal,
     close,
 }: SquareProps) => {
-    const [minVal, setMinVal] = useState(min);
-    const [maxVal, setMaxVal] = useState(max);
-    const [periodVal, setPeriodVal] = useState(period);
-    const [initPhaseVal, setInitPhaseVal] = useState(initPhase);
-    const [dutyVal, setDutyVal] = useState(duty);
+    const [minVal, setMinVal] = useState<string>(`${min}`);
+    const [maxVal, setMaxVal] = useState<string>(`${max}`);
+    const [periodVal, setPeriodVal] = useState<number>(period);
+    const [initPhaseVal, setInitPhaseVal] = useState<number>(initPhase);
+    const [dutyVal, setDutyVal] = useState<string>(`${duty}`);
     const toast = useToast();
     return (
         <Flex direction="column">
@@ -244,7 +244,7 @@ export const SquareInputs = ({
                 <NumberInput
                     size="xs"
                     value={minVal}
-                    onChange={(e) => setMinVal(+e)}
+                    onChange={(e) => setMinVal(e)}
                     w="35%"
                     min={0}
                     step={0.01}
@@ -259,7 +259,7 @@ export const SquareInputs = ({
                 <NumberInput
                     size="xs"
                     value={maxVal}
-                    onChange={(e) => setMaxVal(+e)}
+                    onChange={(e) => setMaxVal(e)}
                     w="35%"
                     min={0}
                     step={0.01}
@@ -286,12 +286,14 @@ export const SquareInputs = ({
                 </NumberInput>
                 Duty:
                 <NumberInput
+                    precision={2}
                     w="35%"
                     size="xs"
                     value={dutyVal}
                     min={0}
                     step={0.01}
-                    onChange={(e) => setDutyVal(+e)}
+                    max={1}
+                    onChange={(e) => setDutyVal(e)}
                 >
                     <NumberInputField />
                     <NumberInputStepper>
@@ -302,9 +304,10 @@ export const SquareInputs = ({
                 InitPhase:
                 <RadioGroup
                     defaultValue={initPhaseVal}
+                    value={initPhaseVal}
                     // eslint-disable-next-line sonarjs/no-identical-functions
                     onChange={(e) => {
-                        if (e === "min") {
+                        if (+e === TypePhase.min) {
                             setInitPhaseVal(TypePhase.min);
                         } else {
                             setInitPhaseVal(TypePhase.max);
@@ -312,8 +315,8 @@ export const SquareInputs = ({
                     }}
                 >
                     <Stack direction="row">
-                        <Radio value="min">{TypePhase.min}</Radio>
-                        <Radio value="max">{TypePhase.max}</Radio>
+                        <Radio value={TypePhase.min}>Min</Radio>
+                        <Radio value={TypePhase.max}>Max</Radio>
                     </Stack>
                 </RadioGroup>
             </Flex>
@@ -321,7 +324,7 @@ export const SquareInputs = ({
                 <Button
                     size="xs"
                     onClick={() => {
-                        if (minVal >= maxVal) {
+                        if (+minVal >= +maxVal) {
                             toast({
                                 title: "Failed setting function",
                                 description:
@@ -337,11 +340,11 @@ export const SquareInputs = ({
                                 index: id,
                                 payloadTypeElement: {
                                     name: "square",
-                                    min: minVal,
-                                    max: maxVal,
+                                    min: +minVal,
+                                    max: +maxVal,
                                     period: periodVal,
-                                    initPhase: initPhaseVal,
-                                    duty: dutyVal,
+                                    initPhase: +initPhaseVal,
+                                    duty: +dutyVal,
                                 },
                             });
                             close();
@@ -358,9 +361,9 @@ export const SquareInputs = ({
     );
 };
 export const TransitionInputs = ({
-    transition,
-    min,
-    max,
+    ftype,
+    initvalue,
+    endvalue,
     concavity,
     gw,
     id,
@@ -368,22 +371,22 @@ export const TransitionInputs = ({
     close,
 }: TransProps) => {
     const [transitionVal, setTransitionVal] =
-        useState<TransitionFunction>(transition);
-    const [minVal, setMinVal] = useState(min);
-    const [maxVal, setMaxVal] = useState(max);
-    const [concavityVal, setConcavityVal] = useState(concavity);
-    const [gwVal, setGwVal] = useState(gw);
+        useState<TransitionFunction>(ftype);
+    const [initVal, setInitVal] = useState(initvalue);
+    const [endVal, setEndVal] = useState(endvalue);
+    const [concavityVal, setConcavityVal] = useState<number>(concavity);
+    const [gwVal, setGwVal] = useState<string>(`${gw}`);
     const toast = useToast();
     return (
         <Flex direction="column" p="0.5rem">
             <Text>Transition</Text>
             <RadioGroup
-                value={`${transitionVal}`}
+                value={transitionVal}
                 // eslint-disable-next-line sonarjs/no-identical-functions
                 onChange={(e) => {
-                    if (e === "linear") {
+                    if (+e === 0) {
                         setTransitionVal(TransitionFunction.linear);
-                    } else if (e === "quadratic") {
+                    } else if (+e === 1) {
                         setTransitionVal(TransitionFunction.quadratic);
                     } else {
                         setTransitionVal(TransitionFunction.sigmoidal);
@@ -391,24 +394,24 @@ export const TransitionInputs = ({
                 }}
             >
                 <Stack direction="row">
-                    <Radio value="linear">{TransitionFunction.linear}</Radio>
-                    <Radio value="quadratic">
-                        {TransitionFunction.quadratic}
+                    <Radio value={TransitionFunction.linear}>Linear</Radio>
+                    <Radio value={TransitionFunction.quadratic}>
+                        Quadratic
                     </Radio>
-                    <Radio value="sigmoidal">
-                        {TransitionFunction.sigmoidal}
+                    <Radio value={TransitionFunction.sigmoidal}>
+                        Sigmoidal
                     </Radio>
                 </Stack>
             </RadioGroup>
             <Flex wrap="wrap">
-                Min:
+                initial value:
                 <NumberInput
                     w="35%"
                     size="xs"
-                    value={minVal}
+                    value={initVal}
                     min={0}
                     step={0.01}
-                    onChange={(e) => setMinVal(+e)}
+                    onChange={(e) => setInitVal(+e)}
                 >
                     <NumberInputField />
                     <NumberInputStepper>
@@ -416,15 +419,15 @@ export const TransitionInputs = ({
                         <NumberDecrementStepper />
                     </NumberInputStepper>
                 </NumberInput>
-                Max:
+                End value:
                 <NumberInput
                     w="35%"
                     size="xs"
-                    value={maxVal}
+                    value={endVal}
                     min={0}
                     step={0.01}
-                    onChange={(e) => setMaxVal(+e)}
-                    isInvalid={maxVal <= minVal}
+                    onChange={(e) => setEndVal(+e)}
+                    isInvalid={endVal <= initVal}
                 >
                     <NumberInputField />
                     <NumberInputStepper>
@@ -448,7 +451,7 @@ export const TransitionInputs = ({
                             <NumberDecrementStepper />
                         </NumberInputStepper>
                     </NumberInput>
-                    {transitionVal === `quadratic` && (
+                    {transitionVal === 1 && (
                         <>
                             gw:
                             <NumberInput
@@ -457,7 +460,7 @@ export const TransitionInputs = ({
                                 value={gwVal}
                                 min={0}
                                 step={0.01}
-                                onChange={(e) => setGwVal(+e)}
+                                onChange={(e) => setGwVal(e)}
                             >
                                 <NumberInputField />
                                 <NumberInputStepper>
@@ -473,7 +476,7 @@ export const TransitionInputs = ({
                 <Button
                     size="xs"
                     onClick={() => {
-                        if (minVal >= maxVal) {
+                        if (initVal >= endVal) {
                             toast({
                                 title: "Failed setting function",
                                 description:
@@ -489,11 +492,11 @@ export const TransitionInputs = ({
                                 index: id,
                                 payloadTypeElement: {
                                     name: "transition",
-                                    min: minVal,
-                                    max: maxVal,
-                                    transition: transitionVal,
-                                    concavity: concavityVal,
-                                    gw: gwVal,
+                                    initvalue: initVal,
+                                    endvalue: endVal,
+                                    ftype: +transitionVal,
+                                    concavity: +concavityVal,
+                                    gw: +gwVal,
                                 },
                             });
                             close();
