@@ -17,25 +17,29 @@ import {
     TagCloseButton,
     IconButton,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import DoubleYaxisIcon from "../icons/DoubleYaxisIcon";
 import RightArrow from "../icons/RightArrow";
 import LeftArrow from "components/icons/LeftArrow";
-import { DoubleYAxisData } from "types/GraphicsTypes";
+import { GraphicsData } from "context/GraphicsContext";
+import { DoubleYAxisData, SavedSimulationData } from "types/GraphicsTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
     savedKeys?: DoubleYAxisData[];
+    index: number;
 }
 
-const DoubleYAxis = ({ savedKeys }: Props) => {
+const DoubleYAxis = ({ savedKeys, index }: Props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [leftAxis, setLeftAxis] = useState([]);
-    const [rightAxis, setRightAxis] = useState([]);
+    const [leftAxis, setLeftAxis] = useState<SavedSimulationData[]>([]);
+    const [rightAxis, setRightAxis] = useState<SavedSimulationData[]>([]);
+    const { allGraphicData, setAllGraphicData } = useContext(GraphicsData);
 
     useEffect(() => {
         setLeftAxis(savedKeys[0].leftAxis);
+        setRightAxis(savedKeys[0].rightAxis);
     }, [savedKeys]);
 
     const getParametersSetted = (axis, name, k) => {
@@ -168,6 +172,14 @@ const DoubleYAxis = ({ savedKeys }: Props) => {
         }
     };
 
+    const setParametersToAllGraphicData = () => {
+        const auxAllGraphicData = allGraphicData;
+        auxAllGraphicData[index] = [{ leftAxis, rightAxis }];
+
+        setAllGraphicData([...auxAllGraphicData]);
+        onClose();
+    };
+
     return (
         <>
             <Icon
@@ -183,7 +195,7 @@ const DoubleYAxis = ({ savedKeys }: Props) => {
                         isOpen={isOpen}
                         onClose={onClose}
                         size="xl"
-                        key={`${e.leftAxis[0].name}`}
+                        key={`${e.leftAxis[0]?.name}`}
                     >
                         <ModalOverlay />
                         <ModalContent
@@ -328,6 +340,9 @@ const DoubleYAxis = ({ savedKeys }: Props) => {
                                     size="sm"
                                     mt="20px"
                                     key={createIdComponent()}
+                                    onClick={() => {
+                                        setParametersToAllGraphicData();
+                                    }}
                                 >
                                     Set
                                 </Button>
@@ -338,6 +353,9 @@ const DoubleYAxis = ({ savedKeys }: Props) => {
                                     mt="20px"
                                     ml="20px"
                                     key={createIdComponent()}
+                                    onClick={() => {
+                                        onClose();
+                                    }}
                                 >
                                     Cancel
                                 </Button>

@@ -73,7 +73,7 @@ const Results = () => {
                                         [
                                             {
                                                 leftAxis: savedSimulation,
-                                                rightAxis: {},
+                                                rightAxis: [],
                                             },
                                         ],
                                     ]);
@@ -111,6 +111,7 @@ const Results = () => {
                                             >
                                                 <DoubleYAxis
                                                     savedKeys={graphicData}
+                                                    index={index}
                                                 />
                                                 <SeeGraphic
                                                     savedKeys={graphicData}

@@ -70,7 +70,7 @@ const ResultsSelection = () => {
         if (!ischecked && isInclude) {
             let modifiedSimulations = savedSimulation.map((simulation) => {
                 let simulationAux = simulation;
-                if (simulation.name === isSimulationSaved[0].name) {
+                if (simulation.name === isSimulationSaved[0]?.name) {
                     const simulationAuxFiltered = simulationAux.keys.filter(
                         (simulationValue) => simulationValue !== value
                     );
@@ -258,6 +258,7 @@ const ResultsSelection = () => {
             allowMultiple
             h="85%"
             overflowY="auto"
+            overflowX="hidden"
         >
             {simulationKeys.map((simulation) => {
                 return (

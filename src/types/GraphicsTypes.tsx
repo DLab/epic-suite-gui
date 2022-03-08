@@ -1,6 +1,6 @@
 export interface DoubleYAxisData {
-    leftAxis: SavedSimulationData[];
-    rightAxis: SavedSimulationData[] | unknown;
+    leftAxis: SavedSimulationData[] | [];
+    rightAxis: SavedSimulationData[] | [];
 }
 
 export interface SavedSimulationData {

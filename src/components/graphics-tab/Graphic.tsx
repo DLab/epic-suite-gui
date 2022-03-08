@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
@@ -13,12 +14,13 @@ interface Props {
 }
 
 const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
-    const { realDataSimulationKeys } = useContext(GraphicsData);
+    const { realDataSimulationKeys, allGraphicData } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
-    const graphSimulation = () => {
-        return savedSimulationKeys[0].leftAxis.map((simKey) => {
+
+    const graphSimulation = (axisKeys, axis) => {
+        return axisKeys.map((simKey) => {
             // para obtener toda la data de una simulación
             const simKeyFilter = data.filter((sim) => {
                 return sim.name === simKey.name;
@@ -36,36 +38,67 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
                     // para encontrar la data según la key guardada
                     const filterKey = key.slice(0, -5);
                     const simulationKeys = simRealDataKeyFilter[0][filterKey];
+                    if (axis === "rightAxis") {
+                        return {
+                            x: Object.keys(simulationKeys),
+                            y: Object.values(simulationKeys),
+                            mode: "lines+markers",
+                            name: `${key}-${simRealDataKeyFilter[0].name} Right`,
+                            yaxis: "y2",
+                        };
+                    }
                     return {
                         x: Object.keys(simulationKeys),
                         y: Object.values(simulationKeys),
                         mode: "lines+markers",
-                        name: `${key}-${simRealDataKeyFilter[0].name}`,
+                        name: `${key}-${simRealDataKeyFilter[0].name} Left`,
                     };
                 }
                 const simulationKeys = simKeyFilter[0][key];
+                if (axis === "rightAxis") {
+                    return {
+                        x: Object.keys(simulationKeys),
+                        y: Object.values(simulationKeys),
+                        type: "scatter",
+                        name: `${key}-${simKeyFilter[0].name} Right`,
+                    };
+                }
                 return {
                     x: Object.keys(simulationKeys),
                     y: Object.values(simulationKeys),
                     type: "scatter",
-                    name: `${key}-${simKeyFilter[0].name}`,
+                    name: `${key}-${simKeyFilter[0].name} Left`,
+                    yaxis: "y2",
                 };
             });
         });
     };
 
     useEffect(() => {
-        const axiosData = graphSimulation();
-        let dataToGraph = [];
-        axiosData.forEach((simulation) => {
+        const leftAxisKeys = savedSimulationKeys[0].leftAxis;
+        const rightAxisKeys = savedSimulationKeys[0].rightAxis;
+        const axiosLeftData = graphSimulation(leftAxisKeys, "leftAxis");
+        const axiosRightData = graphSimulation(rightAxisKeys, "rightAxis");
+        let leftDataToGraph = [];
+        let rightDataToGraph = [];
+        axiosLeftData.forEach((simulation) => {
             simulation.forEach((parameter) => {
-                dataToGraph = [...dataToGraph, parameter];
-                return dataToGraph;
+                leftDataToGraph = [...leftDataToGraph, parameter];
+                return leftDataToGraph;
             });
         });
-        setAxios(dataToGraph);
+        axiosRightData.forEach((simulation) => {
+            simulation.forEach((parameter) => {
+                rightDataToGraph = [...rightDataToGraph, parameter];
+                return rightDataToGraph;
+            });
+        });
+
+        const allDataToGraph = leftDataToGraph.concat(rightDataToGraph);
+
+        setAxios(allDataToGraph);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [savedSimulationKeys]);
+    }, [savedSimulationKeys, allGraphicData]);
 
     return (
         <Plot
@@ -92,6 +125,13 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
                         text: "Population",
                     },
                     autorange: true,
+                },
+                yaxis2: {
+                    title: "Population",
+                    titlefont: { color: "#5991c1" },
+                    tickfont: { color: "#5991c1" },
+                    overlaying: "y",
+                    side: "right",
                 },
             }}
             config={{
