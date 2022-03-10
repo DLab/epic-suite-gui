@@ -47,5 +47,8 @@ export interface Transition {
     concavity: number;
     gw?: number;
 }
-
+export interface DataForGraph {
+    function: number[] | [];
+    t: number[] | [];
+}
 export default VariableDependentTime;
