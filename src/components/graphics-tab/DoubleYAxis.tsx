@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
+import { ArrowLeftIcon, ArrowRightIcon, InfoIcon } from "@chakra-ui/icons";
 import {
     Modal,
     ModalOverlay,
@@ -12,10 +12,9 @@ import {
     Button,
     Tag,
     TagLabel,
-    TagLeftIcon,
     TagRightIcon,
-    TagCloseButton,
     IconButton,
+    Tooltip,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -172,9 +171,9 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         }
     };
 
-    const setParametersToAllGraphicData = () => {
+    const setParametersToAllGraphicData = (name) => {
         const auxAllGraphicData = allGraphicData;
-        auxAllGraphicData[index] = [{ leftAxis, rightAxis }];
+        auxAllGraphicData[index] = [{ graphicName: name, leftAxis, rightAxis }];
 
         setAllGraphicData([...auxAllGraphicData]);
         onClose();
@@ -203,11 +202,27 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
                             key="double-axis-content"
                             maxW="70vw"
                             maxH="90vh"
-                            h="79vh"
+                            h="85vh"
+                            m="3%"
                         >
                             <ModalCloseButton />
                             <ModalBody>
-                                <Flex justifyContent="space-around" h="87%">
+                                <Flex
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    pt="1%"
+                                >
+                                    <Tooltip label="Change Y axis side">
+                                        <Icon
+                                            as={InfoIcon}
+                                            fontSize="25px"
+                                            color="#16609e"
+                                            mr="2%"
+                                        />
+                                    </Tooltip>
+                                    <Text fontSize="20px">{e.graphicName}</Text>
+                                </Flex>
+                                <Flex justifyContent="space-around" h="81%">
                                     <Flex direction="column" w="35%" p="2%">
                                         <Flex
                                             alignItems="center"
@@ -338,10 +353,12 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
                                 <Button
                                     colorScheme="teal"
                                     size="sm"
-                                    mt="20px"
+                                    mt="15px"
                                     key={createIdComponent()}
                                     onClick={() => {
-                                        setParametersToAllGraphicData();
+                                        setParametersToAllGraphicData(
+                                            e.graphicName
+                                        );
                                     }}
                                 >
                                     Set
@@ -350,7 +367,7 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
                                     colorScheme="teal"
                                     variant="outline"
                                     size="sm"
-                                    mt="20px"
+                                    mt="15px"
                                     ml="20px"
                                     key={createIdComponent()}
                                     onClick={() => {

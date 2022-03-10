@@ -72,15 +72,12 @@ const Results = () => {
                                         ...allGraphicData,
                                         [
                                             {
+                                                graphicName: "",
                                                 leftAxis: savedSimulation,
                                                 rightAxis: [],
                                             },
                                         ],
                                     ]);
-                                    // setAllGraphicData([
-                                    //     ...allGraphicData,
-                                    //     savedSimulation,
-                                    // ]);
                                 }}
                             >
                                 Chart
@@ -148,6 +145,7 @@ const Results = () => {
                                                 index={index}
                                                 width="470"
                                                 height="340"
+                                                disabledName={false}
                                             />
                                         </Box>
                                     );

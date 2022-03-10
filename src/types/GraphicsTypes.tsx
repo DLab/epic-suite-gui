@@ -1,4 +1,5 @@
 export interface DoubleYAxisData {
+    graphicName: string;
     leftAxis: SavedSimulationData[] | [];
     rightAxis: SavedSimulationData[] | [];
 }

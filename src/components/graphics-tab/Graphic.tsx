@@ -1,4 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
+import { Text, Input } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
@@ -11,11 +12,20 @@ interface Props {
     width: string;
     height: string;
     index: number;
+    disabledName: boolean;
 }
 
-const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
-    const { realDataSimulationKeys, allGraphicData } = useContext(GraphicsData);
+const Graphic = ({
+    savedSimulationKeys,
+    width,
+    height,
+    index,
+    disabledName,
+}: Props) => {
+    const { realDataSimulationKeys, allGraphicData, setAllGraphicData } =
+        useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
+    const [graphicName, setGraphicName] = useState("");
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
 
@@ -108,44 +118,92 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [savedSimulationKeys, allGraphicData]);
 
+    const setNewGraphicName = (name) => {
+        const allDataAux = allGraphicData;
+        const auxAllGraphicData = allDataAux[index];
+        auxAllGraphicData[0].graphicName = name;
+        setAllGraphicData([...allDataAux]);
+    };
+
+    useEffect(() => {
+        if (savedSimulationKeys[0].graphicName === "") {
+            setGraphicName(`Graphic ${index + 1}`);
+            setNewGraphicName(`Graphic ${index + 1}`);
+        } else {
+            setGraphicName(savedSimulationKeys[0].graphicName);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [allGraphicData]);
+
     return (
-        <Plot
-            data={axios}
-            layout={{
-                width: +width,
-                height: +height,
-                margin: {
-                    l: 70,
-                    b: 70,
-                    t: 70,
-                },
-                title: `Graphic ${index + 1}`,
-                legend: { xanchor: "end", x: 20, y: 1 },
-                showlegend: true,
-                xaxis: {
-                    title: {
-                        text: "Time",
+        <>
+            <Text />
+            {disabledName ? (
+                <Input
+                    border="none"
+                    bg="#FFFFFF"
+                    textAlign="center"
+                    fontSize="20px"
+                    w="60%"
+                    value={graphicName}
+                    isDisabled
+                />
+            ) : (
+                <Input
+                    border="none"
+                    bg="#FFFFFF"
+                    textAlign="center"
+                    fontSize="20px"
+                    value={graphicName}
+                    focusBorderColor="none"
+                    onChange={(e) => {
+                        setGraphicName(e.target.value);
+                    }}
+                    onBlur={() => {
+                        setNewGraphicName(graphicName);
+                    }}
+                />
+            )}
+
+            <Text />
+            <Plot
+                data={axios}
+                layout={{
+                    width: +width,
+                    height: +height,
+                    margin: {
+                        l: 70,
+                        b: 70,
+                        t: 0,
                     },
-                    autorange: true,
-                },
-                yaxis: {
-                    title: {
-                        text: "Population",
+                    title: `<span style="display: none">""</span>`,
+                    legend: { xanchor: "end", x: 20, y: 1 },
+                    showlegend: true,
+                    xaxis: {
+                        title: {
+                            text: "Time",
+                        },
+                        autorange: true,
                     },
-                    autorange: true,
-                },
-                yaxis2: {
-                    title: "Population",
-                    titlefont: { color: "#5991c1" },
-                    tickfont: { color: "#5991c1" },
-                    overlaying: "y",
-                    side: "right",
-                },
-            }}
-            config={{
-                editable: true,
-            }}
-        />
+                    yaxis: {
+                        title: {
+                            text: "Population",
+                        },
+                        autorange: true,
+                    },
+                    yaxis2: {
+                        title: "Population",
+                        titlefont: { color: "#5991c1" },
+                        tickfont: { color: "#5991c1" },
+                        overlaying: "y",
+                        side: "right",
+                    },
+                }}
+                config={{
+                    editable: true,
+                }}
+            />
+        </>
     );
 };
 
