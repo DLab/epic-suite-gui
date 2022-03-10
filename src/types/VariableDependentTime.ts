@@ -44,8 +44,7 @@ export interface Transition {
     ftype: TransitionFunction;
     initvalue: number;
     endvalue: number;
-    concavity: number;
-    gw?: number;
+    concavity?: number;
 }
 export interface DataForGraph {
     function: number[] | [];

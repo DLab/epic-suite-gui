@@ -69,7 +69,6 @@ export interface InitialConditions {
     I: number;
     I_d: number;
     I_ac: number;
-    E?: number;
     H?: number;
     H_acum?: number;
     V?: number;
