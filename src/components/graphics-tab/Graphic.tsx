@@ -43,7 +43,11 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
                             x: Object.keys(simulationKeys),
                             y: Object.values(simulationKeys),
                             mode: "lines+markers",
-                            name: `${key}-${simRealDataKeyFilter[0].name} Right`,
+                            line: {
+                                dash: "dot",
+                                width: 2,
+                            },
+                            name: `${key}-${simRealDataKeyFilter[0].name} <span style="font-weight: bold">Right</span>`,
                             yaxis: "y2",
                         };
                     }
@@ -51,7 +55,7 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
                         x: Object.keys(simulationKeys),
                         y: Object.values(simulationKeys),
                         mode: "lines+markers",
-                        name: `${key}-${simRealDataKeyFilter[0].name} Left`,
+                        name: `${key}-${simRealDataKeyFilter[0].name} <span style="font-weight: bold">Left</span>`,
                     };
                 }
                 const simulationKeys = simKeyFilter[0][key];
@@ -59,16 +63,20 @@ const Graphic = ({ savedSimulationKeys, width, height, index }: Props) => {
                     return {
                         x: Object.keys(simulationKeys),
                         y: Object.values(simulationKeys),
-                        type: "scatter",
-                        name: `${key}-${simKeyFilter[0].name} Right`,
+                        mode: "lines",
+                        line: {
+                            dash: "dot",
+                            width: 3,
+                        },
+                        name: `${key}-${simKeyFilter[0].name} <span style="font-weight: bold">Right</span>`,
+                        yaxis: "y2",
                     };
                 }
                 return {
                     x: Object.keys(simulationKeys),
                     y: Object.values(simulationKeys),
-                    type: "scatter",
-                    name: `${key}-${simKeyFilter[0].name} Left`,
-                    yaxis: "y2",
+                    mode: "lines",
+                    name: `${key}-${simKeyFilter[0].name} <span style="font-weight: bold">Left</span>`,
                 };
             });
         });
