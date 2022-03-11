@@ -209,7 +209,7 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
                             <ModalBody>
                                 <Flex
                                     alignItems="center"
-                                    justifyContent="center"
+                                    justifyContent="space-between"
                                     pt="1%"
                                 >
                                     <Tooltip label="Change Y axis side">
@@ -217,10 +217,11 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
                                             as={InfoIcon}
                                             fontSize="25px"
                                             color="#16609e"
-                                            mr="2%"
                                         />
                                     </Tooltip>
-                                    <Text fontSize="20px">{e.graphicName}</Text>
+                                    <Text w="100%" fontSize="20px">
+                                        {e.graphicName}
+                                    </Text>
                                 </Flex>
                                 <Flex justifyContent="space-around" h="81%">
                                     <Flex direction="column" w="35%" p="2%">
