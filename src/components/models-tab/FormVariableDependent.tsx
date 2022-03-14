@@ -41,7 +41,6 @@ interface TransProps extends DataSetters {
     initvalue: number;
     endvalue: number;
     concavity: number;
-    gw?: number;
     ftype: TransitionFunction;
 }
 
@@ -365,7 +364,6 @@ export const TransitionInputs = ({
     initvalue,
     endvalue,
     concavity,
-    gw,
     id,
     setVal,
     close,
@@ -375,7 +373,6 @@ export const TransitionInputs = ({
     const [initVal, setInitVal] = useState(initvalue);
     const [endVal, setEndVal] = useState(endvalue);
     const [concavityVal, setConcavityVal] = useState<number>(concavity);
-    const [gwVal, setGwVal] = useState<string>(`${gw}`);
     const toast = useToast();
     return (
         <Flex direction="column" p="0.5rem">
@@ -436,38 +433,21 @@ export const TransitionInputs = ({
                     </NumberInputStepper>
                 </NumberInput>
                 <Flex>
-                    Concavity:
-                    <NumberInput
-                        w="35%"
-                        size="xs"
-                        value={concavityVal}
-                        min={0}
-                        step={0.01}
-                        onChange={(e) => setConcavityVal(+e)}
-                    >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                        </NumberInputStepper>
-                    </NumberInput>
                     {transitionVal === 1 && (
                         <>
-                            gw:
-                            <NumberInput
-                                w="35%"
-                                size="xs"
-                                value={gwVal}
-                                min={0}
-                                step={0.01}
-                                onChange={(e) => setGwVal(e)}
+                            Concavity:
+                            <RadioGroup
+                                value={concavityVal}
+                                // eslint-disable-next-line sonarjs/no-identical-functions
+                                onChange={(e) => {
+                                    setConcavityVal(+e);
+                                }}
                             >
-                                <NumberInputField />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput>
+                                <Stack direction="row">
+                                    <Radio value={0}>Concave</Radio>
+                                    <Radio value={1}>Convex</Radio>
+                                </Stack>
+                            </RadioGroup>
                         </>
                     )}
                 </Flex>
@@ -496,7 +476,6 @@ export const TransitionInputs = ({
                                     endvalue: endVal,
                                     ftype: +transitionVal,
                                     concavity: +concavityVal,
-                                    gw: +gwVal,
                                 },
                             });
                             close();

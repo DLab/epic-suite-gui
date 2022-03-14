@@ -16,21 +16,40 @@ import {
     NumberDecrementStepper,
     NumberInput,
     useToast,
+    Spinner,
 } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import { useReducer, useState, useContext } from "react";
+import Plot from "react-plotly.js";
 
 import { ControlPanel } from "context/ControlPanelContext";
 import VariableDependentTime, {
+    DataForGraph,
     NameFunction,
 } from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
+import {
+    createSeries,
+    formatVariableDependentTime,
+} from "utils/getDataForGraphicVTD";
 import reducerVariableDependent, {
     handleNameFunctionSelect,
     valueBeforeRangeDays,
 } from "utils/reducerVariableDependent";
 
 import DateRangeVariableDependent from "./DateRangeVariableDependent";
+import GraphDependentTimeParameters from "./GraphDependentTimeParameters";
 import PopoverVariableDependent from "./PopoverVariableDependent";
+
+const Graphic = dynamic(() => import("./GraphDependentTimeParameters"), {
+    loading: () => (
+        <Skeleton h="30vh">
+            <div>contents wrapped</div>
+            <div>won't be visible</div>
+        </Skeleton>
+    ),
+    ssr: false,
+});
 
 interface Props {
     valuesVariablesDependent: VariableDependentTime;
@@ -43,7 +62,13 @@ const SectionVariableDependentTime = ({
 }: Props) => {
     const [idRangeUpdating, setIdRangeUpdating] = useState(-1);
     const [isRangeUpdating, setIsRangeUpdating] = useState<boolean>(false);
-    const { setParameters } = useContext(ControlPanel);
+    const [dataForGraph, setDataForGraph] = useState<DataForGraph[]>([
+        {
+            function: [],
+            t: [],
+        },
+    ]);
+    const { parameters, setParameters } = useContext(ControlPanel);
     const [values, setValues] = useReducer(
         reducerVariableDependent,
         valuesVariablesDependent
@@ -51,10 +76,12 @@ const SectionVariableDependentTime = ({
     const toast = useToast();
     return (
         <Box>
-            <Skeleton h="30vh">
-                <div>contents wrapped</div>
-                <div>won't be visible</div>
-            </Skeleton>
+            <Graphic
+                setData={setDataForGraph}
+                values={values}
+                dataForGraph={dataForGraph[0]}
+                duration={parameters.t_end}
+            />
             <Box>
                 <Flex justifyContent="space-between">
                     <Heading as="h3">{values["name"]}</Heading>
