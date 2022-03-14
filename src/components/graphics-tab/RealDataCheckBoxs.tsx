@@ -36,6 +36,7 @@ const RealDataCheckBoxs = ({ simName, saveKeys }: Props) => {
                                 m="2% 5%"
                                 value={`${key} Real`}
                                 id={`${key + simName} Real`}
+                                key={`${key + simName} Real`}
                                 onChange={(e) => {
                                     saveKeys(
                                         e.target.checked,

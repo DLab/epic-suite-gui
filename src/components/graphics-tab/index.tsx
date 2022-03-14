@@ -7,6 +7,7 @@ import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import createIdComponent from "utils/createIdcomponent";
 
+import DoubleYAxis from "./DoubleYAxis";
 import Exports from "./Exports";
 import ResultsSelection from "./ResultsSelection";
 import SeeGraphic from "./SeeGraphic";
@@ -69,7 +70,13 @@ const Results = () => {
                                 onClick={() => {
                                     setAllGraphicData([
                                         ...allGraphicData,
-                                        savedSimulation,
+                                        [
+                                            {
+                                                graphicName: "",
+                                                leftAxis: savedSimulation,
+                                                rightAxis: [],
+                                            },
+                                        ],
                                     ]);
                                 }}
                             >
@@ -99,7 +106,10 @@ const Results = () => {
                                                 justify="end"
                                                 id={createIdComponent()}
                                             >
-                                                {" "}
+                                                <DoubleYAxis
+                                                    savedKeys={graphicData}
+                                                    index={index}
+                                                />
                                                 <SeeGraphic
                                                     savedKeys={graphicData}
                                                     index={index}
@@ -135,6 +145,7 @@ const Results = () => {
                                                 index={index}
                                                 width="470"
                                                 height="340"
+                                                disabledName={false}
                                             />
                                         </Box>
                                     );

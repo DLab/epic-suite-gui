@@ -2,10 +2,8 @@ import {
     Modal,
     ModalOverlay,
     ModalContent,
-    ModalFooter,
     ModalBody,
     ModalCloseButton,
-    Button,
     useDisclosure,
     Flex,
     Spinner,
@@ -15,11 +13,11 @@ import dynamic from "next/dynamic";
 import React from "react";
 
 import SeeGraphicIcon from "../icons/SeeGraphIcon";
-import { SavedSimulationData } from "types/GraphicsTypes";
+import { DoubleYAxisData } from "types/GraphicsTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 interface Props {
-    savedKeys?: SavedSimulationData[];
+    savedKeys?: DoubleYAxisData[];
     index: number;
 }
 
@@ -70,13 +68,17 @@ const SeeGraphic = ({ savedKeys, index }: Props) => {
                                 maxW="70vw"
                                 maxH="90vh"
                             >
-                                <ModalCloseButton id={createIdComponent()} />
+                                <ModalCloseButton
+                                    id={createIdComponent()}
+                                    zIndex="5"
+                                />
                                 <ModalBody id={createIdComponent()}>
                                     <Graphic
                                         savedSimulationKeys={savedKeys}
                                         width="100%"
                                         height="95%"
                                         index={index}
+                                        disabledName
                                     />
                                 </ModalBody>
                             </ModalContent>
