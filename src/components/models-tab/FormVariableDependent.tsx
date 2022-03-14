@@ -436,20 +436,18 @@ export const TransitionInputs = ({
                     {transitionVal === 1 && (
                         <>
                             Concavity:
-                            <NumberInput
-                                w="35%"
-                                size="xs"
+                            <RadioGroup
                                 value={concavityVal}
-                                min={0}
-                                step={0.01}
-                                onChange={(e) => setConcavityVal(+e)}
+                                // eslint-disable-next-line sonarjs/no-identical-functions
+                                onChange={(e) => {
+                                    setConcavityVal(+e);
+                                }}
                             >
-                                <NumberInputField />
-                                <NumberInputStepper>
-                                    <NumberIncrementStepper />
-                                    <NumberDecrementStepper />
-                                </NumberInputStepper>
-                            </NumberInput>
+                                <Stack direction="row">
+                                    <Radio value={0}>Concave</Radio>
+                                    <Radio value={1}>Convex</Radio>
+                                </Stack>
+                            </RadioGroup>
                         </>
                     )}
                 </Flex>
