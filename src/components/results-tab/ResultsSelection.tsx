@@ -262,10 +262,12 @@ const ResultsSelection = () => {
         >
             {simulationKeys.map((simulation) => {
                 return (
-                    <AccordionItem key={simulation.name} bg="#16609E" mb="30px">
+                    <AccordionItem key={simulation.name}>
                         <h2>
                             <AccordionButton
-                                color="white"
+                                color="#16609E"
+                                border="none"
+                                borderBottom="2px solid #16609E"
                                 _focus={{ boxShadow: "none" }}
                             >
                                 <Box flex="1" textAlign="left">

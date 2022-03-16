@@ -1,5 +1,13 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Box, Flex, Text, Spinner, Button, HStack } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    Text,
+    Spinner,
+    Button,
+    HStack,
+    useDisclosure,
+} from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { useContext } from "react";
 
@@ -9,7 +17,7 @@ import createIdComponent from "utils/createIdcomponent";
 
 import DoubleYAxis from "./DoubleYAxis";
 import Exports from "./Exports";
-import ResultsSelection from "./ResultsSelection";
+import ResultsDrawer from "./ResultsDrawer";
 import SeeGraphic from "./SeeGraphic";
 
 const Graphic = dynamic(() => import("./Graphic"), {
@@ -33,59 +41,30 @@ const Graphic = dynamic(() => import("./Graphic"), {
 });
 const Results = () => {
     const { aux: responseSim } = useContext(TabIndex);
-    const { allGraphicData, setAllGraphicData, savedSimulation } =
-        useContext(GraphicsData);
+    const { allGraphicData, setAllGraphicData } = useContext(GraphicsData);
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <Flex w="100%" p="5px" h="100%" direction="column">
-            <Box h="5vh" mh="5vh">
+            <Flex h="5vh" mh="5vh" justifyContent="space-between">
                 <Text color="#16609E" fontSize="18px" fontWeight="bold">
                     Results
                 </Text>
-            </Box>
+                <ResultsDrawer
+                    isOpen={isOpen}
+                    onOpen={onOpen}
+                    onClose={onClose}
+                />
+            </Flex>
             {responseSim ? (
                 <Flex
                     w="100%"
                     h="87vh"
                     id={createIdComponent()}
-                    mt="1%"
                     textAlign="center"
                 >
                     <Flex
-                        id={createIdComponent()}
-                        minWidth="25%"
-                        maxWidth="25%"
-                        w="25%"
-                        direction="column"
-                        justify="space-between"
-                    >
-                        <ResultsSelection />
-                        <Box id={createIdComponent()} h="15%">
-                            <Button
-                                id={createIdComponent()}
-                                colorScheme="teal"
-                                size="md"
-                                mt="20px"
-                                minH="30px"
-                                onClick={() => {
-                                    setAllGraphicData([
-                                        ...allGraphicData,
-                                        [
-                                            {
-                                                graphicName: "",
-                                                leftAxis: savedSimulation,
-                                                rightAxis: [],
-                                            },
-                                        ],
-                                    ]);
-                                }}
-                            >
-                                Chart
-                            </Button>
-                        </Box>
-                    </Flex>
-                    <Flex
-                        w="75%"
+                        w="100%"
                         id={createIdComponent()}
                         direction="column"
                         justify="space-between"
@@ -101,7 +80,9 @@ const Results = () => {
                             >
                                 {allGraphicData.map((graphicData, index) => {
                                     return (
-                                        <Box id={createIdComponent()}>
+                                        <Box
+                                            key={`${graphicData[0]?.leftAxis[0]?.name}`}
+                                        >
                                             <Flex
                                                 justify="end"
                                                 id={createIdComponent()}
@@ -157,10 +138,20 @@ const Results = () => {
                                 h="100%"
                                 justify="center"
                                 align="center"
+                                flexDirection="column"
                             >
                                 {" "}
                                 <Text color="gray.600" fontSize="xl">
                                     There are no graphics to show.
+                                </Text>
+                                <Text
+                                    color="#16609E"
+                                    textDecoration="underline"
+                                    cursor="pointer"
+                                    fontSize="lg"
+                                    onClick={onOpen}
+                                >
+                                    Add Results
                                 </Text>
                             </Flex>
                         )}
