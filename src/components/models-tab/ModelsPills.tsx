@@ -164,8 +164,6 @@ const ModelsPills = () => {
                                     }}
                                 />
                             </Tooltip>
-                            <ImportModel />
-                            <ExportModels />
                         </Flex>
                     </Box>
                     <TabPanels minWidth="30vw" display="flex">

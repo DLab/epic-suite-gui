@@ -1,9 +1,10 @@
 import { ViewIcon, EditIcon, DeleteIcon, CloseIcon } from "@chakra-ui/icons";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 import { useContext } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
 
+import { ExportModels, ImportModel } from "./ImportExportModels";
 import Pills from "./ModelsPills";
 
 const ModelsTab = () => {
@@ -23,6 +24,10 @@ const ModelsTab = () => {
 
             <Flex direction="column">
                 <Pills />
+                <Flex>
+                    <ImportModel />
+                    {parameters.length > 0 && <ExportModels />}
+                </Flex>
             </Flex>
         </>
     );

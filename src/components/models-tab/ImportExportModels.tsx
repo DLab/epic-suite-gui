@@ -24,8 +24,9 @@ import { useContext } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
 import { DataParameters } from "types/ModelsTypes";
-import convertFiles, { TypeFile } from "utils/convertFiles";
 import addInLocalStorage from "utils/addInLocalStorage";
+import convertFiles, { TypeFile } from "utils/convertFiles";
+import SeirhbdChunkImport from "./SeirhvdChunkImport";
 
 export const ImportModel = () => {
     const { setParameters } = useContext(ModelsSaved);
@@ -38,7 +39,7 @@ export const ImportModel = () => {
                     bg="#FFFFFF"
                     color="#16609E"
                     aria-label="Call Segun"
-                    size="xs"
+                    size="sm"
                     cursor="pointer"
                     icon={<AttachmentIcon />}
                     onClick={onOpen}
@@ -74,12 +75,28 @@ export const ImportModel = () => {
                                                     )
                                                 )
                                             );
-                                            models.forEach((m) =>
-                                                setParameters({
-                                                    type: "add",
-                                                    payload: m,
-                                                })
-                                            );
+                                            models.forEach((mod) => {
+                                                if (
+                                                    mod.parameters.name ===
+                                                    "SEIRHVD"
+                                                ) {
+                                                    setParameters({
+                                                        type: "add",
+                                                        payload: mod,
+                                                    });
+                                                } else {
+                                                    setParameters({
+                                                        type: "add",
+                                                        payload: {
+                                                            ...mod,
+                                                            parameters: {
+                                                                ...mod.parameters,
+                                                                ...SeirhbdChunkImport,
+                                                            },
+                                                        },
+                                                    });
+                                                }
+                                            });
                                             addInLocalStorage(models, "models");
                                             onClose();
                                             toast({
@@ -177,8 +194,6 @@ export const ExportModels = () => {
                             color="#FFFFFF"
                             aria-label="Call Segun"
                             size="sm"
-                            w="100%"
-                            mt="1%"
                             cursor="pointer"
                             _hover={{ bg: "blue.500" }}
                             icon={<DownloadIcon />}
