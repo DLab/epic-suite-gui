@@ -103,18 +103,7 @@ const ResultsDrawer = ({ isOpen, onOpen, onClose }: Props) => {
                                     </DrawerFooter>
                                 </TabPanel>
                                 <TabPanel p="0 5%" h="100%">
-                                    <ResultsMapsSelection />
-                                    {/* <DrawerFooter justifyContent="space-around">
-                                        <Button colorScheme="teal">Ok</Button>
-                                        <Button
-                                            variant="outline"
-                                            onClick={() => {
-                                                onClose(true);
-                                            }}
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </DrawerFooter> */}
+                                    <ResultsMapsSelection onClose={onClose} />
                                 </TabPanel>
                             </TabPanels>
                         </Tabs>

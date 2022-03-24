@@ -15,9 +15,18 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 
+import { GraphicsData } from "context/GraphicsContext";
+import { ModelsSaved } from "context/ModelsContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
+import { DataParameters } from "types/ModelsTypes";
+import { SimulatorParams } from "types/SimulationTypes";
 
-const ResultsMapsSelection = () => {
+interface Props {
+    onClose: (val: boolean) => void;
+}
+
+const ResultsMapsSelection = ({ onClose }: Props) => {
     const [isMap1Checked, setIsMap1Checked] = useState([false, false]);
     const [initialConditionsCheckBox, setinitialConditionsCheckBox] = useState([
         [],
@@ -25,27 +34,53 @@ const ResultsMapsSelection = () => {
     ]);
     const [value, setValue] = React.useState(["", ""]);
     const [simIdToShowInMap, setSimIdToShowInMap] = useState(["", ""]);
+    const { dataToShowInMap, setDataToShowInMap } = useContext(GraphicsData);
+    const { parameters: parametersSaved } = useContext(ModelsSaved);
     const { simulation } = useContext(SimulationSetted);
+    const { geoSelections } = useContext(SelectFeature);
     const mapArray = ["Map 1", "Map 2"];
     // const isMap1CheckedAux = isMap1Checked;
 
-    const saveDataToShowInMap = () => {
-        const dataSimToShowInMap = simulation.filter((sim) => {
-            return sim.idSim.toString() === simIdToShowInMap[0];
-        });
+    const getDataToSave = (index) => {
+        const { name, idModel, idGeo } = simulation.filter(
+            (sim: SimulatorParams) => {
+                return sim.idSim.toString() === simIdToShowInMap[index];
+            }
+        )[0];
 
-        const { name, idModel, idGeo } = dataSimToShowInMap[0];
-        const map1 = {
-            // buscar en context geo con idGeo
-            scale: "",
+        const { featureSelected, scale } = geoSelections.filter(
+            (geoSelection) => {
+                return geoSelection.id === idGeo;
+            }
+        )[0];
+
+        const { parameters } = parametersSaved.filter(
+            (model: DataParameters) => {
+                return model.id === idModel;
+            }
+        )[0];
+
+        return {
+            scale,
             nameSim: name,
-            // buscar en context geo con idGeo
-            geoSelect: [],
-            idSim: simIdToShowInMap[0],
-            parameter: value[0],
-            // ??
-            duration: "",
+            geoSelect: featureSelected,
+            idSim: simIdToShowInMap[index],
+            parameter: value[index],
+            idGeo,
+            duration: parameters.t_end,
         };
+    };
+
+    const saveDataToShowInMap = () => {
+        let map1 = dataToShowInMap[0];
+        if (value[0] !== "") {
+            map1 = getDataToSave(0);
+        }
+        let map2 = dataToShowInMap[1];
+        if (value[1] !== "") {
+            map2 = getDataToSave(1);
+        }
+        setDataToShowInMap([map1, map2]);
     };
 
     return (
@@ -57,6 +92,7 @@ const ResultsMapsSelection = () => {
                         alignItems="center"
                         flexDirection="column"
                         m="5% 0"
+                        key={map}
                     >
                         <Flex w="100%" m="2% 0">
                             <FormLabel mb="0">{map}</FormLabel>
@@ -108,12 +144,14 @@ const ResultsMapsSelection = () => {
                                     onChange={(e) => {
                                         const simId = e.target.value;
                                         const initialConditionsSim =
-                                            simulation.filter((sim) => {
-                                                return (
-                                                    sim.idSim.toString() ===
-                                                    simId
-                                                );
-                                            });
+                                            simulation.filter(
+                                                (sim: SimulatorParams) => {
+                                                    return (
+                                                        sim.idSim.toString() ===
+                                                        simId
+                                                    );
+                                                }
+                                            );
                                         const initialConditionsStrg =
                                             Object.keys(
                                                 initialConditionsSim[0]
@@ -176,6 +214,7 @@ const ResultsMapsSelection = () => {
                                                 return (
                                                     <Radio
                                                         value={`${paramKey}`}
+                                                        key={paramKey}
                                                     >
                                                         {paramKey}
                                                     </Radio>
@@ -190,6 +229,7 @@ const ResultsMapsSelection = () => {
                                                 return (
                                                     <Radio
                                                         value={`${paramKeyData} Real`}
+                                                        key={`${paramKeyData} Real`}
                                                     >
                                                         {paramKeyData}
                                                     </Radio>
@@ -211,12 +251,19 @@ const ResultsMapsSelection = () => {
                 );
             })}
             <DrawerFooter justifyContent="space-around">
-                <Button colorScheme="teal">Ok</Button>
+                <Button
+                    colorScheme="teal"
+                    onClick={() => {
+                        saveDataToShowInMap();
+                        onClose(true);
+                    }}
+                >
+                    Ok
+                </Button>
                 <Button
                     variant="outline"
                     onClick={() => {
-                        saveDataToShowInMap();
-                        // onClose(true);
+                        onClose(true);
                     }}
                 >
                     Cancel

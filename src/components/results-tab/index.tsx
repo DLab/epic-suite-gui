@@ -1,4 +1,3 @@
-import { DeleteIcon } from "@chakra-ui/icons";
 import {
     Box,
     Flex,
@@ -11,16 +10,12 @@ import {
 import dynamic from "next/dynamic";
 import { useContext } from "react";
 
-import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import createIdComponent from "utils/createIdcomponent";
 
-import DoubleYAxis from "./DoubleYAxis";
-import Exports from "./Exports";
 import ResultsDrawer from "./ResultsDrawer";
-import SeeGraphic from "./SeeGraphic";
 
-const Graphic = dynamic(() => import("./Graphic"), {
+const GraphicAndMapResults = dynamic(() => import("./GraphicAndMapResults"), {
     loading: () => (
         <Flex
             id={createIdComponent()}
@@ -39,9 +34,10 @@ const Graphic = dynamic(() => import("./Graphic"), {
     ),
     ssr: false,
 });
+
 const Results = () => {
     const { aux: responseSim } = useContext(TabIndex);
-    const { allGraphicData, setAllGraphicData } = useContext(GraphicsData);
+
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
@@ -57,107 +53,7 @@ const Results = () => {
                 />
             </Flex>
             {responseSim ? (
-                <Flex
-                    w="100%"
-                    h="87vh"
-                    id={createIdComponent()}
-                    textAlign="center"
-                >
-                    <Flex
-                        w="100%"
-                        id={createIdComponent()}
-                        direction="column"
-                        justify="space-between"
-                    >
-                        {allGraphicData.length > 0 ? (
-                            <Flex
-                                id={createIdComponent()}
-                                flexWrap="wrap"
-                                h="100%"
-                                maxH="80vh"
-                                overflowY="auto"
-                                justify="space-evenly"
-                            >
-                                {allGraphicData.map((graphicData, index) => {
-                                    return (
-                                        <Box
-                                            key={`${graphicData[0]?.leftAxis[0]?.name}`}
-                                        >
-                                            <Flex
-                                                justify="end"
-                                                id={createIdComponent()}
-                                            >
-                                                <DoubleYAxis
-                                                    savedKeys={graphicData}
-                                                    index={index}
-                                                />
-                                                <SeeGraphic
-                                                    savedKeys={graphicData}
-                                                    index={index}
-                                                />
-                                                <DeleteIcon
-                                                    id={createIdComponent()}
-                                                    color="#16609E"
-                                                    ml="2%"
-                                                    cursor="pointer"
-                                                    onClick={() => {
-                                                        const aux =
-                                                            allGraphicData.filter(
-                                                                (x, y) => {
-                                                                    if (
-                                                                        y ===
-                                                                        index
-                                                                    ) {
-                                                                        return false;
-                                                                    }
-                                                                    return true;
-                                                                }
-                                                            );
-                                                        setAllGraphicData(aux);
-                                                    }}
-                                                >
-                                                    Delete
-                                                </DeleteIcon>
-                                            </Flex>
-                                            <Graphic
-                                                savedSimulationKeys={
-                                                    graphicData
-                                                }
-                                                index={index}
-                                                width="470"
-                                                height="340"
-                                                disabledName={false}
-                                            />
-                                        </Box>
-                                    );
-                                })}
-                            </Flex>
-                        ) : (
-                            <Flex
-                                id={createIdComponent()}
-                                h="100%"
-                                justify="center"
-                                align="center"
-                                flexDirection="column"
-                            >
-                                {" "}
-                                <Text color="gray.600" fontSize="xl">
-                                    There are no graphics to show.
-                                </Text>
-                                <Text
-                                    color="#16609E"
-                                    textDecoration="underline"
-                                    cursor="pointer"
-                                    fontSize="lg"
-                                    onClick={onOpen}
-                                >
-                                    Add Results
-                                </Text>
-                            </Flex>
-                        )}
-                        <Exports data={responseSim} />
-                    </Flex>
-                </Flex>
+                <GraphicAndMapResults onOpen={onOpen} />
             ) : (
                 <Flex h="88vh" w="100%" justify="center" align="center">
                     <HStack

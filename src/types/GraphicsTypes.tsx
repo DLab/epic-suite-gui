@@ -53,6 +53,16 @@ export interface KeysRealData {
     prevState?: null;
 }
 
+export interface MapResultsData {
+    scale: string;
+    nameSim: string;
+    geoSelect: string[];
+    idSim: string;
+    parameter: string;
+    duration: number;
+    idGeo: number;
+}
+
 export interface GraphicsProps {
     simulationKeys: SimulationKeysData[];
     setSimulationKeys: (value: SimulationKeysData[]) => void;
@@ -66,4 +76,6 @@ export interface GraphicsProps {
     setAllGraphicData?: (value: DoubleYAxisData[][]) => void;
     checkedItems: CheckedItems;
     setCheckedItems: (value: CheckedItems) => void;
+    dataToShowInMap: MapResultsData[];
+    setDataToShowInMap: (value: MapResultsData[]) => void;
 }

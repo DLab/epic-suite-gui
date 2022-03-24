@@ -20,6 +20,8 @@ export const GraphicsData = createContext<GraphicsProps>({
     setAllGraphicData: () => {},
     checkedItems: {},
     setCheckedItems: () => {},
+    dataToShowInMap: [],
+    setDataToShowInMap: () => {},
 });
 
 const GraphicsContext: React.FC = ({ children }) => {
@@ -41,6 +43,7 @@ const GraphicsContext: React.FC = ({ children }) => {
         []
     );
     const [checkedItems, setCheckedItems] = useState({});
+    const [dataToShowInMap, setDataToShowInMap] = useState([]);
 
     return (
         <GraphicsData.Provider
@@ -57,6 +60,8 @@ const GraphicsContext: React.FC = ({ children }) => {
                 setAllGraphicData,
                 checkedItems,
                 setCheckedItems,
+                dataToShowInMap,
+                setDataToShowInMap,
             }}
         >
             {children}
