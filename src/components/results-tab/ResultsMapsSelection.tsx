@@ -13,7 +13,7 @@ import {
     Stack,
     DrawerFooter,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { ModelsSaved } from "context/ModelsContext";
@@ -34,19 +34,83 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
     ]);
     const [value, setValue] = React.useState(["", ""]);
     const [simIdToShowInMap, setSimIdToShowInMap] = useState(["", ""]);
+    const [placeholderText, setPlaceholderText] = useState([
+        "Select option",
+        "Select option",
+    ]);
+
     const { dataToShowInMap, setDataToShowInMap } = useContext(GraphicsData);
     const { parameters: parametersSaved } = useContext(ModelsSaved);
     const { simulation } = useContext(SimulationSetted);
     const { geoSelections } = useContext(SelectFeature);
     const mapArray = ["Map 1", "Map 2"];
-    // const isMap1CheckedAux = isMap1Checked;
+
+    const getInitialConditionsCheck = (simId) => {
+        const initialConditionsSim = simulation.filter(
+            (sim: SimulatorParams) => {
+                return sim.idSim.toString() === simId;
+            }
+        );
+        return Object.keys(initialConditionsSim[0].initialConditions);
+    };
+
+    useEffect(() => {
+        const placeholderTextAux = placeholderText;
+        if (dataToShowInMap.length === 1) {
+            placeholderTextAux[0] = dataToShowInMap[0].nameSim;
+            setPlaceholderText(placeholderTextAux);
+        }
+        if (dataToShowInMap.length === 2) {
+            placeholderTextAux[0] = dataToShowInMap[0].nameSim;
+            placeholderTextAux[1] = dataToShowInMap[1].nameSim;
+            setPlaceholderText(placeholderTextAux);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        const simIdToShowInMapAux = simIdToShowInMap;
+        const valueAux = value;
+        const initialConditionsCheckBoxAux = initialConditionsCheckBox;
+        if (dataToShowInMap.length === 1) {
+            setIsMap1Checked([true, false]);
+            simIdToShowInMapAux[0] = dataToShowInMap[0].idSim;
+            setSimIdToShowInMap(simIdToShowInMapAux);
+            valueAux[0] = dataToShowInMap[0].parameter;
+            setValue(valueAux);
+            initialConditionsCheckBoxAux[0] = getInitialConditionsCheck(
+                dataToShowInMap[0].idSim
+            );
+            setinitialConditionsCheckBox(initialConditionsCheckBoxAux);
+        }
+        if (dataToShowInMap.length === 2) {
+            setIsMap1Checked([true, true]);
+            simIdToShowInMapAux[0] = dataToShowInMap[0].idSim;
+            simIdToShowInMapAux[1] = dataToShowInMap[1].idSim;
+            setSimIdToShowInMap(simIdToShowInMapAux);
+            valueAux[0] = dataToShowInMap[0].parameter;
+            valueAux[1] = dataToShowInMap[1].parameter;
+            setValue(valueAux);
+            initialConditionsCheckBoxAux[0] = getInitialConditionsCheck(
+                dataToShowInMap[0].idSim
+            );
+            initialConditionsCheckBoxAux[1] = getInitialConditionsCheck(
+                dataToShowInMap[1].idSim
+            );
+            setinitialConditionsCheckBox(initialConditionsCheckBoxAux);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const getDataToSave = (index) => {
-        const { name, idModel, idGeo } = simulation.filter(
-            (sim: SimulatorParams) => {
-                return sim.idSim.toString() === simIdToShowInMap[index];
-            }
-        )[0];
+        const {
+            name,
+            idModel,
+            idGeo,
+            t_init: tInit,
+        } = simulation.filter((sim: SimulatorParams) => {
+            return sim.idSim.toString() === simIdToShowInMap[index];
+        })[0];
 
         const { featureSelected, scale } = geoSelections.filter(
             (geoSelection) => {
@@ -63,29 +127,32 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         return {
             scale,
             nameSim: name,
-            geoSelect: featureSelected,
             idSim: simIdToShowInMap[index],
             parameter: value[index],
             idGeo,
             duration: parameters.t_end,
+            date: tInit,
+            idMap: index,
         };
     };
 
     const saveDataToShowInMap = () => {
-        let map1 = dataToShowInMap[0];
+        const dataToShowInMapAux = dataToShowInMap;
         if (value[0] !== "") {
-            map1 = getDataToSave(0);
+            const map1 = getDataToSave(0);
+            dataToShowInMapAux[0] = map1;
         }
-        let map2 = dataToShowInMap[1];
         if (value[1] !== "") {
-            map2 = getDataToSave(1);
+            const map2 = getDataToSave(1);
+            dataToShowInMapAux[1] = map2;
         }
-        setDataToShowInMap([map1, map2]);
+        setDataToShowInMap(dataToShowInMapAux);
     };
 
     return (
         <>
             {mapArray.map((map, index) => {
+                const placeholderAux = placeholderText[index];
                 return (
                     <FormControl
                         display="flex"
@@ -122,10 +189,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                                 index + 1
                                             ),
                                         ]);
-                                        // setinitialConditionsCheckBox([]);
                                     }
-
-                                    // isMap1CheckedAux[index] = e.target.checked;
 
                                     setIsMap1Checked([
                                         ...isMap1Checked.slice(0, index),
@@ -138,7 +202,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                         {isMap1Checked[index] ? (
                             <>
                                 <Select
-                                    placeholder="Select option"
+                                    placeholder={placeholderAux}
                                     w="95%"
                                     m="0 2% 3% 2%"
                                     onChange={(e) => {
@@ -158,19 +222,16 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                                     .initialConditions
                                             );
 
-                                        setinitialConditionsCheckBox(
-                                            [
-                                                ...initialConditionsCheckBox.slice(
-                                                    0,
-                                                    index
-                                                ),
-                                                initialConditionsStrg,
-                                                ...initialConditionsCheckBox.slice(
-                                                    index + 1
-                                                ),
-                                            ]
-                                            // initialConditionsStrg.split(",")
-                                        );
+                                        setinitialConditionsCheckBox([
+                                            ...initialConditionsCheckBox.slice(
+                                                0,
+                                                index
+                                            ),
+                                            initialConditionsStrg,
+                                            ...initialConditionsCheckBox.slice(
+                                                index + 1
+                                            ),
+                                        ]);
                                         setSimIdToShowInMap([
                                             ...simIdToShowInMap.slice(0, index),
                                             simId,

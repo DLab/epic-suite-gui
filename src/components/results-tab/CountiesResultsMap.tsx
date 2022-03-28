@@ -1,9 +1,9 @@
-import { useContext, useReducer, useEffect, useState } from "react";
+import { useContext, useReducer, useState, useEffect } from "react";
 import { GeoJSON, Tooltip, useMap } from "react-leaflet";
 import * as topojson from "topojson-client";
 import { GeometryObject, Topology } from "topojson-specification";
 
-import stateData_ from "../../data/states-10m.json";
+import us_ from "../../data/counties-10m.json";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 
@@ -18,17 +18,14 @@ interface Props {
     maxValue: number;
 }
 
-const StatesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
+const CountiesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
-    const stateData = stateData_ as unknown as Topology;
-    const data = topojson.feature(
-        stateData,
-        stateData.objects.states as GeometryObject
-    );
+    const us = us_ as unknown as Topology;
+    const data = topojson.feature(us, us.objects.counties as GeometryObject);
     const map = useMap();
     const { index: tabIndex } = useContext(TabIndex);
 
-    const [statesSelected, setStatesSelected] = useState([]);
+    const [countiesSelected, setCountiesSelected] = useState([]);
 
     const initialState: string | undefined = "";
 
@@ -42,15 +39,16 @@ const StatesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
 
     useEffect(() => {
         if (idGeo === 0) {
-            setStatesSelected([]);
+            setCountiesSelected([]);
         } else {
             const geoSelection = geoSelections.find(
                 (element) => element.id === idGeo
             );
-            setStatesSelected(geoSelection?.featureSelected);
+
+            setCountiesSelected(geoSelection.featureSelected);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idGeo, parameterValue]);
+    }, [idGeo]);
 
     useEffect(() => {
         if (tabIndex === 3) {
@@ -95,7 +93,7 @@ const StatesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
         let color;
         const stateId = feature.id;
 
-        if (statesSelected?.includes(stateId)) {
+        if (countiesSelected?.includes(stateId)) {
             color = getColor(parameterValue);
         } else {
             color = "#1777c7";
@@ -116,4 +114,4 @@ const StatesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
     );
 };
 
-export default StatesResultsMap;
+export default CountiesResultsMap;

@@ -40,9 +40,11 @@ const CountiesSimulationMap = ({ geoAreaSelected, idGeo }: Props) => {
         if (idGeo === 0) {
             setCountiesSelected([]);
         } else {
-            const geri = geoSelections.find((element) => element.id === idGeo);
+            const geoSelection = geoSelections.find(
+                (element) => element.id === idGeo
+            );
 
-            setCountiesSelected(geri.featureSelected);
+            setCountiesSelected(geoSelection.featureSelected);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [idGeo]);

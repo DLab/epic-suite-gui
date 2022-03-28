@@ -56,11 +56,12 @@ export interface KeysRealData {
 export interface MapResultsData {
     scale: string;
     nameSim: string;
-    geoSelect: string[];
     idSim: string;
     parameter: string;
     duration: number;
     idGeo: number;
+    idMap: number;
+    date: string;
 }
 
 export interface GraphicsProps {
