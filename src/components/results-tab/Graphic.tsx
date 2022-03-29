@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { Text, Input } from "@chakra-ui/react";
+import { Text, Input, Flex } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
@@ -137,7 +137,6 @@ const Graphic = ({
 
     return (
         <>
-            <Text />
             {disabledName ? (
                 <Input
                     border="none"
@@ -164,20 +163,19 @@ const Graphic = ({
                     }}
                 />
             )}
-
-            <Text />
             <Plot
                 data={axios}
                 layout={{
+                    autosize: false,
                     width: +width,
                     height: +height,
                     margin: {
-                        l: 70,
-                        b: 70,
+                        l: 55,
+                        b: 60,
                         t: 0,
                     },
                     title: `<span style="display: none">""</span>`,
-                    legend: { xanchor: "end", x: 20, y: 1 },
+                    legend: { xanchor: "end", x: 25, y: 1 },
                     showlegend: true,
                     xaxis: {
                         title: {

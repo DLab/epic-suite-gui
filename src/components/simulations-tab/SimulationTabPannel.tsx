@@ -88,7 +88,7 @@ Props) => {
     const { geoSelections } = useContext(SelectFeature);
     const { setInitialConditions: setInitialConditionsContext } =
         useContext(ControlPanel);
-    const { setAllGraphicData, setRealDataSimulationKeys } =
+    const { setAllGraphicData, setRealDataSimulationKeys, setDataToShowInMap } =
         useContext(GraphicsData);
     const [optionFeature, setOptionFeature] = useState<OptionFeature>(
         OptionFeature.None
@@ -754,6 +754,7 @@ Props) => {
                     setSimulation({ type: "remove", element: idSimulation });
                     setAllGraphicData([]);
                     setRealDataSimulationKeys([]);
+                    setDataToShowInMap([]);
                 }}
             />
         </>

@@ -52,7 +52,7 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                         overflowY="auto"
                         justify="space-evenly"
                     >
-                        <Flex width="50%">
+                        <Flex width="50%" direction="column">
                             {allGraphicData.map((graphicData, index) => {
                                 return (
                                     <Box
@@ -60,46 +60,63 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                                     >
                                         <Flex
                                             justify="end"
+                                            w="90%"
+                                            mt="2%"
                                             id={createIdComponent()}
                                         >
-                                            <DoubleYAxis
-                                                savedKeys={graphicData}
-                                                index={index}
-                                            />
-                                            <SeeGraphic
-                                                savedKeys={graphicData}
-                                                index={index}
-                                            />
-                                            <DeleteIcon
-                                                id={createIdComponent()}
-                                                color="#16609E"
-                                                ml="2%"
-                                                cursor="pointer"
-                                                onClick={() => {
-                                                    const aux =
-                                                        allGraphicData.filter(
-                                                            (x, y) => {
-                                                                if (
-                                                                    y === index
-                                                                ) {
-                                                                    return false;
+                                            <Flex h="1.5rem">
+                                                <DoubleYAxis
+                                                    savedKeys={graphicData}
+                                                    index={index}
+                                                />
+                                                <SeeGraphic
+                                                    savedKeys={graphicData}
+                                                    index={index}
+                                                />
+                                                <DeleteIcon
+                                                    id={createIdComponent()}
+                                                    color="#16609E"
+                                                    ml="2%"
+                                                    cursor="pointer"
+                                                    onClick={() => {
+                                                        const aux =
+                                                            allGraphicData.filter(
+                                                                (x, y) => {
+                                                                    if (
+                                                                        y ===
+                                                                        index
+                                                                    ) {
+                                                                        return false;
+                                                                    }
+                                                                    return true;
                                                                 }
-                                                                return true;
-                                                            }
-                                                        );
-                                                    setAllGraphicData(aux);
-                                                }}
-                                            >
-                                                Delete
-                                            </DeleteIcon>
+                                                            );
+                                                        setAllGraphicData(aux);
+                                                    }}
+                                                >
+                                                    Delete
+                                                </DeleteIcon>
+                                            </Flex>
                                         </Flex>
-                                        <Graphic
-                                            savedSimulationKeys={graphicData}
-                                            index={index}
-                                            width="470"
-                                            height="340"
-                                            disabledName={false}
-                                        />
+                                        <Flex
+                                            direction="column"
+                                            bg="#FFFFFF"
+                                            borderRadius="10px"
+                                            alignItems="center"
+                                            justify="center"
+                                            w="90%"
+                                            h="71vh"
+                                        >
+                                            <Graphic
+                                                savedSimulationKeys={
+                                                    graphicData
+                                                }
+                                                index={index}
+                                                width="500"
+                                                height="340"
+                                                disabledName={false}
+                                            />
+                                        </Flex>
                                     </Box>
                                 );
                             })}

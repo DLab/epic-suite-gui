@@ -112,11 +112,9 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             return sim.idSim.toString() === simIdToShowInMap[index];
         })[0];
 
-        const { featureSelected, scale } = geoSelections.filter(
-            (geoSelection) => {
-                return geoSelection.id === idGeo;
-            }
-        )[0];
+        const { scale } = geoSelections.filter((geoSelection) => {
+            return geoSelection.id === idGeo;
+        })[0];
 
         const { parameters } = parametersSaved.filter(
             (model: DataParameters) => {

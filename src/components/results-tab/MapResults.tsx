@@ -12,6 +12,7 @@ import {
     StatLabel,
     StatNumber,
     StatGroup,
+    Box,
 } from "@chakra-ui/react";
 import { format, add } from "date-fns";
 import dynamic from "next/dynamic";
@@ -61,34 +62,42 @@ const MapResults = ({ map }: Props) => {
         setSimDay(0);
     }, [map]);
 
+    const filterData = (simData, typeData) => {
+        const simRealDataKeyFilter = simData.filter((sim) => {
+            return sim.name === map.nameSim;
+        });
+
+        let getParameterValue;
+
+        if (typeData === "Real") {
+            let filterKey = map.parameter.slice(0, -5);
+            // Borrar en refactorización
+            if (filterKey === "I") {
+                filterKey = "I_active";
+            }
+            if (filterKey === "I_d") {
+                filterKey = "I";
+            }
+            if (filterKey === "I_ac") {
+                filterKey = "I_acum";
+            }
+            getParameterValue = simRealDataKeyFilter[0][filterKey];
+        } else {
+            getParameterValue = simRealDataKeyFilter[0][map.parameter];
+        }
+        const parametersValuesArray = Object.values(getParameterValue);
+        const getMaxValue = Math.max.apply(null, parametersValuesArray);
+        setMaxValue(getMaxValue);
+        if (getParameterValue !== undefined) {
+            setParameterValue(getParameterValue[simDay]);
+        }
+    };
+
     useEffect(() => {
         if (map.parameter.includes("Real")) {
-            const simRealDataKeyFilter = realDataSimulationKeys.filter(
-                (sim) => {
-                    return sim.name === map.nameSim;
-                }
-            );
-            const filterKey = map.parameter.slice(0, -5);
-            const getParameterValue = simRealDataKeyFilter[0][filterKey];
-            const parametersValuesArray = Object.values(getParameterValue);
-            const getMaxValue = Math.max.apply(null, parametersValuesArray);
-            setMaxValue(getMaxValue);
-            if (getParameterValue !== undefined) {
-                setParameterValue(getParameterValue[simDay]);
-            }
+            filterData(realDataSimulationKeys, "Real");
         } else {
-            const simKeyFilter = data.filter((sim) => {
-                return sim.name === map.nameSim;
-            });
-            const getParameterValue = simKeyFilter[0][map.parameter];
-
-            const parametersValuesArray = Object.values(getParameterValue);
-            const getMaxValue = Math.max.apply(null, parametersValuesArray);
-
-            setMaxValue(getMaxValue);
-            if (getParameterValue !== undefined) {
-                setParameterValue(getParameterValue[simDay]);
-            }
+            filterData(data, "Sim");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, map.nameSim, map.parameter, simDay]);
@@ -114,128 +123,135 @@ const MapResults = ({ map }: Props) => {
     }, [map.date, simDay]);
 
     return (
-        <Flex direction="column" mt="2%">
-            <Flex justify="space-between">
-                <Text ml="2%">
-                    {map.parameter} {map.nameSim}
-                </Text>
-                <IconButton
-                    color="#16609E"
-                    aria-label="Call Segun"
-                    size="sm"
-                    cursor="pointer"
-                    _hover={{
-                        bg: "blue.500",
-                        color: "#ffffff",
-                    }}
-                    icon={<DeleteIcon />}
-                    onClick={() => {
-                        const dataToShowInMapFilter = dataToShowInMap.filter(
-                            (mapData) => {
-                                return mapData.idMap !== map.idMap;
-                            }
-                        );
-                        setDataToShowInMap(dataToShowInMapFilter);
-                    }}
-                />
+        <Box>
+            <Flex justify="end" w="90%" mt="2%">
+                <Flex h="1.5rem">
+                    <DeleteIcon
+                        color="#16609E"
+                        ml="2%"
+                        cursor="pointer"
+                        onClick={() => {
+                            const dataToShowInMapFilter =
+                                dataToShowInMap.filter((mapData) => {
+                                    return mapData.idMap !== map.idMap;
+                                });
+                            setDataToShowInMap(dataToShowInMapFilter);
+                        }}
+                    >
+                        Delete
+                    </DeleteIcon>
+                </Flex>
             </Flex>
-            <Flex w="100%" justify="center" h="45vh">
-                <MapContainer
-                    className="will-change"
-                    center={[38, -96]}
-                    zoom={3.48}
-                    style={{
-                        height: "45vh",
-                        maxHeight: "45vh",
-                        width: "100%",
-                    }}
-                    scrollWheelZoom={false}
-                >
-                    <ColorsScale maxValue={maxValue} />
-                    <TileLayer
-                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    {map.scale === "States" ? (
-                        <StatesResultsMap
-                            idGeo={map.idGeo}
-                            parameterValue={parameterValue}
-                            maxValue={maxValue}
+            <Flex
+                direction="column"
+                justify="center"
+                bg="#FFFFFF"
+                borderRadius="10px"
+                alignItems="center"
+                w="90%"
+                h="71vh"
+            >
+                <Flex justify="center" direction="column" w="90%">
+                    <Text ml="2%">
+                        {map.parameter} {map.nameSim}
+                    </Text>
+                    <MapContainer
+                        className="will-change"
+                        center={[38, -96]}
+                        zoom={3.48}
+                        style={{
+                            height: "45vh",
+                            maxHeight: "45vh",
+                            width: "100%",
+                        }}
+                        scrollWheelZoom={false}
+                    >
+                        <ColorsScale maxValue={maxValue} />
+                        <TileLayer
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        {map.scale === "States" ? (
+                            <StatesResultsMap
+                                idGeo={map.idGeo}
+                                parameterValue={parameterValue}
+                                maxValue={maxValue}
+                            />
+                        ) : (
+                            <CountiesResultsMap
+                                idGeo={map.idGeo}
+                                parameterValue={parameterValue}
+                                maxValue={maxValue}
+                            />
+                        )}
+                    </MapContainer>
+                </Flex>
+                <StatGroup w="90%" mt="1%">
+                    <Stat>
+                        <StatLabel>Day</StatLabel>
+                        <StatNumber>{simDay + 1}</StatNumber>
+                    </Stat>
+
+                    <Stat>
+                        <StatLabel>Date</StatLabel>
+                        <StatNumber>{simDate}</StatNumber>
+                    </Stat>
+                    <Stat>
+                        <StatLabel>Value</StatLabel>
+                        <StatNumber>{parameterValue}</StatNumber>
+                    </Stat>
+                </StatGroup>
+                <Flex w="95%" m="2% 0">
+                    {!isPlaying ? (
+                        <IconButton
+                            fontSize="20px"
+                            bg="#16609E"
+                            color="#FFFFFF"
+                            fill="white"
+                            aria-label="Play"
+                            size="sm"
+                            cursor="pointer"
+                            icon={<PlayIcon />}
+                            mr="1rem"
+                            onClick={() => {
+                                setIsPlaying(true);
+                            }}
                         />
                     ) : (
-                        <CountiesResultsMap
-                            idGeo={map.idGeo}
-                            parameterValue={parameterValue}
-                            maxValue={maxValue}
+                        <IconButton
+                            fontSize="20px"
+                            bg="#16609E"
+                            color="#FFFFFF"
+                            fill="white"
+                            aria-label="Play"
+                            size="sm"
+                            cursor="pointer"
+                            icon={<PauseIcon />}
+                            mr="1rem"
+                            onClick={() => {
+                                setIsPlaying(false);
+                            }}
                         />
                     )}
-                </MapContainer>
-            </Flex>
-            <StatGroup w="90%" mt="1%">
-                <Stat>
-                    <StatLabel>Day</StatLabel>
-                    <StatNumber>{simDay + 1}</StatNumber>
-                </Stat>
 
-                <Stat>
-                    <StatLabel>Date</StatLabel>
-                    <StatNumber>{simDate}</StatNumber>
-                </Stat>
-                <Stat>
-                    <StatLabel>Value</StatLabel>
-                    <StatNumber>{parameterValue}</StatNumber>
-                </Stat>
-            </StatGroup>
-            <Flex w="95%" m="2% 0">
-                {!isPlaying ? (
-                    <IconButton
-                        fontSize="20px"
-                        bg="#16609E"
-                        color="#FFFFFF"
-                        fill="white"
-                        aria-label="Play"
-                        size="sm"
-                        cursor="pointer"
-                        icon={<PlayIcon />}
-                        mr="1rem"
-                        onClick={() => {
-                            setIsPlaying(true);
-                        }}
-                    />
-                ) : (
-                    <IconButton
-                        fontSize="20px"
-                        bg="#16609E"
-                        color="#FFFFFF"
-                        fill="white"
-                        aria-label="Play"
-                        size="sm"
-                        cursor="pointer"
-                        icon={<PauseIcon />}
-                        mr="1rem"
-                        onClick={() => {
+                    <Slider
+                        aria-label="slider-ex-1"
+                        defaultValue={1}
+                        max={map.duration - 1}
+                        value={simDay}
+                        onChange={(value) => {
+                            setSimDay(value);
                             setIsPlaying(false);
                         }}
-                    />
-                )}
-
-                <Slider
-                    aria-label="slider-ex-1"
-                    defaultValue={1}
-                    max={map.duration - 1}
-                    value={simDay}
-                    onChange={(value) => {
-                        setSimDay(value);
-                        setIsPlaying(false);
-                    }}
-                >
-                    <SliderTrack>
-                        <SliderFilledTrack />
-                    </SliderTrack>
-                    <SliderThumb />
-                </Slider>
+                    >
+                        <SliderTrack>
+                            <SliderFilledTrack />
+                        </SliderTrack>
+                        <SliderThumb />
+                    </Slider>
+                </Flex>
             </Flex>
-        </Flex>
+        </Box>
     );
 };
 
