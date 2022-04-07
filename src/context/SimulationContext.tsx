@@ -48,6 +48,14 @@ const SimulationContext: React.FC = ({ children }) => {
         switch (action.type) {
             case "add":
                 return [...state, action.payload];
+            case "update-all":
+                return state.map((e, index) => {
+                    if (e.idSim === action.id) {
+                        // eslint-disable-next-line no-param-reassign
+                        state[index] = action.payload;
+                    }
+                    return e;
+                });
             case "update":
                 return state.map((e) => {
                     if (e.idSim === action.id) {

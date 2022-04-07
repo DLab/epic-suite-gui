@@ -13,11 +13,10 @@ interface ActionTooltip {
 }
 
 interface Props {
-    geoAreaSelected: string[];
     idGeo: number;
 }
 
-const CountiesSimulationMap = ({ geoAreaSelected, idGeo }: Props) => {
+const CountiesSimulationMap = ({ idGeo }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
     const us = us_ as unknown as Topology;
     const data = topojson.feature(us, us.objects.counties as GeometryObject);
