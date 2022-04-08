@@ -41,6 +41,7 @@ interface Props {
     intialConditionsSim: InitialConditionsContext;
     typeSelection: string;
     index: number;
+    setTabIndex: (value: number) => void;
 }
 
 // eslint-disable-next-line complexity
@@ -51,6 +52,7 @@ const SimulationTabPannel = ({
     intialConditionsSim,
     typeSelection,
     index,
+    setTabIndex,
 }: // eslint-disable-next-line sonarjs/cognitive-complexity
 Props) => {
     const toast = useToast();
@@ -790,6 +792,7 @@ Props) => {
                     setAllGraphicData([]);
                     setRealDataSimulationKeys([]);
                     setDataToShowInMap([]);
+                    setTabIndex(simulation.length - 2);
                 }}
             />
         </>
