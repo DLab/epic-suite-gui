@@ -13,11 +13,12 @@ import {
     StatHelpText,
     Icon,
 } from "@chakra-ui/react";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 
 import NumberInputEpi from "../../NumberInputEpi";
 import { ControlPanel } from "context/ControlPanelContext";
 import { ModelsSaved } from "context/ModelsContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { InitialConditions as InitialConditionsContext } from "types/ControlPanelTypes";
 import { DataParameters } from "types/ModelsTypes";
@@ -43,6 +44,7 @@ const InitialConditions = ({
     const toast = useToast();
     const { setInitialConditions, initialConditions } =
         useContext(ControlPanel);
+
     const {
         simulation,
         setSimulation,
@@ -232,7 +234,7 @@ const InitialConditions = ({
                                         <StatLabel>H_d</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                intialConditionsSim.H
+                                                intialConditionsSim.H_d
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
@@ -271,7 +273,7 @@ const InitialConditions = ({
                                         <StatLabel>D</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                intialConditionsSim.D_acum
+                                                intialConditionsSim.D
                                             )}
                                         </StatNumber>
                                         <StatHelpText>Deaths</StatHelpText>
@@ -424,8 +426,8 @@ const InitialConditions = ({
                                     <NumberInputEpi
                                         value={D}
                                         setValue={setInitialConditions}
-                                        name="D_d"
                                         nameParams="D"
+                                        name="D_d"
                                         description="D_d"
                                         min={0}
                                         max={Infinity}

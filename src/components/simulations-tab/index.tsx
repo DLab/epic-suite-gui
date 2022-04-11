@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import dynamic from "next/dynamic";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 
 import { SimulationSetted } from "context/SimulationContext";
 import { OptionFeature } from "types/SimulationTypes";
@@ -37,7 +37,7 @@ const SimulationTabPannel = dynamic(() => import("./SimulationTabPannel"), {
 });
 
 const SimulationTab = () => {
-    const [tabIndex, setTabIndex] = useState<number>(0);
+    const [tabIndex, setTabIndex] = useState<number>();
     const { simulation, setSimulation } = useContext(SimulationSetted);
 
     const addSimulation = () => {
@@ -61,15 +61,8 @@ const SimulationTab = () => {
                 },
             },
         });
+        setTabIndex(simulation.length);
     };
-    useEffect(() => {
-        if (simulation.length > 0) {
-            setTabIndex(simulation.length - 1);
-        } else {
-            setTabIndex(0);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [simulation.length]);
 
     return (
         <>
@@ -156,6 +149,7 @@ const SimulationTab = () => {
                                             idGeo={sim.idGeo}
                                             typeSelection={sim.typeSelection}
                                             index={index}
+                                            setTabIndex={setTabIndex}
                                         />
                                     </TabPanel>
                                 );

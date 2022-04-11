@@ -13,11 +13,10 @@ interface ActionTooltip {
 }
 
 interface Props {
-    geoAreaSelected: string[];
     idGeo: number;
 }
 
-const CountiesSimulationMap = ({ geoAreaSelected, idGeo }: Props) => {
+const CountiesSimulationMap = ({ idGeo }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
     const us = us_ as unknown as Topology;
     const data = topojson.feature(us, us.objects.counties as GeometryObject);
@@ -40,9 +39,11 @@ const CountiesSimulationMap = ({ geoAreaSelected, idGeo }: Props) => {
         if (idGeo === 0) {
             setCountiesSelected([]);
         } else {
-            const geri = geoSelections.find((element) => element.id === idGeo);
+            const geoSelection = geoSelections.find(
+                (element) => element.id === idGeo
+            );
 
-            setCountiesSelected(geri.featureSelected);
+            setCountiesSelected(geoSelection.featureSelected);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [idGeo]);

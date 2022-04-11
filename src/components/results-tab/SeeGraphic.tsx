@@ -52,38 +52,37 @@ const SeeGraphic = ({ savedKeys, index }: Props) => {
                 cursor="pointer"
                 fontSize="1.4rem"
             />
-            {savedKeys.map(() => {
+            {savedKeys.map((e) => {
                 return (
-                    <>
-                        <Modal
+                    <Modal
+                        id={createIdComponent()}
+                        isOpen={isOpen}
+                        onClose={onClose}
+                        size="xl"
+                        key={`${e.leftAxis[0]?.name}`}
+                    >
+                        <ModalOverlay id={createIdComponent()} />
+                        <ModalContent
                             id={createIdComponent()}
-                            isOpen={isOpen}
-                            onClose={onClose}
-                            size="xl"
+                            textAlign="center"
+                            maxW="70vw"
+                            maxH="90vh"
                         >
-                            <ModalOverlay id={createIdComponent()} />
-                            <ModalContent
+                            <ModalCloseButton
                                 id={createIdComponent()}
-                                textAlign="center"
-                                maxW="70vw"
-                                maxH="90vh"
-                            >
-                                <ModalCloseButton
-                                    id={createIdComponent()}
-                                    zIndex="5"
+                                zIndex="5"
+                            />
+                            <ModalBody id={createIdComponent()}>
+                                <Graphic
+                                    savedSimulationKeys={savedKeys}
+                                    width="100%"
+                                    height="95%"
+                                    index={index}
+                                    disabledName
                                 />
-                                <ModalBody id={createIdComponent()}>
-                                    <Graphic
-                                        savedSimulationKeys={savedKeys}
-                                        width="100%"
-                                        height="95%"
-                                        index={index}
-                                        disabledName
-                                    />
-                                </ModalBody>
-                            </ModalContent>
-                        </Modal>
-                    </>
+                            </ModalBody>
+                        </ModalContent>
+                    </Modal>
                 );
             })}
         </>
