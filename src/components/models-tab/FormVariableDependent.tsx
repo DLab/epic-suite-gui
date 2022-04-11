@@ -17,7 +17,10 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { TransitionFunction, TypePhase } from "types/VariableDependentTime";
+import {
+    TransitionFunction,
+    TypePhase,
+} from "../../types/VariableDependentTime";
 
 interface DataSetters {
     id: number;
@@ -48,8 +51,7 @@ export const StaticInputs = ({ value, id, setVal, close }: StaticsProps) => {
     const [state, setstate] = useState<string>(`${value}`);
     return (
         <Flex alignItems="center">
-            <Text>Static</Text>
-            Value:
+            <Text>Static Value:</Text>
             <NumberInput
                 w="30%"
                 ml="0.5"

@@ -27,7 +27,7 @@ import { SimulationSetted } from "context/SimulationContext";
 import { DataParameters } from "types/ModelsTypes";
 import { DataGeoSelections } from "types/SelectFeaturesTypes";
 import { OptionFeature, SimulatorParams } from "types/SimulationTypes";
-import { postData } from "utils/fetchData";
+import postData from "utils/fetchData";
 
 import AreaSelectedBox from "./AreaSelectedBox";
 import RunSimulatorButton from "./RunSimulatorButton";

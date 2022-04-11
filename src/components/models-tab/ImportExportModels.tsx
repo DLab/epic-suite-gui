@@ -24,8 +24,14 @@ import { useContext } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
 import { DataParameters } from "types/ModelsTypes";
+import { InitialConditions } from "types/SimulationTypes";
+import { EpicConfigToml } from "types/TomlTypes";
 import addInLocalStorage from "utils/addInLocalStorage";
 import convertFiles, { TypeFile } from "utils/convertFiles";
+import createChunkDependentTime, {
+    prepareChunk,
+} from "utils/createChunkDependentTime";
+
 import SeirhbdChunkImport from "./SeirhvdChunkImport";
 
 export const ImportModel = () => {
@@ -54,7 +60,7 @@ export const ImportModel = () => {
                         <Center>
                             <input
                                 type="file"
-                                accept="Application/JSON"
+                                accept="application/toml"
                                 onChange={(e) => {
                                     if (
                                         window.File &&
@@ -68,36 +74,40 @@ export const ImportModel = () => {
                                             "UTF-8"
                                         );
                                         reader.onload = (est) => {
-                                            const models = JSON.parse(
-                                                JSON.parse(
-                                                    JSON.stringify(
-                                                        est.target.result
-                                                    )
-                                                )
-                                            );
-                                            models.forEach((mod) => {
-                                                if (
-                                                    mod.parameters.name ===
-                                                    "SEIRHVD"
-                                                ) {
-                                                    setParameters({
-                                                        type: "add",
-                                                        payload: mod,
-                                                    });
-                                                } else {
-                                                    setParameters({
-                                                        type: "add",
-                                                        payload: {
-                                                            ...mod,
-                                                            parameters: {
-                                                                ...mod.parameters,
-                                                                ...SeirhbdChunkImport,
-                                                            },
-                                                        },
-                                                    });
-                                                }
+                                            const importedData: EpicConfigToml =
+                                                convertFiles(
+                                                    est.target.result,
+                                                    TypeFile.JSON
+                                                ) as unknown as EpicConfigToml;
+                                            const parameters = {
+                                                ...importedData.parameters
+                                                    .dynamic,
+                                                ...importedData.parameters
+                                                    .static,
+                                                ...importedData.model,
+                                                title: importedData.title,
+                                            };
+                                            // const initialConditions: InitialConditions =
+                                            //     importedData.initialconditions;
+                                            // const geographData =
+                                            //     importedData.data;
+
+                                            const modelForAdd: DataParameters =
+                                                {
+                                                    id: Date.now(),
+                                                    parameters:
+                                                        prepareChunk(
+                                                            parameters
+                                                        ),
+                                                };
+                                            setParameters({
+                                                type: "add",
+                                                payload: modelForAdd,
                                             });
-                                            addInLocalStorage(models, "models");
+                                            addInLocalStorage(
+                                                [modelForAdd],
+                                                "models"
+                                            );
                                             onClose();
                                             toast({
                                                 title: "Models imported",

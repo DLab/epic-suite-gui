@@ -8,9 +8,10 @@ export enum TypeFile {
     TOML = "TOML",
 }
 
-const convertFiles = (data: any, typeFile: TypeFile = TypeFile.TOML): string => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const convertFiles = (data: any, typeFile: TypeFile = TypeFile.TOML): unknown | toml.JsonMap => {
     if(typeFile === TypeFile.JSON){
-        return ""
+        return toml.parse(data);
     }
     if(typeFile === TypeFile.CSV){
         const parser = new Parser()
