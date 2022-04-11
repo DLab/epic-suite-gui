@@ -3,19 +3,14 @@ import {
     Drawer,
     DrawerBody,
     DrawerFooter,
-    DrawerHeader,
     DrawerOverlay,
     DrawerContent,
-    DrawerCloseButton,
-    Input,
     Button,
     Tabs,
     TabList,
     TabPanels,
     Tab,
     TabPanel,
-    useDisclosure,
-    Tooltip,
     IconButton,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
@@ -32,7 +27,6 @@ interface Props {
 }
 
 const ResultsDrawer = ({ isOpen, onOpen, onClose }: Props) => {
-    // const { isOpen, onOpen, onClose } = useDisclosure();
     const { allGraphicData, setAllGraphicData, savedSimulation } =
         useContext(GraphicsData);
 

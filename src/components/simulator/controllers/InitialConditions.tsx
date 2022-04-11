@@ -209,7 +209,7 @@ const InitialConditions = ({
                                         <StatLabel>Iv_d</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                intialConditionsSim.Iv_d
+                                                intialConditionsSim.V
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
@@ -222,7 +222,7 @@ const InitialConditions = ({
                                         <StatLabel>Iv_ac</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                intialConditionsSim.Iv_ac
+                                                intialConditionsSim.V_acum
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
@@ -248,7 +248,7 @@ const InitialConditions = ({
                                         <StatLabel>H_d</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                intialConditionsSim.H
+                                                intialConditionsSim.H_d
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
@@ -261,7 +261,7 @@ const InitialConditions = ({
                                         <StatLabel>H</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                intialConditionsSim.H
+                                                intialConditionsSim.H_acum
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
@@ -274,7 +274,7 @@ const InitialConditions = ({
                                         <StatLabel>D_d</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                intialConditionsSim.D_d
+                                                intialConditionsSim.D
                                             )}
                                         </StatNumber>
                                         <StatHelpText>

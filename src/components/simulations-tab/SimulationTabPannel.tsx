@@ -111,54 +111,12 @@ Props) => {
         switch (e) {
             case OptionFeature.Geographic:
                 setOptionFeature(OptionFeature.Geographic);
-                // setSimulation({
-                //     type: "update",
-                //     element: OptionFeature.Geographic,
-                //     target: "typeSelection",
-                //     id: idSimulation,
-                // });
-                // setSimulation({
-                //     type: "update",
-                //     element: 0,
-                //     target: "idGraph",
-                //     id: idSimulation,
-                // });
                 break;
             case OptionFeature.Graph:
                 setOptionFeature(OptionFeature.Graph);
-                // setSimulation({
-                //     type: "update",
-                //     element: OptionFeature.Graph,
-                //     target: "typeSelection",
-                //     id: idSimulation,
-                // });
-                // setSimulation({
-                //     type: "update",
-                //     element: 0,
-                //     target: "idGeo",
-                //     id: idSimulation,
-                // });
                 break;
             default:
                 setOptionFeature(OptionFeature.None);
-                // setSimulation({
-                //     type: "update",
-                //     element: OptionFeature.None,
-                //     target: "typeSelection",
-                //     id: idSimulation,
-                // });
-                // setSimulation({
-                //     type: "update",
-                //     element: 0,
-                //     target: "idGeo",
-                //     id: idSimulation,
-                // });
-                // setSimulation({
-                //     type: "update",
-                //     element: 0,
-                //     target: "idGraph",
-                //     id: idSimulation,
-                // });
                 break;
         }
     }, []);
@@ -230,17 +188,6 @@ Props) => {
                 R,
                 E,
             });
-            // selectSimulation(
-            //     {
-            //         I: I_active,
-            //         I_d: I,
-            //         I_ac: I_acum,
-            //         S,
-            //         R,
-            //         E,
-            //     },
-            //     "initialConditions"
-            // );
         }
         if (Compartment === "SIR") {
             setInitialConditions({
@@ -307,18 +254,9 @@ Props) => {
                     "Spatial selection hasn't states or counties selected. \n Check it before set initial conditions"
                 );
             }
-
-            // const {
-            //     idModel,
-            //     t_init: timeInit,
-            //     name: nameModel,
-            // } = simulation.find(
-            //     (s: SimulatorParams) => s.idSim === idSimulation
-            // );
             if (idModel2 === 0) {
                 throw new Error("Choose a model please");
             }
-            // const { name } = getModelById(idModel);
             const dateFormat = format(new Date(startDate), "yyyy/MM/dd");
             const configCalcInitialConditions = {
                 compartments: modelType,
@@ -448,7 +386,6 @@ Props) => {
         if (typeSelection !== "") {
             setIdGeoSelection(idGeo);
             setInitialConditions(initialConditions);
-            // setIdGraph();
             setIdModel2(idModelSelected);
         }
     }, [idGeo, idModelSelected, initialConditions, typeSelection]);
@@ -486,9 +423,6 @@ Props) => {
                             onChange={(e) => {
                                 setNameSim(e.target.value);
                             }}
-                            // onBlur={() => {
-                            //     // selectSimulation(nameSim, "name");
-                            // }}
                             value={nameSim}
                         />
                     </Box>
@@ -502,7 +436,6 @@ Props) => {
                             placeholder="select a model"
                             size="sm"
                             onChange={(e) => {
-                                // selectSimulation(+e.target.value, "idModel");
                                 setIdModel2(+e.target.value);
                                 setModelType(
                                     getModelById(+e.target.value)?.name
@@ -510,31 +443,7 @@ Props) => {
                                 setIdGeoSelection(0);
                                 setIdGraph(0);
                                 valueOptionFeature(OptionFeature.None);
-                                // setIdSimulationUpdating({
-                                //     type: "set",
-                                //     payload: 0,
-                                // });
-                                // selectSimulation(
-                                //     {
-                                //         S: 0,
-                                //         R: 0,
-                                //         I: 0,
-                                //         I_d: 0,
-                                //         I_ac: 0,
-                                //         E: 0,
-                                //         H: 0,
-                                //         H_acum: 0,
-                                //         V: 0,
-                                //         V_acum: 0,
-                                //         D: 0,
-                                //         D_acum: 0,
-                                //         Iv: 0,
-                                //         H_cap: 0,
-                                //     },
-                                //     "initialConditions"
-                                // );
                             }}
-                            // value={getDefaultValueParameters("idModel") ?? 0}
                             value={idModel2}
                         >
                             {parameters.length > 0 &&
@@ -568,10 +477,6 @@ Props) => {
                         </Text>
                         <RadioGroup
                             size="sm"
-                            // value={
-                            //     getDefaultValueParameters("typeSelection") ||
-                            //     OptionFeature.None
-                            // }
                             value={optionFeature}
                             onChange={(e) => {
                                 valueOptionFeature(e);
@@ -581,25 +486,6 @@ Props) => {
                                     type: "set",
                                     payload: 0,
                                 });
-                                // selectSimulation(
-                                //     {
-                                //         S: 0,
-                                //         R: 0,
-                                //         I: 0,
-                                //         I_d: 0,
-                                //         I_ac: 0,
-                                //         E: 0,
-                                //         H: 0,
-                                //         H_acum: 0,
-                                //         V: 0,
-                                //         V_acum: 0,
-                                //         D: 0,
-                                //         D_acum: 0,
-                                //         Iv: 0,
-                                //         H_cap: 0,
-                                //     },
-                                //     "initialConditions"
-                                // );
                             }}
                         >
                             <Stack direction="row">
@@ -633,14 +519,6 @@ Props) => {
                             size="sm"
                             disabled={optionFeature === OptionFeature.None}
                             placeholder="Name Selection"
-                            // value={
-                            //     // eslint-disable-next-line no-nested-ternary
-                            //     optionFeature === OptionFeature.Geographic
-                            //         ? getDefaultValueParameters("idGeo")
-                            //         : optionFeature === OptionFeature.Graph
-                            //         ? getDefaultValueParameters("idGraph")
-                            //         : 0
-                            // }
                             value={idGeoSelection || idGraph}
                             onChange={(e) => {
                                 setIdGeoSelection(+e.target.value);
@@ -671,19 +549,6 @@ Props) => {
                                         H_cap: 0,
                                     });
                                 }
-                                // selectSimulation(
-                                //     +e.target.value,
-                                //     // eslint-disable-next-line no-nested-ternary
-                                //     optionFeature === OptionFeature.Geographic
-                                //         ? "idGeo"
-                                //         : optionFeature === OptionFeature.Graph
-                                //         ? "idGraph"
-                                //         : ""
-                                // );
-                                // setIdSimulationUpdating({
-                                //     type: "set",
-                                //     payload: 0,
-                                // });
                             }}
                         >
                             {optionFeature === OptionFeature.Geographic &&
@@ -723,12 +588,7 @@ Props) => {
                 </Box>
             </Flex>
             <Flex direction="column" w="65%" m="0 2%">
-                <AreaSelectedBox
-                    idGeo={idGeo}
-                    typeSelection={typeSelection}
-                    // geoAreaSelected={geoAreaSelected.featureSelected}
-                    // optionFeature={optionFeature}
-                />
+                <AreaSelectedBox idGeo={idGeo} typeSelection={typeSelection} />
                 <Box
                     h="50%"
                     bg="#FAFAFA"
