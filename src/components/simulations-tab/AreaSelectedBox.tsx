@@ -1,11 +1,10 @@
 import { InfoIcon } from "@chakra-ui/icons";
 import { Text, Flex, Icon } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import GraphSimTabIcon from "components/icons/GraphSimTabIcon";
 import { SelectFeature } from "context/SelectFeaturesContext";
-import { OptionFeature } from "types/SimulationTypes";
 
 import CountiesSimulationMap from "./CountiesSimulationMap";
 import StatesSimulationMap from "./StatesSimulationMap";
@@ -13,16 +12,9 @@ import StatesSimulationMap from "./StatesSimulationMap";
 interface Props {
     idGeo: number;
     typeSelection: string;
-    geoAreaSelected: string[];
-    optionFeature: OptionFeature;
 }
 
-const AreaSelectedBox = ({
-    idGeo,
-    typeSelection,
-    geoAreaSelected,
-    optionFeature,
-}: Props) => {
+const AreaSelectedBox = ({ idGeo, typeSelection }: Props) => {
     const {
         simulationScale: scaleResults,
         setSimulationScale,
@@ -38,7 +30,7 @@ const AreaSelectedBox = ({
             setSimulationScale(geoSelection.scale);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idGeo]);
+    }, [idGeo, typeSelection]);
 
     return (
         <>
@@ -58,7 +50,7 @@ const AreaSelectedBox = ({
                     </Text>
                 </Flex>
             )}
-            {optionFeature === OptionFeature.Geographic && (
+            {typeSelection === "Geographic" && (
                 <Flex
                     bg="#c8cdcd"
                     borderRadius="6px"
@@ -87,16 +79,13 @@ const AreaSelectedBox = ({
                                 <StatesSimulationMap idGeo={idGeo} />
                             )}
                             {scaleResults === "Counties" && (
-                                <CountiesSimulationMap
-                                    geoAreaSelected={geoAreaSelected}
-                                    idGeo={idGeo}
-                                />
+                                <CountiesSimulationMap idGeo={idGeo} />
                             )}
                         </MapContainer>
                     </Flex>
                 </Flex>
             )}
-            {optionFeature === OptionFeature.Graph && (
+            {typeSelection === "Graph" && (
                 <Flex
                     bg="#e7e7e7"
                     h="50%"

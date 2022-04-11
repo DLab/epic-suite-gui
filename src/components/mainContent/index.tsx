@@ -14,11 +14,10 @@ import dynamic from "next/dynamic";
 import { useContext, useEffect, useRef } from "react";
 
 import GraphTab from "../graph-tab/GraphTab";
-import Results from "../graphics-tab";
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
 import ModelsTab from "../models-tab/ModelsTab";
+import Results from "../results-tab";
 import SimulationTab from "../simulations-tab";
-import RunSimulatorButton from "../simulations-tab/RunSimulatorButton";
 import GraphIcon from "components/icons/GraphIcon";
 import InfoIcon from "components/icons/InfoIcon";
 import ModelsIcon from "components/icons/ModelsIcon";

@@ -182,10 +182,11 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
     return (
         <>
             <Icon
+                p="0 1% 1% 0"
                 as={DoubleYaxisIcon}
                 onClick={onOpen}
                 cursor="pointer"
-                fontSize="1.4rem"
+                fontSize="1.2rem"
                 key="double-axis-open-icon"
             />
             {savedKeys.map((e) => {

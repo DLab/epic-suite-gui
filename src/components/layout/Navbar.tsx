@@ -23,7 +23,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
-import createIdComponent from "utils/createIdcomponent";
 
 export default function Navbar() {
     const { isOpen, onOpen, onClose } = useDisclosure();
