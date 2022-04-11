@@ -162,7 +162,6 @@ const getSEIRHVDObj = (e, modelParameters, scale, featureSelected) => {
             I_ac: +e.initialConditions.I_ac,
             population: +e.initialConditions.S,
             R: +e.initialConditions.R,
-            E: +e.initialConditions.E,
             Iv: +e.initialConditions.Iv,
             Iv_d: +e.initialConditions.V,
             Iv_ac: +e.initialConditions.V_acum,

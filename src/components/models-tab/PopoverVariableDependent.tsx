@@ -88,7 +88,6 @@ const PopoverVariableDependent = ({ data, setValues, i }: Props) => {
                         endvalue={data.endvalue}
                         ftype={data.ftype}
                         concavity={data.concavity}
-                        gw={data.gw}
                         setVal={setValues}
                         id={i}
                         close={onClose}

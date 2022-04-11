@@ -60,7 +60,6 @@ const InitialConditions = ({
         I,
         I_d,
         I_ac,
-        E,
         H,
         H_acum,
         V,
@@ -121,13 +120,13 @@ const InitialConditions = ({
                     <Flex wrap="wrap">
                         <Box w="25%">
                             <Stat>
-                                <StatLabel>S</StatLabel>
+                                <StatLabel>Population</StatLabel>
                                 <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
                                         intialConditionsSim.S
                                     )}
                                 </StatNumber>
-                                <StatHelpText>Population</StatHelpText>
+                                <StatHelpText>Total</StatHelpText>
                             </Stat>
                         </Box>
                         <Box w="25%">
@@ -176,19 +175,6 @@ const InitialConditions = ({
                                 </StatHelpText>
                             </Stat>
                         </Box>
-                        {modelName !== "SIR" && (
-                            <Box w="25%">
-                                <Stat>
-                                    <StatLabel>E</StatLabel>
-                                    <StatNumber fontSize="xl">
-                                        {new Intl.NumberFormat().format(
-                                            intialConditionsSim.E
-                                        )}
-                                    </StatNumber>
-                                    <StatHelpText>Exposed </StatHelpText>
-                                </Stat>
-                            </Box>
-                        )}
                         {modelName === "SEIRHVD" && (
                             <>
                                 <Box w="25%">
@@ -359,20 +345,6 @@ const InitialConditions = ({
                                 type="number"
                             />
                         </Box>
-                        {modelName !== "SIR" && (
-                            <Box id={createIdComponent()}>
-                                <NumberInputEpi
-                                    value={E}
-                                    setValue={setInitialConditions}
-                                    nameParams="E"
-                                    description="Exposed"
-                                    min={0}
-                                    max={Infinity}
-                                    isInitialParameters
-                                    type="number"
-                                />
-                            </Box>
-                        )}
                         {modelName === "SEIRHVD" && (
                             <>
                                 <Box id={createIdComponent()}>

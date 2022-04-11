@@ -127,8 +127,7 @@ export const handleNameFunctionSelect = (e, i, setValues) => {
                     ftype: TransitionFunction.linear,
                     initvalue: 0,
                     endvalue: 1,
-                    concavity: 1,
-                    gw: 0,
+                    concavity: 0,
                 },
 
                 index: i,
