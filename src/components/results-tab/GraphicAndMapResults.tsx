@@ -81,14 +81,11 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                                                     onClick={() => {
                                                         const aux =
                                                             allGraphicData.filter(
-                                                                (x, y) => {
-                                                                    if (
-                                                                        y ===
+                                                                (x, i) => {
+                                                                    return (
+                                                                        i !==
                                                                         index
-                                                                    ) {
-                                                                        return false;
-                                                                    }
-                                                                    return true;
+                                                                    );
                                                                 }
                                                             );
                                                         setAllGraphicData(aux);
