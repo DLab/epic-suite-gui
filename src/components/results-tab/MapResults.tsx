@@ -18,10 +18,14 @@ import { format, add } from "date-fns";
 import dynamic from "next/dynamic";
 import React, { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
+import { GeometryObject } from "topojson-specification";
 
+import us_ from "../../data/counties-10m.json";
+import stateData_ from "../../data/states-10m.json";
 import PauseIcon from "components/icons/PauseIcon";
 import PlayIcon from "components/icons/PlayIcon";
 import { GraphicsData } from "context/GraphicsContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 import { MapResultsData } from "types/GraphicsTypes";
 
@@ -53,10 +57,13 @@ const MapResults = ({ map }: Props) => {
     const [parameterValue, setParameterValue] = useState();
     const [maxValue, setMaxValue] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
+    const [geoData, setGeoData] = useState<GeometryObject>();
+    const [isGeoDataLoaded, setGeoDataLoaded] = useState(false);
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
     const { realDataSimulationKeys, dataToShowInMap, setDataToShowInMap } =
         useContext(GraphicsData);
+    const { geoSelections } = useContext(SelectFeature);
 
     useEffect(() => {
         setSimDay(0);
@@ -122,6 +129,49 @@ const MapResults = ({ map }: Props) => {
         setSimDate(format(newDate, "dd/MM/yyyy"));
     }, [map.date, simDay]);
 
+    let geoSelectionSetted = [];
+    let geoSelectionFiltered;
+
+    const setGeoSelectionsFiltered = (geoSelection, geoSelectionGeometries) => {
+        geoSelection.featureSelected.forEach((id) => {
+            geoSelectionFiltered = geoSelectionGeometries.filter(
+                (geometrieId) => {
+                    return geometrieId.id === id;
+                }
+            );
+            geoSelectionSetted = [
+                ...geoSelectionSetted,
+                ...geoSelectionFiltered,
+            ];
+        });
+    };
+
+    useEffect(() => {
+        const geoSelection = geoSelections.find(
+            (element) => element.id === map.idGeo
+        );
+        let dataAux;
+        let geoSelectionGeometries;
+
+        if (map.scale === "States") {
+            dataAux = stateData_;
+            geoSelectionGeometries = stateData_.objects.states.geometries;
+            setGeoSelectionsFiltered(geoSelection, geoSelectionGeometries);
+            dataAux.objects.states.geometries = geoSelectionSetted;
+            setGeoData(dataAux);
+        }
+        if (map.scale === "Counties") {
+            dataAux = us_;
+            geoSelectionGeometries = us_.objects.counties.geometries;
+            setGeoSelectionsFiltered(geoSelection, geoSelectionGeometries);
+            dataAux.objects.counties.geometries = geoSelectionSetted;
+            setGeoData(dataAux);
+        }
+
+        setGeoDataLoaded(true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [map, geoSelections, geoSelectionSetted]);
+
     return (
         <Box>
             <Flex justify="end" w="90%" mt="2%">
@@ -171,18 +221,22 @@ const MapResults = ({ map }: Props) => {
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        {map.scale === "States" ? (
+                        {map.scale === "States" && isGeoDataLoaded ? (
                             <StatesResultsMap
                                 idGeo={map.idGeo}
                                 parameterValue={parameterValue}
                                 maxValue={maxValue}
+                                statesData={geoData}
                             />
                         ) : (
-                            <CountiesResultsMap
-                                idGeo={map.idGeo}
-                                parameterValue={parameterValue}
-                                maxValue={maxValue}
-                            />
+                            isGeoDataLoaded && (
+                                <CountiesResultsMap
+                                    idGeo={map.idGeo}
+                                    parameterValue={parameterValue}
+                                    maxValue={maxValue}
+                                    coutiesData={geoData}
+                                />
+                            )
                         )}
                     </MapContainer>
                 </Flex>
