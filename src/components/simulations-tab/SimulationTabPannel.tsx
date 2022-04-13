@@ -27,7 +27,6 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { InitialConditions as InitialConditionsContext } from "types/ControlPanelTypes";
 import { DataParameters } from "types/ModelsTypes";
-import { DataGeoSelections } from "types/SelectFeaturesTypes";
 import { OptionFeature, SimulatorParams } from "types/SimulationTypes";
 import { postData } from "utils/fetchData";
 

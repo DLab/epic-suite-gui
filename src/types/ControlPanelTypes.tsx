@@ -65,6 +65,7 @@ export interface ActionsInitialConditions {
 // initialConditions
 export interface InitialConditions {
     S: number;
+    E: number;
     R: number;
     I: number;
     I_d: number;
