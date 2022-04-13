@@ -3,7 +3,6 @@ import { GeoJSON, Tooltip, useMap } from "react-leaflet";
 import * as topojson from "topojson-client";
 import { GeometryObject, Topology } from "topojson-specification";
 
-import stateData_ from "../../data/states-10m.json";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 
@@ -16,11 +15,17 @@ interface Props {
     idGeo: number;
     parameterValue: number;
     maxValue: number;
+    statesData: GeometryObject;
 }
 
-const StatesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
+const StatesResultsMap = ({
+    idGeo,
+    parameterValue,
+    maxValue,
+    statesData,
+}: Props) => {
     const { geoSelections } = useContext(SelectFeature);
-    const stateData = stateData_ as unknown as Topology;
+    const stateData = statesData as unknown as Topology;
     const data = topojson.feature(
         stateData,
         stateData.objects.states as GeometryObject
@@ -50,7 +55,7 @@ const StatesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
             setStatesSelected(geoSelection?.featureSelected);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idGeo, parameterValue]);
+    }, [idGeo, parameterValue, statesData]);
 
     useEffect(() => {
         if (tabIndex === 4) {
@@ -66,7 +71,6 @@ const StatesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
     };
 
     const colors = [
-        "#FFEDA0",
         "#FED976",
         "#FEB24C",
         "#FD8D3C",
@@ -74,6 +78,7 @@ const StatesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
         "#E31A1C",
         "#BD0026",
         "#800026",
+        "#44010E",
     ];
 
     const rangeValue = Math.ceil(maxValue / colors.length);
@@ -102,10 +107,10 @@ const StatesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
         }
         return {
             fillColor: color,
-            fillOpacity: 0.7,
-            weight: 0.7,
-            color: "white",
-            opacity: 1,
+            fillOpacity: 0.8,
+            weight: 0.5,
+            color: "#404040",
+            opacity: 0.5,
         };
     };
 

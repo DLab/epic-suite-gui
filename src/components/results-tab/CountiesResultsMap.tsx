@@ -3,8 +3,6 @@ import { GeoJSON, Tooltip, useMap } from "react-leaflet";
 import * as topojson from "topojson-client";
 import { GeometryObject, Topology } from "topojson-specification";
 
-import us_ from "../../data/counties-10m.json";
-// import us_ from "../../data/counties-test.json";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 
@@ -17,28 +15,31 @@ interface Props {
     idGeo: number;
     parameterValue: number;
     maxValue: number;
+    coutiesData: GeometryObject;
 }
 
-const CountiesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
+const CountiesResultsMap = ({
+    idGeo,
+    parameterValue,
+    maxValue,
+    coutiesData,
+}: Props) => {
     const { geoSelections } = useContext(SelectFeature);
-    const us = us_ as unknown as Topology;
     const map = useMap();
     const { index: tabIndex } = useContext(TabIndex);
-
     const [countiesSelected, setCountiesSelected] = useState([]);
+    const us = coutiesData as unknown as Topology;
+    const data = topojson.feature(us, us.objects.counties as GeometryObject);
 
     const initialState: string | undefined = "";
 
-    // const x = us.objects.counties.filter((x)=>{x.})
-    const data = topojson.feature(us, us.objects.counties as GeometryObject);
-
-    // const reducer = (state: string, action: ActionTooltip) => {
-    //     if (action.type === "set") {
-    //         return action.payload;
-    //     }
-    //     return state;
-    // };
-    // const [tootipCounty, dispatch] = useReducer(reducer, initialState);
+    const reducer = (state: string, action: ActionTooltip) => {
+        if (action.type === "set") {
+            return action.payload;
+        }
+        return state;
+    };
+    const [tootipCounty, dispatch] = useReducer(reducer, initialState);
 
     useEffect(() => {
         if (idGeo === 0) {
@@ -51,7 +52,7 @@ const CountiesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
             setCountiesSelected(geoSelection.featureSelected);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idGeo]);
+    }, [idGeo, coutiesData]);
 
     useEffect(() => {
         if (tabIndex === 4) {
@@ -60,14 +61,13 @@ const CountiesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tabIndex, parameterValue]);
 
-    // const onEachFeature = (feature, layer) => {
-    //     layer.on("mouseover", () => {
-    //         dispatch({ type: "set", payload: feature.properties.name });
-    //     });
-    // };
+    const onEachFeature = (feature, layer) => {
+        layer.on("mouseover", () => {
+            dispatch({ type: "set", payload: feature.properties.name });
+        });
+    };
 
     const colors = [
-        "#FFEDA0",
         "#FED976",
         "#FEB24C",
         "#FD8D3C",
@@ -75,6 +75,7 @@ const CountiesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
         "#E31A1C",
         "#BD0026",
         "#800026",
+        "#44010E",
     ];
 
     const rangeValue = Math.ceil(maxValue / colors.length);
@@ -105,14 +106,14 @@ const CountiesResultsMap = ({ idGeo, parameterValue, maxValue }: Props) => {
             fillColor: color,
             fillOpacity: 0.7,
             weight: 0.7,
-            color: "white",
+            color: "#404040",
             opacity: 1,
         };
     };
 
     return (
-        <GeoJSON data={data} style={styles}>
-            {/* <Tooltip>{tootipCounty}</Tooltip> */}
+        <GeoJSON data={data} onEachFeature={onEachFeature} style={styles}>
+            <Tooltip>{tootipCounty}</Tooltip>
         </GeoJSON>
     );
 };
