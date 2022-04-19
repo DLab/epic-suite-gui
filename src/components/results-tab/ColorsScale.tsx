@@ -6,6 +6,7 @@ interface Props {
 
 const ColorsScale = ({ maxValue }: Props) => {
     const colors = [
+        "#44010E",
         "#800026",
         "#BD0026",
         "#E31A1C",
@@ -13,7 +14,6 @@ const ColorsScale = ({ maxValue }: Props) => {
         "#FD8D3C",
         "#FEB24C",
         "#FED976",
-        "#FFEDA0",
     ];
 
     const rangeValue = Math.ceil(maxValue / colors.length);
