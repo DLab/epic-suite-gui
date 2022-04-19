@@ -107,7 +107,7 @@ const getSEIRObj = (e, modelParameters, scale, featureSelected) => {
             I: +e.initialConditions.I,
             I_d: +e.initialConditions.I_d,
             I_ac: +e.initialConditions.I_ac,
-            population: +e.initialConditions.S,
+            population: +e.initialConditions.population,
             R: +e.initialConditions.R,
         },
     };

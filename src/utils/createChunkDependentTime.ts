@@ -1,11 +1,32 @@
 import SeirhbdChunkImport from "../components/models-tab/SeirhvdChunkImport";
 import { EpidemicsData } from "types/ControlPanelTypes";
+import { InitialConditions } from "types/SimulationTypes";
 
 /* eslint-disable @typescript-eslint/dot-notation */
 interface OptionsChunk {
     t_init: number;
     t_end: number;
     val: number;
+}
+export interface TomlInitialConditions {
+    population: number;
+    R: number;
+    I: number;
+    I_det?: number;
+    I_d: number;
+    I_d_det?: number;
+    I_ac: number;
+    I_ac_det?: number;
+    E: number | boolean;
+    E_d: number | boolean;
+    H?: number;
+    H_acum?: number;
+    V?: number;
+    V_acum?: number;
+    D?: number;
+    D_acum?: number;
+    Iv?: number;
+    H_cap?: number;
 }
 const variableDependentTimeParams = [
     "beta",
@@ -176,5 +197,22 @@ export const prepareChunk = (data: unknown): EpidemicsData => {
         SeirhbdChunkImport
     ) as EpidemicsData;
 };
-
+export const cleanInitialConditions = (
+    data: TomlInitialConditions
+): InitialConditions => {
+    const keysNotUsedFromToml = ["I_det", "I_d_det", "I_ac_det"];
+    return Object.entries(data)
+        .filter(([key, value]) => {
+            return (
+                ((key === "E" || key === "E_d") && value) ||
+                !keysNotUsedFromToml.includes(key)
+            );
+        })
+        .reduce((acc, [key, value]) => {
+            return {
+                ...acc,
+                [key]: value,
+            };
+        }, {}) as InitialConditions;
+};
 export default createChunkDependentTime;

@@ -44,7 +44,7 @@ const SelectDate = ({
         //     target: "t_init",
         //     element: val,
         // });
-        valueOptionFeature(OptionFeature.None);
+        // valueOptionFeature(OptionFeature.None);
         setIdGeo(0);
         setIdGraph(0);
         setIdSim({

@@ -1,3 +1,6 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable sonarjs/cognitive-complexity */
+/* eslint-disable complexity */
 import { DownloadIcon, AttachmentIcon } from "@chakra-ui/icons";
 import {
     Button,
@@ -23,24 +26,35 @@ import {
 import { useContext } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
+import { SimulationSetted } from "context/SimulationContext";
 import { DataParameters } from "types/ModelsTypes";
-import { InitialConditions } from "types/SimulationTypes";
+import { Action } from "types/SelectFeaturesTypes";
+import {
+    InitialConditions,
+    ActionsSimulationData,
+    OptionFeature,
+} from "types/SimulationTypes";
 import { EpicConfigToml } from "types/TomlTypes";
 import addInLocalStorage from "utils/addInLocalStorage";
 import convertFiles, { TypeFile } from "utils/convertFiles";
 import createChunkDependentTime, {
+    cleanInitialConditions,
     prepareChunk,
+    TomlInitialConditions,
 } from "utils/createChunkDependentTime";
 
 import SeirhbdChunkImport from "./SeirhvdChunkImport";
 
 export const ImportModel = () => {
     const { setParameters } = useContext(ModelsSaved);
+    const { setSimulation } = useContext(SimulationSetted);
+    const { setGeoSelections } = useContext(SelectFeature);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
     return (
         <>
-            <Tooltip label="Upload a model from JSON file">
+            <Tooltip label="Upload a model from TOML file config">
                 <IconButton
                     bg="#FFFFFF"
                     color="#16609E"
@@ -74,11 +88,14 @@ export const ImportModel = () => {
                                             "UTF-8"
                                         );
                                         reader.onload = (est) => {
+                                            // import data raw like JSON
                                             const importedData: EpicConfigToml =
                                                 convertFiles(
                                                     est.target.result,
                                                     TypeFile.JSON
                                                 ) as unknown as EpicConfigToml;
+                                            // transform parameters, initial conditions, date simulation
+                                            // geographical entities for adding to diferents react context
                                             const parameters = {
                                                 ...importedData.parameters
                                                     .dynamic,
@@ -87,19 +104,125 @@ export const ImportModel = () => {
                                                 ...importedData.model,
                                                 title: importedData.title,
                                             };
-                                            // const initialConditions: InitialConditions =
-                                            //     importedData.initialconditions;
-                                            // const geographData =
-                                            //     importedData.data;
-
+                                            const initialConditions: InitialConditions =
+                                                cleanInitialConditions(
+                                                    importedData.initialconditions as TomlInitialConditions
+                                                );
+                                            const dateSim =
+                                                importedData.data.initdate.includes(
+                                                    "-"
+                                                )
+                                                    ? importedData.data.initdate.replaceAll(
+                                                          "-",
+                                                          "/"
+                                                      )
+                                                    : importedData.data
+                                                          .initdate;
+                                            const geographData =
+                                                importedData.data;
+                                            const idModel = Date.now();
+                                            const idSim = Date.now();
+                                            const idGeo = Date.now();
                                             const modelForAdd: DataParameters =
                                                 {
-                                                    id: Date.now(),
+                                                    id: idModel,
                                                     parameters:
                                                         prepareChunk(
                                                             parameters
                                                         ),
                                                 };
+                                            const geoForAdd: Action = {
+                                                type: "addGeoSelection",
+                                                geoPayload: {
+                                                    id: idGeo,
+                                                    name:
+                                                        geographData.loc_name
+                                                            .length > 0
+                                                            ? geographData.loc_name
+                                                            : "Imported from TOML",
+                                                    scale:
+                                                        (geographData.state
+                                                            .length > 0
+                                                            ? "States"
+                                                            : geographData
+                                                                  .county
+                                                                  .length > 0
+                                                            ? "Counties"
+                                                            : "") ?? "",
+                                                    featureSelected:
+                                                        geographData.state
+                                                            .length > 0
+                                                            ? typeof geographData.state ===
+                                                              "string"
+                                                                ? Array.of(
+                                                                      geographData.state
+                                                                  )
+                                                                : Array.from(
+                                                                      geographData.state
+                                                                  )
+                                                            : geographData
+                                                                  .county
+                                                                  .length > 0
+                                                            ? typeof geographData.county ===
+                                                              "string"
+                                                                ? Array.of(
+                                                                      geographData.county
+                                                                  )
+                                                                : Array.from(
+                                                                      geographData.county
+                                                                  )
+                                                            : [],
+                                                },
+                                            };
+
+                                            const simForAdd: ActionsSimulationData =
+                                                {
+                                                    type: "add",
+                                                    payload: {
+                                                        name: importedData.title,
+                                                        idSim,
+                                                        idModel,
+                                                        idGeo:
+                                                            !geographData.state ||
+                                                            !geographData.county ||
+                                                            !geographData.country
+                                                                ? idGeo
+                                                                : 0,
+                                                        idGraph:
+                                                            geographData.state
+                                                                .length === 0 &&
+                                                            geographData.county
+                                                                .length === 0
+                                                                ? 1
+                                                                : 0,
+                                                        typeSelection:
+                                                            geographData.state
+                                                                .length === 0 &&
+                                                            geographData.county
+                                                                .length === 0
+                                                                ? OptionFeature.Graph
+                                                                : OptionFeature.Geographic,
+                                                        initialConditions,
+                                                        t_init: `${new Intl.DateTimeFormat(
+                                                            "en-US"
+                                                        ).format(
+                                                            dateSim
+                                                                ? new Date(
+                                                                      dateSim
+                                                                  )
+                                                                : Date.now()
+                                                        )}`,
+                                                    },
+                                                };
+                                            // add spatial entities
+                                            if (
+                                                geoForAdd.geoPayload.scale
+                                                    .length > 0
+                                            ) {
+                                                setGeoSelections(geoForAdd);
+                                            }
+                                            // add simulation
+                                            setSimulation(simForAdd);
                                             setParameters({
                                                 type: "add",
                                                 payload: modelForAdd,

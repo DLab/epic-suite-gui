@@ -64,11 +64,12 @@ export interface ActionsInitialConditions {
 }
 // initialConditions
 export interface InitialConditions {
-    S: number;
+    population: number;
     R: number;
     I: number;
     I_d: number;
     I_ac: number;
+    E?: number;
     H?: number;
     H_acum?: number;
     V?: number;
