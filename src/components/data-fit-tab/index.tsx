@@ -18,6 +18,8 @@ import EndPointSource from "./EndPointSource";
 import FileSource from "./FileSource";
 import SampleSource from "./SampleSource";
 
+import "react-datepicker/dist/react-datepicker.css";
+
 const DataFitTab = () => {
     const [dataSourceType, setDataSourceType] = useState("");
     const [modelId, setModelId] = useState<number>();
