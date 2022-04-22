@@ -80,8 +80,14 @@ Props) => {
     const { geoSelections } = useContext(SelectFeature);
     const { setInitialConditions: setInitialConditionsContext } =
         useContext(ControlPanel);
-    const { setAllGraphicData, setRealDataSimulationKeys, setDataToShowInMap } =
-        useContext(GraphicsData);
+    const {
+        setAllGraphicData,
+        setRealDataSimulationKeys,
+        setDataToShowInMap,
+        setAllResults,
+        dataToShowInMap,
+        allGraphicData,
+    } = useContext(GraphicsData);
     const { parameters } = useContext(ModelsSaved);
     const RealConditions = "real-conditions";
 
@@ -651,6 +657,7 @@ Props) => {
                     setAllGraphicData([]);
                     setRealDataSimulationKeys([]);
                     setDataToShowInMap([]);
+                    setAllResults([].concat([], []));
                     setTabIndex(simulation.length - 2);
                 }}
             />

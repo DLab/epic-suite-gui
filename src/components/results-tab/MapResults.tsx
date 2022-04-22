@@ -61,8 +61,13 @@ const MapResults = ({ map }: Props) => {
     const [isGeoDataLoaded, setGeoDataLoaded] = useState(false);
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
-    const { realDataSimulationKeys, dataToShowInMap, setDataToShowInMap } =
-        useContext(GraphicsData);
+    const {
+        realDataSimulationKeys,
+        dataToShowInMap,
+        setDataToShowInMap,
+        setAllResults,
+        allGraphicData,
+    } = useContext(GraphicsData);
     const { geoSelections } = useContext(SelectFeature);
 
     useEffect(() => {
@@ -173,7 +178,7 @@ const MapResults = ({ map }: Props) => {
     }, [map, geoSelections, geoSelectionSetted]);
 
     return (
-        <Box>
+        <Box w="45%">
             <Flex justify="end" w="90%" mt="2%">
                 <Flex h="1.5rem">
                     <DeleteIcon
@@ -186,6 +191,9 @@ const MapResults = ({ map }: Props) => {
                                     return mapData.idMap !== map.idMap;
                                 });
                             setDataToShowInMap(dataToShowInMapFilter);
+                            setAllResults(
+                                [].concat(dataToShowInMapFilter, allGraphicData)
+                            );
                         }}
                     >
                         Delete
