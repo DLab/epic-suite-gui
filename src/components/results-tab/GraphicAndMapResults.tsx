@@ -1,21 +1,8 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import {
-    Box,
-    Flex,
-    Spinner,
-    Text,
-    Slider,
-    SliderTrack,
-    SliderFilledTrack,
-    SliderThumb,
-    SliderMark,
-} from "@chakra-ui/react";
-import dynamic from "next/dynamic";
-import React, { useContext } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
-import { TabIndex } from "context/TabContext";
 import createIdComponent from "utils/createIdcomponent";
 
 import DoubleYAxis from "./DoubleYAxis";
@@ -24,16 +11,22 @@ import Graphic from "./Graphic";
 import MapResults from "./MapResults";
 import SeeGraphic from "./SeeGraphic";
 
-// import StatesResultsMap from "./StatesResultsMap";
-
 interface Props {
-    // idGeo: number;
     onOpen: (val: boolean) => void;
+    // dataToShowInMap: Array;
+    // allGraphicData: Array;
 }
 
 const GraphicAndMapResults = ({ onOpen }: Props) => {
-    const { allGraphicData, setAllGraphicData, dataToShowInMap } =
-        useContext(GraphicsData);
+    const {
+        setAllGraphicData,
+        dataToShowInMap,
+        allGraphicData,
+        setAllResults,
+        allResults,
+    } = useContext(GraphicsData);
+
+    let index = -1;
     return (
         <Flex w="100%" h="87vh" id={createIdComponent()} textAlign="center">
             <Flex
@@ -43,7 +36,7 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                 justify="space-between"
                 textAlign="center"
             >
-                {allGraphicData.length > 0 || dataToShowInMap.length > 0 ? (
+                {allResults.length > 0 ? (
                     <Flex
                         id={createIdComponent()}
                         flexWrap="wrap"
@@ -52,12 +45,11 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                         overflowY="auto"
                         justify="space-evenly"
                     >
-                        <Flex width="50%" direction="column">
-                            {allGraphicData.map((graphicData, index) => {
+                        {allResults.map((result) => {
+                            if (Array.isArray(result)) {
+                                index += 1;
                                 return (
-                                    <Box
-                                        key={`${graphicData[0]?.leftAxis[0]?.name}`}
-                                    >
+                                    <Box w="45%" key={`${result[0].graphicId}`}>
                                         <Flex
                                             justify="end"
                                             w="90%"
@@ -66,11 +58,11 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                                         >
                                             <Flex h="1.5rem">
                                                 <DoubleYAxis
-                                                    savedKeys={graphicData}
+                                                    savedKeys={result}
                                                     index={index}
                                                 />
                                                 <SeeGraphic
-                                                    savedKeys={graphicData}
+                                                    savedKeys={result}
                                                     index={index}
                                                 />
                                                 <DeleteIcon
@@ -83,12 +75,20 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                                                             allGraphicData.filter(
                                                                 (x, i) => {
                                                                     return (
-                                                                        i !==
-                                                                        index
+                                                                        x[0]
+                                                                            .graphicId !==
+                                                                        result[0]
+                                                                            .graphicId
                                                                     );
                                                                 }
                                                             );
                                                         setAllGraphicData(aux);
+                                                        setAllResults(
+                                                            [].concat(
+                                                                dataToShowInMap,
+                                                                aux
+                                                            )
+                                                        );
                                                     }}
                                                 >
                                                     Delete
@@ -105,9 +105,7 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                                             h="71vh"
                                         >
                                             <Graphic
-                                                savedSimulationKeys={
-                                                    graphicData
-                                                }
+                                                savedSimulationKeys={result}
                                                 index={index}
                                                 width="500"
                                                 height="340"
@@ -116,13 +114,9 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                                         </Flex>
                                     </Box>
                                 );
-                            })}
-                        </Flex>
-                        <Flex width="50%" direction="column">
-                            {dataToShowInMap.map((map) => {
-                                return <MapResults map={map} />;
-                            })}
-                        </Flex>
+                            }
+                            return <MapResults map={result} />;
+                        })}
                     </Flex>
                 ) : (
                     <Flex

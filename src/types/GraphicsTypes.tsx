@@ -1,5 +1,6 @@
 export interface DoubleYAxisData {
     graphicName: string;
+    graphicId: string;
     leftAxis: SavedSimulationData[] | [];
     rightAxis: SavedSimulationData[] | [];
 }
@@ -79,4 +80,6 @@ export interface GraphicsProps {
     setCheckedItems: (value: CheckedItems) => void;
     dataToShowInMap: MapResultsData[];
     setDataToShowInMap: (value: MapResultsData[]) => void;
+    allResults: DoubleYAxisData[] | MapResultsData[];
+    setAllResults: (value: DoubleYAxisData[] | MapResultsData[]) => void;
 }

@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { Text, Input, Flex } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
@@ -22,8 +22,13 @@ const Graphic = ({
     index,
     disabledName,
 }: Props) => {
-    const { realDataSimulationKeys, allGraphicData, setAllGraphicData } =
-        useContext(GraphicsData);
+    const {
+        realDataSimulationKeys,
+        allGraphicData,
+        setAllGraphicData,
+        dataToShowInMap,
+        setAllResults,
+    } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
     const [graphicName, setGraphicName] = useState("");
     const { aux } = useContext(TabIndex);
@@ -123,6 +128,7 @@ const Graphic = ({
         const auxAllGraphicData = allDataAux[index];
         auxAllGraphicData[0].graphicName = name;
         setAllGraphicData([...allDataAux]);
+        setAllResults([].concat(dataToShowInMap, allDataAux));
     };
 
     useEffect(() => {
