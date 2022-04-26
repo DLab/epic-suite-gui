@@ -40,7 +40,7 @@ interface StaticParameters {
     mu: number;
     pI_det: number;
 }
-interface DynamicParameters {
+export interface DynamicParameters {
     beta: string | number;
     alpha: string | number;
     S_f?: string | number;

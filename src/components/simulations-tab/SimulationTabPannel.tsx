@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, DownloadIcon, EditIcon } from "@chakra-ui/icons";
 import {
     Box,
     Text,
@@ -24,6 +24,7 @@ import React, {
 } from "react";
 
 import "leaflet/dist/leaflet.css";
+import { ExportModels } from "components/models-tab/ImportExportModels";
 import InitialConditions from "components/simulator/controllers/InitialConditions";
 import SelectDate from "components/simulator/controllers/SelectDate";
 import { ControlPanel } from "context/ControlPanelContext";
@@ -659,38 +660,6 @@ Props) => {
                                     }}
                                 />
                             )}
-                        {/* {optionFeature === OptionFeature.Graph &&
-                            idGraph !== 0 &&
-                            !initialConditionsMode && (
-                                <IconButton
-                                    bg="#16609E"
-                                    color="#FFFFFF"
-                                    aria-label="Call Segun"
-                                    size="sm"
-                                    cursor="pointer"
-                                    _hover={{ bg: "blue.500" }}
-                                    icon={<EditIcon />}
-                                    onClick={() => {
-                                        editInitialConditions();
-                                    }}
-                                />
-                            )}
-                        {optionFeature === OptionFeature.Geographic &&
-                            idGeoSelection !== 0 &&
-                            !initialConditionsMode && (
-                                <IconButton
-                                    bg="#16609E"
-                                    color="#FFFFFF"
-                                    aria-label="Call Segun"
-                                    size="sm"
-                                    cursor="pointer"
-                                    _hover={{ bg: "blue.500" }}
-                                    icon={<EditIcon />}
-                                    onClick={() => {
-                                        editInitialConditions();
-                                    }}
-                                />
-                            )} */}
                     </Flex>
                     <InitialConditions
                         idModel={idModelSelected}
@@ -701,18 +670,30 @@ Props) => {
                     />
                 </Box>
             </Flex>
-            <Icon
-                color="#16609E"
-                as={DeleteIcon}
-                cursor="pointer"
-                onClick={() => {
-                    setSimulation({ type: "remove", element: idSimulation });
-                    setAllGraphicData([]);
-                    setRealDataSimulationKeys([]);
-                    setDataToShowInMap([]);
-                    setTabIndex(simulation.length - 2);
-                }}
-            />
+            <Flex direction="column">
+                <Icon
+                    color="#16609E"
+                    as={DeleteIcon}
+                    cursor="pointer"
+                    mb="0.3rem"
+                    onClick={() => {
+                        setSimulation({
+                            type: "remove",
+                            element: idSimulation,
+                        });
+                        setAllGraphicData([]);
+                        setRealDataSimulationKeys([]);
+                        setDataToShowInMap([]);
+                        setTabIndex(simulation.length - 2);
+                    }}
+                />
+                <ExportModels
+                    idGeo={idGeo}
+                    idSim={idSimulation}
+                    idModel={idModel2}
+                />
+                
+            </Flex>
         </>
     );
 };

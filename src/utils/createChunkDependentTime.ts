@@ -28,7 +28,7 @@ export interface TomlInitialConditions {
     Iv?: number;
     H_cap?: number;
 }
-const variableDependentTimeParams = [
+export const variableDependentTimeParams = [
     "beta",
     "Beta_v",
     "rR_S",

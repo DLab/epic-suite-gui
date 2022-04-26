@@ -17,7 +17,7 @@ const convertFiles = (data: any, typeFile: TypeFile = TypeFile.TOML): unknown | 
         const parser = new Parser()
         return parser.parse(data)
     }
-    return toml.stringify(data)
+    return toml.stringify(data).replace(/\\/g, '').replace(/"\{/i, '{').replace(/\}"/i, '}');
 };
 
 export default convertFiles;

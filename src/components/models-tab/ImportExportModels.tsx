@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable complexity */
@@ -23,22 +24,25 @@ import {
     useDisclosure,
     useToast,
 } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
+import { EpidemicsData } from "types/ControlPanelTypes";
 import { DataParameters } from "types/ModelsTypes";
 import { Action } from "types/SelectFeaturesTypes";
 import {
     InitialConditions,
     ActionsSimulationData,
     OptionFeature,
+    SimulatorParams,
 } from "types/SimulationTypes";
-import { EpicConfigToml } from "types/TomlTypes";
+import { DynamicParameters, EpicConfigToml } from "types/TomlTypes";
 import addInLocalStorage from "utils/addInLocalStorage";
 import convertFiles, { TypeFile } from "utils/convertFiles";
-import createChunkDependentTime, {
+import convertVDTForTomlFormat from "utils/convertVDTForTomlFormat";
+import {
     cleanInitialConditions,
     prepareChunk,
     TomlInitialConditions,
@@ -104,6 +108,7 @@ export const ImportModel = () => {
                                                 ...importedData.model,
                                                 title: importedData.title,
                                             };
+
                                             const initialConditions: InitialConditions =
                                                 cleanInitialConditions(
                                                     importedData.initialconditions as TomlInitialConditions
@@ -271,8 +276,16 @@ export const ImportModel = () => {
     );
 };
 
-export const ExportModels = () => {
+interface PropsExportModels {
+    idSim: number;
+    idModel: number;
+    idGeo: number;
+}
+export const ExportModels = ({ idSim, idModel, idGeo }: PropsExportModels) => {
+    const { simulation } = useContext(SimulationSetted);
+    const { geoSelections } = useContext(SelectFeature);
     const { parameters } = useContext(ModelsSaved);
+    const [linkForToml, setLinkForToml] = useState(null);
     const cleanModelForDownload = (data: DataParameters[] | []): unknown => {
         const propsByTypeModel = {
             SEIR: ["tE_I"],
@@ -284,14 +297,13 @@ export const ExportModels = () => {
                 "t_end",
                 "beta",
                 "mu",
-
                 "alpha",
                 "tI_R",
                 "pI_det",
                 "rR_S",
             ],
         };
-        return data.map((d) => {
+        return data.map((d: DataParameters) => {
             if (d.parameters.name === "SEIRHVD") {
                 return d;
             }
@@ -317,6 +329,72 @@ export const ExportModels = () => {
             return newData;
         });
     };
+    const getAllPropertiesOneSimulation = (
+        idSims: number,
+        idModels: number,
+        idGeos: number
+    ) => {
+        try {
+            const { initialConditions } = simulation.find(
+                (simElem: SimulatorParams) => simElem.idSim === idSims
+            );
+            const { scale, featureSelected } = geoSelections.find(
+                (geoSelection) => geoSelection.id === idGeos
+            );
+            const modelFinded = parameters.find(
+                (paramElem: DataParameters) => paramElem.id === idModels
+            );
+            const model = cleanModelForDownload([
+                modelFinded,
+            ]) as DataParameters;
+            const {
+                name_model: title,
+                name,
+                compartments,
+                t_init,
+                t_end,
+                mu,
+                pI_det,
+                ...rest
+            } = convertVDTForTomlFormat(model) as unknown as EpidemicsData;
+            const finalData: EpicConfigToml = {
+                title,
+                date: new Intl.DateTimeFormat("en-US").format(Date.now()),
+                user: "EPIc SUITE",
+                model: {
+                    name,
+                    compartments: compartments as string[],
+                },
+                data: {
+                    initdate: "2021-04-20",
+                    country: "",
+                    state: scale === "States" ? featureSelected : "",
+                    county: scale === "Counties" ? featureSelected : "",
+                    healthservice: "",
+                    loc_name: "",
+                },
+                initialconditions: initialConditions,
+                parameters: {
+                    static: {
+                        t_init: 0,
+                        t_end: 0,
+                        timestep: 0,
+                        k_I: 0,
+                        k_R: 0,
+                        seroprevfactor: 0,
+                        expinfection: 0,
+                        mu,
+                        pI_det,
+                    },
+                    dynamic: rest as unknown as DynamicParameters,
+                },
+            };
+            return convertFiles(finalData);
+        } catch (error) {
+            return "";
+        }
+    };
+
     return (
         <>
             <Popover placement="right">
@@ -338,7 +416,7 @@ export const ExportModels = () => {
                         Choose a format file!
                     </PopoverHeader>
                     <PopoverBody>
-                        <Link
+                        {/* <Link
                             download="models.json"
                             href={`data:text/json;charset=utf-8,${encodeURIComponent(
                                 JSON.stringify(
@@ -347,7 +425,35 @@ export const ExportModels = () => {
                             )}`}
                         >
                             to JSON
+                        </Link> */}
+
+                        <Link
+                            download="models.toml"
+                            href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                                getAllPropertiesOneSimulation(
+                                    idSim,
+                                    idGeo,
+                                    idModel
+                                ) as string
+                            )}`}
+                        >
+                            to TOML
                         </Link>
+                        {/* <Button
+                            onClick={() =>
+                                console.log(
+                                    getAllPropertiesOneSimulation(
+                                        idSim,
+
+                                        idGeo,
+
+                                        idModel
+                                    )
+                                )
+                            }
+                        >
+                            asdf
+                        </Button> */}
                     </PopoverBody>
                 </PopoverContent>
             </Popover>
