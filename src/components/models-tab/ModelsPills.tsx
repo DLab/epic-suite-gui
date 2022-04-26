@@ -29,6 +29,7 @@ import InterventionsSEIRHVD from "./SEIRHVD-model-pill-content/InterventionsSEIR
 import StateTransitionSEIRHVD from "./SEIRHVD-model-pill-content/StateTransitionSEIRHVD";
 import SubreportSEIRHVD from "./SEIRHVD-model-pill-content/SubreportSEIRHVD";
 import ViewVariableDependentTime from "./ViewVariableDependentTime";
+import { ExportModels, ImportModel } from "./ImportExportModels";
 
 const ModelsPills = () => {
     const toast = useToast();
@@ -122,45 +123,48 @@ const ModelsPills = () => {
                                 )}
                             </TabList>
                         </Flex>
-                        <Tooltip label="Create Model">
-                            <IconButton
-                                bg="#16609E"
-                                color="#FFFFFF"
-                                aria-label="Call Segun"
-                                size="sm"
-                                w="100%"
-                                mt="1%"
-                                isDisabled={isEditing}
-                                cursor="pointer"
-                                _hover={{ bg: "blue.500" }}
-                                icon={<AddIcon />}
-                                onClick={() => {
-                                    if (!isEditing) {
-                                        const idNew = Date.now();
-                                        setParameters({
-                                            type: "add",
-                                            payload: {
-                                                id: idNew,
-                                                parameters: initialState,
-                                            },
-                                        });
-                                        localStorage.setItem(
-                                            "models",
-                                            JSON.stringify([
-                                                ...parameters,
-                                                {
+                        <Flex>
+                            <Tooltip label="Create Model">
+                                <IconButton
+                                    bg="#16609E"
+                                    color="#FFFFFF"
+                                    aria-label="Call Segun"
+                                    size="sm"
+                                    w="100%"
+                                    mt="1%"
+                                    isDisabled={isEditing}
+                                    cursor="pointer"
+                                    _hover={{ bg: "blue.500" }}
+                                    icon={<AddIcon />}
+                                    onClick={() => {
+                                        if (!isEditing) {
+                                            const idNew = Date.now();
+                                            setParameters({
+                                                type: "add",
+                                                payload: {
                                                     id: idNew,
                                                     parameters: initialState,
                                                 },
-                                            ])
-                                        );
-                                        setIdModel(idNew);
-                                        setIsEditing(true);
-                                        updateModel(idNew, initialState);
-                                    }
-                                }}
-                            />
-                        </Tooltip>
+                                            });
+                                            localStorage.setItem(
+                                                "models",
+                                                JSON.stringify([
+                                                    ...parameters,
+                                                    {
+                                                        id: idNew,
+                                                        parameters:
+                                                            initialState,
+                                                    },
+                                                ])
+                                            );
+                                            setIdModel(idNew);
+                                            setIsEditing(true);
+                                            updateModel(idNew, initialState);
+                                        }
+                                    }}
+                                />
+                            </Tooltip>
+                        </Flex>
                     </Box>
                     <TabPanels minWidth="30vw" display="flex">
                         {!isEditing &&

@@ -34,7 +34,7 @@ import {
 } from "utils/getDataForGraphicVTD";
 import reducerVariableDependent, {
     handleNameFunctionSelect,
-    valueBeforeRangeDays,
+    lastValueInMatrix,
 } from "utils/reducerVariableDependent";
 
 import DateRangeVariableDependent from "./DateRangeVariableDependent";
@@ -120,10 +120,8 @@ const SectionVariableDependentTime = ({
                                     type: "add",
                                     payloadVariableDependent: {
                                         rangeDays: [
-                                            valueBeforeRangeDays(
-                                                values.rangeDays
-                                            ),
-                                            valueBeforeRangeDays(
+                                            lastValueInMatrix(values.rangeDays),
+                                            lastValueInMatrix(
                                                 values.rangeDays
                                             ) + 10,
                                         ],
@@ -201,7 +199,7 @@ const SectionVariableDependentTime = ({
                                     w="45%"
                                     size="sm"
                                     ml="0.2rem"
-                                    value={values["type"][i].name}
+                                    value={values["type"][i]["name"]}
                                     onChange={(e) => {
                                         handleNameFunctionSelect(
                                             e.target.value,

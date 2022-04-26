@@ -14,7 +14,7 @@ export enum OptionFeature {
 }
 
 export interface InitialConditions {
-    S: number;
+    population: number;
     R: number;
     I: number;
     I_d: number;

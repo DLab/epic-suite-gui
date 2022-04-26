@@ -6,9 +6,9 @@ import VariableDependentTime, {
     Transition,
     TransitionFunction,
     TypePhase,
-} from "types/VariableDependentTime";
+} from "../types/VariableDependentTime";
 
-interface Actions {
+export interface Actions {
     type: string;
     index?: string;
     payloadType?: VariableDependentTime["type"];
@@ -16,7 +16,7 @@ interface Actions {
     payloadTypeElement?: Sine | Square | StaticValue | Transition;
     payloadVariableDependent?: PayloadVariableDependent;
 }
-interface PayloadVariableDependent {
+export interface PayloadVariableDependent {
     type: Sine | Square | StaticValue | Transition;
     rangeDays: number[];
 }
@@ -138,8 +138,9 @@ export const handleNameFunctionSelect = (e, i, setValues) => {
     }
 };
 
-export const valueBeforeRangeDays = (range: number[][]): number => {
-    return range[range.length - 1][1];
+export const lastValueInMatrix = (range: number[][]): number => {
+    const lastArray = range[range.length - 1];
+    return lastArray[lastArray.length - 1];
 };
 
 export default reducer;

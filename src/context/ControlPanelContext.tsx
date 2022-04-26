@@ -350,7 +350,7 @@ export const initialState: EpidemicsData = {
     pIv_det: 1,
 };
 const initialConditions: InitialConditions = {
-    S: 0,
+    population: 0,
     R: 0,
     I: 0,
     I_d: 0,

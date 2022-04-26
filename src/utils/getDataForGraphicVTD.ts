@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import { presimplify } from "topojson";
 
 import VariableDependentTime, {
     NameFunction,
@@ -7,9 +6,9 @@ import VariableDependentTime, {
     Square,
     StaticValue,
     Transition,
-} from "types/VariableDependentTime";
+} from "../types/VariableDependentTime";
 
-import { postData } from "./fetchData";
+import postData from "./fetchData";
 
 // Format Dependent Time Variable and sending it to endpoint [POST] /functions
 export const formatVariableDependentTime = (

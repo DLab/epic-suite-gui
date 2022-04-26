@@ -13,7 +13,7 @@ import { TabIndex } from "context/TabContext";
 import { DataParameters } from "types/ModelsTypes";
 import { SimulatorParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
-import { postData } from "utils/fetchData";
+import postData from "utils/fetchData";
 
 import getSEIRHVDObj from "./getSEIRHVDObj";
 import getSEIRObj from "./getSEIRObj";

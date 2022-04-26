@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, DownloadIcon, EditIcon } from "@chakra-ui/icons";
 import {
     Box,
     Text,
@@ -15,9 +15,16 @@ import {
     Stack,
 } from "@chakra-ui/react";
 import format from "date-fns/format";
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, {
+    useState,
+    useEffect,
+    useCallback,
+    useContext,
+    useReducer,
+} from "react";
 
 import "leaflet/dist/leaflet.css";
+import { ExportModels } from "components/models-tab/ImportExportModels";
 import InitialConditions from "components/simulator/controllers/InitialConditions";
 import SelectDate from "components/simulator/controllers/SelectDate";
 import { ControlPanel } from "context/ControlPanelContext";
@@ -28,7 +35,7 @@ import { SimulationSetted } from "context/SimulationContext";
 import { InitialConditions as InitialConditionsContext } from "types/ControlPanelTypes";
 import { DataParameters } from "types/ModelsTypes";
 import { OptionFeature, SimulatorParams } from "types/SimulationTypes";
-import { postData } from "utils/fetchData";
+import postData from "utils/fetchData";
 
 import AreaSelectedBox from "./AreaSelectedBox";
 import RunSimulatorButton from "./RunSimulatorButton";
@@ -42,7 +49,7 @@ interface Props {
     index: number;
     setTabIndex: (value: number) => void;
 }
-
+type Nullable<T> = T | null;
 // eslint-disable-next-line complexity
 const SimulationTabPannel = ({
     idModel: idModelSelected,
@@ -61,7 +68,16 @@ Props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [nameSim, setNameSim] = useState("");
     const [idGeoSelection, setIdGeoSelection] = useState<number>(0);
-    const [initialConditions, setInitialConditions] = useState(null);
+    const reducerInitialConditions = (state, action) => {
+        if (action.type === "set") return action.payload;
+        return state;
+    };
+
+    const [initialConditions, setInitialConditions] = useReducer(
+        reducerInitialConditions,
+        {}
+    );
+    // const [initialConditions, setInitialConditions] = useState(null);
     const [idGraph, setIdGraph] = useState<number>(0);
     const [initialConditionsMode, setInitialConditionsMode] = useState(false);
     const [idModel2, setIdModel2] = useState<number>();
@@ -165,7 +181,7 @@ Props) => {
         I_acum,
         I_active,
         R,
-        S,
+        population,
         H,
         H_acum,
         V,
@@ -178,60 +194,69 @@ Props) => {
     ) => {
         if (Compartment === "SEIR") {
             setInitialConditions({
-                I: I_active,
-                I_d: I,
-                I_ac: I_acum,
-                S,
-                R,
-                E,
+                type: "set",
+                payload: {
+                    I: I_active,
+                    I_d: I,
+                    I_ac: I_acum,
+                    population,
+                    R,
+                    E,
+                },
             });
             updateAllSimulationData(body, {
                 I: I_active,
                 I_d: I,
                 I_ac: I_acum,
-                S,
+                population,
                 R,
                 E,
             });
         }
         if (Compartment === "SIR") {
             setInitialConditions({
-                I: I_active,
-                I_d: I,
-                I_ac: I_acum,
-                S,
-                R,
+                type: "set",
+                payload: {
+                    I: I_active,
+                    I_d: I,
+                    I_ac: I_acum,
+                    population,
+                    R,
+                },
             });
             updateAllSimulationData(body, {
                 I: I_active,
                 I_d: I,
                 I_ac: I_acum,
-                S,
+                population,
                 R,
             });
         }
         if (Compartment === "SEIRHVD") {
             setInitialConditions({
-                I: I_active,
-                I_d: I,
-                I_ac: I_acum,
-                S,
-                R,
-                E,
-                H_d: H,
-                H: H_acum,
-                Iv_d: V,
-                Iv_ac: V_acum,
-                D_d: D,
-                D: D_acum,
-                Iv,
-                H_cap,
+                type: "set",
+                payload: {
+                    I: I_active,
+                    I_d: I,
+                    I_ac: I_acum,
+                    population,
+                    R,
+                    E,
+                    H_d: H,
+                    H: H_acum,
+                    Iv_d: V,
+                    Iv_ac: V_acum,
+                    D_d: D,
+                    D: D_acum,
+                    Iv,
+                    H_cap,
+                },
             });
             updateAllSimulationData(body, {
                 I: I_active,
                 I_d: I,
                 I_ac: I_acum,
-                S,
+                population,
                 R,
                 E,
                 H_d: H,
@@ -317,7 +342,7 @@ Props) => {
             setInitialConditionsContext({
                 type: RealConditions,
                 real: {
-                    S: 0,
+                    population: 0,
                     R: 0,
                     I: 0,
                     I_d: 0,
@@ -362,12 +387,15 @@ Props) => {
             setGeoSelectionNoCounties(getGeoSelectionNoCounties);
         }
 
-        setInitialConditions(null);
+        setInitialConditions({ type: "set", payload: null });
         const simInitialConditions = simulation.find(
             (e: SimulatorParams) => e.idSim === idSimulation
         ).initialConditions;
         if (simInitialConditions) {
-            setInitialConditions(simInitialConditions);
+            setInitialConditions({
+                type: "set",
+                payload: simInitialConditions,
+            });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [idSimulation, simulation, idModelSelected]);
@@ -390,17 +418,23 @@ Props) => {
     useEffect(() => {
         if (typeSelection !== "") {
             setIdGeoSelection(idGeo);
-            setInitialConditions(initialConditions);
+            setInitialConditions({ type: "set", payload: initialConditions });
             setIdModel2(idModelSelected);
         }
     }, [idGeo, idModelSelected, initialConditions, typeSelection]);
 
     const editInitialConditions = () => {
         setInitialConditionsMode(true);
-        if (initialConditions) {
+        const initialConditionsFromSimulation = simulation.find(
+            (sim: SimulatorParams) => sim.idSim === idSimulation
+        ).initialConditions;
+        if (initialConditions || initialConditionsFromSimulation) {
             setInitialConditionsContext({
                 type: RealConditions,
-                real: initialConditions,
+                real:
+                    Object.values(initialConditions).length > 0
+                        ? initialConditions
+                        : initialConditionsFromSimulation,
             });
         }
     };
@@ -463,21 +497,6 @@ Props) => {
                     </Box>
                     <Box mb="3%">
                         <Text fontSize="14px" fontWeight={500}>
-                            Date
-                        </Text>
-                        {optionFeature !== OptionFeature.Graph && (
-                            <SelectDate
-                                startDate={startDate}
-                                setStartDate={setStartDate}
-                                valueOptionFeature={valueOptionFeature}
-                                setIdGeo={setIdGeoSelection}
-                                setIdGraph={setIdGraph}
-                                setIdSim={setIdSimulationUpdating}
-                            />
-                        )}
-                    </Box>
-                    <Box mb="3%">
-                        <Text fontSize="14px" fontWeight={500}>
                             Type Area
                         </Text>
                         <RadioGroup
@@ -515,6 +534,23 @@ Props) => {
                         </RadioGroup>
                     </Box>
                     <Box mb="3%">
+                        {optionFeature !== OptionFeature.Graph && (
+                            <>
+                                <Text fontSize="14px" fontWeight={500}>
+                                    Date
+                                </Text>
+                                <SelectDate
+                                    startDate={startDate}
+                                    setStartDate={setStartDate}
+                                    valueOptionFeature={valueOptionFeature}
+                                    setIdGeo={setIdGeoSelection}
+                                    setIdGraph={setIdGraph}
+                                    setIdSim={setIdSimulationUpdating}
+                                />
+                            </>
+                        )}
+                    </Box>
+                    <Box mb="3%">
                         <Text fontSize="14px" fontWeight={500}>
                             Area Selected
                         </Text>
@@ -536,12 +572,19 @@ Props) => {
                                         "POST",
                                         +e.target.value
                                     );
+                                }
+
+                                if (
+                                    optionFeature === OptionFeature.Graph &&
+                                    initialConditions
+                                    // eslint-disable-next-line no-empty
+                                ) {
                                 } else {
                                     updateAllSimulationData(+e.target.value, {
                                         I: 0,
                                         I_d: 0,
                                         I_ac: 0,
-                                        S: 0,
+                                        population: 0,
                                         R: 0,
                                         E: 0,
                                         H_d: 0,
@@ -606,24 +649,9 @@ Props) => {
                         <Text fontSize="14px" fontWeight={500}>
                             Initial Conditions
                         </Text>
-                        {optionFeature === OptionFeature.Graph &&
-                            idGraph !== 0 &&
-                            !initialConditionsMode && (
-                                <IconButton
-                                    bg="#16609E"
-                                    color="#FFFFFF"
-                                    aria-label="Call Segun"
-                                    size="sm"
-                                    cursor="pointer"
-                                    _hover={{ bg: "blue.500" }}
-                                    icon={<EditIcon />}
-                                    onClick={() => {
-                                        editInitialConditions();
-                                    }}
-                                />
-                            )}
-                        {optionFeature === OptionFeature.Geographic &&
-                            idGeoSelection !== 0 &&
+                        {(optionFeature === OptionFeature.Graph ||
+                            optionFeature === OptionFeature.Geographic) &&
+                            (idGraph !== 0 || idGeoSelection !== 0) &&
                             !initialConditionsMode && (
                                 <IconButton
                                     bg="#16609E"
@@ -648,19 +676,29 @@ Props) => {
                     />
                 </Box>
             </Flex>
-            <Icon
-                color="#16609E"
-                as={DeleteIcon}
-                cursor="pointer"
-                onClick={() => {
-                    setSimulation({ type: "remove", element: idSimulation });
-                    setAllGraphicData([]);
-                    setRealDataSimulationKeys([]);
-                    setDataToShowInMap([]);
-                    setAllResults([].concat([], []));
-                    setTabIndex(simulation.length - 2);
-                }}
-            />
+            <Flex direction="column">
+                <Icon
+                    color="#16609E"
+                    as={DeleteIcon}
+                    cursor="pointer"
+                    mb="0.3rem"
+                    onClick={() => {
+                        setSimulation({
+                            type: "remove",
+                            element: idSimulation,
+                        });
+                        setAllGraphicData([]);
+                        setRealDataSimulationKeys([]);
+                        setDataToShowInMap([]);
+                        setTabIndex(simulation.length - 2);
+                    }}
+                />
+                <ExportModels
+                    idGeo={idGeo}
+                    idSim={idSimulation}
+                    idModel={idModel2}
+                />
+            </Flex>
         </>
     );
 };

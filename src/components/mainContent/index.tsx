@@ -11,7 +11,7 @@ import {
     Icon,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 
 import GraphTab from "../graph-tab/GraphTab";
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
@@ -43,6 +43,16 @@ const Map = dynamic(() => import("../map-tab"), {
 
 const MainContentTab = () => {
     const { index: tabIndex, setIndex } = useContext(TabIndex);
+    const TabRefContainer = useRef(null);
+    useEffect(() => {
+        const asdf = TabRefContainer.current;
+        asdf.childNodes.forEach((node) => {
+            // eslint-disable-next-line no-param-reassign
+            node.style.background = "#16609E";
+        });
+        asdf.childNodes[tabIndex].style.background = "#2F8BD8";
+    }, [tabIndex]);
+
     return (
         <Tabs
             id="tab-content"
@@ -73,7 +83,7 @@ const MainContentTab = () => {
                     justify="space-between"
                     mt="15%"
                 >
-                    <Box>
+                    <Box ref={TabRefContainer}>
                         <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <Icon
                                 w={6}
