@@ -16,6 +16,7 @@ import {
 import React, { useContext } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
+import createIdComponent from "utils/createIdcomponent";
 
 import ResultsMapsSelection from "./ResultsMapsSelection";
 import ResultsSelection from "./ResultsSelection";
@@ -27,8 +28,13 @@ interface Props {
 }
 
 const ResultsDrawer = ({ isOpen, onOpen, onClose }: Props) => {
-    const { allGraphicData, setAllGraphicData, savedSimulation } =
-        useContext(GraphicsData);
+    const {
+        allGraphicData,
+        setAllGraphicData,
+        savedSimulation,
+        setAllResults,
+        dataToShowInMap,
+    } = useContext(GraphicsData);
 
     const btnRef = React.useRef();
     return (
@@ -70,17 +76,29 @@ const ResultsDrawer = ({ isOpen, onOpen, onClose }: Props) => {
                                         <Button
                                             colorScheme="teal"
                                             onClick={() => {
-                                                setAllGraphicData([
+                                                const graphicDataAux = [
                                                     ...allGraphicData,
                                                     [
                                                         {
                                                             graphicName: "",
+                                                            graphicId:
+                                                                createIdComponent(),
+
                                                             leftAxis:
                                                                 savedSimulation,
                                                             rightAxis: [],
                                                         },
                                                     ],
-                                                ]);
+                                                ];
+                                                setAllGraphicData(
+                                                    graphicDataAux
+                                                );
+                                                setAllResults(
+                                                    [].concat(
+                                                        dataToShowInMap,
+                                                        graphicDataAux
+                                                    )
+                                                );
                                                 onClose(true);
                                             }}
                                         >

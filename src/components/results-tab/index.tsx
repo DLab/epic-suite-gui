@@ -8,7 +8,7 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 
 import { TabIndex } from "context/TabContext";
 import createIdComponent from "utils/createIdcomponent";
@@ -40,6 +40,11 @@ const Results = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    const GraphicAndMapResultsMemo = useMemo(
+        () => <GraphicAndMapResults onOpen={onOpen} />,
+        [onOpen]
+    );
+
     return (
         <Flex w="100%" p="5px" h="100%" direction="column">
             <Flex h="5vh" mh="5vh" justifyContent="space-between">
@@ -53,7 +58,7 @@ const Results = () => {
                 />
             </Flex>
             {responseSim ? (
-                <GraphicAndMapResults onOpen={onOpen} />
+                GraphicAndMapResultsMemo
             ) : (
                 <Flex h="88vh" w="100%" justify="center" align="center">
                     <HStack

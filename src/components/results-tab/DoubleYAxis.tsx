@@ -34,11 +34,18 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [leftAxis, setLeftAxis] = useState<SavedSimulationData[]>([]);
     const [rightAxis, setRightAxis] = useState<SavedSimulationData[]>([]);
-    const { allGraphicData, setAllGraphicData } = useContext(GraphicsData);
+    const [graphicId, setGraphicId] = useState("");
+    const {
+        allGraphicData,
+        setAllGraphicData,
+        setAllResults,
+        dataToShowInMap,
+    } = useContext(GraphicsData);
 
     useEffect(() => {
         setLeftAxis(savedKeys[0].leftAxis);
         setRightAxis(savedKeys[0].rightAxis);
+        setGraphicId(savedKeys[0].graphicId);
     }, [savedKeys]);
 
     const getParametersSetted = (axis, name, k) => {
@@ -173,9 +180,12 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
 
     const setParametersToAllGraphicData = (name) => {
         const auxAllGraphicData = allGraphicData;
-        auxAllGraphicData[index] = [{ graphicName: name, leftAxis, rightAxis }];
+        auxAllGraphicData[index] = [
+            { graphicName: name, leftAxis, rightAxis, graphicId },
+        ];
 
         setAllGraphicData([...auxAllGraphicData]);
+        setAllResults([].concat(dataToShowInMap, auxAllGraphicData));
         onClose();
     };
 

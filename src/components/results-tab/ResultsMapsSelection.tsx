@@ -39,7 +39,12 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         "Select option",
     ]);
 
-    const { dataToShowInMap, setDataToShowInMap } = useContext(GraphicsData);
+    const {
+        dataToShowInMap,
+        setDataToShowInMap,
+        allGraphicData,
+        setAllResults,
+    } = useContext(GraphicsData);
     const { parameters: parametersSaved } = useContext(ModelsSaved);
     const { simulation } = useContext(SimulationSetted);
     const { geoSelections } = useContext(SelectFeature);
@@ -145,6 +150,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             dataToShowInMapAux[1] = map2;
         }
         setDataToShowInMap(dataToShowInMapAux);
+        setAllResults([].concat(dataToShowInMapAux, allGraphicData));
     };
 
     return (

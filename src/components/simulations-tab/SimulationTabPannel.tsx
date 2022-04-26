@@ -96,8 +96,14 @@ Props) => {
     const { geoSelections } = useContext(SelectFeature);
     const { setInitialConditions: setInitialConditionsContext } =
         useContext(ControlPanel);
-    const { setAllGraphicData, setRealDataSimulationKeys, setDataToShowInMap } =
-        useContext(GraphicsData);
+    const {
+        setAllGraphicData,
+        setRealDataSimulationKeys,
+        setDataToShowInMap,
+        setAllResults,
+        dataToShowInMap,
+        allGraphicData,
+    } = useContext(GraphicsData);
     const { parameters } = useContext(ModelsSaved);
     const RealConditions = "real-conditions";
 
@@ -692,7 +698,6 @@ Props) => {
                     idSim={idSimulation}
                     idModel={idModel2}
                 />
-                
             </Flex>
         </>
     );
