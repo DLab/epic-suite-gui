@@ -21,7 +21,7 @@ const Map = () => {
                     Geographic Selection
                 </Text>
             </Box>
-            <Flex mt="1%">
+            <Flex mt="1%" h="100%">
                 <SelectorMapAccordion />
                 <Flex direction="column" w="73%" align="center">
                     <Flex w="80%" justify="center" h="45vh">

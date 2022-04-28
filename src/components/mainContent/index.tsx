@@ -28,7 +28,7 @@ import { TabIndex } from "context/TabContext";
 
 const Map = dynamic(() => import("../map-tab"), {
     loading: () => (
-        <Flex justifyContent="center" alignItems="center">
+        <Flex justifyContent="center" alignItems="center" h="95vh">
             <Spinner
                 thickness="4px"
                 speed="0.65s"
@@ -157,7 +157,7 @@ const MainContentTab = () => {
                     <SimulationTab />
                 </TabPanel>
                 <TabPanel h="100vh" maxH="100vh">
-                    <Flex maxh="100vh">
+                    <Flex maxh="100vh" h="97vh">
                         <Center w="100%" maxh="100vh">
                             <Results />
                         </Center>
