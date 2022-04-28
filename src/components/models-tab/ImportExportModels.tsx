@@ -80,20 +80,20 @@ export const ImportModel = () => {
                                 type="file"
                                 accept="application/toml"
                                 onChange={(e) => {
-                                    try {
-                                        if (
-                                            window.File &&
-                                            window.FileReader &&
-                                            window.FileList &&
-                                            window.Blob
-                                        ) {
-                                            const reader = new FileReader();
-                                            reader.readAsText(
-                                                e.target.files[0],
-                                                "UTF-8"
-                                            );
-                                            reader.onload = (est) => {
-                                                // import data raw like JSON
+                                    if (
+                                        window.File &&
+                                        window.FileReader &&
+                                        window.FileList &&
+                                        window.Blob
+                                    ) {
+                                        const reader = new FileReader();
+                                        reader.readAsText(
+                                            e.target.files[0],
+                                            "UTF-8"
+                                        );
+                                        reader.onload = (est) => {
+                                            // import data raw like JSON
+                                            try {
                                                 const importedData: EpicConfigToml =
                                                     convertFiles(
                                                         est.target.result,
@@ -258,35 +258,35 @@ export const ImportModel = () => {
                                                     duration: 5000,
                                                     isClosable: true,
                                                 });
-                                            };
-                                            reader.onerror = (err) => {
+                                            } catch (error) {
                                                 toast({
                                                     position,
                                                     title: "Error",
                                                     description:
-                                                        "Occurs an error during import process",
+                                                        "Uploading simulation failed. Check your TOML config and try later",
                                                     status: "error",
                                                     duration: 5000,
                                                     isClosable: true,
                                                 });
-                                            };
-                                        } else {
+                                            }
+                                        };
+                                        reader.onerror = (err) => {
                                             toast({
                                                 position,
-                                                title: "Doesn't supported API",
+                                                title: "Error",
                                                 description:
-                                                    "The File APIs are not fully supported by your browser.",
+                                                    "Occurs an error during import process",
                                                 status: "error",
                                                 duration: 5000,
                                                 isClosable: true,
                                             });
-                                        }
-                                    } catch (error) {
+                                        };
+                                    } else {
                                         toast({
                                             position,
-                                            title: "Error",
+                                            title: "Doesn't supported API",
                                             description:
-                                                "Uploading simulation failed. Check your TOML config and try later",
+                                                "The File APIs are not fully supported by your browser.",
                                             status: "error",
                                             duration: 5000,
                                             isClosable: true,
