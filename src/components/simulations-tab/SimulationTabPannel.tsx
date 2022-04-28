@@ -101,8 +101,6 @@ Props) => {
         setRealDataSimulationKeys,
         setDataToShowInMap,
         setAllResults,
-        dataToShowInMap,
-        allGraphicData,
     } = useContext(GraphicsData);
     const { parameters } = useContext(ModelsSaved);
     const RealConditions = "real-conditions";
@@ -690,6 +688,7 @@ Props) => {
                         setAllGraphicData([]);
                         setRealDataSimulationKeys([]);
                         setDataToShowInMap([]);
+                        setAllResults([].concat([], []));
                         setTabIndex(simulation.length - 2);
                     }}
                 />

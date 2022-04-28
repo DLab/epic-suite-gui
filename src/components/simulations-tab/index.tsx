@@ -117,7 +117,7 @@ const SimulationTab = () => {
                                 </TabList>
                             </Flex>
                             <Flex>
-                                <Tooltip label="Create Model">
+                                <Tooltip label="Create Simulation">
                                     <IconButton
                                         bg="#16609E"
                                         color="#FFFFFF"
@@ -169,7 +169,7 @@ const SimulationTab = () => {
                     h="80vh"
                     mh="80vh"
                 >
-                    <Tooltip label="Create Model">
+                    <Tooltip label="Create Simulation">
                         <IconButton
                             bg="#16609E"
                             color="#FFFFFF"
