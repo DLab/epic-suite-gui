@@ -21,6 +21,8 @@ const GraphicAndMapResults = dynamic(() => import("./GraphicAndMapResults"), {
             id={createIdComponent()}
             justifyContent="center"
             alignItems="center"
+            w="100%"
+            h="100%"
         >
             <Spinner
                 id={createIdComponent()}
