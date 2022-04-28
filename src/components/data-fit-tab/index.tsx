@@ -10,7 +10,7 @@ import {
     TagLabel,
     TagRightIcon,
 } from "@chakra-ui/react";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
 
@@ -22,14 +22,33 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const DataFitTab = () => {
     const [dataSourceType, setDataSourceType] = useState("");
-    const [modelId, setModelId] = useState<number>();
-    const [geoSelectionId, setGeoSelectionId] = useState<number>();
+    const [algorithmValue, setAlgorithmValue] = useState(undefined);
+    const [modelId, setModelId] = useState<number>(undefined);
+    const [geoSelectionId, setGeoSelectionId] = useState<number>(undefined);
     const [startDate, setStartDate] = useState(new Date(Date.now()));
+    const [dataValues, setDataValues] = useState([]);
+    const [parameterName, setParameterName] = useState(undefined);
 
     // Cambiar valores del radio button a nombres representativos de los ejemplos
     const [SampleSourceValue, setSampleSourceValue] = useState("1");
-
     const { parameters } = useContext(ModelsSaved);
+
+    useEffect(() => {
+        if (algorithmValue === "algorithm-1") {
+            setParameterName("New daily infected");
+        }
+        if (algorithmValue === "algorithm-2") {
+            setParameterName("Active infected");
+        }
+    }, [algorithmValue]);
+
+    async function getFittedData() {
+        const res = await fetch(`/api/simulator`, {
+            method: "GET",
+        });
+        return res.json();
+    }
+
     return (
         <Box>
             <Box h="5vh" mh="5vh">
@@ -61,6 +80,8 @@ const DataFitTab = () => {
                                 value={modelId}
                                 onChange={(e) => {
                                     setModelId(+e.target.value);
+                                    setGeoSelectionId(undefined);
+                                    setDataValues([]);
                                 }}
                             >
                                 {parameters.length > 0 &&
@@ -85,8 +106,18 @@ const DataFitTab = () => {
                                 fontSize="14px"
                                 placeholder="Select a Algorithm"
                                 size="sm"
+                                value={algorithmValue}
+                                onChange={(e) => {
+                                    setAlgorithmValue(e.target.value);
+                                    setDataValues([]);
+                                }}
                             >
-                                <option>Algorithm 1</option>
+                                <option key="algorithm-1" value="algorithm-1">
+                                    Algorithm 1
+                                </option>
+                                <option key="algorithm-2" value="algorithm-2">
+                                    Algorithm 2
+                                </option>
                             </Select>
                         </Box>
                         <Box mb="3%">
@@ -101,6 +132,7 @@ const DataFitTab = () => {
                                 value={dataSourceType}
                                 onChange={(e) => {
                                     setDataSourceType(e.target.value);
+                                    setDataValues([]);
                                 }}
                             >
                                 <option key="file" value="file">
@@ -123,30 +155,52 @@ const DataFitTab = () => {
                         )}
                         {dataSourceType === "endpoint" && (
                             <EndPointSource
+                                modelId={modelId}
                                 startDate={startDate}
                                 setStartDate={setStartDate}
                                 value={geoSelectionId}
                                 setValue={setGeoSelectionId}
+                                setDataValues={setDataValues}
+                                algorithmValue={algorithmValue}
                             />
                         )}
                         <Box mb="3%">
                             <Text fontSize="14px" fontWeight={500}>
                                 Data For Fit
                             </Text>
-                            <Tag size="sm" variant="outline" colorScheme="red">
-                                <TagLabel>Pending</TagLabel>
-                                <TagRightIcon as={WarningTwoIcon} />
-                            </Tag>
-                            {/* Condición según estado de petición y tipo de parámetro (I_d ó I_acum) */}
-                            {/* <Tag size="sm" variant="outline" colorScheme="green">
-                            <TagLabel>Loaded/ nombre de parámetro</TagLabel>
-                            <TagRightIcon as={CheckCircleIcon} />
-                        </Tag> */}
+
+                            {dataValues.length > 0 ? (
+                                <Tag
+                                    size="sm"
+                                    variant="outline"
+                                    colorScheme="green"
+                                >
+                                    <TagLabel>{parameterName} Loaded</TagLabel>
+                                    <TagRightIcon as={CheckCircleIcon} />
+                                </Tag>
+                            ) : (
+                                <Tag
+                                    size="sm"
+                                    variant="outline"
+                                    colorScheme="red"
+                                >
+                                    <TagLabel>Pending</TagLabel>
+                                    <TagRightIcon as={WarningTwoIcon} />
+                                </Tag>
+                            )}
                         </Box>
                     </Flex>
                     <Box mt="2%">
                         <Center>
-                            <Button colorScheme="blue" color="white">
+                            <Button
+                                colorScheme="blue"
+                                color="white"
+                                onClick={() => {
+                                    getFittedData().then((res) => {
+                                        // console.log(res);
+                                    });
+                                }}
+                            >
                                 Fit
                             </Button>
                         </Center>
