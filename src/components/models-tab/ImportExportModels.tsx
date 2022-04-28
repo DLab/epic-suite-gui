@@ -58,7 +58,7 @@ export const ImportModel = () => {
     const toast = useToast();
     return (
         <>
-            <Tooltip label="Upload a model from TOML file config">
+            <Tooltip label="Upload a simulation from TOML file config">
                 <IconButton
                     bg="#FFFFFF"
                     color="#16609E"

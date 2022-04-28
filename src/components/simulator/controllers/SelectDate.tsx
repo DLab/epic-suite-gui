@@ -1,14 +1,9 @@
 import { format } from "date-fns";
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import DatePicker from "react-datepicker";
 
-import { SimulationSetted } from "context/SimulationContext";
-import {
-    ActionsIdSimulation,
-    InitialConditions,
-    OptionFeature,
-    SimulatorParams,
-} from "types/SimulationTypes";
+import { ControlPanel } from "context/ControlPanelContext";
+import { ActionsIdSimulation, OptionFeature } from "types/SimulationTypes";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -29,45 +24,34 @@ const SelectDate = ({
     setIdGraph,
     setIdSim,
 }: Props) => {
-    const { simulation, setSimulation } = useContext(SimulationSetted);
-    // const [startDate, setStartDate] = useState(
-    //     new Date(
-    //         simulation.find((s: SimulatorParams) => s.idSim === idSimulation)
-    //             .t_init ?? Date.now()
-    //     )
-    // );
+    const { setInitialConditions } = useContext(ControlPanel);
 
     const handleChange = (val: string | number) => {
-        // setSimulation({
-        //     type: "update",
-        //     id: idSimulation,
-        //     target: "t_init",
-        //     element: val,
-        // });
-        // valueOptionFeature(OptionFeature.None);
         setIdGeo(0);
         setIdGraph(0);
         setIdSim({
             type: "set",
             payload: 0,
         });
-        // selectSim(
-        //     {
-        //         S: 0,
-        //         R: 0,
-        //         I: 0,
-        //         I_d: 0,
-        //         I_ac: 0,
-        //         E: 0,
-        //         H: 0,
-        //         H_acum: 0,
-        //         V: 0,
-        //         V_acum: 0,
-        //         D: 0,
-        //         D_acum: 0,
-        //     },
-        //     "initialConditions"
-        // );
+        setInitialConditions({
+            type: "real-conditions",
+            real: {
+                I: 0,
+                I_d: 0,
+                I_ac: 0,
+                population: 0,
+                R: 0,
+                E: 0,
+                H_d: 0,
+                H: 0,
+                Iv_d: 0,
+                Iv_ac: 0,
+                D_d: 0,
+                D: 0,
+                Iv: 0,
+                H_cap: 0,
+            },
+        });
     };
     return (
         <DatePicker

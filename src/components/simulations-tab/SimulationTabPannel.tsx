@@ -94,15 +94,15 @@ Props) => {
     const [modelType, setModelType] = useState("SEIR");
     const [geoSelectionNoCounties, setGeoSelectionNoCounties] = useState([]);
     const { geoSelections } = useContext(SelectFeature);
-    const { setInitialConditions: setInitialConditionsContext } =
-        useContext(ControlPanel);
+    const {
+        initialConditions: initialConditionsContext,
+        setInitialConditions: setInitialConditionsContext,
+    } = useContext(ControlPanel);
     const {
         setAllGraphicData,
         setRealDataSimulationKeys,
         setDataToShowInMap,
         setAllResults,
-        dataToShowInMap,
-        allGraphicData,
     } = useContext(GraphicsData);
     const { parameters } = useContext(ModelsSaved);
     const RealConditions = "real-conditions";
@@ -510,6 +510,25 @@ Props) => {
                                     type: "set",
                                     payload: 0,
                                 });
+                                setInitialConditionsContext({
+                                    type: RealConditions,
+                                    real: {
+                                        I: 0,
+                                        I_d: 0,
+                                        I_ac: 0,
+                                        population: 0,
+                                        R: 0,
+                                        E: 0,
+                                        H_d: 0,
+                                        H: 0,
+                                        Iv_d: 0,
+                                        Iv_ac: 0,
+                                        D_d: 0,
+                                        D: 0,
+                                        Iv: 0,
+                                        H_cap: 0,
+                                    },
+                                });
                             }}
                         >
                             <Stack direction="row">
@@ -670,7 +689,7 @@ Props) => {
                     <InitialConditions
                         idModel={idModelSelected}
                         idSimulation={idSimulation}
-                        intialConditionsSim={intialConditionsSim}
+                        intialConditionsSim={initialConditionsContext}
                         initialConditionsMode={initialConditionsMode}
                         setInitialConditionsMode={setInitialConditionsMode}
                     />
@@ -690,6 +709,7 @@ Props) => {
                         setAllGraphicData([]);
                         setRealDataSimulationKeys([]);
                         setDataToShowInMap([]);
+                        setAllResults([].concat([], []));
                         setTabIndex(simulation.length - 2);
                     }}
                 />
