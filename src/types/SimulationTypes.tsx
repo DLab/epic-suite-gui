@@ -12,10 +12,14 @@ export interface InitialConditions {
     I_ac: number;
     E?: number;
     H?: number;
+    H_d?: number;
     H_acum?: number;
+    Iv_d?: number;
+    Iv_ac?: number;
     V?: number;
     V_acum?: number;
     D?: number;
+    D_d?: number;
     D_acum?: number;
     Iv?: number;
     H_cap?: number;

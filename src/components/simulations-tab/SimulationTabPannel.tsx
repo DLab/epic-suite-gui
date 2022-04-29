@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { DeleteIcon, DownloadIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
     Box,
     Text,
@@ -465,6 +465,38 @@ Props) => {
         localStorage.setItem("simulations", JSON.stringify(simulationsFilter));
     };
 
+    const resetInitialConditions = (val) => {
+        setSimulation({
+            type: "update-all",
+            id: idSimulation,
+            payload: {
+                name: nameSim,
+                idSim: idSimulation,
+                idModel: idModel2,
+                idGeo: 0,
+                idGraph: 0,
+                t_init: format(new Date(startDate), "yyyy/MM/dd"),
+                typeSelection: val,
+                initialConditions: {
+                    I: 0,
+                    I_d: 0,
+                    I_ac: 0,
+                    population: 0,
+                    R: 0,
+                    E: 0,
+                    H_d: 0,
+                    H: 0,
+                    Iv_d: 0,
+                    Iv_ac: 0,
+                    D_d: 0,
+                    D: 0,
+                    Iv: 0,
+                    H_cap: 0,
+                },
+            },
+        });
+    };
+
     return (
         <>
             <Flex
@@ -529,7 +561,6 @@ Props) => {
                             size="sm"
                             value={optionFeature}
                             onChange={(e) => {
-                                valueOptionFeature(e);
                                 setIdGeoSelection(0);
                                 setIdGraph(0);
                                 setIdSimulationUpdating({
@@ -555,6 +586,8 @@ Props) => {
                                         H_cap: 0,
                                     },
                                 });
+                                valueOptionFeature(e);
+                                resetInitialConditions(e);
                             }}
                         >
                             <Stack direction="row">
@@ -585,9 +618,12 @@ Props) => {
                                     Date
                                 </Text>
                                 <SelectDate
+                                    nameSim={nameSim}
+                                    optionFeature={optionFeature}
+                                    idModel={idModel2}
+                                    idSimulation={idSimulation}
                                     startDate={startDate}
                                     setStartDate={setStartDate}
-                                    valueOptionFeature={valueOptionFeature}
                                     setIdGeo={setIdGeoSelection}
                                     setIdGraph={setIdGraph}
                                     setIdSim={setIdSimulationUpdating}
@@ -715,8 +751,7 @@ Props) => {
                     <InitialConditions
                         idModel={idModelSelected}
                         idSimulation={idSimulation}
-                        intialConditionsSim={initialConditionsContext}
-                        // intialConditionsSim={intialConditionsSim}
+                        intialConditionsSim={intialConditionsSim}
                         initialConditionsMode={initialConditionsMode}
                         setInitialConditionsMode={setInitialConditionsMode}
                     />
