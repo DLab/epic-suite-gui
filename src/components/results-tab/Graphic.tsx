@@ -174,14 +174,15 @@ const Graphic = ({
                 layout={{
                     autosize: false,
                     width: +width,
-                    height: +height,
+                    height: +height * 0.9,
                     margin: {
                         l: 55,
                         b: 60,
                         t: 0,
                     },
+                    color: "blue",
                     title: `<span style="display: none">""</span>`,
-                    legend: { xanchor: "end", x: 25, y: 1 },
+                    legend: { xanchor: "end", x: 1.1, y: 1.1, yanchor: "top" },
                     showlegend: true,
                     xaxis: {
                         title: {
@@ -204,7 +205,8 @@ const Graphic = ({
                     },
                 }}
                 config={{
-                    editable: true,
+                    editable: false,
+                    responsive: true,
                 }}
             />
         </>
