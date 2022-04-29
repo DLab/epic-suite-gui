@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { DeleteIcon, DownloadIcon, EditIcon } from "@chakra-ui/icons";
 import {
@@ -168,6 +169,24 @@ Props) => {
                 initialConditions: initialConditionsValues,
             },
         });
+        const simulationAux = simulation;
+        // eslint-disable-next-line array-callback-return
+        simulation.map((e, i) => {
+            if (e.idSim === idSimulation) {
+                simulationAux[i] = {
+                    name: nameSim,
+                    idSim: idSimulation,
+                    idModel: idModel2,
+                    idGeo: getGeoId,
+                    idGraph: getGraphId,
+                    t_init: format(new Date(startDate), "yyyy/MM/dd"),
+                    typeSelection: optionFeature,
+                    initialConditions: initialConditionsValues,
+                };
+            }
+        });
+
+        localStorage.setItem("simulations", JSON.stringify(simulationAux));
         setInitialConditionsContext({
             type: RealConditions,
             real: initialConditionsValues,
@@ -439,6 +458,13 @@ Props) => {
         }
     };
 
+    const deleteFromLocalStorage = (idSim) => {
+        const simulationsFilter = simulation.filter(
+            (sim: SimulatorParams) => sim.idSim !== +idSim
+        );
+        localStorage.setItem("simulations", JSON.stringify(simulationsFilter));
+    };
+
     return (
         <>
             <Flex
@@ -690,6 +716,7 @@ Props) => {
                         idModel={idModelSelected}
                         idSimulation={idSimulation}
                         intialConditionsSim={initialConditionsContext}
+                        // intialConditionsSim={intialConditionsSim}
                         initialConditionsMode={initialConditionsMode}
                         setInitialConditionsMode={setInitialConditionsMode}
                     />
@@ -706,6 +733,7 @@ Props) => {
                             type: "remove",
                             element: idSimulation,
                         });
+                        deleteFromLocalStorage(idSimulation);
                         setAllGraphicData([]);
                         setRealDataSimulationKeys([]);
                         setDataToShowInMap([]);

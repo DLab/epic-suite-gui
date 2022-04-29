@@ -39,6 +39,7 @@ export interface ActionsSimulationData {
     element?: string | boolean | number;
     target?: string;
     id?;
+    localState?: SimulatorParams[];
 }
 
 export interface ActionsIdSimulation {
