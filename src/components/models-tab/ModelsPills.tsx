@@ -23,13 +23,13 @@ import { EpidemicsData, Model } from "types/ControlPanelTypes";
 import VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
 
+import { ExportModels, ImportModel } from "./ImportExportModels";
 import EpidemiologicSEIR from "./SEIR-model-pill-content/EpidemiologicSEIR";
 import EpidemiologicSEIRHVD from "./SEIRHVD-model-pill-content/EpidemiologicSEIRHVD";
 import InterventionsSEIRHVD from "./SEIRHVD-model-pill-content/InterventionsSEIRHVD";
 import StateTransitionSEIRHVD from "./SEIRHVD-model-pill-content/StateTransitionSEIRHVD";
 import SubreportSEIRHVD from "./SEIRHVD-model-pill-content/SubreportSEIRHVD";
 import ViewVariableDependentTime from "./ViewVariableDependentTime";
-import { ExportModels, ImportModel } from "./ImportExportModels";
 
 const ModelsPills = () => {
     const toast = useToast();
@@ -48,7 +48,6 @@ const ModelsPills = () => {
     >({});
     const [tabIndex, setTabIndex] = useState<number>(0);
     const deleteModel = (name: string) => {
-        // localStorage.removeItem("models");
         const modelDataFilter = parameters.filter(
             (model: DataParameters) => model.id !== +name
         );

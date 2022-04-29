@@ -74,6 +74,8 @@ const SimulationContext: React.FC = ({ children }) => {
                 return state.filter(
                     (e: SimulatorParams) => e.idSim !== +action.element
                 );
+            case "setInitial":
+                return [...state, ...action.localState];
             default:
                 return state;
         }
