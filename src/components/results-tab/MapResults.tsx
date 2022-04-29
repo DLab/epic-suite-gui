@@ -178,12 +178,11 @@ const MapResults = ({ map }: Props) => {
     }, [map, geoSelections, geoSelectionSetted]);
 
     return (
-        <Box w="45%">
-            <Flex justify="end" w="90%" mt="2%">
+        <Flex direction="column" w="48%" mb="2rem">
+            <Flex justify="end" alignSelf="end" mr="0.2rem" w="10%" mt="2%">
                 <Flex h="1.5rem">
                     <DeleteIcon
                         color="#16609E"
-                        ml="2%"
                         cursor="pointer"
                         onClick={() => {
                             const dataToShowInMapFilter =
@@ -206,8 +205,8 @@ const MapResults = ({ map }: Props) => {
                 bg="#FFFFFF"
                 borderRadius="10px"
                 alignItems="center"
-                w="90%"
-                h="71vh"
+                w="100%"
+                h="70vh"
             >
                 <Flex justify="center" direction="column" w="90%">
                     <Text ml="2%">
@@ -313,7 +312,7 @@ const MapResults = ({ map }: Props) => {
                     </Slider>
                 </Flex>
             </Flex>
-        </Box>
+        </Flex>
     );
 };
 

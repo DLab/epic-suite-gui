@@ -6,6 +6,8 @@ import {
     Button,
     HStack,
     useDisclosure,
+    Grid,
+    GridItem,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import { useContext, useMemo } from "react";
@@ -48,21 +50,40 @@ const Results = () => {
     );
 
     return (
-        <Flex w="100%" p="5px" h="100%" direction="column">
-            <Flex h="5vh" mh="5vh" justifyContent="space-between">
-                <Text color="#16609E" fontSize="18px" fontWeight="bold">
-                    Results
-                </Text>
-                <ResultsDrawer
-                    isOpen={isOpen}
-                    onOpen={onOpen}
-                    onClose={onClose}
-                />
-            </Flex>
+        <Grid
+            w="100%"
+            p="5px"
+            h="100%"
+            templateColumns="repeat(5, 1fr)"
+            direction="column"
+        >
+            <GridItem
+                colSpan={5}
+                h="5vh"
+                mh="5vh"
+                justifyContent="space-between"
+            >
+                <Flex justifyContent="space-between">
+                    <Text color="#16609E" fontSize="18px" fontWeight="bold">
+                        Results
+                    </Text>
+                    <ResultsDrawer
+                        isOpen={isOpen}
+                        onOpen={onOpen}
+                        onClose={onClose}
+                    />
+                </Flex>
+            </GridItem>
             {responseSim ? (
                 GraphicAndMapResultsMemo
             ) : (
-                <Flex h="88vh" w="100%" justify="center" align="center">
+                <GridItem
+                    colSpan={5}
+                    h="88vh"
+                    w="100%"
+                    justify="center"
+                    align="center"
+                >
                     <HStack
                         h="100%"
                         w="100%"
@@ -73,9 +94,9 @@ const Results = () => {
                             Nothing Here
                         </Text>
                     </HStack>
-                </Flex>
+                </GridItem>
             )}
-        </Flex>
+        </Grid>
     );
 };
 
