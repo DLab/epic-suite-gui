@@ -9,22 +9,30 @@ const HomePage = () => {
         <Flex w="100%" h="100%">
             <Flex
                 direction="column"
-                maxW="50%"
+                maxW="52%"
                 alignItems="start"
                 justifyContent="center"
-                p="5% 5% 0% 5%"
+                p="2% 3% 0% 3%"
             >
-                <Text color="#FFFFFF" fontWeight="bold" fontSize="1.7rem">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse eleifend eu nulla pharetra rutrum. Mauris
-                    tristique dui dui, et blandit ligula pretium sed. Vestibulum
-                    at tincidunt est, ac varius diam.{" "}
+                <Text color="#FFFFFF" fontWeight="bold" fontSize="1.3rem">
+                    The EPIc Suite is a web-based platform designed as an
+                    enabling tool for epidemiological modeling and simulation.
+                    The suite allows the creation of pipelines for scientific
+                    research on epidemics, offering capabilities for working
+                    with data, embedding it in models, running simulations and
+                    performing analysis and projections. It is designed with a
+                    mix of simplicity of use, offering a variety of tools, such
+                    as data extraction, data fitting heuristics, dynamic
+                    parameters for modeling tendency changes like
+                    non-pharmaceutical interventions or new variant appearance,
+                    integrated function builder, integrated parameter
+                    sensitivity analysis, among others.
                 </Text>
                 <Button
                     bg="#16609E"
                     color="#FFFFFF"
                     size="lg"
-                    mt="10%"
+                    mt="6%"
                     onClick={() => {
                         setIndex(1);
                     }}

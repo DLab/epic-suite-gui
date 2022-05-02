@@ -69,7 +69,7 @@ const MainContentTab = () => {
                 bg="#16609E"
                 border="none"
             >
-                <Box alignSelf="center" m="10% 0">
+                {/* <Box alignSelf="center" m="10% 0">
                     <Tab
                         _focus={{ background: "#2F8BD8", border: "none" }}
                         p="0px"
@@ -82,7 +82,7 @@ const MainContentTab = () => {
                             fill="none"
                         />
                     </Tab>
-                </Box>
+                </Box> */}
                 <Flex
                     direction="column"
                     h="100%"
@@ -90,6 +90,24 @@ const MainContentTab = () => {
                     mt="15%"
                 >
                     <Box ref={TabRefContainer}>
+                        <Box alignSelf="center" m="10% 0">
+                            <Tab
+                                _focus={{
+                                    background: "#2F8BD8",
+                                    border: "none",
+                                }}
+                                p="0px"
+                                w="100%"
+                            >
+                                <Icon
+                                    as={EpicSuiteIcon}
+                                    w={50}
+                                    h={50}
+                                    aria-label="EPIc Suite Logo"
+                                    fill="none"
+                                />
+                            </Tab>
+                        </Box>
                         <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <Icon
                                 w={6}
