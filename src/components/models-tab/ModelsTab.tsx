@@ -24,7 +24,6 @@ const ModelsTab = () => {
 
             <Flex direction="column">
                 <Pills />
-                <Flex>{parameters.length > 0 && <ExportModels />}</Flex>
             </Flex>
         </>
     );

@@ -404,6 +404,10 @@ const ResultsSelection = () => {
                                                                 m="2% 5%"
                                                                 value={key}
                                                                 key={key}
+                                                                id={`${
+                                                                    key +
+                                                                    simulation.name
+                                                                }`}
                                                                 // eslint-disable-next-line sonarjs/no-identical-functions
                                                                 onChange={(
                                                                     e

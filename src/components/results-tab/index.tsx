@@ -19,12 +19,12 @@ import ResultsDrawer from "./ResultsDrawer";
 
 const GraphicAndMapResults = dynamic(() => import("./GraphicAndMapResults"), {
     loading: () => (
-        <Flex
+        <Grid
             id={createIdComponent()}
             justifyContent="center"
-            alignItems="center"
-            w="100%"
-            h="100%"
+            alignContent="center"
+            w="90vw"
+            h="50vh"
         >
             <Spinner
                 id={createIdComponent()}
@@ -34,7 +34,7 @@ const GraphicAndMapResults = dynamic(() => import("./GraphicAndMapResults"), {
                 color="blue.500"
                 size="xl"
             />
-        </Flex>
+        </Grid>
     ),
     ssr: false,
 });
@@ -80,7 +80,7 @@ const Results = () => {
                 <GridItem
                     colSpan={5}
                     h="88vh"
-                    w="100%"
+                    w="98%"
                     justify="center"
                     align="center"
                 >
