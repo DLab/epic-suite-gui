@@ -50,7 +50,7 @@ const SimulationTab = () => {
                 idModel: 0,
                 idGeo: 0,
                 idGraph: 0,
-                t_init: format(new Date(), "yyyy/MM/dd"),
+                t_init: format(new Date(2021, 11, 31), "yyyy/MM/dd"),
                 typeSelection: OptionFeature.None,
                 initialConditions: {
                     population: 0,
@@ -139,7 +139,7 @@ const SimulationTab = () => {
                                     })}
                                 </TabList>
                             </Flex>
-                            <Flex>
+                            <Flex justifyContent="center">
                                 <Tooltip label="Create Simulation">
                                     <IconButton
                                         bg="#16609E"
@@ -152,9 +152,9 @@ const SimulationTab = () => {
                                         onClick={() => addSimulation()}
                                     />
                                 </Tooltip>
-                                <Tooltip label="Import Simulation">
+                                {/* <Tooltip label="Import Simulation">
                                     <ImportModel />
-                                </Tooltip>
+                                </Tooltip> */}
                             </Flex>
                         </Box>
                         <TabPanels>
@@ -204,9 +204,9 @@ const SimulationTab = () => {
                             onClick={() => addSimulation()}
                         />
                     </Tooltip>
-                    <Tooltip label="Import Simulation">
+                    {/* <Tooltip label="Import Simulation">
                         <ImportModel />
-                    </Tooltip>
+                    </Tooltip> */}
                     <HStack
                         h="100%"
                         w="100%"
