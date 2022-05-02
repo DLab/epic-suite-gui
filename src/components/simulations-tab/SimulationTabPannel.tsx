@@ -85,7 +85,7 @@ Props) => {
     const [startDate, setStartDate] = useState(
         new Date(
             simulation.find((s: SimulatorParams) => s.idSim === idSimulation)
-                .t_init ?? Date.now()
+                .t_init ?? new Date(2022, 0, 1)
         )
     );
     const [optionFeature, setOptionFeature] = useState<OptionFeature>(
@@ -776,11 +776,11 @@ Props) => {
                         setTabIndex(simulation.length - 2);
                     }}
                 />
-                <ExportModels
+                {/* <ExportModels
                     idGeo={idGeo}
                     idSim={idSimulation}
                     idModel={idModel2}
-                />
+                /> */}
             </Flex>
         </>
     );

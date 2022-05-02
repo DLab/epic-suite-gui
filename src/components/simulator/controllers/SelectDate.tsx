@@ -99,7 +99,8 @@ const SelectDate = ({
                     },
                 });
             }}
-            openToDate={new Date()}
+            openToDate={new Date(2021, 11, 31)}
+            maxDate={new Date(2021, 11, 31)}
         />
     );
 };
