@@ -150,7 +150,7 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                 >
                     {" "}
                     <Text color="gray.600" fontSize="xl">
-                        There are no Results to show.
+                        Add Results clicking plus button or
                     </Text>
                     <Text
                         color="#16609E"
@@ -161,7 +161,7 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                             onOpen(true);
                         }}
                     >
-                        Add Results
+                        Here
                     </Text>
                 </Flex>
             )}
