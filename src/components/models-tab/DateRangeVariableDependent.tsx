@@ -83,7 +83,7 @@ const DateRangeVariableDependent = ({
                         bg="white"
                         border="thin"
                         color="teal.500"
-                        aria-label="Call Segun"
+                        aria-label="Check date range button"
                         size="xs"
                         cursor="pointer"
                         icon={<CheckIcon />}
@@ -100,7 +100,7 @@ const DateRangeVariableDependent = ({
                     <IconButton
                         bg="white"
                         color="red.500"
-                        aria-label="Call Segun"
+                        aria-label="Cancel date range button"
                         size="xs"
                         cursor="pointer"
                         icon={<CloseIcon />}

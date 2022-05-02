@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { Text, Input, Flex } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
@@ -22,8 +22,13 @@ const Graphic = ({
     index,
     disabledName,
 }: Props) => {
-    const { realDataSimulationKeys, allGraphicData, setAllGraphicData } =
-        useContext(GraphicsData);
+    const {
+        realDataSimulationKeys,
+        allGraphicData,
+        setAllGraphicData,
+        dataToShowInMap,
+        setAllResults,
+    } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
     const [graphicName, setGraphicName] = useState("");
     const { aux } = useContext(TabIndex);
@@ -123,6 +128,7 @@ const Graphic = ({
         const auxAllGraphicData = allDataAux[index];
         auxAllGraphicData[0].graphicName = name;
         setAllGraphicData([...allDataAux]);
+        setAllResults([].concat(dataToShowInMap, allDataAux));
     };
 
     useEffect(() => {
@@ -168,14 +174,15 @@ const Graphic = ({
                 layout={{
                     autosize: false,
                     width: +width,
-                    height: +height,
+                    height: +height * 0.9,
                     margin: {
                         l: 55,
                         b: 60,
                         t: 0,
                     },
+                    color: "blue",
                     title: `<span style="display: none">""</span>`,
-                    legend: { xanchor: "end", x: 25, y: 1 },
+                    legend: { xanchor: "end", x: 1.1, y: 1.1, yanchor: "top" },
                     showlegend: true,
                     xaxis: {
                         title: {
@@ -198,7 +205,8 @@ const Graphic = ({
                     },
                 }}
                 config={{
-                    editable: true,
+                    editable: false,
+                    responsive: true,
                 }}
             />
         </>

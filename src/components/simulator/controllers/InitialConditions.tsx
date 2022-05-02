@@ -55,7 +55,7 @@ const InitialConditions = ({
     const [models, setModels] = useState(false);
     const [modelName, setModelName] = useState("SEIR");
     const {
-        S,
+        population,
         R,
         I,
         I_d,
@@ -123,7 +123,7 @@ const InitialConditions = ({
                                 <StatLabel>Population</StatLabel>
                                 <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
-                                        intialConditionsSim.S
+                                        intialConditionsSim.population
                                     )}
                                 </StatNumber>
                                 <StatHelpText>Total</StatHelpText>
@@ -287,9 +287,9 @@ const InitialConditions = ({
                     <>
                         <Box mr="5%">
                             <NumberInputEpi
-                                value={S}
+                                value={population}
                                 setValue={setInitialConditions}
-                                nameParams="S"
+                                nameParams="population"
                                 description="Total population"
                                 min={0}
                                 max={Infinity}
@@ -466,6 +466,18 @@ const InitialConditions = ({
                                 payloadInitialConditions: initialConditions,
                                 id: idSimulation,
                             });
+                            const simulationAux = simulation;
+                            // eslint-disable-next-line array-callback-return
+                            simulation.map((e, i) => {
+                                if (e.idSim === idSimulation) {
+                                    e.initialConditions = initialConditions;
+                                }
+                            });
+
+                            localStorage.setItem(
+                                "simulations",
+                                JSON.stringify(simulationAux)
+                            );
                             setIdSimulationUpdating({
                                 type: "set",
                                 payload: 0,

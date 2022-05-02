@@ -23,6 +23,7 @@ import { EpidemicsData, Model } from "types/ControlPanelTypes";
 import VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
 
+import { ExportModels, ImportModel } from "./ImportExportModels";
 import EpidemiologicSEIR from "./SEIR-model-pill-content/EpidemiologicSEIR";
 import EpidemiologicSEIRHVD from "./SEIRHVD-model-pill-content/EpidemiologicSEIRHVD";
 import InterventionsSEIRHVD from "./SEIRHVD-model-pill-content/InterventionsSEIRHVD";
@@ -47,7 +48,6 @@ const ModelsPills = () => {
     >({});
     const [tabIndex, setTabIndex] = useState<number>(0);
     const deleteModel = (name: string) => {
-        // localStorage.removeItem("models");
         const modelDataFilter = parameters.filter(
             (model: DataParameters) => model.id !== +name
         );
@@ -122,45 +122,48 @@ const ModelsPills = () => {
                                 )}
                             </TabList>
                         </Flex>
-                        <Tooltip label="Create Model">
-                            <IconButton
-                                bg="#16609E"
-                                color="#FFFFFF"
-                                aria-label="Call Segun"
-                                size="sm"
-                                w="100%"
-                                mt="1%"
-                                isDisabled={isEditing}
-                                cursor="pointer"
-                                _hover={{ bg: "blue.500" }}
-                                icon={<AddIcon />}
-                                onClick={() => {
-                                    if (!isEditing) {
-                                        const idNew = Date.now();
-                                        setParameters({
-                                            type: "add",
-                                            payload: {
-                                                id: idNew,
-                                                parameters: initialState,
-                                            },
-                                        });
-                                        localStorage.setItem(
-                                            "models",
-                                            JSON.stringify([
-                                                ...parameters,
-                                                {
+                        <Flex>
+                            <Tooltip label="Create Model">
+                                <IconButton
+                                    bg="#16609E"
+                                    color="#FFFFFF"
+                                    aria-label="Call Segun"
+                                    size="sm"
+                                    w="100%"
+                                    mt="1%"
+                                    isDisabled={isEditing}
+                                    cursor="pointer"
+                                    _hover={{ bg: "blue.500" }}
+                                    icon={<AddIcon />}
+                                    onClick={() => {
+                                        if (!isEditing) {
+                                            const idNew = Date.now();
+                                            setParameters({
+                                                type: "add",
+                                                payload: {
                                                     id: idNew,
                                                     parameters: initialState,
                                                 },
-                                            ])
-                                        );
-                                        setIdModel(idNew);
-                                        setIsEditing(true);
-                                        updateModel(idNew, initialState);
-                                    }
-                                }}
-                            />
-                        </Tooltip>
+                                            });
+                                            localStorage.setItem(
+                                                "models",
+                                                JSON.stringify([
+                                                    ...parameters,
+                                                    {
+                                                        id: idNew,
+                                                        parameters:
+                                                            initialState,
+                                                    },
+                                                ])
+                                            );
+                                            setIdModel(idNew);
+                                            setIsEditing(true);
+                                            updateModel(idNew, initialState);
+                                        }
+                                    }}
+                                />
+                            </Tooltip>
+                        </Flex>
                     </Box>
                     <TabPanels minWidth="30vw" display="flex">
                         {!isEditing &&

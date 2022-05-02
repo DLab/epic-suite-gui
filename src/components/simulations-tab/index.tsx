@@ -17,6 +17,7 @@ import { format } from "date-fns";
 import dynamic from "next/dynamic";
 import React, { useContext, useState } from "react";
 
+import { ImportModel } from "components/models-tab/ImportExportModels";
 import { SimulationSetted } from "context/SimulationContext";
 import { OptionFeature } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
@@ -49,10 +50,10 @@ const SimulationTab = () => {
                 idModel: 0,
                 idGeo: 0,
                 idGraph: 0,
-                t_init: format(new Date(), "yyyy/MM/dd"),
+                t_init: format(new Date(2021, 11, 31), "yyyy/MM/dd"),
                 typeSelection: OptionFeature.None,
                 initialConditions: {
-                    S: 0,
+                    population: 0,
                     R: 0,
                     I: 0,
                     I_d: 0,
@@ -62,6 +63,29 @@ const SimulationTab = () => {
             },
         });
         setTabIndex(simulation.length);
+        localStorage.setItem(
+            "simulations",
+            JSON.stringify([
+                ...simulation,
+                {
+                    name: "",
+                    idSim: Date.now(),
+                    idModel: 0,
+                    idGeo: 0,
+                    idGraph: 0,
+                    t_init: format(new Date(), "yyyy/MM/dd"),
+                    typeSelection: OptionFeature.None,
+                    initialConditions: {
+                        population: 0,
+                        R: 0,
+                        I: 0,
+                        I_d: 0,
+                        I_ac: 0,
+                        E: 0,
+                    },
+                },
+            ])
+        );
     };
 
     return (
@@ -115,20 +139,23 @@ const SimulationTab = () => {
                                     })}
                                 </TabList>
                             </Flex>
-                            <Tooltip label="Create Model">
-                                <IconButton
-                                    bg="#16609E"
-                                    w="100%"
-                                    mt="4%"
-                                    color="#FFFFFF"
-                                    aria-label="Call Segun"
-                                    size="sm"
-                                    cursor="pointer"
-                                    _hover={{ bg: "blue.500" }}
-                                    icon={<AddIcon />}
-                                    onClick={() => addSimulation()}
-                                />
-                            </Tooltip>
+                            <Flex justifyContent="center">
+                                <Tooltip label="Create Simulation">
+                                    <IconButton
+                                        bg="#16609E"
+                                        color="#FFFFFF"
+                                        aria-label="Call Segun"
+                                        size="sm"
+                                        cursor="pointer"
+                                        _hover={{ bg: "blue.500" }}
+                                        icon={<AddIcon />}
+                                        onClick={() => addSimulation()}
+                                    />
+                                </Tooltip>
+                                {/* <Tooltip label="Import Simulation">
+                                    <ImportModel />
+                                </Tooltip> */}
+                            </Flex>
                         </Box>
                         <TabPanels>
                             {simulation.map((sim, index) => {
@@ -165,7 +192,7 @@ const SimulationTab = () => {
                     h="80vh"
                     mh="80vh"
                 >
-                    <Tooltip label="Create Model">
+                    <Tooltip label="Create Simulation">
                         <IconButton
                             bg="#16609E"
                             color="#FFFFFF"
@@ -177,6 +204,9 @@ const SimulationTab = () => {
                             onClick={() => addSimulation()}
                         />
                     </Tooltip>
+                    {/* <Tooltip label="Import Simulation">
+                        <ImportModel />
+                    </Tooltip> */}
                     <HStack
                         h="100%"
                         w="100%"
@@ -189,6 +219,7 @@ const SimulationTab = () => {
                     </HStack>
                 </Tabs>
             )}
+            <Flex />
         </>
     );
 };

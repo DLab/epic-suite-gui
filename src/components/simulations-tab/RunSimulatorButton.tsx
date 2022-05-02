@@ -13,7 +13,7 @@ import { TabIndex } from "context/TabContext";
 import { DataParameters } from "types/ModelsTypes";
 import { SimulatorParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
-import { postData } from "utils/fetchData";
+import postData from "utils/fetchData";
 
 import getSEIRHVDObj from "./getSEIRHVDObj";
 import getSEIRObj from "./getSEIRObj";
@@ -34,7 +34,8 @@ const RunSimulatorButton = () => {
     const { parameters } = useContext(ModelsSaved);
     const { geoSelections: geoSelectionsElementsContext } =
         useContext(SelectFeature);
-    const { setAllGraphicData } = useContext(GraphicsData);
+    const { setAllGraphicData, setAllResults, dataToShowInMap } =
+        useContext(GraphicsData);
     const [isSimulating, setisSimulating] = useState(false);
 
     const verifyNotEmptySimulations = (sim: SimulatorParams[] | []) => {
@@ -140,9 +141,7 @@ const RunSimulatorButton = () => {
                 throw new Error("You must add a simulation at least");
             }
             // build object simulation template for toml
-
             const simulationsSelected = getSimulationSelectedObj();
-
             const objConfig = simulationsSelected.reduce((acc, it, i) => {
                 const simName = simulation.find((sim: SimulatorParams) => {
                     return sim.idSim === it.idSim;
@@ -153,23 +152,24 @@ const RunSimulatorButton = () => {
                 };
             }, {});
             if (simulationsSelected.length > 0) {
-                const datas = await postData(
-                    "http://192.168.2.131:5003/simulate",
-                    objConfig
+                postData("http://192.168.2.131:5003/simulate", objConfig).then(
+                    (response) => {
+                        const val = Object.values(response.results);
+                        const keys = Object.keys(response.results);
+                        const data = val
+                            .map((simString: string) => JSON.parse(simString))
+                            .map((sim, i) => ({
+                                name: keys[i],
+                                ...sim,
+                            }));
+                        setAux(JSON.stringify(data));
+                        getGraphicRealData();
+                        setIndex(4);
+                        setAllGraphicData([]);
+                        setAllResults([].concat(dataToShowInMap, []));
+                        setRealDataSimulationKeys([]);
+                    }
                 );
-                const val = Object.values(datas.results);
-                const keys = Object.keys(datas.results);
-                const data = val
-                    .map((simString: string) => JSON.parse(simString))
-                    .map((sim, i) => ({
-                        name: keys[i],
-                        ...sim,
-                    }));
-                setAux(JSON.stringify(data));
-                getGraphicRealData();
-                setIndex(4);
-                setAllGraphicData([]);
-                setRealDataSimulationKeys([]);
             }
             toast({
                 position: bottonLeft,

@@ -14,7 +14,7 @@ export enum OptionFeature {
 }
 
 export interface InitialConditions {
-    S: number;
+    population: number;
     R: number;
     I: number;
     I_d: number;
@@ -74,6 +74,8 @@ const SimulationContext: React.FC = ({ children }) => {
                 return state.filter(
                     (e: SimulatorParams) => e.idSim !== +action.element
                 );
+            case "setInitial":
+                return [...state, ...action.localState];
             default:
                 return state;
         }

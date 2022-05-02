@@ -3,12 +3,14 @@ import { useEffect, useContext } from "react";
 import MainContentTab from "../mainContent/index";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import { SimulationSetted } from "context/SimulationContext";
 import TabContext from "context/TabContext";
 
 const Simulator = () => {
     // set initial models and geoSelections from localstorage.
     const { setParameters, setInitialParameters } = useContext(ModelsSaved);
     const { setGeoSelections } = useContext(SelectFeature);
+    const { setSimulation } = useContext(SimulationSetted);
     useEffect(() => {
         if (
             typeof window !== "undefined" &&
@@ -35,7 +37,18 @@ const Simulator = () => {
                 initial: JSON.parse(dataLocalStorageGeo),
             });
         }
-    }, [setGeoSelections, setParameters, setInitialParameters]);
+        if (
+            typeof window !== "undefined" &&
+            window.localStorage.getItem("simulations")
+        ) {
+            const dataLocalStorageSimulation =
+                window.localStorage.getItem("simulations");
+            setSimulation({
+                type: "setInitial",
+                localState: JSON.parse(dataLocalStorageSimulation),
+            });
+        }
+    }, [setGeoSelections, setParameters, setInitialParameters, setSimulation]);
 
     return (
         <TabContext>

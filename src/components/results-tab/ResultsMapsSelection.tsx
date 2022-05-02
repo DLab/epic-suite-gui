@@ -12,6 +12,7 @@ import {
     RadioGroup,
     Stack,
     DrawerFooter,
+    Grid,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -39,7 +40,12 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         "Select option",
     ]);
 
-    const { dataToShowInMap, setDataToShowInMap } = useContext(GraphicsData);
+    const {
+        dataToShowInMap,
+        setDataToShowInMap,
+        allGraphicData,
+        setAllResults,
+    } = useContext(GraphicsData);
     const { parameters: parametersSaved } = useContext(ModelsSaved);
     const { simulation } = useContext(SimulationSetted);
     const { geoSelections } = useContext(SelectFeature);
@@ -145,6 +151,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             dataToShowInMapAux[1] = map2;
         }
         setDataToShowInMap(dataToShowInMapAux);
+        setAllResults([].concat(dataToShowInMapAux, allGraphicData));
     };
 
     return (
@@ -265,8 +272,12 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                         }}
                                         value={value[index]}
                                     >
-                                        <Text>Results</Text>
-                                        <Stack direction="row" m="4% 0">
+                                        <Text mx="7%">Results</Text>
+                                        <Grid
+                                            mx="7%"
+                                            templateColumns="repeat(3, 1fr)"
+                                            gap={3}
+                                        >
                                             {initialConditionsCheckBox[
                                                 index
                                             ]?.map((paramKey) => {
@@ -279,9 +290,13 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                                     </Radio>
                                                 );
                                             })}
-                                        </Stack>
-                                        <Text>Data</Text>
-                                        <Stack direction="row" m="4% 0">
+                                        </Grid>
+                                        <Text mx="7%">Data</Text>
+                                        <Grid
+                                            mx="7%"
+                                            templateColumns="repeat(3, 1fr)"
+                                            gap={3}
+                                        >
                                             {initialConditionsCheckBox[
                                                 index
                                             ]?.map((paramKeyData) => {
@@ -294,7 +309,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                                     </Radio>
                                                 );
                                             })}
-                                        </Stack>
+                                        </Grid>
                                     </RadioGroup>
                                 )}
                             </>

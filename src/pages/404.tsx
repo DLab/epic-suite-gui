@@ -1,8 +1,8 @@
 import { Box, Heading, Flex, Text, Center, Link, Icon } from "@chakra-ui/react";
 
-import MicroscopeIcon from "components/icons/MicroscopeIcon";
-import WomanMedicalIcon from "components/icons/WomanMedicalIcon";
-import createIdComponent from "utils/createIdcomponent";
+import MicroscopeIcon from "../components/icons/MicroscopeIcon";
+import WomanMedicalIcon from "../components/icons/WomanMedicalIcon";
+import createIdComponent from "../utils/createIdcomponent";
 
 const Page404 = () => {
     return (
