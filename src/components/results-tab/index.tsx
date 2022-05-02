@@ -23,7 +23,7 @@ const GraphicAndMapResults = dynamic(() => import("./GraphicAndMapResults"), {
             id={createIdComponent()}
             justifyContent="center"
             alignContent="center"
-            w="98vw"
+            w="90vw"
             h="50vh"
         >
             <Spinner
