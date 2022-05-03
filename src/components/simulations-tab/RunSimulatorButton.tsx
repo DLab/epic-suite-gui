@@ -164,7 +164,7 @@ const RunSimulatorButton = () => {
                             }));
                         setAux(JSON.stringify(data));
                         getGraphicRealData();
-                        setIndex(4);
+                        setIndex(5);
                         setAllGraphicData([]);
                         setAllResults([].concat(dataToShowInMap, []));
                         setRealDataSimulationKeys([]);
