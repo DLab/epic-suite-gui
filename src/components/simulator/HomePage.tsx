@@ -1,6 +1,7 @@
-import { Text, Flex, Button, Heading } from "@chakra-ui/react";
+import { Text, Flex, Button, Heading, Icon } from "@chakra-ui/react";
 import { useContext } from "react";
 
+import EpidemicIcon from "components/icons/EpidemicIcon";
 import { TabIndex } from "context/TabContext";
 
 const HomePage = () => {
@@ -40,23 +41,21 @@ const HomePage = () => {
                     Get Started
                 </Button>
             </Flex>
-            <Flex
-                w="50%"
-                direction="column"
-                justifyContent="center"
-                p="0 0 10% 3%"
-            >
-                <Flex>
-                    <Heading fontSize="9rem" color="#7FA6C7">
-                        EPI
-                    </Heading>
-                    <Heading fontSize="9rem" color="#7FA6C7">
-                        c
+            <Flex w="50%" alignItems="center">
+                <Flex direction="column" alignItems="center">
+                    <Flex>
+                        <Heading fontSize="9rem" color="#7FA6C7">
+                            EPI
+                        </Heading>
+                        <Heading fontSize="9rem" color="#7FA6C7">
+                            c
+                        </Heading>
+                    </Flex>
+                    <Heading fontSize="7rem" color="#e6d6d3" pl="15%">
+                        SUITE
                     </Heading>
                 </Flex>
-                <Heading fontSize="7rem" color="#FFFFFF" pl="15%">
-                    SUITE
-                </Heading>
+                <Icon pl="3.5rem" as={EpidemicIcon} w="40%" h="100%" />
             </Flex>
         </Flex>
     );
