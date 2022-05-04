@@ -561,6 +561,7 @@ Props) => {
                             size="sm"
                             value={optionFeature}
                             onChange={(e) => {
+                                valueOptionFeature(e);
                                 setIdGeoSelection(0);
                                 setIdGraph(0);
                                 setIdSimulationUpdating({
@@ -586,7 +587,6 @@ Props) => {
                                         H_cap: 0,
                                     },
                                 });
-                                valueOptionFeature(e);
                                 resetInitialConditions(e);
                             }}
                         >
@@ -653,13 +653,6 @@ Props) => {
                                         "POST",
                                         +e.target.value
                                     );
-                                }
-
-                                if (
-                                    optionFeature === OptionFeature.Graph &&
-                                    initialConditions
-                                    // eslint-disable-next-line no-empty
-                                ) {
                                 } else {
                                     updateAllSimulationData(+e.target.value, {
                                         I: 0,
