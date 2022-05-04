@@ -25,7 +25,7 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
@@ -183,7 +183,6 @@ export const ImportModel = () => {
                                                                 : [],
                                                     },
                                                 };
-
                                                 const simForAdd: ActionsSimulationData =
                                                     {
                                                         type: "add",
@@ -237,9 +236,17 @@ export const ImportModel = () => {
                                                         .length > 0
                                                 ) {
                                                     setGeoSelections(geoForAdd);
+                                                    addInLocalStorage(
+                                                        [geoForAdd.geoPayload],
+                                                        "geoSelection"
+                                                    );
                                                 }
                                                 // add simulation
                                                 setSimulation(simForAdd);
+                                                addInLocalStorage(
+                                                    [simForAdd.payload],
+                                                    "simulations"
+                                                );
                                                 setParameters({
                                                     type: "add",
                                                     payload: modelForAdd,
@@ -430,7 +437,6 @@ export const ExportModels = ({ idSim, idModel, idGeo }: PropsExportModels) => {
             return "";
         }
     };
-
     return (
         <>
             <Popover placement="right">
@@ -452,33 +458,20 @@ export const ExportModels = ({ idSim, idModel, idGeo }: PropsExportModels) => {
                         Choose a format file!
                     </PopoverHeader>
                     <PopoverBody>
-                        <Link
-                            download="models.toml"
-                            href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                                getAllPropertiesOneSimulation(
-                                    idSim,
-                                    idGeo,
-                                    idModel
-                                ) as string
-                            )}`}
-                        >
-                            to TOML
-                        </Link>
-                        {/* <Button
-                            onClick={() =>
-                                console.log(
+                        {idSim && idGeo && idModel && (
+                            <Link
+                                download="models.toml"
+                                href={`data:text/json;charset=utf-8,${encodeURIComponent(
                                     getAllPropertiesOneSimulation(
                                         idSim,
-
-                                        idGeo,
-
-                                        idModel
-                                    )
-                                )
-                            }
-                        >
-                            asdf
-                        </Button> */}
+                                        idModel,
+                                        idGeo
+                                    ) as string
+                                )}`}
+                            >
+                                to TOML
+                            </Link>
+                        )}
                     </PopoverBody>
                 </PopoverContent>
             </Popover>

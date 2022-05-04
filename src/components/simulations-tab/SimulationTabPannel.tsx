@@ -769,11 +769,11 @@ Props) => {
                         setTabIndex(simulation.length - 2);
                     }}
                 />
-                {/* <ExportModels
+                <ExportModels
                     idGeo={idGeo}
                     idSim={idSimulation}
                     idModel={idModel2}
-                /> */}
+                />
             </Flex>
         </>
     );
