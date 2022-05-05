@@ -14,6 +14,7 @@ import {
     Radio,
     RadioGroup,
     Stack,
+    Button,
 } from "@chakra-ui/react";
 import format from "date-fns/format";
 import React, {
@@ -45,6 +46,7 @@ interface Props {
     idModel: number;
     idSimulation: number;
     idGeo: number;
+    idGraph: number;
     intialConditionsSim: InitialConditionsContext;
     typeSelection: string;
     index: number;
@@ -56,6 +58,7 @@ const SimulationTabPannel = ({
     idModel: idModelSelected,
     idSimulation,
     idGeo,
+    idGraph: idGraphSelected,
     intialConditionsSim,
     typeSelection,
     index,
@@ -66,6 +69,7 @@ Props) => {
 
     const { simulation, setIdSimulationUpdating, setSimulation } =
         useContext(SimulationSetted);
+    const [runDisabled, setRunDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [nameSim, setNameSim] = useState("");
     const [idGeoSelection, setIdGeoSelection] = useState<number>(0);
@@ -78,7 +82,6 @@ Props) => {
         reducerInitialConditions,
         {}
     );
-    // const [initialConditions, setInitialConditions] = useState(null);
     const [idGraph, setIdGraph] = useState<number>(0);
     const [initialConditionsMode, setInitialConditionsMode] = useState(false);
     const [idModel2, setIdModel2] = useState<number>();
@@ -107,6 +110,16 @@ Props) => {
     } = useContext(GraphicsData);
     const { parameters } = useContext(ModelsSaved);
     const RealConditions = "real-conditions";
+
+    useEffect(() => {
+        if (
+            idModelSelected !== 0 &&
+            typeSelection !== "" &&
+            (idGeo !== 0 || idGraphSelected !== 0)
+        ) {
+            setRunDisabled(false);
+        }
+    }, [idGeo, idGraphSelected, idModelSelected, typeSelection]);
 
     const selectSimulation = useCallback(
         (e, target) => {
@@ -704,8 +717,13 @@ Props) => {
                 </Flex>
                 <Box mt="2%">
                     <Center>
-                        {" "}
-                        <RunSimulatorButton />
+                        {runDisabled ? (
+                            <Button colorScheme="blue" color="white" isDisabled>
+                                Run
+                            </Button>
+                        ) : (
+                            <RunSimulatorButton />
+                        )}
                     </Center>
                 </Box>
             </Flex>

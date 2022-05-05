@@ -174,6 +174,7 @@ const SimulationTab = () => {
                                             }
                                             idSimulation={sim.idSim}
                                             idGeo={sim.idGeo}
+                                            idGraph={sim.idGraph}
                                             typeSelection={sim.typeSelection}
                                             index={index}
                                             setTabIndex={setTabIndex}
@@ -204,9 +205,9 @@ const SimulationTab = () => {
                             onClick={() => addSimulation()}
                         />
                     </Tooltip>
-                    {/* <Tooltip label="Import Simulation">
+                    <Tooltip label="Import Simulation">
                         <ImportModel />
-                    </Tooltip> */}
+                    </Tooltip>
                     <HStack
                         h="100%"
                         w="100%"
