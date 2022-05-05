@@ -98,10 +98,8 @@ Props) => {
     const [modelType, setModelType] = useState("SEIR");
     const [geoSelectionNoCounties, setGeoSelectionNoCounties] = useState([]);
     const { geoSelections } = useContext(SelectFeature);
-    const {
-        initialConditions: initialConditionsContext,
-        setInitialConditions: setInitialConditionsContext,
-    } = useContext(ControlPanel);
+    const { setInitialConditions: setInitialConditionsContext } =
+        useContext(ControlPanel);
     const {
         setAllGraphicData,
         setRealDataSimulationKeys,
@@ -115,11 +113,20 @@ Props) => {
         if (
             idModelSelected !== 0 &&
             typeSelection !== "" &&
-            (idGeo !== 0 || idGraphSelected !== 0)
+            (idGeo !== 0 ||
+                (idGraphSelected !== 0 &&
+                    intialConditionsSim.population !== 0 &&
+                    intialConditionsSim.population !== "0"))
         ) {
             setRunDisabled(false);
         }
-    }, [idGeo, idGraphSelected, idModelSelected, typeSelection]);
+    }, [
+        idGeo,
+        idGraphSelected,
+        idModelSelected,
+        intialConditionsSim.population,
+        typeSelection,
+    ]);
 
     const selectSimulation = useCallback(
         (e, target) => {

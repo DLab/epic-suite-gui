@@ -64,7 +64,7 @@ export interface ActionsInitialConditions {
 }
 // initialConditions
 export interface InitialConditions {
-    population: number;
+    population: number | string;
     R: number;
     I: number;
     I_d: number;
