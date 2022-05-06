@@ -114,7 +114,7 @@ export const ImportModel = () => {
                                                     cleanInitialConditions(
                                                         importedData.initialconditions as TomlInitialConditions
                                                     );
-                                                const dateSim =
+                                                const formattedDay =
                                                     importedData.data.initdate.includes(
                                                         "-"
                                                     )
@@ -124,6 +124,15 @@ export const ImportModel = () => {
                                                           )
                                                         : importedData.data
                                                               .initdate;
+                                                // date can't be newer than 2021/12/31
+                                                const maxDateSim = new Date(
+                                                    "2021/12/31"
+                                                );
+                                                const dateSim =
+                                                    maxDateSim >
+                                                    new Date(formattedDay)
+                                                        ? formattedDay
+                                                        : "2021/12/31";
                                                 const geographData =
                                                     importedData.data;
                                                 const idModel = Date.now();
@@ -380,9 +389,15 @@ export const ExportModels = ({ idSim, idModel, idGeo }: PropsExportModels) => {
                 }),
                 {}
             );
-            const { scale, featureSelected } = geoSelections.find(
-                (geoSelection) => geoSelection.id === idGeos
-            );
+            const { scale, featureSelected } =
+                idGeos === 1
+                    ? {
+                          scale: "",
+                          featureSelected: "",
+                      }
+                    : geoSelections.find(
+                          (geoSelection) => geoSelection.id === idGeos
+                      );
             const modelFinded = parameters.find(
                 (paramElem: DataParameters) => paramElem.id === idModels
             );
@@ -458,7 +473,7 @@ export const ExportModels = ({ idSim, idModel, idGeo }: PropsExportModels) => {
                         Choose a format file!
                     </PopoverHeader>
                     <PopoverBody>
-                        {idSim && idGeo && idModel && (
+                        {idSim && idGeo && idModel ? (
                             <Link
                                 download="models.toml"
                                 href={`data:text/json;charset=utf-8,${encodeURIComponent(
@@ -471,6 +486,8 @@ export const ExportModels = ({ idSim, idModel, idGeo }: PropsExportModels) => {
                             >
                                 to TOML
                             </Link>
+                        ) : (
+                            <p>pasó algo</p>
                         )}
                     </PopoverBody>
                 </PopoverContent>
