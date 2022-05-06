@@ -116,6 +116,11 @@ const SimulationTab = () => {
                                             return (
                                                 <Tab
                                                     key={createIdComponent()}
+                                                    display="inline-block"
+                                                    maxW="8rem"
+                                                    textOverflow="ellipsis"
+                                                    whiteSpace="nowrap"
+                                                    overflowX="hidden"
                                                     _selected={{
                                                         color: "white",
                                                         bg: "blue.500",
