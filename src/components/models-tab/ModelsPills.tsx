@@ -107,6 +107,11 @@ const ModelsPills = () => {
                                     }: DataParameters) => (
                                         <Tab
                                             key={createIdComponent()}
+                                            display="inline-block"
+                                            maxW="8rem"
+                                            whiteSpace="nowrap"
+                                            textOverflow="ellipsis"
+                                            overflowX="hidden"
                                             _selected={{
                                                 color: "white",
                                                 bg: "blue.500",
@@ -116,7 +121,7 @@ const ModelsPills = () => {
                                                 setIsEditing(true);
                                             }}
                                         >
-                                            <p>{ParametersModels.name_model}</p>
+                                            {ParametersModels.name_model}
                                         </Tab>
                                     )
                                 )}

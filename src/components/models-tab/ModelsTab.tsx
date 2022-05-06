@@ -4,7 +4,6 @@ import { useContext } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
 
-import { ExportModels, ImportModel } from "./ImportExportModels";
 import Pills from "./ModelsPills";
 
 const ModelsTab = () => {
