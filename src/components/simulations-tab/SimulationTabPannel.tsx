@@ -788,7 +788,7 @@ Props) => {
                     }}
                 />
                 <ExportModels
-                    idGeo={idGeo}
+                    idGeo={idGraph !== 0 ? idGraph : idGeo}
                     idSim={idSimulation}
                     idModel={idModel2}
                 />
