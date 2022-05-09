@@ -116,7 +116,7 @@ Props) => {
             (idGeo !== 0 ||
                 (idGraphSelected !== 0 &&
                     intialConditionsSim.population !== 0 &&
-                    intialConditionsSim.population !== "0"))
+                    +intialConditionsSim.population !== 0))
         ) {
             setRunDisabled(false);
         }
