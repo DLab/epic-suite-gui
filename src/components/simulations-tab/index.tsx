@@ -50,7 +50,7 @@ const SimulationTab = () => {
                 idModel: 0,
                 idGeo: 0,
                 idGraph: 0,
-                t_init: format(new Date(), "yyyy/MM/dd"),
+                t_init: format(new Date(2021, 11, 31), "yyyy/MM/dd"),
                 typeSelection: OptionFeature.None,
                 initialConditions: {
                     population: 0,
@@ -63,6 +63,29 @@ const SimulationTab = () => {
             },
         });
         setTabIndex(simulation.length);
+        localStorage.setItem(
+            "simulations",
+            JSON.stringify([
+                ...simulation,
+                {
+                    name: "",
+                    idSim: Date.now(),
+                    idModel: 0,
+                    idGeo: 0,
+                    idGraph: 0,
+                    t_init: format(new Date(), "yyyy/MM/dd"),
+                    typeSelection: OptionFeature.None,
+                    initialConditions: {
+                        population: 0,
+                        R: 0,
+                        I: 0,
+                        I_d: 0,
+                        I_ac: 0,
+                        E: 0,
+                    },
+                },
+            ])
+        );
     };
 
     return (
@@ -93,6 +116,11 @@ const SimulationTab = () => {
                                             return (
                                                 <Tab
                                                     key={createIdComponent()}
+                                                    display="inline-block"
+                                                    maxW="8rem"
+                                                    textOverflow="ellipsis"
+                                                    whiteSpace="nowrap"
+                                                    overflowX="hidden"
                                                     _selected={{
                                                         color: "white",
                                                         bg: "blue.500",
@@ -116,8 +144,8 @@ const SimulationTab = () => {
                                     })}
                                 </TabList>
                             </Flex>
-                            <Flex>
-                                <Tooltip label="Create Model">
+                            <Flex justifyContent="center">
+                                <Tooltip label="Create Simulation">
                                     <IconButton
                                         bg="#16609E"
                                         color="#FFFFFF"
@@ -151,6 +179,7 @@ const SimulationTab = () => {
                                             }
                                             idSimulation={sim.idSim}
                                             idGeo={sim.idGeo}
+                                            idGraph={sim.idGraph}
                                             typeSelection={sim.typeSelection}
                                             index={index}
                                             setTabIndex={setTabIndex}
@@ -169,7 +198,7 @@ const SimulationTab = () => {
                     h="80vh"
                     mh="80vh"
                 >
-                    <Tooltip label="Create Model">
+                    <Tooltip label="Create Simulation">
                         <IconButton
                             bg="#16609E"
                             color="#FFFFFF"

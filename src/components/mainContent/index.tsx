@@ -26,11 +26,12 @@ import ModelsIcon from "components/icons/ModelsIcon";
 import PlanetIcon from "components/icons/PlanetIcon";
 import ResultsIcon from "components/icons/ResultsIcon";
 import SimulationIcon from "components/icons/SimulationIcon";
+import HomePage from "components/simulator/HomePage";
 import { TabIndex } from "context/TabContext";
 
 const Map = dynamic(() => import("../map-tab"), {
     loading: () => (
-        <Flex justifyContent="center" alignItems="center">
+        <Flex justifyContent="center" alignItems="center" h="95vh">
             <Spinner
                 thickness="4px"
                 speed="0.65s"
@@ -70,15 +71,20 @@ const MainContentTab = () => {
                 bg="#16609E"
                 border="none"
             >
-                <Box textAlign="center" m="10% 0">
-                    <Icon
-                        as={EpicSuiteIcon}
-                        w={50}
-                        h={50}
-                        aria-label="EPIc Suite Logo"
-                        fill="none"
-                    />
-                </Box>
+                {/* <Box alignSelf="center" m="10% 0">
+                    <Tab
+                        _focus={{ background: "#2F8BD8", border: "none" }}
+                        p="0px"
+                    >
+                        <Icon
+                            as={EpicSuiteIcon}
+                            w={50}
+                            h={50}
+                            aria-label="EPIc Suite Logo"
+                            fill="none"
+                        />
+                    </Tab>
+                </Box> */}
                 <Flex
                     direction="column"
                     h="100%"
@@ -86,6 +92,24 @@ const MainContentTab = () => {
                     mt="15%"
                 >
                     <Box ref={TabRefContainer}>
+                        <Box alignSelf="center" m="10% 0">
+                            <Tab
+                                _focus={{
+                                    background: "#2F8BD8",
+                                    border: "none",
+                                }}
+                                p="0px"
+                                w="100%"
+                            >
+                                <Icon
+                                    as={EpicSuiteIcon}
+                                    w={50}
+                                    h={50}
+                                    aria-label="EPIc Suite Logo"
+                                    fill="none"
+                                />
+                            </Tab>
+                        </Box>
                         <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <Icon
                                 w={6}
@@ -153,6 +177,9 @@ const MainContentTab = () => {
                 </Flex>
             </TabList>
             <TabPanels h="100vh" bg="#F2F2F0">
+                <TabPanel bg="#1D2E3C" h="100%" overflowY="auto" maxH="100vh">
+                    <HomePage />
+                </TabPanel>
                 <TabPanel overflowY="auto" maxH="100vh">
                     <ModelsTab />
                 </TabPanel>
@@ -168,7 +195,7 @@ const MainContentTab = () => {
                     <SimulationTab />
                 </TabPanel>
                 <TabPanel h="100vh" maxH="100vh">
-                    <Flex maxh="100vh">
+                    <Flex maxh="100vh" h="97vh">
                         <Center w="100%" maxh="100vh">
                             <Results />
                         </Center>

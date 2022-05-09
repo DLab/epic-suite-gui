@@ -25,7 +25,7 @@ import {
     useToast,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
@@ -58,7 +58,7 @@ export const ImportModel = () => {
     const toast = useToast();
     return (
         <>
-            <Tooltip label="Upload a model from TOML file config">
+            <Tooltip label="Upload a simulation from TOML file config">
                 <IconButton
                     bg="#FFFFFF"
                     color="#16609E"
@@ -80,20 +80,20 @@ export const ImportModel = () => {
                                 type="file"
                                 accept="application/toml"
                                 onChange={(e) => {
-                                    try {
-                                        if (
-                                            window.File &&
-                                            window.FileReader &&
-                                            window.FileList &&
-                                            window.Blob
-                                        ) {
-                                            const reader = new FileReader();
-                                            reader.readAsText(
-                                                e.target.files[0],
-                                                "UTF-8"
-                                            );
-                                            reader.onload = (est) => {
-                                                // import data raw like JSON
+                                    if (
+                                        window.File &&
+                                        window.FileReader &&
+                                        window.FileList &&
+                                        window.Blob
+                                    ) {
+                                        const reader = new FileReader();
+                                        reader.readAsText(
+                                            e.target.files[0],
+                                            "UTF-8"
+                                        );
+                                        reader.onload = (est) => {
+                                            // import data raw like JSON
+                                            try {
                                                 const importedData: EpicConfigToml =
                                                     convertFiles(
                                                         est.target.result,
@@ -114,7 +114,7 @@ export const ImportModel = () => {
                                                     cleanInitialConditions(
                                                         importedData.initialconditions as TomlInitialConditions
                                                     );
-                                                const dateSim =
+                                                const formattedDay =
                                                     importedData.data.initdate.includes(
                                                         "-"
                                                     )
@@ -124,6 +124,15 @@ export const ImportModel = () => {
                                                           )
                                                         : importedData.data
                                                               .initdate;
+                                                // date can't be newer than 2021/12/31
+                                                const maxDateSim = new Date(
+                                                    "2021/12/31"
+                                                );
+                                                const dateSim =
+                                                    maxDateSim >
+                                                    new Date(formattedDay)
+                                                        ? formattedDay
+                                                        : "2021/12/31";
                                                 const geographData =
                                                     importedData.data;
                                                 const idModel = Date.now();
@@ -183,7 +192,6 @@ export const ImportModel = () => {
                                                                 : [],
                                                     },
                                                 };
-
                                                 const simForAdd: ActionsSimulationData =
                                                     {
                                                         type: "add",
@@ -237,9 +245,17 @@ export const ImportModel = () => {
                                                         .length > 0
                                                 ) {
                                                     setGeoSelections(geoForAdd);
+                                                    addInLocalStorage(
+                                                        [geoForAdd.geoPayload],
+                                                        "geoSelection"
+                                                    );
                                                 }
                                                 // add simulation
                                                 setSimulation(simForAdd);
+                                                addInLocalStorage(
+                                                    [simForAdd.payload],
+                                                    "simulations"
+                                                );
                                                 setParameters({
                                                     type: "add",
                                                     payload: modelForAdd,
@@ -258,35 +274,35 @@ export const ImportModel = () => {
                                                     duration: 5000,
                                                     isClosable: true,
                                                 });
-                                            };
-                                            reader.onerror = (err) => {
+                                            } catch (error) {
                                                 toast({
                                                     position,
                                                     title: "Error",
                                                     description:
-                                                        "Occurs an error during import process",
+                                                        "Uploading simulation failed. Check your TOML config and try later",
                                                     status: "error",
                                                     duration: 5000,
                                                     isClosable: true,
                                                 });
-                                            };
-                                        } else {
+                                            }
+                                        };
+                                        reader.onerror = (err) => {
                                             toast({
                                                 position,
-                                                title: "Doesn't supported API",
+                                                title: "Error",
                                                 description:
-                                                    "The File APIs are not fully supported by your browser.",
+                                                    "Occurs an error during import process",
                                                 status: "error",
                                                 duration: 5000,
                                                 isClosable: true,
                                             });
-                                        }
-                                    } catch (error) {
+                                        };
+                                    } else {
                                         toast({
                                             position,
-                                            title: "Error",
+                                            title: "Doesn't supported API",
                                             description:
-                                                "Uploading simulation failed. Check your TOML config and try later",
+                                                "The File APIs are not fully supported by your browser.",
                                             status: "error",
                                             duration: 5000,
                                             isClosable: true,
@@ -373,9 +389,15 @@ export const ExportModels = ({ idSim, idModel, idGeo }: PropsExportModels) => {
                 }),
                 {}
             );
-            const { scale, featureSelected } = geoSelections.find(
-                (geoSelection) => geoSelection.id === idGeos
-            );
+            const { scale, featureSelected } =
+                idGeos === 1
+                    ? {
+                          scale: "",
+                          featureSelected: "",
+                      }
+                    : geoSelections.find(
+                          (geoSelection) => geoSelection.id === idGeos
+                      );
             const modelFinded = parameters.find(
                 (paramElem: DataParameters) => paramElem.id === idModels
             );
@@ -430,7 +452,6 @@ export const ExportModels = ({ idSim, idModel, idGeo }: PropsExportModels) => {
             return "";
         }
     };
-
     return (
         <>
             <Popover placement="right">
@@ -452,33 +473,22 @@ export const ExportModels = ({ idSim, idModel, idGeo }: PropsExportModels) => {
                         Choose a format file!
                     </PopoverHeader>
                     <PopoverBody>
-                        <Link
-                            download="models.toml"
-                            href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                                getAllPropertiesOneSimulation(
-                                    idSim,
-                                    idGeo,
-                                    idModel
-                                ) as string
-                            )}`}
-                        >
-                            to TOML
-                        </Link>
-                        {/* <Button
-                            onClick={() =>
-                                console.log(
+                        {idSim && idGeo && idModel ? (
+                            <Link
+                                download="models.toml"
+                                href={`data:text/json;charset=utf-8,${encodeURIComponent(
                                     getAllPropertiesOneSimulation(
                                         idSim,
-
-                                        idGeo,
-
-                                        idModel
-                                    )
-                                )
-                            }
-                        >
-                            asdf
-                        </Button> */}
+                                        idModel,
+                                        idGeo
+                                    ) as string
+                                )}`}
+                            >
+                                to TOML
+                            </Link>
+                        ) : (
+                            <p>pasó algo</p>
+                        )}
                     </PopoverBody>
                 </PopoverContent>
             </Popover>

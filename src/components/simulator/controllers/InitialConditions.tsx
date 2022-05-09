@@ -466,6 +466,18 @@ const InitialConditions = ({
                                 payloadInitialConditions: initialConditions,
                                 id: idSimulation,
                             });
+                            const simulationAux = simulation;
+                            // eslint-disable-next-line array-callback-return
+                            simulation.map((e, i) => {
+                                if (e.idSim === idSimulation) {
+                                    e.initialConditions = initialConditions;
+                                }
+                            });
+
+                            localStorage.setItem(
+                                "simulations",
+                                JSON.stringify(simulationAux)
+                            );
                             setIdSimulationUpdating({
                                 type: "set",
                                 payload: 0,

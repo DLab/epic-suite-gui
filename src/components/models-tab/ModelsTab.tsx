@@ -4,7 +4,6 @@ import { useContext } from "react";
 
 import { ModelsSaved } from "context/ModelsContext";
 
-import { ExportModels, ImportModel } from "./ImportExportModels";
 import Pills from "./ModelsPills";
 
 const ModelsTab = () => {
@@ -24,7 +23,6 @@ const ModelsTab = () => {
 
             <Flex direction="column">
                 <Pills />
-                <Flex>{parameters.length > 0 && <ExportModels />}</Flex>
             </Flex>
         </>
     );

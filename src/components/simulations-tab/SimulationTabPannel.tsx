@@ -1,5 +1,6 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { DeleteIcon, DownloadIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
     Box,
     Text,
@@ -13,6 +14,7 @@ import {
     Radio,
     RadioGroup,
     Stack,
+    Button,
 } from "@chakra-ui/react";
 import format from "date-fns/format";
 import React, {
@@ -44,6 +46,7 @@ interface Props {
     idModel: number;
     idSimulation: number;
     idGeo: number;
+    idGraph: number;
     intialConditionsSim: InitialConditionsContext;
     typeSelection: string;
     index: number;
@@ -55,6 +58,7 @@ const SimulationTabPannel = ({
     idModel: idModelSelected,
     idSimulation,
     idGeo,
+    idGraph: idGraphSelected,
     intialConditionsSim,
     typeSelection,
     index,
@@ -65,6 +69,7 @@ Props) => {
 
     const { simulation, setIdSimulationUpdating, setSimulation } =
         useContext(SimulationSetted);
+    const [runDisabled, setRunDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [nameSim, setNameSim] = useState("");
     const [idGeoSelection, setIdGeoSelection] = useState<number>(0);
@@ -77,14 +82,13 @@ Props) => {
         reducerInitialConditions,
         {}
     );
-    // const [initialConditions, setInitialConditions] = useState(null);
     const [idGraph, setIdGraph] = useState<number>(0);
     const [initialConditionsMode, setInitialConditionsMode] = useState(false);
     const [idModel2, setIdModel2] = useState<number>();
     const [startDate, setStartDate] = useState(
         new Date(
             simulation.find((s: SimulatorParams) => s.idSim === idSimulation)
-                .t_init ?? Date.now()
+                .t_init ?? new Date(2022, 0, 1)
         )
     );
     const [optionFeature, setOptionFeature] = useState<OptionFeature>(
@@ -101,11 +105,28 @@ Props) => {
         setRealDataSimulationKeys,
         setDataToShowInMap,
         setAllResults,
-        dataToShowInMap,
-        allGraphicData,
     } = useContext(GraphicsData);
     const { parameters } = useContext(ModelsSaved);
     const RealConditions = "real-conditions";
+
+    useEffect(() => {
+        if (
+            idModelSelected !== 0 &&
+            typeSelection !== "" &&
+            (idGeo !== 0 ||
+                (idGraphSelected !== 0 &&
+                    intialConditionsSim.population !== 0 &&
+                    +intialConditionsSim.population !== 0))
+        ) {
+            setRunDisabled(false);
+        }
+    }, [
+        idGeo,
+        idGraphSelected,
+        idModelSelected,
+        intialConditionsSim.population,
+        typeSelection,
+    ]);
 
     const selectSimulation = useCallback(
         (e, target) => {
@@ -168,6 +189,24 @@ Props) => {
                 initialConditions: initialConditionsValues,
             },
         });
+        const simulationAux = simulation;
+        // eslint-disable-next-line array-callback-return
+        simulation.map((e, i) => {
+            if (e.idSim === idSimulation) {
+                simulationAux[i] = {
+                    name: nameSim,
+                    idSim: idSimulation,
+                    idModel: idModel2,
+                    idGeo: getGeoId,
+                    idGraph: getGraphId,
+                    t_init: format(new Date(startDate), "yyyy/MM/dd"),
+                    typeSelection: optionFeature,
+                    initialConditions: initialConditionsValues,
+                };
+            }
+        });
+
+        localStorage.setItem("simulations", JSON.stringify(simulationAux));
         setInitialConditionsContext({
             type: RealConditions,
             real: initialConditionsValues,
@@ -439,6 +478,45 @@ Props) => {
         }
     };
 
+    const deleteFromLocalStorage = (idSim) => {
+        const simulationsFilter = simulation.filter(
+            (sim: SimulatorParams) => sim.idSim !== +idSim
+        );
+        localStorage.setItem("simulations", JSON.stringify(simulationsFilter));
+    };
+
+    const resetInitialConditions = (val) => {
+        setSimulation({
+            type: "update-all",
+            id: idSimulation,
+            payload: {
+                name: nameSim,
+                idSim: idSimulation,
+                idModel: idModel2,
+                idGeo: 0,
+                idGraph: 0,
+                t_init: format(new Date(startDate), "yyyy/MM/dd"),
+                typeSelection: val,
+                initialConditions: {
+                    I: 0,
+                    I_d: 0,
+                    I_ac: 0,
+                    population: 0,
+                    R: 0,
+                    E: 0,
+                    H_d: 0,
+                    H: 0,
+                    Iv_d: 0,
+                    Iv_ac: 0,
+                    D_d: 0,
+                    D: 0,
+                    Iv: 0,
+                    H_cap: 0,
+                },
+            },
+        });
+    };
+
     return (
         <>
             <Flex
@@ -510,6 +588,26 @@ Props) => {
                                     type: "set",
                                     payload: 0,
                                 });
+                                setInitialConditionsContext({
+                                    type: RealConditions,
+                                    real: {
+                                        I: 0,
+                                        I_d: 0,
+                                        I_ac: 0,
+                                        population: 0,
+                                        R: 0,
+                                        E: 0,
+                                        H_d: 0,
+                                        H: 0,
+                                        Iv_d: 0,
+                                        Iv_ac: 0,
+                                        D_d: 0,
+                                        D: 0,
+                                        Iv: 0,
+                                        H_cap: 0,
+                                    },
+                                });
+                                resetInitialConditions(e);
                             }}
                         >
                             <Stack direction="row">
@@ -540,9 +638,12 @@ Props) => {
                                     Date
                                 </Text>
                                 <SelectDate
+                                    nameSim={nameSim}
+                                    optionFeature={optionFeature}
+                                    idModel={idModel2}
+                                    idSimulation={idSimulation}
                                     startDate={startDate}
                                     setStartDate={setStartDate}
-                                    valueOptionFeature={valueOptionFeature}
                                     setIdGeo={setIdGeoSelection}
                                     setIdGraph={setIdGraph}
                                     setIdSim={setIdSimulationUpdating}
@@ -572,13 +673,6 @@ Props) => {
                                         "POST",
                                         +e.target.value
                                     );
-                                }
-
-                                if (
-                                    optionFeature === OptionFeature.Graph &&
-                                    initialConditions
-                                    // eslint-disable-next-line no-empty
-                                ) {
                                 } else {
                                     updateAllSimulationData(+e.target.value, {
                                         I: 0,
@@ -630,8 +724,13 @@ Props) => {
                 </Flex>
                 <Box mt="2%">
                     <Center>
-                        {" "}
-                        <RunSimulatorButton />
+                        {runDisabled ? (
+                            <Button colorScheme="blue" color="white" isDisabled>
+                                Run
+                            </Button>
+                        ) : (
+                            <RunSimulatorButton />
+                        )}
                     </Center>
                 </Box>
             </Flex>
@@ -687,14 +786,16 @@ Props) => {
                             type: "remove",
                             element: idSimulation,
                         });
+                        deleteFromLocalStorage(idSimulation);
                         setAllGraphicData([]);
                         setRealDataSimulationKeys([]);
                         setDataToShowInMap([]);
+                        setAllResults([].concat([], []));
                         setTabIndex(simulation.length - 2);
                     }}
                 />
                 <ExportModels
-                    idGeo={idGeo}
+                    idGeo={idGraph !== 0 ? idGraph : idGeo}
                     idSim={idSimulation}
                     idModel={idModel2}
                 />

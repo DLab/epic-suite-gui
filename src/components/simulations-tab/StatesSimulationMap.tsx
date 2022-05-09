@@ -51,7 +51,7 @@ const StateSimulationMap = ({ idGeo }: Props) => {
     }, [idGeo]);
 
     useEffect(() => {
-        if (tabIndex === 3) {
+        if (tabIndex === 4) {
             map.invalidateSize(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

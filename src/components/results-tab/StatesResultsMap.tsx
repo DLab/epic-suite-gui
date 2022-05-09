@@ -58,7 +58,7 @@ const StatesResultsMap = ({
     }, [idGeo, parameterValue, statesData]);
 
     useEffect(() => {
-        if (tabIndex === 4) {
+        if (tabIndex === 5) {
             map.invalidateSize(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -34,7 +34,7 @@ const StatesMap = () => {
     const [tootipCounty, dispatch] = useReducer(reducer, initialState);
 
     useEffect(() => {
-        if (tabIndex === 1) {
+        if (tabIndex === 2) {
             map.invalidateSize(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
