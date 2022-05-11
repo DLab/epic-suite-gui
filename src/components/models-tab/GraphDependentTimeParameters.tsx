@@ -81,7 +81,7 @@ const GraphDependentTimeParameters = ({
                         await createSeries(
                             formatVariableDependentTime(values),
                             "http://192.168.2.131:5003/function",
-                            duration,
+                            +duration,
                             +values.default,
                             values.rangeDays
                         ),
