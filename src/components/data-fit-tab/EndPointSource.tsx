@@ -3,6 +3,7 @@ import { add, format } from "date-fns";
 import React, { useContext } from "react";
 import DatePicker from "react-datepicker";
 
+import { DataFit } from "context/DataFitContext";
 import { ModelsSaved } from "context/ModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { DataParameters } from "types/ModelsTypes";
@@ -30,6 +31,7 @@ const EndPointSource = ({
     const toast = useToast();
     const { geoSelections } = useContext(SelectFeature);
     const { parameters } = useContext(ModelsSaved);
+    const { setRealDataToFit } = useContext(DataFit);
 
     const getObjectConfig = (geoId) => {
         const { parameters: modelParameters } = parameters.find(
@@ -55,15 +57,26 @@ const EndPointSource = ({
             const res = await postData("http://192.168.2.131:5001/realData", {
                 Data_Fit: objectConfig,
             });
+            const fitDataName = Object.keys(res.result);
             if (algorithmValue === "algorithm-1") {
                 const dataForAlgorithm1 = Object.values(res.result.Data_Fit.I);
                 setDataValues(dataForAlgorithm1);
+                const dataForRealData = {
+                    I: res.result.Data_Fit.I,
+                    name: fitDataName[0],
+                };
+                setRealDataToFit([dataForRealData]);
             }
             if (algorithmValue === "algorithm-2") {
                 const dataForAlgorithm2 = Object.values(
                     res.result.Data_Fit.I_active
                 );
                 setDataValues(dataForAlgorithm2);
+                const dataForRealData = {
+                    I_ac: res.result.Data_Fit.I_active,
+                    name: fitDataName[0],
+                };
+                setRealDataToFit([dataForRealData]);
             }
         } catch (error) {
             if (modelId === undefined) {

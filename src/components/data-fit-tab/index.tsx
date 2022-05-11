@@ -9,16 +9,35 @@ import {
     Tag,
     TagLabel,
     TagRightIcon,
+    Spinner,
 } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import React, { useState, useContext, useEffect } from "react";
 
+import { DataFit } from "context/DataFitContext";
 import { ModelsSaved } from "context/ModelsContext";
 
 import EndPointSource from "./EndPointSource";
 import FileSource from "./FileSource";
+import FitParemetersTabs from "./FitParemetersTabs";
 import SampleSource from "./SampleSource";
 
 import "react-datepicker/dist/react-datepicker.css";
+
+const Graphic = dynamic(() => import("./GraphicDataFit"), {
+    loading: () => (
+        <Flex justifyContent="center" alignItems="center">
+            <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+            />
+        </Flex>
+    ),
+    ssr: false,
+});
 
 const DataFitTab = () => {
     const [dataSourceType, setDataSourceType] = useState("");
@@ -32,6 +51,8 @@ const DataFitTab = () => {
     // Cambiar valores del radio button a nombres representativos de los ejemplos
     const [SampleSourceValue, setSampleSourceValue] = useState("1");
     const { parameters } = useContext(ModelsSaved);
+    const { fittedData, realDataToFit, setFittedData, setRealDataToFit } =
+        useContext(DataFit);
 
     useEffect(() => {
         if (algorithmValue === "algorithm-1") {
@@ -109,6 +130,8 @@ const DataFitTab = () => {
                                 value={algorithmValue}
                                 onChange={(e) => {
                                     setAlgorithmValue(e.target.value);
+                                    setFittedData([]);
+                                    setRealDataToFit([]);
                                     setDataValues([]);
                                 }}
                             >
@@ -197,7 +220,20 @@ const DataFitTab = () => {
                                 color="white"
                                 onClick={() => {
                                     getFittedData().then((res) => {
-                                        // console.log(res);
+                                        const val = Object.values(
+                                            res.fitResult
+                                        );
+                                        const keys = Object.keys(res.fitResult);
+                                        const resFittedData = val
+                                            .map(
+                                                (simString: string) => simString
+                                            )
+                                            .map((sim, i) => ({
+                                                name: keys[i],
+                                                // eslint-disable-next-line @typescript-eslint/ban-types
+                                                ...(sim as {}),
+                                            }));
+                                        setFittedData(resFittedData);
                                     });
                                 }}
                             >
@@ -216,7 +252,11 @@ const DataFitTab = () => {
                         mb="2%"
                         boxShadow="sm"
                     >
-                        <Text>Graphic Data Fit</Text>
+                        {fittedData.length > 0 && realDataToFit.length > 0 ? (
+                            <Graphic algorithmValue={algorithmValue} />
+                        ) : (
+                            <Text>Graphic</Text>
+                        )}
                     </Flex>
                     <Box
                         h="50%"
@@ -226,7 +266,11 @@ const DataFitTab = () => {
                         boxShadow="sm"
                         overflowY="auto"
                     >
-                        <Text>Fit Parameters Table</Text>
+                        {fittedData.length > 0 && realDataToFit.length > 0 ? (
+                            <FitParemetersTabs />
+                        ) : (
+                            <Text>Fit Parameters Table</Text>
+                        )}
                     </Box>
                 </Flex>
             </Flex>

@@ -1,6 +1,7 @@
 import Simulator from "components/simulator/index";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import ControlPanelContext from "context/ControlPanelContext";
+import DataFitContext from "context/DataFitContext";
 import GraphicsContext from "context/GraphicsContext";
 import ModelsContext from "context/ModelsContext";
 import SelectFeatureContext from "context/SelectFeaturesContext";
@@ -13,7 +14,9 @@ const Home = () => {
                 <ControlPanelContext>
                     <SelectFeatureContext>
                         <GraphicsContext>
-                            <Simulator />
+                            <DataFitContext>
+                                <Simulator />
+                            </DataFitContext>
                         </GraphicsContext>
                     </SelectFeatureContext>
                 </ControlPanelContext>
