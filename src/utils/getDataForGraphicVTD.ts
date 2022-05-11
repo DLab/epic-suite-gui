@@ -76,7 +76,7 @@ export const createSeries = async (
 ) => {
     const dataForSending = {
         t_init: 0,
-        t_end: duration,
+        t_end: +duration,
         function: {
             function: "events",
             values: data,
