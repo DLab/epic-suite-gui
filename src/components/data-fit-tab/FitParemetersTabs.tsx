@@ -1,36 +1,24 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 
 import { DataFit } from "context/DataFitContext";
 
-const FitParemetersTabs = () => {
-    const { fittedData, realDataToFit, setFittedData, setRealDataToFit } =
-        useContext(DataFit);
+import MetapopulationDataFit from "./MetapopulationDataFit";
+import MonopopulationDataFit from "./MonopopulationDataFit";
+import NodeSearchFilter from "./NodeSearchFilter";
 
-    useEffect(() => {
-        // console.log(Object.keys(fittedData[0]));
-    }, [fittedData]);
+const FitParemetersTabs = () => {
+    const [nodeNameFilter, setNodeNameFilter] = useState("");
+    const { fittedData, realDataToFit } = useContext(DataFit);
 
     return (
-        <Tabs display="flex" isLazy>
-            <TabList display="flex" flexDirection="column">
-                {Object.keys(fittedData[0]).map((key) => {
-                    if (key !== "name" && key !== "I" && key !== "I_ac") {
-                        return <Tab>{key}</Tab>;
-                    }
-                    return false;
-                })}
-            </TabList>
-            <TabPanels>
-                {Object.keys(fittedData[0]).map((key) => {
-                    if (key !== "name" && key !== "I" && key !== "I_ac") {
-                        const info = fittedData[0][key];
-                        return <TabPanel>{info}</TabPanel>;
-                    }
-                    return false;
-                })}
-            </TabPanels>
-        </Tabs>
+        <>
+            <NodeSearchFilter setNodeNameFilter={setNodeNameFilter} />
+            {fittedData.length > 1 && realDataToFit.length > 1 ? (
+                <MonopopulationDataFit />
+            ) : (
+                <MetapopulationDataFit nodeNameFilter={nodeNameFilter} />
+            )}
+        </>
     );
 };
 

@@ -43,8 +43,8 @@ const DataFitTab = () => {
     const [dataSourceType, setDataSourceType] = useState("");
     const [algorithmValue, setAlgorithmValue] = useState(undefined);
     const [modelId, setModelId] = useState<number>(undefined);
-    const [geoSelectionId, setGeoSelectionId] = useState<number>(undefined);
-    const [startDate, setStartDate] = useState(new Date(Date.now()));
+    const [geoSelectionId, setGeoSelectionId] = useState<number>(0);
+    const [startDate, setStartDate] = useState(new Date(2021, 11, 31));
     const [dataValues, setDataValues] = useState([]);
     const [parameterName, setParameterName] = useState(undefined);
 
@@ -101,7 +101,9 @@ const DataFitTab = () => {
                                 value={modelId}
                                 onChange={(e) => {
                                     setModelId(+e.target.value);
-                                    setGeoSelectionId(undefined);
+                                    setGeoSelectionId(0);
+                                    setFittedData([]);
+                                    setRealDataToFit([]);
                                     setDataValues([]);
                                 }}
                             >
@@ -133,6 +135,7 @@ const DataFitTab = () => {
                                     setFittedData([]);
                                     setRealDataToFit([]);
                                     setDataValues([]);
+                                    setGeoSelectionId(0);
                                 }}
                             >
                                 <option key="algorithm-1" value="algorithm-1">
@@ -155,7 +158,10 @@ const DataFitTab = () => {
                                 value={dataSourceType}
                                 onChange={(e) => {
                                     setDataSourceType(e.target.value);
+                                    setFittedData([]);
+                                    setRealDataToFit([]);
                                     setDataValues([]);
+                                    setGeoSelectionId(0);
                                 }}
                             >
                                 <option key="file" value="file">

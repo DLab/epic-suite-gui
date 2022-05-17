@@ -31,7 +31,7 @@ const EndPointSource = ({
     const toast = useToast();
     const { geoSelections } = useContext(SelectFeature);
     const { parameters } = useContext(ModelsSaved);
-    const { setRealDataToFit } = useContext(DataFit);
+    const { setRealDataToFit, setFittedData } = useContext(DataFit);
 
     const getObjectConfig = (geoId) => {
         const { parameters: modelParameters } = parameters.find(
@@ -113,8 +113,12 @@ const EndPointSource = ({
                     onChange={(date) => {
                         const newDate = format(date, "yyyy/MM/dd");
                         setStartDate(new Date(newDate));
+                        setFittedData([]);
+                        setRealDataToFit([]);
+                        setValue(0);
                     }}
-                    openToDate={new Date()}
+                    openToDate={new Date(2021, 11, 31)}
+                    maxDate={new Date(2021, 11, 31)}
                 />
             </Box>
             <Box mb="3%">
@@ -129,6 +133,8 @@ const EndPointSource = ({
                     value={value}
                     onChange={(e) => {
                         setValue(+e.target.value);
+                        setFittedData([]);
+                        setRealDataToFit([]);
                         handleFetch(+e.target.value);
                     }}
                 >
