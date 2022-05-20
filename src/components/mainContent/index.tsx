@@ -1,3 +1,4 @@
+import { WarningTwoIcon } from "@chakra-ui/icons";
 import {
     Tab,
     Tabs,
@@ -24,6 +25,7 @@ import ModelsIcon from "components/icons/ModelsIcon";
 import PlanetIcon from "components/icons/PlanetIcon";
 import ResultsIcon from "components/icons/ResultsIcon";
 import SimulationIcon from "components/icons/SimulationIcon";
+import NewModel from "components/new-model";
 import HomePage from "components/simulator/HomePage";
 import { TabIndex } from "context/TabContext";
 
@@ -69,20 +71,6 @@ const MainContentTab = () => {
                 bg="#16609E"
                 border="none"
             >
-                {/* <Box alignSelf="center" m="10% 0">
-                    <Tab
-                        _focus={{ background: "#2F8BD8", border: "none" }}
-                        p="0px"
-                    >
-                        <Icon
-                            as={EpicSuiteIcon}
-                            w={50}
-                            h={50}
-                            aria-label="EPIc Suite Logo"
-                            fill="none"
-                        />
-                    </Tab>
-                </Box> */}
                 <Flex
                     direction="column"
                     h="100%"
@@ -153,6 +141,15 @@ const MainContentTab = () => {
                                 m="20% 0"
                             />
                         </Tab>
+                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                            <Icon
+                                w={6}
+                                h={6}
+                                as={WarningTwoIcon}
+                                color="#FFFFFF"
+                                m="20% 0"
+                            />
+                        </Tab>
                     </Box>
                     <Box textAlign="center" m="10% 0">
                         <Icon
@@ -189,6 +186,9 @@ const MainContentTab = () => {
                             <Results />
                         </Center>
                     </Flex>
+                </TabPanel>
+                <TabPanel>
+                    <NewModel />
                 </TabPanel>
             </TabPanels>
         </Tabs>
