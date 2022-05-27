@@ -187,7 +187,7 @@ const MainContentTab = () => {
                         </Center>
                     </Flex>
                 </TabPanel>
-                <TabPanel>
+                <TabPanel maxH="100vh" h="100%">
                     <NewModel />
                 </TabPanel>
             </TabPanels>

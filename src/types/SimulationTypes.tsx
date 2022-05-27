@@ -1,3 +1,5 @@
+import { InitialConditionsNewModel } from "./ControlPanelTypes";
+
 export enum OptionFeature {
     None = "",
     Graph = "Graph",
@@ -36,6 +38,19 @@ export interface SimulatorParams {
     t_init: string;
 }
 
+export interface NewModelsParams {
+    idNewModel: undefined | number;
+    name: string;
+    modelType: string;
+    populationType: string;
+    typeSelection: string;
+    idGeo: undefined | number | string;
+    idGraph: undefined | number;
+    initialConditions: InitialConditionsNewModel[];
+    numberNodes: number;
+    t_init: string;
+}
+
 export interface ActionsSimulationData {
     type: string;
     payload?: SimulatorParams;
@@ -44,6 +59,16 @@ export interface ActionsSimulationData {
     target?: string;
     id?;
     localState?: SimulatorParams[];
+}
+
+export interface ActionsNewModelData {
+    type: string;
+    payload?: NewModelsParams;
+    payloadInitialConditions?: InitialConditionsNewModel[];
+    element?: string | boolean | number;
+    target?: string;
+    id?;
+    localState?: NewModelsParams[];
 }
 
 export interface ActionsIdSimulation {
@@ -57,4 +82,13 @@ export interface SimulationType {
     setIdSimulationUpdating: (value: ActionsIdSimulation) => void;
     simulation: SimulatorParams[] | [];
     setSimulation: (values: ActionsSimulationData) => void;
+}
+
+export interface NewModelType {
+    mode: string;
+    setMode: (value: string) => void;
+    idNewModelUpdating: number;
+    setIdNewModelUpdating: (value: ActionsIdSimulation) => void;
+    newModel: NewModelsParams[] | [];
+    setNewModel: (values: ActionsNewModelData) => void;
 }

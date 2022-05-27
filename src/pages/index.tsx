@@ -3,21 +3,24 @@ import Simulator from "components/simulator/index";
 import ControlPanelContext from "context/ControlPanelContext";
 import GraphicsContext from "context/GraphicsContext";
 import ModelsContext from "context/ModelsContext";
+import NewModelsContext from "context/NewModelsContext";
 import SelectFeatureContext from "context/SelectFeaturesContext";
 import SimulationContext from "context/SimulationContext";
 
 const Home = () => {
     return (
         <SimulationContext>
-            <ModelsContext>
-                <ControlPanelContext>
-                    <SelectFeatureContext>
-                        <GraphicsContext>
-                            <Simulator />
-                        </GraphicsContext>
-                    </SelectFeatureContext>
-                </ControlPanelContext>
-            </ModelsContext>
+            <NewModelsContext>
+                <ModelsContext>
+                    <ControlPanelContext>
+                        <SelectFeatureContext>
+                            <GraphicsContext>
+                                <Simulator />
+                            </GraphicsContext>
+                        </SelectFeatureContext>
+                    </ControlPanelContext>
+                </ModelsContext>
+            </NewModelsContext>
         </SimulationContext>
     );
 };

@@ -64,11 +64,11 @@ export interface ActionsInitialConditions {
 }
 // initialConditions
 export interface InitialConditions {
-    population: number;
-    R: number;
-    I: number;
-    I_d: number;
-    I_ac: number;
+    population?: number;
+    R?: number;
+    I?: number;
+    I_d?: number;
+    I_ac?: number;
     E?: number;
     H?: number;
     H_acum?: number;
@@ -82,6 +82,11 @@ export interface InitialConditions {
     H_cap?: number;
     H_d?: number;
     D_d?: number;
+}
+
+export interface InitialConditionsNewModel {
+    name: string;
+    conditionsValues: InitialConditions;
 }
 
 export interface EpidemicAttributes {
