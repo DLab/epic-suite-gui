@@ -6,6 +6,7 @@ import React, { useContext } from "react";
 import { NewModelSetted } from "context/NewModelsContext";
 
 import ModelMainTab from "./ModelMainTab";
+import ParametersAccordion from "./ParametersAccordion";
 
 const NewModel = () => {
     const { newModel, setNewModel } = useContext(NewModelSetted);

@@ -12,9 +12,14 @@ import dynamic from "next/dynamic";
 import React, { useState } from "react";
 
 import { InitialConditionsNewModel } from "types/ControlPanelTypes";
+import VariableDependentTime, {
+    NameFunction,
+} from "types/VariableDependentTime";
 
 import InitialConditionsModels from "./InitialConditionsModel";
 import ModelAccordion from "./ModelAccordion";
+import ParametersAccordion from "./ParametersAccordion";
+import SectionVariableDependentTime from "./SectionVariableDependentTime";
 
 interface Props {
     id: number;
@@ -44,6 +49,22 @@ const ModelMainTab = ({ id, initialConditions }: Props) => {
     const [areaSelectedValue, setAreaSelectedValue] = useState(undefined);
     const [populationValue, setPopulationValue] = useState(undefined);
     const [graphId, setGraphId] = useState(undefined);
+    const [showSectionInitialConditions, setShowSectionInitialConditions] =
+        useState(false);
+
+    const [showSectionVariable, setShowSectionVariable] =
+        useState<boolean>(false);
+    const [positionVDT, setPositionVDT] = useState<number>(-1);
+    const [dataViewVariable, setDataViewVariable] =
+        useState<VariableDependentTime>({
+            rangeDays: [[0, 500]],
+            type: [{ name: NameFunction.static, value: 0 }],
+            name: "nothing",
+            default: 0.3,
+            isEnabled: false,
+            val: 0.3,
+        });
+
     return (
         <Flex ml="2%" p="0" h="100%">
             <Flex
@@ -52,25 +73,50 @@ const ModelMainTab = ({ id, initialConditions }: Props) => {
                 bg="#FAFAFA"
                 borderRadius="6px"
                 boxShadow="sm"
-                justify="space-between"
             >
-                <ModelAccordion
-                    modelName={modelName}
-                    setModelName={setModelName}
-                    modelValue={modelValue}
-                    setModelValue={setModelValue}
-                    populationValue={populationValue}
-                    setPopulationValue={setPopulationValue}
-                    setNumberOfNodes={setNumberOfNodes}
-                    dataSourceValue={dataSourceValue}
-                    setDataSourceValue={setDataSourceValue}
-                    areaSelectedValue={areaSelectedValue}
-                    setAreaSelectedValue={setAreaSelectedValue}
-                    setGraphId={setGraphId}
-                    id={id}
-                />
+                <Accordion
+                    key="new-models-accordion"
+                    allowMultiple
+                    // h="85%"
+                    overflowY="auto"
+                    overflowX="hidden"
+                    maxH="100%"
+                >
+                    <ModelAccordion
+                        modelName={modelName}
+                        setModelName={setModelName}
+                        modelValue={modelValue}
+                        setModelValue={setModelValue}
+                        populationValue={populationValue}
+                        setPopulationValue={setPopulationValue}
+                        setNumberOfNodes={setNumberOfNodes}
+                        dataSourceValue={dataSourceValue}
+                        setDataSourceValue={setDataSourceValue}
+                        areaSelectedValue={areaSelectedValue}
+                        setAreaSelectedValue={setAreaSelectedValue}
+                        setGraphId={setGraphId}
+                        id={id}
+                        showSectionInitialConditions={
+                            showSectionInitialConditions
+                        }
+                        setShowSectionInitialConditions={
+                            setShowSectionInitialConditions
+                        }
+                    />
+                    <ParametersAccordion
+                        showSectionVariable={showSectionVariable}
+                        setShowSectionVariable={setShowSectionVariable}
+                        setDataViewVariable={setDataViewVariable}
+                        setPositionVDT={setPositionVDT}
+                        setShowSectionInitialConditions={
+                            setShowSectionInitialConditions
+                        }
+                    />
+                </Accordion>
             </Flex>
             {numberOfNodes !== 0 &&
+                showSectionInitialConditions &&
+                !showSectionVariable &&
                 ((areaSelectedValue !== undefined &&
                     areaSelectedValue !== "") ||
                     graphId !== undefined) && (
@@ -98,6 +144,22 @@ const ModelMainTab = ({ id, initialConditions }: Props) => {
                         />
                     </Flex>
                 )}
+            {showSectionVariable && (
+                <Flex
+                    p="1rem"
+                    borderRadius="6px"
+                    boxShadow="sm"
+                    bg="#FAFAFA"
+                    textAlign="center"
+                    w="100%"
+                >
+                    <SectionVariableDependentTime
+                        valuesVariablesDependent={dataViewVariable}
+                        showSectionVariable={setShowSectionVariable}
+                        positionVariableDependentTime={positionVDT}
+                    />
+                </Flex>
+            )}
         </Flex>
     );
 };

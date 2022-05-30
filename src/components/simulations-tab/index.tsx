@@ -157,9 +157,9 @@ const SimulationTab = () => {
                                         onClick={() => addSimulation()}
                                     />
                                 </Tooltip>
-                                <Tooltip label="Import Simulation">
+                                {/* <Tooltip label="Import Simulation">
                                     <ImportModel />
-                                </Tooltip>
+                                </Tooltip> */}
                             </Flex>
                         </Box>
                         <TabPanels>

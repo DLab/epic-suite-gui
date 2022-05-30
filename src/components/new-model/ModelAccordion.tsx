@@ -44,6 +44,8 @@ interface Props {
     setAreaSelectedValue: (value: number | string) => void;
     setGraphId: (value: number) => void;
     id: number;
+    showSectionInitialConditions: boolean;
+    setShowSectionInitialConditions: (value: boolean) => void;
 }
 
 const ModelAccordion = ({
@@ -60,6 +62,8 @@ const ModelAccordion = ({
     setAreaSelectedValue,
     setGraphId,
     id,
+    showSectionInitialConditions,
+    setShowSectionInitialConditions,
 }: Props) => {
     const [numberOfGraphs, setNumberOfGraphs] = useState(undefined);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -130,175 +134,173 @@ const ModelAccordion = ({
     };
 
     return (
-        <Accordion
-            key="new-models-accordion"
-            allowMultiple
-            h="85%"
-            overflowY="auto"
-            overflowX="hidden"
-        >
-            <AccordionItem>
-                <h2>
-                    <AccordionButton
-                        color="#16609E"
-                        border="none"
-                        borderBottom="2px solid #16609E"
-                        _focus={{ boxShadow: "none" }}
+        // <Accordion
+        //     key="new-models-accordion"
+        //     allowMultiple
+        //     // h="85%"
+        //     overflowY="auto"
+        //     overflowX="hidden"
+        // >
+        <AccordionItem>
+            <h2>
+                <AccordionButton
+                    color="#16609E"
+                    border="none"
+                    borderBottom="2px solid #16609E"
+                    _focus={{ boxShadow: "none" }}
+                >
+                    <Box flex="1" textAlign="left">
+                        Model
+                    </Box>
+                    <AccordionIcon />
+                </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4} bg="#FFFFFF">
+                <Box mb="3%">
+                    <Text fontSize="14px" fontWeight={500}>
+                        Model Name
+                    </Text>
+                    <Input
+                        w="13rem"
+                        placeholder="Add model name"
+                        size="sm"
+                        onChange={(e) => {
+                            setModelName(e.target.value);
+                        }}
+                        value={modelName}
+                    />
+                </Box>
+                <Box mb="3%">
+                    <Text fontSize="14px" fontWeight={500}>
+                        Model
+                    </Text>
+                    <RadioGroup
+                        size="sm"
+                        mt="1%"
+                        value={modelValue}
+                        onChange={(e) => {
+                            setModelValue(e);
+                            setAreaSelectedValue("");
+                            setGraphId(undefined);
+                        }}
                     >
-                        <Box flex="1" textAlign="left">
-                            Model
-                        </Box>
-                        <AccordionIcon />
-                    </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4} bg="#FFFFFF">
-                    <Box mb="3%">
-                        <Text fontSize="14px" fontWeight={500}>
-                            Model Name
-                        </Text>
-                        <Input
-                            w="13rem"
-                            placeholder="Add model name"
-                            size="sm"
-                            onChange={(e) => {
-                                setModelName(e.target.value);
-                            }}
-                            value={modelName}
-                        />
-                    </Box>
-                    <Box mb="3%">
-                        <Text fontSize="14px" fontWeight={500}>
-                            Model
-                        </Text>
-                        <RadioGroup
-                            size="sm"
-                            mt="1%"
-                            value={modelValue}
-                            onChange={(e) => {
-                                setModelValue(e);
-                                setAreaSelectedValue("");
-                                setGraphId(undefined);
-                            }}
-                        >
-                            <Stack direction="row" spacing="24px">
-                                <Radio value="sir">SIR</Radio>
-                                <Radio value="seir">SEIR</Radio>
-                                <Radio value="seirhvd">SEIRHVD</Radio>
-                            </Stack>
-                        </RadioGroup>
-                    </Box>
-                    <Box mb="3%">
-                        <Text fontSize="14px" fontWeight={500}>
-                            Type of population
-                        </Text>
-                        <RadioGroup
-                            size="sm"
-                            mt="1%"
-                            value={populationValue}
-                            onChange={(e) => {
-                                setPopulationValue(e);
-                                setAreaSelectedValue("");
-                                setGraphId(undefined);
-                            }}
-                        >
-                            <Stack direction="row" spacing="24px">
-                                <Radio value="monopopulation">
-                                    Monopopulation
-                                </Radio>
-                                <Radio value="metapopulation">
-                                    Metapopulation
-                                </Radio>
-                            </Stack>
-                        </RadioGroup>
-                    </Box>
-                    <Box mb="3%">
-                        <Text fontSize="14px" fontWeight={500}>
-                            Data Source
-                        </Text>
-                        <RadioGroup
-                            size="sm"
-                            mt="1%"
-                            value={dataSourceValue}
-                            onChange={(e) => {
-                                setDataSourceValue(e);
-                                setAreaSelectedValue("");
-                                setGraphId(undefined);
-                            }}
-                        >
-                            <Stack direction="row" spacing="24px">
-                                <Radio value="graph">Graph</Radio>
-                                <Radio value="geographic">Geographic</Radio>
-                            </Stack>
-                        </RadioGroup>
-                    </Box>
-                    {dataSourceValue === "graph" && (
-                        <Flex mb="3%" alignItems="end">
-                            <Box>
-                                <Text fontSize="14px" fontWeight={500}>
-                                    Number of nodes
-                                </Text>
-                                <NumberInput
-                                    size="sm"
-                                    defaultValue={2}
-                                    min={minGraphValue}
-                                    max={200}
-                                    value={numberOfGraphs}
-                                    onChange={(e) => {
-                                        setNumberOfGraphs(+e);
-                                    }}
-                                    isDisabled={isDisabled}
-                                >
-                                    <NumberInputField />
-                                    <NumberInputStepper>
-                                        <NumberIncrementStepper />
-                                        <NumberDecrementStepper />
-                                    </NumberInputStepper>
-                                </NumberInput>
-                            </Box>
-                            <IconButton
-                                aria-label="Search database"
-                                bg="#16609E"
-                                color="#FFFFFF"
-                                size="sm"
-                                ml="5%"
-                                icon={<ViewIcon />}
-                                onClick={() => {
-                                    setNumberOfNodes(numberOfGraphs);
-                                    const graphsValuesArray =
-                                        getGraphsNamesArray(numberOfGraphs);
-                                    setGraphsSelectedValue(graphsValuesArray);
-                                    setGraphId(1);
-                                    setNewModel({
-                                        type: "update-all",
-                                        id,
-                                        payload: {
-                                            idNewModel: id,
-                                            name: modelName,
-                                            modelType: modelValue,
-                                            populationType: populationValue,
-                                            typeSelection: dataSourceValue,
-                                            idGeo: undefined,
-                                            idGraph: 1,
-                                            numberNodes: numberOfGraphs,
-                                            t_init: format(
-                                                new Date(2021, 11, 31),
-                                                "yyyy/MM/dd"
-                                            ),
-                                            initialConditions:
-                                                getInitialConditionsGraphsArray(
-                                                    graphsValuesArray
-                                                ),
-                                        },
-                                    });
-                                }}
-                            />
-                        </Flex>
-                    )}
-                    {dataSourceValue === "geographic" && (
-                        <Box mb="3%">
+                        <Stack direction="row" spacing="24px">
+                            <Radio value="sir">SIR</Radio>
+                            <Radio value="seir">SEIR</Radio>
+                            <Radio value="seirhvd">SEIRHVD</Radio>
+                        </Stack>
+                    </RadioGroup>
+                </Box>
+                <Box mb="3%">
+                    <Text fontSize="14px" fontWeight={500}>
+                        Type of population
+                    </Text>
+                    <RadioGroup
+                        size="sm"
+                        mt="1%"
+                        value={populationValue}
+                        onChange={(e) => {
+                            setPopulationValue(e);
+                            setAreaSelectedValue("");
+                            setGraphId(undefined);
+                        }}
+                    >
+                        <Stack direction="row" spacing="24px">
+                            <Radio value="monopopulation">Monopopulation</Radio>
+                            <Radio value="metapopulation">Metapopulation</Radio>
+                        </Stack>
+                    </RadioGroup>
+                </Box>
+                <Box mb="3%">
+                    <Text fontSize="14px" fontWeight={500}>
+                        Data Source
+                    </Text>
+                    <RadioGroup
+                        size="sm"
+                        mt="1%"
+                        value={dataSourceValue}
+                        onChange={(e) => {
+                            setDataSourceValue(e);
+                            setAreaSelectedValue("");
+                            setGraphId(undefined);
+                        }}
+                    >
+                        <Stack direction="row" spacing="24px">
+                            <Radio value="graph">Graph</Radio>
+                            <Radio value="geographic">Geographic</Radio>
+                        </Stack>
+                    </RadioGroup>
+                </Box>
+                {dataSourceValue === "graph" && (
+                    <Flex mb="3%" alignItems="end">
+                        <Box>
                             <Text fontSize="14px" fontWeight={500}>
-                                Area Selected
+                                Number of nodes
                             </Text>
+                            <NumberInput
+                                size="sm"
+                                defaultValue={2}
+                                min={minGraphValue}
+                                max={200}
+                                value={numberOfGraphs}
+                                onChange={(e) => {
+                                    setNumberOfGraphs(+e);
+                                }}
+                                isDisabled={isDisabled}
+                            >
+                                <NumberInputField />
+                                <NumberInputStepper>
+                                    <NumberIncrementStepper />
+                                    <NumberDecrementStepper />
+                                </NumberInputStepper>
+                            </NumberInput>
+                        </Box>
+                        <IconButton
+                            aria-label="Search database"
+                            bg="#16609E"
+                            color="#FFFFFF"
+                            size="sm"
+                            ml="5%"
+                            icon={<ViewIcon />}
+                            onClick={() => {
+                                setNumberOfNodes(numberOfGraphs);
+                                const graphsValuesArray =
+                                    getGraphsNamesArray(numberOfGraphs);
+                                setGraphsSelectedValue(graphsValuesArray);
+                                setGraphId(1);
+                                setShowSectionInitialConditions(true);
+                                setNewModel({
+                                    type: "update-all",
+                                    id,
+                                    payload: {
+                                        idNewModel: id,
+                                        name: modelName,
+                                        modelType: modelValue,
+                                        populationType: populationValue,
+                                        typeSelection: dataSourceValue,
+                                        idGeo: undefined,
+                                        idGraph: 1,
+                                        numberNodes: numberOfGraphs,
+                                        t_init: format(
+                                            new Date(2021, 11, 31),
+                                            "yyyy/MM/dd"
+                                        ),
+                                        initialConditions:
+                                            getInitialConditionsGraphsArray(
+                                                graphsValuesArray
+                                            ),
+                                    },
+                                });
+                            }}
+                        />
+                    </Flex>
+                )}
+                {dataSourceValue === "geographic" && (
+                    <Box mb="3%">
+                        <Text fontSize="14px" fontWeight={500}>
+                            Area Selected
+                        </Text>
+                        <Flex>
                             <Select
                                 w="13rem"
                                 fontSize="14px"
@@ -367,11 +369,23 @@ const ModelAccordion = ({
                                         );
                                     })}
                             </Select>
-                        </Box>
-                    )}
-                </AccordionPanel>
-            </AccordionItem>
-        </Accordion>
+                            <IconButton
+                                aria-label="Search database"
+                                bg="#16609E"
+                                color="#FFFFFF"
+                                size="sm"
+                                ml="5%"
+                                icon={<ViewIcon />}
+                                onClick={() => {
+                                    setShowSectionInitialConditions(true);
+                                }}
+                            />
+                        </Flex>
+                    </Box>
+                )}
+            </AccordionPanel>
+        </AccordionItem>
+        // </Accordion>
     );
 };
 

@@ -5,6 +5,7 @@ export interface ActionsEpidemicData {
     type: string;
     payload?: string | number | EpidemicsData | string[];
     payloadVariableDependent?: VariableDependentTime;
+    positionVariableDependentTime?: number;
     target?: string;
     updateData?: EpidemicsData;
     switch?: boolean;
@@ -22,11 +23,11 @@ export interface EpidemicsData {
     t_init: string;
     t_end: number;
     pI_det: number;
-    beta: VariableDependentTime;
-    Beta_v?: VariableDependentTime;
-    mu: number;
+    beta: VariableDependentTime[];
+    Beta_v?: VariableDependentTime[];
+    mu: number[];
     rR_S: VariableDependentTime;
-    alpha: VariableDependentTime;
+    alpha: VariableDependentTime[];
     tE_I?: VariableDependentTime;
     tI_R: VariableDependentTime;
     population: number;
@@ -34,25 +35,25 @@ export interface EpidemicsData {
     pIcr_det?: number;
     pIm_det?: number;
     pIv_det?: number;
-    vac_d?: VariableDependentTime;
-    vac_eff?: VariableDependentTime;
-    pE_Im?: VariableDependentTime;
-    tE_Im?: VariableDependentTime;
-    pE_Icr?: VariableDependentTime;
-    tE_Icr?: VariableDependentTime;
-    tEv_Iv?: VariableDependentTime;
-    tIm_R?: VariableDependentTime;
-    tIcr_H?: VariableDependentTime;
-    pIv_R?: VariableDependentTime;
-    tIv_R?: VariableDependentTime;
-    pIv_H?: VariableDependentTime;
-    tIv_H?: VariableDependentTime;
-    pH_R?: VariableDependentTime;
-    tH_R?: VariableDependentTime;
-    pH_D?: VariableDependentTime;
-    tH_D?: VariableDependentTime;
-    pR_S?: VariableDependentTime;
-    tR_S?: VariableDependentTime;
+    vac_d?: VariableDependentTime[];
+    vac_eff?: VariableDependentTime[];
+    pE_Im?: VariableDependentTime[];
+    tE_Im?: VariableDependentTime[];
+    pE_Icr?: VariableDependentTime[];
+    tE_Icr?: VariableDependentTime[];
+    tEv_Iv?: VariableDependentTime[];
+    tIm_R?: VariableDependentTime[];
+    tIcr_H?: VariableDependentTime[];
+    pIv_R?: VariableDependentTime[];
+    tIv_R?: VariableDependentTime[];
+    pIv_H?: VariableDependentTime[];
+    tIv_H?: VariableDependentTime[];
+    pH_R?: VariableDependentTime[];
+    tH_R?: VariableDependentTime[];
+    pH_D?: VariableDependentTime[];
+    tH_D?: VariableDependentTime[];
+    pR_S?: VariableDependentTime[];
+    tR_S?: VariableDependentTime[];
 }
 
 // actions
