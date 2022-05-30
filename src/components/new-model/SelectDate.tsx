@@ -42,15 +42,7 @@ const SelectDate = ({
     startDate,
     setStartDate,
     initialConditionsGraph,
-}: // optionFeature,
-// idModel,
-// idSimulation,
-// startDate,
-// setStartDate,
-// setIdGeo,
-// setIdGraph,
-// setIdSim,
-Props) => {
+}: Props) => {
     const toast = useToast();
     const { setInitialConditions } = useContext(ControlPanel);
     const { geoSelections } = useContext(SelectFeature);
@@ -164,7 +156,10 @@ Props) => {
     };
 
     useEffect(() => {
-        if (idGeo !== undefined) {
+        if (
+            idGeo !== undefined &&
+            initialConditionsGraph[0].conditionsValues.population === 0
+        ) {
             handleFetch(
                 "http://192.168.2.131:5001/initCond",
                 "POST",
@@ -175,25 +170,6 @@ Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [idGeo, startDate]);
 
-    const handleChange = (val: string | number) => {
-        // handleFetch(
-        //     "http://192.168.2.131:5001/initCond",
-        //     "POST",
-        //     idGeo
-        // );
-        // setIdGeo(0);
-        // setIdGraph(0);
-        // setIdSim({
-        //     type: "set",
-        //     payload: 0,
-        // });
-        // setNewModel({
-        //     type: "update",
-        //     target:"t_init",
-        //     element: format(new Date(x), "yyyy/MM/dd")
-        //     id,
-        // });
-    };
     return (
         <DatePicker
             dateFormat="yyyy/MM/dd"
@@ -213,36 +189,6 @@ Props) => {
                     idGeo,
                     new Date(selectDate)
                 );
-                // handleChange(x);
-                // setSimulation({
-                //     type: "update-all",
-                //     id: idSimulation,
-                //     payload: {
-                //         name: nameSim,
-                //         idSim: idSimulation,
-                //         idModel,
-                //         idGeo: 0,
-                //         idGraph: 0,
-                //         t_init: format(new Date(x), "yyyy/MM/dd"),
-                //         typeSelection: optionFeature,
-                //         initialConditions: {
-                //             I: 0,
-                //             I_d: 0,
-                //             I_ac: 0,
-                //             population: 0,
-                //             R: 0,
-                //             E: 0,
-                //             H_d: 0,
-                //             H: 0,
-                //             Iv_d: 0,
-                //             Iv_ac: 0,
-                //             D_d: 0,
-                //             D: 0,
-                //             Iv: 0,
-                //             H_cap: 0,
-                //         },
-                //     },
-                // });
             }}
             openToDate={new Date(2021, 11, 31)}
             maxDate={new Date(2021, 11, 31)}
