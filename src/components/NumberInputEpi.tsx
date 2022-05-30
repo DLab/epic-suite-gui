@@ -1,4 +1,5 @@
-import { InfoIcon } from "@chakra-ui/icons";
+/* eslint-disable complexity */
+import { CheckIcon, CloseIcon, InfoIcon } from "@chakra-ui/icons";
 import {
     NumberInput,
     NumberInputField,
@@ -13,9 +14,12 @@ import {
     Text,
     Tooltip,
     Icon,
+    IconButton,
 } from "@chakra-ui/react";
+import { duration } from "moment";
+import { useState } from "react";
 
-import VariableTimeDepenentButton from "./simulator/controllers/VariableTimeDependentButton";
+import { NameFunction } from "types/VariableDependentTime";
 
 interface Props {
     value: number;
@@ -29,6 +33,8 @@ interface Props {
     isInitialParameters?: boolean;
     isDisabled?: boolean;
     name?: string;
+    index?: number;
+    isStateLocal?: boolean;
 }
 
 const NumberInputEpi = ({
@@ -43,12 +49,19 @@ const NumberInputEpi = ({
     isDisabled,
     name,
     description,
+    index,
+    isStateLocal = false,
 }: Props) => {
+    const [localValue, setLocalValue] = useState<string>(`${value}`);
+    const [isEditingLocalValue, setIsEditingLocalValue] =
+        useState<boolean>(false);
     const handleChange = (val: string | number) => {
-        // if (val <= max && val >= min) {
-        //     setValue({ type: "set", payload: +val, target: nameParams });
-        // }
-        setValue({ type: "set", payload: val, target: nameParams });
+        if (isStateLocal) {
+            setIsEditingLocalValue(true);
+            setLocalValue(`${val}`);
+        } else {
+            setValue({ type: "set", payload: val, target: nameParams });
+        }
     };
 
     return (
@@ -64,9 +77,6 @@ const NumberInputEpi = ({
                 <Tooltip label={description}>
                     <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
                 </Tooltip>
-                {!isInitialParameters && (
-                    <VariableTimeDepenentButton name={name ?? nameParams} />
-                )}
             </Flex>
             <Flex mb="0.5rem">
                 {type === "slider" && (
@@ -80,7 +90,7 @@ const NumberInputEpi = ({
                             min={+min}
                             max={+max}
                             step={step}
-                            value={value}
+                            value={!isStateLocal ? value : localValue}
                         >
                             <NumberInputField />
                             <NumberInputStepper>
@@ -93,7 +103,7 @@ const NumberInputEpi = ({
                             focusThumbOnChange={false}
                             // defaultValue={+value}
                             id="slider-number-input"
-                            value={+value}
+                            value={!isStateLocal ? +value : +localValue}
                             step={step}
                             min={+min}
                             max={+max}
@@ -103,7 +113,7 @@ const NumberInputEpi = ({
                                 <SliderFilledTrack />
                             </SliderTrack>
                             <SliderThumb fontSize="sm" boxSize="32px">
-                                {value}
+                                {!isStateLocal ? +value : +localValue}
                             </SliderThumb>
                         </Slider>
                     </>
@@ -145,6 +155,41 @@ const NumberInputEpi = ({
                             <NumberDecrementStepper />
                         </NumberInputStepper>
                     </NumberInput>
+                )}
+                {isStateLocal && isEditingLocalValue && (
+                    <>
+                        <IconButton
+                            ml="2rem"
+                            bg="white"
+                            border="thin"
+                            color="teal.500"
+                            aria-label="Check date range button"
+                            size="xs"
+                            cursor="pointer"
+                            icon={<CheckIcon />}
+                            onClick={() => {
+                                setValue({
+                                    type: "set",
+                                    payload: +localValue,
+                                    target: nameParams,
+                                    positionVariableDependentTime: index,
+                                });
+                                setIsEditingLocalValue(false);
+                            }}
+                        />
+                        <IconButton
+                            bg="white"
+                            color="red.500"
+                            aria-label="Cancel date range button"
+                            size="xs"
+                            cursor="pointer"
+                            icon={<CloseIcon />}
+                            onClick={() => {
+                                setIsEditingLocalValue(false);
+                                setLocalValue(`${value}`);
+                            }}
+                        />
+                    </>
                 )}
             </Flex>
         </>
