@@ -49,9 +49,9 @@ const ModelMainTab = ({ id, initialConditions }: Props) => {
     const [areaSelectedValue, setAreaSelectedValue] = useState(undefined);
     const [populationValue, setPopulationValue] = useState(undefined);
     const [graphId, setGraphId] = useState(undefined);
+    const [graphsSelectedValue, setGraphsSelectedValue] = useState(undefined);
     const [showSectionInitialConditions, setShowSectionInitialConditions] =
         useState(false);
-
     const [showSectionVariable, setShowSectionVariable] =
         useState<boolean>(false);
     const [positionVDT, setPositionVDT] = useState<number>(-1);
@@ -102,16 +102,25 @@ const ModelMainTab = ({ id, initialConditions }: Props) => {
                         setShowSectionInitialConditions={
                             setShowSectionInitialConditions
                         }
+                        graphsSelectedValue={graphsSelectedValue}
+                        setGraphsSelectedValue={setGraphsSelectedValue}
                     />
-                    <ParametersAccordion
-                        showSectionVariable={showSectionVariable}
-                        setShowSectionVariable={setShowSectionVariable}
-                        setDataViewVariable={setDataViewVariable}
-                        setPositionVDT={setPositionVDT}
-                        setShowSectionInitialConditions={
-                            setShowSectionInitialConditions
-                        }
-                    />
+                    {numberOfNodes !== 0 && (
+                        <ParametersAccordion
+                            showSectionVariable={showSectionVariable}
+                            setShowSectionVariable={setShowSectionVariable}
+                            setDataViewVariable={setDataViewVariable}
+                            setPositionVDT={setPositionVDT}
+                            setShowSectionInitialConditions={
+                                setShowSectionInitialConditions
+                            }
+                            idGeo={areaSelectedValue}
+                            modelCompartment={modelValue.toUpperCase()}
+                            graphsSelectedValue={graphsSelectedValue}
+                            populationValue={populationValue}
+                            dataSourceValue={dataSourceValue}
+                        />
+                    )}
                 </Accordion>
             </Flex>
             {numberOfNodes !== 0 &&

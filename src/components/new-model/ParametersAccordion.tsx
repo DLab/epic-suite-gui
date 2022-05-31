@@ -7,6 +7,11 @@ interface Props {
     setShowSectionInitialConditions: (value: boolean) => void;
     setDataViewVariable: (values: VariableDependentTime) => void;
     setPositionVDT: (value: number) => void;
+    idGeo: number;
+    modelCompartment: string;
+    graphsSelectedValue: undefined | string[];
+    populationValue: string;
+    dataSourceValue: string;
 }
 
 const ParametersAccordion = ({
@@ -15,6 +20,11 @@ const ParametersAccordion = ({
     setShowSectionInitialConditions,
     setPositionVDT,
     setDataViewVariable,
+    idGeo,
+    modelCompartment,
+    graphsSelectedValue,
+    populationValue,
+    dataSourceValue,
 }: Props) => {
     return (
         <>
@@ -28,6 +38,11 @@ const ParametersAccordion = ({
                 setShowSectionInitialConditions={
                     setShowSectionInitialConditions
                 }
+                idGeo={idGeo}
+                modelCompartment={modelCompartment}
+                graphsSelectedValue={graphsSelectedValue}
+                populationValue={populationValue}
+                dataSourceValue={dataSourceValue}
             />
         </>
     );

@@ -39,7 +39,7 @@ export interface SimulatorParams {
 }
 
 export interface NewModelsParams {
-    idNewModel: undefined | number;
+    idNewModel: undefined | number | string;
     name: string;
     modelType: string;
     populationType: string;

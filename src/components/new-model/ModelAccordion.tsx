@@ -46,6 +46,8 @@ interface Props {
     id: number;
     showSectionInitialConditions: boolean;
     setShowSectionInitialConditions: (value: boolean) => void;
+    graphsSelectedValue: undefined | string[];
+    setGraphsSelectedValue: (value: string[]) => void;
 }
 
 const ModelAccordion = ({
@@ -64,10 +66,11 @@ const ModelAccordion = ({
     id,
     showSectionInitialConditions,
     setShowSectionInitialConditions,
+    graphsSelectedValue,
+    setGraphsSelectedValue,
 }: Props) => {
     const [numberOfGraphs, setNumberOfGraphs] = useState(undefined);
     const [isDisabled, setIsDisabled] = useState(false);
-    const [graphsSelectedValue, setGraphsSelectedValue] = useState(undefined);
     const [geoSelections, setGeoSelections] = useState([]);
     const [minGraphValue, setMinGraphValue] = useState(2);
     const { geoSelections: allGeoSelections } = useContext(SelectFeature);
@@ -202,6 +205,7 @@ const ModelAccordion = ({
                         onChange={(e) => {
                             setPopulationValue(e);
                             setAreaSelectedValue("");
+                            setNumberOfNodes(0);
                             setGraphId(undefined);
                         }}
                     >
@@ -222,6 +226,7 @@ const ModelAccordion = ({
                         onChange={(e) => {
                             setDataSourceValue(e);
                             setAreaSelectedValue("");
+                            setNumberOfNodes(0);
                             setGraphId(undefined);
                         }}
                     >
