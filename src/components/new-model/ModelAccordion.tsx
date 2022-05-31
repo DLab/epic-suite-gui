@@ -21,7 +21,7 @@ import {
     Flex,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
@@ -42,6 +42,7 @@ interface Props {
     setDataSourceValue: (value: string) => void;
     areaSelectedValue: undefined | string | number;
     setAreaSelectedValue: (value: number | string) => void;
+    graphId: number;
     setGraphId: (value: number) => void;
     id: number;
     showSectionInitialConditions: boolean;
@@ -62,6 +63,7 @@ const ModelAccordion = ({
     setDataSourceValue,
     areaSelectedValue,
     setAreaSelectedValue,
+    graphId,
     setGraphId,
     id,
     showSectionInitialConditions,
@@ -87,6 +89,23 @@ const ModelAccordion = ({
             setMinGraphValue(2);
         }
     }, [populationValue]);
+
+    const getDefaultValueParameters = useCallback(
+        (field) => {
+            return newModel.find(({ idNewModel }) => idNewModel === id)[field];
+        },
+        [newModel, id]
+    );
+
+    useEffect(() => {
+        if (
+            dataSourceValue === "graph" &&
+            graphId !== 0 &&
+            graphId !== undefined
+        ) {
+            setNumberOfGraphs(getDefaultValueParameters("numberNodes"));
+        }
+    }, [dataSourceValue, getDefaultValueParameters, graphId]);
 
     useEffect(() => {
         if (modelValue === "seirhvd") {
@@ -116,6 +135,14 @@ const ModelAccordion = ({
             };
         });
     };
+
+    useEffect(() => {
+        setAreaSelectedValue(getDefaultValueParameters("idGeo"));
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getDefaultValueParameters, areaSelectedValue]);
+    /* dispatch to simulationContext data about type selection 
+  when select value is changed. Besides, modify other contexts values */
 
     const getInitialConditionsGeoArray = (scale, featureSelected) => {
         return featureSelected.map((feature) => {
@@ -339,7 +366,7 @@ const ModelAccordion = ({
                                             modelType: modelValue,
                                             populationType: populationValue,
                                             typeSelection: dataSourceValue,
-                                            idGeo: areaSelectedValue,
+                                            idGeo: +e.target.value,
                                             idGraph: undefined,
                                             numberNodes: numberGeoNodes,
                                             t_init: format(

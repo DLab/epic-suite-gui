@@ -52,6 +52,10 @@ const NewModelsContext: React.FC = ({ children }) => {
                     }
                     return e;
                 });
+            case "remove":
+                return state.filter(
+                    (e: NewModelsParams) => e.idNewModel !== +action.element
+                );
             default:
                 return state;
         }

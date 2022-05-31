@@ -9,7 +9,7 @@ interface Props {
     setPositionVDT: (value: number) => void;
     idGeo: number;
     modelCompartment: string;
-    graphsSelectedValue: undefined | string[];
+    numberNodes: number;
     populationValue: string;
     dataSourceValue: string;
 }
@@ -22,7 +22,7 @@ const ParametersAccordion = ({
     setDataViewVariable,
     idGeo,
     modelCompartment,
-    graphsSelectedValue,
+    numberNodes,
     populationValue,
     dataSourceValue,
 }: Props) => {
@@ -40,7 +40,7 @@ const ParametersAccordion = ({
                 }
                 idGeo={idGeo}
                 modelCompartment={modelCompartment}
-                graphsSelectedValue={graphsSelectedValue}
+                numberNodes={numberNodes}
                 populationValue={populationValue}
                 dataSourceValue={dataSourceValue}
             />

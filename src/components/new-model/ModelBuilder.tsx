@@ -22,7 +22,7 @@ interface Props {
     setPositionVDT: (value: number) => void;
     idGeo: number | string;
     modelCompartment: string;
-    graphsSelectedValue: undefined | string[];
+    numberNodes: number;
     populationValue: string;
     dataSourceValue: string;
 }
@@ -37,7 +37,7 @@ const ModelBuilder = ({
     setDataViewVariable,
     idGeo,
     modelCompartment,
-    graphsSelectedValue,
+    numberNodes,
     populationValue,
     dataSourceValue,
 }: Props) => {
@@ -62,8 +62,11 @@ const ModelBuilder = ({
     };
 
     useEffect(() => {
-        if (dataSourceValue === "geographic") {
-            // if (idGeo !== undefined && idGeo !== "")
+        if (
+            dataSourceValue === "geographic" &&
+            idGeo !== undefined &&
+            idGeo !== ""
+        ) {
             const geoSelected = allGeoSelections.find((geoSelection) => {
                 return geoSelection.id === idGeo;
             });
@@ -79,13 +82,22 @@ const ModelBuilder = ({
             }
         }
         if (dataSourceValue === "graph") {
-            setNodes(graphsSelectedValue);
+            let graphsArray = [];
+            const getGraphsNamesArray = () => {
+                for (let i = 0; i < numberNodes; i += 1) {
+                    const graphName = `Graph${i + 1}`;
+                    graphsArray = [...graphsArray, graphName];
+                }
+                return graphsArray;
+            };
+
+            setNodes(getGraphsNamesArray);
         }
     }, [
         allGeoSelections,
         dataSourceValue,
-        graphsSelectedValue,
         idGeo,
+        numberNodes,
         populationValue,
     ]);
 
@@ -95,8 +107,8 @@ const ModelBuilder = ({
                 showSectionVariable={setShowSectionVariable}
                 setDataView={setDataViewVariable}
                 modelCompartment={modelCompartment}
-                nodes={["california"]}
-                // nodes={nodes}
+                // nodes={["california"]}
+                nodes={nodes}
                 setPositionVDT={setPositionVDT}
                 setShowSectionInitialConditions={
                     setShowSectionInitialConditions

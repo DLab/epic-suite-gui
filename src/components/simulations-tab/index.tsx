@@ -225,7 +225,6 @@ const SimulationTab = () => {
                     </HStack>
                 </Tabs>
             )}
-            <Flex />
         </>
     );
 };
