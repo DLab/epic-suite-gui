@@ -28,6 +28,7 @@ import SimulationIcon from "components/icons/SimulationIcon";
 import NewModel from "components/new-model";
 import HomePage from "components/simulator/HomePage";
 import { TabIndex } from "context/TabContext";
+import SummaryTab from "components/summary-tab/SummaryTab";
 
 const Map = dynamic(() => import("../map-tab"), {
     loading: () => (
@@ -150,6 +151,15 @@ const MainContentTab = () => {
                                 m="20% 0"
                             />
                         </Tab>
+                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                            <Icon
+                                w={6}
+                                h={6}
+                                as={InfoIcon}
+                                color="#FFFFFF"
+                                m="20% 0"
+                            />
+                        </Tab>
                     </Box>
                     <Box textAlign="center" m="10% 0">
                         <Icon
@@ -189,6 +199,9 @@ const MainContentTab = () => {
                 </TabPanel>
                 <TabPanel maxH="100vh" h="100%">
                     <NewModel />
+                </TabPanel>
+                <TabPanel maxH="100vh" h="100%">
+                    <SummaryTab />
                 </TabPanel>
             </TabPanels>
         </Tabs>
