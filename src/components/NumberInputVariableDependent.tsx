@@ -26,7 +26,7 @@ interface Props {
     name?: string;
     index?: number;
     isStateLocal?: boolean;
-    duration: number;
+    duration?: number;
     isSupplementary?: boolean;
     supplementaryParam?: string;
 }

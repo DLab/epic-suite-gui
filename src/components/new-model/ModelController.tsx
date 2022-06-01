@@ -44,7 +44,7 @@ const ModelController = ({
     setShowSectionInitialConditions,
     setDataView,
     setPositionVDT,
-    modelCompartment = "SEIR",
+    modelCompartment,
     nodes,
 }: Props) => {
     const {

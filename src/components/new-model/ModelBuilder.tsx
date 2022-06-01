@@ -5,12 +5,13 @@ import { useContext, useEffect, useState } from "react";
 import ToastMessage from "../simulator/controllers/ToastMessage";
 import ModelController from "components/new-model/ModelController";
 import SectionVariableDependentTime from "components/new-model/SectionVariableDependentTime";
+import { ControlPanel } from "context/ControlPanelContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import countiesData from "data/counties.json";
 import stateData from "data/states.json";
-import VariableDependentTime, {
-    NameFunction,
-} from "types/VariableDependentTime";
+import VariableDependentTime from "types/VariableDependentTime";
+
+import getArrayParametersByNode from "./GetParametersByNodes";
 
 interface Props {
     isEditing: boolean;
@@ -43,6 +44,7 @@ const ModelBuilder = ({
 }: Props) => {
     const { geoSelections: allGeoSelections } = useContext(SelectFeature);
     const [nodes, setNodes] = useState([]);
+    const { setParameters } = useContext(ControlPanel);
     const getNamesGeo = (scale, featureSelected) => {
         let nodesNamesArray = [];
         featureSelected.forEach((feature) => {
@@ -75,9 +77,30 @@ const ModelBuilder = ({
                     geoSelected.scale,
                     geoSelected.featureSelected
                 );
+                const allParametersByNodes = getArrayParametersByNode(
+                    "model 1",
+                    modelCompartment,
+                    "11-11-11",
+                    geoNames
+                );
+
+                setParameters({
+                    type: "update",
+                    updateData: allParametersByNodes,
+                });
                 setNodes(geoNames);
             }
             if (populationValue === "monopopulation") {
+                const allParametersByNodes = getArrayParametersByNode(
+                    "model 1",
+                    modelCompartment,
+                    "11-11-11",
+                    [geoSelected.name]
+                );
+                setParameters({
+                    type: "update",
+                    updateData: allParametersByNodes,
+                });
                 setNodes([geoSelected.name]);
             }
         }
@@ -91,12 +114,22 @@ const ModelBuilder = ({
                 return graphsArray;
             };
 
-            setNodes(getGraphsNamesArray);
+            const graphsNamesArray = getGraphsNamesArray();
+            const allParametersByNodes = getArrayParametersByNode(
+                "model 1",
+                modelCompartment,
+                "11-11-11",
+                graphsNamesArray
+            );
+            setParameters({ type: "update", updateData: allParametersByNodes });
+            setNodes(graphsNamesArray);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         allGeoSelections,
         dataSourceValue,
         idGeo,
+        modelCompartment,
         numberNodes,
         populationValue,
     ]);
