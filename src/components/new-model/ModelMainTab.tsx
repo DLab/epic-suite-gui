@@ -9,16 +9,23 @@ import {
     AccordionIcon,
     Box,
     Icon,
+    Button,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
+import { ControlPanel } from "context/ControlPanelContext";
 import { NewModelSetted } from "context/NewModelsContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 import { InitialConditionsNewModel } from "types/ControlPanelTypes";
+import { NewModelsAllParams } from "types/SimulationTypes";
 import VariableDependentTime, {
     NameFunction,
 } from "types/VariableDependentTime";
 
+import getSEIRHVDObjMono from "./getSEIRHVDObjMono";
+import getSEIRObjMono from "./getSEIRObjMono";
+import getSIRObjMono from "./getSIRObjMono";
 import InitialConditionsModels from "./InitialConditionsModel";
 import ModelAccordion from "./ModelAccordion";
 import ParametersAccordion from "./ParametersAccordion";
@@ -69,7 +76,10 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             isEnabled: false,
             val: 0.3,
         });
-    const { newModel, setNewModel } = useContext(NewModelSetted);
+    const { newModel, setNewModel, completeModel, setCompleteModel } =
+        useContext(NewModelSetted);
+    const { setParameters, parameters } = useContext(ControlPanel);
+    const { geoSelections } = useContext(SelectFeature);
 
     const getDefaultValueParameters = useCallback(
         (field) => {
@@ -77,6 +87,50 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         },
         [newModel, id]
     );
+
+    const getSimulationSelectedObj = () => {
+        const modelInfo = newModel.find((model) => model.idNewModel === id);
+        const allModelInfo = { ...modelInfo, parameters };
+        const modelExist = completeModel.find(
+            (model: NewModelsAllParams) => model.idNewModel === id
+        );
+        if (modelExist !== undefined) {
+            setCompleteModel({
+                type: "update-all",
+                id,
+                payload: allModelInfo,
+            });
+        } else {
+            setCompleteModel({
+                type: "add",
+                payload: allModelInfo,
+            });
+        }
+
+        // return completeModel.map((e) => {
+        //     const geoselectionItems =
+        //         geoSelections.find((g) => g.id === e.idGeo) || {};
+        //     const {
+        //         scale,
+        //         featureSelected,
+        //     }: { scale?: string; featureSelected?: string[] } =
+        //         (typeof geoselectionItems !== "undefined" &&
+        //             geoselectionItems) ||
+        //         {};
+        //     if (e.modelType === "seirhvd") {
+        //         return getSEIRHVDObjMono(
+        //             e,
+        //             e.parameters,
+        //             scale,
+        //             featureSelected
+        //         );
+        //     }
+        //     if (e.modelType === "sir") {
+        //         return getSIRObjMono(e, e.parameters, scale, featureSelected);
+        //     }
+        //     return getSEIRObjMono(e, e.parameters, scale, featureSelected);
+        // });
+    };
 
     useEffect(() => {
         // initialConditions: InitialConditionsNewModel[];
@@ -92,14 +146,14 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getDefaultValueParameters]);
-    /* dispatch to simulationContext data about type selection 
+    /* dispatch to simulationContext data about type selection
   when select value is changed. Besides, modify other contexts values */
 
     useEffect(() => {
         const getName = getDefaultValueParameters("name");
         if (getName === "") {
-            const x = `Model ${index + 1}`;
-            setModelName(x);
+            const name = `Model ${index + 1}`;
+            setModelName(name);
         } else {
             setModelName(getName);
         }
@@ -113,15 +167,16 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         <Flex ml="2%" p="0" h="100%" w="100%">
             <Flex
                 direction="column"
-                w="28%"
+                w="30%"
                 bg="#FAFAFA"
                 borderRadius="6px"
                 boxShadow="sm"
+                alignItems="center"
             >
                 <Accordion
                     key="new-models-accordion"
                     allowMultiple
-                    // h="85%"
+                    w="100%"
                     overflowY="auto"
                     overflowX="hidden"
                     maxH="100%"
@@ -168,11 +223,21 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                         />
                     )}
                 </Accordion>
+                {numberOfNodes !== 0 && numberOfNodes !== undefined && (
+                    <Button
+                        size="sm"
+                        colorScheme="teal"
+                        m="2%"
+                        onClick={() => getSimulationSelectedObj()}
+                    >
+                        Save Parameters
+                    </Button>
+                )}
             </Flex>
             {showSectionInitialConditions && (
                 <Flex
                     direction="column"
-                    w="66%"
+                    w="64%"
                     m="0 2%"
                     bg="#FAFAFA"
                     borderRadius="6px"
@@ -222,6 +287,10 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                     mb="0.3rem"
                     onClick={() => {
                         setNewModel({
+                            type: "remove",
+                            element: id,
+                        });
+                        setCompleteModel({
                             type: "remove",
                             element: id,
                         });

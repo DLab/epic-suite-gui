@@ -1,4 +1,4 @@
-import { InitialConditionsNewModel } from "./ControlPanelTypes";
+import { EpidemicsData, InitialConditionsNewModel } from "./ControlPanelTypes";
 
 export enum OptionFeature {
     None = "",
@@ -27,17 +27,6 @@ export interface InitialConditions {
     H_cap?: number;
 }
 
-export interface SimulatorParams {
-    name: string;
-    idSim: number;
-    idModel: number;
-    idGeo: number;
-    idGraph: number;
-    typeSelection: OptionFeature;
-    initialConditions: InitialConditions;
-    t_init: string;
-}
-
 export interface NewModelsParams {
     idNewModel: undefined | number | string;
     name: string;
@@ -51,14 +40,18 @@ export interface NewModelsParams {
     t_init: string;
 }
 
-export interface ActionsSimulationData {
-    type: string;
-    payload?: SimulatorParams;
-    payloadInitialConditions?: SimulatorParams["initialConditions"];
-    element?: string | boolean | number;
-    target?: string;
-    id?;
-    localState?: SimulatorParams[];
+export interface NewModelsAllParams {
+    idNewModel: undefined | number | string;
+    name: string;
+    modelType: string;
+    populationType: string;
+    typeSelection: string;
+    idGeo: undefined | number | string;
+    idGraph: undefined | number;
+    initialConditions: InitialConditionsNewModel[];
+    numberNodes: number;
+    t_init: string;
+    parameters: EpidemicsData;
 }
 
 export interface ActionsNewModelData {
@@ -69,6 +62,38 @@ export interface ActionsNewModelData {
     target?: string;
     id?;
     localState?: NewModelsParams[];
+}
+
+export interface NewModelType {
+    mode: string;
+    setMode: (value: string) => void;
+    idNewModelUpdating: number;
+    setIdNewModelUpdating: (value: ActionsIdSimulation) => void;
+    newModel: NewModelsParams[] | [];
+    setNewModel: (values: ActionsNewModelData) => void;
+    completeModel: NewModelsAllParams[] | [];
+    setCompleteModel: (values: ActionsNewModelData) => void;
+}
+
+export interface SimulatorParams {
+    name: string;
+    idSim: number;
+    idModel: number;
+    idGeo: number;
+    idGraph: number;
+    typeSelection: OptionFeature;
+    initialConditions: InitialConditions;
+    t_init: string;
+}
+
+export interface ActionsSimulationData {
+    type: string;
+    payload?: SimulatorParams;
+    payloadInitialConditions?: SimulatorParams["initialConditions"];
+    element?: string | boolean | number;
+    target?: string;
+    id?;
+    localState?: SimulatorParams[];
 }
 
 export interface ActionsIdSimulation {
@@ -82,13 +107,4 @@ export interface SimulationType {
     setIdSimulationUpdating: (value: ActionsIdSimulation) => void;
     simulation: SimulatorParams[] | [];
     setSimulation: (values: ActionsSimulationData) => void;
-}
-
-export interface NewModelType {
-    mode: string;
-    setMode: (value: string) => void;
-    idNewModelUpdating: number;
-    setIdNewModelUpdating: (value: ActionsIdSimulation) => void;
-    newModel: NewModelsParams[] | [];
-    setNewModel: (values: ActionsNewModelData) => void;
 }

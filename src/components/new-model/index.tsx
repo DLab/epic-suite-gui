@@ -71,8 +71,8 @@ const NewModel = () => {
                 <>
                     <Tabs
                         display="flex"
-                        h="88vh"
-                        mh="88vh"
+                        h="90vh"
+                        mh="90vh"
                         index={tabIndex}
                         isLazy
                         onChange={(e) => {

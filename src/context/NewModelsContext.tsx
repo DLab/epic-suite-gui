@@ -8,6 +8,7 @@ import {
     ActionsNewModelData,
     NewModelType,
     NewModelsParams,
+    NewModelsAllParams,
 } from "types/SimulationTypes";
 
 export const NewModelSetted = createContext<NewModelType>({
@@ -15,6 +16,8 @@ export const NewModelSetted = createContext<NewModelType>({
     setMode: () => {},
     idNewModelUpdating: 0,
     setIdNewModelUpdating: () => {},
+    completeModel: [],
+    setCompleteModel: () => {},
     newModel: [],
     setNewModel: () => {},
 });
@@ -22,6 +25,7 @@ export const NewModelSetted = createContext<NewModelType>({
 // eslint-disable-next-line react/prop-types
 const NewModelsContext: React.FC = ({ children }) => {
     const initialState: NewModelsParams | [] = [];
+    const initialStateCompleteModel: NewModelsAllParams | [] = [];
 
     const reducer = (
         state: NewModelType["newModel"],
@@ -71,6 +75,10 @@ const NewModelsContext: React.FC = ({ children }) => {
     };
     const [mode, setMode] = useState("add");
     const [newModel, setNewModel] = useReducer(reducer, initialState);
+    const [completeModel, setCompleteModel] = useReducer(
+        reducer,
+        initialStateCompleteModel
+    );
     const [idNewModelUpdating, setIdNewModelUpdating] = useReducer(
         reducerIdSimulation,
         0
@@ -80,6 +88,8 @@ const NewModelsContext: React.FC = ({ children }) => {
             value={{
                 mode,
                 setMode,
+                completeModel,
+                setCompleteModel,
                 newModel,
                 setNewModel,
                 idNewModelUpdating,
