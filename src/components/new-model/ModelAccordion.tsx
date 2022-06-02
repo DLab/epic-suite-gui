@@ -121,7 +121,7 @@ const ModelAccordion = ({
     let graphsArray = [];
     const getGraphsNamesArray = (graphsNumber) => {
         for (let i = 0; i < graphsNumber; i += 1) {
-            const graphName = `Graph${i + 1}`;
+            const graphName = `Node ${i + 1}`;
             graphsArray = [...graphsArray, graphName];
         }
         return graphsArray;
@@ -273,7 +273,7 @@ const ModelAccordion = ({
                                 size="sm"
                                 defaultValue={2}
                                 min={minGraphValue}
-                                max={200}
+                                max={30}
                                 value={numberOfGraphs}
                                 onChange={(e) => {
                                     setNumberOfGraphs(+e);

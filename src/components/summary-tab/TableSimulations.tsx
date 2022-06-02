@@ -62,47 +62,42 @@ const TableSimulations = () => {
                     </Thead>
                     <Tbody>
                         {completeModel.map((elem) => {
-                            if (elem.populationType === "monopopulation") {
-                                return (
-                                    <Tr key={createIdComponent()}>
-                                        <Td>
-                                            <Checkbox
-                                                isDisabled={
-                                                    elem.populationType ===
-                                                    "Metapopulation"
-                                                }
-                                                bg="white"
-                                                isChecked={
-                                                    permission[elem.idNewModel]
-                                                }
-                                                onChange={(e) => {
-                                                    setPermission({
-                                                        ...permission,
-                                                        [elem.idNewModel]:
-                                                            e.target.checked,
-                                                    });
-                                                }}
-                                            />
-                                        </Td>
-                                        <Td>
-                                            {elem.name ?? "Not defined yet"}
-                                        </Td>
-                                        <Td>
-                                            {elem.modelType.toUpperCase() ??
-                                                "Not defined yet"}
-                                        </Td>
-                                        <Td>
-                                            {elem.populationType ??
-                                                "Not defined yet"}
-                                        </Td>
-                                        <Td>
-                                            {elem.typeSelection ??
-                                                "Not defined yet"}
-                                        </Td>
-                                    </Tr>
-                                );
-                            }
-                            return false;
+                            return (
+                                <Tr key={createIdComponent()}>
+                                    <Td>
+                                        <Checkbox
+                                            isDisabled={
+                                                elem.populationType ===
+                                                "metapopulation"
+                                            }
+                                            bg="white"
+                                            isChecked={
+                                                permission[elem.idNewModel]
+                                            }
+                                            onChange={(e) => {
+                                                setPermission({
+                                                    ...permission,
+                                                    [elem.idNewModel]:
+                                                        e.target.checked,
+                                                });
+                                            }}
+                                        />
+                                    </Td>
+                                    <Td>{elem.name ?? "Not defined yet"}</Td>
+                                    <Td>
+                                        {elem.modelType.toUpperCase() ??
+                                            "Not defined yet"}
+                                    </Td>
+                                    <Td>
+                                        {elem.populationType ??
+                                            "Not defined yet"}
+                                    </Td>
+                                    <Td>
+                                        {elem.typeSelection ??
+                                            "Not defined yet"}
+                                    </Td>
+                                </Tr>
+                            );
                         })}
                     </Tbody>
                 </Table>
