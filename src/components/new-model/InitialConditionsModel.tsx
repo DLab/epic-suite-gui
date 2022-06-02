@@ -14,7 +14,6 @@ import React, { useContext, useState } from "react";
 
 import { NewModelSetted } from "context/NewModelsContext";
 import { InitialConditionsNewModel } from "types/ControlPanelTypes";
-import { NewModelsParams } from "types/SimulationTypes";
 
 import InitialConditions from "./InitialConditions";
 import SelectDate from "./SelectDate";
@@ -28,6 +27,8 @@ interface Props {
     idGeo: number;
     idGraph: number;
     initialConditionsGraph: InitialConditionsNewModel[];
+    startDate: Date;
+    setStartDate: (value: Date) => void;
 }
 
 const InitialConditiosModels = ({
@@ -39,15 +40,11 @@ const InitialConditiosModels = ({
     idGeo,
     idGraph,
     initialConditionsGraph,
+    startDate,
+    setStartDate,
 }: Props) => {
     const [initialConditionsMode, setInitialConditionsMode] = useState(false);
     const { newModel } = useContext(NewModelSetted);
-    const [startDate, setStartDate] = useState(
-        new Date(
-            newModel.find((model: NewModelsParams) => model.idNewModel === id)
-                .t_init ?? new Date(2022, 0, 1)
-        )
-    );
 
     const editInitialConditions = () => {
         setInitialConditionsMode(true);

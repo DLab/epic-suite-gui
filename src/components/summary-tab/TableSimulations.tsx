@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import {
     Button,
     Center,
@@ -18,15 +19,17 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { NewModelsParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
+import RunButton from "./RunButton";
+
 type ReducedIdForPermissions = Record<number, boolean>;
 
 const TableSimulations = () => {
-    const { newModel } = useContext(NewModelSetted);
+    const { completeModel } = useContext(NewModelSetted);
     const [permission, setPermission] = useState<ReducedIdForPermissions>({});
     useEffect(() => {
-        if (newModel.length > 0) {
+        if (completeModel.length > 0) {
             setPermission(
-                newModel
+                completeModel
                     .map((elem: NewModelsParams) => {
                         return {
                             [elem.idNewModel]: false,
@@ -41,9 +44,9 @@ const TableSimulations = () => {
                     )
             );
         }
-    }, [newModel]);
+    }, [completeModel]);
 
-    return newModel.length > 0 ? (
+    return completeModel.length > 0 ? (
         <>
             <TableContainer bg="white" maxH="60vh">
                 <Table size="lg" variant="striped" colorScheme="linkedin">
@@ -58,35 +61,54 @@ const TableSimulations = () => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {newModel.map((elem) => (
-                            <Tr key={createIdComponent()}>
-                                <Td>
-                                    <Checkbox
-                                        isDisabled={
-                                            elem.populationType ===
-                                            "Metapopulation"
-                                        }
-                                        isChecked={permission[elem.idNewModel]}
-                                        onChange={(e) => {
-                                            setPermission({
-                                                ...permission,
-                                                [elem.idNewModel]:
-                                                    e.target.checked,
-                                            });
-                                        }}
-                                    />
-                                </Td>
-                                <Td>{elem.name ?? "asdf"}</Td>
-                                <Td>{elem.modelType ?? "asdf"}</Td>
-                                <Td>{elem.populationType ?? "asdf"}</Td>
-                                <Td>{elem.typeSelection ?? "asdf"}</Td>
-                            </Tr>
-                        ))}
+                        {completeModel.map((elem) => {
+                            if (elem.populationType === "monopopulation") {
+                                return (
+                                    <Tr key={createIdComponent()}>
+                                        <Td>
+                                            <Checkbox
+                                                isDisabled={
+                                                    elem.populationType ===
+                                                    "Metapopulation"
+                                                }
+                                                bg="white"
+                                                isChecked={
+                                                    permission[elem.idNewModel]
+                                                }
+                                                onChange={(e) => {
+                                                    setPermission({
+                                                        ...permission,
+                                                        [elem.idNewModel]:
+                                                            e.target.checked,
+                                                    });
+                                                }}
+                                            />
+                                        </Td>
+                                        <Td>
+                                            {elem.name ?? "Not defined yet"}
+                                        </Td>
+                                        <Td>
+                                            {elem.modelType.toUpperCase() ??
+                                                "Not defined yet"}
+                                        </Td>
+                                        <Td>
+                                            {elem.populationType ??
+                                                "Not defined yet"}
+                                        </Td>
+                                        <Td>
+                                            {elem.typeSelection ??
+                                                "Not defined yet"}
+                                        </Td>
+                                    </Tr>
+                                );
+                            }
+                            return false;
+                        })}
                     </Tbody>
                 </Table>
             </TableContainer>
             <Center mt="1rem">
-                <Button>Run</Button>
+                <RunButton permission={permission} />
             </Center>
         </>
     ) : (

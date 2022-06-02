@@ -51,7 +51,7 @@ const createObjectVariableDependent = (params: VariableDependentTime) => {
 
 const getSIRObjMono = (e, modelParameters, scale, featureSelected) => {
     return {
-        idSim: e.idSim,
+        idSim: e.idNewModel,
         model: {
             name: modelParameters.name,
             compartments: modelParameters.compartments,

@@ -12,6 +12,8 @@ interface Props {
     numberNodes: number;
     populationValue: string;
     dataSourceValue: string;
+    modelName: string;
+    startDate: Date;
 }
 
 const ParametersAccordion = ({
@@ -25,6 +27,8 @@ const ParametersAccordion = ({
     numberNodes,
     populationValue,
     dataSourceValue,
+    modelName,
+    startDate,
 }: Props) => {
     return (
         <>
@@ -43,6 +47,8 @@ const ParametersAccordion = ({
                 numberNodes={numberNodes}
                 populationValue={populationValue}
                 dataSourceValue={dataSourceValue}
+                modelName={modelName}
+                startDate={startDate}
             />
         </>
     );

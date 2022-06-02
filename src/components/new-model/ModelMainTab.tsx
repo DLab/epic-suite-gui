@@ -18,14 +18,11 @@ import { ControlPanel } from "context/ControlPanelContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { InitialConditionsNewModel } from "types/ControlPanelTypes";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 import VariableDependentTime, {
     NameFunction,
 } from "types/VariableDependentTime";
 
-import getSEIRHVDObjMono from "./getSEIRHVDObjMono";
-import getSEIRObjMono from "./getSEIRObjMono";
-import getSIRObjMono from "./getSIRObjMono";
 import InitialConditionsModels from "./InitialConditionsModel";
 import ModelAccordion from "./ModelAccordion";
 import ParametersAccordion from "./ParametersAccordion";
@@ -53,6 +50,7 @@ const ModelsMap = dynamic(() => import("./ModelsMap"), {
     ssr: false,
 });
 
+// eslint-disable-next-line complexity
 const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
     const [modelName, setModelName] = useState("");
     const [modelValue, setModelValue] = useState(undefined);
@@ -64,6 +62,14 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
     const [graphsSelectedValue, setGraphsSelectedValue] = useState(undefined);
     const [showSectionInitialConditions, setShowSectionInitialConditions] =
         useState(false);
+    const { newModel, setNewModel, completeModel, setCompleteModel } =
+        useContext(NewModelSetted);
+    const [startDate, setStartDate] = useState(
+        new Date(
+            newModel.find((model: NewModelsParams) => model.idNewModel === id)
+                .t_init ?? new Date(2022, 0, 1)
+        )
+    );
     const [showSectionVariable, setShowSectionVariable] =
         useState<boolean>(false);
     const [positionVDT, setPositionVDT] = useState<number>(-1);
@@ -76,10 +82,8 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             isEnabled: false,
             val: 0.3,
         });
-    const { newModel, setNewModel, completeModel, setCompleteModel } =
-        useContext(NewModelSetted);
+
     const { setParameters, parameters } = useContext(ControlPanel);
-    const { geoSelections } = useContext(SelectFeature);
 
     const getDefaultValueParameters = useCallback(
         (field) => {
@@ -88,8 +92,10 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         [newModel, id]
     );
 
-    const getSimulationSelectedObj = () => {
-        const modelInfo = newModel.find((model) => model.idNewModel === id);
+    const getModelCompleteObj = () => {
+        const modelInfo = newModel.find(
+            (model: NewModelsParams) => model.idNewModel === id
+        );
         const allModelInfo = { ...modelInfo, parameters };
         const modelExist = completeModel.find(
             (model: NewModelsAllParams) => model.idNewModel === id
@@ -106,30 +112,6 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                 payload: allModelInfo,
             });
         }
-
-        // return completeModel.map((e) => {
-        //     const geoselectionItems =
-        //         geoSelections.find((g) => g.id === e.idGeo) || {};
-        //     const {
-        //         scale,
-        //         featureSelected,
-        //     }: { scale?: string; featureSelected?: string[] } =
-        //         (typeof geoselectionItems !== "undefined" &&
-        //             geoselectionItems) ||
-        //         {};
-        //     if (e.modelType === "seirhvd") {
-        //         return getSEIRHVDObjMono(
-        //             e,
-        //             e.parameters,
-        //             scale,
-        //             featureSelected
-        //         );
-        //     }
-        //     if (e.modelType === "sir") {
-        //         return getSIRObjMono(e, e.parameters, scale, featureSelected);
-        //     }
-        //     return getSEIRObjMono(e, e.parameters, scale, featureSelected);
-        // });
     };
 
     useEffect(() => {
@@ -220,6 +202,8 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                             numberNodes={numberOfNodes}
                             populationValue={populationValue}
                             dataSourceValue={dataSourceValue}
+                            modelName={modelName}
+                            startDate={startDate}
                         />
                     )}
                 </Accordion>
@@ -228,7 +212,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                         size="sm"
                         colorScheme="teal"
                         m="2%"
-                        onClick={() => getSimulationSelectedObj()}
+                        onClick={() => getModelCompleteObj()}
                     >
                         Save Parameters
                     </Button>
@@ -259,6 +243,8 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                             idGraph={0}
                             dataSourceValue={dataSourceValue}
                             initialConditionsGraph={initialConditions}
+                            startDate={startDate}
+                            setStartDate={setStartDate}
                         />
                     )}
                 </Flex>

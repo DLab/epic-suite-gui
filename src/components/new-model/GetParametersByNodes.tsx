@@ -364,7 +364,7 @@ const getArrayParametersByNode = (
         name_model: name,
         name: modelValue,
         compartments: Array.from(modelValue),
-        t_init: "",
+        t_init: startDate,
         t_end: 500,
         pI_det: 1,
         beta: new Array(nodesValues.length).fill(paramsValues.beta),

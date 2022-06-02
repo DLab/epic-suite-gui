@@ -26,6 +26,8 @@ interface Props {
     numberNodes: number;
     populationValue: string;
     dataSourceValue: string;
+    modelName: string;
+    startDate: Date;
 }
 
 const ModelBuilder = ({
@@ -41,6 +43,8 @@ const ModelBuilder = ({
     numberNodes,
     populationValue,
     dataSourceValue,
+    modelName,
+    startDate,
 }: Props) => {
     const { geoSelections: allGeoSelections } = useContext(SelectFeature);
     const [nodes, setNodes] = useState([]);
@@ -78,9 +82,9 @@ const ModelBuilder = ({
                     geoSelected.featureSelected
                 );
                 const allParametersByNodes = getArrayParametersByNode(
-                    "model 1",
+                    modelName,
                     modelCompartment,
-                    "11-11-11",
+                    startDate,
                     geoNames
                 );
 
@@ -92,9 +96,9 @@ const ModelBuilder = ({
             }
             if (populationValue === "monopopulation") {
                 const allParametersByNodes = getArrayParametersByNode(
-                    "model 1",
+                    modelName,
                     modelCompartment,
-                    "11-11-11",
+                    startDate,
                     [geoSelected.name]
                 );
                 setParameters({
@@ -116,9 +120,9 @@ const ModelBuilder = ({
 
             const graphsNamesArray = getGraphsNamesArray();
             const allParametersByNodes = getArrayParametersByNode(
-                "model 1",
+                modelName,
                 modelCompartment,
-                "11-11-11",
+                startDate,
                 graphsNamesArray
             );
             setParameters({ type: "update", updateData: allParametersByNodes });
