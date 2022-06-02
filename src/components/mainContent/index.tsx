@@ -1,4 +1,3 @@
-import { WarningTwoIcon } from "@chakra-ui/icons";
 import {
     Tab,
     Tabs,
@@ -14,11 +13,8 @@ import {
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useRef } from "react";
 
-import GraphTab from "../graph-tab/GraphTab";
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
-import ModelsTab from "../models-tab/ModelsTab";
 import Results from "../results-tab";
-import SimulationTab from "../simulations-tab";
 import GraphIcon from "components/icons/GraphIcon";
 import InfoIcon from "components/icons/InfoIcon";
 import ModelsIcon from "components/icons/ModelsIcon";
@@ -27,8 +23,8 @@ import ResultsIcon from "components/icons/ResultsIcon";
 import SimulationIcon from "components/icons/SimulationIcon";
 import NewModel from "components/new-model";
 import HomePage from "components/simulator/HomePage";
-import { TabIndex } from "context/TabContext";
 import SummaryTab from "components/summary-tab/SummaryTab";
+import { TabIndex } from "context/TabContext";
 
 const Map = dynamic(() => import("../map-tab"), {
     loading: () => (
@@ -97,6 +93,15 @@ const MainContentTab = () => {
                                 />
                             </Tab>
                         </Box>
+                        {/* <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                            <Icon
+                                w={6}
+                                h={6}
+                                as={ModelsIcon}
+                                color="#FFFFFF"
+                                m="20% 0"
+                            />
+                        </Tab> */}
                         <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <Icon
                                 w={6}
@@ -115,7 +120,7 @@ const MainContentTab = () => {
                                 m="20% 0"
                             />
                         </Tab>
-                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                        {/* <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <Icon
                                 w={6}
                                 h={6}
@@ -123,13 +128,23 @@ const MainContentTab = () => {
                                 color="#FFFFFF"
                                 m="20% 0"
                             />
-                        </Tab>
-                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                        </Tab> */}
+                        {/* <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <SimulationIcon
                                 w={6}
                                 h={6}
                                 color="#FFFFFF"
                                 id="a"
+                                m="20% 0"
+                            />
+                        </Tab> */}
+
+                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                            <Icon
+                                w={6}
+                                h={6}
+                                as={InfoIcon}
+                                color="#FFFFFF"
                                 m="20% 0"
                             />
                         </Tab>
@@ -138,24 +153,6 @@ const MainContentTab = () => {
                                 w={6}
                                 h={6}
                                 as={ResultsIcon}
-                                color="#FFFFFF"
-                                m="20% 0"
-                            />
-                        </Tab>
-                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
-                            <Icon
-                                w={6}
-                                h={6}
-                                as={WarningTwoIcon}
-                                color="#FFFFFF"
-                                m="20% 0"
-                            />
-                        </Tab>
-                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
-                            <Icon
-                                w={6}
-                                h={6}
-                                as={InfoIcon}
                                 color="#FFFFFF"
                                 m="20% 0"
                             />
@@ -176,19 +173,26 @@ const MainContentTab = () => {
                 <TabPanel bg="#1D2E3C" h="100%" overflowY="auto" maxH="100vh">
                     <HomePage />
                 </TabPanel>
-                <TabPanel overflowY="auto" maxH="100vh">
-                    <ModelsTab />
+                <TabPanel maxH="100vh" h="100%">
+                    <NewModel />
                 </TabPanel>
+                {/* <TabPanel overflowY="auto" maxH="100vh">
+                    <ModelsTab />
+                </TabPanel> */}
                 <TabPanel h="100vh" bg="#F2F2F0">
                     <Map />
                 </TabPanel>
-                <TabPanel h="100%">
+                {/* <TabPanel h="100%">
                     <Flex h="100%">
                         <GraphTab />
                     </Flex>
-                </TabPanel>
-                <TabPanel maxH="100vh" h="100%">
+                </TabPanel> */}
+                {/* <TabPanel maxH="100vh" h="100%">
                     <SimulationTab />
+                </TabPanel> */}
+
+                <TabPanel maxH="100vh" h="100%">
+                    <SummaryTab />
                 </TabPanel>
                 <TabPanel h="100vh" maxH="100vh">
                     <Flex maxh="100vh" h="97vh">
@@ -196,12 +200,6 @@ const MainContentTab = () => {
                             <Results />
                         </Center>
                     </Flex>
-                </TabPanel>
-                <TabPanel maxH="100vh" h="100%">
-                    <NewModel />
-                </TabPanel>
-                <TabPanel maxH="100vh" h="100%">
-                    <SummaryTab />
                 </TabPanel>
             </TabPanels>
         </Tabs>

@@ -9,9 +9,6 @@ import { ControlPanel } from "context/ControlPanelContext";
 import VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
 
-import PEImNumberInput from "./PEImNumberInput";
-import PhdPhrNumberInput from "./PhdPhrNumberInput";
-import PIvRPIvHNumberInput from "./PIvRPIvHNumberInput";
 import SupplementaryParameters from "./SupplementaryParameters";
 
 type Props = {

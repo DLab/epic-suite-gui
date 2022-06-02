@@ -40,24 +40,6 @@ const NewModel = () => {
             },
         });
         setTabIndex(newModel.length);
-        // localStorage.setItem(
-        //     "newModels",
-        //     JSON.stringify([
-        //         ...newModel,
-        //         {
-        //             idNewModel: Date.now(),
-        //             name: "",
-        //             modelType: undefined,
-        //             populationType: undefined,
-        //             typeSelection: undefined,
-        //             idGeo: undefined,
-        //             idGraph: undefined,
-        //             numberNodes: undefined,
-        //             t_init: format(new Date(2021, 11, 31), "yyyy/MM/dd"),
-        //             initialConditions: [],
-        //         },
-        //     ])
-        // );
     };
 
     return (
@@ -116,7 +98,7 @@ const NewModel = () => {
                                 </TabList>
                             </Flex>
                             <Flex justifyContent="center">
-                                <Tooltip label="Create ModelS">
+                                <Tooltip label="Create Model">
                                     <IconButton
                                         bg="#16609E"
                                         color="#FFFFFF"
@@ -162,7 +144,7 @@ const NewModel = () => {
                     h="80vh"
                     mh="80vh"
                 >
-                    <Tooltip label="Create ModelS">
+                    <Tooltip label="Create Model">
                         <IconButton
                             bg="#16609E"
                             color="#FFFFFF"
