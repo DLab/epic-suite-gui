@@ -1,11 +1,13 @@
 import { Box, Flex, Portal } from "@chakra-ui/react";
 // import SectionVariableDependentTime from "components/map-results/SectionVariableDependentTime";
+import _ from "lodash";
 import { useContext, useEffect, useState } from "react";
 
 import ToastMessage from "../simulator/controllers/ToastMessage";
 import ModelController from "components/new-model/ModelController";
 import SectionVariableDependentTime from "components/new-model/SectionVariableDependentTime";
 import { ControlPanel } from "context/ControlPanelContext";
+import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import countiesData from "data/counties.json";
 import stateData from "data/states.json";
@@ -28,6 +30,7 @@ interface Props {
     dataSourceValue: string;
     modelName: string;
     startDate: Date;
+    id: number;
 }
 
 const ModelBuilder = ({
@@ -45,10 +48,13 @@ const ModelBuilder = ({
     dataSourceValue,
     modelName,
     startDate,
+    id,
 }: Props) => {
     const { geoSelections: allGeoSelections } = useContext(SelectFeature);
+
     const [nodes, setNodes] = useState([]);
     const { setParameters } = useContext(ControlPanel);
+    const { completeModel } = useContext(NewModelSetted);
     const getNamesGeo = (scale, featureSelected) => {
         let nodesNamesArray = [];
         featureSelected.forEach((feature) => {
@@ -137,7 +143,17 @@ const ModelBuilder = ({
         numberNodes,
         populationValue,
     ]);
-
+    useEffect(() => {
+        const findedParameters = completeModel.find(
+            (complete) => complete.idNewModel === id
+        );
+        if (!_.isEmpty(findedParameters)) {
+            setParameters({
+                type: "update",
+                updateData: findedParameters.parameters,
+            });
+        }
+    }, [completeModel, id, setParameters]);
     return (
         <>
             <ModelController
