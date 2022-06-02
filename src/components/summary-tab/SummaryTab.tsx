@@ -19,8 +19,9 @@ const SummaryTab = () => {
                 <AlertIcon />
                 <Box>
                     <AlertDescription>
-                        Select all monopopulations model for to simulate.
-                        Metapopulation simulations aren't implemented yet.
+                        Select all the models to simulate. Only monopopulation
+                        models are available to simulate. Metapopulation
+                        simulations aren't implemented yet.
                     </AlertDescription>
                 </Box>
             </Alert>

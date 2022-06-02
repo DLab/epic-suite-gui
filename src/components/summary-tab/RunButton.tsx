@@ -26,7 +26,7 @@ type ReducedIdForPermissions = Record<number, boolean>;
 interface Props {
     permission: ReducedIdForPermissions;
 }
-
+const SIMULATIONFAILED = "Simulation failed";
 const RunButton = ({ permission }: Props) => {
     // const { simulation: simSetted } = useContext(SimulationSetted);
     const { geoSelections } = useContext(SelectFeature);
@@ -184,7 +184,7 @@ const RunButton = ({ permission }: Props) => {
             if (error.response?.status === 400) {
                 toast({
                     position: bottonLeft,
-                    title: "Simulation failed",
+                    title: SIMULATIONFAILED,
                     description: "Parameters are invalid. Check your models!",
                     status: "error",
                     duration: 3000,
@@ -193,7 +193,7 @@ const RunButton = ({ permission }: Props) => {
             } else {
                 toast({
                     position: bottonLeft,
-                    title: "Simulation failed",
+                    title: SIMULATIONFAILED,
                     description: `${error.message}`,
                     status: "error",
                     duration: 3000,
@@ -209,7 +209,23 @@ const RunButton = ({ permission }: Props) => {
         <>
             <Button
                 id={createIdComponent()}
-                onClick={() => handleJsonToToml()}
+                onClick={() => {
+                    const withPermission = Object.values(permission).some(
+                        (perm) => perm
+                    );
+                    if (withPermission) {
+                        handleJsonToToml();
+                    } else {
+                        toast({
+                            position: bottonLeft,
+                            title: SIMULATIONFAILED,
+                            description: `You must select at least one model`,
+                            status: "error",
+                            duration: 3000,
+                            isClosable: true,
+                        });
+                    }
+                }}
                 colorScheme="blue"
                 color="white"
             >

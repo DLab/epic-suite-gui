@@ -14,6 +14,7 @@ interface Props {
     dataSourceValue: string;
     modelName: string;
     startDate: Date;
+    id: number;
 }
 
 const ParametersAccordion = ({
@@ -29,10 +30,12 @@ const ParametersAccordion = ({
     dataSourceValue,
     modelName,
     startDate,
+    id,
 }: Props) => {
     return (
         <>
             <ModelBuilder
+                id={id}
                 isEditing
                 setIsEditing={() => {}}
                 showSectionVariable={showSectionVariable}

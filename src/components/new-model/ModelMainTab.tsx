@@ -221,6 +221,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                             dataSourceValue={dataSourceValue}
                             modelName={modelName}
                             startDate={startDate}
+                            id={id}
                         />
                     )}
                 </Accordion>
