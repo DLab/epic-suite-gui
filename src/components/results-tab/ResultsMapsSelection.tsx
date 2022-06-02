@@ -18,10 +18,11 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { ModelsSaved } from "context/ModelsContext";
+import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { DataParameters } from "types/ModelsTypes";
-import { SimulatorParams } from "types/SimulationTypes";
+import { NewModelsAllParams, SimulatorParams } from "types/SimulationTypes";
 
 interface Props {
     onClose: (val: boolean) => void;
@@ -46,18 +47,21 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         allGraphicData,
         setAllResults,
     } = useContext(GraphicsData);
-    const { parameters: parametersSaved } = useContext(ModelsSaved);
-    const { simulation } = useContext(SimulationSetted);
+    // const { parameters: parametersSaved } = useContext(ModelsSaved);
+    // const { simulation } = useContext(SimulationSetted);
     const { geoSelections } = useContext(SelectFeature);
     const mapArray = ["Map 1", "Map 2"];
+    const { completeModel } = useContext(NewModelSetted);
 
     const getInitialConditionsCheck = (simId) => {
-        const initialConditionsSim = simulation.filter(
-            (sim: SimulatorParams) => {
-                return sim.idSim.toString() === simId;
+        const initialConditionsSim = completeModel.filter(
+            (sim: NewModelsAllParams) => {
+                return sim.idNewModel.toString() === simId;
             }
         );
-        return Object.keys(initialConditionsSim[0].initialConditions);
+        return Object.keys(
+            initialConditionsSim[0].initialConditions[0].conditionsValues
+        );
     };
 
     useEffect(() => {
@@ -108,25 +112,25 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const getDataToSave = (index) => {
+    const getDataToSave = (index: number) => {
         const {
             name,
-            idModel,
+            parameters,
             idGeo,
             t_init: tInit,
-        } = simulation.filter((sim: SimulatorParams) => {
-            return sim.idSim.toString() === simIdToShowInMap[index];
+        } = completeModel.filter((sim: NewModelsAllParams) => {
+            return sim.idNewModel.toString() === simIdToShowInMap[index];
         })[0];
 
         const { scale } = geoSelections.filter((geoSelection) => {
             return geoSelection.id === idGeo;
         })[0];
 
-        const { parameters } = parametersSaved.filter(
-            (model: DataParameters) => {
-                return model.id === idModel;
-            }
-        )[0];
+        // const { parameters } = parametersSaved.filter(
+        //     (model: DataParameters) => {
+        //         return model.id === idModel;
+        //     }
+        // )[0];
 
         return {
             scale,
@@ -213,18 +217,20 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                     onChange={(e) => {
                                         const simId = e.target.value;
                                         const initialConditionsSim =
-                                            simulation.filter(
-                                                (sim: SimulatorParams) => {
+                                            completeModel.filter(
+                                                (sim: NewModelsAllParams) => {
                                                     return (
-                                                        sim.idSim.toString() ===
+                                                        sim.idNewModel.toString() ===
                                                         simId
                                                     );
                                                 }
                                             );
+
                                         const initialConditionsStrg =
                                             Object.keys(
                                                 initialConditionsSim[0]
-                                                    .initialConditions
+                                                    .initialConditions[0]
+                                                    .conditionsValues
                                             );
 
                                         setinitialConditionsCheckBox([
@@ -246,13 +252,13 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                         ]);
                                     }}
                                 >
-                                    {simulation.map((sim) => {
+                                    {completeModel.map((sim) => {
                                         return (
                                             sim.typeSelection ===
-                                                "Geographic" && (
+                                                "geographic" && (
                                                 <option
-                                                    key={sim.idSim}
-                                                    value={sim.idSim}
+                                                    key={sim.idNewModel}
+                                                    value={sim.idNewModel}
                                                 >
                                                     {sim.name}
                                                 </option>

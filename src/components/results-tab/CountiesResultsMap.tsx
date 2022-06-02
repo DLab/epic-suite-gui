@@ -12,7 +12,7 @@ interface ActionTooltip {
 }
 
 interface Props {
-    idGeo: number;
+    idGeo: number | string;
     parameterValue: number;
     maxValue: number;
     coutiesData: GeometryObject;
