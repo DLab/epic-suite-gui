@@ -60,6 +60,8 @@ const NewModelsContext: React.FC = ({ children }) => {
                 return state.filter(
                     (e: NewModelsParams) => e.idNewModel !== +action.element
                 );
+            case "setInitial":
+                return [...state, ...action.localState];
             default:
                 return state;
         }

@@ -1,22 +1,12 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import {
-    Flex,
-    Spinner,
-    Accordion,
-    AccordionItem,
-    AccordionButton,
-    AccordionPanel,
-    AccordionIcon,
-    Box,
-    Icon,
-    Button,
-} from "@chakra-ui/react";
+import { Flex, Spinner, Accordion, Icon, Button } from "@chakra-ui/react";
+import { format } from "date-fns";
 import dynamic from "next/dynamic";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
+import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
-import { SelectFeature } from "context/SelectFeaturesContext";
 import { InitialConditionsNewModel } from "types/ControlPanelTypes";
 import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 import VariableDependentTime, {
@@ -83,7 +73,13 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             val: 0.3,
         });
 
-    const { setParameters, parameters } = useContext(ControlPanel);
+    const { parameters } = useContext(ControlPanel);
+    const {
+        setAllGraphicData,
+        setRealDataSimulationKeys,
+        setDataToShowInMap,
+        setAllResults,
+    } = useContext(GraphicsData);
 
     const getDefaultValueParameters = useCallback(
         (field) => {
@@ -106,12 +102,33 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                 id,
                 payload: allModelInfo,
             });
+            const modelsAux = completeModel;
+            // eslint-disable-next-line array-callback-return
+            completeModel.map((e, i) => {
+                if (e.idSim === id) {
+                    modelsAux[i] = allModelInfo;
+                }
+            });
+
+            localStorage.setItem("newModels", JSON.stringify(modelsAux));
         } else {
             setCompleteModel({
                 type: "add",
                 payload: allModelInfo,
             });
+
+            localStorage.setItem(
+                "newModels",
+                JSON.stringify([...completeModel, allModelInfo])
+            );
         }
+    };
+
+    const deleteFromLocalStorage = () => {
+        const modelFilter = completeModel.filter(
+            (model: NewModelsAllParams) => model.idNewModel !== +id
+        );
+        localStorage.setItem("newModels", JSON.stringify(modelFilter));
     };
 
     useEffect(() => {
@@ -280,11 +297,11 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                             type: "remove",
                             element: id,
                         });
-                        // deleteFromLocalStorage(idSimulation);
-                        // setAlGraphicData([]);
-                        // setRealDataSimulationKeys([]);
-                        // setDataToShowInMap([]);
-                        // setAllResults([].concat([], []));
+                        deleteFromLocalStorage();
+                        setAllGraphicData([]);
+                        setRealDataSimulationKeys([]);
+                        setDataToShowInMap([]);
+                        setAllResults([].concat([], []));
                         setTabIndex(newModel.length - 2);
                     }}
                 />

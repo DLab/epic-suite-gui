@@ -61,7 +61,7 @@ export interface ActionsNewModelData {
     element?: string | boolean | number;
     target?: string;
     id?;
-    localState?: NewModelsParams[];
+    localState?: NewModelsAllParams[];
 }
 
 export interface NewModelType {
