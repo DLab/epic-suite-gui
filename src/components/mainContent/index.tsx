@@ -15,6 +15,8 @@ import { useContext, useEffect, useRef } from "react";
 
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
 import Results from "../results-tab";
+import DataFitTab from "components/data-fit-tab";
+import FitIcon from "components/icons/FitIcon";
 import GraphIcon from "components/icons/GraphIcon";
 import InfoIcon from "components/icons/InfoIcon";
 import ModelsIcon from "components/icons/ModelsIcon";
@@ -157,6 +159,15 @@ const MainContentTab = () => {
                                 m="20% 0"
                             />
                         </Tab>
+                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                            <Icon
+                                w={6}
+                                h={6}
+                                as={FitIcon}
+                                color="#FFFFFF"
+                                m="20% 0"
+                            />
+                        </Tab>
                     </Box>
                     <Box textAlign="center" m="10% 0">
                         <Icon
@@ -200,6 +211,9 @@ const MainContentTab = () => {
                             <Results />
                         </Center>
                     </Flex>
+                </TabPanel>
+                <TabPanel h="100vh" maxH="100vh">
+                    <DataFitTab />
                 </TabPanel>
             </TabPanels>
         </Tabs>
