@@ -47,12 +47,12 @@ const MainContentTab = () => {
     const { index: tabIndex, setIndex } = useContext(TabIndex);
     const TabRefContainer = useRef(null);
     useEffect(() => {
-        const asdf = TabRefContainer.current;
-        asdf.childNodes.forEach((node) => {
+        const tab = TabRefContainer.current;
+        tab.childNodes.forEach((node) => {
             // eslint-disable-next-line no-param-reassign
             node.style.background = "#16609E";
         });
-        asdf.childNodes[tabIndex].style.background = "#2F8BD8";
+        tab.childNodes[tabIndex].style.background = "#2F8BD8";
     }, [tabIndex]);
 
     return (
@@ -150,11 +150,11 @@ const MainContentTab = () => {
                             />
                         </Tab>
                         <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
-                            <Icon
+                            <SimulationIcon
                                 w={6}
                                 h={6}
-                                as={InfoIcon}
                                 color="#FFFFFF"
+                                id="a"
                                 m="20% 0"
                             />
                         </Tab>
