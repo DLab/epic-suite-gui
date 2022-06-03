@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 
 import { DataFit } from "context/DataFitContext";
 import { ModelsSaved } from "context/ModelsContext";
+import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { DataParameters } from "types/ModelsTypes";
 import postData from "utils/fetchData";
@@ -32,6 +33,7 @@ const EndPointSource = ({
     const { geoSelections } = useContext(SelectFeature);
     const { parameters } = useContext(ModelsSaved);
     const { setRealDataToFit, setFittedData } = useContext(DataFit);
+    const { completeModel } = useContext(NewModelSetted);
 
     const getObjectConfig = (geoId) => {
         const { parameters: modelParameters } = parameters.find(

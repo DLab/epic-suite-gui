@@ -15,7 +15,8 @@ import dynamic from "next/dynamic";
 import React, { useState, useContext, useEffect } from "react";
 
 import { DataFit } from "context/DataFitContext";
-import { ModelsSaved } from "context/ModelsContext";
+import { NewModelSetted } from "context/NewModelsContext";
+import { NewModelsAllParams } from "types/SimulationTypes";
 
 import EndPointSource from "./EndPointSource";
 import FileSource from "./FileSource";
@@ -50,9 +51,9 @@ const DataFitTab = () => {
 
     // Cambiar valores del radio button a nombres representativos de los ejemplos
     const [SampleSourceValue, setSampleSourceValue] = useState("1");
-    const { parameters } = useContext(ModelsSaved);
     const { fittedData, realDataToFit, setFittedData, setRealDataToFit } =
         useContext(DataFit);
+    const { completeModel } = useContext(NewModelSetted);
 
     useEffect(() => {
         if (algorithmValue === "algorithm-1") {
@@ -107,17 +108,19 @@ const DataFitTab = () => {
                                     setDataValues([]);
                                 }}
                             >
-                                {parameters.length > 0 &&
-                                    parameters.map((model) => {
-                                        return (
-                                            <option
-                                                key={model.id}
-                                                value={model.id}
-                                            >
-                                                {model.parameters.name_model}
-                                            </option>
-                                        );
-                                    })}
+                                {completeModel.length > 0 &&
+                                    completeModel.map(
+                                        (model: NewModelsAllParams) => {
+                                            return (
+                                                <option
+                                                    key={model.idNewModel}
+                                                    value={model.idNewModel}
+                                                >
+                                                    {model.name}
+                                                </option>
+                                            );
+                                        }
+                                    )}
                             </Select>
                         </Box>
                         <Box mb="3%">
@@ -139,10 +142,10 @@ const DataFitTab = () => {
                                 }}
                             >
                                 <option key="algorithm-1" value="algorithm-1">
-                                    Algorithm 1
+                                    Intervals
                                 </option>
                                 <option key="algorithm-2" value="algorithm-2">
-                                    Algorithm 2
+                                    Sequential
                                 </option>
                             </Select>
                         </Box>

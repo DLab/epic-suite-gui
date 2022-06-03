@@ -3,6 +3,7 @@ import {
     AlertDescription,
     AlertIcon,
     Box,
+    Text,
     Heading,
 } from "@chakra-ui/react";
 
@@ -11,10 +12,11 @@ import TableSimulations from "./TableSimulations";
 const SummaryTab = () => {
     return (
         <>
-            <Heading fontSize={24} as="h2" mb="1rem" color="blue.800">
-                Summary
-            </Heading>
-
+            <Box h="5vh" mh="5vh">
+                <Text color="#16609E" fontSize="18px" fontWeight="bold">
+                    Summary
+                </Text>
+            </Box>
             <Alert mb="1rem" status="info" p="1.3rem">
                 <AlertIcon />
                 <Box>

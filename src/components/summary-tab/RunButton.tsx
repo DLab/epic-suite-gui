@@ -165,7 +165,7 @@ const RunButton = ({ permission }: Props) => {
                             }));
                         setAux(JSON.stringify(data));
                         getGraphicRealData(selectedModels);
-                        setIndex(5);
+                        setIndex(4);
                         setAllGraphicData([]);
                         setAllResults([].concat(dataToShowInMap, []));
                         setRealDataSimulationKeys([]);

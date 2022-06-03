@@ -140,7 +140,15 @@ const MainContentTab = () => {
                                 m="20% 0"
                             />
                         </Tab> */}
-
+                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                            <Icon
+                                w={6}
+                                h={6}
+                                as={FitIcon}
+                                color="#FFFFFF"
+                                m="20% 0"
+                            />
+                        </Tab>
                         <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <Icon
                                 w={6}
@@ -150,20 +158,12 @@ const MainContentTab = () => {
                                 m="20% 0"
                             />
                         </Tab>
+
                         <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <Icon
                                 w={6}
                                 h={6}
                                 as={ResultsIcon}
-                                color="#FFFFFF"
-                                m="20% 0"
-                            />
-                        </Tab>
-                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
-                            <Icon
-                                w={6}
-                                h={6}
-                                as={FitIcon}
                                 color="#FFFFFF"
                                 m="20% 0"
                             />
@@ -201,7 +201,9 @@ const MainContentTab = () => {
                 {/* <TabPanel maxH="100vh" h="100%">
                     <SimulationTab />
                 </TabPanel> */}
-
+                <TabPanel h="100vh" maxH="100vh">
+                    <DataFitTab />
+                </TabPanel>
                 <TabPanel maxH="100vh" h="100%">
                     <SummaryTab />
                 </TabPanel>
@@ -211,9 +213,6 @@ const MainContentTab = () => {
                             <Results />
                         </Center>
                     </Flex>
-                </TabPanel>
-                <TabPanel h="100vh" maxH="100vh">
-                    <DataFitTab />
                 </TabPanel>
             </TabPanels>
         </Tabs>
