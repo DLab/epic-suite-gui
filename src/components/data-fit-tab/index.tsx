@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { WarningTwoIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import {
     Select,
@@ -10,13 +11,17 @@ import {
     TagLabel,
     TagRightIcon,
     Spinner,
+    useToast,
 } from "@chakra-ui/react";
+import { add, format } from "date-fns";
 import dynamic from "next/dynamic";
 import React, { useState, useContext, useEffect } from "react";
 
 import { DataFit } from "context/DataFitContext";
 import { NewModelSetted } from "context/NewModelsContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
 import { NewModelsAllParams } from "types/SimulationTypes";
+import postData from "utils/fetchData";
 
 import EndPointSource from "./EndPointSource";
 import FileSource from "./FileSource";
@@ -41,10 +46,11 @@ const Graphic = dynamic(() => import("./GraphicDataFit"), {
 });
 
 const DataFitTab = () => {
+    const toast = useToast();
     const [dataSourceType, setDataSourceType] = useState("");
     const [algorithmValue, setAlgorithmValue] = useState(undefined);
     const [modelId, setModelId] = useState<number>(undefined);
-    const [geoSelectionId, setGeoSelectionId] = useState<number>(0);
+    const [geoSelectionId, setGeoSelectionId] = useState(0);
     const [startDate, setStartDate] = useState(new Date(2021, 11, 31));
     const [dataValues, setDataValues] = useState([]);
     const [parameterName, setParameterName] = useState(undefined);
@@ -54,6 +60,7 @@ const DataFitTab = () => {
     const { fittedData, realDataToFit, setFittedData, setRealDataToFit } =
         useContext(DataFit);
     const { completeModel } = useContext(NewModelSetted);
+    const { geoSelections } = useContext(SelectFeature);
 
     useEffect(() => {
         if (algorithmValue === "algorithm-1") {
@@ -64,12 +71,80 @@ const DataFitTab = () => {
         }
     }, [algorithmValue]);
 
+    const getObjectConfig = (geoId) => {
+        const { parameters: modelParameters, t_init } = completeModel.find(
+            (model: NewModelsAllParams) => model.idNewModel === modelId
+        );
+        const geoSetted = geoSelections.find((geo) => geo.id === geoId);
+        const timeEnd = add(new Date(t_init), {
+            days: modelParameters.t_end,
+        });
+        return {
+            name: "Data Fit",
+            compartments: modelParameters.name,
+            timeInit: format(new Date(t_init), "yyyy-MM-dd"),
+            timeEnd: format(timeEnd, "yyyy-MM-dd"),
+            scale: geoSetted?.scale,
+            spatialSelection: geoSetted?.featureSelected,
+        };
+    };
+
     async function getFittedData() {
         const res = await fetch(`/api/simulator`, {
             method: "GET",
         });
         return res.json();
     }
+
+    const handleFetch = async () => {
+        try {
+            const objectConfig = getObjectConfig(geoSelectionId);
+            const res = await postData("http://192.168.2.131:5001/realData", {
+                Data_Fit: objectConfig,
+            });
+            const fitDataName = Object.keys(res.result);
+
+            const dataForAlgorithm1 = Object.values(res.result.Data_Fit.I);
+            setDataValues(dataForAlgorithm1);
+            const dataForRealData = {
+                I: res.result.Data_Fit.I,
+                name: fitDataName[0],
+            };
+            setRealDataToFit([dataForRealData]);
+
+            const fitRes = await getFittedData();
+            const val = Object.values(fitRes.fitResult);
+            const keys = Object.keys(fitRes.fitResult);
+            const resFittedData = val
+                .map((simString: string) => simString)
+                .map((sim, i) => ({
+                    name: keys[i],
+                    // eslint-disable-next-line @typescript-eslint/ban-types
+                    ...(sim as {}),
+                }));
+            setFittedData(resFittedData);
+        } catch (error) {
+            if (modelId === undefined) {
+                toast({
+                    position: "bottom-left",
+                    title: "Error",
+                    description: "Please, choose a model",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            } else {
+                toast({
+                    position: "bottom-left",
+                    title: "Error",
+                    description: `${error.message}`,
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
+        }
+    };
 
     return (
         <Box>
@@ -102,7 +177,24 @@ const DataFitTab = () => {
                                 value={modelId}
                                 onChange={(e) => {
                                     setModelId(+e.target.value);
-                                    setGeoSelectionId(0);
+                                    if (e.target.value !== "") {
+                                        const { idGeo } = completeModel.filter(
+                                            (model) => {
+                                                return (
+                                                    model.idNewModel ===
+                                                    +e.target.value
+                                                );
+                                            }
+                                        )[0];
+                                        // setGeoSelectionId(0);
+                                        if (idGeo !== undefined) {
+                                            const stringIdGeo =
+                                                idGeo.toString();
+                                            setGeoSelectionId(
+                                                parseInt(stringIdGeo, 10)
+                                            );
+                                        }
+                                    }
                                     setFittedData([]);
                                     setRealDataToFit([]);
                                     setDataValues([]);
@@ -111,14 +203,20 @@ const DataFitTab = () => {
                                 {completeModel.length > 0 &&
                                     completeModel.map(
                                         (model: NewModelsAllParams) => {
-                                            return (
-                                                <option
-                                                    key={model.idNewModel}
-                                                    value={model.idNewModel}
-                                                >
-                                                    {model.name}
-                                                </option>
-                                            );
+                                            if (
+                                                model.typeSelection ===
+                                                "geographic"
+                                            ) {
+                                                return (
+                                                    <option
+                                                        key={model.idNewModel}
+                                                        value={model.idNewModel}
+                                                    >
+                                                        {model.name}
+                                                    </option>
+                                                );
+                                            }
+                                            return false;
                                         }
                                     )}
                             </Select>
@@ -138,7 +236,6 @@ const DataFitTab = () => {
                                     setFittedData([]);
                                     setRealDataToFit([]);
                                     setDataValues([]);
-                                    setGeoSelectionId(0);
                                 }}
                             >
                                 <option key="algorithm-1" value="algorithm-1">
@@ -149,7 +246,7 @@ const DataFitTab = () => {
                                 </option>
                             </Select>
                         </Box>
-                        <Box mb="3%">
+                        {/* <Box mb="3%">
                             <Text fontSize="14px" fontWeight={500}>
                                 Data Source
                             </Text>
@@ -177,8 +274,8 @@ const DataFitTab = () => {
                                     Endpoint
                                 </option>
                             </Select>
-                        </Box>
-                        {dataSourceType === "file" && <FileSource />}
+                        </Box> */}
+                        {/* {dataSourceType === "file" && <FileSource />}
                         {dataSourceType === "sample" && (
                             <SampleSource
                                 value={SampleSourceValue}
@@ -195,8 +292,8 @@ const DataFitTab = () => {
                                 setDataValues={setDataValues}
                                 algorithmValue={algorithmValue}
                             />
-                        )}
-                        <Box mb="3%">
+                        )} */}
+                        {/* <Box mb="3%">
                             <Text fontSize="14px" fontWeight={500}>
                                 Data For Fit
                             </Text>
@@ -220,7 +317,7 @@ const DataFitTab = () => {
                                     <TagRightIcon as={WarningTwoIcon} />
                                 </Tag>
                             )}
-                        </Box>
+                        </Box> */}
                     </Flex>
                     <Box mt="2%">
                         <Center>
@@ -228,22 +325,23 @@ const DataFitTab = () => {
                                 colorScheme="blue"
                                 color="white"
                                 onClick={() => {
-                                    getFittedData().then((res) => {
-                                        const val = Object.values(
-                                            res.fitResult
-                                        );
-                                        const keys = Object.keys(res.fitResult);
-                                        const resFittedData = val
-                                            .map(
-                                                (simString: string) => simString
-                                            )
-                                            .map((sim, i) => ({
-                                                name: keys[i],
-                                                // eslint-disable-next-line @typescript-eslint/ban-types
-                                                ...(sim as {}),
-                                            }));
-                                        setFittedData(resFittedData);
-                                    });
+                                    handleFetch();
+                                    // getFittedData().then((res) => {
+                                    //     const val = Object.values(
+                                    //         res.fitResult
+                                    //     );
+                                    //     const keys = Object.keys(res.fitResult);
+                                    //     const resFittedData = val
+                                    //         .map(
+                                    //             (simString: string) => simString
+                                    //         )
+                                    //         .map((sim, i) => ({
+                                    //             name: keys[i],
+                                    //             // eslint-disable-next-line @typescript-eslint/ban-types
+                                    //             ...(sim as {}),
+                                    //         }));
+                                    //     setFittedData(resFittedData);
+                                    // });
                                 }}
                             >
                                 Fit

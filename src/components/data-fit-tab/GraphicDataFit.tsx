@@ -21,7 +21,11 @@ const GraphicDataFit = ({ algorithmValue }: Props) => {
         const getRealData = {
             x: Object.keys(realDataToFit[0][parameter]),
             y: Object.values(realDataToFit[0][parameter]),
-            mode: "lines",
+            mode: "line",
+            line: {
+                dash: "dot",
+                width: 3,
+            },
             name: `I Real ${realDataToFit[0].name}`,
         };
 
@@ -34,7 +38,7 @@ const GraphicDataFit = ({ algorithmValue }: Props) => {
                 getAxisData("I");
             }
             if (algorithmValue === "algorithm-2") {
-                getAxisData("I_ac");
+                getAxisData("I");
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,6 +79,20 @@ const GraphicDataFit = ({ algorithmValue }: Props) => {
                     overlaying: "y",
                     side: "right",
                 },
+                // shapes: [
+                //     {
+                //         type: "line",
+                //         x0: 5,
+                //         y0: 0,
+                //         x1: 5,
+                //         y1: 20000,
+                //         line: {
+                //             color: "#7c8187",
+                //             width: 2,
+                //             dash: "dash",
+                //         },
+                //     },
+                // ],
             }}
             config={{
                 editable: false,

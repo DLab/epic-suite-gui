@@ -12,8 +12,8 @@ const FitParemetersTabs = () => {
 
     return (
         <>
-            <NodeSearchFilter setNodeNameFilter={setNodeNameFilter} />
-            {fittedData.length > 1 && realDataToFit.length > 1 ? (
+            {/* <NodeSearchFilter setNodeNameFilter={setNodeNameFilter} /> */}
+            {fittedData.length === 1 && realDataToFit.length === 1 ? (
                 <MonopopulationDataFit />
             ) : (
                 <MetapopulationDataFit nodeNameFilter={nodeNameFilter} />
