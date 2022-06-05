@@ -164,7 +164,7 @@ const ModelController = ({
                     {modelCompartment !== "SEIRHVD" && (
                         <FormControl display="flex" alignItems="center">
                             <Flex w="50%" justifyContent="space-between">
-                                tI_R{" "}
+                                <Text fontSize="14px">tI_R </Text>
                                 <NumberInputVariableDependent
                                     value={tI_R.val}
                                     setValue={setParameters}
@@ -183,7 +183,7 @@ const ModelController = ({
                                 w="50%"
                                 justifyContent="flex-end"
                             >
-                                <span>Set function</span>
+                                <Text fontSize="14px">Set function</Text>
                                 <Switch
                                     ml="0.5rem"
                                     isChecked={isEnableIconButton.tI_R[0]}
@@ -227,7 +227,7 @@ const ModelController = ({
                     {modelCompartment !== "SEIRHVD" && (
                         <FormControl display="flex" alignItems="center">
                             <Flex w="50%" justifyContent="space-between">
-                                <span>tE_I</span>
+                                <Text fontSize="14px">tE_I</Text>
                                 <NumberInputVariableDependent
                                     value={tE_I.val}
                                     setValue={setParameters}
@@ -246,7 +246,7 @@ const ModelController = ({
                                 w="50%"
                                 justifyContent="flex-end"
                             >
-                                <span>Set function</span>
+                                <Text fontSize="14px">Set function</Text>
                                 <Switch
                                     ml="0.5rem"
                                     isChecked={isEnableIconButton.tE_I[0]}
@@ -290,7 +290,7 @@ const ModelController = ({
                     {modelCompartment !== "SEIRHVD" && (
                         <FormControl display="flex" alignItems="center">
                             <Flex w="50%" justifyContent="space-between">
-                                rR_S{" "}
+                                <Text fontSize="14px">rR_S </Text>
                                 <NumberInputVariableDependent
                                     value={rR_S.val}
                                     setValue={setParameters}
@@ -309,7 +309,7 @@ const ModelController = ({
                                 w="50%"
                                 justifyContent="flex-end"
                             >
-                                <span>Set function</span>
+                                <Text fontSize="14px">Set function</Text>
                                 <Switch
                                     ml="0.5rem"
                                     isChecked={isEnableIconButton.rR_S[0]}

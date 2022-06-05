@@ -9,6 +9,7 @@ import {
     FormControl,
     IconButton,
     Switch,
+    Text,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -70,7 +71,7 @@ const NodesParams = ({
                         <Flex justifyContent="space-between" wrap="wrap">
                             <FormControl display="flex" alignItems="center">
                                 <Flex w="50%">
-                                    <span>Beta (β)</span>
+                                    <Text fontSize="14px">Beta (β)</Text>
                                     <NumberInputVariableDependent
                                         value={beta[i].val}
                                         index={i}
@@ -91,7 +92,7 @@ const NodesParams = ({
                                     w="50%"
                                     justifyContent="flex-end"
                                 >
-                                    <span>Set function</span>
+                                    <Text fontSize="14px">Set function</Text>
                                     <Switch
                                         ml="0.5rem"
                                         isChecked={isEnableIconButton.beta[i]}
@@ -142,7 +143,7 @@ const NodesParams = ({
                         <Flex justifyContent="space-between" wrap="wrap">
                             <FormControl display="flex" alignItems="center">
                                 <Flex w="60%">
-                                    <span>Alpha (α)</span>
+                                    <Text fontSize="14px">Alpha (α)</Text>
                                     <NumberInputVariableDependent
                                         value={alpha[i].val}
                                         setValue={setParameters}
@@ -163,7 +164,7 @@ const NodesParams = ({
                                     w="50%"
                                     justifyContent="flex-end"
                                 >
-                                    <span>Set function</span>
+                                    <Text fontSize="14px">Set function</Text>
                                     <Switch
                                         ml="0.5rem"
                                         isChecked={isEnableIconButton.alpha[i]}

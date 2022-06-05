@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { WarningTwoIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import {
@@ -26,6 +27,7 @@ import postData from "utils/fetchData";
 import EndPointSource from "./EndPointSource";
 import FileSource from "./FileSource";
 import FitParemetersTabs from "./FitParemetersTabs";
+import getObjectConfigTest from "./getFitObjectConfigTest";
 import SampleSource from "./SampleSource";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -89,10 +91,38 @@ const DataFitTab = () => {
         };
     };
 
-    async function getFittedData() {
-        const res = await fetch(`/api/simulator`, {
-            method: "GET",
-        });
+    const getTimeData = (tEnd) => {
+        let timeObject = {};
+        for (let index = 0; index < tEnd; index += 1) {
+            timeObject = { ...timeObject, [index]: index };
+        }
+        return timeObject;
+    };
+
+    // const getFitObjectConfig = (data) => {
+    //     const { parameters: modelParameters } = completeModel.find(
+    //         (model: NewModelsAllParams) => model.idNewModel === modelId
+    //     );
+    //     return {
+    //         "tE-I": modelParameters.tE_I,
+    //         "tI-R": modelParameters.tI_R,
+    //         I_d_data: data,
+    //         t_data: getTimeData(modelParameters.t_end),
+    //     };
+    // };
+
+    async function getFittedData(data) {
+        // const objectConfig = getFitObjectConfig(data);
+        const objectConfig = getObjectConfigTest();
+        const res = await postData(
+            "http://192.168.2.131:5003/datafit",
+            objectConfig
+        );
+        // const res = await fetch(`/api/simulator`, {
+        //     method: "GET",
+        // });
+        // console.log("hola", res);
+
         return res.json();
     }
 
@@ -111,18 +141,20 @@ const DataFitTab = () => {
                 name: fitDataName[0],
             };
             setRealDataToFit([dataForRealData]);
+            // getFittedData(res.result.Data_Fit.I);
+            const fitRes = await getFittedData(res.result.Data_Fit.I);
+            // console.log(fitRes);
 
-            const fitRes = await getFittedData();
-            const val = Object.values(fitRes.fitResult);
-            const keys = Object.keys(fitRes.fitResult);
-            const resFittedData = val
-                .map((simString: string) => simString)
-                .map((sim, i) => ({
-                    name: keys[i],
-                    // eslint-disable-next-line @typescript-eslint/ban-types
-                    ...(sim as {}),
-                }));
-            setFittedData(resFittedData);
+            // const val = Object.values(fitRes.fitResult);
+            // const keys = Object.keys(fitRes.fitResult);
+            // const resFittedData = val
+            //     .map((simString: string) => simString)
+            //     .map((sim, i) => ({
+            //         name: keys[i],
+            //         // eslint-disable-next-line @typescript-eslint/ban-types
+            //         ...(sim as {}),
+            //     }));
+            // setFittedData(resFittedData);
         } catch (error) {
             if (modelId === undefined) {
                 toast({

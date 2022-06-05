@@ -91,7 +91,7 @@ const SectionVariableDependentTime = ({
                         Default:
                         <NumberInput
                             ml="0.2rem"
-                            w="35%"
+                            w="30%"
                             size="xs"
                             value={values["default"]}
                             onChange={(e) =>

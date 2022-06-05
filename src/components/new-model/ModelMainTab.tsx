@@ -166,7 +166,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         <Flex ml="2%" p="0" h="100%" w="100%">
             <Flex
                 direction="column"
-                w="30%"
+                w="35%"
                 bg="#FAFAFA"
                 borderRadius="6px"
                 boxShadow="sm"
@@ -239,7 +239,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             {showSectionInitialConditions && (
                 <Flex
                     direction="column"
-                    w="64%"
+                    w="60%"
                     m="0 2%"
                     bg="#FAFAFA"
                     borderRadius="6px"
@@ -269,12 +269,15 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             )}
             {showSectionVariable && (
                 <Flex
-                    p="1rem"
+                    direction="column"
+                    w="60%"
+                    m="0 2%"
+                    bg="#FAFAFA"
                     borderRadius="6px"
                     boxShadow="sm"
-                    bg="#FAFAFA"
+                    overflowY="auto"
+                    p="1rem"
                     textAlign="center"
-                    w="100%"
                 >
                     <SectionVariableDependentTime
                         valuesVariablesDependent={dataViewVariable}

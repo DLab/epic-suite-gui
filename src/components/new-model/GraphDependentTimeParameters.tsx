@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import React from "react";
 import Plot from "react-plotly.js";
 
@@ -37,7 +37,7 @@ const GraphDependentTimeParameters = ({
     duration,
 }: Props) => {
     return (
-        <>
+        <Flex flexDirection="column" alignItems="center">
             <Plot
                 data={[
                     {
@@ -47,7 +47,8 @@ const GraphDependentTimeParameters = ({
                     },
                 ]}
                 layout={{
-                    width: "100%",
+                    autosize: false,
+                    width: 550,
                     height: 200,
                     margin: {
                         l: 50,
@@ -72,10 +73,12 @@ const GraphDependentTimeParameters = ({
                 }}
                 config={{
                     editable: false,
+                    responsive: true,
                 }}
             />
             <Button
                 size="sm"
+                mt="1%"
                 onClick={async () => {
                     setData([
                         await createSeries(
@@ -91,7 +94,7 @@ const GraphDependentTimeParameters = ({
                 {" "}
                 Show Graph
             </Button>
-        </>
+        </Flex>
     );
 };
 

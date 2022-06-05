@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { FormControl, Flex, Switch, IconButton } from "@chakra-ui/react";
+import { FormControl, Flex, Switch, IconButton, Text } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
 import FunctionIcon from "components/icons/FunctionIcon";
@@ -39,7 +39,7 @@ const SupplementaryParameters = ({
         <>
             <FormControl display="flex" alignItems="center">
                 <Flex w="50%" justifyContent="space-between">
-                    <span>{nameParam}</span>
+                    <Text fontSize="14px">{nameParam}</Text>
                     <NumberInputVariableDependent
                         value={data[idNode].val}
                         setValue={setParameters}
@@ -58,7 +58,7 @@ const SupplementaryParameters = ({
                     />
                 </Flex>
                 <Flex alignItems="center" w="50%" justifyContent="flex-end">
-                    <span>Set function</span>
+                    <Text fontSize="14px">Set function</Text>
                     <Switch
                         ml="0.5rem"
                         isChecked={isEnableIconButton[nameParam][idNode]}
