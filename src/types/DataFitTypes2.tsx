@@ -9,12 +9,14 @@ export interface FittedData {
     beta?: number;
     parameter?: number;
     prevState?: null;
+    mu?: number;
 }
 
 export interface DataToFit {
     I?: LooseObject;
     I_ac?: LooseObject;
     name?: string;
+    I_d_data?: LooseObject;
 }
 
 export interface DataFitProps {

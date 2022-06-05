@@ -13,14 +13,14 @@ const GraphicDataFit = ({ algorithmValue }: Props) => {
 
     const getAxisData = (parameter) => {
         const getFittedData = {
-            x: Object.keys(fittedData[0][parameter]),
-            y: Object.values(fittedData[0][parameter]),
+            x: Object.keys(fittedData[0].I),
+            y: Object.values(fittedData[0].I),
             mode: "lines",
             name: `I Fit ${fittedData[0].name}`,
         };
         const getRealData = {
-            x: Object.keys(realDataToFit[0][parameter]),
-            y: Object.values(realDataToFit[0][parameter]),
+            x: Object.keys(realDataToFit[0].I_d_data),
+            y: Object.values(realDataToFit[0].I_d_data),
             mode: "line",
             line: {
                 dash: "dot",
@@ -35,10 +35,10 @@ const GraphicDataFit = ({ algorithmValue }: Props) => {
     useEffect(() => {
         if (fittedData[0] !== undefined && realDataToFit[0] !== undefined) {
             if (algorithmValue === "algorithm-1") {
-                getAxisData("I");
+                getAxisData("I_d_data");
             }
             if (algorithmValue === "algorithm-2") {
-                getAxisData("I");
+                getAxisData("I_d_data");
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

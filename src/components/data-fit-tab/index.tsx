@@ -27,7 +27,7 @@ import postData from "utils/fetchData";
 import EndPointSource from "./EndPointSource";
 import FileSource from "./FileSource";
 import FitParemetersTabs from "./FitParemetersTabs";
-import getObjectConfigTest from "./getFitObjectConfigTest";
+import getObjectConfigTest, { realData } from "./getFitObjectConfigTest";
 import SampleSource from "./SampleSource";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -56,6 +56,7 @@ const DataFitTab = () => {
     const [startDate, setStartDate] = useState(new Date(2021, 11, 31));
     const [dataValues, setDataValues] = useState([]);
     const [parameterName, setParameterName] = useState(undefined);
+    const [isSimulating, setisSimulating] = useState(false);
 
     // Cambiar valores del radio button a nombres representativos de los ejemplos
     const [SampleSourceValue, setSampleSourceValue] = useState("1");
@@ -111,9 +112,11 @@ const DataFitTab = () => {
     //     };
     // };
 
-    async function getFittedData(data) {
+    async function getFittedData() {
         // const objectConfig = getFitObjectConfig(data);
+
         const objectConfig = getObjectConfigTest();
+        // eslint-disable-next-line sonarjs/prefer-immediate-return
         const res = await postData(
             "http://192.168.2.131:5003/datafit",
             objectConfig
@@ -121,30 +124,48 @@ const DataFitTab = () => {
         // const res = await fetch(`/api/simulator`, {
         //     method: "GET",
         // });
-        // console.log("hola", res);
-
-        return res.json();
+        return res;
     }
 
     const handleFetch = async () => {
         try {
-            const objectConfig = getObjectConfig(geoSelectionId);
-            const res = await postData("http://192.168.2.131:5001/realData", {
-                Data_Fit: objectConfig,
-            });
-            const fitDataName = Object.keys(res.result);
+            // const objectConfig = getObjectConfig(geoSelectionId);
+            // const res = await postData("http://192.168.2.131:5001/realData", {
+            //     Data_Fit: objectConfig,
+            // });
+            // const fitDataName = Object.keys(res.result);
 
-            const dataForAlgorithm1 = Object.values(res.result.Data_Fit.I);
-            setDataValues(dataForAlgorithm1);
-            const dataForRealData = {
-                I: res.result.Data_Fit.I,
-                name: fitDataName[0],
-            };
-            setRealDataToFit([dataForRealData]);
+            // const dataForAlgorithm1 = Object.values(res.result.Data_Fit.I);
+            // setDataValues(dataForAlgorithm1);
+            // const dataForRealData = {
+            //     I: res.result.Data_Fit.I,
+            //     name: fitDataName[0],
+            // };
+            // setRealDataToFit([dataForRealData]);
+            setisSimulating(true);
+            setRealDataToFit([realData]);
             // getFittedData(res.result.Data_Fit.I);
-            const fitRes = await getFittedData(res.result.Data_Fit.I);
-            // console.log(fitRes);
+            // const fitRes = await getFittedData(res.result.Data_Fit.I);
+            const fitRes = await getFittedData();
+            const x = { model: fitRes.results.simulation };
+            const val = Object.values(x);
+            const keys = Object.keys(x);
+            const resFittedData = val
+                .map((simString: string) => JSON.parse(simString))
+                .map((sim, i) => ({
+                    name: keys[i],
+                    ...sim,
+                }));
 
+            const fittedData2 = {
+                I: resFittedData[0].I_d,
+                I_ac: resFittedData[0].I_d,
+                name: resFittedData[0].name,
+                beta: fitRes.results.beta_values,
+                beta_days: fitRes.results.beta_days,
+                mu: fitRes.results.mu,
+            };
+            setFittedData([fittedData2]);
             // const val = Object.values(fitRes.fitResult);
             // const keys = Object.keys(fitRes.fitResult);
             // const resFittedData = val
@@ -175,6 +196,8 @@ const DataFitTab = () => {
                     isClosable: true,
                 });
             }
+        } finally {
+            setisSimulating(false);
         }
     };
 
@@ -211,7 +234,7 @@ const DataFitTab = () => {
                                     setModelId(+e.target.value);
                                     if (e.target.value !== "") {
                                         const { idGeo } = completeModel.filter(
-                                            (model) => {
+                                            (model: NewModelsAllParams) => {
                                                 return (
                                                     model.idNewModel ===
                                                     +e.target.value
@@ -376,7 +399,19 @@ const DataFitTab = () => {
                                     // });
                                 }}
                             >
-                                Fit
+                                {isSimulating ? (
+                                    <>
+                                        <Spinner
+                                            thickness="4px"
+                                            speed="0.65s"
+                                            emptyColor="gray.200"
+                                            color="blue.500"
+                                        />
+                                        <Text pl="1rem">Fit...</Text>
+                                    </>
+                                ) : (
+                                    `Fit`
+                                )}
                             </Button>
                         </Center>
                     </Box>

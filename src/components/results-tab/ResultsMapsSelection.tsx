@@ -252,19 +252,23 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                         ]);
                                     }}
                                 >
-                                    {completeModel.map((sim) => {
-                                        return (
-                                            sim.typeSelection ===
-                                                "geographic" && (
-                                                <option
-                                                    key={sim.idNewModel}
-                                                    value={sim.idNewModel}
-                                                >
-                                                    {sim.name}
-                                                </option>
-                                            )
-                                        );
-                                    })}
+                                    {completeModel.map(
+                                        (sim: NewModelsAllParams) => {
+                                            return (
+                                                sim.typeSelection ===
+                                                    "geographic" &&
+                                                sim.populationType ===
+                                                    "monopopulation" && (
+                                                    <option
+                                                        key={sim.idNewModel}
+                                                        value={sim.idNewModel}
+                                                    >
+                                                        {sim.name}
+                                                    </option>
+                                                )
+                                            );
+                                        }
+                                    )}
                                 </Select>
                                 {initialConditionsCheckBox[index].length >
                                     0 && (
@@ -289,6 +293,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                             ]?.map((paramKey) => {
                                                 return (
                                                     <Radio
+                                                        bg="white"
                                                         value={`${paramKey}`}
                                                         key={paramKey}
                                                     >
@@ -308,6 +313,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                             ]?.map((paramKeyData) => {
                                                 return (
                                                     <Radio
+                                                        bg="white"
                                                         value={`${paramKeyData} Real`}
                                                         key={`${paramKeyData} Real`}
                                                     >

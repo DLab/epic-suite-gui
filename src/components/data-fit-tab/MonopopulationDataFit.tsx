@@ -22,7 +22,12 @@ const MonopopulationDataFit = () => {
             <Tabs display="flex" isLazy>
                 <TabList display="flex" flexDirection="column">
                     {Object.keys(fittedData[0]).map((key) => {
-                        if (key !== "name" && key !== "I" && key !== "I_ac") {
+                        if (
+                            key !== "name" &&
+                            key !== "I" &&
+                            key !== "I_ac" &&
+                            key !== "beta_days"
+                        ) {
                             return <Tab>{key}</Tab>;
                         }
                         return false;
@@ -30,12 +35,20 @@ const MonopopulationDataFit = () => {
                 </TabList>
                 <TabPanels>
                     {Object.keys(fittedData[0]).map((key) => {
-                        if (key !== "name" && key !== "I" && key !== "I_ac") {
+                        if (
+                            key !== "name" &&
+                            key !== "I" &&
+                            key !== "I_ac" &&
+                            key !== "beta_days"
+                        ) {
                             // Para pasar a futuro el value de esa key
                             // const info = fittedData[0][key];
                             return (
                                 <TabPanel>
-                                    <FitParameterTable />
+                                    {key === "beta" && <FitParameterTable />}
+                                    {key === "mu" && (
+                                        <Text>{fittedData[0].mu}</Text>
+                                    )}
                                 </TabPanel>
                             );
                         }
