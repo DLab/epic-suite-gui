@@ -138,7 +138,11 @@ const ModelAccordion = ({
     };
 
     useEffect(() => {
-        setAreaSelectedValue(getDefaultValueParameters("idGeo"));
+        if (areaSelectedValue !== "" && areaSelectedValue !== undefined) {
+            setAreaSelectedValue(getDefaultValueParameters("idGeo"));
+        } else {
+            setAreaSelectedValue(getDefaultValueParameters(undefined));
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getDefaultValueParameters, areaSelectedValue]);
@@ -351,56 +355,61 @@ const ModelAccordion = ({
                                 placeholder="Name Selection"
                                 value={areaSelectedValue}
                                 onChange={(e) => {
-                                    setAreaSelectedValue(+e.target.value);
-                                    const geoSelected = allGeoSelections.find(
-                                        (geoSelection) => {
-                                            return (
-                                                geoSelection.id ===
-                                                +e.target.value
+                                    if (e.target.value !== "") {
+                                        setAreaSelectedValue(+e.target.value);
+                                        const geoSelected =
+                                            allGeoSelections.find(
+                                                (geoSelection) => {
+                                                    return (
+                                                        geoSelection.id ===
+                                                        +e.target.value
+                                                    );
+                                                }
                                             );
-                                        }
-                                    );
-                                    const numberGeoNodes =
-                                        populationValue === "monopopulation"
-                                            ? 1
-                                            : geoSelected.featureSelected
-                                                  .length;
-                                    setNumberOfNodes(
-                                        geoSelected.featureSelected.length
-                                    );
-                                    setNewModel({
-                                        type: "update-all",
-                                        id,
-                                        payload: {
-                                            idNewModel: id,
-                                            name: modelName,
-                                            modelType: modelValue,
-                                            populationType: populationValue,
-                                            typeSelection: dataSourceValue,
-                                            idGeo: +e.target.value,
-                                            idGraph: undefined,
-                                            numberNodes: numberGeoNodes,
-                                            t_init: format(
-                                                new Date(2021, 11, 31),
-                                                "yyyy/MM/dd"
-                                            ),
-                                            initialConditions:
-                                                numberGeoNodes === 1
-                                                    ? [
-                                                          {
-                                                              name: geoSelected.name,
-                                                              conditionsValues:
-                                                                  getInitialConditionsByModel(
-                                                                      modelValue
-                                                                  ),
-                                                          },
-                                                      ]
-                                                    : getInitialConditionsGeoArray(
-                                                          geoSelected.scale,
-                                                          geoSelected.featureSelected
-                                                      ),
-                                        },
-                                    });
+                                        const numberGeoNodes =
+                                            populationValue === "monopopulation"
+                                                ? 1
+                                                : geoSelected.featureSelected
+                                                      .length;
+                                        setNumberOfNodes(
+                                            geoSelected.featureSelected.length
+                                        );
+                                        setNewModel({
+                                            type: "update-all",
+                                            id,
+                                            payload: {
+                                                idNewModel: id,
+                                                name: modelName,
+                                                modelType: modelValue,
+                                                populationType: populationValue,
+                                                typeSelection: dataSourceValue,
+                                                idGeo: +e.target.value,
+                                                idGraph: undefined,
+                                                numberNodes: numberGeoNodes,
+                                                t_init: format(
+                                                    new Date(2021, 11, 31),
+                                                    "yyyy/MM/dd"
+                                                ),
+                                                initialConditions:
+                                                    numberGeoNodes === 1
+                                                        ? [
+                                                              {
+                                                                  name: geoSelected.name,
+                                                                  conditionsValues:
+                                                                      getInitialConditionsByModel(
+                                                                          modelValue
+                                                                      ),
+                                                              },
+                                                          ]
+                                                        : getInitialConditionsGeoArray(
+                                                              geoSelected.scale,
+                                                              geoSelected.featureSelected
+                                                          ),
+                                            },
+                                        });
+                                    } else {
+                                        setAreaSelectedValue("");
+                                    }
                                 }}
                             >
                                 {allGeoSelections.length > 0 &&
