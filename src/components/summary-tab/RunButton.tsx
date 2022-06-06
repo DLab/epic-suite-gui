@@ -153,24 +153,25 @@ const RunButton = ({ permission }: Props) => {
                 };
             }, {});
             if (simulationsSelected.length > 0) {
-                postData("http://192.168.2.131:5003/simulate", objConfig).then(
-                    (response) => {
-                        const val = Object.values(response.results);
-                        const keys = Object.keys(response.results);
-                        const data = val
-                            .map((simString: string) => JSON.parse(simString))
-                            .map((sim, i) => ({
-                                name: keys[i],
-                                ...sim,
-                            }));
-                        setAux(JSON.stringify(data));
-                        getGraphicRealData(selectedModels);
-                        setIndex(5);
-                        setAllGraphicData([]);
-                        setAllResults([].concat(dataToShowInMap, []));
-                        setRealDataSimulationKeys([]);
-                    }
+                const response = await postData(
+                    "http://192.168.2.131:5003/simulate",
+                    objConfig
                 );
+
+                const val = Object.values(response.results);
+                const keys = Object.keys(response.results);
+                const data = val
+                    .map((simString: string) => JSON.parse(simString))
+                    .map((sim, i) => ({
+                        name: keys[i],
+                        ...sim,
+                    }));
+                setAux(JSON.stringify(data));
+                getGraphicRealData(selectedModels);
+                setIndex(5);
+                setAllGraphicData([]);
+                setAllResults([].concat(dataToShowInMap, []));
+                setRealDataSimulationKeys([]);
             }
             toast({
                 position: bottonLeft,

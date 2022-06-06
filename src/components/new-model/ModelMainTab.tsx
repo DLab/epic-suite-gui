@@ -1,5 +1,12 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Flex, Spinner, Accordion, Icon, Button } from "@chakra-ui/react";
+import {
+    Flex,
+    Spinner,
+    Accordion,
+    Icon,
+    Button,
+    useToast,
+} from "@chakra-ui/react";
 import { format } from "date-fns";
 import dynamic from "next/dynamic";
 import React, { useCallback, useContext, useEffect, useState } from "react";
@@ -130,7 +137,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         );
         localStorage.setItem("newModels", JSON.stringify(modelFilter));
     };
-
+    const toast = useToast();
     useEffect(() => {
         // initialConditions: InitialConditionsNewModel[];
         // t_init: string;
@@ -230,9 +237,46 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                         size="sm"
                         colorScheme="teal"
                         m="2%"
-                        onClick={() => getModelCompleteObj()}
+                        onClick={() => {
+                            const modelForSim = newModel.findIndex(
+                                (mod) => mod.idNewModel === id
+                            );
+                            const isInitialConditionsVoid = newModel[
+                                modelForSim
+                            ].initialConditions.some((init) => {
+                                if (
+                                    Object.values(init.conditionsValues).every(
+                                        (values) => values === 0
+                                    )
+                                ) {
+                                    return true;
+                                }
+                                return false;
+                            });
+                            if (isInitialConditionsVoid) {
+                                toast({
+                                    position: "bottom-left",
+                                    title: "Updated failed",
+                                    description:
+                                        "There is one or more nodes with all initial conditions values as zero ",
+                                    status: "error",
+                                    duration: 3000,
+                                    isClosable: true,
+                                });
+                            } else {
+                                getModelCompleteObj();
+                                toast({
+                                    position: "bottom-left",
+                                    title: "Model is ready",
+                                    description: "Model is enabled to simulate",
+                                    status: "success",
+                                    duration: 3000,
+                                    isClosable: true,
+                                });
+                            }
+                        }}
                     >
-                        Save Parameters
+                        Save Model
                     </Button>
                 )}
             </Flex>

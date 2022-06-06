@@ -11,6 +11,7 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import countiesData from "data/counties.json";
 import stateData from "data/states.json";
+import { NewModelsAllParams } from "types/SimulationTypes";
 import VariableDependentTime from "types/VariableDependentTime";
 
 import getArrayParametersByNode from "./GetParametersByNodes";
@@ -145,7 +146,7 @@ const ModelBuilder = ({
     ]);
     useEffect(() => {
         const findedParameters = completeModel.find(
-            (complete) => complete.idNewModel === id
+            (complete: NewModelsAllParams) => complete.idNewModel === id
         );
         if (!_.isEmpty(findedParameters)) {
             setParameters({

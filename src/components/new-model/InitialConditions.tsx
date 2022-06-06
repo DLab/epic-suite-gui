@@ -225,7 +225,7 @@ const InitialConditionsModel = ({
                                         <StatLabel>Iv_d</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                initialConditions.Iv_d
+                                                initialConditions.Iv_d ?? 0
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
@@ -238,7 +238,7 @@ const InitialConditionsModel = ({
                                         <StatLabel>Iv_ac</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                initialConditions.Iv_ac
+                                                initialConditions.Iv_ac ?? 0
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
@@ -264,7 +264,7 @@ const InitialConditionsModel = ({
                                         <StatLabel>H_d</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                initialConditions.H_d
+                                                initialConditions.H_d ?? 0
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
@@ -277,7 +277,7 @@ const InitialConditionsModel = ({
                                         <StatLabel>H</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                initialConditions.H
+                                                initialConditions.H ?? 0
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
@@ -303,7 +303,7 @@ const InitialConditionsModel = ({
                                         <StatLabel>D</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                initialConditions.D
+                                                initialConditions.D ?? 0
                                             )}
                                         </StatNumber>
                                         <StatHelpText>Deaths</StatHelpText>
@@ -412,88 +412,104 @@ const InitialConditionsModel = ({
                         mr="10%"
                         colorScheme="teal"
                         onClick={() => {
-                            if (populationValue === "monopopulation") {
-                                setNewModel({
-                                    type: "update-initial-conditions",
-                                    payloadInitialConditions: [
-                                        {
-                                            name: nodeName,
-                                            conditionsValues: value,
-                                        },
-                                    ],
-                                    id,
-                                });
-                            }
-                            if (populationValue === "metapopulation") {
-                                let initialConditionsNews = [];
-
-                                const newModelAux = newModel;
-                                const initialConditionsModel =
-                                    newModelAux.filter(
-                                        (model: NewModelsParams) => {
-                                            return model.idNewModel === id;
-                                        }
-                                    )[0].initialConditions;
-
-                                initialConditionsModel.forEach((icNode) => {
-                                    if (icNode.name === nodeName) {
-                                        initialConditionsNews = [
-                                            ...initialConditionsNews,
+                            const isAllZero = Object.values(value).every(
+                                (element: number) => element === 0
+                            );
+                            if (!isAllZero) {
+                                if (populationValue === "monopopulation") {
+                                    setNewModel({
+                                        type: "update-initial-conditions",
+                                        payloadInitialConditions: [
                                             {
-                                                name: icNode.name,
+                                                name: nodeName,
                                                 conditionsValues: value,
                                             },
+                                        ],
+                                        id,
+                                    });
+                                }
+                                if (populationValue === "metapopulation") {
+                                    let initialConditionsNews = [];
+
+                                    const newModelAux = newModel;
+                                    const initialConditionsModel =
+                                        newModelAux.filter(
+                                            (model: NewModelsParams) => {
+                                                return model.idNewModel === id;
+                                            }
+                                        )[0].initialConditions;
+
+                                    initialConditionsModel.forEach((icNode) => {
+                                        if (icNode.name === nodeName) {
+                                            initialConditionsNews = [
+                                                ...initialConditionsNews,
+                                                {
+                                                    name: icNode.name,
+                                                    conditionsValues: value,
+                                                },
+                                            ];
+                                            return initialConditionsNews;
+                                        }
+                                        initialConditionsNews = [
+                                            ...initialConditionsNews,
+                                            icNode,
                                         ];
                                         return initialConditionsNews;
-                                    }
-                                    initialConditionsNews = [
-                                        ...initialConditionsNews,
-                                        icNode,
-                                    ];
-                                    return initialConditionsNews;
-                                });
+                                    });
 
-                                // initialConditionsModel.forEach(
-                                //     (initialNode) => {
-                                //         if (initialNode.name === nodeName) {
-                                //             // [...initialConditionsModel[index], [conditionsValues]: value];
-                                //             initialNode.conditionsValues =
-                                //                 value;
-                                //             return initialConditionsModel;
-                                //         }
-                                //         return false;
+                                    // initialConditionsModel.forEach(
+                                    //     (initialNode) => {
+                                    //         if (initialNode.name === nodeName) {
+                                    //             // [...initialConditionsModel[index], [conditionsValues]: value];
+                                    //             initialNode.conditionsValues =
+                                    //                 value;
+                                    //             return initialConditionsModel;
+                                    //         }
+                                    //         return false;
+                                    //     }
+                                    // );
+                                    setNewModel({
+                                        type: "update-initial-conditions",
+                                        payloadInitialConditions:
+                                            initialConditionsNews,
+                                        id,
+                                    });
+                                }
+                                // const simulationAux = simulation;
+                                // // eslint-disable-next-line array-callback-return
+                                // simulation.map((e, i) => {
+                                //     if (e.idSim === idSimulation) {
+                                //         e.initialConditions =
+                                //             initialConditions;
                                 //     }
-                                // );
-                                setNewModel({
-                                    type: "update-initial-conditions",
-                                    payloadInitialConditions:
-                                        initialConditionsNews,
-                                    id,
-                                });
-                            }
-                            // const simulationAux = simulation;
-                            // // eslint-disable-next-line array-callback-return
-                            // simulation.map((e, i) => {
-                            //     if (e.idSim === idSimulation) {
-                            //         e.initialConditions =
-                            //             initialConditions;
-                            //     }
-                            // });
+                                // });
 
-                            // localStorage.setItem(
-                            //     "simulations",
-                            //     JSON.stringify(simulationAux)
-                            // );
-                            toast({
-                                position: "bottom-left",
-                                title: "Updated successful",
-                                description:
-                                    "Updating Initial conditions was successful",
-                                status: "success",
-                                duration: 3000,
-                                isClosable: true,
-                            });
-                            setInitialConditionsMode(false);
+                                // localStorage.setItem(
+                                //     "simulations",
+                                //     JSON.stringify(simulationAux)
+                                // );
+                                toast({
+                                    position: "bottom-left",
+                                    title: "Updated successful",
+                                    description:
+                                        "Updating Initial conditions was successful",
+                                    status: "success",
+                                    duration: 3000,
+                                    isClosable: true,
+                                });
+                                setInitialConditionsMode(false);
+                            } else {
+                                toast({
+                                    position: "bottom-left",
+                                    title: "Updated failed",
+                                    description:
+                                        "Initial conditions can't be all zero.",
+                                    status: "error",
+                                    duration: 3000,
+                                    isClosable: true,
+                                });
+                                setInitialConditionsMode(false);
+                            }
                         }}
                     >
                         Update
