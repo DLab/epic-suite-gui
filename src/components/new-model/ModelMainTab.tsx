@@ -212,25 +212,28 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                         graphsSelectedValue={graphsSelectedValue}
                         setGraphsSelectedValue={setGraphsSelectedValue}
                     />
-                    {numberOfNodes !== 0 && numberOfNodes !== undefined && (
-                        <ParametersAccordion
-                            showSectionVariable={showSectionVariable}
-                            setShowSectionVariable={setShowSectionVariable}
-                            setDataViewVariable={setDataViewVariable}
-                            setPositionVDT={setPositionVDT}
-                            setShowSectionInitialConditions={
-                                setShowSectionInitialConditions
-                            }
-                            idGeo={areaSelectedValue}
-                            modelCompartment={modelValue.toUpperCase()}
-                            numberNodes={numberOfNodes}
-                            populationValue={populationValue}
-                            dataSourceValue={dataSourceValue}
-                            modelName={modelName}
-                            startDate={startDate}
-                            id={id}
-                        />
-                    )}
+                    {numberOfNodes !== 0 &&
+                        numberOfNodes !== undefined &&
+                        areaSelectedValue !== "" &&
+                        areaSelectedValue !== undefined && (
+                            <ParametersAccordion
+                                showSectionVariable={showSectionVariable}
+                                setShowSectionVariable={setShowSectionVariable}
+                                setDataViewVariable={setDataViewVariable}
+                                setPositionVDT={setPositionVDT}
+                                setShowSectionInitialConditions={
+                                    setShowSectionInitialConditions
+                                }
+                                idGeo={areaSelectedValue}
+                                modelCompartment={modelValue.toUpperCase()}
+                                numberNodes={numberOfNodes}
+                                populationValue={populationValue}
+                                dataSourceValue={dataSourceValue}
+                                modelName={modelName}
+                                startDate={startDate}
+                                id={id}
+                            />
+                        )}
                 </Accordion>
                 {numberOfNodes !== 0 && numberOfNodes !== undefined && (
                     <Button
