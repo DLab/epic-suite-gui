@@ -1,4 +1,4 @@
-import { ViewIcon } from "@chakra-ui/icons";
+import { EditIcon, InfoIcon, ViewIcon } from "@chakra-ui/icons";
 import {
     Accordion,
     AccordionItem,
@@ -19,6 +19,7 @@ import {
     NumberDecrementStepper,
     IconButton,
     Flex,
+    Tooltip,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
 import React, { useCallback, useContext, useEffect, useState } from "react";
@@ -293,7 +294,7 @@ const ModelAccordion = ({
                             color="#FFFFFF"
                             size="sm"
                             ml="5%"
-                            icon={<ViewIcon />}
+                            icon={<EditIcon />}
                             onClick={() => {
                                 setNumberOfNodes(numberOfGraphs);
                                 const graphsValuesArray =
@@ -325,6 +326,16 @@ const ModelAccordion = ({
                                 });
                             }}
                         />
+                        <Tooltip label="Set Initial conditions to register model">
+                            <IconButton
+                                aria-label="Search database"
+                                bg="#FFFFFF"
+                                color="#16609E"
+                                size="sm"
+                                ml="5%"
+                                icon={<InfoIcon />}
+                            />
+                        </Tooltip>
                     </Flex>
                 )}
                 {dataSourceValue === "geographic" && (
@@ -407,11 +418,21 @@ const ModelAccordion = ({
                                 color="#FFFFFF"
                                 size="sm"
                                 ml="5%"
-                                icon={<ViewIcon />}
+                                icon={<EditIcon />}
                                 onClick={() => {
                                     setShowSectionInitialConditions(true);
                                 }}
                             />
+                            <Tooltip label="Set Initial conditions to register model">
+                                <IconButton
+                                    aria-label="Search database"
+                                    bg="#FFFFFF"
+                                    color="#16609E"
+                                    size="sm"
+                                    ml="5%"
+                                    icon={<InfoIcon />}
+                                />
+                            </Tooltip>
                         </Flex>
                     </Box>
                 )}

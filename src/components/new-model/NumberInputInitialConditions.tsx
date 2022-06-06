@@ -41,7 +41,7 @@ const NumberInputInitialConditions = ({
             <NumberInput
                 maxW="120px"
                 mr="1rem"
-                value={value[name]}
+                value={!+value[name] ? 0 : value[name]}
                 onChange={(e) => {
                     setValue({
                         ...value,
