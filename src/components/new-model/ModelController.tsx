@@ -234,9 +234,9 @@ const ModelController = ({
                                     nameParams="tE_I"
                                     name="tE_I"
                                     description="Transition time between exposed and infectious"
-                                    step={0.01}
-                                    min={0.01}
-                                    max={0.5}
+                                    step={1}
+                                    min={0}
+                                    max={Infinity}
                                     isDisabled={isEnableIconButton.tE_I[0]}
                                     duration={t_end}
                                 />
