@@ -59,8 +59,8 @@ export interface MapResultsData {
     nameSim: string;
     idSim: string;
     parameter: string;
-    duration: number;
-    idGeo: number;
+    duration: number | string;
+    idGeo: number | string;
     idMap: number;
     date: string;
 }

@@ -11,12 +11,15 @@ import {
     Text,
     Box,
     Button,
+    useToast,
 } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 
 import GeoSelectionsDetails from "components/map-tab/selectorMap/GeoSelectionsDetails";
+import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { Model } from "types/ControlPanelTypes";
+import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 const GeoSelectionsTab = () => {
@@ -32,6 +35,8 @@ const GeoSelectionsTab = () => {
     } = useContext(SelectFeature);
     const [viewDetails, setViewDetails] = useState(false);
     const [geoSelectionDetails, setGeoSelectionDetails] = useState([]);
+    const { newModel, completeModel, setNewModel, setCompleteModel } =
+        useContext(NewModelSetted);
 
     useEffect(() => {
         setViewDetails(false);
@@ -68,7 +73,7 @@ const GeoSelectionsTab = () => {
             setStates({ type: "update", updateData: dataForUpdate });
         }
     };
-
+    const toast = useToast();
     return (
         <Flex
             direction="column"
@@ -147,11 +152,31 @@ const GeoSelectionsTab = () => {
                                                     color="#16609E"
                                                     as={DeleteIcon}
                                                     cursor="pointer"
-                                                    onClick={() =>
-                                                        deleteGeoSelection(
-                                                            geoSelection.id
-                                                        )
-                                                    }
+                                                    onClick={() => {
+                                                        const isGeoIdUsed =
+                                                            completeModel.some(
+                                                                (e) =>
+                                                                    +e.idGeo ===
+                                                                    geoSelection.id
+                                                            );
+                                                        if (isGeoIdUsed) {
+                                                            toast({
+                                                                title: "Error",
+                                                                description:
+                                                                    "This location is used by many models. It couldn´t delete",
+                                                                status: "error",
+                                                                duration: 3000,
+                                                                isClosable:
+                                                                    true,
+                                                                position:
+                                                                    "bottom-left",
+                                                            });
+                                                        } else {
+                                                            deleteGeoSelection(
+                                                                geoSelection.id
+                                                            );
+                                                        }
+                                                    }}
                                                 />
                                             </Td>
                                         </Tr>

@@ -93,9 +93,16 @@ const MapResults = ({ map }: Props) => {
             if (filterKey === "I_ac") {
                 filterKey = "I_acum";
             }
+            if (filterKey === "population") {
+                filterKey = "S";
+            }
             getParameterValue = simRealDataKeyFilter[0][filterKey];
         } else {
-            getParameterValue = simRealDataKeyFilter[0][map.parameter];
+            let filterSimKey = map.parameter;
+            if (filterSimKey === "population") {
+                filterSimKey = "S";
+            }
+            getParameterValue = simRealDataKeyFilter[0][filterSimKey];
         }
         const parametersValuesArray = Object.values(getParameterValue);
         const getMaxValue = Math.max.apply(null, parametersValuesArray);
@@ -115,13 +122,14 @@ const MapResults = ({ map }: Props) => {
     }, [data, map.nameSim, map.parameter, simDay]);
 
     useEffect(() => {
-        if (isPlaying && simDay < map.duration - 1) {
+        const durationValue = map.duration.toString();
+        if (isPlaying && simDay < parseInt(durationValue, 10) - 1) {
             setTimeout(() => {
                 const simDayAux = simDay;
                 setSimDay(simDayAux + 1);
             }, 100);
         }
-        if (simDay === map.duration - 1) {
+        if (simDay === parseInt(durationValue, 10) - 1) {
             setIsPlaying(false);
         }
     }, [simDay, isPlaying, map.duration]);
@@ -298,7 +306,7 @@ const MapResults = ({ map }: Props) => {
                     <Slider
                         aria-label="slider-ex-1"
                         defaultValue={1}
-                        max={map.duration - 1}
+                        max={parseInt(map.duration.toString(), 10) - 1}
                         value={simDay}
                         onChange={(value) => {
                             setSimDay(value);

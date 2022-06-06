@@ -12,11 +12,11 @@ import React, { useEffect, useContext } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { ModelsSaved } from "context/ModelsContext";
+import { NewModelSetted } from "context/NewModelsContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
 import { SimulationKeysData } from "types/GraphicsTypes";
-import { DataParameters } from "types/ModelsTypes";
-import { SimulatorParams } from "types/SimulationTypes";
+import { NewModelsAllParams } from "types/SimulationTypes";
 
 import RealDataCheckBoxs from "./RealDataCheckBoxs";
 
@@ -36,6 +36,7 @@ const ResultsSelection = () => {
     } = useContext(GraphicsData);
 
     const model = ["S", "E", "I", "R"];
+    const { completeModel } = useContext(NewModelSetted);
 
     const saveKeys = (ischecked, id, value, name) => {
         const isInclude = savedSimulationKeys.includes(id);
@@ -243,13 +244,10 @@ const ResultsSelection = () => {
     }, [responseSim]);
 
     const getCompartments = (simulation) => {
-        const simByName = simulationSetted.find(
-            (sim: SimulatorParams) => sim.name === simulation.name
+        const simByName = completeModel.find(
+            (sim: NewModelsAllParams) => sim.name === simulation.name
         );
-        const paramById = parameters.find(
-            (simParams: DataParameters) => simByName?.idModel === simParams.id
-        );
-        return paramById?.parameters.compartments;
+        return simByName?.parameters.compartments;
     };
 
     return (

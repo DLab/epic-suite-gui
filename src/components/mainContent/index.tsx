@@ -13,18 +13,19 @@ import {
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useRef } from "react";
 
-import GraphTab from "../graph-tab/GraphTab";
 import EpicSuiteIcon from "../icons/EpicSuiteIcon";
-import ModelsTab from "../models-tab/ModelsTab";
 import Results from "../results-tab";
-import SimulationTab from "../simulations-tab";
+import DataFitTab from "components/data-fit-tab";
+import FitIcon from "components/icons/FitIcon";
 import GraphIcon from "components/icons/GraphIcon";
 import InfoIcon from "components/icons/InfoIcon";
 import ModelsIcon from "components/icons/ModelsIcon";
 import PlanetIcon from "components/icons/PlanetIcon";
 import ResultsIcon from "components/icons/ResultsIcon";
 import SimulationIcon from "components/icons/SimulationIcon";
+import NewModel from "components/new-model";
 import HomePage from "components/simulator/HomePage";
+import SummaryTab from "components/summary-tab/SummaryTab";
 import { TabIndex } from "context/TabContext";
 
 const Map = dynamic(() => import("../map-tab"), {
@@ -46,12 +47,12 @@ const MainContentTab = () => {
     const { index: tabIndex, setIndex } = useContext(TabIndex);
     const TabRefContainer = useRef(null);
     useEffect(() => {
-        const asdf = TabRefContainer.current;
-        asdf.childNodes.forEach((node) => {
+        const tab = TabRefContainer.current;
+        tab.childNodes.forEach((node) => {
             // eslint-disable-next-line no-param-reassign
             node.style.background = "#16609E";
         });
-        asdf.childNodes[tabIndex].style.background = "#2F8BD8";
+        tab.childNodes[tabIndex].style.background = "#2F8BD8";
     }, [tabIndex]);
 
     return (
@@ -69,20 +70,6 @@ const MainContentTab = () => {
                 bg="#16609E"
                 border="none"
             >
-                {/* <Box alignSelf="center" m="10% 0">
-                    <Tab
-                        _focus={{ background: "#2F8BD8", border: "none" }}
-                        p="0px"
-                    >
-                        <Icon
-                            as={EpicSuiteIcon}
-                            w={50}
-                            h={50}
-                            aria-label="EPIc Suite Logo"
-                            fill="none"
-                        />
-                    </Tab>
-                </Box> */}
                 <Flex
                     direction="column"
                     h="100%"
@@ -108,6 +95,15 @@ const MainContentTab = () => {
                                 />
                             </Tab>
                         </Box>
+                        {/* <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                            <Icon
+                                w={6}
+                                h={6}
+                                as={ModelsIcon}
+                                color="#FFFFFF"
+                                m="20% 0"
+                            />
+                        </Tab> */}
                         <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <Icon
                                 w={6}
@@ -126,11 +122,29 @@ const MainContentTab = () => {
                                 m="20% 0"
                             />
                         </Tab>
-                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                        {/* <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <Icon
                                 w={6}
                                 h={6}
                                 as={GraphIcon}
+                                color="#FFFFFF"
+                                m="20% 0"
+                            />
+                        </Tab> */}
+                        {/* <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                            <SimulationIcon
+                                w={6}
+                                h={6}
+                                color="#FFFFFF"
+                                id="a"
+                                m="20% 0"
+                            />
+                        </Tab> */}
+                        <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
+                            <Icon
+                                w={6}
+                                h={6}
+                                as={FitIcon}
                                 color="#FFFFFF"
                                 m="20% 0"
                             />
@@ -144,6 +158,7 @@ const MainContentTab = () => {
                                 m="20% 0"
                             />
                         </Tab>
+
                         <Tab _focus={{ background: "#2F8BD8", border: "none" }}>
                             <Icon
                                 w={6}
@@ -169,19 +184,28 @@ const MainContentTab = () => {
                 <TabPanel bg="#1D2E3C" h="100%" overflowY="auto" maxH="100vh">
                     <HomePage />
                 </TabPanel>
-                <TabPanel overflowY="auto" maxH="100vh">
-                    <ModelsTab />
+                <TabPanel maxH="100vh" h="100%">
+                    <NewModel />
                 </TabPanel>
+                {/* <TabPanel overflowY="auto" maxH="100vh">
+                    <ModelsTab />
+                </TabPanel> */}
                 <TabPanel h="100vh" bg="#F2F2F0">
                     <Map />
                 </TabPanel>
-                <TabPanel h="100%">
+                {/* <TabPanel h="100%">
                     <Flex h="100%">
                         <GraphTab />
                     </Flex>
+                </TabPanel> */}
+                {/* <TabPanel maxH="100vh" h="100%">
+                    <SimulationTab />
+                </TabPanel> */}
+                <TabPanel h="100vh" maxH="100vh">
+                    <DataFitTab />
                 </TabPanel>
                 <TabPanel maxH="100vh" h="100%">
-                    <SimulationTab />
+                    <SummaryTab />
                 </TabPanel>
                 <TabPanel h="100vh" maxH="100vh">
                     <Flex maxh="100vh" h="97vh">

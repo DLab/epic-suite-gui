@@ -1,4 +1,4 @@
-import data from "data/simulation.json";
+import data from "data/dataFitTestMono.json";
 
 export default function userHandler(req, res) {
     const { method } = req;

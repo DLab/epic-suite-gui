@@ -1,0 +1,532 @@
+/* eslint-disable complexity */
+/* eslint-disable @typescript-eslint/naming-convention */
+import {
+    Box,
+    Button,
+    useToast,
+    Flex,
+    Stat,
+    StatLabel,
+    StatNumber,
+    StatHelpText,
+} from "@chakra-ui/react";
+import React, { useContext, useState, useEffect } from "react";
+
+import { ControlPanel } from "context/ControlPanelContext";
+import { ModelsSaved } from "context/ModelsContext";
+import { NewModelSetted } from "context/NewModelsContext";
+import { SelectFeature } from "context/SelectFeaturesContext";
+import { SimulationSetted } from "context/SimulationContext";
+import { InitialConditions as InitialConditionsContext } from "types/ControlPanelTypes";
+import { NewModelsParams } from "types/SimulationTypes";
+import createIdComponent from "utils/createIdcomponent";
+
+import NumberInputInitialConditions from "./NumberInputInitialConditions";
+
+interface Props {
+    id: number;
+    // idSimulation: number;
+    modelValue: string;
+    nodeName: string;
+    initialConditions: InitialConditionsContext;
+    initialConditionsMode: boolean;
+    setInitialConditionsMode: (val: boolean) => void;
+    populationValue: string;
+}
+
+const InitialConditionsModel = ({
+    // idModel: idModelSelected,
+    // idSimulation,
+    id,
+    modelValue,
+    nodeName,
+    initialConditions,
+    initialConditionsMode,
+    setInitialConditionsMode,
+    populationValue,
+}: Props) => {
+    const { newModel, setNewModel } = useContext(NewModelSetted);
+    const RealConditions = "real-conditions";
+    const toast = useToast();
+    const { setInitialConditions, initialConditions: preInitialConditions } =
+        useContext(ControlPanel);
+
+    const {
+        simulation,
+        setSimulation,
+        idSimulationUpdating,
+        setIdSimulationUpdating,
+    } = useContext(SimulationSetted);
+    const { parameters } = useContext(ModelsSaved);
+    const [models, setModels] = useState(false);
+    // const [modelName, setModelName] = useState("SEIR");
+
+    // const { idModel } =
+    //     simulation.find(
+    //         ({ idSim }: SimulatorParams) => idSim === idSimulationUpdating
+    //     ) ?? {};
+    // useEffect(() => {
+    //     if (idModelSelected !== 0) {
+    //         const getIdModel = simulation.find(
+    //             ({ idSim }: SimulatorParams) => idSim === idSimulation
+    //         );
+
+    //         const getModelById = parameters.find(
+    //             (m: DataParameters) => m.id === getIdModel.idModel
+    //         )?.parameters;
+    //         setModelName(getModelById?.name);
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [idModelSelected, idModel]);
+
+    // useEffect(() => {
+    //     if (initialConditionsMode) {
+    //         setInitialConditions({
+    //             type: RealConditions,
+    //             real: intialConditionsSim,
+    //         });
+    //     }
+    //     if (
+    //         typeof window !== "undefined" &&
+    //         window.localStorage.getItem("models") &&
+    //         idModel
+    //     ) {
+    //         const dataLocalStorageModel = JSON.parse(
+    //             window.localStorage.getItem("models")
+    //         );
+    //         const {
+    //             parameters: { name },
+    //         } = dataLocalStorageModel.find((dl) => dl.id === idModel);
+    //         if (name === "SEIR" || name === "SEIRHVD") setModels(true);
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [idModel, idSimulation, intialConditionsSim, modelName]);
+    const [value, setValue] = useState({
+        I: 0,
+        I_d: 0,
+        I_ac: 0,
+        R: 0,
+        population: 0,
+        Iv_d: 0,
+        Iv_ac: 0,
+        H_d: 0,
+        H: 0,
+        D: 0,
+    });
+    useEffect(() => {
+        if (modelValue === "seirhvd") {
+            setValue({
+                population: initialConditions.population,
+                R: initialConditions.R,
+                I: initialConditions.I,
+                I_d: initialConditions.I_d,
+                I_ac: initialConditions.I_ac,
+                Iv_d: initialConditions.Iv_d,
+                Iv_ac: initialConditions.Iv_ac,
+                H_d: initialConditions.H_d,
+                H: initialConditions.H,
+                D: initialConditions.D,
+            });
+        } else {
+            setValue({
+                I: initialConditions.I,
+                I_d: initialConditions.I_d,
+                I_ac: initialConditions.I_ac,
+                R: initialConditions.R,
+                population: initialConditions.population,
+                Iv_d: 0,
+                Iv_ac: 0,
+                H_d: 0,
+                H: 0,
+                D: 0,
+            });
+        }
+    }, [initialConditions, modelValue]);
+
+    return (
+        <Flex direction="column">
+            <Flex m="2% 1%" flexWrap="wrap">
+                {!initialConditionsMode && (
+                    <Flex wrap="wrap" w="100%">
+                        <Box w="25%">
+                            <Stat>
+                                <StatLabel>Population</StatLabel>
+                                <StatNumber fontSize="xl">
+                                    {new Intl.NumberFormat().format(
+                                        initialConditions.population
+                                    )}
+                                </StatNumber>
+                                <StatHelpText>Total</StatHelpText>
+                            </Stat>
+                        </Box>
+                        <Box w="25%">
+                            <Stat>
+                                <StatLabel>R</StatLabel>
+                                <StatNumber fontSize="xl">
+                                    {new Intl.NumberFormat().format(
+                                        initialConditions.R
+                                    )}
+                                </StatNumber>
+                                <StatHelpText>Removed</StatHelpText>
+                            </Stat>
+                        </Box>
+                        <Box w="25%">
+                            <Stat>
+                                <StatLabel>I</StatLabel>
+                                <StatNumber fontSize="xl">
+                                    {new Intl.NumberFormat().format(
+                                        initialConditions.I
+                                    )}
+                                </StatNumber>
+                                <StatHelpText>Infected actives</StatHelpText>
+                            </Stat>
+                        </Box>
+                        <Box w="25%">
+                            <Stat>
+                                <StatLabel>I_d</StatLabel>
+                                <StatNumber fontSize="xl">
+                                    {new Intl.NumberFormat().format(
+                                        initialConditions.I_d
+                                    )}
+                                </StatNumber>
+                                <StatHelpText>Infected daily</StatHelpText>
+                            </Stat>
+                        </Box>
+                        <Box w="25%">
+                            <Stat>
+                                <StatLabel>I_ac</StatLabel>
+                                <StatNumber fontSize="xl">
+                                    {new Intl.NumberFormat().format(
+                                        initialConditions.I_ac
+                                    )}
+                                </StatNumber>
+                                <StatHelpText>
+                                    Infected accumulated
+                                </StatHelpText>
+                            </Stat>
+                        </Box>
+                        {modelValue === "seirhvd" && (
+                            <>
+                                {/* <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>Iv</StatLabel>
+                                        <StatNumber fontSize="xl">
+                                            {new Intl.NumberFormat().format(
+                                                initialConditions.Iv
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Vaccinated Inffected
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box> */}
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>Iv_d</StatLabel>
+                                        <StatNumber fontSize="xl">
+                                            {new Intl.NumberFormat().format(
+                                                initialConditions.Iv_d ?? 0
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Daily new Vaccinated Infected
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box>
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>Iv_ac</StatLabel>
+                                        <StatNumber fontSize="xl">
+                                            {new Intl.NumberFormat().format(
+                                                initialConditions.Iv_ac ?? 0
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Accumulated Vaccinated Infected
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box>
+                                {/* <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>H_cap</StatLabel>
+                                        <StatNumber fontSize="xl">
+                                            {new Intl.NumberFormat().format(
+                                                initialConditions.H_cap
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Hospitalization Capacity
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box> */}
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>H_d</StatLabel>
+                                        <StatNumber fontSize="xl">
+                                            {new Intl.NumberFormat().format(
+                                                initialConditions.H_d ?? 0
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Daily new Hospitalized
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box>
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>H</StatLabel>
+                                        <StatNumber fontSize="xl">
+                                            {new Intl.NumberFormat().format(
+                                                initialConditions.H ?? 0
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Hospitalized
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box>
+                                {/* <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>D_d</StatLabel>
+                                        <StatNumber fontSize="xl">
+                                            {new Intl.NumberFormat().format(
+                                                initialConditions.D
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Daily new Deaths
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box> */}
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>D</StatLabel>
+                                        <StatNumber fontSize="xl">
+                                            {new Intl.NumberFormat().format(
+                                                initialConditions.D ?? 0
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>Deaths</StatHelpText>
+                                    </Stat>
+                                </Box>
+                            </>
+                        )}
+                    </Flex>
+                )}
+                {initialConditionsMode && (
+                    <>
+                        <NumberInputInitialConditions
+                            value={value}
+                            setValue={setValue}
+                            name="population"
+                            description="Total population"
+                        />
+                        <NumberInputInitialConditions
+                            value={value}
+                            setValue={setValue}
+                            name="R"
+                            description="Recovered"
+                        />
+                        <NumberInputInitialConditions
+                            value={value}
+                            setValue={setValue}
+                            name="I"
+                            description="Active infected"
+                        />
+                        <NumberInputInitialConditions
+                            value={value}
+                            setValue={setValue}
+                            name="I_d"
+                            description="New daily infected"
+                        />
+                        <NumberInputInitialConditions
+                            value={value}
+                            setValue={setValue}
+                            name="I_ac"
+                            description="Accumulated infected"
+                        />
+                        {modelValue === "seirhvd" && (
+                            <>
+                                {/* <NumberInputInitialConditions
+                                    value={value}
+                                    setValue={setValue}
+                                    name="Iv"
+                                    description="Iv"
+                                /> */}
+                                <NumberInputInitialConditions
+                                    value={value}
+                                    setValue={setValue}
+                                    // name="V"
+                                    name="Iv_d"
+                                    description="Daily new Vaccinated Infected"
+                                />
+                                <NumberInputInitialConditions
+                                    value={value}
+                                    setValue={setValue}
+                                    // name="V_acum"
+                                    name="Iv_ac"
+                                    description="Accumulated Vaccinated Infected"
+                                />
+                                {/* <NumberInputInitialConditions
+                                    value={value}
+                                    setValue={setValue}
+                                    name="H_cap"
+                                    description="H_cap"
+                                /> */}
+                                <NumberInputInitialConditions
+                                    value={value}
+                                    setValue={setValue}
+                                    name="H_d"
+                                    description="Daily new Hospitalized"
+                                />
+                                <NumberInputInitialConditions
+                                    value={value}
+                                    setValue={setValue}
+                                    // name="H_acum"
+                                    name="H"
+                                    description="Hospitalized"
+                                />
+                                <NumberInputInitialConditions
+                                    value={value}
+                                    setValue={setValue}
+                                    name="D"
+                                    // name="D_d"
+                                    description="D_acum"
+                                />
+                                {/* <NumberInputInitialConditions
+                                    value={value}
+                                    setValue={setValue}
+                                    name="D_acum"
+                                    // name="D"
+                                    description="D"
+                                /> */}
+                            </>
+                        )}
+                    </>
+                )}
+            </Flex>
+            {initialConditionsMode && (
+                <Flex justify="center">
+                    <Button
+                        id={createIdComponent()}
+                        mr="10%"
+                        colorScheme="teal"
+                        onClick={() => {
+                            const isAllZero = Object.values(value).every(
+                                (element: number) => element === 0
+                            );
+                            if (!isAllZero) {
+                                if (populationValue === "monopopulation") {
+                                    setNewModel({
+                                        type: "update-initial-conditions",
+                                        payloadInitialConditions: [
+                                            {
+                                                name: nodeName,
+                                                conditionsValues: value,
+                                            },
+                                        ],
+                                        id,
+                                    });
+                                }
+                                if (populationValue === "metapopulation") {
+                                    let initialConditionsNews = [];
+
+                                    const newModelAux = newModel;
+                                    const initialConditionsModel =
+                                        newModelAux.filter(
+                                            (model: NewModelsParams) => {
+                                                return model.idNewModel === id;
+                                            }
+                                        )[0].initialConditions;
+
+                                    initialConditionsModel.forEach((icNode) => {
+                                        if (icNode.name === nodeName) {
+                                            initialConditionsNews = [
+                                                ...initialConditionsNews,
+                                                {
+                                                    name: icNode.name,
+                                                    conditionsValues: value,
+                                                },
+                                            ];
+                                            return initialConditionsNews;
+                                        }
+                                        initialConditionsNews = [
+                                            ...initialConditionsNews,
+                                            icNode,
+                                        ];
+                                        return initialConditionsNews;
+                                    });
+
+                                    // initialConditionsModel.forEach(
+                                    //     (initialNode) => {
+                                    //         if (initialNode.name === nodeName) {
+                                    //             // [...initialConditionsModel[index], [conditionsValues]: value];
+                                    //             initialNode.conditionsValues =
+                                    //                 value;
+                                    //             return initialConditionsModel;
+                                    //         }
+                                    //         return false;
+                                    //     }
+                                    // );
+                                    setNewModel({
+                                        type: "update-initial-conditions",
+                                        payloadInitialConditions:
+                                            initialConditionsNews,
+                                        id,
+                                    });
+                                }
+                                // const simulationAux = simulation;
+                                // // eslint-disable-next-line array-callback-return
+                                // simulation.map((e, i) => {
+                                //     if (e.idSim === idSimulation) {
+                                //         e.initialConditions =
+                                //             initialConditions;
+                                //     }
+                                // });
+
+                                // localStorage.setItem(
+                                //     "simulations",
+                                //     JSON.stringify(simulationAux)
+                                // );
+                                toast({
+                                    position: "bottom-left",
+                                    title: "Updated successful",
+                                    description:
+                                        "Updating Initial conditions was successful",
+                                    status: "success",
+                                    duration: 3000,
+                                    isClosable: true,
+                                });
+                                setInitialConditionsMode(false);
+                            } else {
+                                toast({
+                                    position: "bottom-left",
+                                    title: "Updated failed",
+                                    description:
+                                        "Initial conditions can't be all zero.",
+                                    status: "error",
+                                    duration: 3000,
+                                    isClosable: true,
+                                });
+                                setInitialConditionsMode(false);
+                            }
+                        }}
+                    >
+                        Update
+                    </Button>
+                    <Button
+                        ml="0.5rem"
+                        colorScheme="gray"
+                        onClick={() => {
+                            setInitialConditionsMode(false);
+                        }}
+                    >
+                        Cancel
+                    </Button>
+                </Flex>
+            )}
+        </Flex>
+    );
+};
+
+export default InitialConditionsModel;

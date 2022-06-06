@@ -1,3 +1,5 @@
+import { EpidemicsData, InitialConditionsNewModel } from "./ControlPanelTypes";
+
 export enum OptionFeature {
     None = "",
     Graph = "Graph",
@@ -23,6 +25,54 @@ export interface InitialConditions {
     D_acum?: number;
     Iv?: number;
     H_cap?: number;
+}
+
+export interface NewModelsParams {
+    idNewModel: undefined | number | string;
+    name: string;
+    modelType: string;
+    populationType: string;
+    typeSelection: string;
+    idGeo: undefined | number | string;
+    idGraph: undefined | number;
+    initialConditions: InitialConditionsNewModel[];
+    numberNodes: number;
+    t_init: string;
+}
+
+export interface NewModelsAllParams {
+    idNewModel: undefined | number | string;
+    name: string;
+    modelType: string;
+    populationType: string;
+    typeSelection: string;
+    idGeo: undefined | number | string;
+    idGraph: undefined | number;
+    initialConditions: InitialConditionsNewModel[];
+    numberNodes: number;
+    t_init: string;
+    parameters: EpidemicsData;
+}
+
+export interface ActionsNewModelData {
+    type: string;
+    payload?: NewModelsParams;
+    payloadInitialConditions?: InitialConditionsNewModel[];
+    element?: string | boolean | number;
+    target?: string;
+    id?;
+    localState?: NewModelsAllParams[];
+}
+
+export interface NewModelType {
+    mode: string;
+    setMode: (value: string) => void;
+    idNewModelUpdating: number;
+    setIdNewModelUpdating: (value: ActionsIdSimulation) => void;
+    newModel: NewModelsParams[] | [];
+    setNewModel: (values: ActionsNewModelData) => void;
+    completeModel: NewModelsAllParams[] | [];
+    setCompleteModel: (values: ActionsNewModelData) => void;
 }
 
 export interface SimulatorParams {
