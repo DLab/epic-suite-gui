@@ -39,7 +39,8 @@ const RunButton = ({ permission }: Props) => {
     const { setAllGraphicData, setAllResults, dataToShowInMap } =
         useContext(GraphicsData);
     const [isSimulating, setisSimulating] = useState(false);
-    const { completeModel } = useContext(NewModelSetted);
+    const { completeModel, setSelectedModelsToSimulate } =
+        useContext(NewModelSetted);
 
     const getObjectConfig = (selectedModels) => {
         const simulationsSelected = selectedModels.map((e, i) => {
@@ -166,12 +167,15 @@ const RunButton = ({ permission }: Props) => {
                         name: keys[i],
                         ...sim,
                     }));
+                setAllGraphicData([]);
+                setAllResults([]);
+                // setAllResults([].concat(dataToShowInMap, []));
+                setRealDataSimulationKeys([]);
                 setAux(JSON.stringify(data));
+                setSelectedModelsToSimulate(selectedModels);
+
                 getGraphicRealData(selectedModels);
                 setIndex(5);
-                setAllGraphicData([]);
-                setAllResults([].concat(dataToShowInMap, []));
-                setRealDataSimulationKeys([]);
             }
             toast({
                 position: bottonLeft,

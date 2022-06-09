@@ -20,6 +20,8 @@ export const NewModelSetted = createContext<NewModelType>({
     setCompleteModel: () => {},
     newModel: [],
     setNewModel: () => {},
+    selectedModelsToSimulate: [],
+    setSelectedModelsToSimulate: () => {},
 });
 
 // eslint-disable-next-line react/prop-types
@@ -77,6 +79,9 @@ const NewModelsContext: React.FC = ({ children }) => {
     };
     const [mode, setMode] = useState("add");
     const [newModel, setNewModel] = useReducer(reducer, initialState);
+    const [selectedModelsToSimulate, setSelectedModelsToSimulate] = useState(
+        []
+    );
     const [completeModel, setCompleteModel] = useReducer(
         reducer,
         initialStateCompleteModel
@@ -96,6 +101,8 @@ const NewModelsContext: React.FC = ({ children }) => {
                 setNewModel,
                 idNewModelUpdating,
                 setIdNewModelUpdating,
+                selectedModelsToSimulate,
+                setSelectedModelsToSimulate,
             }}
         >
             {children}

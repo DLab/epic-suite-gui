@@ -167,9 +167,24 @@ const ResultsSelection = () => {
 
     let initialParameters = [];
 
+    const getCompartments = (simulation) => {
+        let parametersCompartments = ["S", "E", "I", "R"];
+        const simByName = completeModel.find(
+            (sim: NewModelsAllParams) => sim.name === simulation.name
+        );
+        if (simByName?.parameters.name === "SEIRHVD") {
+            parametersCompartments = ["S", "E", "I", "R"];
+        } else {
+            parametersCompartments = simByName?.parameters.compartments;
+        }
+        return parametersCompartments;
+    };
+
     const setChildChecked = (oneSimulationKeysData: SimulationKeysData) => {
         /* save for savedSimulationKeys */
-        const savedSimulationKeysSave = model.map((key) => {
+        const savedSimulationKeysSave = getCompartments(
+            oneSimulationKeysData
+        ).map((key) => {
             return key + oneSimulationKeysData.name;
         });
 
@@ -197,7 +212,10 @@ const ResultsSelection = () => {
         if (isSimulationSaved.length === 0) {
             initialParameters = [
                 ...initialParameters,
-                { name: oneSimulationKeysData.name, keys: model },
+                {
+                    name: oneSimulationKeysData.name,
+                    keys: getCompartments(oneSimulationKeysData),
+                },
             ];
             setSavedSimulation([...savedSimulation, ...initialParameters]);
         } else {
@@ -242,13 +260,6 @@ const ResultsSelection = () => {
         setSavedSimulation([]);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [responseSim]);
-
-    const getCompartments = (simulation) => {
-        const simByName = completeModel.find(
-            (sim: NewModelsAllParams) => sim.name === simulation.name
-        );
-        return simByName?.parameters.compartments;
-    };
 
     return (
         <Accordion

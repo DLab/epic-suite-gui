@@ -195,6 +195,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                         setModelValue={setModelValue}
                         populationValue={populationValue}
                         setPopulationValue={setPopulationValue}
+                        numberOfNodes={numberOfNodes}
                         setNumberOfNodes={setNumberOfNodes}
                         dataSourceValue={dataSourceValue}
                         setDataSourceValue={setDataSourceValue}
@@ -214,8 +215,12 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                     />
                     {numberOfNodes !== 0 &&
                         numberOfNodes !== undefined &&
-                        areaSelectedValue !== "" &&
-                        areaSelectedValue !== undefined && (
+                        ((dataSourceValue === "geographic" &&
+                            areaSelectedValue !== "" &&
+                            areaSelectedValue !== undefined) ||
+                            (dataSourceValue === "graph" &&
+                                graphId !== "" &&
+                                graphId !== undefined)) && (
                             <ParametersAccordion
                                 showSectionVariable={showSectionVariable}
                                 setShowSectionVariable={setShowSectionVariable}

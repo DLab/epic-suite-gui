@@ -77,7 +77,7 @@ const SeirhvdController = ({
                         <Flex w="50%" justifyContent="space-between">
                             <Text fontSize="14px">{param[0]}</Text>
                             <NumberInputVariableDependent
-                                value={param[1][idNode].val}
+                                value={param[1][idNode]?.val}
                                 setValue={setParameters}
                                 nameParams={param[0]}
                                 name={`${param[0]}`}

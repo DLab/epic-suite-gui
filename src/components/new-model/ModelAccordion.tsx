@@ -38,6 +38,7 @@ interface Props {
     setModelValue: (value: string) => void;
     populationValue: string;
     setPopulationValue: (value: string) => void;
+    numberOfNodes: number;
     setNumberOfNodes: (value: number) => void;
     dataSourceValue: undefined | string;
     setDataSourceValue: (value: string) => void;
@@ -59,6 +60,7 @@ const ModelAccordion = ({
     setModelValue,
     populationValue,
     setPopulationValue,
+    numberOfNodes,
     setNumberOfNodes,
     dataSourceValue,
     setDataSourceValue,
@@ -168,14 +170,34 @@ const ModelAccordion = ({
         });
     };
 
+    const getInitialConditions = (graphsValuesArray) => {
+        let initialConditionsValue;
+        const geoSelected = allGeoSelections.find((geoSelection) => {
+            return geoSelection.id === +areaSelectedValue;
+        });
+        if (dataSourceValue === "graph") {
+            initialConditionsValue =
+                getInitialConditionsGraphsArray(graphsValuesArray);
+        }
+        if (dataSourceValue === "geographic") {
+            initialConditionsValue =
+                numberOfNodes === 1
+                    ? [
+                          {
+                              name: geoSelected.name,
+                              conditionsValues:
+                                  getInitialConditionsByModel(modelValue),
+                          },
+                      ]
+                    : getInitialConditionsGeoArray(
+                          geoSelected.scale,
+                          geoSelected.featureSelected
+                      );
+        }
+        return initialConditionsValue;
+    };
+
     return (
-        // <Accordion
-        //     key="new-models-accordion"
-        //     allowMultiple
-        //     // h="85%"
-        //     overflowY="auto"
-        //     overflowX="hidden"
-        // >
         <AccordionItem>
             <h2>
                 <AccordionButton
@@ -202,6 +224,14 @@ const ModelAccordion = ({
                         onChange={(e) => {
                             setModelName(e.target.value);
                         }}
+                        onBlur={(e) => {
+                            setNewModel({
+                                type: "update",
+                                target: "name",
+                                element: e.target.value,
+                                id,
+                            });
+                        }}
                         value={modelName}
                     />
                 </Box>
@@ -214,6 +244,7 @@ const ModelAccordion = ({
                         mt="1%"
                         value={modelValue}
                         onChange={(e) => {
+                            setNumberOfNodes(0);
                             setModelValue(e);
                             setAreaSelectedValue("");
                             setGraphId(undefined);
@@ -306,6 +337,8 @@ const ModelAccordion = ({
                                 setGraphsSelectedValue(graphsValuesArray);
                                 setGraphId(1);
                                 setShowSectionInitialConditions(true);
+                                setAreaSelectedValue(undefined);
+
                                 setNewModel({
                                     type: "update-all",
                                     id,
@@ -371,9 +404,12 @@ const ModelAccordion = ({
                                                 ? 1
                                                 : geoSelected.featureSelected
                                                       .length;
+                                        setNumberOfNodes(numberGeoNodes);
                                         setNumberOfNodes(
                                             geoSelected.featureSelected.length
                                         );
+                                        setGraphId(undefined);
+
                                         setNewModel({
                                             type: "update-all",
                                             id,
@@ -409,6 +445,7 @@ const ModelAccordion = ({
                                         });
                                     } else {
                                         setAreaSelectedValue("");
+                                        setNumberOfNodes(0);
                                     }
                                 }}
                             >
@@ -447,7 +484,6 @@ const ModelAccordion = ({
                 )}
             </AccordionPanel>
         </AccordionItem>
-        // </Accordion>
     );
 };
 

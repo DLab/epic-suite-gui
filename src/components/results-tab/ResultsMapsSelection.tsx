@@ -51,10 +51,11 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
     // const { simulation } = useContext(SimulationSetted);
     const { geoSelections } = useContext(SelectFeature);
     const mapArray = ["Map 1", "Map 2"];
-    const { completeModel } = useContext(NewModelSetted);
+    const { completeModel, selectedModelsToSimulate } =
+        useContext(NewModelSetted);
 
     const getInitialConditionsCheck = (simId) => {
-        const initialConditionsSim = completeModel.filter(
+        const initialConditionsSim = selectedModelsToSimulate.filter(
             (sim: NewModelsAllParams) => {
                 return sim.idNewModel.toString() === simId;
             }
@@ -118,19 +119,13 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             parameters,
             idGeo,
             t_init: tInit,
-        } = completeModel.filter((sim: NewModelsAllParams) => {
+        } = selectedModelsToSimulate.filter((sim: NewModelsAllParams) => {
             return sim.idNewModel.toString() === simIdToShowInMap[index];
         })[0];
 
         const { scale } = geoSelections.filter((geoSelection) => {
             return geoSelection.id === idGeo;
         })[0];
-
-        // const { parameters } = parametersSaved.filter(
-        //     (model: DataParameters) => {
-        //         return model.id === idModel;
-        //     }
-        // )[0];
 
         return {
             scale,
@@ -217,7 +212,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                     onChange={(e) => {
                                         const simId = e.target.value;
                                         const initialConditionsSim =
-                                            completeModel.filter(
+                                            selectedModelsToSimulate.filter(
                                                 (sim: NewModelsAllParams) => {
                                                     return (
                                                         sim.idNewModel.toString() ===
@@ -252,7 +247,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                         ]);
                                     }}
                                 >
-                                    {completeModel.map(
+                                    {selectedModelsToSimulate.map(
                                         (sim: NewModelsAllParams) => {
                                             return (
                                                 sim.typeSelection ===

@@ -119,7 +119,7 @@ const ModelBuilder = ({
             let graphsArray = [];
             const getGraphsNamesArray = () => {
                 for (let i = 0; i < numberNodes; i += 1) {
-                    const graphName = `Graph${i + 1}`;
+                    const graphName = `Node ${i + 1}`;
                     graphsArray = [...graphsArray, graphName];
                 }
                 return graphsArray;

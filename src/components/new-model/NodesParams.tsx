@@ -73,7 +73,7 @@ const NodesParams = ({
                                 <Flex w="50%">
                                     <Text fontSize="14px">Beta (β)</Text>
                                     <NumberInputVariableDependent
-                                        value={beta[i].val}
+                                        value={beta[i]?.val}
                                         index={i}
                                         setValue={setParameters}
                                         nameParams="beta"
@@ -145,7 +145,7 @@ const NodesParams = ({
                                 <Flex w="60%">
                                     <Text fontSize="14px">Alpha (α)</Text>
                                     <NumberInputVariableDependent
-                                        value={alpha[i].val}
+                                        value={alpha[i]?.val}
                                         setValue={setParameters}
                                         nameParams="alpha"
                                         name="Alpha (α)"
