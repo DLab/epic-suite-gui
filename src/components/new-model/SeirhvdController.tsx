@@ -40,7 +40,7 @@ const SeirhvdController = ({
     duration,
     setPositionVDT,
 }: Props) => {
-    const { setParameters } = useContext(ControlPanel);
+    const { setParameters, description } = useContext(ControlPanel);
     return (
         <>
             {Object.entries(seirhvdProps).map((param) => {
@@ -81,10 +81,10 @@ const SeirhvdController = ({
                                 setValue={setParameters}
                                 nameParams={param[0]}
                                 name={`${param[0]}`}
-                                description="Vaccinated infected Infection rate"
-                                step={0.01}
-                                min={0}
-                                max={1}
+                                description={description[param[0]].description}
+                                step={description[param[0]].values.step}
+                                min={description[param[0]].values.min}
+                                max={description[param[0]].values.max}
                                 isStateLocal
                                 isDisabled={
                                     isEnableIconButton[param[0]][idNode]

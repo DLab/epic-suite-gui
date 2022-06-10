@@ -90,9 +90,22 @@ export interface InitialConditionsNewModel {
     conditionsValues: InitialConditions;
 }
 
+// types for Description Parameters Object
+export type OptionDetails<Type> = {
+    [Property in keyof Type]: DetailDescription;
+};
+export type DetailDescription = {
+    description: string;
+    values: Record<string, number>;
+    alias: string;
+};
+export type DescriptionParameters = OptionDetails<EpidemicsData>;
+
+// Context Attr.
 export interface EpidemicAttributes {
     mode: Model;
     parameters?: EpidemicsData;
+    description: DescriptionParameters;
     setParameters: (values: ActionsEpidemicData) => void;
     setMode: (value: Model) => void;
     idModelUpdate: number;

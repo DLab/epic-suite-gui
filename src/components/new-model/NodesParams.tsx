@@ -11,11 +11,12 @@ import {
     Switch,
     Text,
 } from "@chakra-ui/react";
-import React from "react";
+import { useContext } from "react";
 
 import FunctionIcon from "components/icons/FunctionIcon";
 import NumberInputEpi from "components/NumberInputEpi";
 import NumberInputVariableDependent from "components/NumberInputVariableDependent";
+import { ControlPanel } from "context/ControlPanelContext";
 import { ActionsEpidemicData } from "types/ControlPanelTypes";
 import VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
@@ -55,6 +56,7 @@ const NodesParams = ({
     setPositionVDT,
     modelCompartment,
 }: Props) => {
+    const { description } = useContext(ControlPanel);
     return (
         <Accordion reduceMotion allowToggle>
             {nodes.map((node, i) => (
@@ -77,11 +79,13 @@ const NodesParams = ({
                                         index={i}
                                         setValue={setParameters}
                                         nameParams="beta"
-                                        name="Beta (β)"
-                                        description="Infection rate"
-                                        step={0.01}
-                                        min={0.01}
-                                        max={0.5}
+                                        name={description.beta.alias}
+                                        description={
+                                            description.beta.description
+                                        }
+                                        step={description.beta.values.step}
+                                        min={description.beta.values.min}
+                                        max={description.beta.values.max}
                                         isStateLocal
                                         duration={duration}
                                         isDisabled={isEnableIconButton.beta[i]}
@@ -148,11 +152,13 @@ const NodesParams = ({
                                         value={alpha[i].val}
                                         setValue={setParameters}
                                         nameParams="alpha"
-                                        name="Alpha (α)"
-                                        description="Mobility"
-                                        step={0.01}
-                                        min={0.01}
-                                        max={0.5}
+                                        name={description.alpha.alias}
+                                        description={
+                                            description.alpha.description
+                                        }
+                                        step={description.alpha.values.step}
+                                        min={description.alpha.values.min}
+                                        max={description.alpha.values.max}
                                         index={i}
                                         duration={duration}
                                         isStateLocal
@@ -218,14 +224,15 @@ const NodesParams = ({
                                 value={mu[i]}
                                 setValue={setParameters}
                                 nameParams="mu"
-                                name="Mu (μ)"
-                                description="Exposed/Infected Initial rate"
-                                step={0.01}
-                                min={0.01}
-                                max={5}
+                                name={description.mu.alias}
+                                description={description.mu.description}
+                                step={description.mu.values.step}
+                                min={description.mu.values.min}
+                                max={description.mu.values.max}
                                 index={i}
-                                type="slider"
+                                type="number"
                                 isStateLocal
+                                isInitialParameters
                             />
                         </Box>
                         {modelCompartment === "SEIRHVD" && (

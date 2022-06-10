@@ -168,13 +168,6 @@ const ModelBuilder = ({
                     setShowSectionInitialConditions
                 }
             />
-
-            {/* <Flex w="5%" direction="column">
-                <ToastMessage
-                    isEditing={isEditing}
-                    closeUpdatingModel={setIsEditing}
-                />
-            </Flex> */}
         </>
     );
 };

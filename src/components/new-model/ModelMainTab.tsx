@@ -7,14 +7,17 @@ import {
     Button,
     useToast,
 } from "@chakra-ui/react";
-import { format } from "date-fns";
+import _ from "lodash";
 import dynamic from "next/dynamic";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
-import { InitialConditionsNewModel } from "types/ControlPanelTypes";
+import {
+    EpidemicsData,
+    InitialConditionsNewModel,
+} from "types/ControlPanelTypes";
 import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 import VariableDependentTime, {
     NameFunction,
@@ -94,12 +97,14 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         },
         [newModel, id]
     );
-
     const getModelCompleteObj = () => {
         const modelInfo = newModel.find(
             (model: NewModelsParams) => model.idNewModel === id
         );
-        const allModelInfo = { ...modelInfo, parameters };
+        const allModelInfo = {
+            ...modelInfo,
+            parameters,
+        };
         const modelExist = completeModel.find(
             (model: NewModelsAllParams) => model.idNewModel === id
         );
@@ -139,8 +144,6 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
     };
     const toast = useToast();
     useEffect(() => {
-        // initialConditions: InitialConditionsNewModel[];
-        // t_init: string;
         setModelValue(getDefaultValueParameters("modelType"));
         setDataSourceValue(getDefaultValueParameters("typeSelection"));
         setPopulationValue(getDefaultValueParameters("populationType"));
