@@ -61,7 +61,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             }
         );
         return Object.keys(
-            initialConditionsSim[0].initialConditions[0].conditionsValues
+            initialConditionsSim[0]?.initialConditions[0].conditionsValues
         );
     };
 

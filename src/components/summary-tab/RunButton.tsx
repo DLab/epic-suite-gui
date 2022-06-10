@@ -36,7 +36,7 @@ const RunButton = ({ permission }: Props) => {
     //
     const toast = useToast();
     const { setAux, setIndex } = useContext(TabIndex);
-    const { setAllGraphicData, setAllResults, dataToShowInMap } =
+    const { setAllGraphicData, setAllResults, setDataToShowInMap } =
         useContext(GraphicsData);
     const [isSimulating, setisSimulating] = useState(false);
     const { completeModel, setSelectedModelsToSimulate } =
@@ -169,6 +169,7 @@ const RunButton = ({ permission }: Props) => {
                     }));
                 setAllGraphicData([]);
                 setAllResults([]);
+                setDataToShowInMap([]);
                 // setAllResults([].concat(dataToShowInMap, []));
                 setRealDataSimulationKeys([]);
                 setAux(JSON.stringify(data));
