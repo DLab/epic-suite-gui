@@ -7,7 +7,6 @@ import {
     Button,
     useToast,
 } from "@chakra-ui/react";
-import { format } from "date-fns";
 import dynamic from "next/dynamic";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
@@ -56,6 +55,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
     const [areaSelectedValue, setAreaSelectedValue] = useState(undefined);
     const [populationValue, setPopulationValue] = useState(undefined);
     const [graphId, setGraphId] = useState(undefined);
+    const [isModelSavedLocal, setIsModelSavedLocal] = useState(false);
     const [graphsSelectedValue, setGraphsSelectedValue] = useState(undefined);
     const [showSectionInitialConditions, setShowSectionInitialConditions] =
         useState(false);
@@ -130,6 +130,63 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             );
         }
     };
+
+    useEffect(() => {
+        const modelSaved = completeModel.find((model: NewModelsAllParams) => {
+            return model.idNewModel === id;
+        });
+        const savedObject = {
+            idGeo: modelSaved?.idGeo,
+            idGraph: modelSaved?.idGraph,
+            idNewModel: modelSaved?.idNewModel,
+            modelType: modelSaved?.modelType,
+            name: modelSaved?.name,
+            numberNodes: modelSaved?.numberNodes,
+            populationType: modelSaved?.populationType,
+            typeSelection: modelSaved?.typeSelection,
+        };
+
+        const actualObject = {
+            idGeo: areaSelectedValue,
+            idGraph: graphId,
+            idNewModel: id,
+            modelType: modelValue,
+            name: modelName,
+            numberNodes: numberOfNodes,
+            populationType: populationValue,
+            typeSelection: dataSourceValue,
+        };
+        if (JSON.stringify(savedObject) === JSON.stringify(actualObject)) {
+            setIsModelSavedLocal(true);
+        } else {
+            setIsModelSavedLocal(false);
+        }
+    }, [
+        areaSelectedValue,
+        completeModel,
+        dataSourceValue,
+        graphId,
+        id,
+        modelName,
+        modelValue,
+        newModel,
+        numberOfNodes,
+        populationValue,
+    ]);
+
+    useEffect(() => {
+        const modelSaved = completeModel.find((model: NewModelsAllParams) => {
+            return model.idNewModel === id;
+        });
+        if (
+            JSON.stringify(modelSaved?.parameters) ===
+            JSON.stringify(parameters)
+        ) {
+            setIsModelSavedLocal(true);
+        } else {
+            setIsModelSavedLocal(false);
+        }
+    }, [completeModel, id, parameters]);
 
     const deleteFromLocalStorage = () => {
         const modelFilter = completeModel.filter(
@@ -240,7 +297,9 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                             />
                         )}
                 </Accordion>
-                {numberOfNodes !== 0 && numberOfNodes !== undefined && (
+                {numberOfNodes !== 0 &&
+                numberOfNodes !== undefined &&
+                !isModelSavedLocal ? (
                     <Button
                         size="sm"
                         colorScheme="teal"
@@ -284,6 +343,10 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                             }
                         }}
                     >
+                        Save Model
+                    </Button>
+                ) : (
+                    <Button size="sm" colorScheme="teal" m="2%" isDisabled>
                         Save Model
                     </Button>
                 )}

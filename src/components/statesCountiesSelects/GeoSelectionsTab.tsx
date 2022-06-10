@@ -35,8 +35,7 @@ const GeoSelectionsTab = () => {
     } = useContext(SelectFeature);
     const [viewDetails, setViewDetails] = useState(false);
     const [geoSelectionDetails, setGeoSelectionDetails] = useState([]);
-    const { newModel, completeModel, setNewModel, setCompleteModel } =
-        useContext(NewModelSetted);
+    const { completeModel } = useContext(NewModelSetted);
 
     useEffect(() => {
         setViewDetails(false);

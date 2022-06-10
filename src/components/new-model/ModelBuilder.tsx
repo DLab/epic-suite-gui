@@ -161,7 +161,6 @@ const ModelBuilder = ({
                 showSectionVariable={setShowSectionVariable}
                 setDataView={setDataViewVariable}
                 modelCompartment={modelCompartment}
-                // nodes={["california"]}
                 nodes={nodes}
                 setPositionVDT={setPositionVDT}
                 setShowSectionInitialConditions={
