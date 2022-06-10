@@ -1,3 +1,4 @@
+import { string } from "prop-types";
 import { createContext, useReducer, useState } from "react";
 
 import {
@@ -7,6 +8,7 @@ import {
     ActionsInitialConditions,
     InitialConditions,
     EpidemicAttributes,
+    DescriptionParameters,
 } from "types/ControlPanelTypes";
 import { NameFunction } from "types/VariableDependentTime";
 
@@ -396,6 +398,380 @@ export const initialState: EpidemicsData = {
     pIm_det: 1,
     pIv_det: 1,
 };
+
+const descriptionParameters: DescriptionParameters = {
+    name_model: {
+        description: "",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0,
+        },
+        alias: "Name Model",
+    },
+    name: {
+        description: "",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0,
+        },
+        alias: "",
+    },
+    compartments: {
+        description: "",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0,
+        },
+        alias: "Compartments",
+    },
+    t_init: {
+        description: "",
+        values: {
+            min: 0,
+            max: 1,
+            default: 0,
+            step: 0,
+        },
+        alias: "T init",
+    },
+    t_end: {
+        description: "",
+        values: {
+            min: 0,
+            max: Infinity,
+            default: 1,
+            step: 1,
+        },
+        alias: "Duration",
+    },
+    pI_det: {
+        description: "Underreport",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "pI_det",
+    },
+    beta: {
+        description: "Infection rate",
+        values: {
+            min: 0,
+            max: 1,
+            default: 0.2,
+            step: 0.01,
+        },
+        alias: "Beta (β)",
+    },
+    mu: {
+        description: "Exposed/Infected Initial rate",
+        values: {
+            min: 0,
+            max: 20,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "Mu (μ)",
+    },
+    rR_S: {
+        description: "Average immunity loss rate",
+        values: {
+            min: 0,
+            max: Infinity,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "rR_S",
+    },
+
+    alpha: {
+        description: "Mobility",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "Alpha (α)",
+    },
+    tE_I: {
+        description: "Transition time between exposed and infectious",
+        values: {
+            min: 0,
+            max: Infinity,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "tE_I",
+    },
+
+    tI_R: {
+        description: "Transition time between infectious and removed",
+        values: {
+            min: 0,
+            max: Infinity,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "tI_R",
+    },
+
+    Beta_v: {
+        description: "Vaccinated infected Infection rate",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "Beta_v",
+    },
+    vac_d: {
+        description: "Amount of vaccinated people per day",
+        values: {
+            min: 0,
+            max: Infinity,
+            default: 1,
+            step: 1,
+        },
+        alias: "vac_d",
+    },
+    vac_eff: {
+        description: "Vaccine effectivity",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.05,
+        },
+        alias: "vac_eff",
+    },
+    pE_Im: {
+        description: "Fraction of E that turn into Im",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "pE_Im",
+    },
+    tE_Im: {
+        description: "Transition time between E and Im",
+        values: {
+            min: 0.01,
+            max: Infinity,
+            default: 1,
+            step: 0.1,
+        },
+        alias: "tE_Im",
+    },
+    pE_Icr: {
+        description: "Fraction of E that turn into Icr",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "pE_Icr",
+    },
+    tE_Icr: {
+        description: "Transition time between E and Icr",
+        values: {
+            min: 0.01,
+            max: Infinity,
+            default: 1,
+            step: 0.1,
+        },
+        alias: "tE_Icr",
+    },
+    tEv_Iv: {
+        description: "Transition time between Ev and Iv",
+        values: {
+            min: 0.01,
+            max: Infinity,
+            default: 1,
+            step: 0.1,
+        },
+        alias: "tEv_Iv",
+    },
+    tIm_R: {
+        description: "Transition time between Im and R",
+        values: {
+            min: 0.01,
+            max: Infinity,
+            default: 1,
+            step: 0.1,
+        },
+        alias: "tIm_R",
+    },
+    tIcr_H: {
+        description: "Transition time between Icr and H",
+        values: {
+            min: 0.01,
+            max: Infinity,
+            default: 1,
+            step: 0.1,
+        },
+        alias: "tIcr_H",
+    },
+    pIv_R: {
+        description: "Fraction of Iv that turn into R",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "pIv_R",
+    },
+    tIv_R: {
+        description: "Transition time between Iv and R",
+        values: {
+            min: 0.01,
+            max: Infinity,
+            default: 1,
+            step: 0.1,
+        },
+        alias: "tIv_R",
+    },
+    pIv_H: {
+        description: "Fraction of Iv that turn into H",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "pIv_H",
+    },
+    tIv_H: {
+        description: "Transition time between Iv and H",
+        values: {
+            min: 0.01,
+            max: Infinity,
+            default: 1,
+            step: 0.1,
+        },
+        alias: "tIv_H",
+    },
+    pH_R: {
+        description: "Fraction of H that turn into R",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "pH_R",
+    },
+    tH_R: {
+        description: "Transition time between H and R",
+        values: {
+            min: 0.01,
+            max: Infinity,
+            default: 1,
+            step: 0.1,
+        },
+        alias: "tH_R",
+    },
+    pH_D: {
+        description: "Fraction of H that turn into D",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "pH_D",
+    },
+    tH_D: {
+        description: "Transition time between H and D",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0,
+        },
+        alias: "tH_D",
+    },
+    pR_S: {
+        description: "Existence of immunity loss",
+        values: {
+            isTrue: 0,
+        },
+        alias: "pR_S",
+    },
+    tR_S: {
+        description: "Transition time between R and S",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0,
+        },
+        alias: "tR_S",
+    },
+    population: {
+        description: "",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0,
+        },
+        alias: "Population",
+    },
+    populationfraction: {
+        description: "Population at the beginning of the simulation",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0.01,
+        },
+        alias: "Population Fraction",
+    },
+    pIcr_det: {
+        description: "Subreport Icr",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0,
+        },
+        alias: "pIcr_det",
+    },
+    pIm_det: {
+        description: "Subreport Im",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0,
+        },
+        alias: "pIcr_det",
+    },
+    pIv_det: {
+        description: "Subreport Iv",
+        values: {
+            min: 0,
+            max: 1,
+            default: 1,
+            step: 0,
+        },
+        alias: "pIv_vet",
+    },
+};
+
 const initialConditions: InitialConditions = {
     population: 0,
     R: 0,
@@ -421,6 +797,7 @@ export const ControlPanel = createContext<EpidemicAttributes>({
     setMode: () => {},
     parameters: initialState,
     setParameters: () => {},
+    description: descriptionParameters,
     idModelUpdate: 0,
     setIdModelUpdate: () => {},
     initialConditions,
@@ -520,6 +897,7 @@ const ControlPanelContext: React.FC = ({ children }) => {
             value={{
                 parameters: params,
                 setParameters,
+                description: descriptionParameters,
                 mode,
                 setMode,
                 idModelUpdate,

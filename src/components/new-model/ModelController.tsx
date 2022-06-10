@@ -2,33 +2,28 @@
 import { EditIcon } from "@chakra-ui/icons";
 import {
     Box,
-    Stack,
     Text,
     Flex,
-    Input,
-    Radio,
-    RadioGroup,
     IconButton,
     Switch,
     FormControl,
     Heading,
-    Accordion,
     AccordionItem,
     AccordionButton,
     AccordionIcon,
     AccordionPanel,
 } from "@chakra-ui/react";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 
 import NumberInputEpi from "../NumberInputEpi";
 import FunctionIcon from "components/icons/FunctionIcon";
 import NumberInputVariableDependent from "components/NumberInputVariableDependent";
 import { ControlPanel } from "context/ControlPanelContext";
-import VariableDependentTime from "types/VariableDependentTime";
-import createIdComponent from "utils/createIdcomponent";
+import VariableDependentTime, {
+    NameFunction,
+} from "types/VariableDependentTime";
 
 import NodesParams from "./NodesParams";
-import SeirhvdController from "./SeirhvdController";
 
 interface Props {
     showSectionVariable: (values: boolean) => void;
@@ -55,6 +50,8 @@ const ModelController = ({
             rR_S,
             tE_I,
             tI_R,
+            population,
+            populationfraction,
             mu,
             beta,
             alpha,
@@ -79,6 +76,7 @@ const ModelController = ({
             pR_S,
             tR_S,
         },
+        description,
     } = useContext(ControlPanel);
     const [isEnableIconButton, setIsEnableIconButton] = useState<
         Record<string, boolean[]>
@@ -124,8 +122,8 @@ const ModelController = ({
             };
         }, {})
     );
+
     return (
-        // <Accordion allowMultiple>
         <AccordionItem isFocusable>
             <h2>
                 <AccordionButton
@@ -169,11 +167,11 @@ const ModelController = ({
                                     value={tI_R.val}
                                     setValue={setParameters}
                                     nameParams="tI_R"
-                                    name="tI_R"
-                                    description="Transition time between infectious and removed"
-                                    step={0.01}
-                                    min={0.01}
-                                    max={0.5}
+                                    name={description.tI_R.alias}
+                                    description={description.tI_R.description}
+                                    step={description.tI_R.values.step}
+                                    min={description.tI_R.values.min}
+                                    max={description.tI_R.values.max}
                                     isDisabled={isEnableIconButton.tI_R[0]}
                                     duration={t_end}
                                 />
@@ -232,11 +230,11 @@ const ModelController = ({
                                     value={tE_I.val}
                                     setValue={setParameters}
                                     nameParams="tE_I"
-                                    name="tE_I"
-                                    description="Transition time between exposed and infectious"
-                                    step={1}
-                                    min={0}
-                                    max={Infinity}
+                                    name={description.tE_I.alias}
+                                    description={description.tE_I.description}
+                                    step={description.tE_I.values.step}
+                                    min={description.tE_I.values.min}
+                                    max={description.tE_I.values.max}
                                     isDisabled={isEnableIconButton.tE_I[0]}
                                     duration={t_end}
                                 />
@@ -295,11 +293,11 @@ const ModelController = ({
                                     value={rR_S.val}
                                     setValue={setParameters}
                                     nameParams="rR_S"
-                                    name="rR_S"
-                                    description="Average immunity loss rate"
-                                    step={0.01}
-                                    min={0.01}
-                                    max={0.5}
+                                    name={description.rR_S.alias}
+                                    description={description.rR_S.description}
+                                    step={description.rR_S.values.step}
+                                    min={description.rR_S.values.min}
+                                    max={description.rR_S.values.max}
                                     isDisabled={isEnableIconButton.rR_S[0]}
                                     duration={t_end}
                                 />
@@ -355,19 +353,43 @@ const ModelController = ({
                             value={pI_det}
                             setValue={setParameters}
                             nameParams="pI_det"
-                            description="Underreport"
-                            step={0.01}
-                            min={0.01}
-                            max={1}
-                            type="slider"
+                            name={description.pI_det.alias}
+                            description={description.pI_det.description}
+                            step={description.pI_det.values.step}
+                            min={description.pI_det.values.min}
+                            max={description.pI_det.values.max}
+                            type="number"
+                            isInitialParameters
                         />
                     )}
                 </Box>
+                {modelCompartment === "SEIRHVD" && (
+                    <>
+                        <Box py="0.5rem">
+                            <NumberInputEpi
+                                value={populationfraction}
+                                setValue={setParameters}
+                                nameParams="populationfraction"
+                                name={description.populationfraction.alias}
+                                description={
+                                    description.populationfraction.description
+                                }
+                                step={
+                                    description.populationfraction.values.step
+                                }
+                                min={description.populationfraction.values.min}
+                                max={description.populationfraction.values.max}
+                                type="number"
+                                isInitialParameters
+                                isStateLocal
+                            />
+                        </Box>
+                    </>
+                )}
                 <Heading as="h3" fontSize="18px">
                     Parameters by Nodes
                 </Heading>
                 {/* <Accordion allowToggle reduceMotion> */}
-                {/* Map parameters comming soon */}
                 <NodesParams
                     setParameters={setParameters}
                     beta={beta}
@@ -407,247 +429,12 @@ const ModelController = ({
                         tR_S,
                     }}
                 />
-                {/* {nodes.map((node, i) => (
-                                <AccordionItem key={createIdComponent()}>
-                                    <h2>
-                                        <AccordionButton>
-                                            <Box flex="1" textAlign="left">
-                                                {node}
-                                            </Box>
-                                            <AccordionIcon />
-                                        </AccordionButton>
-                                    </h2>
-                                    <AccordionPanel>
-                                        <Flex
-                                            justifyContent="space-between"
-                                            wrap="wrap"
-                                        >
-                                            <FormControl
-                                                display="flex"
-                                                alignItems="center"
-                                            >
-                                                <Flex
-                                                    w="50%"
-                                                    justifyContent="space-between"
-                                                >
-                                                    Beta (β){" "}
-                                                    <NumberInputVariableDependent
-                                                        value={beta[i].val}
-                                                        index={i}
-                                                        setValue={setParameters}
-                                                        nameParams="beta"
-                                                        name="Beta (β)"
-                                                        description="Infection rate"
-                                                        step={0.01}
-                                                        min={0.01}
-                                                        max={0.5}
-                                                        isDisabled={
-                                                            isEnableIconButton
-                                                                .beta[i]
-                                                        }
-                                                    />
-                                                </Flex>
-                                                <Flex
-                                                    alignItems="center"
-                                                    w="50%"
-                                                    justifyContent="flex-end"
-                                                >
-                                                    <span>Set function</span>
-                                                    <Switch
-                                                        ml="0.5rem"
-                                                        isChecked={
-                                                            isEnableIconButton
-                                                                .beta[i]
-                                                        }
-                                                        onChange={(e) => {
-                                                            const subPermission: boolean[] =
-                                                                isEnableIconButton.beta;
-                                                            subPermission[i] =
-                                                                e.target.checked;
-                                                            setIsEnableIconButton(
-                                                                {
-                                                                    ...isEnableIconButton,
-                                                                    beta: subPermission,
-                                                                }
-                                                            );
-                                                            if (
-                                                                !e.target
-                                                                    .checked
-                                                            ) {
-                                                                showSectionVariable(
-                                                                    false
-                                                                );
-                                                            }
-                                                            setParameters({
-                                                                type: "switch",
-                                                                target: "beta",
-                                                                switch: e.target
-                                                                    .checked,
-                                                            });
-                                                        }}
-                                                    />
-
-                                                    <IconButton
-                                                        fill="white"
-                                                        bg="#FFFFFF"
-                                                        color="#16609E"
-                                                        aria-label="Call Segun"
-                                                        size="sm"
-                                                        isDisabled={
-                                                            !isEnableIconButton
-                                                                .beta[i]
-                                                        }
-                                                        cursor="pointer"
-                                                        icon={<FunctionIcon />}
-                                                        ml="1rem"
-                                                        onClick={() => {
-                                                            showSectionVariable(
-                                                                true
-                                                            );
-                                                            setDataView(
-                                                                beta[i]
-                                                            );
-                                                            setPositionVDT(i);
-                                                        }}
-                                                    />
-                                                </Flex>
-                                            </FormControl>
-                                        </Flex>
-                                        <Box py="0.5rem">
-                                            <NumberInputEpi
-                                                value={mu[i]}
-                                                setValue={setParameters}
-                                                nameParams="mu"
-                                                name="Mu (μ)"
-                                                description="Exposed/Infected Initial rate"
-                                                step={0.01}
-                                                min={0.01}
-                                                max={5}
-                                                index={i}
-                                                type="slider"
-                                            />
-                                        </Box>
-
-                                        <Box py="0.5rem">
-                                            {modelCompartment === "SEIRHVD" && (
-                                                <SeirhvdController
-                                                    showSectionVariable={
-                                                        showSectionVariable
-                                                    }
-                                                    idNode={i}
-                                                    setDataView={setDataView}
-                                                    isEnableIconButton={
-                                                        isEnableIconButton
-                                                    }
-                                                    setIsEnableIconButton={
-                                                        setIsEnableIconButton
-                                                    }
-                                                />
-                                            )}
-                                        </Box>
-                                        <Flex
-                                            justifyContent="space-between"
-                                            wrap="wrap"
-                                        >
-                                            <FormControl
-                                                display="flex"
-                                                alignItems="center"
-                                            >
-                                                <Flex
-                                                    w="50%"
-                                                    justifyContent="space-between"
-                                                >
-                                                    <span>Alpha (α)</span>
-                                                    <NumberInputVariableDependent
-                                                        value={alpha[i].val}
-                                                        setValue={setParameters}
-                                                        nameParams="alpha"
-                                                        name="Alpha (α)"
-                                                        description="Mobility"
-                                                        step={0.01}
-                                                        min={0.01}
-                                                        max={0.5}
-                                                        index={i}
-                                                        isDisabled={
-                                                            isEnableIconButton
-                                                                .alpha[i]
-                                                        }
-                                                    />
-                                                </Flex>
-                                                <Flex
-                                                    alignItems="center"
-                                                    w="50%"
-                                                    justifyContent="flex-end"
-                                                >
-                                                    <span>Set function</span>
-                                                    <Switch
-                                                        ml="0.5rem"
-                                                        isChecked={
-                                                            isEnableIconButton
-                                                                .alpha[i]
-                                                        }
-                                                        onChange={(e) => {
-                                                            const subPermission: boolean[] =
-                                                                isEnableIconButton.alpha;
-                                                            subPermission[i] =
-                                                                e.target.checked;
-                                                            setIsEnableIconButton(
-                                                                {
-                                                                    ...isEnableIconButton,
-                                                                    alpha: subPermission,
-                                                                }
-                                                            );
-                                                            if (
-                                                                !e.target
-                                                                    .checked
-                                                            ) {
-                                                                showSectionVariable(
-                                                                    false
-                                                                );
-                                                            }
-                                                            setParameters({
-                                                                type: "switch",
-                                                                target: "alpha",
-                                                                switch: e.target
-                                                                    .checked,
-                                                            });
-                                                        }}
-                                                    />
-
-                                                    <IconButton
-                                                        fill="white"
-                                                        bg="#FFFFFF"
-                                                        color="#16609E"
-                                                        aria-label="Call Segun"
-                                                        size="sm"
-                                                        isDisabled={
-                                                            !isEnableIconButton
-                                                                .alpha[i]
-                                                        }
-                                                        cursor="pointer"
-                                                        icon={<FunctionIcon />}
-                                                        ml="1rem"
-                                                        onClick={() => {
-                                                            showSectionVariable(
-                                                                true
-                                                            );
-                                                            setDataView(
-                                                                alpha[i]
-                                                            );
-                                                            setPositionVDT(i);
-                                                        }}
-                                                    />
-                                                </Flex>
-                                            </FormControl>
-                                        </Flex>
-                                    </AccordionPanel>
-                                </AccordionItem>
-                            ))} */}
-                {/* </Accordion> */}
             </AccordionPanel>
         </AccordionItem>
-        // </Accordion>
     );
 };
 
 export default ModelController;
+function useEffect(arg0: () => void, arg1: number[]) {
+    throw new Error("Function not implemented.");
+}

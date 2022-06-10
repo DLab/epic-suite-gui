@@ -84,7 +84,6 @@ const NumberInputEpi = ({
                         <NumberInput
                             maxW="70px"
                             mr="1rem"
-                            // defaultValue={+value}
                             onChange={handleChange}
                             size="xs"
                             min={+min}
@@ -101,7 +100,6 @@ const NumberInputEpi = ({
                         <Slider
                             flex="1"
                             focusThumbOnChange={false}
-                            // defaultValue={+value}
                             id="slider-number-input"
                             value={!isStateLocal ? +value : +localValue}
                             step={step}
@@ -138,7 +136,7 @@ const NumberInputEpi = ({
                         </NumberInputStepper>
                     </NumberInput>
                 )}
-                {isInitialParameters && (
+                {isInitialParameters && !isStateLocal && (
                     <NumberInput
                         maxW="120px"
                         mr="1rem"
@@ -156,6 +154,25 @@ const NumberInputEpi = ({
                         </NumberInputStepper>
                     </NumberInput>
                 )}
+                {isInitialParameters && isStateLocal && (
+                    <NumberInput
+                        maxW="120px"
+                        mr="1rem"
+                        value={localValue}
+                        onChange={handleChange}
+                        size="xs"
+                        min={min}
+                        max={max}
+                        step={step}
+                    >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
+                )}
+
                 {isStateLocal && isEditingLocalValue && (
                     <>
                         <IconButton

@@ -41,7 +41,7 @@ const SupplementaryParameters = ({
                 <Flex w="50%" justifyContent="space-between">
                     <Text fontSize="14px">{nameParam}</Text>
                     <NumberInputVariableDependent
-                        value={data[idNode].val}
+                        value={data[idNode]?.val}
                         setValue={setParameters}
                         nameParams={nameParam}
                         name={nameParam}

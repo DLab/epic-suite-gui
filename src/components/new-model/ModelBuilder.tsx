@@ -119,7 +119,7 @@ const ModelBuilder = ({
             let graphsArray = [];
             const getGraphsNamesArray = () => {
                 for (let i = 0; i < numberNodes; i += 1) {
-                    const graphName = `Graph${i + 1}`;
+                    const graphName = `Node ${i + 1}`;
                     graphsArray = [...graphsArray, graphName];
                 }
                 return graphsArray;
@@ -161,20 +161,12 @@ const ModelBuilder = ({
                 showSectionVariable={setShowSectionVariable}
                 setDataView={setDataViewVariable}
                 modelCompartment={modelCompartment}
-                // nodes={["california"]}
                 nodes={nodes}
                 setPositionVDT={setPositionVDT}
                 setShowSectionInitialConditions={
                     setShowSectionInitialConditions
                 }
             />
-
-            {/* <Flex w="5%" direction="column">
-                <ToastMessage
-                    isEditing={isEditing}
-                    closeUpdatingModel={setIsEditing}
-                />
-            </Flex> */}
         </>
     );
 };
