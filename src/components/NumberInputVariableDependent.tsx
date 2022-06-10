@@ -1,12 +1,14 @@
-import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { CheckIcon, CloseIcon, InfoIcon } from "@chakra-ui/icons";
 import {
     Flex,
+    Icon,
     IconButton,
     NumberDecrementStepper,
     NumberIncrementStepper,
     NumberInput,
     NumberInputField,
     NumberInputStepper,
+    Tooltip,
 } from "@chakra-ui/react";
 import { setDate } from "date-fns";
 import { id } from "date-fns/locale";
@@ -97,6 +99,9 @@ const NumberInputVariableDependent = ({
                     <NumberDecrementStepper />
                 </NumberInputStepper>
             </NumberInput>
+            <Tooltip label={description}>
+                <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
+            </Tooltip>
             {isStateLocal && isEditingLocalValue && (
                 <>
                     <IconButton
