@@ -53,6 +53,7 @@ const getSIRObjMono = (e, modelParameters, scale, featureSelected) => {
     return {
         idSim: e.idNewModel,
         model: {
+            model: modelParameters.name,
             name: modelParameters.name,
             compartments: modelParameters.compartments,
         },
