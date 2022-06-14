@@ -31,7 +31,6 @@ type Props = {
     duration: number;
     modelCompartment: string;
     otherParameters: Record<string, VariableDependentTime[]>;
-    setParameters: (values: ActionsEpidemicData) => void;
     setIsEnableIconButton: (obj: Record<string, boolean[]>) => void;
     isEnableIconButton: Record<string, boolean[]>;
     showSectionVariable: (show: boolean) => void;
@@ -47,7 +46,6 @@ const NodesParams = ({
     mu,
     duration,
     otherParameters,
-    setParameters,
     setIsEnableIconButton,
     isEnableIconButton,
     showSectionVariable,
@@ -56,7 +54,7 @@ const NodesParams = ({
     setPositionVDT,
     modelCompartment,
 }: Props) => {
-    const { description } = useContext(ControlPanel);
+    const { description, setParameters: setParams } = useContext(ControlPanel);
     return (
         <Accordion reduceMotion allowToggle>
             {nodes.map((node, i) => (
@@ -77,7 +75,6 @@ const NodesParams = ({
                                     <NumberInputVariableDependent
                                         value={beta[i]?.val}
                                         index={i}
-                                        setValue={setParameters}
                                         nameParams="beta"
                                         name={description.beta.alias}
                                         description={
@@ -111,7 +108,7 @@ const NodesParams = ({
                                             if (!e.target.checked) {
                                                 showSectionVariable(false);
                                             }
-                                            setParameters({
+                                            setParams({
                                                 type: "switch",
                                                 target: "beta",
                                                 switch: e.target.checked,
@@ -150,7 +147,6 @@ const NodesParams = ({
                                     <Text fontSize="14px">Alpha (α)</Text>
                                     <NumberInputVariableDependent
                                         value={alpha[i]?.val}
-                                        setValue={setParameters}
                                         nameParams="alpha"
                                         name={description.alpha.alias}
                                         description={
@@ -185,7 +181,7 @@ const NodesParams = ({
                                             if (!e.target.checked) {
                                                 showSectionVariable(false);
                                             }
-                                            setParameters({
+                                            setParams({
                                                 type: "switch",
                                                 target: "alpha",
                                                 switch: e.target.checked,
@@ -222,7 +218,6 @@ const NodesParams = ({
                         <Box py="0.5rem">
                             <NumberInputEpi
                                 value={mu[i]}
-                                setValue={setParameters}
                                 nameParams="mu"
                                 name={description.mu.alias}
                                 description={description.mu.description}

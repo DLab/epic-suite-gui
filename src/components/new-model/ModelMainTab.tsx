@@ -117,8 +117,8 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             });
             const modelsAux = completeModel;
             // eslint-disable-next-line array-callback-return
-            completeModel.map((e, i) => {
-                if (e.idSim === id) {
+            completeModel.forEach((e, i) => {
+                if (e.idNewModel === id) {
                     modelsAux[i] = allModelInfo;
                 }
             });
@@ -162,7 +162,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             populationType: populationValue,
             typeSelection: dataSourceValue,
         };
-        if (JSON.stringify(savedObject) === JSON.stringify(actualObject)) {
+        if (_.isEqual(savedObject, actualObject)) {
             setIsModelSavedLocal(true);
         } else {
             setIsModelSavedLocal(false);
@@ -179,23 +179,23 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         numberOfNodes,
         populationValue,
     ]);
-
-    useEffect(() => {
-        const modelSaved = completeModel.find((model: NewModelsAllParams) => {
-            return model.idNewModel === id;
-        });
-        if (
-            JSON.stringify(modelSaved?.parameters) ===
-            JSON.stringify(parameters)
-        ) {
-            setIsModelSavedLocal(true);
-        } else {
-            setIsModelSavedLocal(false);
-        }
-    }, [completeModel, id, parameters]);
+    // useEffect(() => {
+    //     const modelSaved = completeModel.find((model: NewModelsAllParams) => {
+    //         return model.idNewModel === id;
+    //     }).parameters;
+    //     if (_.isEqual(modelSaved, parameters)) {
+    //         setIsModelSavedLocal(true);
+    //     } else {
+    //         setIsModelSavedLocal(false);
+    //     }
+    //     console.log("dos", _.isEqual(modelSaved, parameters));
+    //     console.log("dos params", modelSaved, parameters);
+    //     console.log("dos", isModelSavedLocal);
+    // }, [completeModel, id, parameters]);
+    // }, [parameters]);
 
     const deleteFromLocalStorage = () => {
-        const modelFilter = completeModel.filter(
+        const modelFilter = [...completeModel].filter(
             (model: NewModelsAllParams) => model.idNewModel !== +id
         );
         localStorage.setItem("newModels", JSON.stringify(modelFilter));
@@ -213,8 +213,6 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getDefaultValueParameters]);
-    /* dispatch to simulationContext data about type selection
-  when select value is changed. Besides, modify other contexts values */
 
     useEffect(() => {
         const getName = getDefaultValueParameters("name");
@@ -301,9 +299,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                             />
                         )}
                 </Accordion>
-                {numberOfNodes !== 0 &&
-                numberOfNodes !== undefined &&
-                !isModelSavedLocal ? (
+                {numberOfNodes !== 0 && numberOfNodes !== undefined && (
                     <Button
                         size="sm"
                         colorScheme="teal"
@@ -347,10 +343,6 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                             }
                         }}
                     >
-                        Save Model
-                    </Button>
-                ) : (
-                    <Button size="sm" colorScheme="teal" m="2%" isDisabled>
                         Save Model
                     </Button>
                 )}

@@ -16,14 +16,13 @@ import {
     Icon,
     IconButton,
 } from "@chakra-ui/react";
-import { duration } from "moment";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
+import { ControlPanel } from "context/ControlPanelContext";
 import { NameFunction } from "types/VariableDependentTime";
 
 interface Props {
     value: number;
-    setValue: (val: unknown) => void;
     nameParams: string;
     description: string;
     step?: number;
@@ -39,7 +38,6 @@ interface Props {
 
 const NumberInputEpi = ({
     value,
-    setValue,
     nameParams,
     step,
     max = Infinity,
@@ -55,12 +53,13 @@ const NumberInputEpi = ({
     const [localValue, setLocalValue] = useState<string>(`${value}`);
     const [isEditingLocalValue, setIsEditingLocalValue] =
         useState<boolean>(false);
+    const { setParameters } = useContext(ControlPanel);
     const handleChange = (val: string | number) => {
         if (isStateLocal) {
             setIsEditingLocalValue(true);
             setLocalValue(`${val}`);
         } else {
-            setValue({ type: "set", payload: val, target: nameParams });
+            setParameters({ type: "set", payload: val, target: nameParams });
         }
     };
 
@@ -185,7 +184,7 @@ const NumberInputEpi = ({
                             cursor="pointer"
                             icon={<CheckIcon />}
                             onClick={() => {
-                                setValue({
+                                setParameters({
                                     type: "set",
                                     payload: +localValue,
                                     target: nameParams,

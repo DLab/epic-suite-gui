@@ -43,7 +43,7 @@ const ModelController = ({
     nodes,
 }: Props) => {
     const {
-        setParameters,
+        setParameters: setParams,
         parameters: {
             t_end,
             pI_det,
@@ -146,7 +146,6 @@ const ModelController = ({
                     <Box>
                         <NumberInputEpi
                             value={t_end}
-                            setValue={setParameters}
                             nameParams="t_end"
                             name="Duration"
                             description="Duration days"
@@ -155,6 +154,7 @@ const ModelController = ({
                             max={Infinity}
                             isInitialParameters
                             type="number"
+                            isStateLocal
                         />
                     </Box>
                 </Flex>
@@ -165,7 +165,6 @@ const ModelController = ({
                                 <Text fontSize="14px">tI_R </Text>
                                 <NumberInputVariableDependent
                                     value={tI_R.val}
-                                    setValue={setParameters}
                                     nameParams="tI_R"
                                     name={description.tI_R.alias}
                                     description={description.tI_R.description}
@@ -193,7 +192,7 @@ const ModelController = ({
                                         if (!e.target.checked) {
                                             showSectionVariable(false);
                                         }
-                                        setParameters({
+                                        setParams({
                                             type: "switch",
                                             target: "tI_R",
                                             switch: e.target.checked,
@@ -228,7 +227,6 @@ const ModelController = ({
                                 <Text fontSize="14px">tE_I</Text>
                                 <NumberInputVariableDependent
                                     value={tE_I.val}
-                                    setValue={setParameters}
                                     nameParams="tE_I"
                                     name={description.tE_I.alias}
                                     description={description.tE_I.description}
@@ -256,7 +254,7 @@ const ModelController = ({
                                         if (!e.target.checked) {
                                             showSectionVariable(false);
                                         }
-                                        setParameters({
+                                        setParams({
                                             type: "switch",
                                             target: "tE_I",
                                             switch: e.target.checked,
@@ -291,7 +289,6 @@ const ModelController = ({
                                 <Text fontSize="14px">rR_S </Text>
                                 <NumberInputVariableDependent
                                     value={rR_S.val}
-                                    setValue={setParameters}
                                     nameParams="rR_S"
                                     name={description.rR_S.alias}
                                     description={description.rR_S.description}
@@ -319,7 +316,7 @@ const ModelController = ({
                                         if (!e.target.checked) {
                                             showSectionVariable(false);
                                         }
-                                        setParameters({
+                                        setParams({
                                             type: "switch",
                                             target: "rR_S",
                                             switch: e.target.checked,
@@ -351,7 +348,6 @@ const ModelController = ({
                     {modelCompartment !== "SEIRHVD" && (
                         <NumberInputEpi
                             value={pI_det}
-                            setValue={setParameters}
                             nameParams="pI_det"
                             name={description.pI_det.alias}
                             description={description.pI_det.description}
@@ -368,7 +364,6 @@ const ModelController = ({
                         <Box py="0.5rem">
                             <NumberInputEpi
                                 value={populationfraction}
-                                setValue={setParameters}
                                 nameParams="populationfraction"
                                 name={description.populationfraction.alias}
                                 description={
@@ -391,7 +386,6 @@ const ModelController = ({
                 </Heading>
                 {/* <Accordion allowToggle reduceMotion> */}
                 <NodesParams
-                    setParameters={setParameters}
                     beta={beta}
                     alpha={alpha}
                     mu={mu}

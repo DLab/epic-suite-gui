@@ -810,7 +810,10 @@ export const ControlPanel = createContext<EpidemicAttributes>({
 const ControlPanelContext: React.FC = ({ children }) => {
     const initialStateRed: EpidemicsData = initialState;
 
-    const reducer = (state: EpidemicsData, action: ActionsEpidemicData) => {
+    const reducerControlPanel = (
+        state: EpidemicsData,
+        action: ActionsEpidemicData
+    ) => {
         if (action.type === "set") {
             if (action.positionVariableDependentTime >= 0) {
                 const newState = {
@@ -888,7 +891,10 @@ const ControlPanelContext: React.FC = ({ children }) => {
         reducerInitCond,
         initialConditions
     );
-    const [params, setParameters] = useReducer(reducer, initialStateRed);
+    const [params, setParameters] = useReducer(
+        reducerControlPanel,
+        initialStateRed
+    );
     const [mode, setMode] = useState<Model>(Model.Add);
     const [idModelUpdate, setIdModelUpdate] = useState(0);
     const [idSimulation, setIdSimulation] = useState(0);

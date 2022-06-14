@@ -63,14 +63,17 @@ export interface ActionsNewModelData {
     id?;
     localState?: NewModelsAllParams[];
 }
-
+export type ActionsNewModel = Omit<ActionsNewModelData, "localState">;
+export interface NewActionsNewModel extends ActionsNewModel {
+    localState?: NewModelsParams[];
+}
 export interface NewModelType {
     mode: string;
     setMode: (value: string) => void;
     idNewModelUpdating: number;
     setIdNewModelUpdating: (value: ActionsIdSimulation) => void;
     newModel: NewModelsParams[] | [];
-    setNewModel: (values: ActionsNewModelData) => void;
+    setNewModel: (values: NewActionsNewModel) => void;
     completeModel: NewModelsAllParams[] | [];
     setCompleteModel: (values: ActionsNewModelData) => void;
     selectedModelsToSimulate: NewModelsAllParams[] | [];
