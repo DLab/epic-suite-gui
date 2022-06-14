@@ -16,7 +16,7 @@ export interface DataToFit {
     I?: LooseObject;
     I_ac?: LooseObject;
     name?: string;
-    I_d_data?: LooseObject;
+    I_d_data?: string | LooseObject;
 }
 
 export interface DataFitProps {
