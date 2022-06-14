@@ -56,15 +56,19 @@ export interface NewModelsAllParams {
 
 export interface ActionsNewModelData {
     type: string;
-    payload?: NewModelsParams;
+    payload?: NewModelsAllParams;
     payloadInitialConditions?: InitialConditionsNewModel[];
     element?: string | boolean | number;
     target?: string;
     id?;
     localState?: NewModelsAllParams[];
 }
-export type ActionsNewModel = Omit<ActionsNewModelData, "localState">;
+export type ActionsNewModel = Omit<
+    ActionsNewModelData,
+    "localState" | "payload"
+>;
 export interface NewActionsNewModel extends ActionsNewModel {
+    payload?: NewModelsParams;
     localState?: NewModelsParams[];
 }
 export interface NewModelType {

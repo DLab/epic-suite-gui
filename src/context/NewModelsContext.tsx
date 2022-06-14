@@ -101,7 +101,7 @@ const NewModelsContext: React.FC = ({ children }) => {
                 });
             case "remove":
                 return state.filter(
-                    (e: NewModelsParams) => e.idNewModel !== +action.element
+                    (e: NewModelsAllParams) => e.idNewModel !== +action.element
                 );
             case "setInitial":
                 return [...state, ...action.localState];
