@@ -139,30 +139,31 @@ const ModelController = ({
                 </AccordionButton>
             </h2>
             <AccordionPanel pb={4} bg="#FFFFFF">
-                <Heading as="h3" fontSize="18px">
+                <Heading as="h3" fontSize="14px">
                     Commons parameters
                 </Heading>
-                <Flex justify="space-between">
-                    <Box>
-                        <NumberInputEpi
-                            value={t_end}
-                            nameParams="t_end"
-                            name="Duration"
-                            description="Duration days"
-                            min={0}
-                            step={1}
-                            max={Infinity}
-                            isInitialParameters
-                            type="number"
-                            isStateLocal
-                        />
-                    </Box>
+                <Flex justifyContent="space-between" wrap="wrap">
+                    <FormControl display="flex" alignItems="center">
+                        <Flex w="50%" h="2rem" alignItems="center">
+                            <NumberInputEpi
+                                value={t_end}
+                                nameParams="t_end"
+                                name="Duration"
+                                description="Duration days"
+                                min={0}
+                                step={1}
+                                max={Infinity}
+                                isInitialParameters
+                                type="number"
+                                isStateLocal
+                            />
+                        </Flex>
+                    </FormControl>
                 </Flex>
                 <Flex justifyContent="space-between" wrap="wrap">
                     {modelCompartment !== "SEIRHVD" && (
                         <FormControl display="flex" alignItems="center">
                             <Flex w="50%" justifyContent="space-between">
-                                <Text fontSize="14px">tI_R </Text>
                                 <NumberInputVariableDependent
                                     value={tI_R.val}
                                     nameParams="tI_R"
@@ -173,6 +174,7 @@ const ModelController = ({
                                     max={description.tI_R.values.max}
                                     isDisabled={isEnableIconButton.tI_R[0]}
                                     duration={t_end}
+                                    isStateLocal
                                 />
                             </Flex>
                             <Flex
@@ -180,7 +182,7 @@ const ModelController = ({
                                 w="50%"
                                 justifyContent="flex-end"
                             >
-                                <Text fontSize="14px">Set function</Text>
+                                <Text fontSize="11px">Set function</Text>
                                 <Switch
                                     ml="0.5rem"
                                     isChecked={isEnableIconButton.tI_R[0]}
@@ -224,7 +226,6 @@ const ModelController = ({
                     {modelCompartment !== "SEIRHVD" && (
                         <FormControl display="flex" alignItems="center">
                             <Flex w="50%" justifyContent="space-between">
-                                <Text fontSize="14px">tE_I</Text>
                                 <NumberInputVariableDependent
                                     value={tE_I.val}
                                     nameParams="tE_I"
@@ -235,6 +236,7 @@ const ModelController = ({
                                     max={description.tE_I.values.max}
                                     isDisabled={isEnableIconButton.tE_I[0]}
                                     duration={t_end}
+                                    isStateLocal
                                 />
                             </Flex>
                             <Flex
@@ -242,7 +244,7 @@ const ModelController = ({
                                 w="50%"
                                 justifyContent="flex-end"
                             >
-                                <Text fontSize="14px">Set function</Text>
+                                <Text fontSize="11px">Set function</Text>
                                 <Switch
                                     ml="0.5rem"
                                     isChecked={isEnableIconButton.tE_I[0]}
@@ -285,8 +287,7 @@ const ModelController = ({
                 <Flex justifyContent="space-between" wrap="wrap">
                     {modelCompartment !== "SEIRHVD" && (
                         <FormControl display="flex" alignItems="center">
-                            <Flex w="50%" justifyContent="space-between">
-                                <Text fontSize="14px">rR_S </Text>
+                            <Flex w="50%" alignItems="center">
                                 <NumberInputVariableDependent
                                     value={rR_S.val}
                                     nameParams="rR_S"
@@ -297,6 +298,7 @@ const ModelController = ({
                                     max={description.rR_S.values.max}
                                     isDisabled={isEnableIconButton.rR_S[0]}
                                     duration={t_end}
+                                    isStateLocal
                                 />
                             </Flex>
                             <Flex
@@ -304,7 +306,7 @@ const ModelController = ({
                                 w="50%"
                                 justifyContent="flex-end"
                             >
-                                <Text fontSize="14px">Set function</Text>
+                                <Text fontSize="11px">Set function</Text>
                                 <Switch
                                     ml="0.5rem"
                                     isChecked={isEnableIconButton.rR_S[0]}
@@ -344,44 +346,59 @@ const ModelController = ({
                         </FormControl>
                     )}
                 </Flex>
-                <Box py="0.5rem">
-                    {modelCompartment !== "SEIRHVD" && (
-                        <NumberInputEpi
-                            value={pI_det}
-                            nameParams="pI_det"
-                            name={description.pI_det.alias}
-                            description={description.pI_det.description}
-                            step={description.pI_det.values.step}
-                            min={description.pI_det.values.min}
-                            max={description.pI_det.values.max}
-                            type="number"
-                            isInitialParameters
-                        />
-                    )}
-                </Box>
+                <Flex justifyContent="space-between" wrap="wrap">
+                    <FormControl display="flex" alignItems="center">
+                        <Flex w="50%" h="2rem" alignItems="center">
+                            {modelCompartment !== "SEIRHVD" && (
+                                <NumberInputEpi
+                                    value={pI_det}
+                                    nameParams="pI_det"
+                                    name={description.pI_det.alias}
+                                    description={description.pI_det.description}
+                                    step={description.pI_det.values.step}
+                                    min={description.pI_det.values.min}
+                                    max={description.pI_det.values.max}
+                                    type="number"
+                                    isInitialParameters
+                                    isStateLocal
+                                />
+                            )}
+                        </Flex>
+                    </FormControl>
+                </Flex>
                 {modelCompartment === "SEIRHVD" && (
-                    <>
-                        <Box py="0.5rem">
-                            <NumberInputEpi
-                                value={populationfraction}
-                                nameParams="populationfraction"
-                                name={description.populationfraction.alias}
-                                description={
-                                    description.populationfraction.description
-                                }
-                                step={
-                                    description.populationfraction.values.step
-                                }
-                                min={description.populationfraction.values.min}
-                                max={description.populationfraction.values.max}
-                                type="number"
-                                isInitialParameters
-                                isStateLocal
-                            />
-                        </Box>
-                    </>
+                    <Flex justifyContent="space-between" wrap="wrap">
+                        <FormControl display="flex" alignItems="center">
+                            <Flex w="50%" h="2rem" alignItems="center">
+                                <NumberInputEpi
+                                    value={populationfraction}
+                                    nameParams="populationfraction"
+                                    name={description.populationfraction.alias}
+                                    description={
+                                        description.populationfraction
+                                            .description
+                                    }
+                                    step={
+                                        description.populationfraction.values
+                                            .step
+                                    }
+                                    min={
+                                        description.populationfraction.values
+                                            .min
+                                    }
+                                    max={
+                                        description.populationfraction.values
+                                            .max
+                                    }
+                                    type="number"
+                                    isInitialParameters
+                                    isStateLocal
+                                />
+                            </Flex>
+                        </FormControl>
+                    </Flex>
                 )}
-                <Heading as="h3" fontSize="18px">
+                <Heading as="h3" fontSize="14px">
                     Parameters by Nodes
                 </Heading>
                 {/* <Accordion allowToggle reduceMotion> */}

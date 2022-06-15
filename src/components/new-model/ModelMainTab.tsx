@@ -117,7 +117,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             });
             const modelsAux = completeModel;
             // eslint-disable-next-line array-callback-return
-            completeModel.forEach((e, i) => {
+            completeModel.forEach((e: NewModelsAllParams, i) => {
                 if (e.idNewModel === id) {
                     modelsAux[i] = allModelInfo;
                 }
@@ -232,7 +232,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         <Flex ml="2%" p="0" h="100%" w="100%">
             <Flex
                 direction="column"
-                w="35%"
+                w="38%"
                 bg="#FAFAFA"
                 borderRadius="6px"
                 boxShadow="sm"

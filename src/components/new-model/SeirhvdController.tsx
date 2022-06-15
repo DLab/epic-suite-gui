@@ -76,7 +76,6 @@ const SeirhvdController = ({
                         alignItems="center"
                     >
                         <Flex w="50%" justifyContent="space-between">
-                            <Text fontSize="14px">{param[0]}</Text>
                             <NumberInputVariableDependent
                                 value={param[1][idNode]?.val}
                                 nameParams={param[0]}
@@ -98,7 +97,7 @@ const SeirhvdController = ({
                             w="50%"
                             justifyContent="flex-end"
                         >
-                            <Text fontSize="14px">Set function</Text>
+                            <Text fontSize="11px">Set function</Text>
                             <Switch
                                 ml="0.5rem"
                                 isChecked={isEnableIconButton[param[0]][idNode]}

@@ -9,6 +9,8 @@ import {
     NumberInputField,
     NumberInputStepper,
     Tooltip,
+    Text,
+    Box,
 } from "@chakra-ui/react";
 import { setDate } from "date-fns";
 import { id } from "date-fns/locale";
@@ -78,12 +80,24 @@ const NumberInputVariableDependent = ({
         }
     };
     return (
-        <Flex>
+        <Flex alignItems="center">
+            <Box minW="30%">
+                <Text
+                    align="left"
+                    fontSize="11px"
+                    color={isDisabled && "gray.200"}
+                >
+                    {name ?? nameParams}
+                </Text>
+            </Box>
+            <Tooltip label={description}>
+                <Icon as={InfoIcon} color="teal" />
+            </Tooltip>
             <NumberInput
-                maxW="80px"
+                maxH="20px"
+                minW="75px"
                 mx="0.2rem"
-                fontSize="14px"
-                // defaultValue={value}
+                fontSize="11px"
                 value={!isStateLocal ? value : localValue}
                 onChange={handleChange}
                 size="xs"
@@ -99,11 +113,9 @@ const NumberInputVariableDependent = ({
                     <NumberDecrementStepper />
                 </NumberInputStepper>
             </NumberInput>
-            <Tooltip label={description}>
-                <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
-            </Tooltip>
+
             {isStateLocal && isEditingLocalValue && (
-                <>
+                <Flex mt="0.5rem" justifyContent="end">
                     <IconButton
                         bg="white"
                         border="thin"
@@ -170,7 +182,7 @@ const NumberInputVariableDependent = ({
                             setLocalValue(`${value}`);
                         }}
                     />
-                </>
+                </Flex>
             )}
         </Flex>
     );

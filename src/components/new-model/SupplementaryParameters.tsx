@@ -39,7 +39,6 @@ const SupplementaryParameters = ({
         <>
             <FormControl display="flex" alignItems="center">
                 <Flex w="50%" justifyContent="space-between">
-                    <Text fontSize="14px">{nameParam}</Text>
                     <NumberInputVariableDependent
                         value={data[idNode]?.val}
                         nameParams={nameParam}
@@ -57,7 +56,7 @@ const SupplementaryParameters = ({
                     />
                 </Flex>
                 <Flex alignItems="center" w="50%" justifyContent="flex-end">
-                    <Text fontSize="14px">Set function</Text>
+                    <Text fontSize="11px">Set function</Text>
                     <Switch
                         ml="0.5rem"
                         isChecked={isEnableIconButton[nameParam][idNode]}

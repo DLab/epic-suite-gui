@@ -15,6 +15,7 @@ import {
     Tooltip,
     Icon,
     IconButton,
+    Box,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 
@@ -65,68 +66,31 @@ const NumberInputEpi = ({
 
     return (
         <>
-            <Flex align="center">
+            <Box minW="30%">
                 <Text
                     align="left"
-                    fontSize="14px"
+                    fontSize="11px"
                     color={isDisabled && "gray.200"}
                 >
                     {name ?? nameParams}
                 </Text>
-                <Tooltip label={description}>
-                    <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
-                </Tooltip>
-            </Flex>
-            <Flex mb="0.5rem">
-                {type === "slider" && (
-                    <>
-                        <NumberInput
-                            maxW="70px"
-                            mr="1rem"
-                            onChange={handleChange}
-                            size="xs"
-                            min={+min}
-                            max={+max}
-                            step={step}
-                            value={!isStateLocal ? value : localValue}
-                        >
-                            <NumberInputField />
-                            <NumberInputStepper>
-                                <NumberIncrementStepper />
-                                <NumberDecrementStepper />
-                            </NumberInputStepper>
-                        </NumberInput>
-                        <Slider
-                            flex="1"
-                            focusThumbOnChange={false}
-                            id="slider-number-input"
-                            value={!isStateLocal ? +value : +localValue}
-                            step={step}
-                            min={+min}
-                            max={+max}
-                            onChange={handleChange}
-                        >
-                            <SliderTrack>
-                                <SliderFilledTrack />
-                            </SliderTrack>
-                            <SliderThumb fontSize="sm" boxSize="32px">
-                                {!isStateLocal ? +value : +localValue}
-                            </SliderThumb>
-                        </Slider>
-                    </>
-                )}
-                {type === "number" && !isInitialParameters && (
+            </Box>
+            <Tooltip label={description}>
+                <Icon as={InfoIcon} color="teal" />
+            </Tooltip>
+
+            {/* {type === "slider" && (
+                <>
                     <NumberInput
+                        fontSize="11px"
                         maxW="70px"
                         mr="1rem"
-                        // defaultValue={value}
                         onChange={handleChange}
                         size="xs"
-                        min={0}
-                        max={max}
+                        min={+min}
+                        max={+max}
                         step={step}
-                        variant="filled"
-                        isDisabled
+                        value={!isStateLocal ? value : localValue}
                     >
                         <NumberInputField />
                         <NumberInputStepper>
@@ -134,80 +98,124 @@ const NumberInputEpi = ({
                             <NumberDecrementStepper />
                         </NumberInputStepper>
                     </NumberInput>
-                )}
-                {isInitialParameters && !isStateLocal && (
-                    <NumberInput
-                        maxW="120px"
-                        mr="1rem"
-                        value={value}
-                        onChange={handleChange}
-                        size="xs"
-                        min={min}
-                        max={max}
+                    <Slider
+                        flex="1"
+                        focusThumbOnChange={false}
+                        id="slider-number-input"
+                        value={!isStateLocal ? +value : +localValue}
                         step={step}
-                    >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                        </NumberInputStepper>
-                    </NumberInput>
-                )}
-                {isInitialParameters && isStateLocal && (
-                    <NumberInput
-                        maxW="120px"
-                        mr="1rem"
-                        value={localValue}
+                        min={+min}
+                        max={+max}
                         onChange={handleChange}
-                        size="xs"
-                        min={min}
-                        max={max}
-                        step={step}
                     >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                        </NumberInputStepper>
-                    </NumberInput>
-                )}
+                        <SliderTrack>
+                            <SliderFilledTrack />
+                        </SliderTrack>
+                        <SliderThumb fontSize="sm" boxSize="32px">
+                            {!isStateLocal ? +value : +localValue}
+                        </SliderThumb>
+                    </Slider>
+                </>
+            )} */}
+            {type === "number" && !isInitialParameters && (
+                <NumberInput
+                    maxH="20px"
+                    maxW="75px"
+                    mx="0.2rem"
+                    fontSize="11px"
+                    // defaultValue={value}
+                    onChange={handleChange}
+                    size="xs"
+                    min={0}
+                    max={max}
+                    step={step}
+                    variant="outline"
+                    isDisabled
+                >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                    </NumberInputStepper>
+                </NumberInput>
+            )}
+            {isInitialParameters && !isStateLocal && (
+                <NumberInput
+                    maxH="20px"
+                    maxW="75px"
+                    mx="0.2rem"
+                    fontSize="11px"
+                    value={value}
+                    onChange={handleChange}
+                    size="xs"
+                    min={min}
+                    max={max}
+                    step={step}
+                    variant="outline"
+                >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                    </NumberInputStepper>
+                </NumberInput>
+            )}
+            {isInitialParameters && isStateLocal && (
+                <NumberInput
+                    maxH="20px"
+                    maxW="75px"
+                    mx="0.2rem"
+                    fontSize="11px"
+                    value={localValue}
+                    onChange={handleChange}
+                    size="xs"
+                    min={min}
+                    max={max}
+                    step={step}
+                    variant="outline"
+                >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                    </NumberInputStepper>
+                </NumberInput>
+            )}
 
-                {isStateLocal && isEditingLocalValue && (
-                    <>
-                        <IconButton
-                            ml="2rem"
-                            bg="white"
-                            border="thin"
-                            color="teal.500"
-                            aria-label="Check date range button"
-                            size="xs"
-                            cursor="pointer"
-                            icon={<CheckIcon />}
-                            onClick={() => {
-                                setParameters({
-                                    type: "set",
-                                    payload: +localValue,
-                                    target: nameParams,
-                                    positionVariableDependentTime: index,
-                                });
-                                setIsEditingLocalValue(false);
-                            }}
-                        />
-                        <IconButton
-                            bg="white"
-                            color="red.500"
-                            aria-label="Cancel date range button"
-                            size="xs"
-                            cursor="pointer"
-                            icon={<CloseIcon />}
-                            onClick={() => {
-                                setIsEditingLocalValue(false);
-                                setLocalValue(`${value}`);
-                            }}
-                        />
-                    </>
-                )}
-            </Flex>
+            {isStateLocal && isEditingLocalValue && (
+                <Flex mt="0.5rem" justifyContent="end">
+                    <IconButton
+                        bg="white"
+                        border="thin"
+                        color="teal.500"
+                        aria-label="Check date range button"
+                        size="xs"
+                        cursor="pointer"
+                        icon={<CheckIcon />}
+                        onClick={() => {
+                            setParameters({
+                                type: "set",
+                                payload: +localValue,
+                                target: nameParams,
+                                positionVariableDependentTime: index,
+                            });
+                            setIsEditingLocalValue(false);
+                        }}
+                    />
+                    <IconButton
+                        bg="white"
+                        color="red.500"
+                        aria-label="Cancel date range button"
+                        size="xs"
+                        cursor="pointer"
+                        icon={<CloseIcon />}
+                        onClick={() => {
+                            setIsEditingLocalValue(false);
+                            setLocalValue(`${value}`);
+                        }}
+                    />
+                </Flex>
+            )}
         </>
     );
 };
