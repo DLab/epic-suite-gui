@@ -49,7 +49,7 @@ const DataFitTab = () => {
     const [startDate, setStartDate] = useState(new Date(2021, 11, 31));
     const [dataValues, setDataValues] = useState([]);
     const [parameterName, setParameterName] = useState(undefined);
-    const [isSimulating, setisSimulating] = useState(false);
+    const [isSimulating, setIsSimulating] = useState(false);
 
     // Cambiar valores del radio button a nombres representativos de los ejemplos
     const [SampleSourceValue, setSampleSourceValue] = useState("1");
@@ -104,11 +104,11 @@ const DataFitTab = () => {
 
     const handleFetch = async () => {
         try {
-            setisSimulating(true);
+            setIsSimulating(true);
             const fitRes = await getFittedData();
-            const x = { model: fitRes.results.simulation };
-            const val = Object.values(x);
-            const keys = Object.keys(x);
+            const fitResModel = { model: fitRes.results.simulation };
+            const val = Object.values(fitResModel);
+            const keys = Object.keys(fitResModel);
             const resFittedData = val
                 .map((simString: string) => JSON.parse(simString))
                 .map((sim, i) => ({
@@ -146,7 +146,7 @@ const DataFitTab = () => {
                 });
             }
         } finally {
-            setisSimulating(false);
+            setIsSimulating(false);
         }
     };
 
