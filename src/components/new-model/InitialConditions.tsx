@@ -13,9 +13,7 @@ import {
 import React, { useContext, useState, useEffect } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
-import { ModelsSaved } from "context/ModelsContext";
 import { NewModelSetted } from "context/NewModelsContext";
-import { SelectFeature } from "context/SelectFeaturesContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { InitialConditions as InitialConditionsContext } from "types/ControlPanelTypes";
 import { NewModelsParams } from "types/SimulationTypes";
@@ -57,50 +55,7 @@ const InitialConditionsModel = ({
         idSimulationUpdating,
         setIdSimulationUpdating,
     } = useContext(SimulationSetted);
-    const { parameters } = useContext(ModelsSaved);
     const [models, setModels] = useState(false);
-    // const [modelName, setModelName] = useState("SEIR");
-
-    // const { idModel } =
-    //     simulation.find(
-    //         ({ idSim }: SimulatorParams) => idSim === idSimulationUpdating
-    //     ) ?? {};
-    // useEffect(() => {
-    //     if (idModelSelected !== 0) {
-    //         const getIdModel = simulation.find(
-    //             ({ idSim }: SimulatorParams) => idSim === idSimulation
-    //         );
-
-    //         const getModelById = parameters.find(
-    //             (m: DataParameters) => m.id === getIdModel.idModel
-    //         )?.parameters;
-    //         setModelName(getModelById?.name);
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [idModelSelected, idModel]);
-
-    // useEffect(() => {
-    //     if (initialConditionsMode) {
-    //         setInitialConditions({
-    //             type: RealConditions,
-    //             real: intialConditionsSim,
-    //         });
-    //     }
-    //     if (
-    //         typeof window !== "undefined" &&
-    //         window.localStorage.getItem("models") &&
-    //         idModel
-    //     ) {
-    //         const dataLocalStorageModel = JSON.parse(
-    //             window.localStorage.getItem("models")
-    //         );
-    //         const {
-    //             parameters: { name },
-    //         } = dataLocalStorageModel.find((dl) => dl.id === idModel);
-    //         if (name === "SEIR" || name === "SEIRHVD") setModels(true);
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [idModel, idSimulation, intialConditionsSim, modelName]);
     const [value, setValue] = useState({
         I: 0,
         I_d: 0,
@@ -432,12 +387,11 @@ const InitialConditionsModel = ({
                                     let initialConditionsNews = [];
 
                                     const newModelAux = newModel;
-                                    const initialConditionsModel =
-                                        newModelAux.filter(
-                                            (model: NewModelsParams) => {
-                                                return model.idNewModel === id;
-                                            }
-                                        )[0].initialConditions;
+                                    const initialConditionsModel = [
+                                        ...newModelAux,
+                                    ].filter((model: NewModelsParams) => {
+                                        return model.idNewModel === id;
+                                    })[0].initialConditions;
 
                                     initialConditionsModel.forEach((icNode) => {
                                         if (icNode.name === nodeName) {
@@ -456,18 +410,6 @@ const InitialConditionsModel = ({
                                         ];
                                         return initialConditionsNews;
                                     });
-
-                                    // initialConditionsModel.forEach(
-                                    //     (initialNode) => {
-                                    //         if (initialNode.name === nodeName) {
-                                    //             // [...initialConditionsModel[index], [conditionsValues]: value];
-                                    //             initialNode.conditionsValues =
-                                    //                 value;
-                                    //             return initialConditionsModel;
-                                    //         }
-                                    //         return false;
-                                    //     }
-                                    // );
                                     setNewModel({
                                         type: "update-initial-conditions",
                                         payloadInitialConditions:
@@ -475,19 +417,6 @@ const InitialConditionsModel = ({
                                         id,
                                     });
                                 }
-                                // const simulationAux = simulation;
-                                // // eslint-disable-next-line array-callback-return
-                                // simulation.map((e, i) => {
-                                //     if (e.idSim === idSimulation) {
-                                //         e.initialConditions =
-                                //             initialConditions;
-                                //     }
-                                // });
-
-                                // localStorage.setItem(
-                                //     "simulations",
-                                //     JSON.stringify(simulationAux)
-                                // );
                                 toast({
                                     position: "bottom-left",
                                     title: "Updated successful",

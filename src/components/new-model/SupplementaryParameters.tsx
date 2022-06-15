@@ -34,15 +34,13 @@ const SupplementaryParameters = ({
     setIsEnableIconButton,
     setPositionVDT,
 }: Props) => {
-    const { setParameters } = useContext(ControlPanel);
+    const { setParameters: setParamsControlPanel } = useContext(ControlPanel);
     return (
         <>
             <FormControl display="flex" alignItems="center">
                 <Flex w="50%" justifyContent="space-between">
-                    <Text fontSize="14px">{nameParam}</Text>
                     <NumberInputVariableDependent
                         value={data[idNode]?.val}
-                        setValue={setParameters}
                         nameParams={nameParam}
                         name={nameParam}
                         description="Fraction of E that turn into Im"
@@ -58,7 +56,7 @@ const SupplementaryParameters = ({
                     />
                 </Flex>
                 <Flex alignItems="center" w="50%" justifyContent="flex-end">
-                    <Text fontSize="14px">Set function</Text>
+                    <Text fontSize="11px">Set function</Text>
                     <Switch
                         ml="0.5rem"
                         isChecked={isEnableIconButton[nameParam][idNode]}
@@ -73,7 +71,7 @@ const SupplementaryParameters = ({
                             if (!e.target.checked) {
                                 showSectionVariable(false);
                             }
-                            setParameters({
+                            setParamsControlPanel({
                                 type: "switch",
                                 target: nameParam,
                                 switch: e.target.checked,

@@ -9,16 +9,18 @@ import {
     NumberInputField,
     NumberInputStepper,
     Tooltip,
+    Text,
+    Box,
 } from "@chakra-ui/react";
 import { setDate } from "date-fns";
 import { id } from "date-fns/locale";
-import { useState } from "react";
+import { useState, useContext } from "react";
 
+import { ControlPanel } from "context/ControlPanelContext";
 import { NameFunction } from "types/VariableDependentTime";
 
 interface Props {
     value: number;
-    setValue: (val: unknown) => void;
     nameParams: string;
     description: string;
     step?: number;
@@ -35,7 +37,6 @@ interface Props {
 
 const NumberInputVariableDependent = ({
     value,
-    setValue,
     nameParams,
     step,
     max = Infinity,
@@ -52,12 +53,13 @@ const NumberInputVariableDependent = ({
     const [localValue, setLocalValue] = useState<string>(`${value}`);
     const [isEditingLocalValue, setIsEditingLocalValue] =
         useState<boolean>(false);
+    const { setParameters } = useContext(ControlPanel);
     const handleChange = (val: string | number) => {
         if (isStateLocal) {
             setIsEditingLocalValue(true);
             setLocalValue(`${val}`);
         } else {
-            setValue({
+            setParameters({
                 type: "setVariableDependent",
                 payloadVariableDependent: {
                     rangeDays: [[0, duration]],
@@ -70,7 +72,7 @@ const NumberInputVariableDependent = ({
                     name: nameParams,
                     default: 7,
                     isEnabled: false,
-                    val,
+                    val: +val,
                 },
                 positionVariableDependentTime: index ?? -1,
                 target: nameParams,
@@ -78,12 +80,24 @@ const NumberInputVariableDependent = ({
         }
     };
     return (
-        <Flex>
+        <Flex alignItems="center">
+            <Box minW="30%">
+                <Text
+                    align="left"
+                    fontSize="11px"
+                    color={isDisabled && "gray.200"}
+                >
+                    {name ?? nameParams}
+                </Text>
+            </Box>
+            <Tooltip label={description}>
+                <Icon as={InfoIcon} color="teal" />
+            </Tooltip>
             <NumberInput
-                maxW="80px"
+                maxH="20px"
+                minW="75px"
                 mx="0.2rem"
-                fontSize="14px"
-                // defaultValue={value}
+                fontSize="11px"
                 value={!isStateLocal ? value : localValue}
                 onChange={handleChange}
                 size="xs"
@@ -99,11 +113,9 @@ const NumberInputVariableDependent = ({
                     <NumberDecrementStepper />
                 </NumberInputStepper>
             </NumberInput>
-            <Tooltip label={description}>
-                <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
-            </Tooltip>
+
             {isStateLocal && isEditingLocalValue && (
-                <>
+                <Flex mt="0.5rem" justifyContent="end">
                     <IconButton
                         bg="white"
                         border="thin"
@@ -113,7 +125,7 @@ const NumberInputVariableDependent = ({
                         cursor="pointer"
                         icon={<CheckIcon />}
                         onClick={() => {
-                            setValue({
+                            setParameters({
                                 type: "setVariableDependent",
                                 payloadVariableDependent: {
                                     rangeDays: [[0, duration]],
@@ -136,7 +148,7 @@ const NumberInputVariableDependent = ({
                                 const supplementaryValueFromParam = Number(
                                     1 - parseFloat(param)
                                 ).toFixed(2);
-                                setValue({
+                                setParameters({
                                     type: "setVariableDependent",
                                     payloadVariableDependent: {
                                         rangeDays: [[0, duration]],
@@ -170,7 +182,7 @@ const NumberInputVariableDependent = ({
                             setLocalValue(`${value}`);
                         }}
                     />
-                </>
+                </Flex>
             )}
         </Flex>
     );

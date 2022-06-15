@@ -31,7 +31,6 @@ type Props = {
     duration: number;
     modelCompartment: string;
     otherParameters: Record<string, VariableDependentTime[]>;
-    setParameters: (values: ActionsEpidemicData) => void;
     setIsEnableIconButton: (obj: Record<string, boolean[]>) => void;
     isEnableIconButton: Record<string, boolean[]>;
     showSectionVariable: (show: boolean) => void;
@@ -47,7 +46,6 @@ const NodesParams = ({
     mu,
     duration,
     otherParameters,
-    setParameters,
     setIsEnableIconButton,
     isEnableIconButton,
     showSectionVariable,
@@ -56,7 +54,7 @@ const NodesParams = ({
     setPositionVDT,
     modelCompartment,
 }: Props) => {
-    const { description } = useContext(ControlPanel);
+    const { description, setParameters: setParams } = useContext(ControlPanel);
     return (
         <Accordion reduceMotion allowToggle>
             {nodes.map((node, i) => (
@@ -73,11 +71,9 @@ const NodesParams = ({
                         <Flex justifyContent="space-between" wrap="wrap">
                             <FormControl display="flex" alignItems="center">
                                 <Flex w="50%">
-                                    <Text fontSize="14px">Beta (β)</Text>
                                     <NumberInputVariableDependent
                                         value={beta[i]?.val}
                                         index={i}
-                                        setValue={setParameters}
                                         nameParams="beta"
                                         name={description.beta.alias}
                                         description={
@@ -96,7 +92,7 @@ const NodesParams = ({
                                     w="50%"
                                     justifyContent="flex-end"
                                 >
-                                    <Text fontSize="14px">Set function</Text>
+                                    <Text fontSize="11px">Set function</Text>
                                     <Switch
                                         ml="0.5rem"
                                         isChecked={isEnableIconButton.beta[i]}
@@ -111,7 +107,7 @@ const NodesParams = ({
                                             if (!e.target.checked) {
                                                 showSectionVariable(false);
                                             }
-                                            setParameters({
+                                            setParams({
                                                 type: "switch",
                                                 target: "beta",
                                                 switch: e.target.checked,
@@ -146,11 +142,9 @@ const NodesParams = ({
 
                         <Flex justifyContent="space-between" wrap="wrap">
                             <FormControl display="flex" alignItems="center">
-                                <Flex w="60%">
-                                    <Text fontSize="14px">Alpha (α)</Text>
+                                <Flex w="50%">
                                     <NumberInputVariableDependent
                                         value={alpha[i]?.val}
-                                        setValue={setParameters}
                                         nameParams="alpha"
                                         name={description.alpha.alias}
                                         description={
@@ -170,7 +164,7 @@ const NodesParams = ({
                                     w="50%"
                                     justifyContent="flex-end"
                                 >
-                                    <Text fontSize="14px">Set function</Text>
+                                    <Text fontSize="11px">Set function</Text>
                                     <Switch
                                         ml="0.5rem"
                                         isChecked={isEnableIconButton.alpha[i]}
@@ -185,7 +179,7 @@ const NodesParams = ({
                                             if (!e.target.checked) {
                                                 showSectionVariable(false);
                                             }
-                                            setParameters({
+                                            setParams({
                                                 type: "switch",
                                                 target: "alpha",
                                                 switch: e.target.checked,
@@ -219,22 +213,25 @@ const NodesParams = ({
                                 </Flex>
                             </FormControl>
                         </Flex>
-                        <Box py="0.5rem">
-                            <NumberInputEpi
-                                value={mu[i]}
-                                setValue={setParameters}
-                                nameParams="mu"
-                                name={description.mu.alias}
-                                description={description.mu.description}
-                                step={description.mu.values.step}
-                                min={description.mu.values.min}
-                                max={description.mu.values.max}
-                                index={i}
-                                type="number"
-                                isStateLocal
-                                isInitialParameters
-                            />
-                        </Box>
+                        <Flex justifyContent="space-between" wrap="wrap">
+                            <FormControl display="flex" alignItems="center">
+                                <Flex w="50%" h="2rem" alignItems="center">
+                                    <NumberInputEpi
+                                        value={mu[i]}
+                                        nameParams="mu"
+                                        name={description.mu.alias}
+                                        description={description.mu.description}
+                                        step={description.mu.values.step}
+                                        min={description.mu.values.min}
+                                        max={description.mu.values.max}
+                                        index={i}
+                                        type="number"
+                                        isStateLocal
+                                        isInitialParameters
+                                    />
+                                </Flex>
+                            </FormControl>
+                        </Flex>
                         {modelCompartment === "SEIRHVD" && (
                             <SeirhvdController
                                 setPositionVDT={setPositionVDT}

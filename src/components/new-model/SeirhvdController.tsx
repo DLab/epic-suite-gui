@@ -40,7 +40,8 @@ const SeirhvdController = ({
     duration,
     setPositionVDT,
 }: Props) => {
-    const { setParameters, description } = useContext(ControlPanel);
+    const { setParameters: setControlPanelContext, description } =
+        useContext(ControlPanel);
     return (
         <>
             {Object.entries(seirhvdProps).map((param) => {
@@ -75,10 +76,8 @@ const SeirhvdController = ({
                         alignItems="center"
                     >
                         <Flex w="50%" justifyContent="space-between">
-                            <Text fontSize="14px">{param[0]}</Text>
                             <NumberInputVariableDependent
                                 value={param[1][idNode]?.val}
-                                setValue={setParameters}
                                 nameParams={param[0]}
                                 name={`${param[0]}`}
                                 description={description[param[0]].description}
@@ -98,7 +97,7 @@ const SeirhvdController = ({
                             w="50%"
                             justifyContent="flex-end"
                         >
-                            <Text fontSize="14px">Set function</Text>
+                            <Text fontSize="11px">Set function</Text>
                             <Switch
                                 ml="0.5rem"
                                 isChecked={isEnableIconButton[param[0]][idNode]}
@@ -113,7 +112,7 @@ const SeirhvdController = ({
                                     if (!e.target.checked) {
                                         showSectionVariable(false);
                                     }
-                                    setParameters({
+                                    setControlPanelContext({
                                         type: "switch",
                                         target: param[0],
                                         switch: e.target.checked,
