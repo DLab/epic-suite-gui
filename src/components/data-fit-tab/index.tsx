@@ -24,7 +24,7 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 import { NewModelsAllParams } from "types/SimulationTypes";
 import postData from "utils/fetchData";
 
-import EndPointSource from "./EndPointSource";
+// import EndPointSource from "./EndPointSource";
 import FileSource from "./FileSource";
 import FitParemetersTabs from "./FitParemetersTabs";
 import getObjectConfigTest, { realData } from "./getFitObjectConfigTest";
