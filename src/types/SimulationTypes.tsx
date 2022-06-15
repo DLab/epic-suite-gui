@@ -56,21 +56,28 @@ export interface NewModelsAllParams {
 
 export interface ActionsNewModelData {
     type: string;
-    payload?: NewModelsParams;
+    payload?: NewModelsAllParams;
     payloadInitialConditions?: InitialConditionsNewModel[];
     element?: string | boolean | number;
     target?: string;
     id?;
     localState?: NewModelsAllParams[];
 }
-
+export type ActionsNewModel = Omit<
+    ActionsNewModelData,
+    "localState" | "payload"
+>;
+export interface NewActionsNewModel extends ActionsNewModel {
+    payload?: NewModelsParams;
+    localState?: NewModelsParams[];
+}
 export interface NewModelType {
     mode: string;
     setMode: (value: string) => void;
     idNewModelUpdating: number;
     setIdNewModelUpdating: (value: ActionsIdSimulation) => void;
     newModel: NewModelsParams[] | [];
-    setNewModel: (values: ActionsNewModelData) => void;
+    setNewModel: (values: NewActionsNewModel) => void;
     completeModel: NewModelsAllParams[] | [];
     setCompleteModel: (values: ActionsNewModelData) => void;
     selectedModelsToSimulate: NewModelsAllParams[] | [];

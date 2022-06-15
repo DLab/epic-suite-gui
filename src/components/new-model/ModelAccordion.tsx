@@ -112,9 +112,11 @@ const ModelAccordion = ({
 
     useEffect(() => {
         if (modelValue === "seirhvd") {
-            const getGeoSelectionNoCounties = allGeoSelections.filter((e) => {
-                return e.scale !== "Counties";
-            });
+            const getGeoSelectionNoCounties = [...allGeoSelections].filter(
+                (e) => {
+                    return e.scale !== "Counties";
+                }
+            );
             setGeoSelections(getGeoSelectionNoCounties);
         } else {
             setGeoSelections(allGeoSelections);

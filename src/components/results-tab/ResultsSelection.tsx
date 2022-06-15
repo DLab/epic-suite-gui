@@ -11,7 +11,6 @@ import {
 import React, { useEffect, useContext } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
-import { ModelsSaved } from "context/ModelsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SimulationSetted } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
@@ -23,7 +22,6 @@ import RealDataCheckBoxs from "./RealDataCheckBoxs";
 const ResultsSelection = () => {
     const { aux: responseSim } = useContext(TabIndex);
     const { simulation: simulationSetted } = useContext(SimulationSetted);
-    const { parameters } = useContext(ModelsSaved);
     const {
         simulationKeys,
         setSimulationKeys,
