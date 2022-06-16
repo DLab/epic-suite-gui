@@ -1,5 +1,7 @@
+/* eslint-disable complexity */
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
+import { CheckCircleIcon, WarningTwoIcon } from "@chakra-ui/icons";
 import {
     Select,
     Text,
@@ -9,6 +11,9 @@ import {
     Center,
     Spinner,
     useToast,
+    Tag,
+    TagLabel,
+    TagRightIcon,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import React, { useState, useContext, useEffect } from "react";
@@ -58,10 +63,10 @@ const DataFitTab = () => {
     const { completeModel } = useContext(NewModelSetted);
 
     useEffect(() => {
-        if (algorithmValue === "algorithm-1") {
+        if (algorithmValue === "Intervals") {
             setParameterName("New daily infected");
         }
-        if (algorithmValue === "algorithm-2") {
+        if (algorithmValue === "Sequential") {
             setParameterName("Active infected");
         }
     }, [algorithmValue]);
@@ -86,6 +91,7 @@ const DataFitTab = () => {
             // tI_R: 10,
             tE_I: +modelParameters.tE_I.val,
             tI_R: +modelParameters.tI_R.val,
+            method: algorithmValue,
             I_d_data: JSON.stringify(realDataToFit[0].I_d_data),
             t_data: JSON.stringify(getTimeData(modelParameters.t_end)),
         };
@@ -197,6 +203,8 @@ const DataFitTab = () => {
                                             setGeoSelectionId(
                                                 parseInt(stringIdGeo, 10)
                                             );
+                                        } else {
+                                            setGeoSelectionId(0);
                                         }
                                     }
                                     setFittedData([]);
@@ -236,10 +244,10 @@ const DataFitTab = () => {
                                     setDataValues([]);
                                 }}
                             >
-                                <option key="algorithm-1" value="algorithm-1">
+                                <option key="algorithm-1" value="Intervals">
                                     Intervals
                                 </option>
-                                <option key="algorithm-2" value="algorithm-2">
+                                <option key="algorithm-2" value="Sequential">
                                     Sequential
                                 </option>
                             </Select>
@@ -268,9 +276,12 @@ const DataFitTab = () => {
                                 <option key="sample" value="sample">
                                     Sample Data
                                 </option>
-                                <option key="endpoint" value="endpoint">
-                                    Endpoint
-                                </option>
+                                {geoSelectionId !== undefined &&
+                                    geoSelectionId !== 0 && (
+                                        <option key="endpoint" value="endpoint">
+                                            Endpoint
+                                        </option>
+                                    )}
                             </Select>
                         </Box>
                         {/* {dataSourceType === "file" && <FileSource />} */}
@@ -288,18 +299,19 @@ const DataFitTab = () => {
                                 algorithmValue={algorithmValue}
                             />
                         )}
-                        {/* <Box mb="3%">
+                        <Box mb="3%">
                             <Text fontSize="14px" fontWeight={500}>
                                 Data For Fit
                             </Text>
-
                             {dataValues.length > 0 ? (
                                 <Tag
                                     size="sm"
                                     variant="outline"
                                     colorScheme="green"
                                 >
-                                    <TagLabel>{parameterName} Loaded</TagLabel>
+                                    {/* Refactorizar cuando se usen diferentes infectados */}
+                                    {/* <TagLabel>{parameterName} Loaded</TagLabel> */}
+                                    <TagLabel>Daily infected Loaded</TagLabel>
                                     <TagRightIcon as={CheckCircleIcon} />
                                 </Tag>
                             ) : (
@@ -312,7 +324,7 @@ const DataFitTab = () => {
                                     <TagRightIcon as={WarningTwoIcon} />
                                 </Tag>
                             )}
-                        </Box> */}
+                        </Box>
                     </Flex>
                     <Box mt="2%">
                         <Center>

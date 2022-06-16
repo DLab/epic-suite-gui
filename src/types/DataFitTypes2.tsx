@@ -7,6 +7,7 @@ export interface FittedData {
     I_ac?: LooseObject;
     name?: string;
     beta?: number;
+    beta_days?: string;
     parameter?: number;
     prevState?: null;
     mu?: number;

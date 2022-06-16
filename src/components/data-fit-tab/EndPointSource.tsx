@@ -60,7 +60,7 @@ const EndPointSource = ({ modelId, setDataValues, algorithmValue }: Props) => {
             });
             const fitDataName = Object.keys(res.result);
 
-            if (algorithmValue === "algorithm-1") {
+            if (algorithmValue === "Intervals") {
                 const dataForAlgorithm1 = Object.values(
                     // refactorizar cuando sepa que tipo de infectados usar
                     res.result.Data_Fit.I
@@ -78,10 +78,10 @@ const EndPointSource = ({ modelId, setDataValues, algorithmValue }: Props) => {
                     },
                 ]);
             }
-            if (algorithmValue === "algorithm-2") {
+            if (algorithmValue === "Sequential") {
                 const dataForAlgorithm2 = Object.values(
                     // refactorizar cuando sepa que tipo de infectados usar
-                    res.result.Data_Fit.I_active
+                    res.result.Data_Fit.I
                 ).map((val: string) => {
                     return parseInt(val, 10);
                 });
