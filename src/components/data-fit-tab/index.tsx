@@ -55,12 +55,25 @@ const DataFitTab = () => {
     const [dataValues, setDataValues] = useState([]);
     const [parameterName, setParameterName] = useState(undefined);
     const [isSimulating, setIsSimulating] = useState(false);
+    const [enableFitButton, setEnableFitButton] = useState(false);
 
     // Cambiar valores del radio button a nombres representativos de los ejemplos
     const [sampleSourceValue, setSampleSourceValue] = useState("1");
     const { fittedData, realDataToFit, setFittedData, setRealDataToFit } =
         useContext(DataFit);
     const { completeModel } = useContext(NewModelSetted);
+
+    useEffect(() => {
+        if (
+            modelId !== undefined &&
+            algorithmValue !== undefined &&
+            dataValues.length !== 0
+        ) {
+            setEnableFitButton(true);
+        } else {
+            setEnableFitButton(false);
+        }
+    }, [algorithmValue, dataValues.length, modelId]);
 
     useEffect(() => {
         if (algorithmValue === "Intervals") {
@@ -268,6 +281,7 @@ const DataFitTab = () => {
                                     setFittedData([]);
                                     setRealDataToFit([]);
                                     setDataValues([]);
+                                    setSampleSourceValue("1");
                                     // setGeoSelectionId(0);
                                 }}
                             >
@@ -329,43 +343,40 @@ const DataFitTab = () => {
                     </Flex>
                     <Box mt="2%">
                         <Center>
-                            <Button
-                                colorScheme="blue"
-                                color="white"
-                                onClick={() => {
-                                    handleFetch();
-                                    // getFittedData().then((res) => {
-                                    //     const val = Object.values(
-                                    //         res.fitResult
-                                    //     );
-                                    //     const keys = Object.keys(res.fitResult);
-                                    //     const resFittedData = val
-                                    //         .map(
-                                    //             (simString: string) => simString
-                                    //         )
-                                    //         .map((sim, i) => ({
-                                    //             name: keys[i],
-                                    //             // eslint-disable-next-line @typescript-eslint/ban-types
-                                    //             ...(sim as {}),
-                                    //         }));
-                                    //     setFittedData(resFittedData);
-                                    // });
-                                }}
-                            >
-                                {isSimulating ? (
-                                    <>
-                                        <Spinner
-                                            thickness="4px"
-                                            speed="0.65s"
-                                            emptyColor="gray.200"
-                                            color="blue.500"
-                                        />
-                                        <Text pl="1rem">Fit...</Text>
-                                    </>
-                                ) : (
-                                    `Fit`
-                                )}
-                            </Button>
+                            {enableFitButton ? (
+                                <Button
+                                    colorScheme="blue"
+                                    color="white"
+                                    onClick={() => {
+                                        handleFetch();
+                                    }}
+                                >
+                                    {isSimulating ? (
+                                        <>
+                                            <Spinner
+                                                thickness="4px"
+                                                speed="0.65s"
+                                                emptyColor="gray.200"
+                                                color="blue.500"
+                                            />
+                                            <Text pl="1rem">Fit...</Text>
+                                        </>
+                                    ) : (
+                                        `Fit`
+                                    )}
+                                </Button>
+                            ) : (
+                                <Button
+                                    colorScheme="blue"
+                                    color="white"
+                                    isDisabled
+                                    onClick={() => {
+                                        handleFetch();
+                                    }}
+                                >
+                                    Fit
+                                </Button>
+                            )}
                         </Center>
                     </Box>
                 </Flex>
