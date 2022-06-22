@@ -43,7 +43,7 @@ const SampleSource = ({ value, setValue, setDataValues }: Props) => {
                 {/* <Radio value="1">Real Data example 1</Radio>
                 <Radio value="2">Real Data example 2</Radio> */}
                 <Radio value="example3">Synthetic Data example 1</Radio>
-                <Radio value="4">Synthetic Data example 2</Radio>
+                {/* <Radio value="4">Synthetic Data example 2</Radio> */}
             </Stack>
         </RadioGroup>
     );

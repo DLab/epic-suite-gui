@@ -57,7 +57,7 @@ const DataFitTab = () => {
     const [isSimulating, setIsSimulating] = useState(false);
 
     // Cambiar valores del radio button a nombres representativos de los ejemplos
-    const [SampleSourceValue, setSampleSourceValue] = useState("1");
+    const [sampleSourceValue, setSampleSourceValue] = useState("1");
     const { fittedData, realDataToFit, setFittedData, setRealDataToFit } =
         useContext(DataFit);
     const { completeModel } = useContext(NewModelSetted);
@@ -157,13 +157,13 @@ const DataFitTab = () => {
     };
 
     return (
-        <Box>
+        <Box h="100%">
             <Box h="5vh" mh="5vh">
                 <Text color="#16609E" fontSize="18px" fontWeight="bold">
                     Data Fit
                 </Text>
             </Box>
-            <Flex ml="2%" p="0" h="100%">
+            <Flex ml="2%" p="0" h="97%">
                 <Flex
                     direction="column"
                     w="35%"
@@ -209,6 +209,7 @@ const DataFitTab = () => {
                                     }
                                     setFittedData([]);
                                     setRealDataToFit([]);
+                                    setSampleSourceValue("1");
                                     setDataValues([]);
                                 }}
                             >
@@ -267,7 +268,7 @@ const DataFitTab = () => {
                                     setFittedData([]);
                                     setRealDataToFit([]);
                                     setDataValues([]);
-                                    setGeoSelectionId(0);
+                                    // setGeoSelectionId(0);
                                 }}
                             >
                                 {/* <option key="file" value="file">
@@ -287,7 +288,7 @@ const DataFitTab = () => {
                         {/* {dataSourceType === "file" && <FileSource />} */}
                         {dataSourceType === "sample" && (
                             <SampleSource
-                                value={SampleSourceValue}
+                                value={sampleSourceValue}
                                 setValue={setSampleSourceValue}
                                 setDataValues={setDataValues}
                             />
@@ -368,7 +369,7 @@ const DataFitTab = () => {
                         </Center>
                     </Box>
                 </Flex>
-                <Flex direction="column" w="65%" m="0 2%">
+                <Flex direction="column" w="65%" m="0 2%" h="88vh">
                     <Flex
                         h="50%"
                         bg="#FAFAFA"
