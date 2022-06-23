@@ -38,7 +38,7 @@ const MetapopulationDataFit = ({ nodeNameFilter }: Props) => {
 
     return (
         <Accordion defaultIndex={[0]} allowMultiple>
-            {fittedDataList.map((data) => {
+            {fittedDataList.map((data, index) => {
                 return (
                     <AccordionItem>
                         <h2>
@@ -74,7 +74,10 @@ const MetapopulationDataFit = ({ nodeNameFilter }: Props) => {
                                             // const info = fittedData[0][key];
                                             return (
                                                 <TabPanel>
-                                                    <FitParameterTable />
+                                                    <FitParameterTable
+                                                        param={key}
+                                                        index={index}
+                                                    />
                                                 </TabPanel>
                                             );
                                         }

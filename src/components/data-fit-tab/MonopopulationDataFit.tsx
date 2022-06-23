@@ -45,10 +45,18 @@ const MonopopulationDataFit = () => {
                             // const info = fittedData[0][key];
                             return (
                                 <TabPanel>
-                                    {key === "beta" && <FitParameterTable />}
-                                    {key === "mu" && (
+                                    {typeof fittedData[0][key] === "number" ? (
                                         <Text>{fittedData[0].mu}</Text>
+                                    ) : (
+                                        <FitParameterTable
+                                            param={key}
+                                            index={0}
+                                        />
                                     )}
+                                    {/* // {key === "beta" && <FitParameterTable />}
+                                    // {key === "mu" && (
+                                    //     <Text>{fittedData[0].mu}</Text>
+                                    // )} */}
                                 </TabPanel>
                             );
                         }
