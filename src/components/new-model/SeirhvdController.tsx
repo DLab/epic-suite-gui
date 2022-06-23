@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Flex, IconButton, Switch, FormControl, Text } from "@chakra-ui/react";
 import React, { useContext } from "react";
+import { useDispatch } from "react-redux";
 
 import FunctionIcon from "components/icons/FunctionIcon";
 import NumberInputEpi from "components/NumberInputEpi";
 import NumberInputVariableDependent from "components/NumberInputVariableDependent";
 import { ControlPanel } from "context/ControlPanelContext";
+import { update } from "store/ControlPanel";
 import VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
 
@@ -13,7 +15,6 @@ import SupplementaryParameters from "./SupplementaryParameters";
 
 type Props = {
     showSectionVariable: (values: boolean) => void;
-    setDataView: (values: VariableDependentTime) => void;
     isEnableIconButton: Record<string, boolean[]>;
     duration: number;
     setIsEnableIconButton: (obj: Record<string, boolean[]>) => void;
@@ -32,7 +33,6 @@ const supplementaryParametersKeys = {
 const utilList = ["pH_R", "pIv_H", "pIv_R"];
 const SeirhvdController = ({
     showSectionVariable,
-    setDataView,
     isEnableIconButton,
     setIsEnableIconButton,
     idNode,
@@ -40,8 +40,8 @@ const SeirhvdController = ({
     duration,
     setPositionVDT,
 }: Props) => {
-    const { setParameters: setControlPanelContext, description } =
-        useContext(ControlPanel);
+    const { description, setDataViewVariable } = useContext(ControlPanel);
+    const dispatch = useDispatch();
     return (
         <>
             {Object.entries(seirhvdProps).map((param) => {
@@ -52,7 +52,6 @@ const SeirhvdController = ({
                         <SupplementaryParameters
                             key={createIdComponent()}
                             showSectionVariable={showSectionVariable}
-                            setDataView={setDataView}
                             setPositionVDT={setPositionVDT}
                             data={param[1]}
                             nameParam={param[0]}
@@ -112,12 +111,15 @@ const SeirhvdController = ({
                                     if (!e.target.checked) {
                                         showSectionVariable(false);
                                     }
-                                    setControlPanelContext({
-                                        type: "switch",
-                                        target: param[0],
-                                        switch: e.target.checked,
-                                        positionVariableDependentTime: idNode,
-                                    });
+                                    dispatch(
+                                        update({
+                                            type: "switch",
+                                            target: param[0],
+                                            switch: e.target.checked,
+                                            positionVariableDependentTime:
+                                                idNode,
+                                        })
+                                    );
                                 }}
                             />
 
@@ -135,7 +137,7 @@ const SeirhvdController = ({
                                 ml="1rem"
                                 onClick={() => {
                                     showSectionVariable(true);
-                                    setDataView(param[1][idNode]);
+                                    setDataViewVariable(param[1][idNode]);
                                 }}
                             />
                         </Flex>

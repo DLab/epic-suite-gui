@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { FormControl, Flex, Switch, IconButton, Text } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import FunctionIcon from "components/icons/FunctionIcon";
 import NumberInputVariableDependent from "components/NumberInputVariableDependent";
 import { ControlPanel } from "context/ControlPanelContext";
+import { update } from "store/ControlPanel";
 import VariableDependentTime, {
     NameFunction,
 } from "types/VariableDependentTime";
 
 interface Props {
     showSectionVariable: (values: boolean) => void;
-    setDataView: (values: VariableDependentTime) => void;
     isEnableIconButton: Record<string, boolean[]>;
     data: VariableDependentTime[];
     nameParam: string;
@@ -24,7 +25,6 @@ interface Props {
 
 const SupplementaryParameters = ({
     showSectionVariable,
-    setDataView,
     data,
     nameParam,
     supplementaryParam,
@@ -34,7 +34,8 @@ const SupplementaryParameters = ({
     setIsEnableIconButton,
     setPositionVDT,
 }: Props) => {
-    const { setParameters: setParamsControlPanel } = useContext(ControlPanel);
+    const { setDataViewVariable } = useContext(ControlPanel);
+    const dispatch = useDispatch();
     return (
         <>
             <FormControl display="flex" alignItems="center">
@@ -71,12 +72,14 @@ const SupplementaryParameters = ({
                             if (!e.target.checked) {
                                 showSectionVariable(false);
                             }
-                            setParamsControlPanel({
-                                type: "switch",
-                                target: nameParam,
-                                switch: e.target.checked,
-                                positionVariableDependentTime: idNode,
-                            });
+                            dispatch(
+                                update({
+                                    type: "switch",
+                                    target: nameParam,
+                                    switch: e.target.checked,
+                                    positionVariableDependentTime: idNode,
+                                })
+                            );
                         }}
                     />
 
@@ -92,7 +95,7 @@ const SupplementaryParameters = ({
                         ml="1rem"
                         onClick={() => {
                             showSectionVariable(true);
-                            setDataView(data[idNode]);
+                            setDataViewVariable(data[idNode]);
                             setPositionVDT(idNode);
                         }}
                     />

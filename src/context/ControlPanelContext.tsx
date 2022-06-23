@@ -10,7 +10,9 @@ import {
     EpidemicAttributes,
     DescriptionParameters,
 } from "types/ControlPanelTypes";
-import { NameFunction } from "types/VariableDependentTime";
+import VariableDependentTime, {
+    NameFunction,
+} from "types/VariableDependentTime";
 
 export const initialState: EpidemicsData = {
     name_model: "Model 1",
@@ -792,12 +794,22 @@ const initialConditions: InitialConditions = {
     H_d: 1,
     D_d: 0,
 };
+const initDataViewVariable: VariableDependentTime = {
+    rangeDays: [[0, 500]],
+    type: [{ name: NameFunction.static, value: 0 }],
+    name: "nothing",
+    default: 0.3,
+    isEnabled: false,
+    val: 0.3,
+};
 export const ControlPanel = createContext<EpidemicAttributes>({
     mode: Model.Add,
     setMode: () => {},
     parameters: initialState,
     setParameters: () => {},
     description: descriptionParameters,
+    dataViewVariable: initDataViewVariable,
+    setDataViewVariable: () => {},
     idModelUpdate: 0,
     setIdModelUpdate: () => {},
     initialConditions,
@@ -898,9 +910,13 @@ const ControlPanelContext: React.FC = ({ children }) => {
     const [mode, setMode] = useState<Model>(Model.Add);
     const [idModelUpdate, setIdModelUpdate] = useState(0);
     const [idSimulation, setIdSimulation] = useState(0);
+    const [dataViewVariable, setDataViewVariable] =
+        useState<VariableDependentTime>(initDataViewVariable);
     return (
         <ControlPanel.Provider
             value={{
+                dataViewVariable,
+                setDataViewVariable,
                 parameters: params,
                 setParameters,
                 description: descriptionParameters,

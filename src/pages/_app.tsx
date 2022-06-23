@@ -8,9 +8,11 @@ import { DefaultSeo } from "next-seo";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import "@fontsource/lexend/latin.css";
+import { Provider } from "react-redux";
 
 import defaultSEOConfig from "../../next-seo.config";
 import Layout from "components/layout";
+import store from "store/store";
 import createEmotionCache from "styles/createEmotionCache";
 import customTheme from "styles/customTheme";
 import "styles/globals.css";
@@ -37,7 +39,9 @@ const MyApp = ({
                 </Head>
                 <DefaultSeo {...defaultSEOConfig} />
                 <Layout>
-                    <Component {...pageProps} />
+                    <Provider store={store}>
+                        <Component {...pageProps} />
+                    </Provider>
                 </Layout>
             </ChakraProvider>
         </CacheProvider>

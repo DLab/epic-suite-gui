@@ -12,11 +12,13 @@ import {
     Text,
 } from "@chakra-ui/react";
 import { useContext } from "react";
+import { useDispatch } from "react-redux";
 
 import FunctionIcon from "components/icons/FunctionIcon";
 import NumberInputEpi from "components/NumberInputEpi";
 import NumberInputVariableDependent from "components/NumberInputVariableDependent";
 import { ControlPanel } from "context/ControlPanelContext";
+import { update } from "store/ControlPanel";
 import { ActionsEpidemicData } from "types/ControlPanelTypes";
 import VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
@@ -35,7 +37,6 @@ type Props = {
     isEnableIconButton: Record<string, boolean[]>;
     showSectionVariable: (show: boolean) => void;
     setShowSectionInitialConditions: (value: boolean) => void;
-    setDataView: (dataView: VariableDependentTime) => void;
     setPositionVDT: (position: number) => void;
 };
 
@@ -50,11 +51,11 @@ const NodesParams = ({
     isEnableIconButton,
     showSectionVariable,
     setShowSectionInitialConditions,
-    setDataView,
     setPositionVDT,
     modelCompartment,
 }: Props) => {
-    const { description, setParameters: setParams } = useContext(ControlPanel);
+    const { description, setDataViewVariable } = useContext(ControlPanel);
+    const dispatch = useDispatch();
     return (
         <Accordion reduceMotion allowToggle>
             {nodes.map((node, i) => (
@@ -107,13 +108,15 @@ const NodesParams = ({
                                             if (!e.target.checked) {
                                                 showSectionVariable(false);
                                             }
-                                            setParams({
-                                                type: "switch",
-                                                target: "beta",
-                                                switch: e.target.checked,
-                                                positionVariableDependentTime:
-                                                    i,
-                                            });
+                                            dispatch(
+                                                update({
+                                                    type: "switch",
+                                                    target: "beta",
+                                                    switch: e.target.checked,
+                                                    positionVariableDependentTime:
+                                                        i,
+                                                })
+                                            );
                                         }}
                                     />
 
@@ -132,7 +135,7 @@ const NodesParams = ({
                                                 false
                                             );
                                             showSectionVariable(true);
-                                            setDataView(beta[i]);
+                                            setDataViewVariable(beta[i]);
                                             setPositionVDT(i);
                                         }}
                                     />
@@ -179,13 +182,15 @@ const NodesParams = ({
                                             if (!e.target.checked) {
                                                 showSectionVariable(false);
                                             }
-                                            setParams({
-                                                type: "switch",
-                                                target: "alpha",
-                                                switch: e.target.checked,
-                                                positionVariableDependentTime:
-                                                    i,
-                                            });
+                                            dispatch(
+                                                update({
+                                                    type: "switch",
+                                                    target: "alpha",
+                                                    switch: e.target.checked,
+                                                    positionVariableDependentTime:
+                                                        i,
+                                                })
+                                            );
                                         }}
                                     />
 
@@ -206,7 +211,7 @@ const NodesParams = ({
                                                 false
                                             );
                                             showSectionVariable(true);
-                                            setDataView(alpha[i]);
+                                            setDataViewVariable(alpha[i]);
                                             setPositionVDT(i);
                                         }}
                                     />
@@ -237,7 +242,6 @@ const NodesParams = ({
                                 setPositionVDT={setPositionVDT}
                                 showSectionVariable={showSectionVariable}
                                 idNode={i}
-                                setDataView={setDataView}
                                 isEnableIconButton={isEnableIconButton}
                                 setIsEnableIconButton={setIsEnableIconButton}
                                 seirhvdProps={otherParameters}

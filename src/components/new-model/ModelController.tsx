@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-identical-functions */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { EditIcon } from "@chakra-ui/icons";
 import {
@@ -13,12 +14,17 @@ import {
     AccordionIcon,
     AccordionPanel,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import NumberInputEpi from "../NumberInputEpi";
 import FunctionIcon from "components/icons/FunctionIcon";
 import NumberInputVariableDependent from "components/NumberInputVariableDependent";
 import { ControlPanel } from "context/ControlPanelContext";
+import { NewModelSetted } from "context/NewModelsContext";
+import { update } from "store/ControlPanel";
+import { RootState } from "store/store";
+import { NewModelsAllParams } from "types/SimulationTypes";
 import VariableDependentTime, {
     NameFunction,
 } from "types/VariableDependentTime";
@@ -28,7 +34,6 @@ import NodesParams from "./NodesParams";
 interface Props {
     showSectionVariable: (values: boolean) => void;
     setShowSectionInitialConditions: (value: boolean) => void;
-    setDataView: (values: VariableDependentTime) => void;
     setPositionVDT: (value: number) => void;
     nodes?: string[];
     modelCompartment?: string;
@@ -37,76 +42,47 @@ interface Props {
 const ModelController = ({
     showSectionVariable,
     setShowSectionInitialConditions,
-    setDataView,
     setPositionVDT,
     modelCompartment,
     nodes,
 }: Props) => {
-    const {
-        setParameters: setParams,
-        parameters: {
-            t_end,
-            pI_det,
-            rR_S,
-            tE_I,
-            tI_R,
-            population,
-            populationfraction,
-            mu,
-            beta,
-            alpha,
-            Beta_v,
-            vac_d,
-            vac_eff,
-            pE_Im,
-            tE_Im,
-            pE_Icr,
-            tE_Icr,
-            tEv_Iv,
-            tIm_R,
-            tIcr_H,
-            pIv_R,
-            tIv_R,
-            pIv_H,
-            tIv_H,
-            pH_R,
-            tH_R,
-            pH_D,
-            tH_D,
-            pR_S,
-            tR_S,
-        },
-        description,
-    } = useContext(ControlPanel);
+    // el problema no es useContext ni redux, el problema es que el componente
+    // no está actualizando a los hijos. Esto puede deberse a que no se está
+    // guardando un state que permita actualizar dichos valores
+    const { description, setDataViewVariable, idModelUpdate } =
+        useContext(ControlPanel);
+    const { completeModel } = useContext(NewModelSetted);
+    const parameters = useSelector((state: RootState) => state.controlPanel);
+    const dispatch = useDispatch();
     const [isEnableIconButton, setIsEnableIconButton] = useState<
         Record<string, boolean[]>
     >(
         [
-            rR_S,
-            tE_I,
-            tI_R,
-            beta,
-            alpha,
-            Beta_v,
-            vac_d,
-            vac_eff,
-            pE_Im,
-            tE_Im,
-            pE_Icr,
-            tE_Icr,
-            tEv_Iv,
-            tIm_R,
-            tIcr_H,
-            pIv_R,
-            tIv_R,
-            pIv_H,
-            tIv_H,
-            pH_R,
-            tH_R,
-            pH_D,
-            tH_D,
-            pR_S,
-            tR_S,
+            parameters.rR_S,
+            parameters.tE_I,
+            parameters.tI_R,
+            parameters.beta,
+            parameters.alpha,
+            parameters.Beta_v,
+            parameters.vac_d,
+            parameters.vac_eff,
+            parameters.pE_Im,
+            parameters.tE_Im,
+            parameters.pE_Icr,
+            parameters.tE_Icr,
+            parameters.tEv_Iv,
+            parameters.tIm_R,
+            parameters.tIcr_H,
+            parameters.pIv_R,
+            parameters.tIv_R,
+            parameters.pIv_H,
+            parameters.tIv_H,
+            parameters.pH_R,
+            parameters.tH_R,
+            parameters.pH_D,
+            parameters.tH_D,
+            parameters.pR_S,
+            parameters.tR_S,
         ].reduce((acc, current) => {
             if (Array.isArray(current)) {
                 return {
@@ -122,6 +98,64 @@ const ModelController = ({
             };
         }, {})
     );
+
+    useEffect(() => {
+        const paramsModelsToUpdate = completeModel.find(
+            (model: NewModelsAllParams) => model.idNewModel === idModelUpdate
+        );
+        if (paramsModelsToUpdate) {
+            dispatch(
+                update({
+                    type: "update",
+                    updateData: paramsModelsToUpdate.parameters,
+                })
+            );
+            setIsEnableIconButton(
+                [
+                    paramsModelsToUpdate.parameters.rR_S,
+                    paramsModelsToUpdate.parameters.tE_I,
+                    paramsModelsToUpdate.parameters.tI_R,
+                    paramsModelsToUpdate.parameters.beta,
+                    paramsModelsToUpdate.parameters.alpha,
+                    paramsModelsToUpdate.parameters.Beta_v,
+                    paramsModelsToUpdate.parameters.vac_d,
+                    paramsModelsToUpdate.parameters.vac_eff,
+                    paramsModelsToUpdate.parameters.pE_Im,
+                    paramsModelsToUpdate.parameters.tE_Im,
+                    paramsModelsToUpdate.parameters.pE_Icr,
+                    paramsModelsToUpdate.parameters.tE_Icr,
+                    paramsModelsToUpdate.parameters.tEv_Iv,
+                    paramsModelsToUpdate.parameters.tIm_R,
+                    paramsModelsToUpdate.parameters.tIcr_H,
+                    paramsModelsToUpdate.parameters.pIv_R,
+                    paramsModelsToUpdate.parameters.tIv_R,
+                    paramsModelsToUpdate.parameters.pIv_H,
+                    paramsModelsToUpdate.parameters.tIv_H,
+                    paramsModelsToUpdate.parameters.pH_R,
+                    paramsModelsToUpdate.parameters.tH_R,
+                    paramsModelsToUpdate.parameters.pH_D,
+                    paramsModelsToUpdate.parameters.tH_D,
+                    paramsModelsToUpdate.parameters.pR_S,
+                    paramsModelsToUpdate.parameters.tR_S,
+                ].reduce((acc, current) => {
+                    if (Array.isArray(current)) {
+                        return {
+                            ...acc,
+                            [current[0].name]: [
+                                ...current.map(
+                                    (variable) => variable.isEnabled
+                                ),
+                            ],
+                        };
+                    }
+                    return {
+                        ...acc,
+                        [current.name]: [current.isEnabled],
+                    };
+                }, {})
+            );
+        }
+    }, [completeModel, dispatch, idModelUpdate]);
 
     return (
         <AccordionItem isFocusable>
@@ -146,7 +180,7 @@ const ModelController = ({
                     <FormControl display="flex" alignItems="center">
                         <Flex w="50%" h="2rem" alignItems="center">
                             <NumberInputEpi
-                                value={t_end}
+                                value={parameters.t_end}
                                 nameParams="t_end"
                                 name="Duration"
                                 description="Duration days"
@@ -165,7 +199,7 @@ const ModelController = ({
                         <FormControl display="flex" alignItems="center">
                             <Flex w="50%" justifyContent="space-between">
                                 <NumberInputVariableDependent
-                                    value={tI_R.val}
+                                    value={parameters.tI_R.val}
                                     nameParams="tI_R"
                                     name={description.tI_R.alias}
                                     description={description.tI_R.description}
@@ -173,7 +207,7 @@ const ModelController = ({
                                     min={description.tI_R.values.min}
                                     max={description.tI_R.values.max}
                                     isDisabled={isEnableIconButton.tI_R[0]}
-                                    duration={t_end}
+                                    duration={parameters.t_end}
                                     isStateLocal
                                 />
                             </Flex>
@@ -194,11 +228,13 @@ const ModelController = ({
                                         if (!e.target.checked) {
                                             showSectionVariable(false);
                                         }
-                                        setParams({
-                                            type: "switch",
-                                            target: "tI_R",
-                                            switch: e.target.checked,
-                                        });
+                                        dispatch(
+                                            update({
+                                                type: "switch",
+                                                target: "tI_R",
+                                                switch: e.target.checked,
+                                            })
+                                        );
                                     }}
                                 />
 
@@ -215,7 +251,7 @@ const ModelController = ({
                                     onClick={() => {
                                         setShowSectionInitialConditions(false);
                                         showSectionVariable(true);
-                                        setDataView(tI_R);
+                                        setDataViewVariable(parameters.tI_R);
                                     }}
                                 />
                             </Flex>
@@ -227,7 +263,7 @@ const ModelController = ({
                         <FormControl display="flex" alignItems="center">
                             <Flex w="50%" justifyContent="space-between">
                                 <NumberInputVariableDependent
-                                    value={tE_I.val}
+                                    value={parameters.tE_I.val}
                                     nameParams="tE_I"
                                     name={description.tE_I.alias}
                                     description={description.tE_I.description}
@@ -235,7 +271,7 @@ const ModelController = ({
                                     min={description.tE_I.values.min}
                                     max={description.tE_I.values.max}
                                     isDisabled={isEnableIconButton.tE_I[0]}
-                                    duration={t_end}
+                                    duration={parameters.t_end}
                                     isStateLocal
                                 />
                             </Flex>
@@ -256,11 +292,13 @@ const ModelController = ({
                                         if (!e.target.checked) {
                                             showSectionVariable(false);
                                         }
-                                        setParams({
-                                            type: "switch",
-                                            target: "tE_I",
-                                            switch: e.target.checked,
-                                        });
+                                        dispatch(
+                                            update({
+                                                type: "switch",
+                                                target: "tE_I",
+                                                switch: e.target.checked,
+                                            })
+                                        );
                                     }}
                                 />
 
@@ -277,7 +315,7 @@ const ModelController = ({
                                     onClick={() => {
                                         setShowSectionInitialConditions(false);
                                         showSectionVariable(true);
-                                        setDataView(tE_I);
+                                        setDataViewVariable(parameters.tE_I);
                                     }}
                                 />
                             </Flex>
@@ -289,7 +327,7 @@ const ModelController = ({
                         <FormControl display="flex" alignItems="center">
                             <Flex w="50%" alignItems="center">
                                 <NumberInputVariableDependent
-                                    value={rR_S.val}
+                                    value={parameters.rR_S.val}
                                     nameParams="rR_S"
                                     name={description.rR_S.alias}
                                     description={description.rR_S.description}
@@ -297,7 +335,7 @@ const ModelController = ({
                                     min={description.rR_S.values.min}
                                     max={description.rR_S.values.max}
                                     isDisabled={isEnableIconButton.rR_S[0]}
-                                    duration={t_end}
+                                    duration={parameters.t_end}
                                     isStateLocal
                                 />
                             </Flex>
@@ -318,11 +356,13 @@ const ModelController = ({
                                         if (!e.target.checked) {
                                             showSectionVariable(false);
                                         }
-                                        setParams({
-                                            type: "switch",
-                                            target: "rR_S",
-                                            switch: e.target.checked,
-                                        });
+                                        dispatch(
+                                            update({
+                                                type: "switch",
+                                                target: "rR_S",
+                                                switch: e.target.checked,
+                                            })
+                                        );
                                     }}
                                 />
 
@@ -339,7 +379,7 @@ const ModelController = ({
                                     onClick={() => {
                                         setShowSectionInitialConditions(false);
                                         showSectionVariable(true);
-                                        setDataView(rR_S);
+                                        setDataViewVariable(parameters.rR_S);
                                     }}
                                 />
                             </Flex>
@@ -351,7 +391,7 @@ const ModelController = ({
                         <Flex w="50%" h="2rem" alignItems="center">
                             {modelCompartment !== "SEIRHVD" && (
                                 <NumberInputEpi
-                                    value={pI_det}
+                                    value={parameters.pI_det}
                                     nameParams="pI_det"
                                     name={description.pI_det.alias}
                                     description={description.pI_det.description}
@@ -371,7 +411,7 @@ const ModelController = ({
                         <FormControl display="flex" alignItems="center">
                             <Flex w="50%" h="2rem" alignItems="center">
                                 <NumberInputEpi
-                                    value={populationfraction}
+                                    value={parameters.populationfraction}
                                     nameParams="populationfraction"
                                     name={description.populationfraction.alias}
                                     description={
@@ -403,41 +443,40 @@ const ModelController = ({
                 </Heading>
                 {/* <Accordion allowToggle reduceMotion> */}
                 <NodesParams
-                    beta={beta}
-                    alpha={alpha}
-                    mu={mu}
+                    beta={parameters.beta}
+                    alpha={parameters.alpha}
+                    mu={parameters.mu}
                     nodes={nodes}
-                    duration={t_end}
+                    duration={parameters.t_end}
                     setIsEnableIconButton={setIsEnableIconButton}
                     isEnableIconButton={isEnableIconButton}
                     showSectionVariable={showSectionVariable}
                     setShowSectionInitialConditions={
                         setShowSectionInitialConditions
                     }
-                    setDataView={setDataView}
                     setPositionVDT={setPositionVDT}
                     modelCompartment={modelCompartment}
                     otherParameters={{
-                        Beta_v,
-                        vac_d,
-                        vac_eff,
-                        pE_Im,
-                        tE_Im,
-                        pE_Icr,
-                        tE_Icr,
-                        tEv_Iv,
-                        tIm_R,
-                        tIcr_H,
-                        pIv_R,
-                        tIv_R,
-                        pIv_H,
-                        tIv_H,
-                        pH_R,
-                        tH_R,
-                        pH_D,
-                        tH_D,
-                        pR_S,
-                        tR_S,
+                        Beta_v: parameters.Beta_v,
+                        vac_d: parameters.vac_d,
+                        vac_eff: parameters.vac_eff,
+                        pE_Im: parameters.pE_Im,
+                        tE_Im: parameters.tE_Im,
+                        pE_Icr: parameters.pE_Icr,
+                        tE_Icr: parameters.tE_Icr,
+                        tEv_Iv: parameters.tEv_Iv,
+                        tIm_R: parameters.tIm_R,
+                        tIcr_H: parameters.tIcr_H,
+                        pIv_R: parameters.pIv_R,
+                        tIv_R: parameters.tIv_R,
+                        pIv_H: parameters.pIv_H,
+                        tIv_H: parameters.tIv_H,
+                        pH_R: parameters.pH_R,
+                        tH_R: parameters.tH_R,
+                        pH_D: parameters.pH_D,
+                        tH_D: parameters.tH_D,
+                        pR_S: parameters.pR_S,
+                        tR_S: parameters.tR_S,
                     }}
                 />
             </AccordionPanel>
@@ -446,6 +485,3 @@ const ModelController = ({
 };
 
 export default ModelController;
-function useEffect(arg0: () => void, arg1: number[]) {
-    throw new Error("Function not implemented.");
-}

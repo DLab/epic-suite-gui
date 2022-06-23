@@ -21,8 +21,11 @@ import {
 import dynamic from "next/dynamic";
 import { useReducer, useState, useContext } from "react";
 import Plot from "react-plotly.js";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ControlPanel } from "context/ControlPanelContext";
+import { update } from "store/ControlPanel";
+import { RootState } from "store/store";
 import VariableDependentTime, {
     DataForGraph,
     NameFunction,
@@ -70,7 +73,9 @@ const SectionVariableDependentTime = ({
             t: [],
         },
     ]);
-    const { parameters, setParameters } = useContext(ControlPanel);
+    // const { parameters, setParameters } = useContext(ControlPanel);
+    const dispatch = useDispatch();
+    const parameters = useSelector((state: RootState) => state.controlPanel);
     const [values, setValues] = useReducer(
         reducerVariableDependent,
         valuesVariablesDependent
@@ -266,15 +271,17 @@ const SectionVariableDependentTime = ({
                                 }
                             );
                             if (isCorrectRange) {
-                                setParameters({
-                                    type: "setVariableDependent",
-                                    target: values["name"],
-                                    payloadVariableDependent: {
-                                        ...values,
-                                        default: +values["default"],
-                                    },
-                                    positionVariableDependentTime,
-                                });
+                                dispatch(
+                                    update({
+                                        type: "setVariableDependent",
+                                        target: values["name"],
+                                        payloadVariableDependent: {
+                                            ...values,
+                                            default: +values["default"],
+                                        },
+                                        positionVariableDependentTime,
+                                    })
+                                );
                                 showSectionVariable(false);
                             } else {
                                 toast({

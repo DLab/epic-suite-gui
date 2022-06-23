@@ -44,7 +44,7 @@ const SelectDate = ({
     initialConditionsGraph,
 }: Props) => {
     const toast = useToast();
-    const { setInitialConditions } = useContext(ControlPanel);
+    // const { setInitialConditions } = useContext(ControlPanel);
     const { geoSelections } = useContext(SelectFeature);
     const { setNewModel } = useContext(NewModelSetted);
 

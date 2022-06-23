@@ -7,20 +7,16 @@ import {
     NumberIncrementStepper,
     NumberDecrementStepper,
     Flex,
-    Slider,
-    SliderFilledTrack,
-    SliderTrack,
-    SliderThumb,
     Text,
     Tooltip,
     Icon,
     IconButton,
     Box,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
-import { ControlPanel } from "context/ControlPanelContext";
-import { NameFunction } from "types/VariableDependentTime";
+import { update } from "store/ControlPanel";
 
 interface Props {
     value: number;
@@ -54,15 +50,25 @@ const NumberInputEpi = ({
     const [localValue, setLocalValue] = useState<string>(`${value}`);
     const [isEditingLocalValue, setIsEditingLocalValue] =
         useState<boolean>(false);
-    const { setParameters } = useContext(ControlPanel);
+    const dispatch = useDispatch();
     const handleChange = (val: string | number) => {
         if (isStateLocal) {
             setIsEditingLocalValue(true);
             setLocalValue(`${val}`);
         } else {
-            setParameters({ type: "set", payload: val, target: nameParams });
+            dispatch(
+                update({
+                    type: "set",
+                    positionVariableDependentTime: index,
+                    target: nameParams,
+                    payload: +localValue,
+                })
+            );
         }
     };
+    useEffect(() => {
+        setLocalValue(`${value}`);
+    }, [value]);
 
     return (
         <>
@@ -193,12 +199,14 @@ const NumberInputEpi = ({
                         cursor="pointer"
                         icon={<CheckIcon />}
                         onClick={() => {
-                            setParameters({
-                                type: "set",
-                                payload: +localValue,
-                                target: nameParams,
-                                positionVariableDependentTime: index,
-                            });
+                            dispatch(
+                                update({
+                                    type: "set",
+                                    positionVariableDependentTime: index,
+                                    target: nameParams,
+                                    payload: +localValue,
+                                })
+                            );
                             setIsEditingLocalValue(false);
                         }}
                     />
