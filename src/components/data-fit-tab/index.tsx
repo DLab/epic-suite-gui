@@ -343,40 +343,28 @@ const DataFitTab = () => {
                     </Flex>
                     <Box mt="2%">
                         <Center>
-                            {enableFitButton ? (
-                                <Button
-                                    colorScheme="blue"
-                                    color="white"
-                                    onClick={() => {
-                                        handleFetch();
-                                    }}
-                                >
-                                    {isSimulating ? (
-                                        <>
-                                            <Spinner
-                                                thickness="4px"
-                                                speed="0.65s"
-                                                emptyColor="gray.200"
-                                                color="blue.500"
-                                            />
-                                            <Text pl="1rem">Fit...</Text>
-                                        </>
-                                    ) : (
-                                        `Fit`
-                                    )}
-                                </Button>
-                            ) : (
-                                <Button
-                                    colorScheme="blue"
-                                    color="white"
-                                    isDisabled
-                                    onClick={() => {
-                                        handleFetch();
-                                    }}
-                                >
-                                    Fit
-                                </Button>
-                            )}
+                            <Button
+                                colorScheme="blue"
+                                color="white"
+                                isDisabled={!enableFitButton}
+                                onClick={() => {
+                                    handleFetch();
+                                }}
+                            >
+                                {isSimulating ? (
+                                    <>
+                                        <Spinner
+                                            thickness="4px"
+                                            speed="0.65s"
+                                            emptyColor="gray.200"
+                                            color="blue.500"
+                                        />
+                                        <Text pl="1rem">Fit...</Text>
+                                    </>
+                                ) : (
+                                    `Fit`
+                                )}
+                            </Button>
                         </Center>
                     </Box>
                 </Flex>
