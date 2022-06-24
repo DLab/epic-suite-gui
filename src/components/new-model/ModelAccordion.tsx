@@ -29,7 +29,9 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 import countiesData from "data/counties.json";
 import stateData from "data/states.json";
 
-import getInitialConditionsByModel from "./initialConditionsByModel";
+import getInitialConditionsByModel, {
+    getPreviusInitialConditions,
+} from "./initialConditionsByModel";
 
 interface Props {
     modelName: string;
@@ -133,6 +135,24 @@ const ModelAccordion = ({
     };
 
     const getInitialConditionsGraphsArray = (graphsValuesArray) => {
+        const previusInitialConditions =
+            getDefaultValueParameters("initialConditions");
+        const previusTypeSelection = getDefaultValueParameters("typeSelection");
+
+        if (
+            previusInitialConditions.length > 0 &&
+            previusTypeSelection !== "geographic"
+        ) {
+            return graphsValuesArray.map((graph, index) => {
+                return {
+                    name: graph,
+                    conditionsValues: getPreviusInitialConditions(
+                        modelValue,
+                        previusInitialConditions[index].conditionsValues
+                    ),
+                };
+            });
+        }
         return graphsValuesArray.map((graph) => {
             return {
                 name: graph,

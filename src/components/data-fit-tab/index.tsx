@@ -334,22 +334,6 @@ const DataFitTab = () => {
                                 color="white"
                                 onClick={() => {
                                     handleFetch();
-                                    // getFittedData().then((res) => {
-                                    //     const val = Object.values(
-                                    //         res.fitResult
-                                    //     );
-                                    //     const keys = Object.keys(res.fitResult);
-                                    //     const resFittedData = val
-                                    //         .map(
-                                    //             (simString: string) => simString
-                                    //         )
-                                    //         .map((sim, i) => ({
-                                    //             name: keys[i],
-                                    //             // eslint-disable-next-line @typescript-eslint/ban-types
-                                    //             ...(sim as {}),
-                                    //         }));
-                                    //     setFittedData(resFittedData);
-                                    // });
                                 }}
                             >
                                 {isSimulating ? (
