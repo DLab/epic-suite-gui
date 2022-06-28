@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useState, useEffect } from "react";
 
-import { ControlPanel } from "context/ControlPanelContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { InitialConditions as InitialConditionsContext } from "types/ControlPanelTypes";
 import { NewModelsParams } from "types/SimulationTypes";
@@ -42,7 +41,6 @@ const InitialConditionsModel = ({
     const { newModel, setNewModel } = useContext(NewModelSetted);
     const RealConditions = "real-conditions";
     const toast = useToast();
-
     const [value, setValue] = useState({
         I: 0,
         I_d: 0,

@@ -256,6 +256,7 @@ const DataFitTab = () => {
                                     setFittedData([]);
                                     setRealDataToFit([]);
                                     setDataValues([]);
+                                    setSampleSourceValue("1");
                                 }}
                             >
                                 <option key="algorithm-1" value="Intervals">
