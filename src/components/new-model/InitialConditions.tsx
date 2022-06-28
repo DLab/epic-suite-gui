@@ -12,9 +12,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useState, useEffect } from "react";
 
-import { ControlPanel } from "context/ControlPanelContext";
 import { NewModelSetted } from "context/NewModelsContext";
-import { SimulationSetted } from "context/SimulationContext";
 import { InitialConditions as InitialConditionsContext } from "types/ControlPanelTypes";
 import { NewModelsParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
@@ -23,7 +21,6 @@ import NumberInputInitialConditions from "./NumberInputInitialConditions";
 
 interface Props {
     id: number;
-    // idSimulation: number;
     modelValue: string;
     nodeName: string;
     initialConditions: InitialConditionsContext;
@@ -33,8 +30,6 @@ interface Props {
 }
 
 const InitialConditionsModel = ({
-    // idModel: idModelSelected,
-    // idSimulation,
     id,
     modelValue,
     nodeName,
@@ -46,16 +41,6 @@ const InitialConditionsModel = ({
     const { newModel, setNewModel } = useContext(NewModelSetted);
     const RealConditions = "real-conditions";
     const toast = useToast();
-    const { setInitialConditions, initialConditions: preInitialConditions } =
-        useContext(ControlPanel);
-
-    const {
-        simulation,
-        setSimulation,
-        idSimulationUpdating,
-        setIdSimulationUpdating,
-    } = useContext(SimulationSetted);
-    const [models, setModels] = useState(false);
     const [value, setValue] = useState({
         I: 0,
         I_d: 0,

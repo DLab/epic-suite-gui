@@ -7,16 +7,28 @@ import {
     Td,
     TableContainer,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { DataFit } from "context/DataFitContext";
 
-// interface Props {
-//     param: string;
-// }
+interface Props {
+    param: string;
+    index: number;
+}
 
-const FitParameterTable = () => {
+const FitParameterTable = ({ param, index }: Props) => {
+    const [rangeArray, setRangeArray] = useState([]);
+    const [paramValueArray, setParamValueArray] = useState([]);
     const { fittedData } = useContext(DataFit);
+
+    useEffect(() => {
+        const lengthData = Object.keys(fittedData[index].I).length;
+        const parseParmDays = JSON.parse(fittedData[index].beta_days);
+        const parseParam = JSON.parse(fittedData[index][param]);
+        setParamValueArray(parseParam);
+        setRangeArray([0, ...parseParmDays, lengthData]);
+    }, [fittedData, index, param]);
+
     return (
         <TableContainer>
             <Table variant="simple">
@@ -27,22 +39,17 @@ const FitParameterTable = () => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    <Tr>
-                        <Td>0 - 50</Td>
-                        <Td>0.2</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>50 - 65</Td>
-                        <Td>0.3</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>65 - 80</Td>
-                        <Td>0.1499</Td>
-                    </Tr>
-                    <Tr>
-                        <Td>65 - 500</Td>
-                        <Td>0.4001</Td>
-                    </Tr>
+                    {paramValueArray.map((paramValue, indexParam) => {
+                        return (
+                            <Tr>
+                                <Td>
+                                    {rangeArray[indexParam]} -{" "}
+                                    {rangeArray[indexParam + 1]}
+                                </Td>
+                                <Td>{paramValue}</Td>
+                            </Tr>
+                        );
+                    })}
                 </Tbody>
             </Table>
         </TableContainer>

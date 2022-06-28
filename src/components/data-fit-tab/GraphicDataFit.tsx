@@ -10,6 +10,7 @@ interface Props {
 const GraphicDataFit = ({ algorithmValue }: Props) => {
     const { fittedData, realDataToFit } = useContext(DataFit);
     const [axios, setAxios] = useState([]);
+    const [shapesArray, setShapesArray] = useState([]);
 
     const getAxisData = (parameter) => {
         const getFittedData = {
@@ -34,15 +35,44 @@ const GraphicDataFit = ({ algorithmValue }: Props) => {
 
     useEffect(() => {
         if (fittedData[0] !== undefined && realDataToFit[0] !== undefined) {
-            if (algorithmValue === "algorithm-1") {
+            if (algorithmValue === "Intervals") {
                 getAxisData("I_d_data");
             }
-            if (algorithmValue === "algorithm-2") {
+            if (algorithmValue === "Sequential") {
                 getAxisData("I_d_data");
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [algorithmValue, fittedData, realDataToFit]);
+
+    useEffect(() => {
+        const paramFitValues = Object.values(fittedData[0].I);
+        const maxFitValue = Math.max.apply(null, paramFitValues);
+
+        const paramRealValues = Object.values(realDataToFit[0].I_d_data);
+        const maxRealValue = Math.max.apply(null, paramRealValues);
+
+        const maxValue =
+            maxRealValue > maxFitValue ? maxRealValue : maxFitValue;
+
+        const parseParmDays = JSON.parse(fittedData[0].beta_days);
+
+        const getShapsArray = parseParmDays.map((dayValue) => {
+            return {
+                type: "line",
+                x0: dayValue,
+                y0: 0,
+                x1: dayValue,
+                y1: maxValue,
+                line: {
+                    color: "#7c8187",
+                    width: 1.5,
+                    dash: "dash",
+                },
+            };
+        });
+        setShapesArray(getShapsArray);
+    }, [fittedData, realDataToFit]);
 
     return (
         <Plot
@@ -79,20 +109,7 @@ const GraphicDataFit = ({ algorithmValue }: Props) => {
                     overlaying: "y",
                     side: "right",
                 },
-                // shapes: [
-                //     {
-                //         type: "line",
-                //         x0: 5,
-                //         y0: 0,
-                //         x1: 5,
-                //         y1: 20000,
-                //         line: {
-                //             color: "#7c8187",
-                //             width: 2,
-                //             dash: "dash",
-                //         },
-                //     },
-                // ],
+                shapes: shapesArray,
             }}
             config={{
                 editable: false,
