@@ -58,9 +58,9 @@ const paramsValues = {
             },
         ],
         name: "tE_I",
-        default: 4,
+        default: 5,
         isEnabled: false,
-        val: 0.3,
+        val: 5,
     },
     tI_R: {
         rangeDays: [[0, 500]],
@@ -392,9 +392,9 @@ const getArrayParametersByNode = (
                 },
             ],
             name: "tE_I",
-            default: 4,
+            default: 5,
             isEnabled: false,
-            val: 0.3,
+            val: 5,
         },
         tI_R: {
             rangeDays: [[0, 500]],
