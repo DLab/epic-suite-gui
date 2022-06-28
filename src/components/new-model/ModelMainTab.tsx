@@ -132,6 +132,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
     useEffect(() => {
         setIdModelUpdate(id ?? 0);
     }, [id, setIdModelUpdate]);
+
     useEffect(() => {
         const modelSaved = completeModel.find((model: NewModelsAllParams) => {
             return model.idNewModel === id;
@@ -157,7 +158,21 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             populationType: populationValue,
             typeSelection: dataSourceValue,
         };
-        if (_.isEqual(savedObject, actualObject)) {
+
+        const initialConditionsNew = newModel.find((model: NewModelsParams) => {
+            return model.idNewModel === id;
+        });
+
+        const previusInitialConditions =
+            modelSaved.initialConditions[0].conditionsValues;
+
+        const newsInitialConditions =
+            initialConditionsNew.initialConditions[0].conditionsValues;
+
+        if (
+            _.isEqual(savedObject, actualObject) &&
+            _.isEqual(previusInitialConditions, newsInitialConditions)
+        ) {
             setIsModelSavedLocal(true);
         } else {
             setIsModelSavedLocal(false);
@@ -174,6 +189,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         numberOfNodes,
         populationValue,
     ]);
+
     useEffect(() => {
         const modelSaved = completeModel.find((model: NewModelsAllParams) => {
             return model.idNewModel === id;
@@ -186,7 +202,6 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             }
         }
     }, [completeModel, id, setIsModelSavedLocal, parameters]);
-    // }, [parameters]);
 
     const deleteFromLocalStorage = () => {
         const modelFilter = [...completeModel].filter(
