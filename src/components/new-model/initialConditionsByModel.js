@@ -27,6 +27,34 @@ const getInitialConditionsByModel = (model) => {
     };
 };
 
+export const getPreviusInitialConditions = (model, initCond) => {
+    if (model === "seirhvd") {
+        return {
+            I: initCond.I,
+            I_d: initCond.I_d,
+            I_ac: initCond.I_ac,
+            population: initCond.population,
+            R: initCond.R,
+            E: initCond.E,
+            H_d: initCond.H_d,
+            H: initCond.H,
+            Iv_d: initCond.Iv_d,
+            Iv_ac: initCond.Iv_ac,
+            D_d: initCond.D_d,
+            D: initCond.D,
+            Iv: initCond.Iv,
+            H_cap: initCond.H_cap,
+        };
+    }
+    return {
+        I: initCond.I,
+        I_d: initCond.I_d,
+        I_ac: initCond.I_ac,
+        population: initCond.population,
+        R: initCond.R,
+    };
+};
+
 export const postInitialConditionsByModel = (result) => {
     const {
         Compartment,
