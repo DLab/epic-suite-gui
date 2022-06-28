@@ -48,7 +48,7 @@ const TableSimulations = () => {
 
     return completeModel.length > 0 ? (
         <>
-            <TableContainer bg="white" maxH="60vh">
+            <TableContainer bg="white" maxH="60vh" overflowY="auto">
                 <Table size="lg" variant="striped" colorScheme="linkedin">
                     <TableCaption>Models display</TableCaption>
                     <Thead>
