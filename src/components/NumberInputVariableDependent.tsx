@@ -12,11 +12,10 @@ import {
     Text,
     Box,
 } from "@chakra-ui/react";
-import { setDate } from "date-fns";
-import { id } from "date-fns/locale";
-import { useState, useContext } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
-import { ControlPanel } from "context/ControlPanelContext";
+import { update } from "store/ControlPanel";
 import { NameFunction } from "types/VariableDependentTime";
 
 interface Props {
@@ -53,32 +52,38 @@ const NumberInputVariableDependent = ({
     const [localValue, setLocalValue] = useState<string>(`${value}`);
     const [isEditingLocalValue, setIsEditingLocalValue] =
         useState<boolean>(false);
-    const { setParameters } = useContext(ControlPanel);
+    const dispatch = useDispatch();
+
     const handleChange = (val: string | number) => {
         if (isStateLocal) {
             setIsEditingLocalValue(true);
             setLocalValue(`${val}`);
         } else {
-            setParameters({
-                type: "setVariableDependent",
-                payloadVariableDependent: {
-                    rangeDays: [[0, duration]],
-                    type: [
-                        {
-                            name: NameFunction.static,
-                            value: +val,
-                        },
-                    ],
-                    name: nameParams,
-                    default: 7,
-                    isEnabled: false,
-                    val: +val,
-                },
-                positionVariableDependentTime: index ?? -1,
-                target: nameParams,
-            });
+            dispatch(
+                update({
+                    type: "setVariableDependent",
+                    payloadVariableDependent: {
+                        rangeDays: [[0, duration]],
+                        type: [
+                            {
+                                name: NameFunction.static,
+                                value: +val,
+                            },
+                        ],
+                        name: nameParams,
+                        default: 7,
+                        isEnabled: false,
+                        val: +val,
+                    },
+                    positionVariableDependentTime: index ?? -1,
+                    target: nameParams,
+                })
+            );
         }
     };
+    useEffect(() => {
+        setLocalValue(`${value}`);
+    }, [value]);
     return (
         <Flex alignItems="center">
             <Box minW="30%">
@@ -125,47 +130,52 @@ const NumberInputVariableDependent = ({
                         cursor="pointer"
                         icon={<CheckIcon />}
                         onClick={() => {
-                            setParameters({
-                                type: "setVariableDependent",
-                                payloadVariableDependent: {
-                                    rangeDays: [[0, duration]],
-                                    type: [
-                                        {
-                                            name: NameFunction.static,
-                                            value: +localValue,
-                                        },
-                                    ],
-                                    name: nameParams,
-                                    default: 7,
-                                    isEnabled: false,
-                                    val: +localValue,
-                                },
-                                positionVariableDependentTime: index ?? -1,
-                                target: nameParams,
-                            });
-                            if (isSupplementary) {
-                                const param = localValue;
-                                const supplementaryValueFromParam = Number(
-                                    1 - parseFloat(param)
-                                ).toFixed(2);
-                                setParameters({
+                            dispatch(
+                                update({
                                     type: "setVariableDependent",
                                     payloadVariableDependent: {
                                         rangeDays: [[0, duration]],
                                         type: [
                                             {
                                                 name: NameFunction.static,
-                                                value: +supplementaryValueFromParam,
+                                                value: +localValue,
                                             },
                                         ],
-                                        name: supplementaryParam,
+                                        name: nameParams,
                                         default: 7,
                                         isEnabled: false,
-                                        val: +supplementaryValueFromParam,
+                                        val: +localValue,
                                     },
                                     positionVariableDependentTime: index ?? -1,
-                                    target: supplementaryParam,
-                                });
+                                    target: nameParams,
+                                })
+                            );
+                            if (isSupplementary) {
+                                const param = localValue;
+                                const supplementaryValueFromParam = Number(
+                                    1 - parseFloat(param)
+                                ).toFixed(2);
+                                dispatch(
+                                    update({
+                                        type: "setVariableDependent",
+                                        payloadVariableDependent: {
+                                            rangeDays: [[0, duration]],
+                                            type: [
+                                                {
+                                                    name: NameFunction.static,
+                                                    value: +supplementaryValueFromParam,
+                                                },
+                                            ],
+                                            name: supplementaryParam,
+                                            default: 7,
+                                            isEnabled: false,
+                                            val: +supplementaryValueFromParam,
+                                        },
+                                        positionVariableDependentTime:
+                                            index ?? -1,
+                                        target: supplementaryParam,
+                                    })
+                                );
                             }
                             setIsEditingLocalValue(false);
                         }}

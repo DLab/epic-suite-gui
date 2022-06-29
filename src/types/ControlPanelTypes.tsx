@@ -107,6 +107,8 @@ export interface EpidemicAttributes {
     parameters?: EpidemicsData;
     description: DescriptionParameters;
     setParameters: (values: ActionsEpidemicData) => void;
+    dataViewVariable: VariableDependentTime;
+    setDataViewVariable: (dataView: VariableDependentTime) => void;
     setMode: (value: Model) => void;
     idModelUpdate: number;
     setIdModelUpdate: (value: number) => void;

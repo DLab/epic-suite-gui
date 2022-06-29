@@ -1,7 +1,6 @@
 import { useEffect, useContext } from "react";
 
 import MainContentTab from "../mainContent/index";
-import ControlPanelContext from "context/ControlPanelContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import TabContext from "context/TabContext";
@@ -46,9 +45,7 @@ const Simulator = () => {
 
     return (
         <TabContext>
-            <ControlPanelContext>
-                <MainContentTab />
-            </ControlPanelContext>
+            <MainContentTab />
         </TabContext>
     );
 };

@@ -10,14 +10,14 @@ import {
 import _ from "lodash";
 import dynamic from "next/dynamic";
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
+import ExportModels from "components/models-tab/ExportModels";
 import { ControlPanel } from "context/ControlPanelContext";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
-import {
-    EpidemicsData,
-    InitialConditionsNewModel,
-} from "types/ControlPanelTypes";
+import { RootState } from "store/store";
+import { InitialConditionsNewModel } from "types/ControlPanelTypes";
 import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 import VariableDependentTime, {
     NameFunction,
@@ -25,7 +25,7 @@ import VariableDependentTime, {
 
 import InitialConditionsModels from "./InitialConditionsModel";
 import ModelAccordion from "./ModelAccordion";
-import ParametersAccordion from "./ParametersAccordion";
+import ModelBuilder from "./ModelBuilder";
 import SectionVariableDependentTime from "./SectionVariableDependentTime";
 
 interface Props {
@@ -65,6 +65,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         useState(false);
     const { newModel, setNewModel, completeModel, setCompleteModel } =
         useContext(NewModelSetted);
+    const { setIdModelUpdate, dataViewVariable } = useContext(ControlPanel);
     const [startDate, setStartDate] = useState(
         new Date(
             newModel.find((model: NewModelsParams) => model.idNewModel === id)
@@ -74,17 +75,9 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
     const [showSectionVariable, setShowSectionVariable] =
         useState<boolean>(false);
     const [positionVDT, setPositionVDT] = useState<number>(-1);
-    const [dataViewVariable, setDataViewVariable] =
-        useState<VariableDependentTime>({
-            rangeDays: [[0, 500]],
-            type: [{ name: NameFunction.static, value: 0 }],
-            name: "nothing",
-            default: 0.3,
-            isEnabled: false,
-            val: 0.3,
-        });
-
-    const { parameters } = useContext(ControlPanel);
+    const parameters = useSelector((state: RootState) => state.controlPanel);
+    const dispatch = useDispatch();
+    // const { parameters } = useContext(ControlPanel);
     const {
         setAllGraphicData,
         setRealDataSimulationKeys,
@@ -107,7 +100,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             parameters,
         };
         const modelExist = completeModel.find(
-            (model: NewModelsAllParams) => model.idNewModel === id
+            (model: NewModelsAllParams) => +model.idNewModel === id
         );
         if (modelExist !== undefined) {
             setCompleteModel({
@@ -115,14 +108,14 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                 id,
                 payload: allModelInfo,
             });
-            const modelsAux = completeModel;
-            // eslint-disable-next-line array-callback-return
-            completeModel.forEach((e: NewModelsAllParams, i) => {
-                if (e.idNewModel === id) {
-                    modelsAux[i] = allModelInfo;
+            const modelsAux = [...completeModel].map(
+                (e: NewModelsAllParams, i) => {
+                    if (e.idNewModel === id) {
+                        return allModelInfo;
+                    }
+                    return e;
                 }
-            });
-
+            );
             localStorage.setItem("newModels", JSON.stringify(modelsAux));
         } else {
             setCompleteModel({
@@ -136,6 +129,9 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             );
         }
     };
+    useEffect(() => {
+        setIdModelUpdate(id ?? 0);
+    }, [id, setIdModelUpdate]);
 
     useEffect(() => {
         const modelSaved = completeModel.find((model: NewModelsAllParams) => {
@@ -162,7 +158,21 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
             populationType: populationValue,
             typeSelection: dataSourceValue,
         };
-        if (_.isEqual(savedObject, actualObject)) {
+
+        const initialConditionsNew = newModel.find((model: NewModelsParams) => {
+            return model.idNewModel === id;
+        });
+
+        const previusInitialConditions =
+            modelSaved.initialConditions[0].conditionsValues;
+
+        const newsInitialConditions =
+            initialConditionsNew.initialConditions[0].conditionsValues;
+
+        if (
+            _.isEqual(savedObject, actualObject) &&
+            _.isEqual(previusInitialConditions, newsInitialConditions)
+        ) {
             setIsModelSavedLocal(true);
         } else {
             setIsModelSavedLocal(false);
@@ -179,20 +189,19 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         numberOfNodes,
         populationValue,
     ]);
-    // useEffect(() => {
-    //     const modelSaved = completeModel.find((model: NewModelsAllParams) => {
-    //         return model.idNewModel === id;
-    //     }).parameters;
-    //     if (_.isEqual(modelSaved, parameters)) {
-    //         setIsModelSavedLocal(true);
-    //     } else {
-    //         setIsModelSavedLocal(false);
-    //     }
-    //     console.log("dos", _.isEqual(modelSaved, parameters));
-    //     console.log("dos params", modelSaved, parameters);
-    //     console.log("dos", isModelSavedLocal);
-    // }, [completeModel, id, parameters]);
-    // }, [parameters]);
+
+    useEffect(() => {
+        const modelSaved = completeModel.find((model: NewModelsAllParams) => {
+            return model.idNewModel === id;
+        });
+        if (modelSaved) {
+            if (_.isEqual(modelSaved.parameters, parameters)) {
+                setIsModelSavedLocal(true);
+            } else {
+                setIsModelSavedLocal(false);
+            }
+        }
+    }, [completeModel, id, setIsModelSavedLocal, parameters]);
 
     const deleteFromLocalStorage = () => {
         const modelFilter = [...completeModel].filter(
@@ -280,10 +289,8 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                             (dataSourceValue === "graph" &&
                                 graphId !== "" &&
                                 graphId !== undefined)) && (
-                            <ParametersAccordion
-                                showSectionVariable={showSectionVariable}
+                            <ModelBuilder
                                 setShowSectionVariable={setShowSectionVariable}
-                                setDataViewVariable={setDataViewVariable}
                                 setPositionVDT={setPositionVDT}
                                 setShowSectionInitialConditions={
                                     setShowSectionInitialConditions
@@ -304,9 +311,10 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                         size="sm"
                         colorScheme="teal"
                         m="2%"
+                        isDisabled={isModelSavedLocal}
                         onClick={() => {
                             const modelForSim = newModel.findIndex(
-                                (mod) => mod.idNewModel === id
+                                (mod: NewModelsParams) => mod.idNewModel === id
                             );
                             const isInitialConditionsVoid = newModel[
                                 modelForSim
@@ -420,6 +428,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                         setTabIndex(newModel.length - 2);
                     }}
                 />
+                <ExportModels idModel={id} />
             </Flex>
         </Flex>
     );

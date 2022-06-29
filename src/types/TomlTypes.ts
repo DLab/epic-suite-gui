@@ -1,5 +1,3 @@
-import { number } from "prop-types";
-
 import { InitialConditions } from "./SimulationTypes";
 
 export interface EpicConfigToml {

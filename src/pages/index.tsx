@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Simulator from "components/simulator/index";
+import ControlPanelContext from "context/ControlPanelContext";
 import DataFitContext from "context/DataFitContext";
 import GraphicsContext from "context/GraphicsContext";
 import NewModelsContext from "context/NewModelsContext";
@@ -10,13 +11,15 @@ const Home = () => {
     return (
         <SimulationContext>
             <NewModelsContext>
-                <SelectFeatureContext>
-                    <GraphicsContext>
-                        <DataFitContext>
-                            <Simulator />
-                        </DataFitContext>
-                    </GraphicsContext>
-                </SelectFeatureContext>
+                <ControlPanelContext>
+                    <SelectFeatureContext>
+                        <GraphicsContext>
+                            <DataFitContext>
+                                <Simulator />
+                            </DataFitContext>
+                        </GraphicsContext>
+                    </SelectFeatureContext>
+                </ControlPanelContext>
             </NewModelsContext>
         </SimulationContext>
     );

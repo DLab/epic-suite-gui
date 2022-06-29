@@ -15,6 +15,7 @@ import {
 import { format } from "date-fns";
 import React, { useContext, useState } from "react";
 
+import { ControlPanel } from "context/ControlPanelContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import createIdComponent from "utils/createIdcomponent";
 

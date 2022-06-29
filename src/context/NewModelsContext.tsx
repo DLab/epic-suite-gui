@@ -84,7 +84,7 @@ const NewModelsContext: React.FC = ({ children }) => {
                     }
                     return e;
                 });
-            case "update-initial-conditions":
+            case "initial-conditions":
                 return state.map((e) => {
                     if (e.idNewModel === action.id) {
                         e.initialConditions = action.payloadInitialConditions;

@@ -2,6 +2,7 @@ import { Box, Flex, Portal } from "@chakra-ui/react";
 // import SectionVariableDependentTime from "components/map-results/SectionVariableDependentTime";
 import _ from "lodash";
 import { useContext, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import ToastMessage from "../simulator/controllers/ToastMessage";
 import ModelController from "components/new-model/ModelController";
@@ -11,18 +12,15 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import countiesData from "data/counties.json";
 import stateData from "data/states.json";
+import { update } from "store/ControlPanel";
 import { NewModelsAllParams } from "types/SimulationTypes";
 import VariableDependentTime from "types/VariableDependentTime";
 
 import getArrayParametersByNode from "./GetParametersByNodes";
 
 interface Props {
-    isEditing: boolean;
-    setIsEditing: (val: boolean) => void;
-    showSectionVariable: boolean;
     setShowSectionVariable: (values: boolean) => void;
     setShowSectionInitialConditions: (value: boolean) => void;
-    setDataViewVariable: (values: VariableDependentTime) => void;
     setPositionVDT: (value: number) => void;
     idGeo: number | string;
     modelCompartment: string;
@@ -35,13 +33,9 @@ interface Props {
 }
 
 const ModelBuilder = ({
-    isEditing,
-    setIsEditing,
-    showSectionVariable,
     setShowSectionInitialConditions,
     setShowSectionVariable,
     setPositionVDT,
-    setDataViewVariable,
     idGeo,
     modelCompartment,
     numberNodes,
@@ -54,7 +48,8 @@ const ModelBuilder = ({
     const { geoSelections: allGeoSelections } = useContext(SelectFeature);
 
     const [nodes, setNodes] = useState([]);
-    const { setParameters } = useContext(ControlPanel);
+    // const { setParameters, parameters } = useContext(ControlPanel);
+    const dispatch = useDispatch();
     const { completeModel } = useContext(NewModelSetted);
     const getNamesGeo = (scale, featureSelected) => {
         let nodesNamesArray = [];
@@ -94,11 +89,12 @@ const ModelBuilder = ({
                     startDate,
                     geoNames
                 );
-
-                setParameters({
-                    type: "update",
-                    updateData: allParametersByNodes,
-                });
+                dispatch(
+                    update({
+                        type: "update",
+                        updateData: allParametersByNodes,
+                    })
+                );
                 setNodes(geoNames);
             }
             if (populationValue === "monopopulation") {
@@ -108,10 +104,12 @@ const ModelBuilder = ({
                     startDate,
                     [geoSelected.name]
                 );
-                setParameters({
-                    type: "update",
-                    updateData: allParametersByNodes,
-                });
+                dispatch(
+                    update({
+                        type: "update",
+                        updateData: allParametersByNodes,
+                    })
+                );
                 setNodes([geoSelected.name]);
             }
         }
@@ -132,7 +130,9 @@ const ModelBuilder = ({
                 startDate,
                 graphsNamesArray
             );
-            setParameters({ type: "update", updateData: allParametersByNodes });
+            dispatch(
+                update({ type: "update", updateData: allParametersByNodes })
+            );
             setNodes(graphsNamesArray);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -149,17 +149,18 @@ const ModelBuilder = ({
             (complete: NewModelsAllParams) => complete.idNewModel === id
         );
         if (!_.isEmpty(findedParameters)) {
-            setParameters({
-                type: "update",
-                updateData: findedParameters.parameters,
-            });
+            dispatch(
+                update({
+                    type: "update",
+                    updateData: findedParameters.parameters,
+                })
+            );
         }
-    }, [completeModel, id, setParameters]);
+    }, [completeModel, id, dispatch]);
     return (
         <>
             <ModelController
                 showSectionVariable={setShowSectionVariable}
-                setDataView={setDataViewVariable}
                 modelCompartment={modelCompartment}
                 nodes={nodes}
                 setPositionVDT={setPositionVDT}
