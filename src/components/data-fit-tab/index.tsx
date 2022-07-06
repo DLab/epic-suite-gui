@@ -154,6 +154,14 @@ const DataFitTab = () => {
             type: "add",
             payload: fittedModelData,
         });
+
+        localStorage.setItem(
+            "newModels",
+            JSON.stringify([
+                ...completeModel,
+                { ...fittedModelData, parameters: parametersValues },
+            ])
+        );
     };
 
     const handleFetch = async () => {
