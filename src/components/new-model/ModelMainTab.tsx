@@ -134,47 +134,55 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
     }, [id, setIdModelUpdate]);
 
     useEffect(() => {
-        const modelSaved = completeModel.find((model: NewModelsAllParams) => {
-            return model.idNewModel === id;
-        });
-        const savedObject = {
-            idGeo: modelSaved?.idGeo,
-            idGraph: modelSaved?.idGraph,
-            idNewModel: modelSaved?.idNewModel,
-            modelType: modelSaved?.modelType,
-            name: modelSaved?.name,
-            numberNodes: modelSaved?.numberNodes,
-            populationType: modelSaved?.populationType,
-            typeSelection: modelSaved?.typeSelection,
-        };
+        try {
+            const modelSaved = completeModel.find(
+                (model: NewModelsAllParams) => {
+                    return model.idNewModel === id;
+                }
+            );
+            const savedObject = {
+                idGeo: modelSaved?.idGeo,
+                idGraph: modelSaved?.idGraph,
+                idNewModel: modelSaved?.idNewModel,
+                modelType: modelSaved?.modelType,
+                name: modelSaved?.name,
+                numberNodes: modelSaved?.numberNodes,
+                populationType: modelSaved?.populationType,
+                typeSelection: modelSaved?.typeSelection,
+            };
 
-        const actualObject = {
-            idGeo: areaSelectedValue,
-            idGraph: graphId,
-            idNewModel: id,
-            modelType: modelValue,
-            name: modelName,
-            numberNodes: numberOfNodes,
-            populationType: populationValue,
-            typeSelection: dataSourceValue,
-        };
+            const actualObject = {
+                idGeo: areaSelectedValue,
+                idGraph: graphId,
+                idNewModel: id,
+                modelType: modelValue,
+                name: modelName,
+                numberNodes: numberOfNodes,
+                populationType: populationValue,
+                typeSelection: dataSourceValue,
+            };
 
-        const initialConditionsNew = newModel.find((model: NewModelsParams) => {
-            return model.idNewModel === id;
-        });
+            const initialConditionsNew = newModel.find(
+                (model: NewModelsParams) => {
+                    return model.idNewModel === id;
+                }
+            );
 
-        const previusInitialConditions =
-            modelSaved.initialConditions[0].conditionsValues;
+            const previusInitialConditions =
+                modelSaved.initialConditions[0].conditionsValues;
 
-        const newsInitialConditions =
-            initialConditionsNew.initialConditions[0].conditionsValues;
+            const newsInitialConditions =
+                initialConditionsNew.initialConditions[0].conditionsValues;
 
-        if (
-            _.isEqual(savedObject, actualObject) &&
-            _.isEqual(previusInitialConditions, newsInitialConditions)
-        ) {
-            setIsModelSavedLocal(true);
-        } else {
+            if (
+                _.isEqual(savedObject, actualObject) &&
+                _.isEqual(previusInitialConditions, newsInitialConditions)
+            ) {
+                setIsModelSavedLocal(true);
+            } else {
+                setIsModelSavedLocal(false);
+            }
+        } catch (error) {
             setIsModelSavedLocal(false);
         }
     }, [

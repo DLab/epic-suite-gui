@@ -437,4 +437,72 @@ const getArrayParametersByNode = (
     };
 };
 
+export const getParametersFitModel = (
+    originalParamsValue,
+    fittedData
+): EpidemicsData => {
+    const lengthData = Object.keys(fittedData.I).length;
+    const parseParmDays = JSON.parse(fittedData.beta_days);
+    const rangeArray = [0, ...parseParmDays, lengthData];
+
+    let rangeDays = [];
+    for (let i = 0; i < rangeArray.length - 1; i += 1) {
+        rangeDays = [...rangeDays, [rangeArray[i], rangeArray[i + 1]]];
+    }
+
+    const fitBetaValue = {
+        default: originalParamsValue.beta[0].default,
+        isEnabled: true,
+        name: "beta",
+        rangeDays,
+        type: JSON.parse(fittedData.beta).map((val: number) => {
+            return {
+                name: "static",
+                value: val,
+            };
+        }),
+        val: 0.3,
+    };
+
+    return {
+        name_model: originalParamsValue.name,
+        name: originalParamsValue.name,
+        compartments: originalParamsValue.compartments,
+        t_init: originalParamsValue.startDate,
+        t_end: originalParamsValue.t_end,
+        pI_det: originalParamsValue.pI_det,
+        beta: [fitBetaValue],
+        mu: [fittedData.mu],
+        rR_S: originalParamsValue.rR_S,
+        alpha: originalParamsValue.alpha,
+        tE_I: originalParamsValue.tE_I,
+        tI_R: originalParamsValue.tI_R,
+        Beta_v: originalParamsValue.Beta_v,
+        vac_d: originalParamsValue.vac_d,
+        vac_eff: originalParamsValue.vac_eff,
+        pE_Im: originalParamsValue.pE_Im,
+        tE_Im: originalParamsValue.tE_Im,
+        pE_Icr: originalParamsValue.pE_Icr,
+        tE_Icr: originalParamsValue.tE_Icr,
+        tEv_Iv: originalParamsValue.tEv_Iv,
+        tIm_R: originalParamsValue.tIm_R,
+        tIcr_H: originalParamsValue.tIcr_H,
+        pIv_R: originalParamsValue.pIv_R,
+        tIv_R: originalParamsValue.tIv_R,
+        pIv_H: originalParamsValue.pIv_H,
+        tIv_H: originalParamsValue.tIv_H,
+        pH_R: originalParamsValue.pH_R,
+        tH_R: originalParamsValue.tH_R,
+        pH_D: originalParamsValue.pH_D,
+        tH_D: originalParamsValue.tH_D,
+        pR_S: originalParamsValue.pR_S,
+        tR_S: originalParamsValue.tR_S,
+        population: originalParamsValue.population,
+        populationfraction: originalParamsValue.populationfraction,
+        pIcr_det: originalParamsValue.pIcr_det,
+        pIm_det: originalParamsValue.pIm_det,
+        pIv_det: originalParamsValue.pIv_det,
+    };
+};
+
 export default getArrayParametersByNode;

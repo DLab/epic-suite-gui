@@ -18,8 +18,10 @@ import {
 import dynamic from "next/dynamic";
 import React, { useState, useContext, useEffect } from "react";
 
+import { getParametersFitModel } from "components/new-model/GetParametersByNodes";
 import { DataFit } from "context/DataFitContext";
 import { NewModelSetted } from "context/NewModelsContext";
+import { EpidemicsData } from "types/ControlPanelTypes";
 import { NewModelsAllParams } from "types/SimulationTypes";
 import postData from "utils/fetchData";
 
@@ -56,12 +58,12 @@ const DataFitTab = () => {
     const [parameterName, setParameterName] = useState(undefined);
     const [isSimulating, setIsSimulating] = useState(false);
     const [enableFitButton, setEnableFitButton] = useState(false);
-
     // Cambiar valores del radio button a nombres representativos de los ejemplos
     const [sampleSourceValue, setSampleSourceValue] = useState("1");
     const { fittedData, realDataToFit, setFittedData, setRealDataToFit } =
         useContext(DataFit);
-    const { completeModel } = useContext(NewModelSetted);
+    const { completeModel, setCompleteModel, setNewModel } =
+        useContext(NewModelSetted);
 
     useEffect(() => {
         if (
@@ -121,6 +123,47 @@ const DataFitTab = () => {
         return res;
     }
 
+    const addNewFitModel = (fittedData2) => {
+        const originalModel = completeModel.find(
+            (model: NewModelsAllParams) => model.idNewModel === modelId
+        );
+        const fittedModelData = {
+            idNewModel: Date.now(),
+            name: `${originalModel.name}fitted`,
+            modelType: originalModel.modelType,
+            populationType: originalModel.populationType,
+            typeSelection: originalModel.typeSelection,
+            idGeo: originalModel.idGeo,
+            idGraph: originalModel.idGraph,
+            initialConditions: originalModel.initialConditions,
+            numberNodes: originalModel.numberNodes,
+            t_init: originalModel.t_init,
+        };
+
+        const parametersValues: EpidemicsData = getParametersFitModel(
+            originalModel.parameters,
+            fittedData2
+        );
+
+        setCompleteModel({
+            type: "add",
+            payload: { ...fittedModelData, parameters: parametersValues },
+        });
+
+        setNewModel({
+            type: "add",
+            payload: fittedModelData,
+        });
+
+        localStorage.setItem(
+            "newModels",
+            JSON.stringify([
+                ...completeModel,
+                { ...fittedModelData, parameters: parametersValues },
+            ])
+        );
+    };
+
     const handleFetch = async () => {
         try {
             setIsSimulating(true);
@@ -144,6 +187,7 @@ const DataFitTab = () => {
                 mu: fitRes.results.mu,
             };
             setFittedData([fittedData2]);
+            addNewFitModel(fittedData2);
         } catch (error) {
             if (modelId === undefined) {
                 toast({
