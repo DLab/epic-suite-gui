@@ -99,7 +99,7 @@ const InitialConditionsModel = ({
                                 <StatHelpText>Total</StatHelpText>
                             </Stat>
                         </Box>
-                        <Box w="25%">
+                        {/* <Box w="25%">
                             <Stat>
                                 <StatLabel>R</StatLabel>
                                 <StatNumber fontSize="xl">
@@ -109,7 +109,7 @@ const InitialConditionsModel = ({
                                 </StatNumber>
                                 <StatHelpText>Removed</StatHelpText>
                             </Stat>
-                        </Box>
+                        </Box> */}
                         <Box w="25%">
                             <Stat>
                                 <StatLabel>I</StatLabel>
@@ -214,7 +214,7 @@ const InitialConditionsModel = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel>H</StatLabel>
+                                        <StatLabel>H_ac</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
                                                 initialConditions.H ?? 0

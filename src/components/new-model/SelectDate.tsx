@@ -49,9 +49,10 @@ const SelectDate = ({
     const { setNewModel } = useContext(NewModelSetted);
 
     const getAllInitialConditions = async (url, name, config) => {
-        const { result } = await postData(url, {
+        const result = await postData(url, {
             [name]: config,
         });
+
         const allInitialConditions = postInitialConditionsByModel(result[name]);
         return {
             name,
@@ -122,26 +123,6 @@ const SelectDate = ({
                 }
             }
         } catch (error) {
-            // setIsLoading(false);
-            // setIdGeoSelection(0);
-            // setIdSimulationUpdating({ type: "set", payload: 0 });
-            // setInitialConditionsContext({
-            //     type: RealConditions,
-            //     real: {
-            //         population: 0,
-            //         R: 0,
-            //         I: 0,
-            //         I_d: 0,
-            //         I_ac: 0,
-            //         E: 0,
-            //         H: 0,
-            //         H_acum: 0,
-            //         V: 0,
-            //         V_acum: 0,
-            //         D: 0,
-            //         D_acum: 0,
-            //     },
-            // });
             toast({
                 position: "bottom-left",
                 title: "Error",
@@ -161,7 +142,8 @@ const SelectDate = ({
             initialConditionsGraph[0].conditionsValues.population === 0
         ) {
             handleFetch(
-                "http://192.168.2.131:5001/initCond",
+                "http://192.168.2.131:5002/initCond",
+                // "http://192.168.2.131:5001/initCond",
                 "POST",
                 idGeo,
                 new Date(startDate)
@@ -184,14 +166,15 @@ const SelectDate = ({
                     id,
                 });
                 handleFetch(
-                    "http://192.168.2.131:5001/initCond",
+                    // "http://192.168.2.131:5001/initCond",
+                    "http://192.168.2.131:5002/initCond",
                     "POST",
                     idGeo,
                     new Date(selectDate)
                 );
             }}
-            openToDate={new Date(2021, 11, 31)}
-            maxDate={new Date(2021, 11, 31)}
+            // openToDate={new Date(2022, 4, 31)}
+            maxDate={new Date()}
         />
     );
 };
