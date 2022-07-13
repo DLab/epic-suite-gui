@@ -445,7 +445,7 @@ const ModelAccordion = ({
                                                 idGraph: undefined,
                                                 numberNodes: numberGeoNodes,
                                                 t_init: format(
-                                                    new Date(2021, 11, 31),
+                                                    new Date(2022, 4, 31),
                                                     "yyyy/MM/dd"
                                                 ),
                                                 initialConditions:
