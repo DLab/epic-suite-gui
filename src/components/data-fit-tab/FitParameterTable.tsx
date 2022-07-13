@@ -41,7 +41,7 @@ const FitParameterTable = ({ param, index }: Props) => {
                 <Tbody>
                     {paramValueArray.map((paramValue, indexParam) => {
                         return (
-                            <Tr>
+                            <Tr key={paramValue}>
                                 <Td>
                                     {rangeArray[indexParam]} -{" "}
                                     {rangeArray[indexParam + 1]}
