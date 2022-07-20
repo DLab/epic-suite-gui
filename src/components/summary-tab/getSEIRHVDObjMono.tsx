@@ -161,7 +161,7 @@ const getSEIRHVDObjMono = (e, modelParameters, scale, featureSelected) => {
             I_d: +e.initialConditions[0].conditionsValues.I_d,
             I_ac: +e.initialConditions[0].conditionsValues.I_ac,
             population: +e.initialConditions[0].conditionsValues.population,
-            R: +e.initialConditions[0].conditionsValues.R,
+            R: 0,
             Iv_d: +e.initialConditions[0].conditionsValues.Iv_d,
             Iv_ac: +e.initialConditions[0].conditionsValues.Iv_ac,
             H: +e.initialConditions[0].conditionsValues.H,

@@ -9,6 +9,7 @@ import DoubleYAxis from "./DoubleYAxis";
 import Exports from "./Exports";
 import Graphic from "./Graphic";
 import MapResults from "./MapResults";
+import MetapopulationSelectTable from "./metapopulation-selection/MetapopulationSelectTable";
 import SeeGraphic from "./SeeGraphic";
 
 interface Props {
@@ -163,6 +164,9 @@ const GraphicAndMapResults = ({ onOpen }: Props) => {
                     >
                         Here
                     </Text>
+                    <Box>
+                        <MetapopulationSelectTable />
+                    </Box>
                 </Flex>
             )}
             {/* <Exports data={responseSim} /> */}

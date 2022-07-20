@@ -121,7 +121,7 @@ const InitialConditiosModels = ({
                 initialConditionsGraph.map((node) => {
                     return (
                         <Accordion
-                            key="initial-conditions-accordion"
+                            key={`initial-conditions-accordion-${node.name}`}
                             allowMultiple
                         >
                             <AccordionItem>

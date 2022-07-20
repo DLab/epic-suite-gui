@@ -130,6 +130,26 @@ const RunButton = ({ permission }: Props) => {
         return selectedModels;
     };
 
+    const setMonopopulationData = (response, selectedModels) => {
+        const val = Object.values(response.results);
+        const keys = Object.keys(response.results);
+        const data = val
+            .map((simString: string) => JSON.parse(simString))
+            .map((sim, i) => ({
+                name: keys[i],
+                ...sim,
+            }));
+        setAllGraphicData([]);
+        setAllResults([]);
+        setDataToShowInMap([]);
+        // setAllResults([].concat(dataToShowInMap, []));
+        setRealDataSimulationKeys([]);
+        setAux(JSON.stringify(data));
+        setSelectedModelsToSimulate(selectedModels);
+        getGraphicRealData(selectedModels);
+        setIndex(5);
+    };
+
     // eslint-disable-next-line sonarjs/cognitive-complexity
     const handleJsonToToml = async () => {
         setisSimulating(true);
@@ -154,29 +174,38 @@ const RunButton = ({ permission }: Props) => {
                 };
             }, {});
             if (simulationsSelected.length > 0) {
-                const response = await postData(
-                    "http://192.168.2.131:5003/simulate",
-                    objConfig
+                const { populationType } = completeModel.find(
+                    (sim: NewModelsAllParams) => {
+                        return sim.idNewModel === simulationsSelected[0].idSim;
+                    }
                 );
-
-                const val = Object.values(response.results);
-                const keys = Object.keys(response.results);
-                const data = val
-                    .map((simString: string) => JSON.parse(simString))
-                    .map((sim, i) => ({
-                        name: keys[i],
-                        ...sim,
-                    }));
-                setAllGraphicData([]);
-                setAllResults([]);
-                setDataToShowInMap([]);
-                // setAllResults([].concat(dataToShowInMap, []));
-                setRealDataSimulationKeys([]);
-                setAux(JSON.stringify(data));
-                setSelectedModelsToSimulate(selectedModels);
-
-                getGraphicRealData(selectedModels);
-                setIndex(5);
+                let response;
+                if (populationType === "metapopulation") {
+                    response = await fetch(`/api/simulator`, {
+                        method: "GET",
+                    });
+                    const jsonResponse = await response.json();
+                    const listResponse = Object.keys(jsonResponse).map(
+                        (key) => {
+                            return { name: key, ...jsonResponse[key] };
+                        }
+                    );
+                    setAllGraphicData([]);
+                    setAllResults([]);
+                    setDataToShowInMap([]);
+                    // setAllResults([].concat(dataToShowInMap, []));
+                    setRealDataSimulationKeys([]);
+                    setAux(JSON.stringify(listResponse));
+                    setSelectedModelsToSimulate(selectedModels);
+                    getGraphicRealData(selectedModels);
+                    setIndex(5);
+                } else {
+                    response = await postData(
+                        "http://192.168.2.131:5003/simulate",
+                        objConfig
+                    );
+                    setMonopopulationData(response, selectedModels);
+                }
             }
             toast({
                 position: bottonLeft,
