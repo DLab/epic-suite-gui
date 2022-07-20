@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import * as toml from "@iarna/toml";
+import toml, { Section } from "@ltd/j-toml";
 import {Parser} from "json2csv";
 
 export enum TypeFile {
@@ -9,15 +9,25 @@ export enum TypeFile {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const convertFiles = (data: any, typeFile: TypeFile = TypeFile.TOML): unknown | toml.JsonMap => {
-    if(typeFile === TypeFile.JSON){
-        return toml.parse(data);
-    }
-    if(typeFile === TypeFile.CSV){
-        const parser = new Parser()
-        return parser.parse(data)
-    }
-    return toml.stringify(data).replace(/\\/g, '').replace(/"\{/i, '{').replace(/\}"/i, '}');
+const convertFiles = (data: any, typeFile: TypeFile = TypeFile.TOML): unknown => {
+        if(typeFile === TypeFile.JSON){
+            return toml.parse(data);
+        }
+        if(typeFile === TypeFile.CSV){
+            const parser = new Parser()
+            return parser.parse(data)
+        }
+        const dataAsTableToml = {
+            model: Section(data.model),
+            data: Section(data.data),
+            initialconditions: Section(data.initialconditions),
+            parameters: {
+                static: Section(data.parameters.static),
+                dynamic: Section(data.parameters.dynamic),
+            },
+
+        }
+        return toml.stringify(dataAsTableToml,{newline: "\n", xBeforeNewlineInMultilineTable: "",forceInlineArraySpacing: 1}) // .replace(/\\/g, ''); // .replace(/"\{/i, "'{").replace(/\}"/i, "}'");   
 };
 
 export default convertFiles;

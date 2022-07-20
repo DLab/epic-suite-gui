@@ -15,7 +15,7 @@ import {
 import { format } from "date-fns";
 import React, { useContext, useState } from "react";
 
-import { ControlPanel } from "context/ControlPanelContext";
+import ImportModels from "components/models-tab/ImportModels";
 import { NewModelSetted } from "context/NewModelsContext";
 import createIdComponent from "utils/createIdcomponent";
 
@@ -111,6 +111,7 @@ const NewModel = () => {
                                         onClick={() => addNewModel()}
                                     />
                                 </Tooltip>
+                                <ImportModels />
                             </Flex>
                         </Box>
                         <TabPanels>

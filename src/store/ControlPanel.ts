@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { ActionsEpidemicData, EpidemicsData } from "types/ControlPanelTypes";
 
-import reducerControlPanel, { initialState } from "./reducer";
+import { initialState } from "./reducer";
 
 interface ActionReducerControlPanel {
     type: string;
