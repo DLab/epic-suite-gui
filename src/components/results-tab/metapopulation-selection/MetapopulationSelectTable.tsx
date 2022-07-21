@@ -141,7 +141,7 @@ const MetapopulationSelectTable = () => {
     return (
         <>
             <TableContainer variant="simple" bg="white" overflowY="auto">
-                <Table>
+                <Table size="sm">
                     <Thead>
                         <Tr>
                             <Th>Node</Th>

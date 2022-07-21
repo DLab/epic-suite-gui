@@ -10,9 +10,11 @@ import {
     GridItem,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
+import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
+import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 import ResultsDrawer from "./ResultsDrawer";
@@ -41,13 +43,44 @@ const GraphicAndMapResults = dynamic(() => import("./GraphicAndMapResults"), {
 
 const Results = () => {
     const { aux: responseSim } = useContext(TabIndex);
+    const { selectedModelsToSimulate } = useContext(NewModelSetted);
+    const [simulationsPopulatioType, setSimulationsPopulatioType] =
+        useState<string>();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const GraphicAndMapResultsMemo = useMemo(
-        () => <GraphicAndMapResults onOpen={onOpen} />,
-        [onOpen]
+        () => (
+            <GraphicAndMapResults
+                onOpen={onOpen}
+                simulationsPopulatioType={simulationsPopulatioType}
+            />
+        ),
+        [onOpen, simulationsPopulatioType]
     );
+
+    useEffect(() => {
+        const monoModelExist = selectedModelsToSimulate.some(
+            (model: NewModelsAllParams) => {
+                return model.populationType === "monopopulation";
+            }
+        );
+
+        const metaModelExist = selectedModelsToSimulate.some(
+            (model: NewModelsAllParams) => {
+                return model.populationType === "metapopulation";
+            }
+        );
+        if (monoModelExist && metaModelExist) {
+            setSimulationsPopulatioType("meta-mono");
+        }
+        if (monoModelExist && !metaModelExist) {
+            setSimulationsPopulatioType("mono");
+        }
+        if (!monoModelExist && metaModelExist) {
+            setSimulationsPopulatioType("meta");
+        }
+    }, [selectedModelsToSimulate]);
 
     return (
         <Grid
@@ -67,11 +100,14 @@ const Results = () => {
                     <Text color="#16609E" fontSize="18px" fontWeight="bold">
                         Results
                     </Text>
-                    <ResultsDrawer
-                        isOpen={isOpen}
-                        onOpen={onOpen}
-                        onClose={onClose}
-                    />
+                    {(simulationsPopulatioType === "mono" ||
+                        simulationsPopulatioType === "mono-meta") && (
+                        <ResultsDrawer
+                            isOpen={isOpen}
+                            onOpen={onOpen}
+                            onClose={onClose}
+                        />
+                    )}
                 </Flex>
             </GridItem>
             {responseSim ? (

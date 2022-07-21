@@ -72,24 +72,35 @@ const RunButton = ({ permission }: Props) => {
 
     const getGraphicRealData = async (selectedModels) => {
         const objectConfig = getObjectConfig(selectedModels);
-        if (Object.keys(objectConfig).length > 0) {
-            const res = await postData(
-                "http://192.168.2.131:5001/realData",
-                objectConfig
-            );
-            const val = Object.values(res.result);
-            const keys = Object.keys(res.result);
-            const realDataKeys = val
-                .map((simString: string) => simString)
-                .map((sim, i) => ({
-                    name: keys[i],
-                    // eslint-disable-next-line @typescript-eslint/ban-types
-                    ...(sim as {}),
-                }));
+        try {
+            if (Object.keys(objectConfig).length > 0) {
+                const res = await postData(
+                    "http://192.168.2.131:5001/realData",
+                    objectConfig
+                );
+                const val = Object.values(res.result);
+                const keys = Object.keys(res.result);
+                const realDataKeys = val
+                    .map((simString: string) => simString)
+                    .map((sim, i) => ({
+                        name: keys[i],
+                        // eslint-disable-next-line @typescript-eslint/ban-types
+                        ...(sim as {}),
+                    }));
 
-            return setRealDataSimulationKeys(realDataKeys);
+                return setRealDataSimulationKeys(realDataKeys);
+            }
+            return false;
+        } catch (error) {
+            return toast({
+                position: "bottom-left",
+                title: "Error",
+                description: `${error.message}`,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         }
-        return false;
     };
 
     const getSimulationSelectedObj = (simulations) => {
