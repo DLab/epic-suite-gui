@@ -9,10 +9,8 @@ import { GraphicsData } from "context/GraphicsContext";
 // import { ModelsSaved } from "context/ModelsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
-import { SimulationSetted } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
-import { DataParameters } from "types/ModelsTypes";
-import { NewModelsAllParams, SimulatorParams } from "types/SimulationTypes";
+import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 import postData from "utils/fetchData";
 
@@ -28,9 +26,7 @@ interface Props {
 }
 const SIMULATIONFAILED = "Simulation failed";
 const RunButton = ({ permission }: Props) => {
-    // const { simulation: simSetted } = useContext(SimulationSetted);
     const { geoSelections } = useContext(SelectFeature);
-
     // Real Data Context
     const { setRealDataSimulationKeys } = useContext(GraphicsData);
     //
@@ -39,8 +35,11 @@ const RunButton = ({ permission }: Props) => {
     const { setAllGraphicData, setAllResults, setDataToShowInMap } =
         useContext(GraphicsData);
     const [isSimulating, setisSimulating] = useState(false);
-    const { completeModel, setSelectedModelsToSimulate } =
-        useContext(NewModelSetted);
+    const {
+        completeModel,
+        setSelectedModelsToSimulate,
+        setSimulationsPopulatioType,
+    } = useContext(NewModelSetted);
 
     const getObjectConfig = (selectedModels) => {
         const simulationsSelected = selectedModels.map((e, i) => {
@@ -261,6 +260,7 @@ const RunButton = ({ permission }: Props) => {
                     );
                     if (withPermission) {
                         handleJsonToToml();
+                        setSimulationsPopulatioType("");
                     } else {
                         toast({
                             position: bottonLeft,

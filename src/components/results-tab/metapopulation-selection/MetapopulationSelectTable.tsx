@@ -1,7 +1,8 @@
+import { InfoIcon } from "@chakra-ui/icons";
 import {
     Checkbox,
+    Text,
     Table,
-    TableCaption,
     TableContainer,
     Tbody,
     Td,
@@ -10,11 +11,16 @@ import {
     Tr,
     Button,
     useToast,
+    Select,
+    Icon,
+    Flex,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
 import metaData from "../../../data/metapopulationData.json";
 import { GraphicsData } from "context/GraphicsContext";
+import { NewModelSetted } from "context/NewModelsContext";
+import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 type ReducerForMetapopulationSelections = Record<number, boolean>;
@@ -25,12 +31,34 @@ const MetapopulationSelectTable = () => {
     const [checkList, setCheckList] =
         useState<ReducerForMetapopulationSelections>({});
     const [checkAllList, setCheckAllList] = useState<ReducerForAllLists>({});
+    const [displayedParameters, setDisplayedParameters] = useState([]);
+    const [parametersNotDisplayed, setParametersNotDisplayed] = useState([]);
+    const { selectedModelsToSimulate } = useContext(NewModelSetted);
     const {
         allGraphicData,
         setAllGraphicData,
         setAllResults,
         dataToShowInMap,
     } = useContext(GraphicsData);
+
+    useEffect(() => {
+        const { parameters } = selectedModelsToSimulate.filter(
+            (sim: NewModelsAllParams) => {
+                return sim.populationType === "metapopulation";
+            }
+        )[0];
+
+        setDisplayedParameters(parameters.compartments);
+    }, [selectedModelsToSimulate]);
+
+    useEffect(() => {
+        const notDisplayedPametersList = Object.keys(metaData[0]).filter(
+            (parameter) => {
+                return !displayedParameters.includes(parameter);
+            }
+        );
+        setParametersNotDisplayed(notDisplayedPametersList);
+    }, [displayedParameters]);
 
     useEffect(() => {
         let checkListAux = checkList;
@@ -140,12 +168,24 @@ const MetapopulationSelectTable = () => {
 
     return (
         <>
-            <TableContainer variant="simple" bg="white" overflowY="auto">
-                <Table size="sm">
+            <Flex align="center">
+                <Icon as={InfoIcon} color="teal" />
+                <Text ml="2%">
+                    Select parameters of the metapopulation simulation to graph.
+                </Text>
+            </Flex>
+            <TableContainer
+                variant="simple"
+                bg="white"
+                overflowY="auto"
+                m="2% 0"
+                maxH="70vh"
+            >
+                <Table size="sm" m="1% 0">
                     <Thead>
                         <Tr>
                             <Th>Node</Th>
-                            {Object.keys(metaData[0]).map((parameter) => {
+                            {displayedParameters.map((parameter) => {
                                 return (
                                     <Th>
                                         <Checkbox
@@ -162,12 +202,43 @@ const MetapopulationSelectTable = () => {
                                     </Th>
                                 );
                             })}
+                            <Th className="metapopulation-select">
+                                <Select
+                                    placeholder="+"
+                                    bg="#16609e"
+                                    borderColor="#16609e"
+                                    color="white"
+                                    textAlign="center"
+                                    p="0"
+                                    onChange={(e) => {
+                                        setDisplayedParameters([
+                                            ...displayedParameters,
+                                            e.target.value,
+                                        ]);
+                                    }}
+                                >
+                                    {parametersNotDisplayed.map((parameter) => {
+                                        return (
+                                            <option
+                                                style={{
+                                                    color: "black",
+                                                    fontSize: "16px",
+                                                }}
+                                                value={parameter}
+                                                key={parameter}
+                                            >
+                                                {parameter}
+                                            </option>
+                                        );
+                                    })}
+                                </Select>
+                            </Th>
                         </Tr>
                     </Thead>
                     <Tbody>
-                        <Tr>
+                        {/* <Tr>
                             <Td>General results</Td>
-                            {Object.keys(metaData[0]).map((parameter) => {
+                            {displayedParameters.map((parameter) => {
                                 return (
                                     <Td>
                                         <Checkbox
@@ -184,35 +255,32 @@ const MetapopulationSelectTable = () => {
                                     </Td>
                                 );
                             })}
-                        </Tr>
+                        </Tr> */}
                         {Object.keys(metaData).map((elem) => {
                             return (
                                 <Tr key={elem}>
                                     <Td>{elem}</Td>
-                                    {Object.keys(metaData[0]).map(
-                                        (parameter) => {
-                                            return (
-                                                <Td>
-                                                    <Checkbox
-                                                        // bg="white"
-                                                        isChecked={
-                                                            checkList[
-                                                                `${parameter}-${elem}`
-                                                            ]
-                                                        }
-                                                        onChange={(e) => {
-                                                            setCheckList({
-                                                                ...checkList,
-                                                                [`${parameter}-${elem}`]:
-                                                                    e.target
-                                                                        .checked,
-                                                            });
-                                                        }}
-                                                    />
-                                                </Td>
-                                            );
-                                        }
-                                    )}
+                                    {displayedParameters.map((parameter) => {
+                                        return (
+                                            <Td>
+                                                <Checkbox
+                                                    isChecked={
+                                                        checkList[
+                                                            `${parameter}-${elem}`
+                                                        ]
+                                                    }
+                                                    onChange={(e) => {
+                                                        setCheckList({
+                                                            ...checkList,
+                                                            [`${parameter}-${elem}`]:
+                                                                e.target
+                                                                    .checked,
+                                                        });
+                                                    }}
+                                                />
+                                            </Td>
+                                        );
+                                    })}
                                 </Tr>
                             );
                         })}
@@ -220,11 +288,12 @@ const MetapopulationSelectTable = () => {
                 </Table>
             </TableContainer>
             <Button
+                colorScheme="teal"
                 onClick={() => {
                     getGraphicValues();
                 }}
             >
-                Run
+                Chart
             </Button>
         </>
     );

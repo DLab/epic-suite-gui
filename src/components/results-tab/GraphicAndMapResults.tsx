@@ -126,7 +126,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
                 >
                     <GridItem
                         colSpan={5}
-                        w="98%"
+                        w="50%"
                         justify="center"
                         align="center"
                     >
@@ -157,6 +157,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
                         id={createIdComponent()}
                         justify="center"
                         flexDirection="column"
+                        h="100%"
                     >
                         {" "}
                         <Text color="gray.600" fontSize="xl">

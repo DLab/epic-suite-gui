@@ -43,10 +43,11 @@ const GraphicAndMapResults = dynamic(() => import("./GraphicAndMapResults"), {
 
 const Results = () => {
     const { aux: responseSim } = useContext(TabIndex);
-    const { selectedModelsToSimulate } = useContext(NewModelSetted);
-    const [simulationsPopulatioType, setSimulationsPopulatioType] =
-        useState<string>();
-
+    const {
+        selectedModelsToSimulate,
+        simulationsPopulatioType,
+        setSimulationsPopulatioType,
+    } = useContext(NewModelSetted);
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const GraphicAndMapResultsMemo = useMemo(
@@ -80,6 +81,7 @@ const Results = () => {
         if (!monoModelExist && metaModelExist) {
             setSimulationsPopulatioType("meta");
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedModelsToSimulate]);
 
     return (
@@ -88,6 +90,7 @@ const Results = () => {
             p="5px"
             h="100%"
             templateColumns="repeat(5, 1fr)"
+            templateRows="1fr 10fr"
             direction="column"
         >
             <GridItem
