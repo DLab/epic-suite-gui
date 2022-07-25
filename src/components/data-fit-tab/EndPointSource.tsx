@@ -55,15 +55,20 @@ const EndPointSource = ({ modelId, setDataValues, algorithmValue }: Props) => {
     const handleFetch = async () => {
         try {
             const objectConfig = getObjectConfig();
-            const res = await postData("http://192.168.2.131:5001/realData", {
+            // const res = await postData("http://192.168.2.131:5001/realData", {
+            //     Data_Fit: objectConfig,
+            // });
+            const res = await postData("http://192.168.2.131:5002/realData", {
                 Data_Fit: objectConfig,
             });
-            const fitDataName = Object.keys(res.result);
+            // const fitDataName = Object.keys(res.result);
+            const fitDataName = Object.keys(res);
 
             if (algorithmValue === "Intervals") {
                 const dataForAlgorithm1 = Object.values(
                     // refactorizar cuando sepa que tipo de infectados usar
-                    res.result.Data_Fit.I
+                    // res.result.Data_Fit.I
+                    res.Data_Fit.I
                 ).map((val: string) => {
                     return parseInt(val, 10);
                 });
@@ -81,7 +86,8 @@ const EndPointSource = ({ modelId, setDataValues, algorithmValue }: Props) => {
             if (algorithmValue === "Sequential") {
                 const dataForAlgorithm2 = Object.values(
                     // refactorizar cuando sepa que tipo de infectados usar
-                    res.result.Data_Fit.I
+                    // res.result.Data_Fit.I
+                    res.Data_Fit.I
                 ).map((val: string) => {
                     return parseInt(val, 10);
                 });

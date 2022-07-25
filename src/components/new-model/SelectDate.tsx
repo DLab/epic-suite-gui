@@ -76,8 +76,12 @@ const SelectDate = ({
             const dateFormat = format(new Date(date), "yyyy/MM/dd");
             if (method === "POST") {
                 if (populationValue === "monopopulation") {
+                    // refactorizar cuando endpoint de init cond acepte modelo SIR
+                    const modelCompartments =
+                        modelValue !== "seirhvd" ? "seir" : "seirhvd";
+
                     const monoConfig = {
-                        compartments: modelValue.toUpperCase(),
+                        compartments: modelCompartments.toUpperCase(),
                         timeInit: dateFormat.split("/").join("-"),
                         scale,
                         spatialSelection,
@@ -92,15 +96,14 @@ const SelectDate = ({
                         payloadInitialConditions: [initialConditionsMono],
                         id,
                     });
-                    // setInitialConditions({
-                    //     type: "set",
-                    //     payload: [initialConditionsMono],
-                    // });
                 }
                 if (populationValue === "metapopulation") {
+                    // refactorizar cuando endpoint de init cond acepte modelo SIR
+                    const modelCompartmentsMeta =
+                        modelValue !== "seirhvd" ? "seir" : "seirhvd";
                     const getConfig = (index) => {
                         return {
-                            compartments: modelValue.toUpperCase(),
+                            compartments: modelCompartmentsMeta.toUpperCase(),
                             timeInit: dateFormat.split("/").join("-"),
                             scale,
                             spatialSelection: [spatialSelection[index]],
