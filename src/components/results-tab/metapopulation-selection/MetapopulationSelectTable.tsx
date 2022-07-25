@@ -60,10 +60,15 @@ const MetapopulationSelectTable = () => {
         setParametersNotDisplayed(notDisplayedPametersList);
     }, [displayedParameters]);
 
-    useEffect(() => {
+    const checkAllParameters = (isCheckedListUpdate, value) => {
         let checkListAux = checkList;
-        Object.keys(checkAllList).forEach((elem) => {
-            if (checkAllList[elem]) {
+        const allCheckListFiltered = Object.keys(isCheckedListUpdate).filter(
+            (param) => {
+                return param === value;
+            }
+        );
+        allCheckListFiltered.forEach((elem) => {
+            if (isCheckedListUpdate[elem]) {
                 Object.keys(metaData).forEach((node) => {
                     const newCheckList = {
                         ...checkListAux,
@@ -83,9 +88,7 @@ const MetapopulationSelectTable = () => {
                 });
             }
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [checkAllList]);
-
+    };
     const getLeftAxis = (checkedList) => {
         let savedMetaSimulation = [];
         checkedList.map((parameterSaved) => {
@@ -195,6 +198,14 @@ const MetapopulationSelectTable = () => {
                                                     [`${parameter}`]:
                                                         e.target.checked,
                                                 });
+                                                checkAllParameters(
+                                                    {
+                                                        ...checkAllList,
+                                                        [`${parameter}`]:
+                                                            e.target.checked,
+                                                    },
+                                                    parameter
+                                                );
                                             }}
                                         >
                                             {parameter}
@@ -269,6 +280,7 @@ const MetapopulationSelectTable = () => {
                                                             `${parameter}-${elem}`
                                                         ]
                                                     }
+                                                    value={parameter}
                                                     onChange={(e) => {
                                                         setCheckList({
                                                             ...checkList,

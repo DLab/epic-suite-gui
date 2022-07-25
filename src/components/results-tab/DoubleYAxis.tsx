@@ -213,8 +213,8 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
                             textAlign="center"
                             key="double-axis-content"
                             maxW="70vw"
-                            maxH="90vh"
-                            h="85vh"
+                            // maxH="90vh"
+                            // h="85vh"
                             m="3%"
                         >
                             <ModalCloseButton />
