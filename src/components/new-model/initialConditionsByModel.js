@@ -79,7 +79,7 @@ export const postInitialConditionsByModel = (result) => {
             I_d: +I_d,
             I_ac: +I_ac,
             population: +P,
-            R: +R,
+            R: 0,
         };
     }
     // if (Compartment === "SEIR") {
@@ -98,7 +98,7 @@ export const postInitialConditionsByModel = (result) => {
             I_d: +I_d,
             I_ac: +I_ac,
             population: +P,
-            R: +R,
+            R: 0,
             // E: +E,
             H_d: +H_d,
             H: +H_ac,
