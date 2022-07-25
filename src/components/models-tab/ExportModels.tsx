@@ -154,8 +154,8 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
 
     return (
         <Popover placement="right">
-            <Tooltip label="Download saved models">
-                <PopoverTrigger>
+            <PopoverTrigger>
+                <Tooltip label="Download saved models">
                     <IconButton
                         bg="#16609E"
                         color="#FFFFFF"
@@ -165,8 +165,8 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                         _hover={{ bg: "blue.500" }}
                         icon={<DownloadIcon />}
                     />
-                </PopoverTrigger>
-            </Tooltip>
+                </Tooltip>
+            </PopoverTrigger>
             <PopoverContent>
                 <PopoverHeader pt={4} fontWeight="bold" border="0">
                     Choose a format file!

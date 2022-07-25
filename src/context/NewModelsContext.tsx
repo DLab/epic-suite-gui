@@ -24,6 +24,8 @@ export const NewModelSetted = createContext<NewModelType>({
     setNewModel: () => {},
     selectedModelsToSimulate: [],
     setSelectedModelsToSimulate: () => {},
+    simulationsPopulatioType: "",
+    setSimulationsPopulatioType: () => {},
 });
 
 // eslint-disable-next-line react/prop-types
@@ -131,6 +133,8 @@ const NewModelsContext: React.FC = ({ children }) => {
         reducerIdSimulation,
         0
     );
+    const [simulationsPopulatioType, setSimulationsPopulatioType] =
+        useState<string>();
     return (
         <NewModelSetted.Provider
             value={{
@@ -144,6 +148,8 @@ const NewModelsContext: React.FC = ({ children }) => {
                 setIdNewModelUpdating,
                 selectedModelsToSimulate,
                 setSelectedModelsToSimulate,
+                simulationsPopulatioType,
+                setSimulationsPopulatioType,
             }}
         >
             {children}

@@ -1,4 +1,4 @@
-import data from "data/dataFitTestMono.json";
+import data from "data/metapopulationData.json";
 
 export default function userHandler(req, res) {
     const { method } = req;
