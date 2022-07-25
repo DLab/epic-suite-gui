@@ -74,11 +74,14 @@ const RunButton = ({ permission }: Props) => {
         const objectConfig = getObjectConfig(selectedModels);
         if (Object.keys(objectConfig).length > 0) {
             const res = await postData(
-                "http://192.168.2.131:5001/realData",
+                // "http://192.168.2.131:5001/realData",
+                "http://192.168.2.131:5002/realData",
                 objectConfig
             );
-            const val = Object.values(res.result);
-            const keys = Object.keys(res.result);
+            // const val = Object.values(res.result);
+            // const keys = Object.keys(res.result);
+            const val = Object.values(res);
+            const keys = Object.keys(res);
             const realDataKeys = val
                 .map((simString: string) => simString)
                 .map((sim, i) => ({

@@ -306,15 +306,18 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                             {initialConditionsCheckBox[
                                                 index
                                             ]?.map((paramKeyData) => {
-                                                return (
-                                                    <Radio
-                                                        bg="white"
-                                                        value={`${paramKeyData} Real`}
-                                                        key={`${paramKeyData} Real`}
-                                                    >
-                                                        {paramKeyData}
-                                                    </Radio>
-                                                );
+                                                if (paramKeyData !== "R") {
+                                                    return (
+                                                        <Radio
+                                                            bg="white"
+                                                            value={`${paramKeyData} Real`}
+                                                            key={`${paramKeyData} Real`}
+                                                        >
+                                                            {paramKeyData}
+                                                        </Radio>
+                                                    );
+                                                }
+                                                return false;
                                             })}
                                         </Grid>
                                     </RadioGroup>

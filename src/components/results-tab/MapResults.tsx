@@ -84,17 +84,17 @@ const MapResults = ({ map }: Props) => {
         if (typeData === "Real") {
             let filterKey = map.parameter.slice(0, -5);
             // Borrar en refactorización
-            if (filterKey === "I") {
-                filterKey = "I_active";
-            }
-            if (filterKey === "I_d") {
-                filterKey = "I";
-            }
-            if (filterKey === "I_ac") {
-                filterKey = "I_acum";
-            }
+            // if (filterKey === "I") {
+            //     filterKey = "I_active";
+            // }
+            // if (filterKey === "I_d") {
+            //     filterKey = "I";
+            // }
+            // if (filterKey === "I_ac") {
+            //     filterKey = "I_acum";
+            // }
             if (filterKey === "population") {
-                filterKey = "S";
+                filterKey = "P";
             }
             getParameterValue = simRealDataKeyFilter[0][filterKey];
         } else {

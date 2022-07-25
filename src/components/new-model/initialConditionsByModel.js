@@ -58,54 +58,54 @@ export const getPreviusInitialConditions = (model, initCond) => {
 export const postInitialConditionsByModel = (result) => {
     const {
         Compartment,
-        D,
-        D_acum,
+        D_d,
+        D_ac,
         E,
-        H,
-        H_acum,
+        H_d,
+        H_ac,
         I,
-        I_active,
-        I_acum,
+        I_ac,
+        I_d,
         R,
-        S,
-        V,
-        V_acum,
+        P,
+        V_d,
+        V_ac,
     } = result;
 
     let payload;
-    if (Compartment === "SIR") {
+    if (Compartment === "SIR" || Compartment === "SEIR") {
         payload = {
-            I: +I_active,
-            I_d: +I,
-            I_ac: +I_acum,
-            population: +S,
-            R: +R,
+            I: +I,
+            I_d: +I_d,
+            I_ac: +I_ac,
+            population: +P,
+            R: 0,
         };
     }
-    if (Compartment === "SEIR") {
-        payload = {
-            I: +I_active,
-            I_d: +I,
-            I_ac: +I_acum,
-            population: +S,
-            R: +R,
-            E: +E,
-        };
-    }
+    // if (Compartment === "SEIR") {
+    //     payload = {
+    //         I: +I_active,
+    //         I_d: +I,
+    //         I_ac: +I_acum,
+    //         population: +S,
+    //         R: +R,
+    //         E: +E,
+    //     };
+    // }
     if (Compartment === "SEIRHVD") {
         payload = {
-            I: +I_active,
-            I_d: +I,
-            I_ac: +I_acum,
-            population: +S,
-            R: +R,
-            E: +E,
-            H_d: +H,
-            H: +H_acum,
-            Iv_d: +V,
-            Iv_ac: +V_acum,
-            D_d: +D,
-            D: +D_acum,
+            I: +I,
+            I_d: +I_d,
+            I_ac: +I_ac,
+            population: +P,
+            R: 0,
+            // E: +E,
+            H_d: +H_d,
+            H: +H_ac,
+            Iv_d: +V_d,
+            Iv_ac: +V_ac,
+            D_d: +D_d,
+            D: +D_ac,
         };
     }
     return payload;

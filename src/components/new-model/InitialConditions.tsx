@@ -214,7 +214,7 @@ const InitialConditionsModel = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel>H</StatLabel>
+                                        <StatLabel>H_ac</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
                                                 initialConditions.H ?? 0
