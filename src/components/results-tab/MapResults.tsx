@@ -241,7 +241,7 @@ const MapResults = ({ map }: Props) => {
                                 idGeo={map.idGeo}
                                 parameterValue={parameterValue}
                                 maxValue={maxValue}
-                                statesData={geoData}
+                                statesResultsData={geoData}
                             />
                         ) : (
                             isGeoDataLoaded && (

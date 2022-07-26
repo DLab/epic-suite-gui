@@ -6,6 +6,7 @@ import { GeometryObject, Topology } from "topojson-specification";
 import stateData_ from "../../data/states-10m.json";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
+import "leaflet/dist/leaflet.css";
 
 interface ActionTooltip {
     type: string;
@@ -63,7 +64,7 @@ const StatesModelsMap = ({ idGeo }: Props) => {
         });
     };
 
-    const styles = (feature) => {
+    const modelsMapStyles = (feature) => {
         let color;
         const stateId = feature.id;
 
@@ -82,7 +83,11 @@ const StatesModelsMap = ({ idGeo }: Props) => {
     };
 
     return (
-        <GeoJSON data={data} onEachFeature={onEachFeature} style={styles}>
+        <GeoJSON
+            data={data}
+            onEachFeature={onEachFeature}
+            style={modelsMapStyles}
+        >
             <Tooltip>{tootipCounty}</Tooltip>
         </GeoJSON>
     );

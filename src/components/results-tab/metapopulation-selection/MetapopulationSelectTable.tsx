@@ -14,6 +14,7 @@ import {
     Select,
     Icon,
     Flex,
+    Tooltip,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
@@ -89,6 +90,7 @@ const MetapopulationSelectTable = () => {
             }
         });
     };
+
     const getLeftAxis = (checkedList) => {
         let savedMetaSimulation = [];
         checkedList.map((parameterSaved) => {
@@ -169,6 +171,25 @@ const MetapopulationSelectTable = () => {
         }
     };
 
+    const deleteFromDisplayedList = (parameter) => {
+        setDisplayedParameters(
+            displayedParameters.filter(
+                (displayedParam) => displayedParam !== parameter
+            )
+        );
+        setCheckAllList({
+            ...checkAllList,
+            [`${parameter}`]: false,
+        });
+        checkAllParameters(
+            {
+                ...checkAllList,
+                [`${parameter}`]: false,
+            },
+            parameter
+        );
+    };
+
     return (
         <>
             <Flex align="center">
@@ -208,7 +229,19 @@ const MetapopulationSelectTable = () => {
                                                 );
                                             }}
                                         >
-                                            {parameter}
+                                            <Tooltip label="Delete parameter from table">
+                                                <Button
+                                                    bg="transparent"
+                                                    p="0"
+                                                    onClick={() => {
+                                                        deleteFromDisplayedList(
+                                                            parameter
+                                                        );
+                                                    }}
+                                                >
+                                                    {parameter}
+                                                </Button>
+                                            </Tooltip>
                                         </Checkbox>
                                     </Th>
                                 );
