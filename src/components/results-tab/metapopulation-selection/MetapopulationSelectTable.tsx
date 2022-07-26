@@ -142,7 +142,7 @@ const MetapopulationSelectTable = () => {
         try {
             const selectedParametersArray = getGraphicMetaSelections();
             if (selectedParametersArray.length < 1) {
-                throw new Error("Elegir al menos un parámetro");
+                throw new Error("Choose at least one parameter");
             }
             const graphicDataAux = [
                 ...allGraphicData,
@@ -160,7 +160,7 @@ const MetapopulationSelectTable = () => {
         } catch (error) {
             toast({
                 position: "bottom-left",
-                title: `${error.message}`,
+                title: "Error when graphing",
                 description: `${error.message}`,
                 status: "error",
                 duration: 3000,
