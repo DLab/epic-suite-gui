@@ -15,20 +15,20 @@ interface Props {
     idGeo: number | string;
     parameterValue: number;
     maxValue: number;
-    statesData: GeometryObject;
+    statesResultsData: GeometryObject;
 }
 
 const StatesResultsMap = ({
     idGeo,
     parameterValue,
     maxValue,
-    statesData,
+    statesResultsData,
 }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
-    const stateData = statesData as unknown as Topology;
+    const stateResultsData = statesResultsData as unknown as Topology;
     const data = topojson.feature(
-        stateData,
-        stateData.objects.states as GeometryObject
+        stateResultsData,
+        stateResultsData.objects.states as GeometryObject
     );
     const map = useMap();
     const { index: tabIndex } = useContext(TabIndex);
@@ -55,7 +55,7 @@ const StatesResultsMap = ({
             setStatesSelected(geoSelection?.featureSelected);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idGeo, parameterValue, statesData]);
+    }, [idGeo, parameterValue, statesResultsData]);
 
     useEffect(() => {
         if (tabIndex === 4) {
