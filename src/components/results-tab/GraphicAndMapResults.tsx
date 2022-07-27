@@ -155,6 +155,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
                     simulationsPopulatioType === "mono-meta") && (
                     <Flex
                         id={createIdComponent()}
+                        colSpan={1}
                         justify="center"
                         flexDirection="column"
                         h="100%"

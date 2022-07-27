@@ -21,7 +21,8 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import { GeometryObject } from "topojson-specification";
 
 import us_ from "../../data/counties-10m.json";
-import stateData_ from "../../data/states-10m.json";
+// import stateData_ from "../../data/states-10m.json";
+import stateData_ from "../../data/statesResults-10m.json";
 import PauseIcon from "components/icons/PauseIcon";
 import PlayIcon from "components/icons/PlayIcon";
 import { GraphicsData } from "context/GraphicsContext";
@@ -241,7 +242,7 @@ const MapResults = ({ map }: Props) => {
                                 idGeo={map.idGeo}
                                 parameterValue={parameterValue}
                                 maxValue={maxValue}
-                                statesResultsData={geoData}
+                                statesData={geoData}
                             />
                         ) : (
                             isGeoDataLoaded && (
