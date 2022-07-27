@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { DownloadIcon } from "@chakra-ui/icons";
 import {
-    useToast,
     Popover,
     PopoverTrigger,
     IconButton,
@@ -18,88 +17,28 @@ import { useContext, useState } from "react";
 
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
-import VariableDependentTime from "types/VariableDependentTime";
 import convertFiles from "utils/convertFiles";
 import {
-    convertTypeFunctionVDTForTomlFormat,
-    fixMixTypeInArray,
-} from "utils/convertVDTForTomlFormat";
+    formatInitialConditionsForExport,
+    StringifyVariableDependentTime,
+} from "utils/helpersExportsModels";
 
 interface PropsExportModels {
     idModel?: number;
 }
-type DynamicAttributes = Record<
-    string,
-    VariableDependentTime[] | number | VariableDependentTime
->;
-const StringfyVariableDependentTime = (DinamicAttribute: DynamicAttributes) => {
-    return Object.entries(DinamicAttribute)
-        .map(([keys, data]) => {
-            if (_.isNumber(data)) {
-                return { [keys]: data };
-            }
-            if (!_.isArray(data)) {
-                const { rangeDays, type, isEnabled, val } = data;
-                return {
-                    [keys]: isEnabled
-                        ? JSON.stringify({
-                              function: "events",
-                              values: convertTypeFunctionVDTForTomlFormat(
-                                  type,
-                                  rangeDays
-                              ),
-                              days: rangeDays,
-                          })
-                        : val,
-                };
-            }
-            // util variable
-            const med = data
-                .map((u: VariableDependentTime) => {
-                    const { rangeDays, type, isEnabled, val } = u;
-                    return {
-                        [keys]: isEnabled
-                            ? JSON.stringify({
-                                  function: "events",
-                                  values: convertTypeFunctionVDTForTomlFormat(
-                                      type,
-                                      rangeDays
-                                  ),
-                                  days: rangeDays,
-                              })
-                            : val,
-                    };
-                })
-                .reduce((ac, curr) => {
-                    // reduce array object to one object with variables dependent time
-                    return {
-                        [keys]:
-                            ac[keys] || ac[keys] === 0
-                                ? [ac[keys], curr[keys]]
-                                : curr[keys],
-                    };
-                }, {});
-            // if med array, fix it when it has mixed types before returning
-            return {
-                [keys]: med[keys],
-            };
-            // return {
-            //     [keys]: _.isArray(med[keys])
-            //         ? fixMixTypeInArray(med[keys] as Array<unknown>)
-            //         : med[keys],
-            // };
-        })
-        .reduce((acc, curr) => {
-            return { ...acc, ...curr };
-        }, {});
-};
+
 const ExportModels = ({ idModel }: PropsExportModels) => {
     const { completeModel } = useContext(NewModelSetted);
     const { geoSelections } = useContext(SelectFeature);
     const [tomlFile, setTomlFile] = useState<string>("");
     const [nameModelForToml, setNameModelForToml] = useState<string>("");
+    /**
+     * It creates a string for a toml file.
+     * @param {number} id - number
+     * @returns A string with the model in toml format.
+     */
     // eslint-disable-next-line sonarjs/cognitive-complexity
-    const anithing = (id: number): string => {
+    const createStringForToml = (id: number): string => {
         // establecer type de salida de la funcion
         const modelSelected = completeModel.find(
             // eslint-disable-next-line @typescript-eslint/dot-notation
@@ -108,12 +47,11 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
         if (!_.isEmpty(modelSelected)) {
             const geoSelected = geoSelections.find(
                 (geo) => geo.id === modelSelected.idGeo
-            );
+            ) ?? { scale: "graph", featureSelected: [], id: 0 };
             const {
                 name,
                 modelType,
                 parameters,
-                idNewModel,
                 populationType,
                 initialConditions: initCond,
                 t_init,
@@ -140,7 +78,7 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                 ...dynamicSEIRHVD
             } = parameters;
 
-            const obj = {
+            const jsonForToml = {
                 model: {
                     name,
                     model: `${modelType}${
@@ -148,7 +86,21 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                             ? "meta"
                             : ""
                     }`,
-                    compartments: parameters.compartments,
+                    compartments:
+                        modelType === "seirhvd"
+                            ? [
+                                  "S",
+                                  "S_v",
+                                  "E",
+                                  "E_v",
+                                  "Im",
+                                  "Icr",
+                                  "Iv",
+                                  "R",
+                                  "H",
+                                  "D",
+                              ]
+                            : compartments,
                 },
                 data: {
                     datafile: false,
@@ -167,37 +119,10 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                     loc_name: "",
                     geo_topology: populationType.replace("population", ""),
                 },
-                initialconditions: {
-                    ...initCond
-                        .map((init) => init.conditionsValues)
-                        .reduce((acc, current, _idx, src) => {
-                            if (
-                                src.length === 1 &&
-                                populationType.replace("population", "") ===
-                                    "mono"
-                            ) {
-                                return {
-                                    ...acc,
-                                    ...current,
-                                };
-                            }
-                            return Object.entries(current)
-                                .map((e) => {
-                                    return {
-                                        [e[0]]: acc[e[0]]
-                                            ? [...acc[e[0]], e[1]]
-                                            : [e[1]],
-                                    };
-                                })
-                                .reduce(
-                                    (subAccum, subCurrent) => ({
-                                        ...subAccum,
-                                        ...subCurrent,
-                                    }),
-                                    {}
-                                );
-                        }, {}),
-                },
+                initialconditions: formatInitialConditionsForExport(
+                    initCond,
+                    populationType
+                ),
                 parameters: {
                     static:
                         modelType === "seirhvd"
@@ -229,7 +154,7 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                     dynamic:
                         modelType === "seirhvd"
                             ? {
-                                  ...StringfyVariableDependentTime({
+                                  ...StringifyVariableDependentTime({
                                       alpha,
                                       beta,
                                       ...dynamicSEIRHVD,
@@ -237,7 +162,7 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                               }
                             : modelType === "seir"
                             ? {
-                                  ...StringfyVariableDependentTime({
+                                  ...StringifyVariableDependentTime({
                                       alpha,
                                       beta,
                                       tI_R,
@@ -246,7 +171,7 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                                   }),
                               }
                             : {
-                                  ...StringfyVariableDependentTime({
+                                  ...StringifyVariableDependentTime({
                                       alpha,
                                       beta,
                                       tI_R,
@@ -256,7 +181,7 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                 },
             };
             setNameModelForToml(name);
-            return `${convertFiles(obj)}`;
+            return `${convertFiles(jsonForToml)}`;
         }
         return "";
     };
@@ -281,18 +206,23 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                     Download Model
                 </PopoverHeader>
                 <PopoverBody>
-                    <Link
-                        hidden={!tomlFile}
-                        download={`${nameModelForToml ?? "model"}.toml`}
-                        href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                            tomlFile
-                        )}`}
-                    >
-                        Download TOML file
-                    </Link>
+                    <Button hidden={!tomlFile} colorScheme="blue">
+                        <Link
+                            download={`${nameModelForToml ?? "model"}.toml`}
+                            href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                                tomlFile
+                            )}`}
+                            style={{ textDecoration: "none" }}
+                        >
+                            Download your model
+                        </Link>
+                    </Button>
                     <Button
+                        colorScheme="blue"
                         hidden={!!tomlFile}
-                        onClick={() => setTomlFile(anithing(idModel))}
+                        onClick={() =>
+                            setTomlFile(createStringForToml(idModel))
+                        }
                     >
                         {" "}
                         Create TOML File

@@ -264,6 +264,47 @@ const SeirhbdChunkImport = {
     pIcr_det: 1,
     pIm_det: 1,
     pIv_det: 1,
+    rR_S: {
+        rangeDays: [[0, 500]],
+        type: [
+            {
+                name: "static",
+                value: 1,
+            },
+        ],
+        name: "rR_S",
+        default: 1,
+        isEnabled: false,
+        val: 1,
+    },
+    //
+    tE_I: {
+        rangeDays: [[0, 500]],
+        type: [
+            {
+                name: "static",
+                value: 1,
+            },
+        ],
+        name: "tE_I",
+        default: 1,
+        isEnabled: false,
+        val: 1,
+    },
+
+    tI_R: {
+        rangeDays: [[0, 500]],
+        type: [
+            {
+                name: "static",
+                value: 1,
+            },
+        ],
+        name: "tI_R",
+        default: 1,
+        isEnabled: false,
+        val: 1,
+    },
 };
 
 export default SeirhbdChunkImport;

@@ -14,6 +14,7 @@ import {
     AccordionIcon,
     AccordionPanel,
 } from "@chakra-ui/react";
+import _ from "lodash";
 import { useContext, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -86,6 +87,9 @@ const ModelController = ({
                     ],
                 };
             }
+            // if (_.isEmpty(current)) {
+            //     return acc;
+            // }
             return {
                 ...acc,
                 [current.name]: [current.isEnabled],
@@ -142,6 +146,9 @@ const ModelController = ({
                             ],
                         };
                     }
+                    // if (_.isEmpty(current)) {
+                    //     return acc;
+                    // }
                     return {
                         ...acc,
                         [current.name]: [current.isEnabled],

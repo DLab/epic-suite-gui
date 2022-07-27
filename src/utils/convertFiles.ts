@@ -8,6 +8,12 @@ export enum TypeFile {
     TOML = "TOML",
 }
 
+/**
+ * It converts a JSON object into a TOML string
+ * @param {any} data - the data to be converted
+ * @param {TypeFile} typeFile - TypeFile = TypeFile.TOML
+ * @returns the data in the format specified by the typeFile parameter.
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const convertFiles = (data: any, typeFile: TypeFile = TypeFile.TOML): unknown => {
         if(typeFile === TypeFile.JSON){

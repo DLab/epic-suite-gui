@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+import { value } from "@iarna/toml/stringify";
 import _ from "lodash";
 
 import SeirhbdChunkImport from "components/new-model/SeirhvdChunkImport";
@@ -89,43 +90,43 @@ const modifyChunkByTypeFunction = (
         };
     }
     const modifiedValues = data["values"].map((val) => {
-        const value = _.isString(val) ? JSON.parse(val) : val;
-        if (value["function"] === "sine") {
+        const newValue = _.isString(val) ? JSON.parse(val) : val;
+        if (newValue["function"] === "sine") {
             const utilValue = {
-                ...value,
-                min: value["min_val"],
-                max: value["max_val"],
+                ...newValue,
+                min: newValue["min_val"],
+                max: newValue["max_val"],
                 name: "sinusoidal",
-                initPhase: value["initPhase"] === "min" ? 0 : 1,
+                initPhase: newValue["initPhase"] === "min" ? 0 : 1,
             };
             delete utilValue["function"];
             delete utilValue["min_val"];
             delete utilValue["max_val"];
             return utilValue;
         }
-        if (value["function"] === "square") {
+        if (newValue["function"] === "square") {
             const utilValue = {
-                ...value,
-                min: value["min_val"],
-                max: value["max_val"],
+                ...newValue,
+                min: newValue["min_val"],
+                max: newValue["max_val"],
                 name: "square",
-                initPhase: value["initPhase"] === "min" ? 0 : 1,
+                initPhase: newValue["initPhase"] === "min" ? 0 : 1,
             };
             delete utilValue["function"];
             delete utilValue["min_val"];
             delete utilValue["max_val"];
             return utilValue;
         }
-        if (value["function"] === "transition") {
+        if (newValue["function"] === "transition") {
             const utilValue = {
-                ...value,
-                initvalue: value["min_val"],
-                endvalue: value["max_val"],
+                ...newValue,
+                initvalue: newValue["min_val"],
+                endvalue: newValue["max_val"],
                 name: "transition",
                 ftype:
-                    value["type"] === "linear"
+                    newValue["type"] === "linear"
                         ? 0
-                        : value["type"] === "quadratic"
+                        : newValue["type"] === "quadratic"
                         ? 1
                         : 2,
                 t_init: data["days"][0][0],
@@ -137,13 +138,13 @@ const modifyChunkByTypeFunction = (
             delete utilValue["max_val"];
             return utilValue;
         }
-        if (!value["function"]) {
+        if (!newValue["function"]) {
             return {
                 name: "static",
-                value,
+                value: newValue,
             };
         }
-        const generalUtilValue = value;
+        const generalUtilValue = newValue;
         delete generalUtilValue["function"];
         return generalUtilValue;
     });
@@ -175,7 +176,35 @@ const createChunkDependentTime = (
                 init
             );
         }
-
+        if (_.isArray(val)) {
+            return {
+                [key]: val.map((v: unknown) => {
+                    if (_.isString(v)) {
+                        return modifyChunkByTypeFunction(
+                            JSON.parse(v),
+                            key,
+                            duration,
+                            init
+                        )[key];
+                    }
+                    return {
+                        rangeDays: [
+                            [v["t_init"] ?? 0, v["t_end"] ?? duration ?? 1],
+                        ],
+                        type: [
+                            {
+                                name: "static",
+                                value: v,
+                            },
+                        ],
+                        name: key,
+                        default: v,
+                        isEnabled: false,
+                        val: v,
+                    };
+                }),
+            };
+        }
         return {
             [key]: {
                 rangeDays: [
@@ -201,19 +230,40 @@ const createChunkDependentTime = (
     return { [key]: val };
 };
 
+/**
+ * It takes a JSON object and returns a new JSON object with the same keys but with the values
+ * transformed
+ * @param {unknown} data - the data from the file
+ * @returns An object with the following structure:
+ * {
+ *     "t_init": 0,
+ *     "t_end": 100,
+ *     "t_step": 1,
+ *     "t_incubation": 5,
+ *     "t_infectious": 5,
+ *     "t_recovery_mild": 14,
+ *     "t_recovery_
+ */
 export const prepareChunk = (data: unknown): EpidemicsData => {
     const duration = data["t_end"];
     const init = data["t_init"];
     // for each [key,value] format if key is in list (variableDependentTimeParams)
-    const utilData = Object.entries(data).map(([key, value]) => {
-        return createChunkDependentTime(key, value, duration, init);
+    const utilData = Object.entries(data).map(([key, valueParam]) => {
+        return createChunkDependentTime(key, valueParam, duration, init);
     });
     return utilData.reduce((prev, current) => {
-        const [key, value] = Object.entries(current)[0];
+        const [key, valueUtil] = Object.entries(current)[0];
         const isVDT =
             variableDependentTimeParams.includes(key) &&
             !exceptionVDT.includes(key);
-        return { ...prev, [key]: isVDT ? [value] : value };
+        return {
+            ...prev,
+            [key]: isVDT
+                ? _.isArray(valueUtil)
+                    ? valueUtil
+                    : [valueUtil]
+                : valueUtil,
+        };
     }, SeirhbdChunkImport) as unknown as EpidemicsData;
     // return utilData.reduce(
     //     (prev, current) => ({ ...prev, ...current }),
@@ -225,16 +275,16 @@ export const cleanInitialConditions = (
 ): InitialConditions => {
     const keysNotUsedFromToml = ["I_det", "I_d_det", "I_ac_det"];
     return Object.entries(data)
-        .filter(([key, value]) => {
+        .filter(([key, valueKey]) => {
             return (
-                ((key === "E" || key === "E_d") && value) ||
+                ((key === "E" || key === "E_d") && valueKey) ||
                 !keysNotUsedFromToml.includes(key)
             );
         })
-        .reduce((acc, [key, value]) => {
+        .reduce((acc, [key, val]) => {
             return {
                 ...acc,
-                [key]: value,
+                [key]: val,
             };
         }, {}) as InitialConditions;
 };

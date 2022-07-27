@@ -37,6 +37,12 @@ export const counterSlice = createSlice({
                         action.payload.payloadVariableDependent;
                 }
             }
+            if (action.payload.type === "add") {
+                return {
+                    ...state,
+                    ...action.payload.updateData,
+                };
+            }
             if (action.payload.type === "update") {
                 return action.payload.updateData;
             }

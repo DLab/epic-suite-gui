@@ -7,175 +7,12 @@ import {
     TYPECOMPARTMENTS,
     STATECODES,
     COUNTYCODES,
-    EVENTFUNCTION,
-    TYPESEVENTFUNCTION,
-    REGEXTRANSITIONFUNCTION,
     REGEXTYPEMODEL,
 } from "constants/verifyAttrTomlConstants";
-import { Fields } from "types/importTypes";
 import { EpicConfigToml } from "types/TomlTypes";
 
-import { verifyMainKeys } from "./verifyAttrTomlRight";
+import { verifyInnertypesVDT } from "./helpersImportModel";
 
-interface EventFunction {
-    must: string[];
-    values: ValuesEventFunction;
-}
-interface ValuesEventFunction {
-    must: string[];
-    sine: string[];
-    square: string[];
-    transition: Fields;
-}
-const keysByTypeFunction = (
-    typeCompartment: string,
-    fields: EventFunction,
-    isQuadratic = false
-) => {
-    const typeModel = typeCompartment.match(REGEXTRANSITIONFUNCTION)[0];
-    switch (typeModel) {
-        // case "static":
-        //     return [...fields.must, ...fields.seir];
-        case "square":
-            return [...fields.values.must, ...fields.values.square];
-        case "sine":
-            return [...fields.values.must, ...fields.values.sine];
-        case "transition":
-            return isQuadratic
-                ? [
-                      ...fields.values.must,
-                      ...fields.values.transition.must,
-                      ...fields.values.transition.quadratic,
-                  ]
-                : [...fields.values.must, ...fields.values.transition.must];
-        default:
-            throw new Error("Type model is wrong");
-    }
-};
-const verifyInnertypesVDT = (innerValueVDT: unknown) => {
-    if (_.isString(innerValueVDT)) {
-        // esto debería estar en una función
-        const valueParseToJson = JSON.parse(innerValueVDT);
-        const AllParseToJson = {
-            ...valueParseToJson,
-            values: valueParseToJson.values.map((v) => JSON.parse(v)),
-        };
-        // verify is string contain EVENTFUNCTION.must properties
-        const statusParseData = verifyMainKeys(
-            EVENTFUNCTION.must.length,
-            EVENTFUNCTION.must
-        );
-
-        const isRightMainKeysParseData = Object.keys(AllParseToJson)
-            .map((key) => statusParseData(key))
-            .some((verified) => verified);
-        if (!isRightMainKeysParseData) {
-            throw new Error(`It fault any main properties in event function`);
-        }
-        const { values, days } = AllParseToJson;
-        const IsAllDaysArrayNumbers = days.every(
-            ([init, end], i: number, arr: number[][]) => {
-                if (init > end) {
-                    throw new Error(
-                        `Init day must to be lower than end day in range days`
-                    );
-                }
-                return (
-                    _.isNumber(init) &&
-                    _.isNumber(end) &&
-                    (i !== 0 ? arr[i - 1][1] < end : true)
-                );
-            }
-        );
-        if (!IsAllDaysArrayNumbers) {
-            throw new Error(
-                `Days into event function hasn't right type. It must to  be numbers array`
-            );
-        }
-        values.forEach((element) => {
-            if (!_.isNumber(element)) {
-                const keysEventFunction = keysByTypeFunction(
-                    element.function,
-                    EVENTFUNCTION,
-                    element.function === "transition" &&
-                        element.type === "quadratic"
-                );
-                const statusEventFunction = verifyMainKeys(
-                    keysEventFunction.length,
-                    keysEventFunction
-                );
-                const isRightEventFunctionProps = Object.keys(element)
-                    .map((key) => statusEventFunction(key))
-                    .some((verified) => verified);
-                if (!isRightEventFunctionProps) {
-                    throw new Error(
-                        `It fault any properties in event function`
-                    );
-                }
-                // verify right values
-                const functionKeys = ["transition", "sine", "square"];
-                const typesKeys = ["sigmoidal", "quadratic", "linear"];
-                Object.entries(element).forEach(([key, val]) => {
-                    switch (TYPESEVENTFUNCTION[key]) {
-                        case "number":
-                            if (!_.isNumber(val) || val < 0) {
-                                throw new Error(`define error not number`);
-                            }
-                            if (key === "min_val" && val > element.max_val) {
-                                throw new Error(
-                                    `min_val must to be lesser than max_val`
-                                );
-                            }
-                            if (key === "max_val" && val < element.min_val) {
-                                throw new Error(
-                                    `max_val must to be greater than mmin_val error not number`
-                                );
-                            }
-                            if (key === "t_end" && val < element.t_init) {
-                                throw new Error(
-                                    `t_end must to be greater than t_init`
-                                );
-                            }
-                            if (key === "t_init" && val > element.t_end) {
-                                throw new Error(
-                                    `t_init must to be lesser than t_end`
-                                );
-                            }
-                            break;
-                        case "string":
-                            if (
-                                key === "function" &&
-                                _.isString(val) &&
-                                !functionKeys.includes(val)
-                            ) {
-                                throw new Error(`define error boolean`);
-                            }
-                            if (
-                                key === "type" &&
-                                _.isString(val) &&
-                                !typesKeys.includes(val)
-                            ) {
-                                throw new Error(`define error boolean`);
-                            }
-                            break;
-                        case "boolean":
-                            if (!_.isNumber(val) && (val > 1 || val < 0)) {
-                                throw new Error(`define error boolean`);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                });
-            }
-        });
-        return true;
-    }
-    if (_.isNumber(innerValueVDT) && innerValueVDT >= 0) {
-        return true;
-    }
-    return false;
-};
 const isRightModelTypes = (mod: EpicConfigToml["model"]) => {
     const { model, compartments, name } = mod;
     if (!_.isString(name) && !_.isString(model)) {
@@ -186,7 +23,7 @@ const isRightModelTypes = (mod: EpicConfigToml["model"]) => {
     }
     const typeModel = _.isEmpty(
         _.difference(
-            compartments.sort(),
+            [...compartments].sort(),
             TYPECOMPARTMENTS[model.match(REGEXTYPEMODEL)[0]].sort()
         )
     );
@@ -321,7 +158,7 @@ const isRightDynamicTypes = (
                     return value.every((val) => verifyInnertypesVDT(val));
                 }
                 throw new Error(
-                    `In metapopulations simulations, Dependent time Variables must to be an array`
+                    `In metapopulations simulations, time dependent variables must to be an array`
                 );
             }
         );
@@ -380,22 +217,6 @@ const verifyTomlTypesAttr = (dataToml: EpicConfigToml) => {
     const isMeta = data.geo_topology === "meta";
     isRightStaticTypes(staticAttr, typeModel, isMeta);
     isRightDynamicTypes(dynamic, typeModel, isMeta);
-    /* 
-        Cosas pendientes por hacer:
-
-        E T A P A  D E  V E R I F I C A C I Ó N  D E  T I P O S  Y  A T  R I B U T O S
-
-        - Verificar tipos del innerVDT ya que sólo está verificando si existen
-        las propiedades - ready sin verificar
-        - Verificar que los datos entregados (p.e. código de estados) sean
-        correctos, esto incluye las variables tiempodependientes que tienen
-        muchos datos anidados. - ready sin verificar
-
-        E T A P A  D E  C O N V E R S I Ó N  H A C I A  C O N T E X T
-
-        - Sanitizar (en alguna parte se debe hacer)
-        
-    */
 };
 
 export default verifyTomlTypesAttr;

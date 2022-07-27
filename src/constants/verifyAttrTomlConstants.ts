@@ -30,35 +30,28 @@ export const DATAKEYS: Fields = {
     optional: ["datafile", "importdata"],
 };
 export const INITIALCONDITIONSKEYS: Fields = {
-    must: ["population", "R", "I", "I_d", "I_ac"],
+    must: ["population", "I", "I_d", "I_ac", "R"],
     seir: ["E"],
     seirhvd: [
         "H",
-        "H_d",
-        "H_acum",
+        // "H_d",
+        // "H_ac",
+        // "H_cap,",
+        // "Iv",
         "Iv_d",
         "Iv_ac",
-        "V",
-        "V_acum",
+        // "V",
+        // "V_ac",
         "D",
-        "D_d",
-        "D_acum",
-        "Iv",
-        "H_cap,",
+        // "D_d",
+        // "D_ac",
     ],
 };
 export const STATICKEYS: Fields = {
     must: ["t_init", "t_end", "mu"],
-    optional: [
-        "timestep",
-        "k_I",
-        "k_R",
-        "seroprevfactor",
-        "populationfraction",
-        "expinfection",
-    ],
+    optional: ["timestep", "k_I", "k_R", "seroprevfactor", "expinfection"],
     seir: ["pI_det"],
-    seirhvd: ["pIcr_det", "pIm_det", "pIv_det"],
+    seirhvd: ["pIcr_det", "pIm_det", "pIv_det", "populationfraction"],
 };
 
 export const DYNAMICKEYS: Fields = {
@@ -88,7 +81,7 @@ export const DYNAMICKEYS: Fields = {
     ],
 };
 export const REGEXTRANSITIONFUNCTION = /(static|square|sine|transition)/gi;
-export const REGEXTYPEMODEL = /(sir|seir|seirhvd)/gi;
+export const REGEXTYPEMODEL = /(sir|seirhvd|seir)/gi;
 export const COUNTYCODES = countiesData.data.map((county) => county[5]);
 export const COUNTYNAMES = countiesData.data.map((county) => `${county[7]}`);
 export const STATECODES = statesData.data.map((state) => state[0]);
