@@ -82,6 +82,8 @@ export interface NewModelType {
     setCompleteModel: (values: ActionsNewModelData) => void;
     selectedModelsToSimulate: NewModelsAllParams[] | [];
     setSelectedModelsToSimulate: (values: NewModelsAllParams[]) => void;
+    simulationsPopulatioType: string;
+    setSimulationsPopulatioType: (value: string) => void;
 }
 
 export interface SimulatorParams {

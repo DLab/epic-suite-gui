@@ -66,10 +66,10 @@ const TableSimulations = () => {
                                 <Tr key={createIdComponent()}>
                                     <Td>
                                         <Checkbox
-                                            isDisabled={
-                                                elem.populationType ===
-                                                "metapopulation"
-                                            }
+                                            // isDisabled={
+                                            //     elem.populationType ===
+                                            //     "metapopulation"
+                                            // }
                                             bg="white"
                                             isChecked={
                                                 permission[elem.idNewModel]

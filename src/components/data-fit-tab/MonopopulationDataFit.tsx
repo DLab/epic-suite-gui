@@ -28,7 +28,7 @@ const MonopopulationDataFit = () => {
                             key !== "I_ac" &&
                             key !== "beta_days"
                         ) {
-                            return <Tab>{key}</Tab>;
+                            return <Tab key={key}>{key}</Tab>;
                         }
                         return false;
                     })}
@@ -44,7 +44,7 @@ const MonopopulationDataFit = () => {
                             // Para pasar a futuro el value de esa key
                             // const info = fittedData[0][key];
                             return (
-                                <TabPanel>
+                                <TabPanel key={key}>
                                     {typeof fittedData[0][key] === "number" ? (
                                         <Text>{fittedData[0].mu}</Text>
                                     ) : (

@@ -17,12 +17,9 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
-// import { ModelsSaved } from "context/ModelsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
-import { SimulationSetted } from "context/SimulationContext";
-import { DataParameters } from "types/ModelsTypes";
-import { NewModelsAllParams, SimulatorParams } from "types/SimulationTypes";
+import { NewModelsAllParams } from "types/SimulationTypes";
 
 interface Props {
     onClose: (val: boolean) => void;
@@ -47,8 +44,6 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         allGraphicData,
         setAllResults,
     } = useContext(GraphicsData);
-    // const { parameters: parametersSaved } = useContext(ModelsSaved);
-    // const { simulation } = useContext(SimulationSetted);
     const { geoSelections } = useContext(SelectFeature);
     const mapArray = ["Map 1", "Map 2"];
     const { completeModel, selectedModelsToSimulate } =
@@ -306,15 +301,18 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                             {initialConditionsCheckBox[
                                                 index
                                             ]?.map((paramKeyData) => {
-                                                return (
-                                                    <Radio
-                                                        bg="white"
-                                                        value={`${paramKeyData} Real`}
-                                                        key={`${paramKeyData} Real`}
-                                                    >
-                                                        {paramKeyData}
-                                                    </Radio>
-                                                );
+                                                if (paramKeyData !== "R") {
+                                                    return (
+                                                        <Radio
+                                                            bg="white"
+                                                            value={`${paramKeyData} Real`}
+                                                            key={`${paramKeyData} Real`}
+                                                        >
+                                                            {paramKeyData}
+                                                        </Radio>
+                                                    );
+                                                }
+                                                return false;
                                             })}
                                         </Grid>
                                     </RadioGroup>

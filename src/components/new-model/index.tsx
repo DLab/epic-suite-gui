@@ -36,7 +36,7 @@ const NewModel = () => {
                 idGeo: undefined,
                 idGraph: undefined,
                 numberNodes: undefined,
-                t_init: format(new Date(2021, 11, 31), "yyyy/MM/dd"),
+                t_init: format(new Date(2022, 4, 31), "yyyy/MM/dd"),
                 initialConditions: [],
             },
         });

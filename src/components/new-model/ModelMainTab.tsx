@@ -69,7 +69,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
     const [startDate, setStartDate] = useState(
         new Date(
             newModel.find((model: NewModelsParams) => model.idNewModel === id)
-                .t_init ?? new Date(2022, 0, 1)
+                .t_init ?? new Date(2022, 6, 1)
         )
     );
     const [showSectionVariable, setShowSectionVariable] =

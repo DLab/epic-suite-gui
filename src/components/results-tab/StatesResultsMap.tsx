@@ -5,6 +5,7 @@ import { GeometryObject, Topology } from "topojson-specification";
 
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
+import "leaflet/dist/leaflet.css";
 
 interface ActionTooltip {
     type: string;
@@ -22,13 +23,13 @@ const StatesResultsMap = ({
     idGeo,
     parameterValue,
     maxValue,
-    statesData,
+    statesData: statesResultsData,
 }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
-    const stateData = statesData as unknown as Topology;
-    const data = topojson.feature(
-        stateData,
-        stateData.objects.states as GeometryObject
+    const stateResultsData = statesResultsData as unknown as Topology;
+    const ResultsData = topojson.feature(
+        stateResultsData,
+        stateResultsData.objects.states as GeometryObject
     );
     const map = useMap();
     const { index: tabIndex } = useContext(TabIndex);
@@ -54,8 +55,7 @@ const StatesResultsMap = ({
             );
             setStatesSelected(geoSelection?.featureSelected);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idGeo, parameterValue, statesData]);
+    }, [geoSelections, idGeo, parameterValue, statesResultsData]);
 
     useEffect(() => {
         if (tabIndex === 4) {
@@ -115,7 +115,11 @@ const StatesResultsMap = ({
     };
 
     return (
-        <GeoJSON data={data} onEachFeature={onEachFeature} style={styles}>
+        <GeoJSON
+            data={ResultsData}
+            onEachFeature={onEachFeature}
+            style={styles}
+        >
             <Tooltip>{tootipCounty}</Tooltip>
         </GeoJSON>
     );

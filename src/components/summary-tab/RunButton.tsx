@@ -9,10 +9,8 @@ import { GraphicsData } from "context/GraphicsContext";
 // import { ModelsSaved } from "context/ModelsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
-import { SimulationSetted } from "context/SimulationContext";
 import { TabIndex } from "context/TabContext";
-import { DataParameters } from "types/ModelsTypes";
-import { NewModelsAllParams, SimulatorParams } from "types/SimulationTypes";
+import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 import postData from "utils/fetchData";
 
@@ -28,9 +26,7 @@ interface Props {
 }
 const SIMULATIONFAILED = "Simulation failed";
 const RunButton = ({ permission }: Props) => {
-    // const { simulation: simSetted } = useContext(SimulationSetted);
     const { geoSelections } = useContext(SelectFeature);
-
     // Real Data Context
     const { setRealDataSimulationKeys } = useContext(GraphicsData);
     //
@@ -39,8 +35,11 @@ const RunButton = ({ permission }: Props) => {
     const { setAllGraphicData, setAllResults, setDataToShowInMap } =
         useContext(GraphicsData);
     const [isSimulating, setisSimulating] = useState(false);
-    const { completeModel, setSelectedModelsToSimulate } =
-        useContext(NewModelSetted);
+    const {
+        completeModel,
+        setSelectedModelsToSimulate,
+        setSimulationsPopulatioType,
+    } = useContext(NewModelSetted);
 
     const getObjectConfig = (selectedModels) => {
         const simulationsSelected = selectedModels.map((e, i) => {
@@ -72,24 +71,38 @@ const RunButton = ({ permission }: Props) => {
 
     const getGraphicRealData = async (selectedModels) => {
         const objectConfig = getObjectConfig(selectedModels);
-        if (Object.keys(objectConfig).length > 0) {
-            const res = await postData(
-                "http://192.168.2.131:5001/realData",
-                objectConfig
-            );
-            const val = Object.values(res.result);
-            const keys = Object.keys(res.result);
-            const realDataKeys = val
-                .map((simString: string) => simString)
-                .map((sim, i) => ({
-                    name: keys[i],
-                    // eslint-disable-next-line @typescript-eslint/ban-types
-                    ...(sim as {}),
-                }));
+        try {
+            if (Object.keys(objectConfig).length > 0) {
+                const res = await postData(
+                    // "http://192.168.2.131:5001/realData",
+                    "http://192.168.2.131:5002/realData",
+                    objectConfig
+                );
+                // const val = Object.values(res.result);
+                // const keys = Object.keys(res.result);
+                const val = Object.values(res);
+                const keys = Object.keys(res);
+                const realDataKeys = val
+                    .map((simString: string) => simString)
+                    .map((sim, i) => ({
+                        name: keys[i],
+                        // eslint-disable-next-line @typescript-eslint/ban-types
+                        ...(sim as {}),
+                    }));
 
-            return setRealDataSimulationKeys(realDataKeys);
+                return setRealDataSimulationKeys(realDataKeys);
+            }
+            return false;
+        } catch (error) {
+            return toast({
+                position: "bottom-left",
+                title: "Error",
+                description: `${error.message}`,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         }
-        return false;
     };
 
     const getSimulationSelectedObj = (simulations) => {
@@ -130,6 +143,26 @@ const RunButton = ({ permission }: Props) => {
         return selectedModels;
     };
 
+    const setMonopopulationData = (response, selectedModels) => {
+        const val = Object.values(response.results);
+        const keys = Object.keys(response.results);
+        const data = val
+            .map((simString: string) => JSON.parse(simString))
+            .map((sim, i) => ({
+                name: keys[i],
+                ...sim,
+            }));
+        setAllGraphicData([]);
+        setAllResults([]);
+        setDataToShowInMap([]);
+        // setAllResults([].concat(dataToShowInMap, []));
+        setRealDataSimulationKeys([]);
+        setAux(JSON.stringify(data));
+        setSelectedModelsToSimulate(selectedModels);
+        getGraphicRealData(selectedModels);
+        setIndex(5);
+    };
+
     // eslint-disable-next-line sonarjs/cognitive-complexity
     const handleJsonToToml = async () => {
         setisSimulating(true);
@@ -154,29 +187,38 @@ const RunButton = ({ permission }: Props) => {
                 };
             }, {});
             if (simulationsSelected.length > 0) {
-                const response = await postData(
-                    "http://192.168.2.131:5003/simulate",
-                    objConfig
+                const { populationType } = completeModel.find(
+                    (sim: NewModelsAllParams) => {
+                        return sim.idNewModel === simulationsSelected[0].idSim;
+                    }
                 );
-
-                const val = Object.values(response.results);
-                const keys = Object.keys(response.results);
-                const data = val
-                    .map((simString: string) => JSON.parse(simString))
-                    .map((sim, i) => ({
-                        name: keys[i],
-                        ...sim,
-                    }));
-                setAllGraphicData([]);
-                setAllResults([]);
-                setDataToShowInMap([]);
-                // setAllResults([].concat(dataToShowInMap, []));
-                setRealDataSimulationKeys([]);
-                setAux(JSON.stringify(data));
-                setSelectedModelsToSimulate(selectedModels);
-
-                getGraphicRealData(selectedModels);
-                setIndex(5);
+                let response;
+                if (populationType === "metapopulation") {
+                    response = await fetch(`/api/simulator`, {
+                        method: "GET",
+                    });
+                    const jsonResponse = await response.json();
+                    const listResponse = Object.keys(jsonResponse).map(
+                        (key) => {
+                            return { name: key, ...jsonResponse[key] };
+                        }
+                    );
+                    setAllGraphicData([]);
+                    setAllResults([]);
+                    setDataToShowInMap([]);
+                    // setAllResults([].concat(dataToShowInMap, []));
+                    setRealDataSimulationKeys([]);
+                    setAux(JSON.stringify(listResponse));
+                    setSelectedModelsToSimulate(selectedModels);
+                    getGraphicRealData(selectedModels);
+                    setIndex(5);
+                } else {
+                    response = await postData(
+                        "http://192.168.2.131:5003/simulate",
+                        objConfig
+                    );
+                    setMonopopulationData(response, selectedModels);
+                }
             }
             toast({
                 position: bottonLeft,
@@ -221,6 +263,7 @@ const RunButton = ({ permission }: Props) => {
                     );
                     if (withPermission) {
                         handleJsonToToml();
+                        setSimulationsPopulatioType("");
                     } else {
                         toast({
                             position: bottonLeft,
