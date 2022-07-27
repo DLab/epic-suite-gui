@@ -31,7 +31,7 @@ const ColorsScale = ({ maxValue }: Props) => {
                     max = index * rangeValue;
                 }
                 return (
-                    <div style={{ textAlign: "initial" }}>
+                    <div key={color} style={{ textAlign: "initial" }}>
                         <i
                             className="box-legend"
                             style={{ background: color }}
