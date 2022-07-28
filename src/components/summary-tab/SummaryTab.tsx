@@ -17,7 +17,7 @@ const SummaryTab = () => {
                     Summary
                 </Text>
             </Box>
-            <Alert mb="1rem" status="info" p="1.3rem">
+            {/* <Alert mb="1rem" status="info" p="1.3rem">
                 <AlertIcon />
                 <Box>
                     <AlertDescription>
@@ -26,7 +26,7 @@ const SummaryTab = () => {
                         simulations aren't implemented yet.
                     </AlertDescription>
                 </Box>
-            </Alert>
+            </Alert> */}
 
             <TableSimulations />
         </>
