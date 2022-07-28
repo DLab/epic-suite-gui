@@ -13,6 +13,7 @@ import {
     AccordionButton,
     AccordionIcon,
     AccordionPanel,
+    Select,
 } from "@chakra-ui/react";
 import { useContext, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -174,7 +175,7 @@ const ModelController = ({
             </h2>
             <AccordionPanel pb={4} bg="#FFFFFF">
                 <Heading as="h3" fontSize="14px">
-                    Commons parameters
+                    Global parameters
                 </Heading>
                 <Flex justifyContent="space-between" wrap="wrap">
                     <FormControl display="flex" alignItems="center">
@@ -193,6 +194,26 @@ const ModelController = ({
                             />
                         </Flex>
                     </FormControl>
+                    {/* {nodes.length > 1 && (
+                        <FormControl display="flex" alignItems="center">
+                        <Text fontSize="14px" fontWeight={500}>
+                            Mobility Matrix
+                        </Text>
+                            <Flex Flex w="50%" h="2rem" alignItems="center">
+                                <Select
+                                    value="Demo"
+                                    w="13rem"
+                                    fontSize="14px"
+                                    size="sm"
+                                    placeholder="Name Selection"
+                                >
+                                    <option value="Demo">
+                                        Demo Mobility Matrix
+                                    </option>
+                                </Select>
+                            </Flex>
+                        </FormControl>
+                    )} */}
                 </Flex>
                 <Flex justifyContent="space-between" wrap="wrap">
                     {modelCompartment !== "SEIRHVD" && (
@@ -439,7 +460,7 @@ const ModelController = ({
                     </Flex>
                 )}
                 <Heading as="h3" fontSize="14px">
-                    Parameters by Nodes
+                    Parameters per Nodes
                 </Heading>
                 {/* <Accordion allowToggle reduceMotion> */}
                 <NodesParams
