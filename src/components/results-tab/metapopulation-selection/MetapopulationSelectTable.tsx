@@ -266,18 +266,24 @@ const MetapopulationSelectTable = () => {
                                     }}
                                 >
                                     {parametersNotDisplayed.map((parameter) => {
-                                        return (
-                                            <option
-                                                style={{
-                                                    color: "black",
-                                                    fontSize: "16px",
-                                                }}
-                                                value={parameter}
-                                                key={parameter}
-                                            >
-                                                {parameter}
-                                            </option>
-                                        );
+                                        if (
+                                            parameter !== "node" &&
+                                            parameter !== "name"
+                                        ) {
+                                            return (
+                                                <option
+                                                    style={{
+                                                        color: "black",
+                                                        fontSize: "16px",
+                                                    }}
+                                                    value={parameter}
+                                                    key={parameter}
+                                                >
+                                                    {parameter}
+                                                </option>
+                                            );
+                                        }
+                                        return false;
                                     })}
                                 </Select>
                             </Th>
