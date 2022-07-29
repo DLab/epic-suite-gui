@@ -62,7 +62,8 @@ const MetapopulationSelectTable = () => {
             }
         );
         setParametersNotDisplayed(notDisplayedPametersList);
-    }, [displayedParameters, metaData]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [displayedParameters]);
 
     const checkAllParameters = (isCheckedListUpdate, value) => {
         let checkListAux = checkList;

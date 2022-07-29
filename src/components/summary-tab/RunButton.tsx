@@ -204,26 +204,44 @@ const RunButton = ({ permission }: Props) => {
                     // response = await fetch(`/api/simulator`, {
                     //     method: "GET",
                     // });
+                    // const jsonResponse = await response.json();
+                    // const listResponse = Object.keys(jsonResponse).map(
+                    //     (key) => {
+                    //         return { name: key, ...jsonResponse[key] };
+                    //     }
+                    // );
 
                     response = await postData(
                         "http://192.168.2.131:5003/simulate_meta",
                         metaObjectConfig
                     );
+                    const name = `${selectedModels[0].name}`;
 
-                    const valMeta = Object.values(response.results);
-                    const keysMeta = Object.keys(response.results);
-                    const listResponse = valMeta
-                        .map((simString: string) => JSON.parse(simString))
-                        .map((sim, i) => ({
-                            name: keysMeta[i],
-                            ...sim,
-                        }));
+                    const jsonResponse = await JSON.parse(
+                        response.results[name]
+                    );
+                    const listResponse = Object.keys(jsonResponse).map(
+                        (key) => {
+                            return { name: key, ...jsonResponse[key] };
+                        }
+                    );
+
+                    // const valMeta = Object.values(response.results[name]);
+                    // const keysMeta = Object.keys(response.results[name]);
+
+                    // const listResponse = valMeta
+                    //     .map((simString: string) => JSON.parse(simString))
+                    //     .map((sim, i) => ({
+                    //         name: keysMeta[i],
+                    //         ...sim,
+                    //     }));
 
                     setAllGraphicData([]);
                     setAllResults([]);
                     setDataToShowInMap([]);
                     setRealDataSimulationKeys([]);
                     setAux(JSON.stringify(listResponse));
+                    // setAux(JSON.stringify(listResponse[0]));
                     setSelectedModelsToSimulate(selectedModels);
                     getGraphicRealData(selectedModels);
                     setIndex(5);
