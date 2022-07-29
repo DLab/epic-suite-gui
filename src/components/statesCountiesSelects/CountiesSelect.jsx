@@ -110,6 +110,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
                 >
                     <Button
                         id={createIdComponent()}
+                        isDisabled={!countyFeature}
                         size="xs"
                         m="0 3% 0 0"
                         colorScheme="blue"
