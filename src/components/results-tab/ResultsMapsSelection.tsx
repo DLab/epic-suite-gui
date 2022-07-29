@@ -46,8 +46,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
     } = useContext(GraphicsData);
     const { geoSelections } = useContext(SelectFeature);
     const mapArray = ["Map 1", "Map 2"];
-    const { completeModel, selectedModelsToSimulate } =
-        useContext(NewModelSetted);
+    const { selectedModelsToSimulate } = useContext(NewModelSetted);
 
     const getInitialConditionsCheck = (simId) => {
         const initialConditionsSim = selectedModelsToSimulate.filter(

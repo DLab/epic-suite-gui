@@ -18,9 +18,10 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
-import metaData from "../../../data/metapopulationData.json";
+// import metaData from "../../../data/metapopulationData.json";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
+import { TabIndex } from "context/TabContext";
 import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
@@ -28,6 +29,8 @@ type ReducerForMetapopulationSelections = Record<number, boolean>;
 type ReducerForAllLists = Record<number, boolean>;
 
 const MetapopulationSelectTable = () => {
+    const { aux } = useContext(TabIndex);
+    const metaData = JSON.parse(aux);
     const toast = useToast();
     const [checkList, setCheckList] =
         useState<ReducerForMetapopulationSelections>({});
@@ -59,6 +62,7 @@ const MetapopulationSelectTable = () => {
             }
         );
         setParametersNotDisplayed(notDisplayedPametersList);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [displayedParameters]);
 
     const checkAllParameters = (isCheckedListUpdate, value) => {
@@ -262,18 +266,24 @@ const MetapopulationSelectTable = () => {
                                     }}
                                 >
                                     {parametersNotDisplayed.map((parameter) => {
-                                        return (
-                                            <option
-                                                style={{
-                                                    color: "black",
-                                                    fontSize: "16px",
-                                                }}
-                                                value={parameter}
-                                                key={parameter}
-                                            >
-                                                {parameter}
-                                            </option>
-                                        );
+                                        if (
+                                            parameter !== "node" &&
+                                            parameter !== "name"
+                                        ) {
+                                            return (
+                                                <option
+                                                    style={{
+                                                        color: "black",
+                                                        fontSize: "16px",
+                                                    }}
+                                                    value={parameter}
+                                                    key={parameter}
+                                                >
+                                                    {parameter}
+                                                </option>
+                                            );
+                                        }
+                                        return false;
                                     })}
                                 </Select>
                             </Th>
