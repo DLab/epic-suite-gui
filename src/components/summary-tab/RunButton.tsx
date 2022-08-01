@@ -6,7 +6,6 @@ import { format, add } from "date-fns";
 import { useContext, useState } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
-// import { ModelsSaved } from "context/ModelsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
@@ -14,6 +13,7 @@ import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 import postData from "utils/fetchData";
 
+import getMetaObj from "./getMetaObj";
 import getSEIRHVDObjMono from "./getSEIRHVDObjMono";
 import getSEIRObjMono from "./getSEIRObjMono";
 import getSIRObjMono from "./getSIRObjMono";
@@ -194,21 +194,54 @@ const RunButton = ({ permission }: Props) => {
                 );
                 let response;
                 if (populationType === "metapopulation") {
-                    response = await fetch(`/api/simulator`, {
-                        method: "GET",
-                    });
-                    const jsonResponse = await response.json();
+                    const metaSimulationsSelected = getMetaObj(
+                        selectedModels[0]
+                    );
+                    const metaObjectConfig = {
+                        [`${selectedModels[0].name}`]: metaSimulationsSelected,
+                    };
+
+                    // response = await fetch(`/api/simulator`, {
+                    //     method: "GET",
+                    // });
+                    // const jsonResponse = await response.json();
+                    // const listResponse = Object.keys(jsonResponse).map(
+                    //     (key) => {
+                    //         return { name: key, ...jsonResponse[key] };
+                    //     }
+                    // );
+
+                    response = await postData(
+                        "http://192.168.2.131:5003/simulate_meta",
+                        metaObjectConfig
+                    );
+                    const name = `${selectedModels[0].name}`;
+
+                    const jsonResponse = await JSON.parse(
+                        response.results[name]
+                    );
                     const listResponse = Object.keys(jsonResponse).map(
                         (key) => {
                             return { name: key, ...jsonResponse[key] };
                         }
                     );
+
+                    // const valMeta = Object.values(response.results[name]);
+                    // const keysMeta = Object.keys(response.results[name]);
+
+                    // const listResponse = valMeta
+                    //     .map((simString: string) => JSON.parse(simString))
+                    //     .map((sim, i) => ({
+                    //         name: keysMeta[i],
+                    //         ...sim,
+                    //     }));
+
                     setAllGraphicData([]);
                     setAllResults([]);
                     setDataToShowInMap([]);
-                    // setAllResults([].concat(dataToShowInMap, []));
                     setRealDataSimulationKeys([]);
                     setAux(JSON.stringify(listResponse));
+                    // setAux(JSON.stringify(listResponse[0]));
                     setSelectedModelsToSimulate(selectedModels);
                     getGraphicRealData(selectedModels);
                     setIndex(5);

@@ -23,9 +23,11 @@ import RunButton from "./RunButton";
 
 type ReducedIdForPermissions = Record<number, boolean>;
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const TableSimulations = () => {
     const { completeModel } = useContext(NewModelSetted);
     const [permission, setPermission] = useState<ReducedIdForPermissions>({});
+    const [codMetaModelSelected, setCodMetaModelSelected] = useState<number>(0);
     useEffect(() => {
         if (completeModel.length > 0) {
             setPermission(
@@ -66,20 +68,64 @@ const TableSimulations = () => {
                                 <Tr key={createIdComponent()}>
                                     <Td>
                                         <Checkbox
-                                            // isDisabled={
-                                            //     elem.populationType ===
-                                            //     "metapopulation"
-                                            // }
+                                            isDisabled={
+                                                codMetaModelSelected !== 0 &&
+                                                elem.idNewModel !==
+                                                    codMetaModelSelected
+                                            }
                                             bg="white"
                                             isChecked={
                                                 permission[elem.idNewModel]
                                             }
                                             onChange={(e) => {
-                                                setPermission({
-                                                    ...permission,
-                                                    [elem.idNewModel]:
-                                                        e.target.checked,
-                                                });
+                                                if (
+                                                    elem.populationType ===
+                                                        "metapopulation" &&
+                                                    e.target.checked
+                                                ) {
+                                                    const allPermissionsUnenabled =
+                                                        Object.keys(permission)
+                                                            .map(
+                                                                (
+                                                                    idPermission
+                                                                ) => ({
+                                                                    [idPermission]:
+                                                                        false,
+                                                                })
+                                                            )
+                                                            .reduce(
+                                                                (acc, curr) => {
+                                                                    return {
+                                                                        ...acc,
+                                                                        ...curr,
+                                                                    };
+                                                                },
+                                                                {}
+                                                            );
+                                                    setPermission({
+                                                        ...allPermissionsUnenabled,
+                                                        [elem.idNewModel]:
+                                                            e.target.checked,
+                                                    });
+                                                    setCodMetaModelSelected(
+                                                        elem.idNewModel
+                                                    );
+                                                } else {
+                                                    if (
+                                                        elem.populationType ===
+                                                            "metapopulation" &&
+                                                        !e.target.checked
+                                                    ) {
+                                                        setCodMetaModelSelected(
+                                                            0
+                                                        );
+                                                    }
+                                                    setPermission({
+                                                        ...permission,
+                                                        [elem.idNewModel]:
+                                                            e.target.checked,
+                                                    });
+                                                }
                                             }}
                                         />
                                     </Td>
