@@ -280,7 +280,7 @@ const ModelController = ({
                     )}
                 </Flex>
                 <Flex justifyContent="space-between" wrap="wrap">
-                    {modelCompartment !== "SEIRHVD" && (
+                    {modelCompartment === "SEIR" && (
                         <FormControl display="flex" alignItems="center">
                             <Flex w="50%" justifyContent="space-between">
                                 <NumberInputVariableDependent
