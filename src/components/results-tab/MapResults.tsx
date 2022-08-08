@@ -20,9 +20,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { GeometryObject } from "topojson-specification";
 
-import us_ from "../../data/counties-10m.json";
+// import us_ from "../../data/counties-10m.json";
 // import stateData_ from "../../data/states-10m.json";
-import stateData_ from "../../data/statesResults-10m.json";
+// import stateData_ from "../../data/statesResults-10m.json";
+// import stateObject from "../../data/statesObject.json";
 import PauseIcon from "components/icons/PauseIcon";
 import PlayIcon from "components/icons/PlayIcon";
 import { GraphicsData } from "context/GraphicsContext";
@@ -58,7 +59,7 @@ const MapResults = ({ map }: Props) => {
     const [parameterValue, setParameterValue] = useState();
     const [maxValue, setMaxValue] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
-    const [geoData, setGeoData] = useState<GeometryObject>();
+
     const [isGeoDataLoaded, setGeoDataLoaded] = useState(false);
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
@@ -69,7 +70,6 @@ const MapResults = ({ map }: Props) => {
         setAllResults,
         allGraphicData,
     } = useContext(GraphicsData);
-    const { geoSelections } = useContext(SelectFeature);
 
     useEffect(() => {
         setSimDay(0);
@@ -84,16 +84,6 @@ const MapResults = ({ map }: Props) => {
 
         if (typeData === "Real") {
             let filterKey = map.parameter.slice(0, -5);
-            // Borrar en refactorización
-            // if (filterKey === "I") {
-            //     filterKey = "I_active";
-            // }
-            // if (filterKey === "I_d") {
-            //     filterKey = "I";
-            // }
-            // if (filterKey === "I_ac") {
-            //     filterKey = "I_acum";
-            // }
             if (filterKey === "population") {
                 filterKey = "P";
             }
@@ -143,48 +133,77 @@ const MapResults = ({ map }: Props) => {
         setSimDate(format(newDate, "dd/MM/yyyy"));
     }, [map.date, simDay]);
 
-    let geoSelectionSetted = [];
-    let geoSelectionFiltered;
+    // let geoSelectionSetted = [];
+    // let geoSelectionFiltered;
 
-    const setGeoSelectionsFiltered = (geoSelection, geoSelectionGeometries) => {
-        geoSelection.featureSelected.forEach((id) => {
-            geoSelectionFiltered = geoSelectionGeometries.filter(
-                (geometrieId) => {
-                    return geometrieId.id === id;
-                }
-            );
-            geoSelectionSetted = [
-                ...geoSelectionSetted,
-                ...geoSelectionFiltered,
-            ];
-        });
-    };
+    // const setGeoSelectionsFiltered = (geoSelection, geoSelectionGeometries) => {
+    //     geoSelection.featureSelected.forEach((id) => {
+    //         geoSelectionFiltered = geoSelectionGeometries.filter(
+    //             (geometrieId) => {
+    //                 return geometrieId.id === id;
+    //             }
+    //         );
+    //         geoSelectionSetted = [
+    //             ...geoSelectionSetted,
+    //             ...geoSelectionFiltered,
+    //         ];
+    //     });
+    // };
+    // useEffect(() => {
+    //     setGeometryData(stateData_);
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
-    useEffect(() => {
-        const geoSelection = geoSelections.find(
-            (element) => element.id === map.idGeo
-        );
-        let dataAux;
-        let geoSelectionGeometries;
+    // useEffect(() => {
+    //     const geoSelection = geoSelections.find(
+    //         (element) => element.id === map.idGeo
+    //     );
+    //     // let dataAux;
+    //     // let geoSelectionGeometries;
 
-        if (map.scale === "States") {
-            dataAux = stateData_;
-            geoSelectionGeometries = stateData_.objects.states.geometries;
-            setGeoSelectionsFiltered(geoSelection, geoSelectionGeometries);
-            dataAux.objects.states.geometries = geoSelectionSetted;
-            setGeoData(dataAux);
-        }
-        if (map.scale === "Counties") {
-            dataAux = us_;
-            geoSelectionGeometries = us_.objects.counties.geometries;
-            setGeoSelectionsFiltered(geoSelection, geoSelectionGeometries);
-            dataAux.objects.counties.geometries = geoSelectionSetted;
-            setGeoData(dataAux);
-        }
+    //     if (map.scale === "States") {
+    //         const dataAux = stateData_;
+    //         const geoDataSetted = [];
+    //         const x = geoSelection.featureSelected.map((id) => {
+    //             // const geoFiltered = stateObject.filter((geometrieId) => {
+    //             //     return geometrieId.id === id;
+    //             // });
+    //             return stateObject.filter((geometrieId) => {
+    //                 return geometrieId.id === id;
+    //             })[0];
+    //             // geoSelectionSetted = [
+    //             //     ...geoSelectionSetted,
+    //             //     ...geoSelectionFiltered,
+    //             // ];
+    //         });
+    //         dataAux.objects.states.geometries = x;
+    //         setGeoData(dataAux);
+    //         // const dataAux = geometryData;
+    //         // // let geoSelectionGeometries;
+    //         // // dataAux = stateData_;
+    //         // // const geoSelectionGeometries =
+    //         // //     geometryData.objects.states.geometries;
+    //         // // dataAux = JSON.parse(JSON.stringify(stateData_));
+    //         // // geoSelectionGeometries = JSON.parse(
+    //         // //     JSON.stringify(stateData_.objects.states.geometries)
+    //         // // );
+    //         // setGeoSelectionsFiltered(geoSelection, stateObject);
+    //         // dataAux.objects.states.geometries = geoSelectionSetted;
+    //         // console.log(dataAux);
+    //         // setGeoData(dataAux);
+    //         // // setGeometryData(stateData_);
+    //     }
+    //     // if (map.scale === "Counties") {
+    //     //     dataAux = us_;
+    //     //     geoSelectionGeometries = us_.objects.counties.geometries;
+    //     //     setGeoSelectionsFiltered(geoSelection, geoSelectionGeometries);
+    //     //     dataAux.objects.counties.geometries = geoSelectionSetted;
+    //     //     setGeoData(dataAux);
+    //     // }
 
-        setGeoDataLoaded(true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [map, geoSelections, geoSelectionSetted]);
+    //     setGeoDataLoaded(true);
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [map, geoSelections, geoSelectionSetted]);
 
     return (
         <Flex direction="column" w="48%" mb="2rem">
@@ -194,10 +213,18 @@ const MapResults = ({ map }: Props) => {
                         color="#16609E"
                         cursor="pointer"
                         onClick={() => {
+                            const dataToShowInMapAux = dataToShowInMap;
                             const dataToShowInMapFilter =
-                                dataToShowInMap.filter((mapData) => {
-                                    return mapData.idMap !== map.idMap;
+                                dataToShowInMapAux.map((mapData) => {
+                                    if (mapData.idMap === map.idMap) {
+                                        return {};
+                                    }
+                                    return mapData;
                                 });
+                            // const dataToShowInMapFilter =
+                            //     dataToShowInMap.filter((mapData) => {
+                            //         return mapData.idMap !== map.idMap;
+                            //     });
                             setDataToShowInMap(dataToShowInMapFilter);
                             setAllResults(
                                 [].concat(dataToShowInMapFilter, allGraphicData)
@@ -237,22 +264,20 @@ const MapResults = ({ map }: Props) => {
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        {map.scale === "States" && isGeoDataLoaded ? (
+                        {map.scale === "States" ? (
                             <StatesResultsMap
                                 idGeo={map.idGeo}
                                 parameterValue={parameterValue}
                                 maxValue={maxValue}
-                                statesData={geoData}
+                                statesData={map.geoDataSelected}
                             />
                         ) : (
-                            isGeoDataLoaded && (
-                                <CountiesResultsMap
-                                    idGeo={map.idGeo}
-                                    parameterValue={parameterValue}
-                                    maxValue={maxValue}
-                                    coutiesData={geoData}
-                                />
-                            )
+                            <CountiesResultsMap
+                                idGeo={map.idGeo}
+                                parameterValue={parameterValue}
+                                maxValue={maxValue}
+                                coutiesData={map.geoDataSelected}
+                            />
                         )}
                     </MapContainer>
                 </Flex>
@@ -268,7 +293,11 @@ const MapResults = ({ map }: Props) => {
                     </Stat>
                     <Stat>
                         <StatLabel>Value</StatLabel>
-                        <StatNumber>{parameterValue}</StatNumber>
+                        <StatNumber>
+                            {new Intl.NumberFormat("de-DE").format(
+                                parameterValue
+                            )}
+                        </StatNumber>
                     </Stat>
                 </StatGroup>
                 <Flex w="95%" m="2% 0">

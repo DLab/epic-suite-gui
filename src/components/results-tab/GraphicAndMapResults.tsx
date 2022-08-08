@@ -108,7 +108,10 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
                 </Flex>
             );
         }
-        return <MapResults map={result} />;
+        if (result.nameSim !== undefined) {
+            return <MapResults map={result} />;
+        }
+        return false;
     });
 
     return (

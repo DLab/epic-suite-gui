@@ -15,7 +15,7 @@ interface Props {
     idGeo: number | string;
     parameterValue: number;
     maxValue: number;
-    coutiesData: GeometryObject;
+    coutiesData: GeometryObject | unknown;
 }
 
 const CountiesResultsMap = ({

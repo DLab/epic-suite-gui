@@ -16,7 +16,7 @@ interface Props {
     idGeo: number | string;
     parameterValue: number;
     maxValue: number;
-    statesData: GeometryObject;
+    statesData: GeometryObject | unknown;
 }
 
 const StatesResultsMap = ({
