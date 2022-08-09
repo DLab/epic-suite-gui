@@ -360,9 +360,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                         (sim: NewModelsAllParams) => {
                                             return (
                                                 sim.typeSelection ===
-                                                    "geographic" &&
-                                                sim.populationType ===
-                                                    "monopopulation" && (
+                                                    "geographic" && (
                                                     <option
                                                         key={sim.idNewModel}
                                                         value={sim.idNewModel}

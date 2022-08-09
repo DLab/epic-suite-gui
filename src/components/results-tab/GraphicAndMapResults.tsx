@@ -1,22 +1,23 @@
 import { DeleteIcon } from "@chakra-ui/icons";
-import { Box, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
-import React, { useState, useContext, useEffect, useRef } from "react";
+import { Flex, GridItem, Text } from "@chakra-ui/react";
+import React, { useContext, useRef } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
+import { NewModelSetted } from "context/NewModelsContext";
+import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 import DoubleYAxis from "./DoubleYAxis";
 import Exports from "./Exports";
 import Graphic from "./Graphic";
 import MapResults from "./MapResults";
+import MetaMapResults from "./metapopulation-map/MetaMapResults";
 import MetapopulationSelectTable from "./metapopulation-selection/MetapopulationSelectTable";
 import SeeGraphic from "./SeeGraphic";
 
 interface Props {
     onOpen: (val: boolean) => void;
     simulationsPopulatioType: string;
-    // dataToShowInMap: Array;
-    // allGraphicData: Array;
 }
 
 const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
@@ -28,6 +29,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
         allResults,
     } = useContext(GraphicsData);
     const containerGraphElement = useRef(null);
+    const { completeModel } = useContext(NewModelSetted);
 
     let index = -1;
 
@@ -109,7 +111,15 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
             );
         }
         if (result.nameSim !== undefined) {
-            return <MapResults map={result} />;
+            const populationSim = completeModel.filter(
+                (model: NewModelsAllParams) => {
+                    return model.idNewModel === parseInt(result.idSim, 10);
+                }
+            )[0];
+            if (populationSim.populationType === "monopopulation") {
+                return <MapResults map={result} />;
+            }
+            return <MetaMapResults map={result} />;
         }
         return false;
     });
