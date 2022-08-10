@@ -81,7 +81,8 @@ export interface GraphicsProps {
     setAllGraphicData?: (value: DoubleYAxisData[][]) => void;
     checkedItems: CheckedItems;
     setCheckedItems: (value: CheckedItems) => void;
-    dataToShowInMap: MapResultsData[] | Record<string, never>[];
+    dataToShowInMap: MapResultsData[];
+    // dataToShowInMap: MapResultsData[] | Record<string, never>[];
     setDataToShowInMap: (value: MapResultsData[]) => void;
     allResults: DoubleYAxisData[] | MapResultsData[];
     setAllResults: (value: DoubleYAxisData[] | MapResultsData[]) => void;

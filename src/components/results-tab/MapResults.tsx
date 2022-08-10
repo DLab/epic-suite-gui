@@ -214,21 +214,27 @@ const MapResults = ({ map }: Props) => {
                         cursor="pointer"
                         onClick={() => {
                             const dataToShowInMapAux = dataToShowInMap;
-                            const dataToShowInMapFilter =
-                                dataToShowInMapAux.map((mapData) => {
-                                    if (mapData.idMap === map.idMap) {
-                                        return {};
-                                    }
-                                    return mapData;
-                                });
                             // const dataToShowInMapFilter =
-                            //     dataToShowInMap.filter((mapData) => {
-                            //         return mapData.idMap !== map.idMap;
+                            //     dataToShowInMapAux.map((mapData) => {
+                            //         if (mapData.idMap === map.idMap) {
+                            //             return {};
+                            //         }
+                            //         return mapData;
                             //     });
+                            const dataToShowInMapFilter =
+                                dataToShowInMap.filter((mapData) => {
+                                    return mapData.idMap !== map.idMap;
+                                });
                             setDataToShowInMap(dataToShowInMapFilter);
-                            setAllResults(
-                                [].concat(dataToShowInMapFilter, allGraphicData)
-                            );
+
+                            Promise.resolve(setAllResults([])).then(() => {
+                                setAllResults(
+                                    [].concat(
+                                        dataToShowInMapFilter,
+                                        allGraphicData
+                                    )
+                                );
+                            });
                         }}
                     >
                         Delete

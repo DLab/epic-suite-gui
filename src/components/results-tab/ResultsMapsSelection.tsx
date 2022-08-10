@@ -47,6 +47,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         setDataToShowInMap,
         allGraphicData,
         setAllResults,
+        allResults,
     } = useContext(GraphicsData);
     const { geoSelections } = useContext(SelectFeature);
     const mapArray = ["Map 1", "Map 2"];
@@ -207,8 +208,14 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             const map2 = getDataToSave(1);
             dataToShowInMapAux[1] = map2;
         }
-        setDataToShowInMap(dataToShowInMapAux);
-        setAllResults([].concat(dataToShowInMapAux, allGraphicData));
+        const setMaps = new Promise<void>((resolve, reject) => {
+            setDataToShowInMap(dataToShowInMapAux);
+            setAllResults([]);
+            resolve();
+        });
+        setMaps.then(() => {
+            setAllResults([].concat(dataToShowInMapAux, allGraphicData));
+        });
     };
 
     return (
