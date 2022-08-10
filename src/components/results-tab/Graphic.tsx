@@ -122,7 +122,6 @@ const Graphic = ({
         setAxios(allDataToGraph);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [savedSimulationKeys, allGraphicData]);
-
     const setNewGraphicName = (name) => {
         const allDataAux = allGraphicData;
         const auxAllGraphicData = allDataAux[index];

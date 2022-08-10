@@ -30,9 +30,16 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
     } = useContext(GraphicsData);
     const containerGraphElement = useRef(null);
     const { completeModel } = useContext(NewModelSetted);
-
+    const [sizeGraphic, setSizeGraphic] = useState([0, 0]);
     let index = -1;
-
+    useEffect(() => {
+        if (containerGraphElement) {
+            setSizeGraphic([
+                containerGraphElement?.current?.clientWidth,
+                containerGraphElement?.current?.clientHeight,
+            ]);
+        }
+    }, [containerGraphElement]);
     const listResults = allResults.map((result) => {
         if (Array.isArray(result)) {
             index += 1;
@@ -92,18 +99,8 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
                         <Graphic
                             savedSimulationKeys={result}
                             index={index}
-                            width={`${
-                                containerGraphElement.current
-                                    ? containerGraphElement.current
-                                          .clientWidth ?? 0
-                                    : 0
-                            }`}
-                            height={`${
-                                containerGraphElement.current
-                                    ? containerGraphElement.current
-                                          .clientHeight ?? 0
-                                    : 0
-                            }`}
+                            width={`${sizeGraphic[0] ?? 0}`}
+                            height={`${sizeGraphic[1] ?? 0}`}
                             disabledName={false}
                         />
                     </Flex>
