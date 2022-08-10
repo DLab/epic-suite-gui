@@ -1,6 +1,6 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import { Flex, GridItem, Text } from "@chakra-ui/react";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
@@ -39,7 +39,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
                 containerGraphElement?.current?.clientHeight,
             ]);
         }
-    }, [containerGraphElement]);
+    }, [containerGraphElement, allResults]);
     const listResults = allResults.map((result) => {
         if (Array.isArray(result)) {
             index += 1;

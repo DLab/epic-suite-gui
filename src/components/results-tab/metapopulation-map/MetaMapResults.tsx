@@ -139,24 +139,20 @@ const MetaMapResults = ({ map }: Props) => {
                         color="#16609E"
                         cursor="pointer"
                         onClick={() => {
-                            const dataToShowInMapAux = dataToShowInMap;
                             const dataToShowInMapFilter =
-                                dataToShowInMapAux.map((mapData) => {
-                                    if (mapData.idMap === map.idMap) {
-                                        return {};
-                                    }
-                                    return mapData;
+                                dataToShowInMap.filter((mapData) => {
+                                    return mapData.idMap !== map.idMap;
                                 });
-                            // const dataToShowInMapFilter =
-                            //     dataToShowInMap.filter((mapData) => {
-                            //         return mapData.idMap !== map.idMap;
-                            //     });
-                            setDataToShowInMap(
-                                dataToShowInMapFilter as MapResultsData[]
-                            );
-                            setAllResults(
-                                [].concat(dataToShowInMapFilter, allGraphicData)
-                            );
+                            setDataToShowInMap(dataToShowInMapFilter);
+
+                            Promise.resolve(setAllResults([])).then(() => {
+                                setAllResults(
+                                    [].concat(
+                                        dataToShowInMapFilter,
+                                        allGraphicData
+                                    )
+                                );
+                            });
                         }}
                     >
                         Delete

@@ -211,7 +211,6 @@ const MapResults = ({ map }: Props) => {
                         color="#16609E"
                         cursor="pointer"
                         onClick={() => {
-                            const dataToShowInMapAux = dataToShowInMap;
                             // const dataToShowInMapFilter =
                             //     dataToShowInMapAux.map((mapData) => {
                             //         if (mapData.idMap === map.idMap) {
