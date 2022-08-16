@@ -197,8 +197,6 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
     };
 
     const saveDataToShowInMap = () => {
-        // setDataToShowInMap([{}, {}]);
-
         const dataToShowInMapAux = dataToShowInMap;
         if (value[0] !== "") {
             const map1 = getDataToSave(0);
@@ -315,33 +313,6 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                                 index + 1
                                             ),
                                         ]);
-
-                                        // const dataToShowInMapAux =
-                                        //     dataToShowInMap;
-                                        // const dataToShowInMapFilter =
-                                        //     dataToShowInMapAux.map(
-                                        //         (mapData) => {
-                                        //             if (
-                                        //                 mapData.idMap === index
-                                        //             ) {
-                                        //                 return {};
-                                        //             }
-                                        //             return mapData;
-                                        //         }
-                                        //     );
-                                        // // const dataToShowInMapFilter =
-                                        // //     dataToShowInMap.filter((mapData) => {
-                                        // //         return mapData.idMap !== map.idMap;
-                                        // //     });
-                                        // setDataToShowInMap(
-                                        //     dataToShowInMapFilter
-                                        // );
-                                        // setAllResults(
-                                        //     [].concat(
-                                        //         dataToShowInMapFilter,
-                                        //         allGraphicData
-                                        //     )
-                                        // );
 
                                         if (index === 0) {
                                             const geoInfoMap1 =

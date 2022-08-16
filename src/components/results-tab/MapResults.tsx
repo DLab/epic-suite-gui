@@ -19,10 +19,6 @@ import dynamic from "next/dynamic";
 import React, { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
-// import us_ from "../../data/counties-10m.json";
-// import stateData_ from "../../data/states-10m.json";
-// import stateData_ from "../../data/statesResults-10m.json";
-// import stateObject from "../../data/statesObject.json";
 import PauseIcon from "components/icons/PauseIcon";
 import PlayIcon from "components/icons/PlayIcon";
 import { GraphicsData } from "context/GraphicsContext";
@@ -131,78 +127,6 @@ const MapResults = ({ map }: Props) => {
         setSimDate(format(newDate, "dd/MM/yyyy"));
     }, [map.date, simDay]);
 
-    // let geoSelectionSetted = [];
-    // let geoSelectionFiltered;
-
-    // const setGeoSelectionsFiltered = (geoSelection, geoSelectionGeometries) => {
-    //     geoSelection.featureSelected.forEach((id) => {
-    //         geoSelectionFiltered = geoSelectionGeometries.filter(
-    //             (geometrieId) => {
-    //                 return geometrieId.id === id;
-    //             }
-    //         );
-    //         geoSelectionSetted = [
-    //             ...geoSelectionSetted,
-    //             ...geoSelectionFiltered,
-    //         ];
-    //     });
-    // };
-    // useEffect(() => {
-    //     setGeometryData(stateData_);
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
-
-    // useEffect(() => {
-    //     const geoSelection = geoSelections.find(
-    //         (element) => element.id === map.idGeo
-    //     );
-    //     // let dataAux;
-    //     // let geoSelectionGeometries;
-
-    //     if (map.scale === "States") {
-    //         const dataAux = stateData_;
-    //         const geoDataSetted = [];
-    //         const x = geoSelection.featureSelected.map((id) => {
-    //             // const geoFiltered = stateObject.filter((geometrieId) => {
-    //             //     return geometrieId.id === id;
-    //             // });
-    //             return stateObject.filter((geometrieId) => {
-    //                 return geometrieId.id === id;
-    //             })[0];
-    //             // geoSelectionSetted = [
-    //             //     ...geoSelectionSetted,
-    //             //     ...geoSelectionFiltered,
-    //             // ];
-    //         });
-    //         dataAux.objects.states.geometries = x;
-    //         setGeoData(dataAux);
-    //         // const dataAux = geometryData;
-    //         // // let geoSelectionGeometries;
-    //         // // dataAux = stateData_;
-    //         // // const geoSelectionGeometries =
-    //         // //     geometryData.objects.states.geometries;
-    //         // // dataAux = JSON.parse(JSON.stringify(stateData_));
-    //         // // geoSelectionGeometries = JSON.parse(
-    //         // //     JSON.stringify(stateData_.objects.states.geometries)
-    //         // // );
-    //         // setGeoSelectionsFiltered(geoSelection, stateObject);
-    //         // dataAux.objects.states.geometries = geoSelectionSetted;
-    //         // console.log(dataAux);
-    //         // setGeoData(dataAux);
-    //         // // setGeometryData(stateData_);
-    //     }
-    //     // if (map.scale === "Counties") {
-    //     //     dataAux = us_;
-    //     //     geoSelectionGeometries = us_.objects.counties.geometries;
-    //     //     setGeoSelectionsFiltered(geoSelection, geoSelectionGeometries);
-    //     //     dataAux.objects.counties.geometries = geoSelectionSetted;
-    //     //     setGeoData(dataAux);
-    //     // }
-
-    //     setGeoDataLoaded(true);
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [map, geoSelections, geoSelectionSetted]);
-
     return (
         <Flex direction="column" w="48%" mb="2rem">
             <Flex justify="end" alignSelf="end" mr="0.2rem" w="10%" mt="2%">
@@ -211,13 +135,6 @@ const MapResults = ({ map }: Props) => {
                         color="#16609E"
                         cursor="pointer"
                         onClick={() => {
-                            // const dataToShowInMapFilter =
-                            //     dataToShowInMapAux.map((mapData) => {
-                            //         if (mapData.idMap === map.idMap) {
-                            //             return {};
-                            //         }
-                            //         return mapData;
-                            //     });
                             const dataToShowInMapFilter =
                                 dataToShowInMap.filter((mapData) => {
                                     return mapData.idMap !== map.idMap;
