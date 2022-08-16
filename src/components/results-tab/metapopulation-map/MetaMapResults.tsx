@@ -12,27 +12,27 @@ import {
     StatLabel,
     StatNumber,
     StatGroup,
-    Box,
 } from "@chakra-ui/react";
 import { format, add } from "date-fns";
 import dynamic from "next/dynamic";
 import React, { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
+import ColorsScale from "../ColorsScale";
 import PauseIcon from "components/icons/PauseIcon";
 import PlayIcon from "components/icons/PlayIcon";
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import { MapResultsData } from "types/GraphicsTypes";
 
-import ColorsScale from "./ColorsScale";
-import CountiesResultsMap from "./CountiesResultsMap";
+import CountiesMetaResultsMap from "./CountiesMetaResultsMap";
+import StatesMetaResultsMap from "./StatesMetaResultsMap";
 
 interface Props {
     map: MapResultsData;
 }
 
-const StatesResultsMap = dynamic(() => import("./StatesResultsMap"), {
+const StatesResultsMap = dynamic(() => import("../StatesResultsMap"), {
     loading: () => (
         <Flex justifyContent="center" alignItems="center" w="100%">
             <Spinner
@@ -47,14 +47,13 @@ const StatesResultsMap = dynamic(() => import("./StatesResultsMap"), {
     ssr: false,
 });
 
-const MapResults = ({ map }: Props) => {
-    const [simDay, setSimDay] = useState(0);
-    const [simDate, setSimDate] = useState("");
-    const [parameterValue, setParameterValue] = useState();
-    const [maxValue, setMaxValue] = useState();
+const MetaMapResults = ({ map }: Props) => {
+    const [simMetaDay, setSimMetaDay] = useState(0);
+    const [simMetaDate, setSimMetaDate] = useState("");
+    const [parameterMetaValue, setParameterMetaValue] = useState([]);
+    const [maxMetaValue, setMaxMetaValue] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
 
-    const [isGeoDataLoaded, setGeoDataLoaded] = useState(false);
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
     const {
@@ -66,14 +65,10 @@ const MapResults = ({ map }: Props) => {
     } = useContext(GraphicsData);
 
     useEffect(() => {
-        setSimDay(0);
+        setSimMetaDay(0);
     }, [map]);
 
     const filterData = (simData, typeData) => {
-        const simRealDataKeyFilter = simData.filter((sim) => {
-            return sim.name === map.nameSim;
-        });
-
         let getParameterValue;
 
         if (typeData === "Real") {
@@ -81,19 +76,28 @@ const MapResults = ({ map }: Props) => {
             if (filterKey === "population") {
                 filterKey = "P";
             }
-            getParameterValue = simRealDataKeyFilter[0][filterKey];
+            getParameterValue = simData.map((nodeData) => {
+                return nodeData[filterKey];
+            });
         } else {
             let filterSimKey = map.parameter;
             if (filterSimKey === "population") {
                 filterSimKey = "S";
             }
-            getParameterValue = simRealDataKeyFilter[0][filterSimKey];
+            getParameterValue = simData.map((nodeData) => {
+                return nodeData[filterSimKey];
+            });
         }
-        const parametersValuesArray = Object.values(getParameterValue);
-        const getMaxValue = Math.max.apply(null, parametersValuesArray);
-        setMaxValue(getMaxValue);
+        const maxValues = getParameterValue.map((valArray) => {
+            return Math.max.apply(null, valArray);
+        });
+        const getMaxValue = Math.max.apply(null, maxValues);
+        setMaxMetaValue(getMaxValue);
         if (getParameterValue !== undefined) {
-            setParameterValue(getParameterValue[simDay]);
+            const parameterValuesList = getParameterValue.map((val) => {
+                return val[simMetaDay];
+            });
+            setParameterMetaValue(parameterValuesList);
         }
     };
 
@@ -104,28 +108,28 @@ const MapResults = ({ map }: Props) => {
             filterData(data, "Sim");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data, map.nameSim, map.parameter, simDay]);
+    }, [map.nameSim, map.parameter, simMetaDay]);
 
     useEffect(() => {
         const durationValue = map.duration.toString();
-        if (isPlaying && simDay < parseInt(durationValue, 10) - 1) {
+        if (isPlaying && simMetaDay < parseInt(durationValue, 10) - 1) {
             setTimeout(() => {
-                const simDayAux = simDay;
-                setSimDay(simDayAux + 1);
+                const simMetaDayAux = simMetaDay;
+                setSimMetaDay(simMetaDayAux + 1);
             }, 100);
         }
-        if (simDay === parseInt(durationValue, 10) - 1) {
+        if (simMetaDay === parseInt(durationValue, 10) - 1) {
             setIsPlaying(false);
         }
-    }, [simDay, isPlaying, map.duration]);
+    }, [simMetaDay, isPlaying, map.duration]);
 
     useEffect(() => {
-        setSimDate(format(new Date(map.date), "dd/MM/yyyy"));
+        setSimMetaDate(format(new Date(map.date), "dd/MM/yyyy"));
         const newDate = add(new Date(map.date), {
-            days: simDay,
+            days: simMetaDay,
         });
-        setSimDate(format(newDate, "dd/MM/yyyy"));
-    }, [map.date, simDay]);
+        setSimMetaDate(format(newDate, "dd/MM/yyyy"));
+    }, [map.date, simMetaDay]);
 
     return (
         <Flex direction="column" w="48%" mb="2rem">
@@ -179,23 +183,23 @@ const MapResults = ({ map }: Props) => {
                         }}
                         scrollWheelZoom={false}
                     >
-                        <ColorsScale maxValue={maxValue} />
+                        <ColorsScale maxValue={maxMetaValue} />
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         {map.scale === "States" ? (
-                            <StatesResultsMap
+                            <StatesMetaResultsMap
                                 idGeo={map.idGeo}
-                                parameterValue={parameterValue}
-                                maxValue={maxValue}
+                                parameterValue={parameterMetaValue}
+                                maxValue={maxMetaValue}
                                 statesData={map.geoDataSelected}
                             />
                         ) : (
-                            <CountiesResultsMap
+                            <CountiesMetaResultsMap
                                 idGeo={map.idGeo}
-                                parameterValue={parameterValue}
-                                maxValue={maxValue}
+                                parameterValue={parameterMetaValue}
+                                maxValue={maxMetaValue}
                                 coutiesData={map.geoDataSelected}
                             />
                         )}
@@ -204,20 +208,12 @@ const MapResults = ({ map }: Props) => {
                 <StatGroup w="90%" mt="1%">
                     <Stat>
                         <StatLabel>Day</StatLabel>
-                        <StatNumber>{simDay + 1}</StatNumber>
+                        <StatNumber>{simMetaDay + 1}</StatNumber>
                     </Stat>
 
                     <Stat>
                         <StatLabel>Date</StatLabel>
-                        <StatNumber>{simDate}</StatNumber>
-                    </Stat>
-                    <Stat>
-                        <StatLabel>Value</StatLabel>
-                        <StatNumber>
-                            {new Intl.NumberFormat("de-DE").format(
-                                parameterValue
-                            )}
-                        </StatNumber>
+                        <StatNumber>{simMetaDate}</StatNumber>
                     </Stat>
                 </StatGroup>
                 <Flex w="95%" m="2% 0">
@@ -257,9 +253,9 @@ const MapResults = ({ map }: Props) => {
                         aria-label="slider-ex-1"
                         defaultValue={1}
                         max={parseInt(map.duration.toString(), 10) - 1}
-                        value={simDay}
+                        value={simMetaDay}
                         onChange={(value) => {
-                            setSimDay(value);
+                            setSimMetaDay(value);
                             setIsPlaying(false);
                         }}
                     >
@@ -274,4 +270,4 @@ const MapResults = ({ map }: Props) => {
     );
 };
 
-export default MapResults;
+export default MetaMapResults;

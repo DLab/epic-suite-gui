@@ -14,12 +14,12 @@ interface ActionTooltip {
 
 interface Props {
     idGeo: number | string;
-    parameterValue: number;
+    parameterValue: number[];
     maxValue: number;
     statesData: GeometryObject | unknown;
 }
 
-const StatesResultsMap = ({
+const StatesMetaResultsMap = ({
     idGeo,
     parameterValue,
     maxValue,
@@ -55,14 +55,14 @@ const StatesResultsMap = ({
             );
             setStatesSelected(geoSelection?.featureSelected);
         }
-    }, [geoSelections, idGeo, parameterValue, statesResultsData]);
+    }, [geoSelections, idGeo]);
 
     useEffect(() => {
         if (tabIndex === 4) {
             map.invalidateSize(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [tabIndex, parameterValue]);
+    }, []);
 
     const onEachFeature = (feature, layer) => {
         layer.on("mouseover", () => {
@@ -101,7 +101,8 @@ const StatesResultsMap = ({
         const stateId = feature.id;
 
         if (statesSelected?.includes(stateId)) {
-            color = getColor(parameterValue);
+            const stateIndex = statesSelected.indexOf(stateId);
+            color = getColor(parameterValue[stateIndex]);
         } else {
             color = "#1777c7";
         }
@@ -125,4 +126,4 @@ const StatesResultsMap = ({
     );
 };
 
-export default StatesResultsMap;
+export default StatesMetaResultsMap;

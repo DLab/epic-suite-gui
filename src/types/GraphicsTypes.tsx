@@ -1,3 +1,5 @@
+import { GeometryObject } from "topojson-specification";
+
 export interface DoubleYAxisData {
     graphicName: string;
     graphicId: string;
@@ -63,6 +65,7 @@ export interface MapResultsData {
     idGeo: number | string;
     idMap: number;
     date: string;
+    geoDataSelected: GeometryObject | unknown;
 }
 
 export interface GraphicsProps {
