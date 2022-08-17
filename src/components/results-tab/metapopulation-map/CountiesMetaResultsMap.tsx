@@ -1,11 +1,10 @@
-import { useContext, useReducer, useEffect, useState } from "react";
+import { useContext, useReducer, useState, useEffect } from "react";
 import { GeoJSON, Tooltip, useMap } from "react-leaflet";
 import * as topojson from "topojson-client";
 import { GeometryObject, Topology } from "topojson-specification";
 
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
-import "leaflet/dist/leaflet.css";
 
 interface ActionTooltip {
     type: string;
@@ -14,27 +13,23 @@ interface ActionTooltip {
 
 interface Props {
     idGeo: number | string;
-    parameterValue: number;
+    parameterValue: number[];
     maxValue: number;
-    statesData: GeometryObject | unknown;
+    coutiesData: GeometryObject | unknown;
 }
 
-const StatesResultsMap = ({
+const CountiesMetaResultsMap = ({
     idGeo,
     parameterValue,
     maxValue,
-    statesData: statesResultsData,
+    coutiesData,
 }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
-    const stateResultsData = statesResultsData as unknown as Topology;
-    const ResultsData = topojson.feature(
-        stateResultsData,
-        stateResultsData.objects.states as GeometryObject
-    );
     const map = useMap();
     const { index: tabIndex } = useContext(TabIndex);
-
-    const [statesSelected, setStatesSelected] = useState([]);
+    const [countiesSelected, setCountiesSelected] = useState([]);
+    const us = coutiesData as unknown as Topology;
+    const data = topojson.feature(us, us.objects.counties as GeometryObject);
 
     const initialState: string | undefined = "";
 
@@ -48,14 +43,16 @@ const StatesResultsMap = ({
 
     useEffect(() => {
         if (idGeo === 0) {
-            setStatesSelected([]);
+            setCountiesSelected([]);
         } else {
             const geoSelection = geoSelections.find(
                 (element) => element.id === idGeo
             );
-            setStatesSelected(geoSelection?.featureSelected);
+
+            setCountiesSelected(geoSelection.featureSelected);
         }
-    }, [geoSelections, idGeo, parameterValue, statesResultsData]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [idGeo, coutiesData]);
 
     useEffect(() => {
         if (tabIndex === 4) {
@@ -100,29 +97,26 @@ const StatesResultsMap = ({
         let color;
         const stateId = feature.id;
 
-        if (statesSelected?.includes(stateId)) {
-            color = getColor(parameterValue);
+        if (countiesSelected?.includes(stateId)) {
+            const stateIndex = countiesSelected.indexOf(stateId);
+            color = getColor(parameterValue[stateIndex]);
         } else {
             color = "#1777c7";
         }
         return {
             fillColor: color,
-            fillOpacity: 0.8,
-            weight: 0.5,
+            fillOpacity: 0.7,
+            weight: 0.7,
             color: "#404040",
-            opacity: 0.5,
+            opacity: 1,
         };
     };
 
     return (
-        <GeoJSON
-            data={ResultsData}
-            onEachFeature={onEachFeature}
-            style={styles}
-        >
+        <GeoJSON data={data} onEachFeature={onEachFeature} style={styles}>
             <Tooltip>{tootipCounty}</Tooltip>
         </GeoJSON>
     );
 };
 
-export default StatesResultsMap;
+export default CountiesMetaResultsMap;

@@ -10,7 +10,7 @@ import {
     GridItem,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo } from "react";
 
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
@@ -103,14 +103,12 @@ const Results = () => {
                     <Text color="#16609E" fontSize="18px" fontWeight="bold">
                         Results
                     </Text>
-                    {(simulationsPopulatioType === "mono" ||
-                        simulationsPopulatioType === "mono-meta") && (
-                        <ResultsDrawer
-                            isOpen={isOpen}
-                            onOpen={onOpen}
-                            onClose={onClose}
-                        />
-                    )}
+                    <ResultsDrawer
+                        isOpen={isOpen}
+                        onOpen={onOpen}
+                        onClose={onClose}
+                        simulationsPopulatioType={simulationsPopulatioType}
+                    />
                 </Flex>
             </GridItem>
             {responseSim ? (

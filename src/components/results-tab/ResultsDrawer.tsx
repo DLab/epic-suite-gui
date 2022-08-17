@@ -25,9 +25,15 @@ interface Props {
     isOpen: boolean;
     onOpen: (val: boolean) => void;
     onClose: (val: boolean) => void;
+    simulationsPopulatioType: string;
 }
 
-const ResultsDrawer = ({ isOpen, onOpen, onClose }: Props) => {
+const ResultsDrawer = ({
+    isOpen,
+    onOpen,
+    onClose,
+    simulationsPopulatioType,
+}: Props) => {
     const {
         allGraphicData,
         setAllGraphicData,
@@ -66,54 +72,58 @@ const ResultsDrawer = ({ isOpen, onOpen, onClose }: Props) => {
                     <DrawerBody p="0">
                         <Tabs h="90%" isFitted>
                             <TabList>
-                                <Tab>Graphic</Tab>
+                                {simulationsPopulatioType === "mono" && (
+                                    <Tab>Graphic</Tab>
+                                )}
                                 <Tab>Map</Tab>
                             </TabList>
                             <TabPanels h="100%">
-                                <TabPanel p="0" h="100%">
-                                    <ResultsSelection />
-                                    <DrawerFooter justifyContent="space-around">
-                                        <Button
-                                            colorScheme="teal"
-                                            onClick={() => {
-                                                const graphicDataAux = [
-                                                    ...allGraphicData,
-                                                    [
-                                                        {
-                                                            graphicName: "",
-                                                            graphicId:
-                                                                createIdComponent(),
+                                {simulationsPopulatioType === "mono" && (
+                                    <TabPanel p="0" h="100%">
+                                        <ResultsSelection />
+                                        <DrawerFooter justifyContent="space-around">
+                                            <Button
+                                                colorScheme="teal"
+                                                onClick={() => {
+                                                    const graphicDataAux = [
+                                                        ...allGraphicData,
+                                                        [
+                                                            {
+                                                                graphicName: "",
+                                                                graphicId:
+                                                                    createIdComponent(),
 
-                                                            leftAxis:
-                                                                savedSimulation,
-                                                            rightAxis: [],
-                                                        },
-                                                    ],
-                                                ];
-                                                setAllGraphicData(
-                                                    graphicDataAux
-                                                );
-                                                setAllResults(
-                                                    [].concat(
-                                                        dataToShowInMap,
+                                                                leftAxis:
+                                                                    savedSimulation,
+                                                                rightAxis: [],
+                                                            },
+                                                        ],
+                                                    ];
+                                                    setAllGraphicData(
                                                         graphicDataAux
-                                                    )
-                                                );
-                                                onClose(true);
-                                            }}
-                                        >
-                                            Chart
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            onClick={() => {
-                                                onClose(true);
-                                            }}
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </DrawerFooter>
-                                </TabPanel>
+                                                    );
+                                                    setAllResults(
+                                                        [].concat(
+                                                            dataToShowInMap,
+                                                            graphicDataAux
+                                                        )
+                                                    );
+                                                    onClose(true);
+                                                }}
+                                            >
+                                                Chart
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                onClick={() => {
+                                                    onClose(true);
+                                                }}
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </DrawerFooter>
+                                    </TabPanel>
+                                )}
                                 <TabPanel p="0 5%" h="100%">
                                     <ResultsMapsSelection onClose={onClose} />
                                 </TabPanel>

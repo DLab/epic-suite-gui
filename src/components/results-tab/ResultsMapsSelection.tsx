@@ -3,19 +3,19 @@ import {
     Flex,
     Text,
     Button,
-    Tooltip,
-    IconButton,
     FormControl,
     FormLabel,
     Select,
     Radio,
     RadioGroup,
-    Stack,
     DrawerFooter,
     Grid,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
+import { GeometryObject } from "topojson-specification";
 
+import countiesData_ from "../../data/counties-10m.json";
+import stateData_ from "../../data/statesResults-10m.json";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
@@ -37,12 +37,17 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         "Select option",
         "Select option",
     ]);
+    const [geoMapInfo, setGeoMapInfo] = useState<unknown[] | GeometryObject[]>([
+        {},
+        {},
+    ]);
 
     const {
         dataToShowInMap,
         setDataToShowInMap,
         allGraphicData,
         setAllResults,
+        allResults,
     } = useContext(GraphicsData);
     const { geoSelections } = useContext(SelectFeature);
     const mapArray = ["Map 1", "Map 2"];
@@ -75,12 +80,18 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
 
     useEffect(() => {
         const simIdToShowInMapAux = simIdToShowInMap;
+        const geoMapInfoAux = geoMapInfo;
         const valueAux = value;
         const initialConditionsCheckBoxAux = initialConditionsCheckBox;
-        if (dataToShowInMap.length === 1) {
+        if (
+            dataToShowInMap.length === 1 &&
+            dataToShowInMap[0].nameSim !== undefined
+        ) {
             setIsMap1Checked([true, false]);
             simIdToShowInMapAux[0] = dataToShowInMap[0].idSim;
+            geoMapInfoAux[0] = dataToShowInMap[0].geoDataSelected;
             setSimIdToShowInMap(simIdToShowInMapAux);
+            setGeoMapInfo(geoMapInfoAux);
             valueAux[0] = dataToShowInMap[0].parameter;
             setValue(valueAux);
             initialConditionsCheckBoxAux[0] = getInitialConditionsCheck(
@@ -88,11 +99,17 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             );
             setinitialConditionsCheckBox(initialConditionsCheckBoxAux);
         }
-        if (dataToShowInMap.length === 2) {
+        if (
+            dataToShowInMap.length === 2 &&
+            dataToShowInMap[1].nameSim !== undefined
+        ) {
             setIsMap1Checked([true, true]);
             simIdToShowInMapAux[0] = dataToShowInMap[0].idSim;
             simIdToShowInMapAux[1] = dataToShowInMap[1].idSim;
+            geoMapInfoAux[0] = dataToShowInMap[0].geoDataSelected;
+            geoMapInfoAux[1] = dataToShowInMap[1].geoDataSelected;
             setSimIdToShowInMap(simIdToShowInMapAux);
+            setGeoMapInfo(geoMapInfoAux);
             valueAux[0] = dataToShowInMap[0].parameter;
             valueAux[1] = dataToShowInMap[1].parameter;
             setValue(valueAux);
@@ -106,6 +123,51 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const getGeoDataSelected = (idSim) => {
+        const { idGeo } = selectedModelsToSimulate.filter(
+            (sim: NewModelsAllParams) => {
+                return sim.idNewModel.toString() === idSim;
+            }
+        )[0];
+
+        const { scale } = geoSelections.filter((geoSelection) => {
+            return geoSelection.id === idGeo;
+        })[0];
+
+        const geoSelection = geoSelections.find(
+            (element) => element.id === idGeo
+        );
+        let dataAux;
+        if (scale === "States") {
+            dataAux = JSON.parse(JSON.stringify(stateData_));
+            const stateObject = JSON.parse(
+                JSON.stringify(stateData_.objects.states.geometries)
+            );
+            const statesGeometries = geoSelection.featureSelected.map((id) => {
+                return stateObject.filter((geometrieId) => {
+                    return geometrieId.id === id;
+                })[0];
+            });
+            dataAux.objects.states.geometries = statesGeometries;
+        }
+        if (scale === "Counties") {
+            dataAux = JSON.parse(JSON.stringify(countiesData_));
+            const countiesObject = JSON.parse(
+                JSON.stringify(countiesData_.objects.counties.geometries)
+            );
+            const countiesGeometries = geoSelection.featureSelected.map(
+                (id) => {
+                    return countiesObject.filter((geometrieId) => {
+                        return geometrieId.id === id;
+                    })[0];
+                }
+            );
+            dataAux.objects.counties.geometries = countiesGeometries;
+        }
+
+        return dataAux;
+    };
 
     const getDataToSave = (index: number) => {
         const {
@@ -130,6 +192,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             duration: parameters.t_end,
             date: tInit,
             idMap: index,
+            geoDataSelected: geoMapInfo[index],
         };
     };
 
@@ -143,8 +206,14 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             const map2 = getDataToSave(1);
             dataToShowInMapAux[1] = map2;
         }
-        setDataToShowInMap(dataToShowInMapAux);
-        setAllResults([].concat(dataToShowInMapAux, allGraphicData));
+        const setMaps = new Promise<void>((resolve, reject) => {
+            setDataToShowInMap(dataToShowInMapAux);
+            setAllResults([]);
+            resolve();
+        });
+        setMaps.then(() => {
+            setAllResults([].concat(dataToShowInMapAux, allGraphicData));
+        });
     };
 
     return (
@@ -186,6 +255,11 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                             ...simIdToShowInMap.slice(
                                                 index + 1
                                             ),
+                                        ]);
+                                        setGeoMapInfo([
+                                            ...geoMapInfo.slice(0, index),
+                                            {},
+                                            ...geoMapInfo.slice(index + 1),
                                         ]);
                                     }
 
@@ -239,15 +313,32 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                                 index + 1
                                             ),
                                         ]);
+
+                                        if (index === 0) {
+                                            const geoInfoMap1 =
+                                                getGeoDataSelected(simId);
+
+                                            setGeoMapInfo([
+                                                geoInfoMap1,
+                                                geoMapInfo[1],
+                                            ]);
+                                        }
+                                        if (index === 1) {
+                                            const geoInfoMap2 =
+                                                getGeoDataSelected(simId);
+
+                                            setGeoMapInfo([
+                                                geoMapInfo[0],
+                                                geoInfoMap2,
+                                            ]);
+                                        }
                                     }}
                                 >
                                     {selectedModelsToSimulate.map(
                                         (sim: NewModelsAllParams) => {
                                             return (
                                                 sim.typeSelection ===
-                                                    "geographic" &&
-                                                sim.populationType ===
-                                                    "monopopulation" && (
+                                                    "geographic" && (
                                                     <option
                                                         key={sim.idNewModel}
                                                         value={sim.idNewModel}

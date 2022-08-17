@@ -372,8 +372,8 @@ export const TransitionInputs = ({
 }: TransProps) => {
     const [transitionVal, setTransitionVal] =
         useState<TransitionFunction>(ftype);
-    const [initVal, setInitVal] = useState(initvalue);
-    const [endVal, setEndVal] = useState(endvalue);
+    const [initVal, setInitVal] = useState<string>(`${initvalue}`);
+    const [endVal, setEndVal] = useState<string>(`${endvalue}`);
     const [concavityVal, setConcavityVal] = useState<number>(concavity);
     const toast = useToast();
     return (
@@ -410,7 +410,7 @@ export const TransitionInputs = ({
                     value={initVal}
                     min={0}
                     step={0.01}
-                    onChange={(e) => setInitVal(+e)}
+                    onChange={(e) => setInitVal(e)}
                 >
                     <NumberInputField />
                     <NumberInputStepper>
@@ -425,7 +425,7 @@ export const TransitionInputs = ({
                     value={endVal}
                     min={0}
                     step={0.01}
-                    onChange={(e) => setEndVal(+e)}
+                    onChange={(e) => setEndVal(e)}
                     isInvalid={endVal <= initVal}
                 >
                     <NumberInputField />
@@ -474,8 +474,8 @@ export const TransitionInputs = ({
                                 index: id,
                                 payloadTypeElement: {
                                     name: "transition",
-                                    initvalue: initVal,
-                                    endvalue: endVal,
+                                    initvalue: +initVal,
+                                    endvalue: +endVal,
                                     ftype: +transitionVal,
                                     concavity: +concavityVal,
                                 },
