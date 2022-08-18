@@ -8,23 +8,23 @@ export enum OptionFeature {
 
 export interface InitialConditions {
     population: number;
-    R: number;
-    I: number;
-    I_d: number;
-    I_ac: number;
-    E?: number;
-    H?: number;
-    H_d?: number;
-    H_acum?: number;
-    Iv_d?: number;
-    Iv_ac?: number;
-    V?: number;
-    V_acum?: number;
-    D?: number;
-    D_d?: number;
-    D_acum?: number;
-    Iv?: number;
-    H_cap?: number;
+    R: number | number[];
+    I: number | number[];
+    I_d: number | number[];
+    I_ac: number | number[];
+    E?: number | number[];
+    H?: number | number[];
+    H_d?: number | number[];
+    H_acum?: number | number[];
+    Iv_d?: number | number[];
+    Iv_ac?: number | number[];
+    V?: number | number[];
+    V_acum?: number | number[];
+    D?: number | number[];
+    D_d?: number | number[];
+    D_acum?: number | number[];
+    Iv?: number | number[];
+    H_cap?: number | number[];
 }
 
 export interface NewModelsParams {

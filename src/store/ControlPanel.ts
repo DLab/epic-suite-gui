@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { ActionsEpidemicData, EpidemicsData } from "types/ControlPanelTypes";
 
-import reducerControlPanel, { initialState } from "./reducer";
+import { initialState } from "./reducer";
 
 interface ActionReducerControlPanel {
     type: string;
@@ -36,6 +36,12 @@ export const counterSlice = createSlice({
                     state[action.payload.target] =
                         action.payload.payloadVariableDependent;
                 }
+            }
+            if (action.payload.type === "add") {
+                return {
+                    ...state,
+                    ...action.payload.updateData,
+                };
             }
             if (action.payload.type === "update") {
                 return action.payload.updateData;

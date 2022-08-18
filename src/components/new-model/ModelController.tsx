@@ -15,6 +15,7 @@ import {
     AccordionPanel,
     Select,
 } from "@chakra-ui/react";
+import _ from "lodash";
 import { useContext, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -26,9 +27,6 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { update } from "store/ControlPanel";
 import { RootState } from "store/store";
 import { NewModelsAllParams } from "types/SimulationTypes";
-import VariableDependentTime, {
-    NameFunction,
-} from "types/VariableDependentTime";
 
 import NodesParams from "./NodesParams";
 
@@ -47,9 +45,6 @@ const ModelController = ({
     modelCompartment,
     nodes,
 }: Props) => {
-    // el problema no es useContext ni redux, el problema es que el componente
-    // no está actualizando a los hijos. Esto puede deberse a que no se está
-    // guardando un state que permita actualizar dichos valores
     const { description, setDataViewVariable, idModelUpdate } =
         useContext(ControlPanel);
     const { completeModel } = useContext(NewModelSetted);
@@ -93,6 +88,9 @@ const ModelController = ({
                     ],
                 };
             }
+            // if (_.isEmpty(current)) {
+            //     return acc;
+            // }
             return {
                 ...acc,
                 [current.name]: [current.isEnabled],
@@ -149,6 +147,9 @@ const ModelController = ({
                             ],
                         };
                     }
+                    // if (_.isEmpty(current)) {
+                    //     return acc;
+                    // }
                     return {
                         ...acc,
                         [current.name]: [current.isEnabled],

@@ -1,8 +1,8 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { DownloadIcon } from "@chakra-ui/icons";
 import {
-    useToast,
     Popover,
     PopoverTrigger,
     IconButton,
@@ -14,10 +14,15 @@ import {
     Button,
 } from "@chakra-ui/react";
 import _ from "lodash";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import convertFiles from "utils/convertFiles";
+import {
+    formatInitialConditionsForExport,
+    StringifyVariableDependentTime,
+} from "utils/helpersExportsModels";
 
 interface PropsExportModels {
     idModel?: number;
@@ -26,20 +31,42 @@ interface PropsExportModels {
 const ExportModels = ({ idModel }: PropsExportModels) => {
     const { completeModel } = useContext(NewModelSetted);
     const { geoSelections } = useContext(SelectFeature);
-
-    const anithing = (id: number) => {
+    const [tomlFile, setTomlFile] = useState<string>("");
+    const [enableButton, setEnableButton] = useState(false);
+    const [nameModelForToml, setNameModelForToml] = useState<string>("");
+    /**
+     * It creates a string for a toml file.
+     * @param {number} id - number
+     * @returns A string with the model in toml format.
+     */
+    // eslint-disable-next-line sonarjs/cognitive-complexity
+    useEffect(() => {
         const modelSelected = completeModel.find(
-            (model) => model.idNewModel === id
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            (model) => model["idNewModel"] === idModel
+        );
+        if (!_.isEmpty(modelSelected)) {
+            setEnableButton(false);
+        } else {
+            setEnableButton(true);
+        }
+    }, [completeModel, idModel]);
+
+    const createStringForToml = (id: number): string => {
+        // establecer type de salida de la funcion
+        const modelSelected = completeModel.find(
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            (model) => model["idNewModel"] === id
         );
         if (!_.isEmpty(modelSelected)) {
             const geoSelected = geoSelections.find(
                 (geo) => geo.id === modelSelected.idGeo
-            );
+            ) ?? { scale: "graph", featureSelected: [], id: 0 };
             const {
                 name,
                 modelType,
                 parameters,
-                idNewModel,
+                populationType,
                 initialConditions: initCond,
                 t_init,
             } = modelSelected;
@@ -47,6 +74,7 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
             const {
                 name_model: notConsiderertitle,
                 name: notConsiderertitleName,
+                population,
                 compartments,
                 t_init: notConsidererTInit,
                 t_end,
@@ -58,15 +86,35 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                 mu,
                 alpha,
                 beta,
+                pIcr_det,
+                pIm_det,
+                pIv_det,
                 ...dynamicSEIRHVD
             } = parameters;
 
-            const obj = {
-                idSim: idNewModel,
+            const jsonForToml = {
                 model: {
                     name,
-                    model: modelType,
-                    compartments: parameters.compartments,
+                    model: `${modelType}${
+                        populationType.replace("population", "") === "meta"
+                            ? "meta"
+                            : ""
+                    }`,
+                    compartments:
+                        modelType === "seirhvd"
+                            ? [
+                                  "S",
+                                  "S_v",
+                                  "E",
+                                  "E_v",
+                                  "Im",
+                                  "Icr",
+                                  "Iv",
+                                  "R",
+                                  "H",
+                                  "D",
+                              ]
+                            : compartments,
                 },
                 data: {
                     datafile: false,
@@ -83,23 +131,12 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                             : "",
                     healthservice: "",
                     loc_name: "",
+                    geo_topology: populationType.replace("population", ""),
                 },
-                initialconditions: {
-                    ...initCond
-                        .map((init) => init.conditionsValues)
-                        .reduce((acc, current, _idx, src) => {
-                            if (src.length === 1) {
-                                return {
-                                    ...acc,
-                                    ...current,
-                                };
-                            }
-                            const keysValuesInitCond = Object.entries(current);
-                            return {
-                                ...acc,
-                            };
-                        }, {}),
-                },
+                initialconditions: formatInitialConditionsForExport(
+                    initCond,
+                    populationType
+                ),
                 parameters: {
                     static:
                         modelType === "seirhvd"
@@ -113,6 +150,9 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                                   seroprevfactor: 0,
                                   expinfection: 0,
                                   populationfraction,
+                                  pIcr_det,
+                                  pIm_det,
+                                  pIv_det,
                               }
                             : {
                                   t_init,
@@ -123,39 +163,47 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                                   k_R: 0,
                                   seroprevfactor: 0,
                                   expinfection: 0,
+                                  pI_det,
                               },
                     dynamic:
                         modelType === "seirhvd"
                             ? {
-                                  alpha,
-                                  beta,
-                                  ...dynamicSEIRHVD,
+                                  ...StringifyVariableDependentTime({
+                                      alpha,
+                                      beta,
+                                      ...dynamicSEIRHVD,
+                                  }),
                               }
                             : modelType === "seir"
                             ? {
-                                  alpha,
-                                  beta,
-                                  tI_R,
-                                  tE_I,
-                                  pI_det,
-                                  rR_S,
+                                  ...StringifyVariableDependentTime({
+                                      alpha,
+                                      beta,
+                                      tI_R,
+                                      tE_I,
+                                      rR_S,
+                                  }),
                               }
                             : {
-                                  alpha,
-                                  beta,
-                                  tI_R,
-                                  pI_det,
-                                  rR_S,
+                                  ...StringifyVariableDependentTime({
+                                      alpha,
+                                      beta,
+                                      tI_R,
+                                      rR_S,
+                                  }),
                               },
                 },
             };
+            setNameModelForToml(name);
+            return `${convertFiles(jsonForToml)}`;
         }
+        return "";
     };
 
     return (
         <Popover placement="right">
-            <PopoverTrigger>
-                <Tooltip label="Download saved models">
+            <Tooltip label="Download saved models">
+                <PopoverTrigger>
                     <IconButton
                         bg="#16609E"
                         color="#FFFFFF"
@@ -165,24 +213,34 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                         _hover={{ bg: "blue.500" }}
                         icon={<DownloadIcon />}
                     />
-                </Tooltip>
-            </PopoverTrigger>
+                </PopoverTrigger>
+            </Tooltip>
             <PopoverContent>
                 <PopoverHeader pt={4} fontWeight="bold" border="0">
-                    Choose a format file!
+                    Download Model
                 </PopoverHeader>
                 <PopoverBody>
-                    <Link
-                        download="models.toml"
-                        href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                            "asdf"
-                        )}`}
+                    <Button hidden={!tomlFile} colorScheme="blue">
+                        <Link
+                            download={`${nameModelForToml ?? "model"}.toml`}
+                            href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                                tomlFile
+                            )}`}
+                            style={{ textDecoration: "none" }}
+                        >
+                            Download your model
+                        </Link>
+                    </Button>
+                    <Button
+                        colorScheme="blue"
+                        hidden={!!tomlFile}
+                        isDisabled={enableButton}
+                        onClick={() =>
+                            setTomlFile(createStringForToml(idModel))
+                        }
                     >
-                        to TOML
-                    </Link>
-                    <Button onClick={() => anithing(idModel)}>
                         {" "}
-                        Make a try
+                        Create TOML File
                     </Button>
                 </PopoverBody>
             </PopoverContent>
