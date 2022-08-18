@@ -47,7 +47,6 @@ const ImportModels = () => {
     const { setGeoSelections } = useContext(SelectFeature);
     const { setCompleteModel, setNewModel } = useContext(NewModelSetted);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const dispatch = useDispatch();
     const toast = useToast();
     return (
         <>
@@ -185,7 +184,9 @@ const ImportModels = () => {
                                                 const initialCond = getGeoNames(
                                                     geoForAdd.geoPayload
                                                         .featureSelected
-                                                        .length > 0
+                                                        .length > 0 &&
+                                                        geographData.geo_topology ===
+                                                            "meta"
                                                         ? geoForAdd.geoPayload
                                                               .featureSelected
                                                         : alternativeCodes,

@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { DownloadIcon } from "@chakra-ui/icons";
@@ -13,7 +14,7 @@ import {
     Button,
 } from "@chakra-ui/react";
 import _ from "lodash";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
@@ -31,6 +32,7 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
     const { completeModel } = useContext(NewModelSetted);
     const { geoSelections } = useContext(SelectFeature);
     const [tomlFile, setTomlFile] = useState<string>("");
+    const [enableButton, setEnableButton] = useState(false);
     const [nameModelForToml, setNameModelForToml] = useState<string>("");
     /**
      * It creates a string for a toml file.
@@ -38,6 +40,18 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
      * @returns A string with the model in toml format.
      */
     // eslint-disable-next-line sonarjs/cognitive-complexity
+    useEffect(() => {
+        const modelSelected = completeModel.find(
+            // eslint-disable-next-line @typescript-eslint/dot-notation
+            (model) => model["idNewModel"] === idModel
+        );
+        if (!_.isEmpty(modelSelected)) {
+            setEnableButton(false);
+        } else {
+            setEnableButton(true);
+        }
+    }, [completeModel, idModel]);
+
     const createStringForToml = (id: number): string => {
         // establecer type de salida de la funcion
         const modelSelected = completeModel.find(
@@ -188,8 +202,8 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
 
     return (
         <Popover placement="right">
-            <PopoverTrigger>
-                <Tooltip label="Download saved models">
+            <Tooltip label="Download saved models">
+                <PopoverTrigger>
                     <IconButton
                         bg="#16609E"
                         color="#FFFFFF"
@@ -199,8 +213,8 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                         _hover={{ bg: "blue.500" }}
                         icon={<DownloadIcon />}
                     />
-                </Tooltip>
-            </PopoverTrigger>
+                </PopoverTrigger>
+            </Tooltip>
             <PopoverContent>
                 <PopoverHeader pt={4} fontWeight="bold" border="0">
                     Download Model
@@ -220,6 +234,7 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
                     <Button
                         colorScheme="blue"
                         hidden={!!tomlFile}
+                        isDisabled={enableButton}
                         onClick={() =>
                             setTomlFile(createStringForToml(idModel))
                         }

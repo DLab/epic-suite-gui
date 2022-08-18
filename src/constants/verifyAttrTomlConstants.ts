@@ -31,7 +31,7 @@ export const DATAKEYS: Fields = {
 };
 export const INITIALCONDITIONSKEYS: Fields = {
     must: ["population", "I", "I_d", "I_ac", "R"],
-    seir: ["E"],
+    // seir: ["E"],
     seirhvd: [
         "H",
         // "H_d",

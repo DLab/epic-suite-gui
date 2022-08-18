@@ -57,7 +57,7 @@ const keysByCompartments = (
     const typeModel = typeCompartment.match(regex)[0];
     switch (typeModel) {
         case "seir":
-            return [...fields.must, ...fields.seir];
+            return fields.must;
         case "sir":
             return fields.must;
         case "seirhvd":
