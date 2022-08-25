@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { Input } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
@@ -9,28 +9,21 @@ import { DoubleYAxisData } from "types/GraphicsTypes";
 
 interface Props {
     savedSimulationKeys?: DoubleYAxisData[];
-    width: string;
-    height: string;
-    index?: number;
-    disabledName: boolean;
+    simDay: number;
+    setSimDay: (val: number) => void;
+    // width: string;
+    // height: string;
 }
 
-const Graphic = ({
+const GraphModal = ({
     savedSimulationKeys,
-    width,
-    height,
-    index,
-    disabledName,
-}: Props) => {
-    const {
-        realDataSimulationKeys,
-        allGraphicData,
-        setAllGraphicData,
-        dataToShowInMap,
-        setAllResults,
-    } = useContext(GraphicsData);
+    simDay,
+    setSimDay,
+}: // width,
+// height,
+Props) => {
+    const { realDataSimulationKeys, allGraphicData } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
-    const [graphicName, setGraphicName] = useState("");
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
 
@@ -66,6 +59,7 @@ const Graphic = ({
                             yaxis: "y2",
                         };
                     }
+
                     return {
                         x: Object.keys(simulationKeys),
                         y: Object.values(simulationKeys),
@@ -74,22 +68,13 @@ const Graphic = ({
                     };
                 }
                 const simulationKeys = simKeyFilter[0][key];
-                if (axis === "rightAxis") {
-                    return {
-                        x: Object.keys(simulationKeys),
-                        y: Object.values(simulationKeys),
-                        mode: "lines",
-                        line: {
-                            dash: "dot",
-                            width: 3,
-                        },
-                        name: `${key}-${simKeyFilter[0].name} <span style="font-weight: bold">Right</span>`,
-                        yaxis: "y2",
-                    };
-                }
+                const valuesByRange = Object.values(simulationKeys).slice(
+                    0,
+                    simDay
+                );
                 return {
                     x: Object.keys(simulationKeys),
-                    y: Object.values(simulationKeys),
+                    y: valuesByRange,
                     mode: "lines",
                     name: `${key}-${simKeyFilter[0].name} <span style="font-weight: bold">Left</span>`,
                 };
@@ -99,88 +84,36 @@ const Graphic = ({
 
     useEffect(() => {
         const leftAxisKeys = savedSimulationKeys[0].leftAxis;
-        const rightAxisKeys = savedSimulationKeys[0].rightAxis;
         const axiosLeftData = graphSimulation(leftAxisKeys, "leftAxis");
-        const axiosRightData = graphSimulation(rightAxisKeys, "rightAxis");
         let leftDataToGraph = [];
-        let rightDataToGraph = [];
+
         axiosLeftData.forEach((simulation) => {
             simulation.forEach((parameter) => {
                 leftDataToGraph = [...leftDataToGraph, parameter];
                 return leftDataToGraph;
             });
         });
-        axiosRightData.forEach((simulation) => {
-            simulation.forEach((parameter) => {
-                rightDataToGraph = [...rightDataToGraph, parameter];
-                return rightDataToGraph;
-            });
-        });
 
-        const allDataToGraph = leftDataToGraph.concat(rightDataToGraph);
-
-        setAxios(allDataToGraph);
+        setAxios(leftDataToGraph);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [savedSimulationKeys, allGraphicData]);
-    const setNewGraphicName = (name) => {
-        const allDataAux = allGraphicData;
-        const auxAllGraphicData = allDataAux[index];
-        auxAllGraphicData[0].graphicName = name;
-        setAllGraphicData([...allDataAux]);
-        setAllResults([].concat(dataToShowInMap, allDataAux));
-    };
-
-    useEffect(() => {
-        if (savedSimulationKeys[0].graphicName === "") {
-            setGraphicName(`Graphic ${index + 1}`);
-            setNewGraphicName(`Graphic ${index + 1}`);
-        } else {
-            setGraphicName(savedSimulationKeys[0].graphicName);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [allGraphicData]);
+    }, [savedSimulationKeys, allGraphicData, simDay]);
 
     return (
         <>
-            {disabledName ? (
-                <Input
-                    border="none"
-                    bg="#FFFFFF"
-                    textAlign="center"
-                    fontSize="20px"
-                    w="60%"
-                    value={graphicName}
-                    isDisabled
-                />
-            ) : (
-                <Input
-                    border="none"
-                    bg="#FFFFFF"
-                    textAlign="center"
-                    fontSize="20px"
-                    value={graphicName}
-                    focusBorderColor="none"
-                    onChange={(e) => {
-                        setGraphicName(e.target.value);
-                    }}
-                    onBlur={() => {
-                        setNewGraphicName(graphicName);
-                    }}
-                />
-            )}
+            <Button onClick={() => setSimDay(simDay + 1)}>+10</Button>
             <Plot
                 data={axios}
                 layout={{
                     autosize: false,
-                    width: +width,
-                    height: +height * 0.9,
+                    // width: +width,
+                    // height: +height * 0.9,
                     margin: {
                         l: 55,
                         b: 60,
                         t: 0,
                     },
                     color: "blue",
-                    title: `<span style="display: none">""</span>`,
+                    title: savedSimulationKeys[0].graphicName,
                     legend: { xanchor: "end", x: 1.1, y: 1.1, yanchor: "top" },
                     showlegend: true,
                     xaxis: {
@@ -195,13 +128,6 @@ const Graphic = ({
                         },
                         autorange: true,
                     },
-                    yaxis2: {
-                        title: "Population",
-                        titlefont: { color: "#5991c1" },
-                        tickfont: { color: "#5991c1" },
-                        overlaying: "y",
-                        side: "right",
-                    },
                 }}
                 config={{
                     editable: false,
@@ -212,4 +138,4 @@ const Graphic = ({
     );
 };
 
-export default Graphic;
+export default GraphModal;

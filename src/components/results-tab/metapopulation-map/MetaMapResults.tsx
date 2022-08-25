@@ -26,10 +26,12 @@ import { TabIndex } from "context/TabContext";
 import { MapResultsData } from "types/GraphicsTypes";
 
 import CountiesMetaResultsMap from "./CountiesMetaResultsMap";
+// import GraphAndMapModal from "./GraphAndMonoMapModal";
 import StatesMetaResultsMap from "./StatesMetaResultsMap";
 
 interface Props {
     map: MapResultsData;
+    sizeGraphic: number[];
 }
 
 const StatesResultsMap = dynamic(() => import("../StatesResultsMap"), {
@@ -47,7 +49,7 @@ const StatesResultsMap = dynamic(() => import("../StatesResultsMap"), {
     ssr: false,
 });
 
-const MetaMapResults = ({ map }: Props) => {
+const MetaMapResults = ({ map, sizeGraphic }: Props) => {
     const [simMetaDay, setSimMetaDay] = useState(0);
     const [simMetaDate, setSimMetaDate] = useState("");
     const [parameterMetaValue, setParameterMetaValue] = useState([]);
@@ -135,6 +137,13 @@ const MetaMapResults = ({ map }: Props) => {
         <Flex direction="column" w="48%" mb="2rem">
             <Flex justify="end" alignSelf="end" mr="0.2rem" w="10%" mt="2%">
                 <Flex h="1.5rem">
+                    {/* <GraphAndMapModal
+                        mapInfo={map}
+                        parameterMetaValue={parameterMetaValue}
+                        maxValue={maxMetaValue}
+                        sizeGraphic={sizeGraphic}
+                        // statesData={map.geoDataSelected}
+                    /> */}
                     <DeleteIcon
                         color="#16609E"
                         cursor="pointer"

@@ -114,9 +114,9 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
                 }
             )[0];
             if (populationSim.populationType === "monopopulation") {
-                return <MapResults map={result} />;
+                return <MapResults map={result} sizeGraphic={sizeGraphic} />;
             }
-            return <MetaMapResults map={result} />;
+            return <MetaMapResults map={result} sizeGraphic={sizeGraphic} />;
         }
         return false;
     });
