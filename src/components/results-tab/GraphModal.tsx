@@ -76,7 +76,7 @@ Props) => {
                     x: Object.keys(simulationKeys),
                     y: valuesByRange,
                     mode: "lines",
-                    name: `${key}-${simKeyFilter[0].name} <span style="font-weight: bold">Left</span>`,
+                    name: `${key} `,
                 };
             });
         });
@@ -100,20 +100,18 @@ Props) => {
 
     return (
         <>
-            <Button onClick={() => setSimDay(simDay + 1)}>+10</Button>
             <Plot
                 data={axios}
                 layout={{
                     autosize: false,
-                    // width: +width,
-                    // height: +height * 0.9,
+                    width: 340,
+                    height: 280,
                     margin: {
-                        l: 55,
+                        l: 75,
                         b: 60,
                         t: 0,
                     },
                     color: "blue",
-                    title: savedSimulationKeys[0].graphicName,
                     legend: { xanchor: "end", x: 1.1, y: 1.1, yanchor: "top" },
                     showlegend: true,
                     xaxis: {

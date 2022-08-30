@@ -107,12 +107,7 @@ const GraphAndMapMonoModal = ({ mapInfo, sizeGraphic }: Props) => {
     const btnRef = React.useRef(null);
     return (
         <>
-            <Icon
-                as={PlayModal}
-                onClick={onOpen}
-                cursor="pointer"
-                fontSize="1.4rem"
-            />
+            <Icon as={PlayModal} onClick={onOpen} cursor="pointer" mr="6px" />
 
             <Modal
                 onClose={onClose}
@@ -128,19 +123,17 @@ const GraphAndMapMonoModal = ({ mapInfo, sizeGraphic }: Props) => {
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Flex justify="center" direction="column" w="90%">
-                            {/* <Text ml="2%">
-                                {mapInfo.parameter} {mapInfo.nameSim}
-                            </Text> */}
+                        <Flex justify="center" direction="column">
                             <Flex>
                                 <MapContainer
                                     className="will-change"
-                                    center={[38, -96]}
-                                    zoom={3.48}
+                                    center={[38, -65]}
+                                    zoom={3}
                                     style={{
-                                        height: "45vh",
-                                        maxHeight: "45vh",
+                                        height: "42vh",
+                                        maxHeight: "42vh",
                                         width: "100%",
+                                        margin: "0 5%",
                                     }}
                                     scrollWheelZoom={false}
                                 >
@@ -171,8 +164,6 @@ const GraphAndMapMonoModal = ({ mapInfo, sizeGraphic }: Props) => {
                                     savedSimulationKeys={[graphInfo]}
                                     simDay={simDayModal}
                                     setSimDay={setSimDayModal}
-                                    // width={`${sizeGraphic[0] ?? 0}`}
-                                    // height={`${sizeGraphic[1] ?? 0}`}
                                 />
                             </Flex>
                         </Flex>
@@ -184,9 +175,6 @@ const GraphAndMapMonoModal = ({ mapInfo, sizeGraphic }: Props) => {
                             setSimDay={setSimDayModal}
                         />
                     </ModalBody>
-                    <ModalFooter>
-                        <Button onClick={onClose}>Close</Button>
-                    </ModalFooter>
                 </ModalContent>
             </Modal>
         </>
