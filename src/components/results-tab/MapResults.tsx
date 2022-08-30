@@ -19,7 +19,7 @@ import { MapResultsData } from "types/GraphicsTypes";
 
 import ColorsScale from "./ColorsScale";
 import CountiesResultsMap from "./CountiesResultsMap";
-import GraphAndMapMonoModal from "./metapopulation-map/GraphAndMapMonoModal";
+import GraphAndMapMonoModal from "./graphic-map-modal/GraphAndMapMonoModal";
 import PlayDataSlider from "./PlayDataSlider";
 
 interface Props {
@@ -126,10 +126,7 @@ const MapResults = ({ map, sizeGraphic }: Props) => {
         <Flex direction="column" w="48%" mb="2rem">
             <Flex justify="end" alignSelf="end" mr="0.2rem" w="10%" mt="2%">
                 <Flex h="1.5rem">
-                    <GraphAndMapMonoModal
-                        mapInfo={map}
-                        sizeGraphic={sizeGraphic}
-                    />
+                    <GraphAndMapMonoModal mapInfo={map} />
                     <DeleteIcon
                         color="#16609E"
                         cursor="pointer"

@@ -1,8 +1,8 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import { Button } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
+import getColor from "../getColor";
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import { DoubleYAxisData } from "types/GraphicsTypes";
@@ -10,24 +10,16 @@ import { DoubleYAxisData } from "types/GraphicsTypes";
 interface Props {
     savedSimulationKeys?: DoubleYAxisData[];
     simDay: number;
-    setSimDay: (val: number) => void;
-    // width: string;
-    // height: string;
+    maxValue: number;
 }
 
-const GraphModal = ({
-    savedSimulationKeys,
-    simDay,
-    setSimDay,
-}: // width,
-// height,
-Props) => {
+const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
     const { realDataSimulationKeys, allGraphicData } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
 
-    const graphSimulation = (axisKeys, axis) => {
+    const graphSimulation = (axisKeys) => {
         return axisKeys.map((simKey) => {
             // para obtener toda la data de una simulación
             const simKeyFilter = data.filter((sim) => {
@@ -45,56 +37,48 @@ Props) => {
                 if (key.includes("Real")) {
                     // para encontrar la data según la key guardada
                     const filterKey = key.slice(0, -5);
-                    const simulationKeys = simRealDataKeyFilter[0][filterKey];
-                    if (axis === "rightAxis") {
-                        return {
-                            x: Object.keys(simulationKeys),
-                            y: Object.values(simulationKeys),
-                            mode: "lines+markers",
-                            line: {
-                                dash: "dot",
-                                width: 2,
-                            },
-                            name: `${key}-${simRealDataKeyFilter[0].name} <span style="font-weight: bold">Right</span>`,
-                            yaxis: "y2",
-                        };
-                    }
+                    const simulationRealKeys =
+                        simRealDataKeyFilter[0][filterKey];
 
                     return {
-                        x: Object.keys(simulationKeys),
-                        y: Object.values(simulationKeys),
+                        x: [key],
+                        y: [Object.values(simulationRealKeys)[simDay]],
                         mode: "lines+markers",
-                        name: `${key}-${simRealDataKeyFilter[0].name} <span style="font-weight: bold">Left</span>`,
+                        name: `${key}`,
                     };
                 }
                 const simulationKeys = simKeyFilter[0][key];
-                const valuesByRange = Object.values(simulationKeys).slice(
-                    0,
-                    simDay
-                );
+
                 return {
-                    x: Object.keys(simulationKeys),
-                    y: valuesByRange,
-                    mode: "lines",
+                    x: [key],
+                    y: [Object.values(simulationKeys)[simDay]],
+                    type: "bar",
+                    marker: {
+                        color: getColor(
+                            Object.values(simulationKeys)[simDay],
+                            maxValue
+                        ),
+                    },
                     name: `${key} `,
+                    width: 0.2,
                 };
             });
         });
     };
 
     useEffect(() => {
-        const leftAxisKeys = savedSimulationKeys[0].leftAxis;
-        const axiosLeftData = graphSimulation(leftAxisKeys, "leftAxis");
-        let leftDataToGraph = [];
+        const axisKeys = savedSimulationKeys[0].leftAxis;
+        const axiosData = graphSimulation(axisKeys);
+        let dataToGraph = [];
 
-        axiosLeftData.forEach((simulation) => {
+        axiosData.forEach((simulation) => {
             simulation.forEach((parameter) => {
-                leftDataToGraph = [...leftDataToGraph, parameter];
-                return leftDataToGraph;
+                dataToGraph = [...dataToGraph, parameter];
+                return dataToGraph;
             });
         });
 
-        setAxios(leftDataToGraph);
+        setAxios(dataToGraph);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [savedSimulationKeys, allGraphicData, simDay]);
 
@@ -104,8 +88,8 @@ Props) => {
                 data={axios}
                 layout={{
                     autosize: false,
-                    width: 340,
-                    height: 280,
+                    width: 320,
+                    height: 260,
                     margin: {
                         l: 75,
                         b: 60,
@@ -124,7 +108,8 @@ Props) => {
                         title: {
                             text: "Population",
                         },
-                        autorange: true,
+                        range: [0, maxValue],
+                        autorange: false,
                     },
                 }}
                 config={{
@@ -136,4 +121,4 @@ Props) => {
     );
 };
 
-export default GraphModal;
+export default BarGraphModal;
