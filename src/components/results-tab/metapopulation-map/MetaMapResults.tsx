@@ -19,6 +19,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import ColorsScale from "../ColorsScale";
+import GraphAndMapMetaModal from "../graphic-map-modal/GraphAndMapMetaModal";
 import PauseIcon from "components/icons/PauseIcon";
 import PlayIcon from "components/icons/PlayIcon";
 import { GraphicsData } from "context/GraphicsContext";
@@ -26,28 +27,12 @@ import { TabIndex } from "context/TabContext";
 import { MapResultsData } from "types/GraphicsTypes";
 
 import CountiesMetaResultsMap from "./CountiesMetaResultsMap";
-// import GraphAndMapModal from "./GraphAndMonoMapModal";
 import StatesMetaResultsMap from "./StatesMetaResultsMap";
 
 interface Props {
     map: MapResultsData;
     sizeGraphic: number[];
 }
-
-const StatesResultsMap = dynamic(() => import("../StatesResultsMap"), {
-    loading: () => (
-        <Flex justifyContent="center" alignItems="center" w="100%">
-            <Spinner
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="blue.500"
-                size="xl"
-            />
-        </Flex>
-    ),
-    ssr: false,
-});
 
 const MetaMapResults = ({ map, sizeGraphic }: Props) => {
     const [simMetaDay, setSimMetaDay] = useState(0);
@@ -70,7 +55,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
         setSimMetaDay(0);
     }, [map]);
 
-    const filterData = (simData, typeData) => {
+    const filterMetaData = (simData, typeData) => {
         let getParameterValue;
 
         if (typeData === "Real") {
@@ -105,9 +90,9 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
 
     useEffect(() => {
         if (map.parameter.includes("Real")) {
-            filterData(realDataSimulationKeys, "Real");
+            filterMetaData(realDataSimulationKeys, "Real");
         } else {
-            filterData(data, "Sim");
+            filterMetaData(data, "Sim");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map.nameSim, map.parameter, simMetaDay]);
@@ -137,13 +122,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
         <Flex direction="column" w="48%" mb="2rem">
             <Flex justify="end" alignSelf="end" mr="0.2rem" w="10%" mt="2%">
                 <Flex h="1.5rem">
-                    {/* <GraphAndMapModal
-                        mapInfo={map}
-                        parameterMetaValue={parameterMetaValue}
-                        maxValue={maxMetaValue}
-                        sizeGraphic={sizeGraphic}
-                        // statesData={map.geoDataSelected}
-                    /> */}
+                    <GraphAndMapMetaModal mapInfo={map} />
                     <DeleteIcon
                         color="#16609E"
                         cursor="pointer"

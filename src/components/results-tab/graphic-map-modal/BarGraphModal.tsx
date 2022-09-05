@@ -44,7 +44,7 @@ const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
                         x: [key],
                         y: [Object.values(simulationRealKeys)[simDay]],
                         mode: "lines+markers",
-                        name: `${key}`,
+                        name: `${key} - ${simKeyFilter[0].name}`,
                     };
                 }
                 const simulationKeys = simKeyFilter[0][key];
@@ -59,7 +59,7 @@ const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
                             maxValue
                         ),
                     },
-                    name: `${key} `,
+                    name: `${key} - ${simKeyFilter[0].name}`,
                     width: 0.2,
                 };
             });

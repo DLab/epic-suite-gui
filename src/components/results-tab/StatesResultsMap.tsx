@@ -72,32 +72,6 @@ const StatesResultsMap = ({
         });
     };
 
-    // const colors = [
-    //     "#FED976",
-    //     "#FEB24C",
-    //     "#FD8D3C",
-    //     "#FC4E2A",
-    //     "#E31A1C",
-    //     "#BD0026",
-    //     "#800026",
-    //     "#44010E",
-    // ];
-
-    // const rangeValue = Math.ceil(maxValue / colors.length);
-    // const getColor = (d) => {
-    //     let color;
-    //     for (let i = 0; i < 9; i += 1) {
-    //         if (i === 0) {
-    //             if (d <= rangeValue) {
-    //                 color = colors[i];
-    //             }
-    //         } else if (d > i * rangeValue) {
-    //             color = colors[i];
-    //         }
-    //     }
-    //     return color;
-    // };
-
     const styles = (feature) => {
         let color;
         const stateId = feature.id;

@@ -54,7 +54,7 @@ const Results = () => {
         () => (
             <GraphicAndMapResults
                 onOpen={onOpen}
-                simulationsPopulatioType={simulationsPopulatioType}
+                simulationsPopulationType={simulationsPopulatioType}
             />
         ),
         [onOpen, simulationsPopulatioType]

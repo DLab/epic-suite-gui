@@ -17,10 +17,10 @@ import SeeGraphic from "./SeeGraphic";
 
 interface Props {
     onOpen: (val: boolean) => void;
-    simulationsPopulatioType: string;
+    simulationsPopulationType: string;
 }
 
-const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
+const GraphicAndMapResults = ({ onOpen, simulationsPopulationType }: Props) => {
     const {
         setAllGraphicData,
         dataToShowInMap,
@@ -123,8 +123,8 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
 
     return (
         <GridItem colSpan={5} id={createIdComponent()} textAlign="center">
-            {(simulationsPopulatioType === "meta" ||
-                simulationsPopulatioType === "mono-meta") && (
+            {(simulationsPopulationType === "meta" ||
+                simulationsPopulationType === "mono-meta") && (
                 <Flex
                     colSpan={1}
                     id={createIdComponent()}
@@ -146,7 +146,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
                     {allResults.length > 0 && <>{listResults}</>}
                 </Flex>
             )}
-            {simulationsPopulatioType === "mono" && allResults.length > 0 && (
+            {simulationsPopulationType === "mono" && allResults.length > 0 && (
                 <Flex
                     colSpan={1}
                     id={createIdComponent()}
@@ -161,8 +161,8 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulatioType }: Props) => {
             )}
 
             {allResults.length === 0 &&
-                (simulationsPopulatioType === "mono" ||
-                    simulationsPopulatioType === "mono-meta") && (
+                (simulationsPopulationType === "mono" ||
+                    simulationsPopulationType === "mono-meta") && (
                     <Flex
                         id={createIdComponent()}
                         colSpan={1}

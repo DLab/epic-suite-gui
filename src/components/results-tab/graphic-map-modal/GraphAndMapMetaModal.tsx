@@ -19,6 +19,7 @@ import { MapContainer, TileLayer } from "react-leaflet";
 
 import ColorsScale from "../ColorsScale";
 import CountiesResultsMap from "../CountiesResultsMap";
+import StatesMetaResultsMap from "../metapopulation-map/StatesMetaResultsMap";
 import PlayDataSlider from "../PlayDataSlider";
 import StatesResultsMap from "../StatesResultsMap";
 import PlayModal from "components/icons/PlayModal";
@@ -34,87 +35,100 @@ interface Props {
     mapInfo: MapResultsData;
 }
 
-const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
+const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [parameterModalValue, setParameterModalValue] = useState();
+    const [parameterModalMetaValue, setParameterModalMetaValue] = useState();
     // const [scrollBehavior, setScrollBehavior] = React.useState("inside");
-    const [isPlayingModal, setIsPlayingModal] = useState(false);
-    const [simDayModal, setSimDayModal] = useState(0);
-    const [maxModalValue, setMaxModalValue] = useState();
-    const [simModalDate, setSimModalDate] = useState("");
+    const [isPlayingMetaModal, setIsPlayingMetaModal] = useState(false);
+    const [simDayMetaModal, setSimDayMetaModal] = useState(0);
+    const [maxModalMetaValue, setMaxModalMetaValue] = useState();
+    const [simModalMetaDate, setSimModalMetaDate] = useState("");
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
     const { realDataSimulationKeys } = useContext(GraphicsData);
 
-    const graphInfo = {
-        graphicName: mapInfo.parameter,
-        graphicId: createIdComponent(),
-        leftAxis: [
-            {
-                keys: [mapInfo.parameter],
-                name: mapInfo.nameSim,
-            },
-        ],
-        rightAxis: [],
+    const getLeftAxis = () => {
+        return data.map((node) => {
+            return { keys: [mapInfo.parameter], name: node.name };
+        });
     };
 
-    const filterData = (simData, typeData) => {
-        const simRealDataKeyFilter = simData.filter((sim) => {
-            return sim.name === mapInfo.nameSim;
-        });
+    const graphMetaInfo = [
+        {
+            graphicName: "",
+            graphicId: createIdComponent(),
+            leftAxis: getLeftAxis(),
+            rightAxis: [],
+        },
+    ];
 
-        let getParameterValue;
+    const filterModalMetaData = (simData, typeData) => {
+        let getModalParameterValue;
 
         if (typeData === "Real") {
             let filterKey = mapInfo.parameter.slice(0, -5);
             if (filterKey === "population") {
                 filterKey = "P";
             }
-            getParameterValue = simRealDataKeyFilter[0][filterKey];
+            getModalParameterValue = simData.map((nodeData) => {
+                return nodeData[filterKey];
+            });
         } else {
             let filterSimKey = mapInfo.parameter;
             if (filterSimKey === "population") {
                 filterSimKey = "S";
             }
-            getParameterValue = simRealDataKeyFilter[0][filterSimKey];
+            getModalParameterValue = simData.map((nodeData) => {
+                return nodeData[filterSimKey];
+            });
         }
-        const parametersValuesArray = Object.values(getParameterValue);
-        const getMaxModalValue = Math.max.apply(null, parametersValuesArray);
-        setMaxModalValue(getMaxModalValue);
-        if (getParameterValue !== undefined) {
-            setParameterModalValue(getParameterValue[simDayModal]);
+        const maxValues = getModalParameterValue.map((valArray) => {
+            return Math.max.apply(null, valArray);
+        });
+        const getMaxValue = Math.max.apply(null, maxValues);
+        setMaxModalMetaValue(getMaxValue);
+        if (getModalParameterValue !== undefined) {
+            const parameterModalValuesList = getModalParameterValue.map(
+                (val) => {
+                    return val[simDayMetaModal];
+                }
+            );
+            setParameterModalMetaValue(parameterModalValuesList);
         }
     };
 
     useEffect(() => {
         if (mapInfo.parameter.includes("Real")) {
-            filterData(realDataSimulationKeys, "Real");
+            filterModalMetaData(realDataSimulationKeys, "Real");
         } else {
-            filterData(data, "Sim");
+            filterModalMetaData(data, "Sim");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data, mapInfo.nameSim, mapInfo.parameter, simDayModal]);
+    }, [simDayMetaModal]);
 
     useEffect(() => {
         const durationValue = mapInfo.duration.toString();
-        if (isPlayingModal && simDayModal < parseInt(durationValue, 10) - 1) {
+        if (
+            isPlayingMetaModal &&
+            simDayMetaModal < parseInt(durationValue, 10) - 1
+        ) {
             setTimeout(() => {
-                const simDayModalAux = simDayModal;
-                setSimDayModal(simDayModalAux + 1);
+                const simDayModalAux = simDayMetaModal;
+                setSimDayMetaModal(simDayModalAux + 1);
             }, 60);
         }
-        if (simDayModal === parseInt(durationValue, 10) - 1) {
-            setIsPlayingModal(false);
+        if (simDayMetaModal === parseInt(durationValue, 10) - 1) {
+            setIsPlayingMetaModal(false);
         }
-    }, [simDayModal, isPlayingModal, mapInfo.duration]);
+    }, [simDayMetaModal, isPlayingMetaModal, mapInfo.duration]);
 
     useEffect(() => {
-        setSimModalDate(format(new Date(mapInfo.date), "dd/MM/yyyy"));
+        setSimModalMetaDate(format(new Date(mapInfo.date), "dd/MM/yyyy"));
         const newDate = add(new Date(mapInfo.date), {
-            days: simDayModal,
+            days: simDayMetaModal,
         });
-        setSimModalDate(format(newDate, "dd/MM/yyyy"));
-    }, [mapInfo.date, simDayModal]);
+        setSimModalMetaDate(format(newDate, "dd/MM/yyyy"));
+    }, [mapInfo.date, simDayMetaModal]);
 
     const btnRef = React.useRef(null);
     return (
@@ -149,18 +163,20 @@ const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
                                         }}
                                         scrollWheelZoom={false}
                                     >
-                                        <ColorsScale maxValue={maxModalValue} />
+                                        <ColorsScale
+                                            maxValue={maxModalMetaValue}
+                                        />
                                         <TileLayer
                                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         />
                                         {mapInfo.scale === "States" ? (
-                                            <StatesResultsMap
+                                            <StatesMetaResultsMap
                                                 idGeo={mapInfo.idGeo}
                                                 parameterValue={
-                                                    parameterModalValue
+                                                    parameterModalMetaValue
                                                 }
-                                                maxValue={maxModalValue}
+                                                maxValue={maxModalMetaValue}
                                                 statesData={
                                                     mapInfo.geoDataSelected
                                                 }
@@ -169,9 +185,9 @@ const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
                                             <CountiesResultsMap
                                                 idGeo={mapInfo.idGeo}
                                                 parameterValue={
-                                                    parameterModalValue
+                                                    parameterModalMetaValue
                                                 }
-                                                maxValue={maxModalValue}
+                                                maxValue={maxModalMetaValue}
                                                 coutiesData={
                                                     mapInfo.geoDataSelected
                                                 }
@@ -181,26 +197,26 @@ const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
                                     <Flex w="50%" direction="column">
                                         <PlayDataSlider
                                             map={mapInfo}
-                                            isPlaying={isPlayingModal}
-                                            setIsPlaying={setIsPlayingModal}
-                                            simDay={simDayModal}
-                                            setSimDay={setSimDayModal}
+                                            isPlaying={isPlayingMetaModal}
+                                            setIsPlaying={setIsPlayingMetaModal}
+                                            simDay={simDayMetaModal}
+                                            setSimDay={setSimDayMetaModal}
                                         />
                                         <StatGroup w="95%" mt="10%">
                                             <Stat>
                                                 <StatLabel>Day</StatLabel>
                                                 <StatNumber>
-                                                    {simDayModal + 1}
+                                                    {simDayMetaModal + 1}
                                                 </StatNumber>
                                             </Stat>
 
                                             <Stat>
                                                 <StatLabel>Date</StatLabel>
                                                 <StatNumber>
-                                                    {simModalDate}
+                                                    {simModalMetaDate}
                                                 </StatNumber>
                                             </Stat>
-                                            <Stat>
+                                            {/* <Stat>
                                                 <StatLabel>
                                                     {mapInfo.parameter} Value
                                                 </StatLabel>
@@ -208,24 +224,24 @@ const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
                                                     {new Intl.NumberFormat(
                                                         "de-DE"
                                                     ).format(
-                                                        parameterModalValue
+                                                        parameterModalMetaValue
                                                     )}
                                                 </StatNumber>
-                                            </Stat>
+                                            </Stat> */}
                                         </StatGroup>
                                     </Flex>
                                 </Flex>
                                 <Flex justifyContent="space-evenly" mt="2%">
                                     <GraphModal
-                                        savedSimulationKeys={[graphInfo]}
-                                        simDay={simDayModal}
-                                        maxValue={maxModalValue}
+                                        savedSimulationKeys={graphMetaInfo}
+                                        simDay={simDayMetaModal}
+                                        maxValue={maxModalMetaValue}
                                         duration={mapInfo.duration}
                                     />
                                     <BarGraphModal
-                                        savedSimulationKeys={[graphInfo]}
-                                        simDay={simDayModal}
-                                        maxValue={maxModalValue}
+                                        savedSimulationKeys={graphMetaInfo}
+                                        simDay={simDayMetaModal}
+                                        maxValue={maxModalMetaValue}
                                     />
                                 </Flex>
                             </Flex>
@@ -237,4 +253,4 @@ const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
     );
 };
 
-export default GraphAndMapMonoModal;
+export default GraphAndMapMetaModal;

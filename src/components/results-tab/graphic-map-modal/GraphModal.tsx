@@ -48,7 +48,7 @@ const GraphModal = ({
                         x: Object.keys(simulationKeys),
                         y: Object.values(simulationKeys),
                         mode: "lines+markers",
-                        name: `${key}`,
+                        name: `${key} - ${simKeyFilter[0].name}`,
                     };
                 }
                 const simulationKeys = simKeyFilter[0][key];
@@ -61,7 +61,7 @@ const GraphModal = ({
                     x: Object.keys(simulationKeys),
                     y: valuesByRange,
                     mode: "lines",
-                    name: `${key} `,
+                    name: `${key} - ${simKeyFilter[0].name}`,
                 };
             });
         });
