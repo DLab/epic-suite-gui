@@ -71,7 +71,7 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                 filterKey = "P";
             }
             getModalParameterValue = simData.map((nodeData) => {
-                return nodeData[filterKey];
+                return Object.values(nodeData[filterKey]);
             });
         } else {
             let filterSimKey = mapInfo.parameter;

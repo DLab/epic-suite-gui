@@ -64,7 +64,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
                 filterKey = "P";
             }
             getParameterValue = simData.map((nodeData) => {
-                return nodeData[filterKey];
+                return Object.values(nodeData[filterKey]);
             });
         } else {
             let filterSimKey = map.parameter;
