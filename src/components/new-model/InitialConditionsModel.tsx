@@ -44,7 +44,6 @@ const InitialConditiosModels = ({
     setStartDate,
 }: Props) => {
     const [initialConditionsMode, setInitialConditionsMode] = useState(false);
-    const { newModel } = useContext(NewModelSetted);
 
     const editInitialConditions = () => {
         setInitialConditionsMode(true);
@@ -92,20 +91,11 @@ const InitialConditiosModels = ({
                         setStartDate={setStartDate}
                         populationValue={populationValue}
                         initialConditionsGraph={initialConditionsGraph}
-                        // idModel={idModel2}
-                        // idSimulation={idSimulation}
-                        // startDate={startDate}
-                        // setStartDate={setStartDate}
-                        // setIdGeo={setIdGeoSelection}
-                        // setIdGraph={setIdGraph}
-                        // setIdSim={setIdSimulationUpdating}
                     />
                 </>
             )}
             {initialConditionsGraph.length === 1 && (
                 <InitialConditions
-                    // idModel={idModelSelected}
-                    // idSimulation={idSimulation}
                     id={id}
                     modelValue={modelValue}
                     nodeName={initialConditionsGraph[0].name}
@@ -142,8 +132,6 @@ const InitialConditiosModels = ({
                                 </h2>
                                 <AccordionPanel pb={4} bg="#FFFFFF">
                                     <InitialConditions
-                                        // idModel={idModelSelected}
-                                        // idSimulation={idSimulation}
                                         id={id}
                                         modelValue={modelValue}
                                         nodeName={node.name}

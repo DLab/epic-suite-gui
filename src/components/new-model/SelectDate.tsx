@@ -5,13 +5,12 @@ import { format } from "date-fns";
 import React, { useContext, useEffect } from "react";
 import DatePicker from "react-datepicker";
 
-import { ControlPanel } from "context/ControlPanelContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
-// import { SimulationSetted } from "context/SimulationContext";
-// import { ActionsIdSimulation, OptionFeature } from "types/SimulationTypes";
 import "react-datepicker/dist/react-datepicker.css";
 // eslint-disable-next-line import/order
+import countiesData from "data/counties.json";
+import stateData from "data/states.json";
 import { InitialConditionsNewModel } from "types/ControlPanelTypes";
 import postData from "utils/fetchData";
 
@@ -21,16 +20,11 @@ interface Props {
     modelName: string;
     modelValue: string;
     populationValue: string;
-    // dataSourceValue: OptionFeature;
     id: number;
     idGeo: number;
-    // idSimulation: number;
     startDate: Date;
     setStartDate: (value: Date) => void;
     initialConditionsGraph: InitialConditionsNewModel[];
-    // setIdGeo: (value: number) => void;
-    // setIdGraph: (value: number) => void;
-    // setIdSim: (value: ActionsIdSimulation) => void;
 }
 
 const SelectDate = ({
@@ -44,9 +38,15 @@ const SelectDate = ({
     initialConditionsGraph,
 }: Props) => {
     const toast = useToast();
-    // const { setInitialConditions } = useContext(ControlPanel);
     const { geoSelections } = useContext(SelectFeature);
     const { setNewModel } = useContext(NewModelSetted);
+
+    const getNodeName = (scale, fip) => {
+        if (scale === "States") {
+            return stateData.data.find((state) => state[0] === fip)[2];
+        }
+        return countiesData.data.find((state) => state[5] === fip)[7];
+    };
 
     const getAllInitialConditions = async (url, name, config) => {
         const result = await postData(url, {
@@ -54,10 +54,29 @@ const SelectDate = ({
         });
 
         const allInitialConditions = postInitialConditionsByModel(result[name]);
+
         return {
             name,
             conditionsValues: allInitialConditions,
         };
+    };
+
+    const getAllMetaInitialConditions = async (url, name, config, scale) => {
+        const result = await postData(url, {
+            [name]: config,
+        });
+
+        return Object.keys(result).map((key) => {
+            const allInitialConditionsMeta = postInitialConditionsByModel(
+                result[key]
+            );
+            const nodeName = getNodeName(scale, key);
+
+            return {
+                name: nodeName.toString(),
+                conditionsValues: allInitialConditionsMeta,
+            };
+        });
     };
 
     const handleFetch = async (url, method, body, date) => {
@@ -83,6 +102,7 @@ const SelectDate = ({
                     const monoConfig = {
                         compartments: modelCompartments.toUpperCase(),
                         timeInit: dateFormat.split("/").join("-"),
+                        timeEnd: dateFormat.split("/").join("-"),
                         scale,
                         spatialSelection,
                     };
@@ -101,23 +121,25 @@ const SelectDate = ({
                     // refactorizar cuando endpoint de init cond acepte modelo SIR
                     const modelCompartmentsMeta =
                         modelValue !== "seirhvd" ? "seir" : "seirhvd";
-                    const getConfig = (index) => {
+
+                    const getConfig = () => {
                         return {
                             compartments: modelCompartmentsMeta.toUpperCase(),
+                            name: modelName,
                             timeInit: dateFormat.split("/").join("-"),
+                            timeEnd: dateFormat.split("/").join("-"),
                             scale,
-                            spatialSelection: [spatialSelection[index]],
+                            spatialSelection,
                         };
                     };
-                    const results = await Promise.all(
-                        initialConditionsGraph.map(async (node, index) => {
-                            return getAllInitialConditions(
-                                url,
-                                node.name,
-                                getConfig(index)
-                            );
-                        })
+
+                    const results = await getAllMetaInitialConditions(
+                        "http://192.168.2.131:5002/api/v0/initCond?type=metapopulation",
+                        modelName,
+                        getConfig(),
+                        scale
                     );
+
                     setNewModel({
                         type: "update-initial-conditions",
                         payloadInitialConditions: results,
@@ -145,8 +167,8 @@ const SelectDate = ({
             initialConditionsGraph[0].conditionsValues.population === 0
         ) {
             handleFetch(
-                "http://192.168.2.131:5002/initCond",
-                // "http://192.168.2.131:5001/initCond",
+                "http://192.168.2.131:5002/api/v0/initCond",
+                // "http://192.168.2.131:5002/initCond",
                 "POST",
                 idGeo,
                 new Date(startDate)
@@ -169,8 +191,8 @@ const SelectDate = ({
                     id,
                 });
                 handleFetch(
-                    // "http://192.168.2.131:5001/initCond",
-                    "http://192.168.2.131:5002/initCond",
+                    "http://192.168.2.131:5002/api/v0/initCond",
+                    // "http://192.168.2.131:5002/initCond",
                     "POST",
                     idGeo,
                     new Date(selectDate)
