@@ -18,10 +18,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import ColorsScale from "../ColorsScale";
-import CountiesResultsMap from "../CountiesResultsMap";
+import CountiesMetaResultsMap from "../metapopulation-map/CountiesMetaResultsMap";
 import StatesMetaResultsMap from "../metapopulation-map/StatesMetaResultsMap";
 import PlayDataSlider from "../PlayDataSlider";
-import StatesResultsMap from "../StatesResultsMap";
 import PlayModal from "components/icons/PlayModal";
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
@@ -46,21 +45,13 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
     const { realDataSimulationKeys } = useContext(GraphicsData);
+    const [graphMetaInfo, setGraphMetaInfo] = useState([]);
 
-    const getLeftAxis = () => {
-        return data.map((node) => {
+    const getLeftAxis = (graphData) => {
+        return graphData.map((node) => {
             return { keys: [mapInfo.parameter], name: node.name };
         });
     };
-
-    const graphMetaInfo = [
-        {
-            graphicName: "",
-            graphicId: createIdComponent(),
-            leftAxis: getLeftAxis(),
-            rightAxis: [],
-        },
-    ];
 
     const filterModalMetaData = (simData, typeData) => {
         let getModalParameterValue;
@@ -99,8 +90,26 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
 
     useEffect(() => {
         if (mapInfo.parameter.includes("Real")) {
+            const getGraphMetaRealInfo = [
+                {
+                    graphicName: "",
+                    graphicId: createIdComponent(),
+                    leftAxis: getLeftAxis(realDataSimulationKeys),
+                    rightAxis: [],
+                },
+            ];
+            setGraphMetaInfo(getGraphMetaRealInfo);
             filterModalMetaData(realDataSimulationKeys, "Real");
         } else {
+            const getGraphMetaInfo = [
+                {
+                    graphicName: "",
+                    graphicId: createIdComponent(),
+                    leftAxis: getLeftAxis(data),
+                    rightAxis: [],
+                },
+            ];
+            setGraphMetaInfo(getGraphMetaInfo);
             filterModalMetaData(data, "Sim");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -182,13 +191,13 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                                                 }
                                             />
                                         ) : (
-                                            <CountiesResultsMap
+                                            <CountiesMetaResultsMap
                                                 idGeo={mapInfo.idGeo}
                                                 parameterValue={
                                                     parameterModalMetaValue
                                                 }
                                                 maxValue={maxModalMetaValue}
-                                                coutiesData={
+                                                countiesData={
                                                     mapInfo.geoDataSelected
                                                 }
                                             />

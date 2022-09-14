@@ -25,6 +25,11 @@ const GraphModal = ({
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
 
+    /**
+     * Create an object ready to send as data to the Lines Plot.
+     * @param {Array} axisKeys List with objects composed by simulation name and parameters chosen to graph.
+     * @returns {Object}
+     */
     const graphSimulation = (axisKeys) => {
         return axisKeys.map((simKey) => {
             // para obtener toda la data de una simulación
@@ -44,11 +49,14 @@ const GraphModal = ({
                     // para encontrar la data según la key guardada
                     const filterKey = key.slice(0, -5);
                     const simulationKeys = simRealDataKeyFilter[0][filterKey];
+                    const valuesRealByRange = Object.values(
+                        simulationKeys
+                    ).slice(0, simDay);
                     return {
                         x: Object.keys(simulationKeys),
-                        y: Object.values(simulationKeys),
-                        mode: "lines+markers",
-                        name: `${key} - ${simKeyFilter[0].name}`,
+                        y: valuesRealByRange,
+                        mode: "lines",
+                        name: `${key} - ${simRealDataKeyFilter[0].name}`,
                     };
                 }
                 const simulationKeys = simKeyFilter[0][key];

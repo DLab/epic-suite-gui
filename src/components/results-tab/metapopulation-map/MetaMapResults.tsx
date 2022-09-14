@@ -188,7 +188,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
                                 idGeo={map.idGeo}
                                 parameterValue={parameterMetaValue}
                                 maxValue={maxMetaValue}
-                                coutiesData={map.geoDataSelected}
+                                countiesData={map.geoDataSelected}
                             />
                         )}
                     </MapContainer>

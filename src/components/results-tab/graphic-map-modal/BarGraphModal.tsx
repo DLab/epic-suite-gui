@@ -19,23 +19,28 @@ const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
 
-    const graphSimulation = (axisKeys) => {
+    /**
+     * Create an object ready to send as data to the Bar Plot.
+     * @param {Array} axisKeys List with objects composed by simulation name and parameters chosen to graph.
+     * @returns {Object}
+     */
+    const graphBarSimulation = (axisKeys) => {
         return axisKeys.map((simKey) => {
-            // para obtener toda la data de una simulación
+            // Get data of a simulation.
             const simKeyFilter = data.filter((sim) => {
                 return sim.name === simKey.name;
             });
-            // para obtener toda la data REAL de una simulación
+            // Get real data of a simulation.
             const simRealDataKeyFilter = realDataSimulationKeys.filter(
                 (sim) => {
                     return sim.name === simKey.name;
                 }
             );
-            // para obtener las keys seleccionadas de la simulación
+            // Get the selected keys from the simulation.
             const savedKeys = simKey.keys;
             return savedKeys.map((key) => {
                 if (key.includes("Real")) {
-                    // para encontrar la data según la key guardada
+                    // Find the data according to the saved key.
                     const filterKey = key.slice(0, -5);
                     const simulationRealKeys =
                         simRealDataKeyFilter[0][filterKey];
@@ -43,8 +48,15 @@ const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
                     return {
                         x: [key],
                         y: [Object.values(simulationRealKeys)[simDay]],
-                        mode: "lines+markers",
-                        name: `${key} - ${simKeyFilter[0].name}`,
+                        type: "bar",
+                        marker: {
+                            color: getColor(
+                                Object.values(simulationRealKeys)[simDay],
+                                maxValue
+                            ),
+                        },
+                        name: `${key} - ${simRealDataKeyFilter[0].name}`,
+                        width: 0.2,
                     };
                 }
                 const simulationKeys = simKeyFilter[0][key];
@@ -68,7 +80,7 @@ const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
 
     useEffect(() => {
         const axisKeys = savedSimulationKeys[0].leftAxis;
-        const axiosData = graphSimulation(axisKeys);
+        const axiosData = graphBarSimulation(axisKeys);
         let dataToGraph = [];
 
         axiosData.forEach((simulation) => {
