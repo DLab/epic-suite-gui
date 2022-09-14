@@ -64,6 +64,11 @@ const MapResults = ({ map, sizeGraphic }: Props) => {
         setSimDay(0);
     }, [map]);
 
+    /**
+     *  Saves in the "parameterValue" state the values of a parameter according to the simulation day.
+     * @param  {Array} simData list of real or simulated monopopulation data.
+     * @param {string}  typeData type of data to filter: real or simulated.
+     */
     const filterData = (simData, typeData) => {
         const simRealDataKeyFilter = simData.filter((sim) => {
             return sim.name === map.nameSim;
