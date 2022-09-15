@@ -41,7 +41,10 @@ const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
             return savedKeys.map((key) => {
                 if (key.includes("Real")) {
                     // Find the data according to the saved key.
-                    const filterKey = key.slice(0, -5);
+                    let filterKey = key.slice(0, -5);
+                    if (filterKey === "population") {
+                        filterKey = "P";
+                    }
                     const simulationRealKeys =
                         simRealDataKeyFilter[0][filterKey];
 
@@ -59,7 +62,11 @@ const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
                         width: 0.2,
                     };
                 }
-                const simulationKeys = simKeyFilter[0][key];
+                let filterSimKey = key;
+                if (key === "population") {
+                    filterSimKey = "S";
+                }
+                const simulationKeys = simKeyFilter[0][filterSimKey];
 
                 return {
                     x: [key],
