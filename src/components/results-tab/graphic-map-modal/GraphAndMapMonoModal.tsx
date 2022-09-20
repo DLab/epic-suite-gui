@@ -58,6 +58,12 @@ const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
         rightAxis: [],
     };
 
+    /**
+     * Saves in the "parameterModalValue" state the values of a parameter according to the simulation day.
+     * Saves the highest value of the selected parameter in the "maxModalValue" state.
+     * @param {Array} simData list of real or simulated monopopulation data.
+     * @param {string} typeData type of data to filter: real or simulated.
+     */
     const filterData = (simData, typeData) => {
         const simRealDataKeyFilter = simData.filter((sim) => {
             return sim.name === mapInfo.nameSim;

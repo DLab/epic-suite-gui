@@ -2,10 +2,7 @@
 import { createContext, useReducer, useState } from "react";
 
 import {
-    SimulatorParams,
-    ActionsSimulationData,
     ActionsIdSimulation,
-    SimulationType,
     ActionsNewModelData,
     NewModelType,
     NewModelsParams,

@@ -55,6 +55,11 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
         setSimMetaDay(0);
     }, [map]);
 
+    /**
+     *  Saves in the "parameterMetaValue" state the values of a parameter according to the simulation day.
+     * @param  {Array} simData list of real or simulated metapopulation data.
+     * @param {string}  typeData type of data to filter: real or simulated.
+     */
     const filterMetaData = (simData, typeData) => {
         let getParameterValue;
 

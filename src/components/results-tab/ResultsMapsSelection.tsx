@@ -19,6 +19,7 @@ import stateData_ from "../../data/statesResults-10m.json";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import { MapResultsData } from "types/GraphicsTypes";
 import { NewModelsAllParams } from "types/SimulationTypes";
 
 interface Props {
@@ -47,12 +48,16 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         setDataToShowInMap,
         allGraphicData,
         setAllResults,
-        allResults,
     } = useContext(GraphicsData);
     const { geoSelections } = useContext(SelectFeature);
     const mapArray = ["Map 1", "Map 2"];
     const { selectedModelsToSimulate } = useContext(NewModelSetted);
 
+    /**
+     * Entrega un array con las keys de las condiciones iniciales según id de la simulación.
+     * @param {number} simId id de la simulación.
+     * @returns {string []}
+     */
     const getInitialConditionsCheck = (simId) => {
         const initialConditionsSim = selectedModelsToSimulate.filter(
             (sim: NewModelsAllParams) => {
@@ -124,6 +129,11 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    /**
+     * Retorna un json con la data de los polígonos a utilizar.
+     * @param {number} idSim id de la simulación
+     * @returns {GeometryObject}
+     */
     const getGeoDataSelected = (idSim) => {
         const { idGeo } = selectedModelsToSimulate.filter(
             (sim: NewModelsAllParams) => {
@@ -169,6 +179,11 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         return dataAux;
     };
 
+    /**
+     * Entrega un objeto con la información para mostrar en mapas.
+     * @param {number} index
+     * @returns {MapResultsData}
+     */
     const getDataToSave = (index: number) => {
         const {
             name,
@@ -196,6 +211,9 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         };
     };
 
+    /**
+     * Guarda la información de los mapas en el context de resultados al hacer click en el botón "OK".
+     */
     const saveDataToShowInMap = () => {
         const dataToShowInMapAux = dataToShowInMap;
         if (value[0] !== "") {

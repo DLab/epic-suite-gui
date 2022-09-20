@@ -18,10 +18,10 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
-// import metaData from "../../../data/metapopulationData.json";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
+import { SavedSimulationData } from "types/GraphicsTypes";
 import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
@@ -65,6 +65,11 @@ const MetapopulationSelectTable = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [displayedParameters]);
 
+    /**
+     * Marca el mismo parámetro en todos los nodos.
+     * @param isCheckedListUpdate lista con los parámetros padres marcados.
+     * @param value parámetro padre a marcar.
+     */
     const checkAllParameters = (isCheckedListUpdate, value) => {
         let checkListAux = checkList;
         const allCheckListFiltered = Object.keys(isCheckedListUpdate).filter(
@@ -95,6 +100,11 @@ const MetapopulationSelectTable = () => {
         });
     };
 
+    /**
+     * Ordena los parámetros según sus nodos.
+     * @param checkedList lista con los parámetros seleccionados
+     * @returns {SavedSimulationData[]} lista con nombre del nodo y sus parámetros seleccionados.
+     */
     const getLeftAxis = (checkedList) => {
         let savedMetaSimulation = [];
         checkedList.map((parameterSaved) => {
@@ -128,22 +138,31 @@ const MetapopulationSelectTable = () => {
                     return simulationAux;
                 });
             }
+
             return savedMetaSimulation;
         });
 
         return savedMetaSimulation;
     };
 
+    /**
+     * @returns {string []} entrega una lista con las keys de los parámetros marcados en true.
+     */
     const getGraphicMetaSelections = () => {
         let checkedList = [];
+
         Object.keys(checkList).forEach((parameter) => {
             if (checkList[parameter]) {
                 checkedList = [...checkedList, parameter];
             }
         });
+
         return checkedList;
     };
 
+    /**
+     * Guarda los parámetros seleccionados y sus valores en el context de "Results" para mostrarlos en el gráfico.
+     */
     const getGraphicValues = () => {
         try {
             const selectedParametersArray = getGraphicMetaSelections();
@@ -176,6 +195,11 @@ const MetapopulationSelectTable = () => {
         }
     };
 
+    /**
+     * Borra el parámetro de la columna de la tabla.
+     * Marca como falso el parámetro a borrar.
+     * @param parameter parámetro a borrar.
+     */
     const deleteFromDisplayedList = (parameter) => {
         setDisplayedParameters(
             displayedParameters.filter(

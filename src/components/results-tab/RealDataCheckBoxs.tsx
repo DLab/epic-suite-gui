@@ -13,6 +13,10 @@ const RealDataCheckBoxs = ({ simName, saveKeys }: Props) => {
     const { realDataSimulationKeys } = useContext(GraphicsData);
     const [realData, setrealData] = useState<KeysRealData | null>();
 
+    /**
+     * Filtra las keys para data real según el nombre de la simulación
+     * @returns {KeysRealData[]}
+     */
     const getRealData = () => {
         return realDataSimulationKeys?.find((sim) => {
             return sim.name === simName;

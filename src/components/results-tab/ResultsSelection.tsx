@@ -34,6 +34,14 @@ const ResultsSelection = () => {
     const model = ["S", "E", "I", "R"];
     const { completeModel } = useContext(NewModelSetted);
 
+    /**
+     * Incluye o borra de la lista un parámetro marcado o descarcado.
+     * @param {boolean} ischecked indica si el parámetro fue seleccionado.
+     * @param {string} id nombre del parámetro + nombre de la simulación.
+     * @param {string} value nombre del parámetro + nombre de la simulación.
+     * @param {string} name nombre de la simulación.
+     * @returns {string []}
+     */
     const saveKeys = (ischecked, id, value, name) => {
         const isInclude = savedSimulationKeys.includes(id);
         const isSimulationSaved = savedSimulation.filter((simulation) => {
@@ -89,6 +97,11 @@ const ResultsSelection = () => {
         return savedSimulationKeys;
     };
 
+    /**
+     * Desmarca todos los parámetros de los compartimentos, según el tipo de modelo, al montarse el componente.     * @param {Array }graphicData lista con los resultados de las simulaciones.
+     * @param {Array }graphicData lista con los resultados de las simulaciones.
+     * @returns {Object} objeto con los parámetros de los compratimentos en false.
+     */
     const setEmptyStateCheckedItems = (graphicData) => {
         const auxCheckedItems = {};
         graphicData.forEach((simulation) => {
@@ -104,6 +117,10 @@ const ResultsSelection = () => {
         return auxCheckedItems;
     };
 
+    /**
+     * Desmarca todos los check hijos.
+     * @param oneSimulationKeysData objeto con todos los parámetros y sus valores.
+     */
     const deleteChildChecked = (oneSimulationKeysData: SimulationKeysData) => {
         /* delete for savedSimulationKeys */
         const savedSimulationKeysToDelete = model.map((key) => {
@@ -163,6 +180,10 @@ const ResultsSelection = () => {
 
     let initialParameters = [];
 
+    /**
+     * @param simulation objeto con todos los parámetros y sus valores.
+     * @returns {Array} lista con los compartimentos según tipo de modelo.
+     */
     const getCompartments = (simulation) => {
         let parametersCompartments = ["S", "E", "I", "R"];
         const simByName = completeModel.find(
@@ -176,6 +197,10 @@ const ResultsSelection = () => {
         return parametersCompartments;
     };
 
+    /**
+     * Marca todos los check hijos.
+     * @param oneSimulationKeysData objeto con todos los parámetros y sus valores.
+     */
     const setChildChecked = (oneSimulationKeysData: SimulationKeysData) => {
         /* save for savedSimulationKeys */
         const savedSimulationKeysSave = getCompartments(
@@ -238,6 +263,11 @@ const ResultsSelection = () => {
         }
     };
 
+    /**
+     * Verifica si el check de Results está marcado para luego marcar o desmarcar todos sus check hijos.
+     * @param {Object} dataFilter objeto con todos los parámetros y sus valores.
+     * @param {boolean} ischecked indica si check "Results" está marcado.
+     */
     const checkParentChecked = (dataFilter: SimulationKeysData, ischecked) => {
         if (ischecked) {
             setChildChecked(dataFilter);

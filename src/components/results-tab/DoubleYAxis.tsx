@@ -48,6 +48,13 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         setGraphicId(savedKeys[0].graphicId);
     }, [savedKeys]);
 
+    /**
+     * Entrega una lista con los parámetros guardados en un eje.
+     * @param {SavedSimulationData[]} axis lista con el nombre de la simulación y sus parámetros a graficar.
+     * @param {string} name nombre de la simulación.
+     * @param k parámetro a insertar.
+     * @returns {SavedSimulationData[]}
+     */
     const getParametersSetted = (axis, name, k) => {
         return axis.map((e) => {
             if (e.name === name) {
@@ -57,6 +64,12 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         });
     };
 
+    /**
+     * Inserta el primer parámetro de una simulación.
+     * @param {string} name nombre de la simulación.
+     * @param {string} k parámetro a insertar.
+     * @param axisName eje derecho o izquierdo del gráfico.
+     */
     const setAxis = (name, k, axisName) => {
         if (axisName === "right") {
             setRightAxis([...rightAxis, { name, keys: [k] }]);
@@ -65,6 +78,14 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         }
     };
 
+    /**
+     * Inserta un parámetro en un eje.     
+     * @param {SavedSimulationData[]} axis lista con el nombre de la simulación y sus parámetros a graficar.
+     * @param {string} name nombre de le simulación.
+     * @param {string} k parámetro a insertar.
+     * @param axisName eje derecho o izquierdo del gráfico.
+
+     */
     const setParametersToAxis = (axis, name, k, axisName) => {
         if (axis.length === 0) {
             setAxis(name, k, axisName);
@@ -85,6 +106,13 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         }
     };
 
+    /**
+     * Borra un parámetro desde un eje del gráfico y lo inserta en el otro eje.
+     * @param {SavedSimulationData[]} axis lista con el nombre de la simulación y sus parámetros a graficar.
+     * @param {string} name nombre de le simulación
+     * @param {string} k parámetro a borrar
+     * @param axisName eje derecho o izquierdo del gráfico.
+     */
     const deleteParameterFromAxis = (axis, name, k, axisName) => {
         const simByName = axis.filter((param) => {
             return param.name === name;
@@ -120,6 +148,12 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
     let rightAxisAux = rightAxis;
     let leftAxisAux = leftAxis;
 
+    /**
+     * Inserta el primer parámetro de una simulación.
+     * @param {string} name nombre de le simulación.
+     * @param {string} k parámetro a
+     * @param axisName eje derecho o izquierdo del gráfico.
+     */
     const setAuxAxis = (name, k, axisName) => {
         if (axisName === "right") {
             rightAxisAux = [...rightAxisAux, { name, keys: [k] }];
@@ -128,6 +162,13 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         }
     };
 
+    /**
+     * Inserta todos los parámetros en un eje.
+     * @param {SavedSimulationData[]} axis lista con el nombre de la simulación y sus parámetros a graficar.
+     * @param {string} name nombre de le simulación.
+     * @param {string} k parámetro a
+     * @param axisName eje derecho o izquierdo del gráfico.
+     */
     const setAllParametersToAxis = (axis, name, k, axisName) => {
         if (axis.length === 0) {
             setAuxAxis(name, k, axisName);
@@ -147,7 +188,11 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
             }
         }
     };
-
+    /**
+     * Mueve todos los parámetros desde un eje al otro.
+     * @param {SavedSimulationData[]} axis lista con el nombre de la simulación y sus parámetros a graficar.
+     * @param {string} axisName eje derecho o izquierdo del gráficp
+     */
     const removeAllParameters = (axis, axisName) => {
         if (axisName === "left") {
             axis.forEach((sim) => {
@@ -178,6 +223,10 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         }
     };
 
+    /**
+     * Guarda la información para mostrar un gráfico en el context de "Results".
+     * @param {string} name nombre del gráfico.
+     */
     const setParametersToAllGraphicData = (name) => {
         const auxAllGraphicData = allGraphicData;
         auxAllGraphicData[index] = [

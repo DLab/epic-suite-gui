@@ -34,6 +34,11 @@ const Graphic = ({
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
 
+    /**
+     * Create an object ready to send as data to the Bar Plot.
+     * @param {Array} axisKeys List with objects composed by simulation name and parameters chosen to graph.
+     * @returns {Object}
+     */
     const graphSimulation = (axisKeys, axis) => {
         return axisKeys.map((simKey) => {
             // para obtener toda la data de una simulación
@@ -122,6 +127,11 @@ const Graphic = ({
         setAxios(allDataToGraph);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [savedSimulationKeys, allGraphicData]);
+
+    /**
+     * Guarda el nuevo nombre del gráfico.
+     * @param {string} name
+     */
     const setNewGraphicName = (name) => {
         const allDataAux = allGraphicData;
         const auxAllGraphicData = allDataAux[index];
