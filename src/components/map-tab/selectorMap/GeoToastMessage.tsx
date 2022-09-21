@@ -21,6 +21,9 @@ const GeoToastMessage = () => {
 
     const bottomLeft = "bottom-left";
 
+    /**
+     * Save and update geographic selections in local storage.
+     */
     const handleDataLocalStorage = () => {
         try {
             const localStorageExist =
@@ -108,6 +111,9 @@ const GeoToastMessage = () => {
         }
     };
 
+    /**
+     * If there is a geographic selection, it sends it to local storage.
+     */
     const verifyGeoselection = () => {
         if (states.length !== 0 || counties.length !== 0) {
             handleDataLocalStorage();

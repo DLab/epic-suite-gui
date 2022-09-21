@@ -49,12 +49,20 @@ const SelectorMap = () => {
             options: countiesOptions,
         },
     ];
+
+    /**
+     * @returns Returns a list of all state names and their fips.
+     */
     const getStatesOptions = () => {
         const statesOptions = data.data.map((state) => {
             return { value: state[1], label: state[2], fips: state[0] };
         });
         return setStateOptions(statesOptions);
     };
+
+    /**
+     * Provide a list of all the county names and their fips.
+     */
     const getCountiesOptions = () => {
         const getCounties = countyData.data.map((state) => {
             return { value: state[5], label: state[7] };

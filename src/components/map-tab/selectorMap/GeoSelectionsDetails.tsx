@@ -41,6 +41,11 @@ const GeoSelectionsDetails = ({ details }: Props) => {
         return 0;
     };
 
+    /**
+     * Provides a list with the name and fip of the states of the geographical selection.
+     * Returns a list with the name, fip of the states and their nested counties.
+     * @param {DataGeoSelections[]} detail list with the characteristics of the geographical selection.
+     */
     const order = (detail) => {
         detail.map((det) => {
             if (det.scale === "States") {
