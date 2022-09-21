@@ -14,7 +14,7 @@ const RealDataCheckBoxs = ({ simName, saveKeys }: Props) => {
     const [realData, setrealData] = useState<KeysRealData | null>();
 
     /**
-     * Filtra las keys para data real según el nombre de la simulación
+     * Filter keys for real data based on simulation name.
      * @returns {KeysRealData[]}
      */
     const getRealData = () => {

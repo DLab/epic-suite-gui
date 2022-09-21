@@ -54,8 +54,8 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
     const { selectedModelsToSimulate } = useContext(NewModelSetted);
 
     /**
-     * Entrega un array con las keys de las condiciones iniciales según id de la simulación.
-     * @param {number} simId id de la simulación.
+     * Returns an array with the keys of the initial conditions according to the id of the simulation.
+     * @param {number} simId simulation id.
      * @returns {string []}
      */
     const getInitialConditionsCheck = (simId) => {
@@ -130,8 +130,8 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
     }, []);
 
     /**
-     * Retorna un json con la data de los polígonos a utilizar.
-     * @param {number} idSim id de la simulación
+     * Returns a json with the data of the polygons to use.
+     * @param {number} idSim simulation id.
      * @returns {GeometryObject}
      */
     const getGeoDataSelected = (idSim) => {
@@ -180,7 +180,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
     };
 
     /**
-     * Entrega un objeto con la información para mostrar en mapas.
+     * Returns an object with the information to display on maps.
      * @param {number} index
      * @returns {MapResultsData}
      */
@@ -212,7 +212,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
     };
 
     /**
-     * Guarda la información de los mapas en el context de resultados al hacer click en el botón "OK".
+     * Save the map information in the results context by clicking the "OK" button.
      */
     const saveDataToShowInMap = () => {
         const dataToShowInMapAux = dataToShowInMap;

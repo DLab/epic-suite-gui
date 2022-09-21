@@ -66,9 +66,9 @@ const MetapopulationSelectTable = () => {
     }, [displayedParameters]);
 
     /**
-     * Marca el mismo parámetro en todos los nodos.
-     * @param isCheckedListUpdate lista con los parámetros padres marcados.
-     * @param value parámetro padre a marcar.
+     * Check the same parameter on all nodes.
+     * @param isCheckedListUpdate list with parent parameters checked.
+     * @param value parent parameter to check.
      */
     const checkAllParameters = (isCheckedListUpdate, value) => {
         let checkListAux = checkList;
@@ -101,9 +101,9 @@ const MetapopulationSelectTable = () => {
     };
 
     /**
-     * Ordena los parámetros según sus nodos.
-     * @param checkedList lista con los parámetros seleccionados
-     * @returns {SavedSimulationData[]} lista con nombre del nodo y sus parámetros seleccionados.
+     * Sort the parameters according to their nodes.
+     * @param checkedList =list with selected parameters.
+     * @returns {SavedSimulationData[]} list with name of the node and its selected parameters.
      */
     const getLeftAxis = (checkedList) => {
         let savedMetaSimulation = [];
@@ -146,7 +146,7 @@ const MetapopulationSelectTable = () => {
     };
 
     /**
-     * @returns {string []} entrega una lista con las keys de los parámetros marcados en true.
+     * @returns {string []} returns a list with the keys of the parameters marked true.
      */
     const getGraphicMetaSelections = () => {
         let checkedList = [];
@@ -161,7 +161,7 @@ const MetapopulationSelectTable = () => {
     };
 
     /**
-     * Guarda los parámetros seleccionados y sus valores en el context de "Results" para mostrarlos en el gráfico.
+     * Save the selected parameters and their values in the "Results" context to display them on the chart.
      */
     const getGraphicValues = () => {
         try {
@@ -196,9 +196,9 @@ const MetapopulationSelectTable = () => {
     };
 
     /**
-     * Borra el parámetro de la columna de la tabla.
-     * Marca como falso el parámetro a borrar.
-     * @param parameter parámetro a borrar.
+     * Deletes the column parameter from the table.
+     * Marks the parameter to be deleted as false.
+     * @param parameter parameter to delete.
      */
     const deleteFromDisplayedList = (parameter) => {
         setDisplayedParameters(

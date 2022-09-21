@@ -35,11 +35,11 @@ const ResultsSelection = () => {
     const { completeModel } = useContext(NewModelSetted);
 
     /**
-     * Incluye o borra de la lista un parámetro marcado o descarcado.
-     * @param {boolean} ischecked indica si el parámetro fue seleccionado.
-     * @param {string} id nombre del parámetro + nombre de la simulación.
-     * @param {string} value nombre del parámetro + nombre de la simulación.
-     * @param {string} name nombre de la simulación.
+     * Includes or deletes a checked or unchecked parameter from the list.
+     * @param {boolean} ischecked indicates whether the parameter was selected.
+     * @param {string} id parameter name + simulation name.
+     * @param {string} valueparameter name + simulation name.
+     * @param {string} name simulation name.
      * @returns {string []}
      */
     const saveKeys = (ischecked, id, value, name) => {
@@ -98,9 +98,9 @@ const ResultsSelection = () => {
     };
 
     /**
-     * Desmarca todos los parámetros de los compartimentos, según el tipo de modelo, al montarse el componente.     * @param {Array }graphicData lista con los resultados de las simulaciones.
-     * @param {Array }graphicData lista con los resultados de las simulaciones.
-     * @returns {Object} objeto con los parámetros de los compratimentos en false.
+     * It unchecks all the parameters of the compartments, depending on the type of model, when the component is mounted.
+     * @param {Array }graphicData list with the results of the simulations.
+     * @returns {Object} object with the parameters of the compartments in false.
      */
     const setEmptyStateCheckedItems = (graphicData) => {
         const auxCheckedItems = {};
@@ -118,8 +118,8 @@ const ResultsSelection = () => {
     };
 
     /**
-     * Desmarca todos los check hijos.
-     * @param oneSimulationKeysData objeto con todos los parámetros y sus valores.
+     * Uncheck all child checks.
+     * @param oneSimulationKeysData object with all the parameters and their values.
      */
     const deleteChildChecked = (oneSimulationKeysData: SimulationKeysData) => {
         /* delete for savedSimulationKeys */
@@ -181,8 +181,8 @@ const ResultsSelection = () => {
     let initialParameters = [];
 
     /**
-     * @param simulation objeto con todos los parámetros y sus valores.
-     * @returns {Array} lista con los compartimentos según tipo de modelo.
+     * @param simulation object with all the parameters and their values.
+     * @returns {Array} list with the compartments according to model type.
      */
     const getCompartments = (simulation) => {
         let parametersCompartments = ["S", "E", "I", "R"];
@@ -198,8 +198,8 @@ const ResultsSelection = () => {
     };
 
     /**
-     * Marca todos los check hijos.
-     * @param oneSimulationKeysData objeto con todos los parámetros y sus valores.
+     * Check all child checks.
+     * @param oneSimulationKeysData object with all the parameters and their values.
      */
     const setChildChecked = (oneSimulationKeysData: SimulationKeysData) => {
         /* save for savedSimulationKeys */
@@ -223,7 +223,7 @@ const ResultsSelection = () => {
 
         /* save for savedSimulations */
 
-        // para verificar si ya existe una simulación con ese nombre
+        // To check if a simulation with that name already exists.
 
         const isSimulationSaved = savedSimulation.filter((sim) => {
             return oneSimulationKeysData.name === sim.name;
@@ -264,9 +264,9 @@ const ResultsSelection = () => {
     };
 
     /**
-     * Verifica si el check de Results está marcado para luego marcar o desmarcar todos sus check hijos.
-     * @param {Object} dataFilter objeto con todos los parámetros y sus valores.
-     * @param {boolean} ischecked indica si check "Results" está marcado.
+     * Check if the Results check is checked and then check or uncheck all its child checks.
+     * @param {Object} dataFilter object with all the parameters and their values.
+     * @param {boolean} ischecked indicates whether check "Results" is checked.
      */
     const checkParentChecked = (dataFilter: SimulationKeysData, ischecked) => {
         if (ischecked) {

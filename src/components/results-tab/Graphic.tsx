@@ -41,21 +41,21 @@ const Graphic = ({
      */
     const graphSimulation = (axisKeys, axis) => {
         return axisKeys.map((simKey) => {
-            // para obtener toda la data de una simulación
+            // To get all the data of a simulation.
             const simKeyFilter = data.filter((sim) => {
                 return sim.name === simKey.name;
             });
-            // para obtener toda la data REAL de una simulación
+            // To get all the real data of a simulation.
             const simRealDataKeyFilter = realDataSimulationKeys.filter(
                 (sim) => {
                     return sim.name === simKey.name;
                 }
             );
-            // para obtener las keys seleccionadas de la simulación
+            // To get the selected keys from the simulation.
             const savedKeys = simKey.keys;
             return savedKeys.map((key) => {
                 if (key.includes("Real")) {
-                    // para encontrar la data según la key guardada
+                    // To find the data according to the saved key.
                     const filterKey = key.slice(0, -5);
                     const simulationKeys = simRealDataKeyFilter[0][filterKey];
                     if (axis === "rightAxis") {
@@ -129,7 +129,7 @@ const Graphic = ({
     }, [savedSimulationKeys, allGraphicData]);
 
     /**
-     * Guarda el nuevo nombre del gráfico.
+     * Save the new chart name.
      * @param {string} name
      */
     const setNewGraphicName = (name) => {

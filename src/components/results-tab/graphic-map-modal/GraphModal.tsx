@@ -32,7 +32,7 @@ const GraphModal = ({
      */
     const graphSimulation = (axisKeys) => {
         return axisKeys.map((simKey) => {
-            // Get data of a simulatio
+            // Get data of a simulation.
             const simKeyFilter = data.filter((sim) => {
                 return sim.name === simKey.name;
             });

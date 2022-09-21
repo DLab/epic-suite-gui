@@ -149,10 +149,10 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
     let leftAxisAux = leftAxis;
 
     /**
-     * Inserta el primer parámetro de una simulación.
-     * @param {string} name nombre de le simulación.
-     * @param {string} k parámetro a
-     * @param axisName eje derecho o izquierdo del gráfico.
+     * Inserts the first parameter of a simulation.
+     * @param {string} name simulation name.
+     * @param {string} k parameter to enter.
+     * @param axisName right or left axis of the graph.
      */
     const setAuxAxis = (name, k, axisName) => {
         if (axisName === "right") {
@@ -163,11 +163,11 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
     };
 
     /**
-     * Inserta todos los parámetros en un eje.
-     * @param {SavedSimulationData[]} axis lista con el nombre de la simulación y sus parámetros a graficar.
-     * @param {string} name nombre de le simulación.
-     * @param {string} k parámetro a
-     * @param axisName eje derecho o izquierdo del gráfico.
+     * Inserts all the parameters in an axis.
+     * @param {SavedSimulationData[]} axis list with the name of the simulation and its parameters to graph.
+     * @param {string} name simulation name.
+     * @param {string} k parameter to enter.
+     * @param axisName right or left axis of the graph.
      */
     const setAllParametersToAxis = (axis, name, k, axisName) => {
         if (axis.length === 0) {
@@ -189,9 +189,9 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         }
     };
     /**
-     * Mueve todos los parámetros desde un eje al otro.
-     * @param {SavedSimulationData[]} axis lista con el nombre de la simulación y sus parámetros a graficar.
-     * @param {string} axisName eje derecho o izquierdo del gráficp
+     * Move all parameters from one axis to the other.
+     * @param {SavedSimulationData[]} axis list with the name of the simulation and its parameters to graph.
+     * @param {string} axisName right or left axis of the graph.
      */
     const removeAllParameters = (axis, axisName) => {
         if (axisName === "left") {
@@ -224,8 +224,8 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
     };
 
     /**
-     * Guarda la información para mostrar un gráfico en el context de "Results".
-     * @param {string} name nombre del gráfico.
+     * Saves the information to display a graph in the "Results" context.
+     * @param {string} name chart name.
      */
     const setParametersToAllGraphicData = (name) => {
         const auxAllGraphicData = allGraphicData;

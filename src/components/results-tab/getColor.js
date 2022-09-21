@@ -10,9 +10,9 @@ const colors = [
 ];
 
 /**
- * Entrega el color según el valor que tiene el parámetro en el día entregado.
- * @param  dayValue día de la simulación.
- * @param {number} maxValue valor máximo del parámetro entre los valores de la simulación.
+ * Return the color according to the value of the parameter on the day delivered.
+ * @param  dayValue simulation day.
+ * @param {number} maxValue maximum value of the parameter between the values of the simulation.
  * @returns {string}
  */
 const getColor = (dayValue, maxValue) => {
