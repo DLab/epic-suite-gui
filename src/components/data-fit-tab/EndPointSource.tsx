@@ -55,13 +55,15 @@ const EndPointSource = ({ modelId, setDataValues, algorithmValue }: Props) => {
     const handleFetch = async () => {
         try {
             const objectConfig = getObjectConfig();
-            // const res = await postData("http://192.168.2.131:5001/realData", {
+            const res = await postData(
+                "http://192.168.2.131:5002/api/v0/realData",
+                {
+                    Data_Fit: objectConfig,
+                }
+            );
+            // const res = await postData("http://192.168.2.131:5002/realData", {
             //     Data_Fit: objectConfig,
             // });
-            const res = await postData("http://192.168.2.131:5002/realData", {
-                Data_Fit: objectConfig,
-            });
-            // const fitDataName = Object.keys(res.result);
             const fitDataName = Object.keys(res);
 
             if (algorithmValue === "Intervals") {

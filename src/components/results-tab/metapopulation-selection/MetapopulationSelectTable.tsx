@@ -150,6 +150,7 @@ const MetapopulationSelectTable = () => {
             if (selectedParametersArray.length < 1) {
                 throw new Error("Choose at least one parameter");
             }
+
             const graphicDataAux = [
                 ...allGraphicData,
                 [

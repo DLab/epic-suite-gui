@@ -11,7 +11,7 @@ interface Props {
     savedSimulationKeys?: DoubleYAxisData[];
     width: string;
     height: string;
-    index: number;
+    index?: number;
     disabledName: boolean;
 }
 

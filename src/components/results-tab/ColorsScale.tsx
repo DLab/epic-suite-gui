@@ -36,8 +36,8 @@ const ColorsScale = ({ maxValue }: Props) => {
                             className="box-legend"
                             style={{ background: color }}
                         />
-                        {new Intl.NumberFormat("de-DE").format(min)} -
-                        {new Intl.NumberFormat("de-DE").format(max)}
+                        {new Intl.NumberFormat("de-DE").format(min)}
+                        {/* {new Intl.NumberFormat("de-DE").format(max)} */}
                     </div>
                 );
             })}

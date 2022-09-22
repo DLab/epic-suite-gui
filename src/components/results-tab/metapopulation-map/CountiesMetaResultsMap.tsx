@@ -15,20 +15,20 @@ interface Props {
     idGeo: number | string;
     parameterValue: number[];
     maxValue: number;
-    coutiesData: GeometryObject | unknown;
+    countiesData: GeometryObject | unknown;
 }
 
 const CountiesMetaResultsMap = ({
     idGeo,
     parameterValue,
     maxValue,
-    coutiesData,
+    countiesData,
 }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
     const map = useMap();
     const { index: tabIndex } = useContext(TabIndex);
     const [countiesSelected, setCountiesSelected] = useState([]);
-    const us = coutiesData as unknown as Topology;
+    const us = countiesData as unknown as Topology;
     const data = topojson.feature(us, us.objects.counties as GeometryObject);
 
     const initialState: string | undefined = "";
@@ -52,7 +52,7 @@ const CountiesMetaResultsMap = ({
             setCountiesSelected(geoSelection.featureSelected);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [idGeo, coutiesData]);
+    }, [idGeo, countiesData]);
 
     useEffect(() => {
         if (tabIndex === 4) {

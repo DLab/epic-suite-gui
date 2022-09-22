@@ -3,6 +3,7 @@ import { GeoJSON, Tooltip, useMap } from "react-leaflet";
 import * as topojson from "topojson-client";
 import { GeometryObject, Topology } from "topojson-specification";
 
+import getColor from "../getColor";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 import "leaflet/dist/leaflet.css";
@@ -70,39 +71,13 @@ const StatesMetaResultsMap = ({
         });
     };
 
-    const colors = [
-        "#FED976",
-        "#FEB24C",
-        "#FD8D3C",
-        "#FC4E2A",
-        "#E31A1C",
-        "#BD0026",
-        "#800026",
-        "#44010E",
-    ];
-
-    const rangeValue = Math.ceil(maxValue / colors.length);
-    const getColor = (d) => {
-        let color;
-        for (let i = 0; i < 9; i += 1) {
-            if (i === 0) {
-                if (d <= rangeValue) {
-                    color = colors[i];
-                }
-            } else if (d > i * rangeValue) {
-                color = colors[i];
-            }
-        }
-        return color;
-    };
-
     const styles = (feature) => {
         let color;
         const stateId = feature.id;
 
         if (statesSelected?.includes(stateId)) {
             const stateIndex = statesSelected.indexOf(stateId);
-            color = getColor(parameterValue[stateIndex]);
+            color = getColor(parameterValue[stateIndex], maxValue);
         } else {
             color = "#1777c7";
         }

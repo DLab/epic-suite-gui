@@ -19,6 +19,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import ColorsScale from "../ColorsScale";
+import GraphAndMapMetaModal from "../graphic-map-modal/GraphAndMapMetaModal";
 import PauseIcon from "components/icons/PauseIcon";
 import PlayIcon from "components/icons/PlayIcon";
 import { GraphicsData } from "context/GraphicsContext";
@@ -30,24 +31,10 @@ import StatesMetaResultsMap from "./StatesMetaResultsMap";
 
 interface Props {
     map: MapResultsData;
+    sizeGraphic: number[];
 }
 
-const StatesResultsMap = dynamic(() => import("../StatesResultsMap"), {
-    loading: () => (
-        <Flex justifyContent="center" alignItems="center" w="100%">
-            <Spinner
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="blue.500"
-                size="xl"
-            />
-        </Flex>
-    ),
-    ssr: false,
-});
-
-const MetaMapResults = ({ map }: Props) => {
+const MetaMapResults = ({ map, sizeGraphic }: Props) => {
     const [simMetaDay, setSimMetaDay] = useState(0);
     const [simMetaDate, setSimMetaDate] = useState("");
     const [parameterMetaValue, setParameterMetaValue] = useState([]);
@@ -68,7 +55,7 @@ const MetaMapResults = ({ map }: Props) => {
         setSimMetaDay(0);
     }, [map]);
 
-    const filterData = (simData, typeData) => {
+    const filterMetaData = (simData, typeData) => {
         let getParameterValue;
 
         if (typeData === "Real") {
@@ -77,7 +64,7 @@ const MetaMapResults = ({ map }: Props) => {
                 filterKey = "P";
             }
             getParameterValue = simData.map((nodeData) => {
-                return nodeData[filterKey];
+                return Object.values(nodeData[filterKey]);
             });
         } else {
             let filterSimKey = map.parameter;
@@ -103,9 +90,9 @@ const MetaMapResults = ({ map }: Props) => {
 
     useEffect(() => {
         if (map.parameter.includes("Real")) {
-            filterData(realDataSimulationKeys, "Real");
+            filterMetaData(realDataSimulationKeys, "Real");
         } else {
-            filterData(data, "Sim");
+            filterMetaData(data, "Sim");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map.nameSim, map.parameter, simMetaDay]);
@@ -135,6 +122,7 @@ const MetaMapResults = ({ map }: Props) => {
         <Flex direction="column" w="48%" mb="2rem">
             <Flex justify="end" alignSelf="end" mr="0.2rem" w="10%" mt="2%">
                 <Flex h="1.5rem">
+                    <GraphAndMapMetaModal mapInfo={map} />
                     <DeleteIcon
                         color="#16609E"
                         cursor="pointer"
@@ -200,7 +188,7 @@ const MetaMapResults = ({ map }: Props) => {
                                 idGeo={map.idGeo}
                                 parameterValue={parameterMetaValue}
                                 maxValue={maxMetaValue}
-                                coutiesData={map.geoDataSelected}
+                                countiesData={map.geoDataSelected}
                             />
                         )}
                     </MapContainer>

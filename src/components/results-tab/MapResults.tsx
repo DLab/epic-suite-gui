@@ -3,33 +3,28 @@ import {
     Flex,
     Spinner,
     Text,
-    Slider,
-    SliderTrack,
-    SliderFilledTrack,
-    SliderThumb,
-    IconButton,
     Stat,
     StatLabel,
     StatNumber,
     StatGroup,
-    Box,
 } from "@chakra-ui/react";
 import { format, add } from "date-fns";
 import dynamic from "next/dynamic";
 import React, { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
-import PauseIcon from "components/icons/PauseIcon";
-import PlayIcon from "components/icons/PlayIcon";
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import { MapResultsData } from "types/GraphicsTypes";
 
 import ColorsScale from "./ColorsScale";
 import CountiesResultsMap from "./CountiesResultsMap";
+import GraphAndMapMonoModal from "./graphic-map-modal/GraphAndMapMonoModal";
+import PlayDataSlider from "./PlayDataSlider";
 
 interface Props {
     map: MapResultsData;
+    sizeGraphic: number[];
 }
 
 const StatesResultsMap = dynamic(() => import("./StatesResultsMap"), {
@@ -47,14 +42,14 @@ const StatesResultsMap = dynamic(() => import("./StatesResultsMap"), {
     ssr: false,
 });
 
-const MapResults = ({ map }: Props) => {
+const MapResults = ({ map, sizeGraphic }: Props) => {
     const [simDay, setSimDay] = useState(0);
     const [simDate, setSimDate] = useState("");
     const [parameterValue, setParameterValue] = useState();
     const [maxValue, setMaxValue] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
 
-    const [isGeoDataLoaded, setGeoDataLoaded] = useState(false);
+    // const [isGeoDataLoaded, setGeoDataLoaded] = useState(false);
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
     const {
@@ -131,6 +126,7 @@ const MapResults = ({ map }: Props) => {
         <Flex direction="column" w="48%" mb="2rem">
             <Flex justify="end" alignSelf="end" mr="0.2rem" w="10%" mt="2%">
                 <Flex h="1.5rem">
+                    <GraphAndMapMonoModal mapInfo={map} />
                     <DeleteIcon
                         color="#16609E"
                         cursor="pointer"
@@ -220,55 +216,13 @@ const MapResults = ({ map }: Props) => {
                         </StatNumber>
                     </Stat>
                 </StatGroup>
-                <Flex w="95%" m="2% 0">
-                    {!isPlaying ? (
-                        <IconButton
-                            fontSize="20px"
-                            bg="#16609E"
-                            color="#FFFFFF"
-                            fill="white"
-                            aria-label="Play"
-                            size="sm"
-                            cursor="pointer"
-                            icon={<PlayIcon />}
-                            mr="1rem"
-                            onClick={() => {
-                                setIsPlaying(true);
-                            }}
-                        />
-                    ) : (
-                        <IconButton
-                            fontSize="20px"
-                            bg="#16609E"
-                            color="#FFFFFF"
-                            fill="white"
-                            aria-label="Play"
-                            size="sm"
-                            cursor="pointer"
-                            icon={<PauseIcon />}
-                            mr="1rem"
-                            onClick={() => {
-                                setIsPlaying(false);
-                            }}
-                        />
-                    )}
-
-                    <Slider
-                        aria-label="slider-ex-1"
-                        defaultValue={1}
-                        max={parseInt(map.duration.toString(), 10) - 1}
-                        value={simDay}
-                        onChange={(value) => {
-                            setSimDay(value);
-                            setIsPlaying(false);
-                        }}
-                    >
-                        <SliderTrack>
-                            <SliderFilledTrack />
-                        </SliderTrack>
-                        <SliderThumb />
-                    </Slider>
-                </Flex>
+                <PlayDataSlider
+                    map={map}
+                    isPlaying={isPlaying}
+                    setIsPlaying={setIsPlaying}
+                    simDay={simDay}
+                    setSimDay={setSimDay}
+                />
             </Flex>
         </Flex>
     );

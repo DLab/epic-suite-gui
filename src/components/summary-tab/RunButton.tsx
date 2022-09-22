@@ -18,6 +18,7 @@ import getSEIRHVDObjMono from "./getSEIRHVDObjMono";
 import getSEIRObjMono from "./getSEIRObjMono";
 import getSIRObjMono from "./getSIRObjMono";
 
+// eslint-disable-next-line sonarjs/no-duplicate-string
 const bottonLeft = "bottom-left";
 type ReducedIdForPermissions = Record<number, boolean>;
 
@@ -74,12 +75,10 @@ const RunButton = ({ permission }: Props) => {
         try {
             if (Object.keys(objectConfig).length > 0) {
                 const res = await postData(
-                    // "http://192.168.2.131:5001/realData",
-                    "http://192.168.2.131:5002/realData",
+                    "http://192.168.2.131:5002/api/v0/realData",
+                    // "http://192.168.2.131:5002/realData",
                     objectConfig
                 );
-                // const val = Object.values(res.result);
-                // const keys = Object.keys(res.result);
                 const val = Object.values(res);
                 const keys = Object.keys(res);
                 const realDataKeys = val
@@ -91,6 +90,35 @@ const RunButton = ({ permission }: Props) => {
                     }));
 
                 return setRealDataSimulationKeys(realDataKeys);
+            }
+            return false;
+        } catch (error) {
+            return toast({
+                position: "bottom-left",
+                title: "Error",
+                description: `${error.message}`,
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+        }
+    };
+
+    const getGraphicRealMetaData = async (selectedModels) => {
+        const objectConfig = getObjectConfig(selectedModels);
+        try {
+            if (Object.keys(objectConfig).length > 0) {
+                const res = await postData(
+                    "http://192.168.2.131:5002/api/v0/realData?type=metapopulation",
+                    // "http://192.168.2.131:5002/realData",
+                    objectConfig
+                );
+
+                const listRealDataResponse = Object.keys(res).map((key) => {
+                    return { name: key, ...res[key] };
+                });
+
+                return setRealDataSimulationKeys(listRealDataResponse);
             }
             return false;
         } catch (error) {
@@ -200,17 +228,6 @@ const RunButton = ({ permission }: Props) => {
                     const metaObjectConfig = {
                         [`${selectedModels[0].name}`]: metaSimulationsSelected,
                     };
-
-                    // response = await fetch(`/api/simulator`, {
-                    //     method: "GET",
-                    // });
-                    // const jsonResponse = await response.json();
-                    // const listResponse = Object.keys(jsonResponse).map(
-                    //     (key) => {
-                    //         return { name: key, ...jsonResponse[key] };
-                    //     }
-                    // );
-
                     response = await postData(
                         "http://192.168.2.131:5003/simulate_meta",
                         metaObjectConfig
@@ -226,16 +243,6 @@ const RunButton = ({ permission }: Props) => {
                         }
                     );
 
-                    // const valMeta = Object.values(response.results[name]);
-                    // const keysMeta = Object.keys(response.results[name]);
-
-                    // const listResponse = valMeta
-                    //     .map((simString: string) => JSON.parse(simString))
-                    //     .map((sim, i) => ({
-                    //         name: keysMeta[i],
-                    //         ...sim,
-                    //     }));
-
                     setAllGraphicData([]);
                     setAllResults([]);
                     setDataToShowInMap([]);
@@ -243,7 +250,7 @@ const RunButton = ({ permission }: Props) => {
                     setAux(JSON.stringify(listResponse));
                     // setAux(JSON.stringify(listResponse[0]));
                     setSelectedModelsToSimulate(selectedModels);
-                    getGraphicRealData(selectedModels);
+                    getGraphicRealMetaData(selectedModels);
                     setIndex(5);
                 } else {
                     response = await postData(
