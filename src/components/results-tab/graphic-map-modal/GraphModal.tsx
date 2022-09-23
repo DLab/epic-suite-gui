@@ -47,7 +47,10 @@ const GraphModal = ({
             return savedKeys.map((key) => {
                 if (key.includes("Real")) {
                     // Find the data according to the saved key.
-                    const filterKey = key.slice(0, -5);
+                    let filterKey = key.slice(0, -5);
+                    if (filterKey === "population") {
+                        filterKey = "P";
+                    }
                     const simulationKeys = simRealDataKeyFilter[0][filterKey];
                     const valuesRealByRange = Object.values(
                         simulationKeys
@@ -59,7 +62,11 @@ const GraphModal = ({
                         name: `${key} - ${simRealDataKeyFilter[0].name}`,
                     };
                 }
-                const simulationKeys = simKeyFilter[0][key];
+                let filterSimKey = key;
+                if (key === "population") {
+                    filterSimKey = "S";
+                }
+                const simulationKeys = simKeyFilter[0][filterSimKey];
                 const valuesByRange = Object.values(simulationKeys).slice(
                     0,
                     simDay

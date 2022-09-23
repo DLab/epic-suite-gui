@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import {
     Switch,
     Flex,
@@ -32,6 +33,8 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         [],
         [],
     ]);
+    const [initialConditionsRealCheckBox, setinitialConditionsRealCheckBox] =
+        useState([[], []]);
     const [value, setValue] = React.useState(["", ""]);
     const [simIdToShowInMap, setSimIdToShowInMap] = useState(["", ""]);
     const [placeholderText, setPlaceholderText] = useState([
@@ -58,15 +61,23 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
      * @param {number} simId simulation id.
      * @returns {string []}
      */
-    const getInitialConditionsCheck = (simId) => {
-        const initialConditionsSim = selectedModelsToSimulate.filter(
-            (sim: NewModelsAllParams) => {
-                return sim.idNewModel.toString() === simId;
-            }
-        );
-        return Object.keys(
-            initialConditionsSim[0]?.initialConditions[0].conditionsValues
-        );
+    const getInitialConditionsCheck = (simId, typeSim) => {
+        // const initialConditionsSim = selectedModelsToSimulate.filter(
+        //     (sim: NewModelsAllParams) => {
+        //         return sim.idNewModel.toString() === simId;
+        //     }
+        // );
+
+        // if (initialConditionsSim[0].modelType === "seir") {
+        if (typeSim === "Sim") {
+            return ["E", "E_d", "I", "I_d", "R", "R_d", "S"];
+        }
+        return ["D_d", "D_ac", "I", "I_ac", "I_d", "P"];
+
+        // }
+        // return Object.keys(
+        //     initialConditionsSim[0]?.initialConditions[0].conditionsValues
+        // );
     };
 
     useEffect(() => {
@@ -88,6 +99,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         const geoMapInfoAux = geoMapInfo;
         const valueAux = value;
         const initialConditionsCheckBoxAux = initialConditionsCheckBox;
+        const initialConditionsRealCheckBoxAux = initialConditionsRealCheckBox;
         if (
             dataToShowInMap.length === 1 &&
             dataToShowInMap[0].nameSim !== undefined
@@ -100,9 +112,15 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             valueAux[0] = dataToShowInMap[0].parameter;
             setValue(valueAux);
             initialConditionsCheckBoxAux[0] = getInitialConditionsCheck(
-                dataToShowInMap[0].idSim
+                dataToShowInMap[0].idSim,
+                "Sim"
+            );
+            initialConditionsRealCheckBoxAux[0] = getInitialConditionsCheck(
+                dataToShowInMap[0].idSim,
+                "Real"
             );
             setinitialConditionsCheckBox(initialConditionsCheckBoxAux);
+            setinitialConditionsRealCheckBox(initialConditionsRealCheckBoxAux);
         }
         if (
             dataToShowInMap.length === 2 &&
@@ -119,12 +137,23 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             valueAux[1] = dataToShowInMap[1].parameter;
             setValue(valueAux);
             initialConditionsCheckBoxAux[0] = getInitialConditionsCheck(
-                dataToShowInMap[0].idSim
+                dataToShowInMap[0].idSim,
+                "Sim"
+            );
+            initialConditionsRealCheckBoxAux[0] = getInitialConditionsCheck(
+                dataToShowInMap[0].idSim,
+                "Real"
             );
             initialConditionsCheckBoxAux[1] = getInitialConditionsCheck(
-                dataToShowInMap[1].idSim
+                dataToShowInMap[1].idSim,
+                "Sim"
+            );
+            initialConditionsRealCheckBoxAux[1] = getInitialConditionsCheck(
+                dataToShowInMap[1].idSim,
+                "Real"
             );
             setinitialConditionsCheckBox(initialConditionsCheckBoxAux);
+            setinitialConditionsRealCheckBox(initialConditionsRealCheckBoxAux);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -262,6 +291,16 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                                 index + 1
                                             ),
                                         ]);
+                                        setinitialConditionsRealCheckBox([
+                                            ...initialConditionsRealCheckBox.slice(
+                                                0,
+                                                index
+                                            ),
+                                            [],
+                                            ...initialConditionsRealCheckBox.slice(
+                                                index + 1
+                                            ),
+                                        ]);
                                         setValue([
                                             ...value.slice(0, index),
                                             "",
@@ -297,23 +336,52 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                     m="0 2% 3% 2%"
                                     onChange={(e) => {
                                         const simId = e.target.value;
-                                        const initialConditionsSim =
-                                            selectedModelsToSimulate.filter(
-                                                (sim: NewModelsAllParams) => {
-                                                    return (
-                                                        sim.idNewModel.toString() ===
-                                                        simId
-                                                    );
-                                                }
-                                            );
-
-                                        const initialConditionsStrg =
-                                            Object.keys(
-                                                initialConditionsSim[0]
-                                                    .initialConditions[0]
-                                                    .conditionsValues
-                                            );
-
+                                        // const initialConditionsSim =
+                                        //     selectedModelsToSimulate.filter(
+                                        //         (sim: NewModelsAllParams) => {
+                                        //             return (
+                                        //                 sim.idNewModel.toString() ===
+                                        //                 simId
+                                        //             );
+                                        //         }
+                                        //     );
+                                        // let initialConditionsStrg;
+                                        // let initialConditionsRealStrg;
+                                        // if (
+                                        //     initialConditionsSim[0]
+                                        //         .populationType ===
+                                        //     "metapopulation"
+                                        // ) {
+                                        const initialConditionsStrg = [
+                                            "E",
+                                            "E_d",
+                                            "I",
+                                            "I_d",
+                                            "R",
+                                            "R_d",
+                                            "S",
+                                        ];
+                                        const initialConditionsRealStrg = [
+                                            "D_d",
+                                            "D_ac",
+                                            "I",
+                                            "I_ac",
+                                            "I_d",
+                                            "P",
+                                        ];
+                                        // } else {
+                                        //     initialConditionsStrg = Object.keys(
+                                        //         initialConditionsSim[0]
+                                        //             .initialConditions[0]
+                                        //             .conditionsValues
+                                        //     );
+                                        //     initialConditionsRealStrg =
+                                        //         Object.keys(
+                                        //             initialConditionsSim[0]
+                                        //                 .initialConditions[0]
+                                        //                 .conditionsValues
+                                        //         );
+                                        // }
                                         setinitialConditionsCheckBox([
                                             ...initialConditionsCheckBox.slice(
                                                 0,
@@ -321,6 +389,16 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                             ),
                                             initialConditionsStrg,
                                             ...initialConditionsCheckBox.slice(
+                                                index + 1
+                                            ),
+                                        ]);
+                                        setinitialConditionsRealCheckBox([
+                                            ...initialConditionsRealCheckBox.slice(
+                                                0,
+                                                index
+                                            ),
+                                            initialConditionsRealStrg,
+                                            ...initialConditionsRealCheckBox.slice(
                                                 index + 1
                                             ),
                                         ]);
@@ -371,6 +449,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                 {initialConditionsCheckBox[index].length >
                                     0 && (
                                     <RadioGroup
+                                        w="100%"
                                         onChange={(e) => {
                                             setValue([
                                                 ...value.slice(0, index),
@@ -406,7 +485,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                                             templateColumns="repeat(3, 1fr)"
                                             gap={3}
                                         >
-                                            {initialConditionsCheckBox[
+                                            {initialConditionsRealCheckBox[
                                                 index
                                             ]?.map((paramKeyData) => {
                                                 if (paramKeyData !== "R") {

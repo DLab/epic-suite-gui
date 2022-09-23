@@ -16,6 +16,7 @@ import ExportModels from "components/models-tab/ExportModels";
 import { ControlPanel } from "context/ControlPanelContext";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
+import { TabIndex } from "context/TabContext";
 import { RootState } from "store/store";
 import { InitialConditionsNewModel } from "types/ControlPanelTypes";
 import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
@@ -65,6 +66,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         useState(false);
     const { newModel, setNewModel, completeModel, setCompleteModel } =
         useContext(NewModelSetted);
+    const { setAux } = useContext(TabIndex);
     const { setIdModelUpdate, dataViewVariable } = useContext(ControlPanel);
     const [startDate, setStartDate] = useState(
         new Date(
@@ -204,11 +206,17 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         });
         if (modelSaved) {
             if (_.isEqual(modelSaved.parameters, parameters)) {
-                setIsModelSavedLocal(true);
+                // setIsModelSavedLocal(true);
+                // setAllGraphicData([]);
+                // setAllResults([]);
+                // setDataToShowInMap([]);
+                // setRealDataSimulationKeys([]);
             } else {
                 setIsModelSavedLocal(false);
+                // setAux("");
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [completeModel, id, setIsModelSavedLocal, parameters]);
 
     const deleteFromLocalStorage = () => {
