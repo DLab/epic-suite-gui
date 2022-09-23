@@ -12,6 +12,11 @@ const GraphicDataFit = ({ algorithmValue }: Props) => {
     const [axios, setAxios] = useState([]);
     const [shapesArray, setShapesArray] = useState([]);
 
+    /**
+     * Saves the real and adjusted values of the selected parameter.
+     * Returns a data set ready to send as data to the Plot.
+     * @param {string} parameter name of the parameter to plot.
+     */
     const getAxisData = (parameter) => {
         const getFittedData = {
             x: Object.keys(fittedData[0].I),

@@ -26,6 +26,9 @@ const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
     const onClose = () => setIsOpen(false);
     const cancelRef = React.useRef();
 
+    /**
+     * Delete the selected states or counties.
+     */
     const handleResetSelected = () => {
         setStatesSelected({ type: "reset" });
         setCountiesSelected({ type: "reset" });

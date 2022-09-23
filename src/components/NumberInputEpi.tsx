@@ -51,6 +51,10 @@ const NumberInputEpi = ({
     const [isEditingLocalValue, setIsEditingLocalValue] =
         useState<boolean>(false);
     const dispatch = useDispatch();
+    /**
+     * Saves the new value of a parameter.
+     * @param val new parameter value.
+     */
     const handleChange = (val: string | number) => {
         if (isStateLocal) {
             setIsEditingLocalValue(true);
