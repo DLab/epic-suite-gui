@@ -86,6 +86,11 @@ const DataFitTab = () => {
         }
     }, [algorithmValue]);
 
+    /**
+     * Returns a list with indices and values equal to the number of days in the simulation.
+     * @param tEnd simulation duration.
+     * @returns {Object}
+     */
     const getTimeData = (tEnd) => {
         let timeObject = {};
         for (let index = 0; index <= tEnd; index += 1) {
@@ -94,6 +99,10 @@ const DataFitTab = () => {
         return timeObject;
     };
 
+    /**
+     * Returns the configuration object to call the dataFit api.
+     * @returns {Object}
+     */
     const getFitObjectConfig = () => {
         const { parameters: modelParameters } = completeModel.find(
             (model: NewModelsAllParams) => model.idNewModel === modelId
@@ -112,6 +121,10 @@ const DataFitTab = () => {
         };
     };
 
+    /**
+     * Gets the fitted data from the "dataFit" enpoint.
+     * @returns object with the new parameter values.
+     */
     async function getFittedData() {
         const objectConfig = getFitObjectConfig();
 
@@ -123,6 +136,10 @@ const DataFitTab = () => {
         return res;
     }
 
+    /**
+     * Adds the fitted model to local storage and saved models.
+     * @param fittedData2 object with the new adjusted values from the endpoint.
+     */
     const addNewFitModel = (fittedData2) => {
         const originalModel = completeModel.find(
             (model: NewModelsAllParams) => model.idNewModel === modelId
@@ -164,6 +181,9 @@ const DataFitTab = () => {
         );
     };
 
+    /**
+     * If there is a selected model, it sends it to be adjusted.
+     */
     const handleFetch = async () => {
         try {
             setIsSimulating(true);
