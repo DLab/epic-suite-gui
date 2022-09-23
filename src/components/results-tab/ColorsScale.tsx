@@ -22,11 +22,11 @@ const ColorsScale = ({ maxValue }: Props) => {
 
     const getQuantityIndicator = () => {
         let indicator;
-        if (maxValue / 1000 > 1) {
+        if (maxValue / 1000 >= 1) {
             indicator = 1000;
-        } else if (maxValue / 100 > 1) {
+        } else if (maxValue / 100 >= 1) {
             indicator = 100;
-        } else if (maxValue / 10 > 1) {
+        } else if (maxValue / 10 >= 1) {
             indicator = 10;
         } else {
             indicator = 1;
