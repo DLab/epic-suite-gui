@@ -30,14 +30,15 @@ const ColorsScale = ({ maxValue }: Props) => {
                     min = (index - 1) * rangeValue + 1;
                     max = index * rangeValue;
                 }
+                const minRound = Math.round(min / 1000) * 1000;
+
                 return (
                     <div key={color} style={{ textAlign: "initial" }}>
                         <i
                             className="box-legend"
                             style={{ background: color }}
                         />
-                        {new Intl.NumberFormat("de-DE").format(min)}
-                        {/* {new Intl.NumberFormat("de-DE").format(max)} */}
+                        {new Intl.NumberFormat("de-DE").format(minRound)}
                     </div>
                 );
             })}
