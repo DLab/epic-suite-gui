@@ -38,6 +38,10 @@ const StatesSelectedCheckbox = ({
         }
         return 0;
     };
+
+    /**
+     * Returns a list with the name and fip of the states of the geographical selection.
+     */
     const statesOrdered = stateSelected
         ? stateSelected
               .map((e) => ({
@@ -47,14 +51,17 @@ const StatesSelectedCheckbox = ({
               .sort(sortStrings("value"))
         : [];
 
+    /**
+     * Returns a list with the name, fip of the states and their nested counties.
+     */
     const countiesOrdered = countiesSelected
         ? countiesData.data
               .filter(
                   (c) => countiesSelected.includes(`${c[5]}`)
-                  // filter all counties includes in selection
+                  // Filter all counties includes in selection.
               )
               .reduce((acc: Acc, item) => {
-                  // reduce all data in a object
+                  // Reduce all data in a object.
                   const obj: ObjStatesCounties = {
                       state: item[0] as string,
                       labelState: item[2] as string,
