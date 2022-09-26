@@ -133,6 +133,11 @@ const RunButton = ({ permission }: Props) => {
         }
     };
 
+    /**
+     * Gets objects according to model types chosen to be simulated.
+     * @param {NewModelsAllParams[]} simulations
+     * @returns {Object} diferenciado según modelo SIR, SEIR, SERHVD
+     */
     const getSimulationSelectedObj = (simulations) => {
         return simulations.map((e) => {
             const geoselectionItems =
@@ -171,6 +176,11 @@ const RunButton = ({ permission }: Props) => {
         return selectedModels;
     };
 
+    /**
+     * Guarda el resultado de simulaciones monopoblacionales.
+     * @param response
+     * @param selectedModels
+     */
     const setMonopopulationData = (response, selectedModels) => {
         const val = Object.values(response.results);
         const keys = Object.keys(response.results);
