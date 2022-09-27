@@ -52,6 +52,9 @@ const InitialConditionsModel = ({
         H_d: 0,
         H: 0,
         D: 0,
+        H_cap: 0,
+        Iv: 0,
+        Sv: 0,
     });
     useEffect(() => {
         if (modelValue === "seirhvd") {
@@ -66,6 +69,9 @@ const InitialConditionsModel = ({
                 H_d: initialConditions.H_d,
                 H: initialConditions.H,
                 D: initialConditions.D,
+                H_cap: initialConditions.H_cap,
+                Iv: initialConditions.Iv,
+                Sv: initialConditions.Sv,
             });
         } else {
             setValue({
@@ -79,6 +85,9 @@ const InitialConditionsModel = ({
                 H_d: 0,
                 H: 0,
                 D: 0,
+                H_cap: 0,
+                Iv: 0,
+                Sv: 0,
             });
         }
     }, [initialConditions, modelValue]);
@@ -147,7 +156,7 @@ const InitialConditionsModel = ({
                         </Box>
                         {modelValue === "seirhvd" && (
                             <>
-                                {/* <Box w="25%">
+                                <Box w="25%">
                                     <Stat>
                                         <StatLabel>Iv</StatLabel>
                                         <StatNumber fontSize="xl">
@@ -159,7 +168,7 @@ const InitialConditionsModel = ({
                                             Vaccinated Inffected
                                         </StatHelpText>
                                     </Stat>
-                                </Box> */}
+                                </Box>
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>Iv_d</StatLabel>
@@ -186,7 +195,20 @@ const InitialConditionsModel = ({
                                         </StatHelpText>
                                     </Stat>
                                 </Box>
-                                {/* <Box w="25%">
+                                <Box w="25%">
+                                    <Stat>
+                                        <StatLabel>Sv</StatLabel>
+                                        <StatNumber fontSize="xl">
+                                            {new Intl.NumberFormat().format(
+                                                initialConditions.Sv
+                                            )}
+                                        </StatNumber>
+                                        <StatHelpText>
+                                            Infected Susceptible
+                                        </StatHelpText>
+                                    </Stat>
+                                </Box>
+                                <Box w="25%">
                                     <Stat>
                                         <StatLabel>H_cap</StatLabel>
                                         <StatNumber fontSize="xl">
@@ -198,7 +220,7 @@ const InitialConditionsModel = ({
                                             Hospitalization Capacity
                                         </StatHelpText>
                                     </Stat>
-                                </Box> */}
+                                </Box>
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>H_d</StatLabel>
@@ -225,19 +247,19 @@ const InitialConditionsModel = ({
                                         </StatHelpText>
                                     </Stat>
                                 </Box>
-                                {/* <Box w="25%">
+                                <Box w="25%">
                                     <Stat>
                                         <StatLabel>D_d</StatLabel>
                                         <StatNumber fontSize="xl">
                                             {new Intl.NumberFormat().format(
-                                                initialConditions.D
+                                                initialConditions.D_d
                                             )}
                                         </StatNumber>
                                         <StatHelpText>
                                             Daily new Deaths
                                         </StatHelpText>
                                     </Stat>
-                                </Box> */}
+                                </Box>
                                 <Box w="25%">
                                     <Stat>
                                         <StatLabel>D</StatLabel>
@@ -287,12 +309,12 @@ const InitialConditionsModel = ({
                         />
                         {modelValue === "seirhvd" && (
                             <>
-                                {/* <NumberInputInitialConditions
+                                <NumberInputInitialConditions
                                     value={value}
                                     setValue={setValue}
                                     name="Iv"
                                     description="Iv"
-                                /> */}
+                                />
                                 <NumberInputInitialConditions
                                     value={value}
                                     setValue={setValue}
@@ -307,12 +329,18 @@ const InitialConditionsModel = ({
                                     name="Iv_ac"
                                     description="Accumulated Vaccinated Infected"
                                 />
-                                {/* <NumberInputInitialConditions
+                                <NumberInputInitialConditions
+                                    value={value}
+                                    setValue={setValue}
+                                    name="Sv"
+                                    description="Sv"
+                                />
+                                <NumberInputInitialConditions
                                     value={value}
                                     setValue={setValue}
                                     name="H_cap"
                                     description="H_cap"
-                                /> */}
+                                />
                                 <NumberInputInitialConditions
                                     value={value}
                                     setValue={setValue}
@@ -329,17 +357,17 @@ const InitialConditionsModel = ({
                                 <NumberInputInitialConditions
                                     value={value}
                                     setValue={setValue}
+                                    name="D_d"
+                                    // name="D"
+                                    description="D_d"
+                                />
+                                <NumberInputInitialConditions
+                                    value={value}
+                                    setValue={setValue}
                                     name="D"
                                     // name="D_d"
                                     description="D_acum"
                                 />
-                                {/* <NumberInputInitialConditions
-                                    value={value}
-                                    setValue={setValue}
-                                    name="D_acum"
-                                    // name="D"
-                                    description="D"
-                                /> */}
                             </>
                         )}
                     </>

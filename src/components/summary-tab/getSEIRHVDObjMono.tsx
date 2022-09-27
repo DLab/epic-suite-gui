@@ -80,7 +80,6 @@ const getSEIRHVDObjMono = (e, modelParameters, scale, featureSelected) => {
                 t_init: 0,
                 t_end: +modelParameters.t_end,
                 mu: +modelParameters.mu[0],
-                pI_det: +modelParameters.pI_det,
                 populationfraction: +modelParameters.populationfraction,
             },
             dynamic: {
@@ -159,6 +158,7 @@ const getSEIRHVDObjMono = (e, modelParameters, scale, featureSelected) => {
                 tR_S: !modelParameters.tR_S[0].isEnabled
                     ? +modelParameters.tR_S[0].val
                     : createObjectVariableDependent(modelParameters.tR_S[0]),
+                pI_det: +modelParameters.pI_det,
                 pIcr_det: +modelParameters.pIcr_det,
                 pIm_det: +modelParameters.pIm_det,
                 pIv_det: +modelParameters.pIv_det,
@@ -169,16 +169,16 @@ const getSEIRHVDObjMono = (e, modelParameters, scale, featureSelected) => {
             I_d: +e.initialConditions[0].conditionsValues.I_d,
             I_ac: +e.initialConditions[0].conditionsValues.I_ac,
             population: +e.initialConditions[0].conditionsValues.population,
-            R: 0,
+            R: +e.initialConditions[0].conditionsValues.R,
             Iv_d: +e.initialConditions[0].conditionsValues.Iv_d,
             Iv_ac: +e.initialConditions[0].conditionsValues.Iv_ac,
             H: +e.initialConditions[0].conditionsValues.H,
             H_d: +e.initialConditions[0].conditionsValues.H_d,
             D: +e.initialConditions[0].conditionsValues.D,
             D_d: +e.initialConditions[0].conditionsValues.D_d,
-            // H_cap: +e.initialConditions[0].conditionsValues.H_cap,
-            // Iv: +e.initialConditions[0].conditionsValues.Iv,
-            // Sv: +e.initialConditions[0].conditionsValues.Sv,
+            H_cap: +e.initialConditions[0].conditionsValues.H_cap,
+            Iv: +e.initialConditions[0].conditionsValues.Iv,
+            Sv: +e.initialConditions[0].conditionsValues.Sv,
         },
     };
 };
