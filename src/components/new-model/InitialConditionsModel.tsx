@@ -10,9 +10,8 @@ import {
     AccordionPanel,
     AccordionIcon,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
-import { NewModelSetted } from "context/NewModelsContext";
 import { InitialConditionsNewModel } from "types/ControlPanelTypes";
 
 import InitialConditions from "./InitialConditions";

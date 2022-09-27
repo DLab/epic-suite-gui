@@ -83,6 +83,7 @@ export interface InitialConditions {
     H_cap?: number;
     H_d?: number;
     D_d?: number;
+    Sv?: number;
 }
 
 export interface InitialConditionsNewModel {

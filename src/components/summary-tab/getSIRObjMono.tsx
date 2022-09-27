@@ -97,7 +97,7 @@ const getSIRObjMono = (e, modelParameters, scale, featureSelected) => {
             I_d: +e.initialConditions[0].conditionsValues.I_d,
             I_ac: +e.initialConditions[0].conditionsValues.I_ac,
             population: +e.initialConditions[0].conditionsValues.population,
-            R: 0,
+            R: +e.initialConditions[0].conditionsValues.R,
         },
     };
 };
