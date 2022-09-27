@@ -64,6 +64,11 @@ const getParametersArray = (parametersValue) => {
     });
 };
 
+/**
+ * It provides the data for the metapopulation models.
+ * @param  {NewModelsAllParams[]} model
+ * @returns {Object}
+ */
 const getMetaObj = (model) => {
     return {
         // idSim: model.idNewModel,

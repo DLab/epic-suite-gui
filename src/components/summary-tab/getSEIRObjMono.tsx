@@ -61,6 +61,14 @@ const createObjectVariableDependent = (params: VariableDependentTime) => {
     return variableDependent;
 };
 
+/**
+ * Provides data for SEIR type models.
+ * @param {NewModelsAllParams[]} e
+ * @param {EpidemicsData} modelParameters
+ * @param scale geographic scale of the model.
+ * @param featureSelected fips of geographic areas selected in the model.
+ * @returns {Object}
+ */
 const getSEIRObjMono = (e, modelParameters, scale, featureSelected) => {
     return {
         idSim: e.idNewModel,

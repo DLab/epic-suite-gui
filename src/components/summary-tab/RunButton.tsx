@@ -42,6 +42,11 @@ const RunButton = ({ permission }: Props) => {
         setSimulationsPopulatioType,
     } = useContext(NewModelSetted);
 
+    /**
+     * Gets the configuration object to request the real data from the "realData" endpoint.
+     * @param {NewModelsAllParams[]} selectedModels monopopulation models selected to simulate.
+     * @returns {Obejct}
+     */
     const getObjectConfig = (selectedModels) => {
         const simulationsSelected = selectedModels.map((e, i) => {
             const geoSetted = geoSelections.find((geo) => geo.id === e.idGeo);
@@ -70,6 +75,11 @@ const RunButton = ({ permission }: Props) => {
         }, {});
     };
 
+    /**
+     * Obtains the real data from the simulated monopopulation models.
+     * @param {NewModelsAllParams[]} selectedModels monopopulation models selected to simulate..
+     * @returns returns a list with the name of the model and the actual values of its parameters.
+     */
     const getGraphicRealData = async (selectedModels) => {
         const objectConfig = getObjectConfig(selectedModels);
         try {
@@ -104,6 +114,11 @@ const RunButton = ({ permission }: Props) => {
         }
     };
 
+    /**
+     * Obtains the real data from the simulated metapopulation models.
+     * @param {NewModelsAllParams[]} selectedModels metapopulation models selected to simulate.
+     * @returns returns a list with the name of the model and the actual values of its parameters.
+     */
     const getGraphicRealMetaData = async (selectedModels) => {
         const objectConfig = getObjectConfig(selectedModels);
         try {
@@ -135,8 +150,8 @@ const RunButton = ({ permission }: Props) => {
 
     /**
      * Gets objects according to model types chosen to be simulated.
-     * @param {NewModelsAllParams[]} simulations
-     * @returns {Object} diferenciado según modelo SIR, SEIR, SERHVD
+     * @param {NewModelsAllParams[]} simulations selected models to simulate.
+     * @returns {Object} differentiated according to SIR, SEIR, SERHVD model.
      */
     const getSimulationSelectedObj = (simulations) => {
         return simulations.map((e) => {
@@ -164,6 +179,10 @@ const RunButton = ({ permission }: Props) => {
         });
     };
 
+    /**
+     * Returns a list with the selected models to simulate.
+     * @returns {NewModelsAllParams[]}
+     */
     const getSelectedModel = () => {
         let selectedModels = [];
         completeModel.map((model) => {
@@ -177,9 +196,9 @@ const RunButton = ({ permission }: Props) => {
     };
 
     /**
-     * Guarda el resultado de simulaciones monopoblacionales.
-     * @param response
-     * @param selectedModels
+     * Saves the results of a single-population simulation.
+     * @param response result of the call to the "simulate" endpoint.
+     * @param {NewModelsAllParams[]} selectedModels
      */
     const setMonopopulationData = (response, selectedModels) => {
         const val = Object.values(response.results);
@@ -201,6 +220,9 @@ const RunButton = ({ permission }: Props) => {
         setIndex(5);
     };
 
+    /**
+     * Result of the call to the "simulate" endpoint.
+     */
     // eslint-disable-next-line sonarjs/cognitive-complexity
     const handleJsonToToml = async () => {
         setisSimulating(true);

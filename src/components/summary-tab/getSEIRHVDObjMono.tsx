@@ -49,6 +49,14 @@ const createObjectVariableDependent = (params: VariableDependentTime) => {
     return variableDependent;
 };
 
+/**
+ * Provides data for SEIRHVD type models.
+ * @param {NewModelsAllParams[]} e
+ * @param {EpidemicsData} modelParameters
+ * @param scale geographic scale of the model.
+ * @param featureSelected fips of geographic areas selected in the model.
+ * @returns {Object}
+ */
 const getSEIRHVDObjMono = (e, modelParameters, scale, featureSelected) => {
     return {
         idSim: e.idNewModel,
