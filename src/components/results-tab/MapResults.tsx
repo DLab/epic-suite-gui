@@ -87,6 +87,7 @@ const MapResults = ({ map, sizeGraphic }: Props) => {
         const parametersValuesArray = Object.values(getParameterValue);
         const getMaxValue = Math.max.apply(null, parametersValuesArray);
         setMaxValue(getMaxValue);
+
         if (getParameterValue !== undefined) {
             setParameterValue(getParameterValue[simDay]);
         }
@@ -209,11 +210,17 @@ const MapResults = ({ map, sizeGraphic }: Props) => {
                     </Stat>
                     <Stat>
                         <StatLabel>Value</StatLabel>
-                        <StatNumber>
-                            {new Intl.NumberFormat("de-DE").format(
-                                parameterValue
-                            )}
-                        </StatNumber>
+                        {parameterValue !== undefined ? (
+                            <StatNumber>
+                                {new Intl.NumberFormat("de-DE").format(
+                                    parameterValue
+                                )}
+                            </StatNumber>
+                        ) : (
+                            <Text fontSize="14px" fontWeight="600">
+                                There are no values for this date
+                            </Text>
+                        )}
                     </Stat>
                 </StatGroup>
                 <PlayDataSlider
