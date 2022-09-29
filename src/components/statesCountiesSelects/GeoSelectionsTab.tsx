@@ -41,6 +41,10 @@ const GeoSelectionsTab = () => {
         setViewDetails(false);
     }, [geoSelections]);
 
+    /**
+     * Delete a geographic selection.
+     * @param {number} id of the geographic selection.
+     */
     const deleteGeoSelection = (id: number) => {
         localStorage.removeItem("geoSelection");
         const geoSelectionFilter = geoSelections.filter(
@@ -53,6 +57,10 @@ const GeoSelectionsTab = () => {
         setGeoSelections({ type: "removeGeoSelection", element: `${id}` });
     };
 
+    /**
+     * Lets you view the states or counties of a saved geographic selection.
+     * @param id of the geographic selection.
+     */
     const viewGeoSelectionsDetails = (id: number) => {
         const details = geoSelections.filter(
             (geoSelection) => geoSelection.id === id
@@ -61,6 +69,13 @@ const GeoSelectionsTab = () => {
         setViewDetails(true);
     };
 
+    /**
+     * Allows you to update a geographic selection.
+     * @param {number} id
+     * @param {string []} dataForUpdate
+     * @param {string} name
+     * @param {string} scale
+     */
     const updateGeoSelection = (id, dataForUpdate, name, scale) => {
         setMode(Model.Update);
         setIdGeoSelectionUpdate(id);
@@ -154,7 +169,9 @@ const GeoSelectionsTab = () => {
                                                     onClick={() => {
                                                         const isGeoIdUsed =
                                                             completeModel.some(
-                                                                (e) =>
+                                                                (
+                                                                    e: NewModelsAllParams
+                                                                ) =>
                                                                     +e.idGeo ===
                                                                     geoSelection.id
                                                             );

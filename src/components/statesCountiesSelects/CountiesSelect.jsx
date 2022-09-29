@@ -13,16 +13,29 @@ const CountiesSelect = ({ options, optionsCounty }) => {
     const [optionsCounties, setOptionsCounties] = useState([]);
     const [countyFeature, setCountyFeature] = useState("");
     const [countyFeaturesByState, setCountyFeaturesByState] = useState("");
+
+    /**
+     * Returns all counties in a state.
+     * @param {*} codState states code.
+     * @returns {Array}
+     */
     const handleAddCountiesByState = (codState) => {
         return countyData.data
             .filter((c) => c[0] === codState)
             .map((c) => c[5]);
     };
+
+    /**
+     * Add or delete a county from the geographic selection.
+     * @param {number} counties county fip.
+     * @param {boolean} isSelecting
+     * @returns {boolean}
+     */
     const handleAddCounties = (counties, isSelecting = true) => {
-        // selecting all counties by states
+        // Selecting all counties by states
         if (counties.length === 2) {
             const allCountiesInState = handleAddCountiesByState(counties);
-            /* remove counties */
+            /* Remove counties */
             if (!isSelecting) {
                 const newCountiesSelected = [...countiesSelected].filter(
                     (c) => !allCountiesInState.includes(c)
@@ -33,7 +46,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
                 });
                 return false;
             }
-            /* add counties */
+            /* Add counties */
             const selectedCounties = new Set([
                 ...countiesSelected,
                 ...allCountiesInState,
@@ -46,7 +59,7 @@ const CountiesSelect = ({ options, optionsCounty }) => {
             const countiesWithoutSelectedFeature = [...countiesSelected].filter(
                 (c) => c !== counties
             );
-            /* remove only if not undefined */
+            /* Remove only if not undefined */
             if (countiesWithoutSelectedFeature)
                 setCountiesSelected({
                     type: "remove",
@@ -54,14 +67,14 @@ const CountiesSelect = ({ options, optionsCounty }) => {
                 });
             return false;
         }
-        // verify if a county exists in context
+        // Verify if a county exists in context
         const isSelectedInContext = [...countiesSelected].some(
             (c) => c === counties
         );
         if (isSelectedInContext) {
             return true;
         }
-        // if it not exists, add it
+        // If it not exists, add it
         setCountiesSelected({
             type: "add",
             payload: [counties],
@@ -69,6 +82,12 @@ const CountiesSelect = ({ options, optionsCounty }) => {
 
         return true;
     };
+
+    /**
+     * Filter the counties according to a US state.
+     * @param {number} val county fip.
+     * @returns {Array} list with the name and fips of all the counties of the selected state.
+     */
     const handleOptionsCounties = (val) => {
         return (
             optionsCounty[0].options.filter((e) => e.value.startsWith(val)) ??
