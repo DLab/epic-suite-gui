@@ -24,6 +24,10 @@ import ModelMainTab from "./ModelMainTab";
 const NewModel = () => {
     const [tabIndex, setTabIndex] = useState<number>();
     const { newModel, setNewModel } = useContext(NewModelSetted);
+
+    /**
+     * Add a tab with all the settings to be able to create a new model.
+     */
     const addNewModel = () => {
         setNewModel({
             type: "add",

@@ -44,6 +44,9 @@ const InitialConditiosModels = ({
 }: Props) => {
     const [initialConditionsMode, setInitialConditionsMode] = useState(false);
 
+    /**
+     * Switches to view or edit mode of the initial conditions.
+     */
     const editInitialConditions = () => {
         setInitialConditionsMode(true);
     };

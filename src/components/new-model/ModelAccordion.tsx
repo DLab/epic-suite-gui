@@ -1,6 +1,5 @@
-import { EditIcon, InfoIcon, ViewIcon } from "@chakra-ui/icons";
+import { EditIcon, InfoIcon } from "@chakra-ui/icons";
 import {
-    Accordion,
     AccordionItem,
     AccordionButton,
     AccordionPanel,
@@ -95,6 +94,9 @@ const ModelAccordion = ({
         }
     }, [populationValue]);
 
+    /**
+     * Returns the saved value of the requested parameter.
+     */
     const getDefaultValueParameters = useCallback(
         (field) => {
             return newModel.find(({ idNewModel }) => idNewModel === id)[field];
@@ -126,6 +128,11 @@ const ModelAccordion = ({
     }, [modelValue, allGeoSelections]);
 
     let graphsArray = [];
+    /**
+     * Returns a list with the names of the nodes format: "Node + index of the node".
+     * @param {number} graphsNumber number of model nodes.
+     * @returns {string []}
+     */
     const getGraphsNamesArray = (graphsNumber) => {
         for (let i = 0; i < graphsNumber; i += 1) {
             const graphName = `Node ${i + 1}`;
@@ -134,6 +141,11 @@ const ModelAccordion = ({
         return graphsArray;
     };
 
+    /**
+     * Returns the initial conditions for graphs.
+     * @param {string []} graphsValuesArray list with node names.
+     * @returns {InitialConditionsNewModel}
+     */
     const getInitialConditionsGraphsArray = (graphsValuesArray) => {
         const previusInitialConditions =
             getDefaultValueParameters("initialConditions");
@@ -173,6 +185,12 @@ const ModelAccordion = ({
     /* dispatch to simulationContext data about type selection 
   when select value is changed. Besides, modify other contexts values */
 
+    /**
+     * Provides the initial conditions for geographic areas.
+     * @param scale scale of geographic selection.
+     * @param {string []} featureSelected list with county or state fips.
+     * @returns {InitialConditionsNewModel}
+     */
     const getInitialConditionsGeoArray = (scale, featureSelected) => {
         return featureSelected.map((feature) => {
             if (scale === "States") {

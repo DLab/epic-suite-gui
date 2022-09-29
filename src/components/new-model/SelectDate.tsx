@@ -41,6 +41,12 @@ const SelectDate = ({
     const { geoSelections } = useContext(SelectFeature);
     const { setNewModel } = useContext(NewModelSetted);
 
+    /**
+     * Provides the name of the USA state or county according to the fip.
+     * @param {string} scale spatial scale of the model.
+     * @param {string} fip county or state fip.
+     * @returns {string} name of the state or county.
+     */
     const getNodeName = (scale, fip) => {
         if (scale === "States") {
             return stateData.data.find((state) => state[0] === fip)[2];
@@ -48,6 +54,13 @@ const SelectDate = ({
         return countiesData.data.find((state) => state[5] === fip)[7];
     };
 
+    /**
+     * Gets the initial conditions for monopopulation models.
+     * @param url endpoint url.
+     * @param name model name.
+     * @param {Object} config object with the dates, fips, compartments and scale of the model.
+     * @returns {InitialConditionsNewModel}
+     */
     const getAllInitialConditions = async (url, name, config) => {
         const result = await postData(url, {
             [name]: config,
@@ -61,6 +74,14 @@ const SelectDate = ({
         };
     };
 
+    /**
+     * Gets the initial conditions for metapopulation models.
+     * @param {string} url endpoint url.
+     * @param {string} name model name.
+     * @param {Object} config object with the dates, fips and compartments of the model.
+     * @param {strin} scale model scale.
+     * @returns {InitialConditionsNewModel}
+     */
     const getAllMetaInitialConditions = async (url, name, config, scale) => {
         const result = await postData(url, {
             [name]: config,
@@ -79,6 +100,13 @@ const SelectDate = ({
         });
     };
 
+    /**
+     * It commands to request the initial conditions according to the type of population of the model.
+     * @param {string} url endpoint url.
+     * @param {string} method get o post.
+     * @param {number} body id of the geographic selection.
+     * @param {Date} date data request date.
+     */
     const handleFetch = async (url, method, body, date) => {
         try {
             // setIsLoading(true);

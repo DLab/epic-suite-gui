@@ -51,6 +51,13 @@ const ModelBuilder = ({
     // const { setParameters, parameters } = useContext(ControlPanel);
     const dispatch = useDispatch();
     const { completeModel } = useContext(NewModelSetted);
+
+    /**
+     * Returns a list with the name of the nodes of the geographical selection.
+     * @param scale spatial scale of geographic selection.
+     * @param featureSelected list of the fips of the states or counties of the geographic selection.
+     * @returns {string []}
+     */
     const getNamesGeo = (scale, featureSelected) => {
         let nodesNamesArray = [];
         featureSelected.forEach((feature) => {
