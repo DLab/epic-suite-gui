@@ -33,8 +33,12 @@ const RunButton = ({ permission }: Props) => {
     //
     const toast = useToast();
     const { setAux, setIndex } = useContext(TabIndex);
-    const { setAllGraphicData, setAllResults, setDataToShowInMap } =
-        useContext(GraphicsData);
+    const {
+        setAllGraphicData,
+        setAllResults,
+        setDataToShowInMap,
+        setGlobalParametersValues,
+    } = useContext(GraphicsData);
     const [isSimulating, setisSimulating] = useState(false);
     const {
         completeModel,
@@ -237,17 +241,31 @@ const RunButton = ({ permission }: Props) => {
                     const jsonResponse = await JSON.parse(
                         response.results[name]
                     );
+
+                    const jsonGlobalResultsResponse = await JSON.parse(
+                        response.global_results[name]
+                    );
+
                     const listResponse = Object.keys(jsonResponse).map(
                         (key) => {
                             return { name: key, ...jsonResponse[key] };
                         }
                     );
 
+                    const globalResultsListResponse = Object.keys(
+                        jsonGlobalResultsResponse
+                    ).map((key) => {
+                        return { name: key, ...jsonGlobalResultsResponse[key] };
+                    });
+
                     setAllGraphicData([]);
                     setAllResults([]);
                     setDataToShowInMap([]);
                     setRealDataSimulationKeys([]);
                     setAux(JSON.stringify(listResponse));
+                    setGlobalParametersValues(
+                        JSON.stringify(globalResultsListResponse)
+                    );
                     // setAux(JSON.stringify(listResponse[0]));
                     setSelectedModelsToSimulate(selectedModels);
                     getGraphicRealMetaData(selectedModels);
