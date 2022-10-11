@@ -49,8 +49,11 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
     const [simModalMetaDate, setSimModalMetaDate] = useState("");
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
-    const { realDataSimulationKeys } = useContext(GraphicsData);
+    const { realDataSimulationKeys, globalParametersValues } =
+        useContext(GraphicsData);
+    const globalData = JSON.parse(globalParametersValues);
     const [graphMetaInfo, setGraphMetaInfo] = useState([]);
+    const [globalParameterMetaValue, setGlobalParameterMetaValue] = useState();
 
     /**
      * Returns a list with objects composed of the selected parameters and the name of the node.
@@ -71,6 +74,7 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
      */
     const filterModalMetaData = (simData, typeData) => {
         let getModalParameterValue;
+        let getModalGeneralParameterValue;
 
         if (typeData === "Real") {
             let filterKey = mapInfo.parameter.slice(0, -5);
@@ -90,6 +94,13 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
             getModalParameterValue = simData.map((nodeData) => {
                 return nodeData[filterSimKey];
             });
+            getModalGeneralParameterValue = globalData[0][filterSimKey];
+
+            if (getModalGeneralParameterValue !== undefined) {
+                setGlobalParameterMetaValue(
+                    getModalGeneralParameterValue[simDayMetaModal]
+                );
+            }
         }
         const maxValues = getModalParameterValue.map((valArray) => {
             return Math.max.apply(null, valArray);
@@ -243,18 +254,23 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                                                     {simModalMetaDate}
                                                 </StatNumber>
                                             </Stat>
-                                            {/* <Stat>
-                                                <StatLabel>
-                                                    {mapInfo.parameter} Value
-                                                </StatLabel>
-                                                <StatNumber>
-                                                    {new Intl.NumberFormat(
-                                                        "de-DE"
-                                                    ).format(
-                                                        parameterModalMetaValue
-                                                    )}
-                                                </StatNumber>
-                                            </Stat> */}
+                                            {!mapInfo.parameter.includes(
+                                                "Real"
+                                            ) && (
+                                                <Stat>
+                                                    <StatLabel>
+                                                        {mapInfo.parameter}{" "}
+                                                        Global Value
+                                                    </StatLabel>
+                                                    <StatNumber>
+                                                        {new Intl.NumberFormat(
+                                                            "de-DE"
+                                                        ).format(
+                                                            globalParameterMetaValue
+                                                        )}
+                                                    </StatNumber>
+                                                </Stat>
+                                            )}
                                         </StatGroup>
                                     </Flex>
                                 </Flex>

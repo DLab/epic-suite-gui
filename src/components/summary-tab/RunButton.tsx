@@ -39,8 +39,12 @@ const RunButton = ({ permission }: Props) => {
     //
     const toast = useToast();
     const { setAux, setIndex } = useContext(TabIndex);
-    const { setAllGraphicData, setAllResults, setDataToShowInMap } =
-        useContext(GraphicsData);
+    const {
+        setAllGraphicData,
+        setAllResults,
+        setDataToShowInMap,
+        setGlobalParametersValues,
+    } = useContext(GraphicsData);
     const [isSimulating, setisSimulating] = useState(false);
     const {
         completeModel,
@@ -275,18 +279,34 @@ const RunButton = ({ permission }: Props) => {
                     const jsonResponse = await JSON.parse(
                         response.results[name]
                     );
+
+                    const jsonGlobalResultsResponse = await JSON.parse(
+                        response.global_results[name]
+                    );
                     const listResponse = Object.keys(jsonResponse).map(
                         (key) => {
                             return { name: key, ...jsonResponse[key] };
                         }
                     );
 
+                    let globalResultsListResponse = { name: "general" };
+                    Object.keys(jsonGlobalResultsResponse).forEach((key) => {
+                        globalResultsListResponse = {
+                            ...globalResultsListResponse,
+                            [key]: Object.values(
+                                jsonGlobalResultsResponse[key]
+                            ),
+                        };
+                    });
+
                     setAllGraphicData([]);
                     setAllResults([]);
                     setDataToShowInMap([]);
                     setRealDataSimulationKeys([]);
                     setAux(JSON.stringify(listResponse));
-                    // setAux(JSON.stringify(listResponse[0]));
+                    setGlobalParametersValues(
+                        JSON.stringify([globalResultsListResponse])
+                    );
                     setSelectedModelsToSimulate(selectedModels);
                     getGraphicRealMetaData(selectedModels);
                     setIndex(5);

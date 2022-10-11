@@ -24,6 +24,8 @@ export const GraphicsData = createContext<GraphicsProps>({
     setDataToShowInMap: () => {},
     allResults: [],
     setAllResults: () => {},
+    globalParametersValues: "",
+    setGlobalParametersValues: () => {},
 });
 
 const GraphicsContext: React.FC = ({ children }) => {
@@ -47,6 +49,8 @@ const GraphicsContext: React.FC = ({ children }) => {
     const [checkedItems, setCheckedItems] = useState({});
     const [dataToShowInMap, setDataToShowInMap] = useState([]);
     const [allResults, setAllResults] = useState([]);
+    const [globalParametersValues, setGlobalParametersValues] =
+        useState<string>("");
 
     return (
         <GraphicsData.Provider
@@ -67,6 +71,8 @@ const GraphicsContext: React.FC = ({ children }) => {
                 setDataToShowInMap,
                 allResults,
                 setAllResults,
+                globalParametersValues,
+                setGlobalParametersValues,
             }}
         >
             {children}
