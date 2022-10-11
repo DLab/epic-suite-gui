@@ -26,6 +26,11 @@ interface Props {
 
 type Acc = ObjStatesCounties[];
 
+/**
+ * Component that displays the details of a geographic selection.
+ * @subcategory MapTab
+ * @component
+ */
 const GeoSelectionsDetails = ({ details }: Props) => {
     const [geoSelectionsDetails, setGeoSelectionsDetails] = useState([]);
     let statesOrdered;

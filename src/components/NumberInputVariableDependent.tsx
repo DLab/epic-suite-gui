@@ -34,6 +34,10 @@ interface Props {
     supplementaryParam?: string;
 }
 
+/**
+ * Input to insert the values of the time-dependent parameters of the models.
+ * @component
+ */
 const NumberInputVariableDependent = ({
     value,
     nameParams,

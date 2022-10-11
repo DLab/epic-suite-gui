@@ -7,6 +7,11 @@ interface Props {
     algorithmValue: undefined | string;
 }
 
+/**
+ * Graph for analysis of real data versus adjusted data.
+ * @subcategory DataFitTab
+ * @component
+ */
 const GraphicDataFit = ({ algorithmValue }: Props) => {
     const { fittedData, realDataToFit } = useContext(DataFit);
     const [axios, setAxios] = useState([]);

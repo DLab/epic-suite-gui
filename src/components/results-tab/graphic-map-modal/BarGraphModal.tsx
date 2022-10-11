@@ -13,6 +13,11 @@ interface Props {
     maxValue: number;
 }
 
+/**
+ * Bar chart for simultaneous display modal.
+ * @subcategory Results
+ * @component
+ */
 const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
     const { realDataSimulationKeys, allGraphicData } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);

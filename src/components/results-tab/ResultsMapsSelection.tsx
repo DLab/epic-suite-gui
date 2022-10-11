@@ -27,6 +27,11 @@ interface Props {
     onClose: (val: boolean) => void;
 }
 
+/**
+ * Component to configure the display of results on maps.
+ * @subcategory Results
+ * @component
+ */
 const ResultsMapsSelection = ({ onClose }: Props) => {
     const [isMap1Checked, setIsMap1Checked] = useState([false, false]);
     const [initialConditionsCheckBox, setinitialConditionsCheckBox] = useState([

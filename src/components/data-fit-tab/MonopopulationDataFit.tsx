@@ -12,6 +12,11 @@ import { DataFit } from "context/DataFitContext";
 
 import FitParameterTable from "./FitParameterTable";
 
+/**
+ * Tabs with the results of the data adjustment for monopopulation models.
+ * @subcategory DataFitTab
+ * @component
+ */
 const MonopopulationDataFit = () => {
     const { fittedData } = useContext(DataFit);
 

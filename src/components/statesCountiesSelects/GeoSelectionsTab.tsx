@@ -22,6 +22,10 @@ import { Model } from "types/ControlPanelTypes";
 import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
+/**
+ * Component to display saved geographic selections and their details.
+ * @component
+ */
 const GeoSelectionsTab = () => {
     const {
         geoSelections,

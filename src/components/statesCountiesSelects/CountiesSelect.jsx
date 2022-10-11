@@ -7,6 +7,10 @@ import { SelectFeature } from "../../context/SelectFeaturesContext";
 import countyData from "../../data/counties.json";
 import createIdComponent from "utils/createIdcomponent";
 
+/**
+ * US counties selector.
+ * @component
+ */
 const CountiesSelect = ({ options, optionsCounty }) => {
     const { counties: countiesSelected, setCounties: setCountiesSelected } =
         useContext(SelectFeature);

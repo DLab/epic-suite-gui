@@ -27,6 +27,11 @@ interface Props {
     initialConditionsGraph: InitialConditionsNewModel[];
 }
 
+/**
+ * Date picker for model creation and obtaining initial conditions.
+ * @subcategory NewModel
+ * @component
+ */
 const SelectDate = ({
     modelName,
     modelValue,

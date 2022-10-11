@@ -28,6 +28,11 @@ import createIdComponent from "utils/createIdcomponent";
 type ReducerForMetapopulationSelections = Record<number, boolean>;
 type ReducerForAllLists = Record<number, boolean>;
 
+/**
+ * Table to select parameters to graph in metapopulation models.
+ * @subcategory Results
+ * @component
+ */
 const MetapopulationSelectTable = () => {
     const { aux } = useContext(TabIndex);
     const metaData = JSON.parse(aux);

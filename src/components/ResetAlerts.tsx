@@ -17,6 +17,10 @@ interface Props {
     setIsOpen: (value: boolean) => void;
 }
 
+/**
+ * Alert to confirm or cancel the elimination of a geographical selection.
+ * @component
+ */
 const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
     const {
         scale,

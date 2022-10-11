@@ -14,6 +14,11 @@ interface Props {
     duration: number | string;
 }
 
+/**
+ * Line chart for simultaneous display modal.
+ * @subcategory Results
+ * @component
+ */
 const GraphModal = ({
     savedSimulationKeys,
     simDay,

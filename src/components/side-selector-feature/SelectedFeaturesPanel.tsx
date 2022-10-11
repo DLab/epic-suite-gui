@@ -17,6 +17,10 @@ import createIdComponent from "utils/createIdcomponent";
 
 import StatesSelectedCheckbox from "./StatesSelectedCheckbox";
 
+/**
+ * Component that shows the selection of areas for geographic spaces.
+ * @component
+ */
 const SelectedFeaturesPanel = () => {
     const { scale, counties, states, nameGeoSelection, setNameGeoSelection } =
         useContext(SelectFeature);

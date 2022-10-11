@@ -5,6 +5,11 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 import { Model } from "types/ControlPanelTypes";
 import createIdComponent from "utils/createIdcomponent";
 
+/**
+ * Component to save geographic selections in context and local storage.
+ * @subcategory MapTab
+ * @component
+ */
 const GeoToastMessage = () => {
     const toast = useToast();
     const {

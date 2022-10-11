@@ -34,6 +34,11 @@ interface Props {
     mapInfo: MapResultsData;
 }
 
+/**
+ * Modal to visualize the monopopulation results in maps and graphs simultaneously.
+ * @subcategory Results
+ * @component
+ */
 const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [parameterModalValue, setParameterModalValue] = useState();

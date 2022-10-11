@@ -18,6 +18,11 @@ import { NewModelsAllParams } from "types/SimulationTypes";
 
 import RealDataCheckBoxs from "./RealDataCheckBoxs";
 
+/**
+ * Component to select parameters to graph.
+ * @subcategory Results
+ * @component
+ */
 const ResultsSelection = () => {
     const { aux: responseSim } = useContext(TabIndex);
     const {

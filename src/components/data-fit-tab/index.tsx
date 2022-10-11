@@ -47,6 +47,11 @@ const Graphic = dynamic(() => import("./GraphicDataFit"), {
     ssr: false,
 });
 
+/**
+ * Component in charge of data adjustment.
+ * @category DataFitTab
+ * @component
+ */
 const DataFitTab = () => {
     const toast = useToast();
     const [dataSourceType, setDataSourceType] = useState("");

@@ -23,6 +23,11 @@ interface StatesSelected {
 }
 
 type Acc = ObjStatesCounties[] | [];
+
+/**
+ * Component to select states or counties to a geographic selection.
+ * @component
+ */
 const StatesSelectedCheckbox = ({
     stateSelected,
     countiesSelected,

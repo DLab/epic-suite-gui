@@ -51,6 +51,11 @@ const ModelsMap = dynamic(() => import("./ModelsMap"), {
     ssr: false,
 });
 
+/**
+ * Component container for configuring model parameters, obtaining initial conditions, and displaying geographic selection.
+ * @subcategory NewModel
+ * @component
+ */
 // eslint-disable-next-line complexity
 const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
     const [modelName, setModelName] = useState("");

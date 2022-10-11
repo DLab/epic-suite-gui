@@ -43,6 +43,11 @@ import getGeoNames from "./getGeoNames";
 
 const position = "bottom-left";
 
+/**
+ * Component that provides the functionality to be able to import models.
+ * @subcategory models-tab
+ * @component
+ */
 const ImportModels = () => {
     const { setGeoSelections } = useContext(SelectFeature);
     const { setCompleteModel, setNewModel } = useContext(NewModelSetted);

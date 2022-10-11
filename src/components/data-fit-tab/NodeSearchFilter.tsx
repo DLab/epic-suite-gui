@@ -16,6 +16,11 @@ interface Props {
     setNodeNameFilter: (value: string) => void;
 }
 
+/**
+ * Node finder for metapopulation models.
+ * @subcategory DataFitTab
+ * @component
+ */
 const NodeSearchFilter = ({ setNodeNameFilter }: Props) => {
     const [searchNode, setSearchNode] = useState("");
     const [searchResult, setSearchResult] = useState([]);

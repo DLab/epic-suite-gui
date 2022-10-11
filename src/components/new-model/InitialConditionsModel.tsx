@@ -30,6 +30,11 @@ interface Props {
     setStartDate: (value: Date) => void;
 }
 
+/**
+ * Controls the mode in which the initial conditions will be displayed: view or edit.
+ * @subcategory NewModel
+ * @component
+ */
 const InitialConditiosModels = ({
     modelName,
     modelValue,

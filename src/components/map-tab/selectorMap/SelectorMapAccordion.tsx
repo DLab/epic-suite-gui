@@ -15,6 +15,11 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 
 import SelectorMap from "./SelectorMap";
 
+/**
+ * Component that shows the settings and selection of areas for geographic spaces.
+ * @subcategory MapTab
+ * @component
+ */
 const SelectorMapAccordion = () => {
     const { scale } = useContext(SelectFeature);
     const [maxWidthFeaturesPanel, setmaxWidthFeaturesPanel] = useState("");

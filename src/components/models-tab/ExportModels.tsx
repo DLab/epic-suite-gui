@@ -28,6 +28,11 @@ interface PropsExportModels {
     idModel?: number;
 }
 
+/**
+ * Component that provides the functionality to be able to export created models.
+ * @subcategory models-tab
+ * @component
+ */
 const ExportModels = ({ idModel }: PropsExportModels) => {
     const { completeModel } = useContext(NewModelSetted);
     const { geoSelections } = useContext(SelectFeature);

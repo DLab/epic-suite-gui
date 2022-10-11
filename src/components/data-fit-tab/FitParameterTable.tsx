@@ -16,6 +16,11 @@ interface Props {
     index: number;
 }
 
+/**
+ * Table with the value of the adjusted data according to ranges.
+ * @subcategory DataFitTab
+ * @component
+ */
 const FitParameterTable = ({ param, index }: Props) => {
     const [rangeArray, setRangeArray] = useState([]);
     const [paramValueArray, setParamValueArray] = useState([]);

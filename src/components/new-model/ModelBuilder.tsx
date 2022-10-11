@@ -32,6 +32,11 @@ interface Props {
     id: number;
 }
 
+/**
+ * Container for parameter configuration.
+ * @subcategory NewModel
+ * @component
+ */
 const ModelBuilder = ({
     setShowSectionInitialConditions,
     setShowSectionVariable,

@@ -9,6 +9,11 @@ import {
 
 import TableSimulations from "./TableSimulations";
 
+/**
+ * Model summary table container.
+ * @category Summary tab
+ * @component
+ */
 const SummaryTab = () => {
     return (
         <>

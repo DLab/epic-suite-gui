@@ -15,6 +15,11 @@ interface Props {
     algorithmValue: undefined | string;
 }
 
+/**
+ * Option to obtain real data from an endpoint.
+ * @subcategory DataFitTab
+ * @component
+ */
 const EndPointSource = ({ modelId, setDataValues, algorithmValue }: Props) => {
     const toast = useToast();
     const { geoSelections } = useContext(SelectFeature);

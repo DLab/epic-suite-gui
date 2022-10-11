@@ -39,6 +39,11 @@ const GraphicAndMapResults = dynamic(() => import("./GraphicAndMapResults"), {
     ssr: false,
 });
 
+/**
+ * Component responsible for displaying the results of the simulations.
+ * @category Results
+ * @component
+ */
 const Results = () => {
     const { aux: responseSim } = useContext(TabIndex);
     const {

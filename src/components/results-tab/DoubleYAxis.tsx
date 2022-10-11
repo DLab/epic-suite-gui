@@ -30,6 +30,11 @@ interface Props {
     index: number;
 }
 
+/**
+ * Modal to select the parameters that will be plotted on the left and right axis of the graph.
+ * @subcategory Results
+ * @component
+ */
 const DoubleYAxis = ({ savedKeys, index }: Props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [leftAxis, setLeftAxis] = useState<SavedSimulationData[]>([]);

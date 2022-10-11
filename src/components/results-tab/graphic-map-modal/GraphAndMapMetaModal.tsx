@@ -34,6 +34,11 @@ interface Props {
     mapInfo: MapResultsData;
 }
 
+/**
+ * Modal to visualize the metapopulation results in maps and graphs simultaneously.
+ * @subcategory Results
+ * @component
+ */
 const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [parameterModalMetaValue, setParameterModalMetaValue] = useState();

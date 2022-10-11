@@ -42,6 +42,11 @@ const StatesResultsMap = dynamic(() => import("./StatesResultsMap"), {
     ssr: false,
 });
 
+/**
+ * Result container of a simulation displayed as a map.
+ * @subcategory Results
+ * @component
+ */
 const MapResults = ({ map, sizeGraphic }: Props) => {
     const [simDay, setSimDay] = useState(0);
     const [simDate, setSimDate] = useState("");

@@ -34,6 +34,11 @@ interface Props {
     sizeGraphic: number[];
 }
 
+/**
+ * Container the visualization of the result in a map of a metapopulation simulation.
+ * @subcategory Results
+ * @component
+ */
 const MetaMapResults = ({ map, sizeGraphic }: Props) => {
     const [simMetaDay, setSimMetaDay] = useState(0);
     const [simMetaDate, setSimMetaDate] = useState("");

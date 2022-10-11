@@ -28,6 +28,11 @@ interface Props {
     simulationsPopulatioType: string;
 }
 
+/**
+ * Component that contains map and chart settings.
+ * @subcategory Results
+ * @component
+ */
 const ResultsDrawer = ({
     isOpen,
     onOpen,

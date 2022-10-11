@@ -4,6 +4,11 @@ interface Props {
     maxValue: number;
 }
 
+/**
+ * Color scale for map display.
+ * @subcategory Results
+ * @component
+ */
 const ColorsScale = ({ maxValue }: Props) => {
     const colors = [
         "#44010E",

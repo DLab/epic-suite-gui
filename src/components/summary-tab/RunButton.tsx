@@ -26,6 +26,12 @@ interface Props {
     permission: ReducedIdForPermissions;
 }
 const SIMULATIONFAILED = "Simulation failed";
+
+/**
+ * Component that communicates with the necessary endpoints to obtain the real and simulated data of the selected models.
+ * @subcategory Summary tab
+ * @component
+ */
 const RunButton = ({ permission }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
     // Real Data Context

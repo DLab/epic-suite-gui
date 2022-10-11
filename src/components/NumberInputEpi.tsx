@@ -33,6 +33,10 @@ interface Props {
     isStateLocal?: boolean;
 }
 
+/**
+ * Input to insert the values of the model parameters.
+ * @component
+ */
 const NumberInputEpi = ({
     value,
     nameParams,

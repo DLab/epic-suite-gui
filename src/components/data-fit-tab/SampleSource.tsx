@@ -11,6 +11,11 @@ interface Props {
     setDataValues: (value: unknown[]) => void;
 }
 
+/**
+ * Option to get real data from an example file.
+ * @subcategory DataFitTab
+ * @component
+ */
 const SampleSource = ({ value, setValue, setDataValues }: Props) => {
     const { setRealDataToFit } = useContext(DataFit);
 

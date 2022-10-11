@@ -54,6 +54,11 @@ interface Props {
     setGraphsSelectedValue: (value: string[]) => void;
 }
 
+/**
+ * Accordion with the necessary configurations to create a model.
+ * @subcategory NewModel
+ * @component
+ */
 const ModelAccordion = ({
     modelName,
     setModelName,

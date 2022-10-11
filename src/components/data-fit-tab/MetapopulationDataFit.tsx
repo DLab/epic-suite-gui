@@ -21,6 +21,11 @@ interface Props {
     nodeNameFilter: string;
 }
 
+/**
+ * Fit data for metapopulation models.
+ * @subcategory DataFitTab
+ * @component
+ */
 const MetapopulationDataFit = ({ nodeNameFilter }: Props) => {
     const [fittedDataList, setFittedDataList] = useState([]);
     const { fittedData } = useContext(DataFit);

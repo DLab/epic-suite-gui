@@ -11,6 +11,11 @@ import NationMap from "./NationMap";
 import SelectorMapAccordion from "./selectorMap/SelectorMapAccordion";
 import StatesMap from "./StatesMap";
 
+/**
+ * Component responsible for displaying the maps and their selection.
+ * @category MapTab
+ * @component
+ */
 const Map = () => {
     const { scale } = useContext(SelectFeature);
 

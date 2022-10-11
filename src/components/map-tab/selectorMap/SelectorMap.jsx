@@ -22,6 +22,11 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 import { Model } from "types/ControlPanelTypes";
 import createIdComponent from "utils/createIdcomponent";
 
+/**
+ * Component that displays the settings for creating a geographic selection.
+ * @subcategory MapTab
+ * @component
+ */
 const SelectorMap = () => {
     const {
         mode,

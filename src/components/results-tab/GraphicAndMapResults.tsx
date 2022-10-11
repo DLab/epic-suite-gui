@@ -20,6 +20,11 @@ interface Props {
     simulationsPopulationType: string;
 }
 
+/**
+ * Map and chart container.
+ * @subcategory Results
+ * @component
+ */
 const GraphicAndMapResults = ({ onOpen, simulationsPopulationType }: Props) => {
     const {
         setAllGraphicData,
