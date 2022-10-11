@@ -216,7 +216,7 @@ const MetapopulationSelectTable = () => {
                             <Th>Node</Th>
                             {displayedParameters.map((parameter) => {
                                 return (
-                                    <Th>
+                                    <Th key={parameter}>
                                         <Checkbox
                                             onChange={(e) => {
                                                 setCheckAllList({

@@ -77,6 +77,7 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                 return nodeData[filterSimKey];
             });
             getModalGeneralParameterValue = globalData[0][filterSimKey];
+
             if (getModalGeneralParameterValue !== undefined) {
                 setGlobalParameterMetaValue(
                     getModalGeneralParameterValue[simDayMetaModal]
@@ -119,7 +120,6 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                     rightAxis: [],
                 },
             ];
-            const x = getLeftAxis(data);
             setGraphMetaInfo(getGraphMetaInfo);
             filterModalMetaData(data, "Sim");
         }
@@ -236,19 +236,23 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                                                     {simModalMetaDate}
                                                 </StatNumber>
                                             </Stat>
-                                            <Stat>
-                                                <StatLabel>
-                                                    {mapInfo.parameter} Global
-                                                    Value
-                                                </StatLabel>
-                                                <StatNumber>
-                                                    {new Intl.NumberFormat(
-                                                        "de-DE"
-                                                    ).format(
-                                                        globalParameterMetaValue
-                                                    )}
-                                                </StatNumber>
-                                            </Stat>
+                                            {!mapInfo.parameter.includes(
+                                                "Real"
+                                            ) && (
+                                                <Stat>
+                                                    <StatLabel>
+                                                        {mapInfo.parameter}{" "}
+                                                        Global Value
+                                                    </StatLabel>
+                                                    <StatNumber>
+                                                        {new Intl.NumberFormat(
+                                                            "de-DE"
+                                                        ).format(
+                                                            globalParameterMetaValue
+                                                        )}
+                                                    </StatNumber>
+                                                </Stat>
+                                            )}
                                         </StatGroup>
                                     </Flex>
                                 </Flex>

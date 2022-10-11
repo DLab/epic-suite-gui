@@ -245,17 +245,20 @@ const RunButton = ({ permission }: Props) => {
                     const jsonGlobalResultsResponse = await JSON.parse(
                         response.global_results[name]
                     );
-
                     const listResponse = Object.keys(jsonResponse).map(
                         (key) => {
                             return { name: key, ...jsonResponse[key] };
                         }
                     );
 
-                    const globalResultsListResponse = Object.keys(
-                        jsonGlobalResultsResponse
-                    ).map((key) => {
-                        return { name: key, ...jsonGlobalResultsResponse[key] };
+                    let globalResultsListResponse = { name: "general" };
+                    Object.keys(jsonGlobalResultsResponse).forEach((key) => {
+                        globalResultsListResponse = {
+                            ...globalResultsListResponse,
+                            [key]: Object.values(
+                                jsonGlobalResultsResponse[key]
+                            ),
+                        };
                     });
 
                     setAllGraphicData([]);
@@ -264,9 +267,8 @@ const RunButton = ({ permission }: Props) => {
                     setRealDataSimulationKeys([]);
                     setAux(JSON.stringify(listResponse));
                     setGlobalParametersValues(
-                        JSON.stringify(globalResultsListResponse)
+                        JSON.stringify([globalResultsListResponse])
                     );
-                    // setAux(JSON.stringify(listResponse[0]));
                     setSelectedModelsToSimulate(selectedModels);
                     getGraphicRealMetaData(selectedModels);
                     setIndex(5);
