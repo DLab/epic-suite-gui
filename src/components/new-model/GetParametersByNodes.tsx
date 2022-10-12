@@ -359,7 +359,7 @@ const paramsValues = {
  * @param {string} name model name.
  * @param {string} modelValue compartments.
  * @param {string} startDate model start day.
- * @param {string []} nodesValues node name list.
+ * @param {string[]} nodesValues node name list.
  * @returns {EpidemicsData}
  */
 const getArrayParametersByNode = (

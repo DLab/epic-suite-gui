@@ -5,7 +5,7 @@
         "node_modules/better-docs/component"
     ],
     "source": {
-        "include": ["./src/components/summary-tab"],
+        "include": ["./src/components"],
         "includePattern": "\\.(jsx|js|ts|tsx)$"
     },
     "babel": {

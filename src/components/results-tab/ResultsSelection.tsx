@@ -45,7 +45,7 @@ const ResultsSelection = () => {
      * @param {string} id parameter name + simulation name.
      * @param {string} valueparameter name + simulation name.
      * @param {string} name simulation name.
-     * @returns {string []}
+     * @returns {string[]}
      */
     const saveKeys = (ischecked, id, value, name) => {
         const isInclude = savedSimulationKeys.includes(id);

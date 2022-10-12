@@ -76,7 +76,7 @@ const GeoSelectionsTab = () => {
     /**
      * Allows you to update a geographic selection.
      * @param {number} id geoselect id.
-     * @param {string []} dataForUpdate list with the FIPS of the new selection.
+     * @param {string[]} dataForUpdate list with the FIPS of the new selection.
      * @param {string} name name of the geographic selection.
      * @param {string} scale spatial scale of geographic selection.
      */

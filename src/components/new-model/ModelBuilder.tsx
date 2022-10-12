@@ -61,7 +61,7 @@ const ModelBuilder = ({
      * Returns a list with the name of the nodes of the geographical selection.
      * @param scale spatial scale of geographic selection.
      * @param featureSelected list of the fips of the states or counties of the geographic selection.
-     * @returns {string []}
+     * @returns {string[]}
      */
     const getNamesGeo = (scale, featureSelected) => {
         let nodesNamesArray = [];

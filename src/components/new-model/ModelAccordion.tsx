@@ -136,7 +136,7 @@ const ModelAccordion = ({
     /**
      * Returns a list with the names of the nodes format: "Node + index of the node".
      * @param {number} graphsNumber number of model nodes.
-     * @returns {string []}
+     * @returns {string[]}
      */
     const getGraphsNamesArray = (graphsNumber) => {
         for (let i = 0; i < graphsNumber; i += 1) {
@@ -148,7 +148,7 @@ const ModelAccordion = ({
 
     /**
      * Returns the initial conditions for graphs.
-     * @param {string []} graphsValuesArray list with node names.
+     * @param {string[]} graphsValuesArray list with node names.
      * @returns {InitialConditionsNewModel}
      */
     const getInitialConditionsGraphsArray = (graphsValuesArray) => {
@@ -193,7 +193,7 @@ const ModelAccordion = ({
     /**
      * Provides the initial conditions for geographic areas.
      * @param scale scale of geographic selection.
-     * @param {string []} featureSelected list with county or state fips.
+     * @param {string[]} featureSelected list with county or state fips.
      * @returns {InitialConditionsNewModel}
      */
     const getInitialConditionsGeoArray = (scale, featureSelected) => {

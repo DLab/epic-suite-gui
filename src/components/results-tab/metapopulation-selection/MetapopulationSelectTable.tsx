@@ -151,7 +151,7 @@ const MetapopulationSelectTable = () => {
     };
 
     /**
-     * @returns {string []} returns a list with the keys of the parameters marked true.
+     * @returns {string[]} returns a list with the keys of the parameters marked true.
      */
     const getGraphicMetaSelections = () => {
         let checkedList = [];

@@ -55,7 +55,7 @@ const EndPointSource = ({ modelId, setDataValues, algorithmValue }: Props) => {
 
     /**
      *
-     * @param {number []} data list with the values of the parameter according to the chosen algorithm.
+     * @param {number[]} data list with the values of the parameter according to the chosen algorithm.
      * @returns returns an object with the indices and the value of the parameter at that index.
      */
     const getData = (data) => {

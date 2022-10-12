@@ -64,7 +64,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
     /**
      * Returns an array with the keys of the initial conditions according to the id of the simulation.
      * @param {number} simId simulation id.
-     * @returns {string []}
+     * @returns {string[]}
      */
     const getInitialConditionsCheck = (simId, typeSim) => {
         // const initialConditionsSim = selectedModelsToSimulate.filter(
