@@ -5,6 +5,10 @@ import { useContext } from "react";
 import { SelectFeature } from "../../context/SelectFeaturesContext";
 import createIdComponent from "utils/createIdcomponent";
 
+/**
+ * Selector for US states.
+ * @component
+ */
 const StatesSelect = ({ options, extentionOption }) => {
     const { states: statesSelected, setStates: setStatesSelected } =
         useContext(SelectFeature);

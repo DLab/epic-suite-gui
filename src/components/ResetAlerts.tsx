@@ -17,6 +17,10 @@ interface Props {
     setIsOpen: (value: boolean) => void;
 }
 
+/**
+ * Alert to confirm or cancel the elimination of a geographical selection.
+ * @component
+ */
 const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
     const {
         scale,
@@ -26,6 +30,9 @@ const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
     const onClose = () => setIsOpen(false);
     const cancelRef = React.useRef();
 
+    /**
+     * Delete the selected states or counties.
+     */
     const handleResetSelected = () => {
         setStatesSelected({ type: "reset" });
         setCountiesSelected({ type: "reset" });

@@ -26,6 +26,12 @@ interface Props {
     permission: ReducedIdForPermissions;
 }
 const SIMULATIONFAILED = "Simulation failed";
+
+/**
+ * Component that communicates with the necessary endpoints to obtain the real and simulated data of the selected models.
+ * @subcategory Summary tab
+ * @component
+ */
 const RunButton = ({ permission }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
     // Real Data Context
@@ -33,8 +39,12 @@ const RunButton = ({ permission }: Props) => {
     //
     const toast = useToast();
     const { setAux, setIndex } = useContext(TabIndex);
-    const { setAllGraphicData, setAllResults, setDataToShowInMap } =
-        useContext(GraphicsData);
+    const {
+        setAllGraphicData,
+        setAllResults,
+        setDataToShowInMap,
+        setGlobalParametersValues,
+    } = useContext(GraphicsData);
     const [isSimulating, setisSimulating] = useState(false);
     const {
         completeModel,
@@ -42,6 +52,11 @@ const RunButton = ({ permission }: Props) => {
         setSimulationsPopulatioType,
     } = useContext(NewModelSetted);
 
+    /**
+     * Gets the configuration object to request the real data from the "realData" endpoint.
+     * @param {NewModelsAllParams[]} selectedModels monopopulation models selected to simulate.
+     * @returns {Obejct}
+     */
     const getObjectConfig = (selectedModels) => {
         const simulationsSelected = selectedModels.map((e, i) => {
             const geoSetted = geoSelections.find((geo) => geo.id === e.idGeo);
@@ -70,6 +85,11 @@ const RunButton = ({ permission }: Props) => {
         }, {});
     };
 
+    /**
+     * Obtains the real data from the simulated monopopulation models.
+     * @param {NewModelsAllParams[]} selectedModels monopopulation models selected to simulate..
+     * @returns returns a list with the name of the model and the actual values of its parameters.
+     */
     const getGraphicRealData = async (selectedModels) => {
         const objectConfig = getObjectConfig(selectedModels);
         try {
@@ -104,6 +124,11 @@ const RunButton = ({ permission }: Props) => {
         }
     };
 
+    /**
+     * Obtains the real data from the simulated metapopulation models.
+     * @param {NewModelsAllParams[]} selectedModels metapopulation models selected to simulate.
+     * @returns returns a list with the name of the model and the actual values of its parameters.
+     */
     const getGraphicRealMetaData = async (selectedModels) => {
         const objectConfig = getObjectConfig(selectedModels);
         try {
@@ -133,6 +158,11 @@ const RunButton = ({ permission }: Props) => {
         }
     };
 
+    /**
+     * Gets objects according to model types chosen to be simulated.
+     * @param {NewModelsAllParams[]} simulations selected models to simulate.
+     * @returns {Object} differentiated according to SIR, SEIR, SERHVD model.
+     */
     const getSimulationSelectedObj = (simulations) => {
         return simulations.map((e) => {
             const geoselectionItems =
@@ -159,6 +189,10 @@ const RunButton = ({ permission }: Props) => {
         });
     };
 
+    /**
+     * Returns a list with the selected models to simulate.
+     * @returns {NewModelsAllParams[]}
+     */
     const getSelectedModel = () => {
         let selectedModels = [];
         completeModel.map((model) => {
@@ -171,6 +205,11 @@ const RunButton = ({ permission }: Props) => {
         return selectedModels;
     };
 
+    /**
+     * Saves the results of a single-population simulation.
+     * @param response result of the call to the "simulate" endpoint.
+     * @param {NewModelsAllParams[]} selectedModels
+     */
     const setMonopopulationData = (response, selectedModels) => {
         const val = Object.values(response.results);
         const keys = Object.keys(response.results);
@@ -191,6 +230,9 @@ const RunButton = ({ permission }: Props) => {
         setIndex(5);
     };
 
+    /**
+     * Result of the call to the "simulate" endpoint.
+     */
     // eslint-disable-next-line sonarjs/cognitive-complexity
     const handleJsonToToml = async () => {
         setisSimulating(true);
@@ -237,18 +279,34 @@ const RunButton = ({ permission }: Props) => {
                     const jsonResponse = await JSON.parse(
                         response.results[name]
                     );
+
+                    const jsonGlobalResultsResponse = await JSON.parse(
+                        response.global_results[name]
+                    );
                     const listResponse = Object.keys(jsonResponse).map(
                         (key) => {
                             return { name: key, ...jsonResponse[key] };
                         }
                     );
 
+                    let globalResultsListResponse = { name: "general" };
+                    Object.keys(jsonGlobalResultsResponse).forEach((key) => {
+                        globalResultsListResponse = {
+                            ...globalResultsListResponse,
+                            [key]: Object.values(
+                                jsonGlobalResultsResponse[key]
+                            ),
+                        };
+                    });
+
                     setAllGraphicData([]);
                     setAllResults([]);
                     setDataToShowInMap([]);
                     setRealDataSimulationKeys([]);
                     setAux(JSON.stringify(listResponse));
-                    // setAux(JSON.stringify(listResponse[0]));
+                    setGlobalParametersValues(
+                        JSON.stringify([globalResultsListResponse])
+                    );
                     setSelectedModelsToSimulate(selectedModels);
                     getGraphicRealMetaData(selectedModels);
                     setIndex(5);

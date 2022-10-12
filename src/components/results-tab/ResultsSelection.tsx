@@ -18,6 +18,11 @@ import { NewModelsAllParams } from "types/SimulationTypes";
 
 import RealDataCheckBoxs from "./RealDataCheckBoxs";
 
+/**
+ * Component to select parameters to graph.
+ * @subcategory Results
+ * @component
+ */
 const ResultsSelection = () => {
     const { aux: responseSim } = useContext(TabIndex);
     const {
@@ -34,6 +39,14 @@ const ResultsSelection = () => {
     const model = ["S", "E", "I", "R"];
     const { completeModel } = useContext(NewModelSetted);
 
+    /**
+     * Includes or deletes a checked or unchecked parameter from the list.
+     * @param {boolean} ischecked indicates whether the parameter was selected.
+     * @param {string} id parameter name + simulation name.
+     * @param {string} valueparameter name + simulation name.
+     * @param {string} name simulation name.
+     * @returns {string[]}
+     */
     const saveKeys = (ischecked, id, value, name) => {
         const isInclude = savedSimulationKeys.includes(id);
         const isSimulationSaved = savedSimulation.filter((simulation) => {
@@ -89,6 +102,11 @@ const ResultsSelection = () => {
         return savedSimulationKeys;
     };
 
+    /**
+     * It unchecks all the parameters of the compartments, depending on the type of model, when the component is mounted.
+     * @param {Array }graphicData list with the results of the simulations.
+     * @returns {Object} object with the parameters of the compartments in false.
+     */
     const setEmptyStateCheckedItems = (graphicData) => {
         const auxCheckedItems = {};
         graphicData.forEach((simulation) => {
@@ -104,6 +122,10 @@ const ResultsSelection = () => {
         return auxCheckedItems;
     };
 
+    /**
+     * Uncheck all child checks.
+     * @param oneSimulationKeysData object with all the parameters and their values.
+     */
     const deleteChildChecked = (oneSimulationKeysData: SimulationKeysData) => {
         /* delete for savedSimulationKeys */
         const savedSimulationKeysToDelete = model.map((key) => {
@@ -163,6 +185,10 @@ const ResultsSelection = () => {
 
     let initialParameters = [];
 
+    /**
+     * @param simulation object with all the parameters and their values.
+     * @returns {Array} list with the compartments according to model type.
+     */
     const getCompartments = (simulation) => {
         let parametersCompartments = ["S", "E", "I", "R"];
         const simByName = completeModel.find(
@@ -176,6 +202,10 @@ const ResultsSelection = () => {
         return parametersCompartments;
     };
 
+    /**
+     * Check all child checks.
+     * @param oneSimulationKeysData object with all the parameters and their values.
+     */
     const setChildChecked = (oneSimulationKeysData: SimulationKeysData) => {
         /* save for savedSimulationKeys */
         const savedSimulationKeysSave = getCompartments(
@@ -198,7 +228,7 @@ const ResultsSelection = () => {
 
         /* save for savedSimulations */
 
-        // para verificar si ya existe una simulación con ese nombre
+        // To check if a simulation with that name already exists.
 
         const isSimulationSaved = savedSimulation.filter((sim) => {
             return oneSimulationKeysData.name === sim.name;
@@ -238,6 +268,11 @@ const ResultsSelection = () => {
         }
     };
 
+    /**
+     * Check if the Results check is checked and then check or uncheck all its child checks.
+     * @param {Object} dataFilter object with all the parameters and their values.
+     * @param {boolean} ischecked indicates whether check "Results" is checked.
+     */
     const checkParentChecked = (dataFilter: SimulationKeysData, ischecked) => {
         if (ischecked) {
             setChildChecked(dataFilter);

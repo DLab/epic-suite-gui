@@ -1,4 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+/**
+ * Returns the initial conditions according to the type of model.
+ * @param {string} model model type: SIR, SEIR, SEIRHVD.
+ * @returns {InitialConditions}
+ */
 const getInitialConditionsByModel = (model) => {
     if (model === "seirhvd") {
         return {
@@ -28,6 +33,12 @@ const getInitialConditionsByModel = (model) => {
     };
 };
 
+/**
+ * It delivers the initial preconditions according to the type of model.
+ * @param {string} model model type: SIR, SEIR, SEIRHVD.
+ * @param {InitialConditions} initCond previous values of the initial conditions.
+ * @returns {InitialConditions}
+ */
 export const getPreviusInitialConditions = (model, initCond) => {
     if (model === "seirhvd") {
         return {
@@ -57,6 +68,11 @@ export const getPreviusInitialConditions = (model, initCond) => {
     };
 };
 
+/**
+ * It delivers the initial conditions in the appropriate format, with their values acquired from the endpoint.
+ * @param {Object} result values of the initial conditions delivered by the endpoint.
+ * @returns {InitialConditions}
+ */
 export const postInitialConditionsByModel = (result) => {
     const {
         Compartment,

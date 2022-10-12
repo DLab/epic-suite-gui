@@ -20,12 +20,18 @@ import stateData_ from "../../data/statesResults-10m.json";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import { MapResultsData } from "types/GraphicsTypes";
 import { NewModelsAllParams } from "types/SimulationTypes";
 
 interface Props {
     onClose: (val: boolean) => void;
 }
 
+/**
+ * Component to configure the display of results on maps.
+ * @subcategory Results
+ * @component
+ */
 const ResultsMapsSelection = ({ onClose }: Props) => {
     const [isMap1Checked, setIsMap1Checked] = useState([false, false]);
     const [initialConditionsCheckBox, setinitialConditionsCheckBox] = useState([
@@ -50,12 +56,16 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         setDataToShowInMap,
         allGraphicData,
         setAllResults,
-        allResults,
     } = useContext(GraphicsData);
     const { geoSelections } = useContext(SelectFeature);
     const mapArray = ["Map 1", "Map 2"];
     const { selectedModelsToSimulate } = useContext(NewModelSetted);
 
+    /**
+     * Returns an array with the keys of the initial conditions according to the id of the simulation.
+     * @param {number} simId simulation id.
+     * @returns {string[]}
+     */
     const getInitialConditionsCheck = (simId, typeSim) => {
         // const initialConditionsSim = selectedModelsToSimulate.filter(
         //     (sim: NewModelsAllParams) => {
@@ -153,6 +163,11 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    /**
+     * Returns a json with the data of the polygons to use.
+     * @param {number} idSim simulation id.
+     * @returns {GeometryObject}
+     */
     const getGeoDataSelected = (idSim) => {
         const { idGeo } = selectedModelsToSimulate.filter(
             (sim: NewModelsAllParams) => {
@@ -198,6 +213,11 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         return dataAux;
     };
 
+    /**
+     * Returns an object with the information to display on maps.
+     * @param {number} index
+     * @returns {MapResultsData}
+     */
     const getDataToSave = (index: number) => {
         const {
             name,
@@ -225,6 +245,9 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
         };
     };
 
+    /**
+     * Save the map information in the results context by clicking the "OK" button.
+     */
     const saveDataToShowInMap = () => {
         const dataToShowInMapAux = dataToShowInMap;
         if (value[0] !== "") {

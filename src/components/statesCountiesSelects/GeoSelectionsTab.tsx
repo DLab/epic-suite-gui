@@ -22,6 +22,10 @@ import { Model } from "types/ControlPanelTypes";
 import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
+/**
+ * Component to display saved geographic selections and their details.
+ * @component
+ */
 const GeoSelectionsTab = () => {
     const {
         geoSelections,
@@ -41,6 +45,10 @@ const GeoSelectionsTab = () => {
         setViewDetails(false);
     }, [geoSelections]);
 
+    /**
+     * Delete a geographic selection.
+     * @param {number} id of the geographic selection.
+     */
     const deleteGeoSelection = (id: number) => {
         localStorage.removeItem("geoSelection");
         const geoSelectionFilter = geoSelections.filter(
@@ -53,6 +61,10 @@ const GeoSelectionsTab = () => {
         setGeoSelections({ type: "removeGeoSelection", element: `${id}` });
     };
 
+    /**
+     * Lets you view the states or counties of a saved geographic selection.
+     * @param id of the geographic selection.
+     */
     const viewGeoSelectionsDetails = (id: number) => {
         const details = geoSelections.filter(
             (geoSelection) => geoSelection.id === id
@@ -61,6 +73,13 @@ const GeoSelectionsTab = () => {
         setViewDetails(true);
     };
 
+    /**
+     * Allows you to update a geographic selection.
+     * @param {number} id geoselect id.
+     * @param {string[]} dataForUpdate list with the FIPS of the new selection.
+     * @param {string} name name of the geographic selection.
+     * @param {string} scale spatial scale of geographic selection.
+     */
     const updateGeoSelection = (id, dataForUpdate, name, scale) => {
         setMode(Model.Update);
         setIdGeoSelectionUpdate(id);
@@ -154,7 +173,9 @@ const GeoSelectionsTab = () => {
                                                     onClick={() => {
                                                         const isGeoIdUsed =
                                                             completeModel.some(
-                                                                (e) =>
+                                                                (
+                                                                    e: NewModelsAllParams
+                                                                ) =>
                                                                     +e.idGeo ===
                                                                     geoSelection.id
                                                             );

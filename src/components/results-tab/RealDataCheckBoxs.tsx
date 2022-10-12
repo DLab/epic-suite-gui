@@ -9,10 +9,19 @@ type Props = {
     saveKeys: (val: boolean, val2: string, val3: string, val4: string) => void;
 };
 
+/**
+ * Component to select parameters from the real data.
+ * @subcategory Results
+ * @component
+ */
 const RealDataCheckBoxs = ({ simName, saveKeys }: Props) => {
     const { realDataSimulationKeys } = useContext(GraphicsData);
     const [realData, setrealData] = useState<KeysRealData | null>();
 
+    /**
+     * Filter keys for real data based on simulation name.
+     * @returns {KeysRealData[]}
+     */
     const getRealData = () => {
         return realDataSimulationKeys?.find((sim) => {
             return sim.name === simName;

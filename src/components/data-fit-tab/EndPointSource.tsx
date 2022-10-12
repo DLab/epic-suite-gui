@@ -15,12 +15,21 @@ interface Props {
     algorithmValue: undefined | string;
 }
 
+/**
+ * Option to obtain real data from an endpoint.
+ * @subcategory DataFitTab
+ * @component
+ */
 const EndPointSource = ({ modelId, setDataValues, algorithmValue }: Props) => {
     const toast = useToast();
     const { geoSelections } = useContext(SelectFeature);
     const { setRealDataToFit } = useContext(DataFit);
     const { completeModel } = useContext(NewModelSetted);
 
+    /**
+     * Return the configuration file to call the realData endpoint.
+     * @returns {Object} returns an object with the model data and its geographic selection.
+     */
     const getObjectConfig = () => {
         const {
             parameters: modelParameters,
@@ -44,6 +53,11 @@ const EndPointSource = ({ modelId, setDataValues, algorithmValue }: Props) => {
         };
     };
 
+    /**
+     *
+     * @param {number[]} data list with the values of the parameter according to the chosen algorithm.
+     * @returns returns an object with the indices and the value of the parameter at that index.
+     */
     const getData = (data) => {
         let dataObject = {};
         for (let index = 0; index < data.length; index += 1) {
@@ -52,6 +66,9 @@ const EndPointSource = ({ modelId, setDataValues, algorithmValue }: Props) => {
         return dataObject;
     };
 
+    /**
+     * It gets the real data from the "realData" api and saves its values according to the type of algorithm.
+     */
     const handleFetch = async () => {
         try {
             const objectConfig = getObjectConfig();

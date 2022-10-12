@@ -85,4 +85,6 @@ export interface GraphicsProps {
     setDataToShowInMap: (value: MapResultsData[]) => void;
     allResults: DoubleYAxisData[] | MapResultsData[];
     setAllResults: (value: DoubleYAxisData[] | MapResultsData[]) => void;
+    globalParametersValues?: string;
+    setGlobalParametersValues: (value: string) => void;
 }

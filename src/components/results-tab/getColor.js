@@ -11,6 +11,12 @@ const colors = [
     "#fde725",
 ];
 
+/**
+ * Return the color according to the value of the parameter on the day delivered.
+ * @param  dayValue simulation day.
+ * @param {number} maxValue maximum value of the parameter between the values of the simulation.
+ * @returns {string}
+ */
 const getColor = (dayValue, maxValue) => {
     const rangeValue = Math.ceil(maxValue / colors.length);
     let color;

@@ -30,6 +30,11 @@ interface Props {
     index: number;
 }
 
+/**
+ * Modal to select the parameters that will be plotted on the left and right axis of the graph.
+ * @subcategory Results
+ * @component
+ */
 const DoubleYAxis = ({ savedKeys, index }: Props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [leftAxis, setLeftAxis] = useState<SavedSimulationData[]>([]);
@@ -48,6 +53,13 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         setGraphicId(savedKeys[0].graphicId);
     }, [savedKeys]);
 
+    /**
+     * Entrega una lista con los parámetros guardados en un eje.
+     * @param {SavedSimulationData[]} axis lista con el nombre de la simulación y sus parámetros a graficar.
+     * @param {string} name nombre de la simulación.
+     * @param k parámetro a insertar.
+     * @returns {SavedSimulationData[]}
+     */
     const getParametersSetted = (axis, name, k) => {
         return axis.map((e) => {
             if (e.name === name) {
@@ -57,6 +69,12 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         });
     };
 
+    /**
+     * Inserta el primer parámetro de una simulación.
+     * @param {string} name nombre de la simulación.
+     * @param {string} k parámetro a insertar.
+     * @param axisName eje derecho o izquierdo del gráfico.
+     */
     const setAxis = (name, k, axisName) => {
         if (axisName === "right") {
             setRightAxis([...rightAxis, { name, keys: [k] }]);
@@ -65,6 +83,14 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         }
     };
 
+    /**
+     * Inserta un parámetro en un eje.     
+     * @param {SavedSimulationData[]} axis lista con el nombre de la simulación y sus parámetros a graficar.
+     * @param {string} name nombre de le simulación.
+     * @param {string} k parámetro a insertar.
+     * @param axisName eje derecho o izquierdo del gráfico.
+
+     */
     const setParametersToAxis = (axis, name, k, axisName) => {
         if (axis.length === 0) {
             setAxis(name, k, axisName);
@@ -85,6 +111,13 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         }
     };
 
+    /**
+     * Borra un parámetro desde un eje del gráfico y lo inserta en el otro eje.
+     * @param {SavedSimulationData[]} axis lista con el nombre de la simulación y sus parámetros a graficar.
+     * @param {string} name nombre de le simulación
+     * @param {string} k parámetro a borrar
+     * @param axisName eje derecho o izquierdo del gráfico.
+     */
     const deleteParameterFromAxis = (axis, name, k, axisName) => {
         const simByName = axis.filter((param) => {
             return param.name === name;
@@ -120,6 +153,12 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
     let rightAxisAux = rightAxis;
     let leftAxisAux = leftAxis;
 
+    /**
+     * Inserts the first parameter of a simulation.
+     * @param {string} name simulation name.
+     * @param {string} k parameter to enter.
+     * @param axisName right or left axis of the graph.
+     */
     const setAuxAxis = (name, k, axisName) => {
         if (axisName === "right") {
             rightAxisAux = [...rightAxisAux, { name, keys: [k] }];
@@ -128,6 +167,13 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         }
     };
 
+    /**
+     * Inserts all the parameters in an axis.
+     * @param {SavedSimulationData[]} axis list with the name of the simulation and its parameters to graph.
+     * @param {string} name simulation name.
+     * @param {string} k parameter to enter.
+     * @param axisName right or left axis of the graph.
+     */
     const setAllParametersToAxis = (axis, name, k, axisName) => {
         if (axis.length === 0) {
             setAuxAxis(name, k, axisName);
@@ -147,7 +193,11 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
             }
         }
     };
-
+    /**
+     * Move all parameters from one axis to the other.
+     * @param {SavedSimulationData[]} axis list with the name of the simulation and its parameters to graph.
+     * @param {string} axisName right or left axis of the graph.
+     */
     const removeAllParameters = (axis, axisName) => {
         if (axisName === "left") {
             axis.forEach((sim) => {
@@ -178,6 +228,10 @@ const DoubleYAxis = ({ savedKeys, index }: Props) => {
         }
     };
 
+    /**
+     * Saves the information to display a graph in the "Results" context.
+     * @param {string} name chart name.
+     */
     const setParametersToAllGraphicData = (name) => {
         const auxAllGraphicData = allGraphicData;
         auxAllGraphicData[index] = [

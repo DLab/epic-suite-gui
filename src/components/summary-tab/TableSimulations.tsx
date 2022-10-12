@@ -23,6 +23,11 @@ import RunButton from "./RunButton";
 
 type ReducedIdForPermissions = Record<number, boolean>;
 
+/**
+ * Summary table to select the models to be simulated.
+ * @subcategory Summary tab
+ * @component
+ */
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const TableSimulations = () => {
     const { completeModel } = useContext(NewModelSetted);

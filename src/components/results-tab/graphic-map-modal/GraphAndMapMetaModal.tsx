@@ -34,6 +34,11 @@ interface Props {
     mapInfo: MapResultsData;
 }
 
+/**
+ * Modal to visualize the metapopulation results in maps and graphs simultaneously.
+ * @subcategory Results
+ * @component
+ */
 const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [parameterModalMetaValue, setParameterModalMetaValue] = useState();
@@ -44,23 +49,39 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
     const [simModalMetaDate, setSimModalMetaDate] = useState("");
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
-    const { realDataSimulationKeys } = useContext(GraphicsData);
+    const { realDataSimulationKeys, globalParametersValues } =
+        useContext(GraphicsData);
+    const globalData = JSON.parse(globalParametersValues);
     const [graphMetaInfo, setGraphMetaInfo] = useState([]);
+    const [globalParameterMetaValue, setGlobalParameterMetaValue] = useState();
 
+    /**
+     * Returns a list with objects composed of the selected parameters and the name of the node.
+     * @param {Array} graphData list of real or simulated metapopulation results.
+     * @returns {Object}
+     */
     const getLeftAxis = (graphData) => {
         return graphData.map((node) => {
             return { keys: [mapInfo.parameter], name: node.name };
         });
     };
 
+    /**
+     * Saves in the "parameterModalMetaValue" state the values of a parameter according to the simulation day.
+     * Saves the highest value of the selected parameter in the "maxModalMetaValue" state.
+     * @param {Array} simData list of real or simulated metapopulatiom data.
+     * @param {string} typeData type of data to filter: real or simulated.
+     */
     const filterModalMetaData = (simData, typeData) => {
         let getModalParameterValue;
+        let getModalGeneralParameterValue;
 
         if (typeData === "Real") {
             let filterKey = mapInfo.parameter.slice(0, -5);
             if (filterKey === "population") {
                 filterKey = "P";
             }
+            // Filters the real data and returns the values according to the selected parameter.
             getModalParameterValue = simData.map((nodeData) => {
                 return Object.values(nodeData[filterKey]);
             });
@@ -69,9 +90,17 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
             if (filterSimKey === "population") {
                 filterSimKey = "S";
             }
+            // Filters the simulated data and returns the values according to the selected parameter.
             getModalParameterValue = simData.map((nodeData) => {
                 return nodeData[filterSimKey];
             });
+            getModalGeneralParameterValue = globalData[0][filterSimKey];
+
+            if (getModalGeneralParameterValue !== undefined) {
+                setGlobalParameterMetaValue(
+                    getModalGeneralParameterValue[simDayMetaModal]
+                );
+            }
         }
         const maxValues = getModalParameterValue.map((valArray) => {
             return Math.max.apply(null, valArray);
@@ -225,18 +254,23 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                                                     {simModalMetaDate}
                                                 </StatNumber>
                                             </Stat>
-                                            {/* <Stat>
-                                                <StatLabel>
-                                                    {mapInfo.parameter} Value
-                                                </StatLabel>
-                                                <StatNumber>
-                                                    {new Intl.NumberFormat(
-                                                        "de-DE"
-                                                    ).format(
-                                                        parameterModalMetaValue
-                                                    )}
-                                                </StatNumber>
-                                            </Stat> */}
+                                            {!mapInfo.parameter.includes(
+                                                "Real"
+                                            ) && (
+                                                <Stat>
+                                                    <StatLabel>
+                                                        {mapInfo.parameter}{" "}
+                                                        Global Value
+                                                    </StatLabel>
+                                                    <StatNumber>
+                                                        {new Intl.NumberFormat(
+                                                            "de-DE"
+                                                        ).format(
+                                                            globalParameterMetaValue
+                                                        )}
+                                                    </StatNumber>
+                                                </Stat>
+                                            )}
                                         </StatGroup>
                                     </Flex>
                                 </Flex>

@@ -38,6 +38,11 @@ interface Props {
     modelCompartment?: string;
 }
 
+/**
+ * Accordion with the parameter settings of a model.
+ * @subcategory NewModel
+ * @component
+ */
 const ModelController = ({
     showSectionVariable,
     setShowSectionInitialConditions,

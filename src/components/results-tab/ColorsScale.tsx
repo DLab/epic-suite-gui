@@ -4,6 +4,11 @@ interface Props {
     maxValue: number;
 }
 
+/**
+ * Color scale for map display.
+ * @subcategory Results
+ * @component
+ */
 const ColorsScale = ({ maxValue }: Props) => {
     const [scaleValues, setScaleValues] = useState([]);
 
@@ -47,6 +52,10 @@ const ColorsScale = ({ maxValue }: Props) => {
         setScaleValues(getScaleValues());
     }, [getScaleValues]);
 
+    /**
+     * Returns the unit to which it should be rounded according to the maximum value of the simulation.
+     * @returns {number}
+     */
     const getQuantityIndicator = () => {
         let indicator;
         if (maxValue / 1000 >= 1) {

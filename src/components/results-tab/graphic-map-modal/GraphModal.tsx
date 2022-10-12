@@ -14,6 +14,11 @@ interface Props {
     duration: number | string;
 }
 
+/**
+ * Line chart for simultaneous display modal.
+ * @subcategory Results
+ * @component
+ */
 const GraphModal = ({
     savedSimulationKeys,
     simDay,
@@ -32,21 +37,21 @@ const GraphModal = ({
      */
     const graphSimulation = (axisKeys) => {
         return axisKeys.map((simKey) => {
-            // para obtener toda la data de una simulación
+            // Get data of a simulation.
             const simKeyFilter = data.filter((sim) => {
                 return sim.name === simKey.name;
             });
-            // para obtener toda la data REAL de una simulación
+            // Get real data of a simulation.
             const simRealDataKeyFilter = realDataSimulationKeys.filter(
                 (sim) => {
                     return sim.name === simKey.name;
                 }
             );
-            // para obtener las keys seleccionadas de la simulación
+            // Get the selected keys from the simulation.
             const savedKeys = simKey.keys;
             return savedKeys.map((key) => {
                 if (key.includes("Real")) {
-                    // para encontrar la data según la key guardada
+                    // Find the data according to the saved key.
                     let filterKey = key.slice(0, -5);
                     if (filterKey === "population") {
                         filterKey = "P";

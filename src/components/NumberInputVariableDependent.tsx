@@ -34,6 +34,10 @@ interface Props {
     supplementaryParam?: string;
 }
 
+/**
+ * Input to insert the values of the time-dependent parameters of the models.
+ * @component
+ */
 const NumberInputVariableDependent = ({
     value,
     nameParams,
@@ -54,6 +58,10 @@ const NumberInputVariableDependent = ({
         useState<boolean>(false);
     const dispatch = useDispatch();
 
+    /**
+     * Saves the new values of the time-dependent variables.
+     * @param val new parameter value.
+     */
     const handleChange = (val: string | number) => {
         if (isStateLocal) {
             setIsEditingLocalValue(true);

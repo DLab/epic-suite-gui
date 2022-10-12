@@ -18,16 +18,21 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
-// import metaData from "../../../data/metapopulationData.json";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
+import { SavedSimulationData } from "types/GraphicsTypes";
 import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 type ReducerForMetapopulationSelections = Record<number, boolean>;
 type ReducerForAllLists = Record<number, boolean>;
 
+/**
+ * Table to select parameters to graph in metapopulation models.
+ * @subcategory Results
+ * @component
+ */
 const MetapopulationSelectTable = () => {
     const { aux } = useContext(TabIndex);
     const metaData = JSON.parse(aux);
@@ -65,6 +70,11 @@ const MetapopulationSelectTable = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [displayedParameters]);
 
+    /**
+     * Check the same parameter on all nodes.
+     * @param isCheckedListUpdate list with parent parameters checked.
+     * @param value parent parameter to check.
+     */
     const checkAllParameters = (isCheckedListUpdate, value) => {
         let checkListAux = checkList;
         const allCheckListFiltered = Object.keys(isCheckedListUpdate).filter(
@@ -95,6 +105,11 @@ const MetapopulationSelectTable = () => {
         });
     };
 
+    /**
+     * Sort the parameters according to their nodes.
+     * @param checkedList =list with selected parameters.
+     * @returns {SavedSimulationData[]} list with name of the node and its selected parameters.
+     */
     const getLeftAxis = (checkedList) => {
         let savedMetaSimulation = [];
         checkedList.map((parameterSaved) => {
@@ -128,22 +143,31 @@ const MetapopulationSelectTable = () => {
                     return simulationAux;
                 });
             }
+
             return savedMetaSimulation;
         });
 
         return savedMetaSimulation;
     };
 
+    /**
+     * @returns {string[]} returns a list with the keys of the parameters marked true.
+     */
     const getGraphicMetaSelections = () => {
         let checkedList = [];
+
         Object.keys(checkList).forEach((parameter) => {
             if (checkList[parameter]) {
                 checkedList = [...checkedList, parameter];
             }
         });
+
         return checkedList;
     };
 
+    /**
+     * Save the selected parameters and their values in the "Results" context to display them on the chart.
+     */
     const getGraphicValues = () => {
         try {
             const selectedParametersArray = getGraphicMetaSelections();
@@ -176,6 +200,11 @@ const MetapopulationSelectTable = () => {
         }
     };
 
+    /**
+     * Deletes the column parameter from the table.
+     * Marks the parameter to be deleted as false.
+     * @param parameter parameter to delete.
+     */
     const deleteFromDisplayedList = (parameter) => {
         setDisplayedParameters(
             displayedParameters.filter(
@@ -216,7 +245,7 @@ const MetapopulationSelectTable = () => {
                             <Th>Node</Th>
                             {displayedParameters.map((parameter) => {
                                 return (
-                                    <Th>
+                                    <Th key={parameter}>
                                         <Checkbox
                                             onChange={(e) => {
                                                 setCheckAllList({

@@ -20,6 +20,11 @@ interface Props {
     simulationsPopulationType: string;
 }
 
+/**
+ * Map and chart container.
+ * @subcategory Results
+ * @component
+ */
 const GraphicAndMapResults = ({ onOpen, simulationsPopulationType }: Props) => {
     const {
         setAllGraphicData,
@@ -32,6 +37,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulationType }: Props) => {
     const { completeModel } = useContext(NewModelSetted);
     const [sizeGraphic, setSizeGraphic] = useState([0, 0]);
     let index = -1;
+
     useEffect(() => {
         if (containerGraphElement) {
             setSizeGraphic([
@@ -40,6 +46,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulationType }: Props) => {
             ]);
         }
     }, [containerGraphElement, allResults]);
+
     const listResults = allResults.map((result) => {
         if (Array.isArray(result)) {
             index += 1;
