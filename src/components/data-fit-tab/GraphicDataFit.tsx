@@ -7,11 +7,21 @@ interface Props {
     algorithmValue: undefined | string;
 }
 
+/**
+ * Graph for analysis of real data versus adjusted data.
+ * @subcategory DataFitTab
+ * @component
+ */
 const GraphicDataFit = ({ algorithmValue }: Props) => {
     const { fittedData, realDataToFit } = useContext(DataFit);
     const [axios, setAxios] = useState([]);
     const [shapesArray, setShapesArray] = useState([]);
 
+    /**
+     * Saves the real and adjusted values of the selected parameter.
+     * Returns a data set ready to send as data to the Plot.
+     * @param {string} parameter name of the parameter to plot.
+     */
     const getAxisData = (parameter) => {
         const getFittedData = {
             x: Object.keys(fittedData[0].I),

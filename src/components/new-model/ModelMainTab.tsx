@@ -51,6 +51,11 @@ const ModelsMap = dynamic(() => import("./ModelsMap"), {
     ssr: false,
 });
 
+/**
+ * Component container for configuring model parameters, obtaining initial conditions, and displaying geographic selection.
+ * @subcategory NewModel
+ * @component
+ */
 // eslint-disable-next-line complexity
 const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
     const [modelName, setModelName] = useState("");
@@ -87,12 +92,19 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         setAllResults,
     } = useContext(GraphicsData);
 
+    /**
+     * Gets the saved value of the requested parameter.
+     */
     const getDefaultValueParameters = useCallback(
         (field) => {
             return newModel.find(({ idNewModel }) => idNewModel === id)[field];
         },
         [newModel, id]
     );
+
+    /**
+     * Save a new model in the context and in local storage.
+     */
     const getModelCompleteObj = () => {
         const modelInfo = newModel.find(
             (model: NewModelsParams) => model.idNewModel === id
@@ -219,6 +231,9 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [completeModel, id, setIsModelSavedLocal, parameters]);
 
+    /**
+     * Delete a model from local storage.
+     */
     const deleteFromLocalStorage = () => {
         const modelFilter = [...completeModel].filter(
             (model: NewModelsAllParams) => model.idNewModel !== +id

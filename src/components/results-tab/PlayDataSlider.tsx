@@ -20,6 +20,11 @@ interface Props {
     setSimDay: (val: number) => void;
 }
 
+/**
+ * Component that allows you to put play or pause the visualization of the result of a simulation.
+ * @subcategory Results
+ * @component
+ */
 const PlayDataSlider = ({
     map,
     isPlaying,

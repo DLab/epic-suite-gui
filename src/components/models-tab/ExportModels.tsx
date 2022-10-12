@@ -28,17 +28,18 @@ interface PropsExportModels {
     idModel?: number;
 }
 
+/**
+ * Component that provides the functionality to be able to export created models.
+ * @subcategory models-tab
+ * @component
+ */
 const ExportModels = ({ idModel }: PropsExportModels) => {
     const { completeModel } = useContext(NewModelSetted);
     const { geoSelections } = useContext(SelectFeature);
     const [tomlFile, setTomlFile] = useState<string>("");
     const [enableButton, setEnableButton] = useState(false);
     const [nameModelForToml, setNameModelForToml] = useState<string>("");
-    /**
-     * It creates a string for a toml file.
-     * @param {number} id - number
-     * @returns A string with the model in toml format.
-     */
+
     // eslint-disable-next-line sonarjs/cognitive-complexity
     useEffect(() => {
         const modelSelected = completeModel.find(
@@ -52,8 +53,13 @@ const ExportModels = ({ idModel }: PropsExportModels) => {
         }
     }, [completeModel, idModel]);
 
+    /**
+     * It creates a string for a toml file.
+     * @param {number} id - number
+     * @returns A string with the model in toml format.
+     */
     const createStringForToml = (id: number): string => {
-        // establecer type de salida de la funcion
+        // Set function output type.
         const modelSelected = completeModel.find(
             // eslint-disable-next-line @typescript-eslint/dot-notation
             (model) => model["idNewModel"] === id

@@ -34,23 +34,28 @@ const Graphic = ({
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
 
+    /**
+     * Create an object ready to send as data to the Bar Plot.
+     * @param {Array} axisKeys List with objects composed by simulation name and parameters chosen to graph.
+     * @returns {Object}
+     */
     const graphSimulation = (axisKeys, axis) => {
         return axisKeys.map((simKey) => {
-            // para obtener toda la data de una simulación
+            // To get all the data of a simulation.
             const simKeyFilter = data.filter((sim) => {
                 return sim.name === simKey.name;
             });
-            // para obtener toda la data REAL de una simulación
+            // To get all the real data of a simulation.
             const simRealDataKeyFilter = realDataSimulationKeys.filter(
                 (sim) => {
                     return sim.name === simKey.name;
                 }
             );
-            // para obtener las keys seleccionadas de la simulación
+            // To get the selected keys from the simulation.
             const savedKeys = simKey.keys;
             return savedKeys.map((key) => {
                 if (key.includes("Real")) {
-                    // para encontrar la data según la key guardada
+                    // To find the data according to the saved key.
                     const filterKey = key.slice(0, -5);
                     const simulationKeys = simRealDataKeyFilter[0][filterKey];
                     if (axis === "rightAxis") {
@@ -122,6 +127,11 @@ const Graphic = ({
         setAxios(allDataToGraph);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [savedSimulationKeys, allGraphicData]);
+
+    /**
+     * Save the new chart name.
+     * @param {string} name
+     */
     const setNewGraphicName = (name) => {
         const allDataAux = allGraphicData;
         const auxAllGraphicData = allDataAux[index];

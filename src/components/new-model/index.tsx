@@ -21,9 +21,18 @@ import createIdComponent from "utils/createIdcomponent";
 
 import ModelMainTab from "./ModelMainTab";
 
+/**
+ * Component responsible for displaying and creating models.
+ * @category NewModel
+ * @component
+ */
 const NewModel = () => {
     const [tabIndex, setTabIndex] = useState<number>();
     const { newModel, setNewModel } = useContext(NewModelSetted);
+
+    /**
+     * Add a tab with all the settings to be able to create a new model.
+     */
     const addNewModel = () => {
         setNewModel({
             type: "add",

@@ -16,6 +16,11 @@ interface Props {
     setNodeNameFilter: (value: string) => void;
 }
 
+/**
+ * Node finder for metapopulation models.
+ * @subcategory DataFitTab
+ * @component
+ */
 const NodeSearchFilter = ({ setNodeNameFilter }: Props) => {
     const [searchNode, setSearchNode] = useState("");
     const [searchResult, setSearchResult] = useState([]);
@@ -24,12 +29,20 @@ const NodeSearchFilter = ({ setNodeNameFilter }: Props) => {
     const { fittedData } = useContext(DataFit);
     const ref = useRef(null);
 
+    /**
+     * Stop showing the list in case of clicking outside the search engine.
+     * @param event click event.
+     */
     const handleClickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
             setShowList(false);
         }
     };
 
+    /**
+     * Saves the value written in the input in the search engine.
+     * @param e input value.
+     */
     const handleChange = (e) => {
         setSearchNode(e.target.value);
     };

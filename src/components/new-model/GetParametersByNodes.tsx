@@ -354,6 +354,14 @@ const paramsValues = {
     pIv_det: 1,
 };
 
+/**
+ * Returns all the information of each of the nodes that make up the model.
+ * @param {string} name model name.
+ * @param {string} modelValue compartments.
+ * @param {string} startDate model start day.
+ * @param {string[]} nodesValues node name list.
+ * @returns {EpidemicsData}
+ */
 const getArrayParametersByNode = (
     name,
     modelValue,
@@ -437,6 +445,12 @@ const getArrayParametersByNode = (
     };
 };
 
+/**
+ * It gives all the information to be able to save an adjusted model.
+ * @param {EpidemicsData} originalParamsValue parameter values before being adjusted.
+ * @param {Object} fittedData adjusted parameter values.
+ * @returns {EpidemicsData}
+ */
 export const getParametersFitModel = (
     originalParamsValue,
     fittedData

@@ -34,6 +34,11 @@ interface Props {
     sizeGraphic: number[];
 }
 
+/**
+ * Container the visualization of the result in a map of a metapopulation simulation.
+ * @subcategory Results
+ * @component
+ */
 const MetaMapResults = ({ map, sizeGraphic }: Props) => {
     const [simMetaDay, setSimMetaDay] = useState(0);
     const [simMetaDate, setSimMetaDate] = useState("");
@@ -55,6 +60,11 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
         setSimMetaDay(0);
     }, [map]);
 
+    /**
+     * Saves in the "parameterMetaValue" state the values of a parameter according to the simulation day.
+     * @param  {Array} simData list of real or simulated metapopulation data.
+     * @param {string}  typeData type of data to filter: real or simulated.
+     */
     const filterMetaData = (simData, typeData) => {
         let getParameterValue;
 
