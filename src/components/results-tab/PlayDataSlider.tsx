@@ -6,11 +6,12 @@ import {
     SliderThumb,
     IconButton,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import PauseIcon from "components/icons/PauseIcon";
 import PlayIcon from "components/icons/PlayIcon";
-import { MapResultsData } from "types/GraphicsTypes";
+import { GraphicsData } from "context/GraphicsContext";
+import { KeysRealData, MapResultsData } from "types/GraphicsTypes";
 
 interface Props {
     map: MapResultsData;
@@ -32,6 +33,23 @@ const PlayDataSlider = ({
     simDay,
     setSimDay,
 }: Props) => {
+    const [maxDayValue, setMaxDayValue] = useState(500);
+    const { realDataSimulationKeys } = useContext(GraphicsData);
+
+    useEffect(() => {
+        if (map.parameter.includes("Real")) {
+            const parameterValues = realDataSimulationKeys.filter(
+                (sim: KeysRealData) => {
+                    return sim.name === map.nameSim;
+                }
+            )[0].I;
+            const parameterValuesLength = Object.keys(parameterValues).length;
+            setMaxDayValue(parseInt(parameterValuesLength.toString(), 10) - 1);
+        } else {
+            setMaxDayValue(parseInt(map.duration.toString(), 10) - 1);
+        }
+    }, [map.duration, map.nameSim, map.parameter, realDataSimulationKeys]);
+
     return (
         <Flex w="95%" m="2% 0">
             {!isPlaying ? (
@@ -69,7 +87,7 @@ const PlayDataSlider = ({
             <Slider
                 aria-label="slider-ex-1"
                 defaultValue={1}
-                max={parseInt(map.duration.toString(), 10) - 1}
+                max={maxDayValue}
                 value={simDay}
                 onChange={(value) => {
                     setSimDay(value);
