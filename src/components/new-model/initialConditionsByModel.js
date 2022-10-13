@@ -100,7 +100,7 @@ export const postInitialConditionsByModel = (result) => {
             I_d: +I_d,
             I_ac: +I_ac,
             population: +P,
-            R: +R,
+            R: 0,
         };
     }
     // if (Compartment === "SEIR") {
@@ -119,7 +119,7 @@ export const postInitialConditionsByModel = (result) => {
             I_d: +I_d,
             I_ac: +I_ac,
             population: +P,
-            R: +R,
+            R: 0,
             // E: +E,
             H_d: +H_d,
             H: +H_ac,
@@ -127,9 +127,9 @@ export const postInitialConditionsByModel = (result) => {
             Iv_ac: +V_ac,
             D_d: +D_d,
             D: +D_ac,
-            H_cap: +H_cap,
-            Iv: +Iv,
-            Sv: +Sv,
+            H_cap: 0,
+            Iv: 0,
+            Sv: 0,
         };
     }
     return payload;
