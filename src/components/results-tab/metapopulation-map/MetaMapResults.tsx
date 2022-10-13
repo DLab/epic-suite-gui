@@ -133,7 +133,10 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
         <Flex direction="column" w="48%" mb="2rem">
             <Flex justify="end" alignSelf="end" mr="0.2rem" w="10%" mt="2%">
                 <Flex h="1.5rem">
-                    <GraphAndMapMetaModal mapInfo={map} />
+                    <GraphAndMapMetaModal
+                        mapInfo={map}
+                        colorScale={colorScale}
+                    />
                     <ColorScaleMenu setColorScale={setColorScale} />
                     <DeleteIcon
                         color="#16609E"

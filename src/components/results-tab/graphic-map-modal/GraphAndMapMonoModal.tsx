@@ -243,6 +243,7 @@ const GraphAndMapMonoModal = ({ mapInfo, colorScale }: Props) => {
                                         savedSimulationKeys={[graphInfo]}
                                         simDay={simDayModal}
                                         maxValue={maxModalValue}
+                                        colorScale={colorScale}
                                     />
                                 </Flex>
                             </Flex>
