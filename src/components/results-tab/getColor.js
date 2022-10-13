@@ -1,15 +1,4 @@
-const colors = [
-    "#440154",
-    "#482878",
-    "#3e4989",
-    "#31688e",
-    "#26828e",
-    "#1f9e89",
-    "#35b779",
-    "#6ece58",
-    "#b5de2b",
-    "#fde725",
-];
+import colorsScales from "./getColorsScales";
 
 /**
  * Return the color according to the value of the parameter on the day delivered.
@@ -17,16 +6,17 @@ const colors = [
  * @param {number} maxValue maximum value of the parameter between the values of the simulation.
  * @returns {string}
  */
-const getColor = (dayValue, maxValue) => {
-    const rangeValue = Math.ceil(maxValue / colors.length);
+const getColor = (dayValue, maxValue, scaleName) => {
+    const rangeValue = Math.ceil(maxValue / colorsScales[scaleName].length);
     let color;
-    for (let i = 0; i < 9; i += 1) {
+    const scaleLength = colorsScales[scaleName].length - 1;
+    for (let i = 0; i < scaleLength; i += 1) {
         if (i === 0) {
             if (dayValue <= rangeValue) {
-                color = colors[i];
+                color = colorsScales[scaleName][i];
             }
         } else if (dayValue > i * rangeValue) {
-            color = colors[i];
+            color = colorsScales[scaleName][i];
         }
     }
     return color;

@@ -32,6 +32,7 @@ import GraphModal from "./GraphModal";
 
 interface Props {
     mapInfo: MapResultsData;
+    colorScale: string;
 }
 
 /**
@@ -39,7 +40,7 @@ interface Props {
  * @subcategory Results
  * @component
  */
-const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
+const GraphAndMapMonoModal = ({ mapInfo, colorScale }: Props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [parameterModalValue, setParameterModalValue] = useState();
     // const [scrollBehavior, setScrollBehavior] = React.useState("inside");
@@ -160,7 +161,10 @@ const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
                                         }}
                                         scrollWheelZoom={false}
                                     >
-                                        <ColorsScale maxValue={maxModalValue} />
+                                        <ColorsScale
+                                            maxValue={maxModalValue}
+                                            colorScale={colorScale}
+                                        />
                                         <TileLayer
                                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -175,6 +179,7 @@ const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
                                                 statesData={
                                                     mapInfo.geoDataSelected
                                                 }
+                                                colorScale={colorScale}
                                             />
                                         ) : (
                                             <CountiesResultsMap
@@ -186,6 +191,7 @@ const GraphAndMapMonoModal = ({ mapInfo }: Props) => {
                                                 coutiesData={
                                                     mapInfo.geoDataSelected
                                                 }
+                                                colorScale={colorScale}
                                             />
                                         )}
                                     </MapContainer>

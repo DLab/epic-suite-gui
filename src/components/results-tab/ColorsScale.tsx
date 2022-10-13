@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 
+import { colorGradient } from "./getColorsScales";
+
 interface Props {
     maxValue: number;
+    colorScale: string;
 }
 
 /**
@@ -9,27 +12,18 @@ interface Props {
  * @subcategory Results
  * @component
  */
-const ColorsScale = ({ maxValue }: Props) => {
+const ColorsScale = ({ maxValue, colorScale }: Props) => {
     const [scaleValues, setScaleValues] = useState([]);
 
     const getScaleValues = useCallback(() => {
-        const colors = [
-            "#fde725, #b5de2b",
-            "#b5de2b, #6ece58",
-            "#6ece58, #35b779",
-            "#35b779, #1f9e89",
-            "#1f9e89, #26828e",
-            "#26828e, #31688e",
-            "#31688e, #3e4989",
-            "#3e4989, #482878",
-            "#482878, #440154",
-        ];
-        const rangeValue = Math.ceil(maxValue / colors.length);
+        const rangeValue = Math.ceil(
+            maxValue / colorGradient[colorScale].length
+        );
         let min;
         let max;
-        return colors.map((cc, ic) => {
-            const index = colors.length - ic;
-            if (ic === colors.length - 1) {
+        return colorGradient[colorScale].map((cc, ic) => {
+            const index = colorGradient[colorScale].length - ic;
+            if (ic === colorGradient[colorScale].length - 1) {
                 min = 0;
                 max = rangeValue;
             } else if (ic === 1 || ic === 3 || ic === 5 || ic === 7) {
@@ -46,7 +40,7 @@ const ColorsScale = ({ maxValue }: Props) => {
                 maxValue: max,
             };
         });
-    }, [maxValue]);
+    }, [colorScale, maxValue]);
 
     useEffect(() => {
         setScaleValues(getScaleValues());
