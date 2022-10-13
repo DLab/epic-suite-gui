@@ -45,7 +45,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
     const [parameterMetaValue, setParameterMetaValue] = useState([]);
     const [maxMetaValue, setMaxMetaValue] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
-
+    const [globalMetaValue, setGlobalMetaValue] = useState();
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
     const {
@@ -54,7 +54,9 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
         setDataToShowInMap,
         setAllResults,
         allGraphicData,
+        globalParametersValues,
     } = useContext(GraphicsData);
+    const globalData = JSON.parse(globalParametersValues);
 
     useEffect(() => {
         setSimMetaDay(0);
@@ -67,6 +69,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
      */
     const filterMetaData = (simData, typeData) => {
         let getParameterValue;
+        let getGeneralParameterValue;
 
         if (typeData === "Real") {
             let filterKey = map.parameter.slice(0, -5);
@@ -84,6 +87,10 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
             getParameterValue = simData.map((nodeData) => {
                 return nodeData[filterSimKey];
             });
+            getGeneralParameterValue = globalData[0][filterSimKey];
+            if (getGeneralParameterValue !== undefined) {
+                setGlobalMetaValue(getGeneralParameterValue[simMetaDay]);
+            }
         }
         const maxValues = getParameterValue.map((valArray) => {
             return Math.max.apply(null, valArray);
@@ -213,6 +220,16 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
                         <StatLabel>Date</StatLabel>
                         <StatNumber>{simMetaDate}</StatNumber>
                     </Stat>
+                    {!map.parameter.includes("Real") && (
+                        <Stat>
+                            <StatLabel>{map.parameter} Global Value</StatLabel>
+                            <StatNumber>
+                                {new Intl.NumberFormat("de-DE").format(
+                                    globalMetaValue
+                                )}
+                            </StatNumber>
+                        </Stat>
+                    )}
                 </StatGroup>
                 <Flex w="95%" m="2% 0">
                     {!isPlaying ? (
