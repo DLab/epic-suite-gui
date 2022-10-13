@@ -55,6 +55,7 @@ const InitialConditionsModel = ({
         H_cap: 0,
         Iv: 0,
         Sv: 0,
+        D_d: 0,
     });
     useEffect(() => {
         if (modelValue === "seirhvd") {
@@ -72,6 +73,7 @@ const InitialConditionsModel = ({
                 H_cap: initialConditions.H_cap,
                 Iv: initialConditions.Iv,
                 Sv: initialConditions.Sv,
+                D_d: initialConditions.D_d,
             });
         } else {
             setValue({
@@ -88,6 +90,7 @@ const InitialConditionsModel = ({
                 H_cap: 0,
                 Iv: 0,
                 Sv: 0,
+                D_d: initialConditions.D_d,
             });
         }
     }, [initialConditions, modelValue]);
