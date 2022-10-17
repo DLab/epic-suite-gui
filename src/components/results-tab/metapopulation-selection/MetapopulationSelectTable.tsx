@@ -1,4 +1,4 @@
-import { InfoIcon } from "@chakra-ui/icons";
+import { AddIcon, InfoIcon } from "@chakra-ui/icons";
 import {
     Checkbox,
     Text,
@@ -11,17 +11,20 @@ import {
     Tr,
     Button,
     useToast,
-    Select,
     Icon,
     Flex,
     Tooltip,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    IconButton,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
-import { SavedSimulationData } from "types/GraphicsTypes";
 import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
@@ -48,7 +51,9 @@ const MetapopulationSelectTable = () => {
         setAllGraphicData,
         setAllResults,
         dataToShowInMap,
+        realDataSimulationKeys,
     } = useContext(GraphicsData);
+    const realMetaData = realDataSimulationKeys;
 
     useEffect(() => {
         const { parameters } = selectedModelsToSimulate.filter(
@@ -66,6 +71,17 @@ const MetapopulationSelectTable = () => {
                 return !displayedParameters.includes(parameter);
             }
         );
+        // Para cuando simulate_meta backend emtregue diccionario con fips
+        // const notDisplayedRealDataList = Object.keys(realMetaData[0]).filter(
+        //     (parameter) => {
+        //         return parameter !== "name" && parameter !== "Compartment";
+        //     }
+        // );
+        // const realDataList = notDisplayedRealDataList.map((parameter) => {
+        //     return `${parameter} Real`;
+        // });
+        // const allParametersList = notDisplayedPametersList.concat(realDataList);
+
         setParametersNotDisplayed(notDisplayedPametersList);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [displayedParameters]);
@@ -222,6 +238,10 @@ const MetapopulationSelectTable = () => {
             },
             parameter
         );
+        setCheckList({
+            ...checkList,
+            [`${parameter}-Global`]: false,
+        });
     };
 
     return (
@@ -280,73 +300,83 @@ const MetapopulationSelectTable = () => {
                                     </Th>
                                 );
                             })}
-                            <Th className="metapopulation-select">
-                                <Select
-                                    placeholder="+"
-                                    bg="#16609e"
-                                    borderColor="#16609e"
-                                    color="white"
-                                    textAlign="center"
-                                    p="0"
-                                    onChange={(e) => {
-                                        setDisplayedParameters([
-                                            ...displayedParameters,
-                                            e.target.value,
-                                        ]);
-                                    }}
-                                >
-                                    {parametersNotDisplayed.map((parameter) => {
-                                        if (
-                                            parameter !== "node" &&
-                                            parameter !== "name"
-                                        ) {
-                                            return (
-                                                <option
-                                                    style={{
-                                                        color: "black",
-                                                        fontSize: "16px",
-                                                    }}
-                                                    value={parameter}
-                                                    key={parameter}
-                                                >
-                                                    {parameter}
-                                                </option>
-                                            );
-                                        }
-                                        return false;
-                                    })}
-                                </Select>
+                            <Th>
+                                <Menu>
+                                    <MenuButton
+                                        as={IconButton}
+                                        aria-label="Options"
+                                        icon={<AddIcon />}
+                                        variant="outline"
+                                        bg="#16609e"
+                                        color="white"
+                                    />
+                                    <MenuList>
+                                        {parametersNotDisplayed.map(
+                                            (parameter) => {
+                                                if (
+                                                    parameter !== "node" &&
+                                                    parameter !== "name"
+                                                ) {
+                                                    return (
+                                                        <MenuItem
+                                                            style={{
+                                                                color: "black",
+                                                                fontSize:
+                                                                    "16px",
+                                                            }}
+                                                            value={parameter}
+                                                            key={parameter}
+                                                            onClick={(e) => {
+                                                                setDisplayedParameters(
+                                                                    [
+                                                                        ...displayedParameters,
+                                                                        parameter,
+                                                                    ]
+                                                                );
+                                                            }}
+                                                        >
+                                                            {parameter}
+                                                        </MenuItem>
+                                                    );
+                                                }
+                                                return false;
+                                            }
+                                        )}
+                                    </MenuList>
+                                </Menu>
                             </Th>
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {/* <Tr>
+                        <Tr>
                             <Td>General results</Td>
                             {displayedParameters.map((parameter) => {
                                 return (
                                     <Td>
                                         <Checkbox
-                                        // bg="white"
-                                        // isChecked={checkList[elem.idNewModel]}
-                                        // onChange={(e) => {
-                                        //     setCheckList({
-                                        //         ...checkList,
-                                        //         [`${parameter}-${elem}`]:
-                                        //             e.target.checked,
-                                        //     });
-                                        // }}
+                                            bg="white"
+                                            isChecked={
+                                                checkList[`${parameter}-Global`]
+                                            }
+                                            onChange={(e) => {
+                                                setCheckList({
+                                                    ...checkList,
+                                                    [`${parameter}-Global`]:
+                                                        e.target.checked,
+                                                });
+                                            }}
                                         />
                                     </Td>
                                 );
                             })}
-                        </Tr> */}
+                        </Tr>
                         {Object.keys(metaData).map((elem) => {
                             return (
                                 <Tr key={elem}>
                                     <Td>{elem}</Td>
                                     {displayedParameters.map((parameter) => {
                                         return (
-                                            <Td>
+                                            <Td key={parameter}>
                                                 <Checkbox
                                                     isChecked={
                                                         checkList[

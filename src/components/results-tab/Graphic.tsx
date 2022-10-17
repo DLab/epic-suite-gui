@@ -28,6 +28,7 @@ const Graphic = ({
         setAllGraphicData,
         dataToShowInMap,
         setAllResults,
+        globalParametersValues,
     } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
     const [graphicName, setGraphicName] = useState("");
@@ -35,7 +36,71 @@ const Graphic = ({
     const data = JSON.parse(aux);
 
     /**
-     * Create an object ready to send as data to the Bar Plot.
+     * Create an object ready to send as global data to the Plot.
+     * @param axis axis side.
+     * @param simulationKeys list with parameter values.
+     * @param key key to graph.
+     * @returns {Object}
+     */
+    const getGlobalDataAxis = (globalData, axis, simulationKeys, key) => {
+        if (axis === "rightAxis") {
+            return {
+                x: globalData[0].t,
+                y: simulationKeys,
+                mode: "lines",
+                line: {
+                    dash: "dot",
+                    width: 2,
+                },
+                name: `${key}- Global} <span style="font-weight: bold">Right</span>`,
+                yaxis: "y2",
+            };
+        }
+        return {
+            x: globalData[0].t,
+            y: simulationKeys,
+            mode: "lines",
+            name: `${key}- Global <span style="font-weight: bold">Left</span>`,
+        };
+    };
+
+    /**
+     * Create an object ready to send as real data to the Plot.
+     * @param axis axis side.
+     * @param simulationKeys list with parameter values.
+     * @param key key to graph.
+     * @param simRealDataKeyFilter real data results.
+     * @returns {Object}
+     */
+    const getRealDataAxis = (
+        axis,
+        simulationKeys,
+        key,
+        simRealDataKeyFilter
+    ) => {
+        if (axis === "rightAxis") {
+            return {
+                x: Object.keys(simulationKeys),
+                y: Object.values(simulationKeys),
+                mode: "lines+markers",
+                line: {
+                    dash: "dot",
+                    width: 2,
+                },
+                name: `${key}-${simRealDataKeyFilter[0].name} <span style="font-weight: bold">Right</span>`,
+                yaxis: "y2",
+            };
+        }
+        return {
+            x: Object.keys(simulationKeys),
+            y: Object.values(simulationKeys),
+            mode: "lines+markers",
+            name: `${key}-${simRealDataKeyFilter[0].name} <span style="font-weight: bold">Left</span>`,
+        };
+    };
+
+    /**
+     * Create an object ready to send as data to the Plot.
      * @param {Array} axisKeys List with objects composed by simulation name and parameters chosen to graph.
      * @returns {Object}
      */
@@ -58,26 +123,24 @@ const Graphic = ({
                     // To find the data according to the saved key.
                     const filterKey = key.slice(0, -5);
                     const simulationKeys = simRealDataKeyFilter[0][filterKey];
-                    if (axis === "rightAxis") {
-                        return {
-                            x: Object.keys(simulationKeys),
-                            y: Object.values(simulationKeys),
-                            mode: "lines+markers",
-                            line: {
-                                dash: "dot",
-                                width: 2,
-                            },
-                            name: `${key}-${simRealDataKeyFilter[0].name} <span style="font-weight: bold">Right</span>`,
-                            yaxis: "y2",
-                        };
-                    }
-                    return {
-                        x: Object.keys(simulationKeys),
-                        y: Object.values(simulationKeys),
-                        mode: "lines+markers",
-                        name: `${key}-${simRealDataKeyFilter[0].name} <span style="font-weight: bold">Left</span>`,
-                    };
+                    return getRealDataAxis(
+                        axis,
+                        simulationKeys,
+                        key,
+                        simRealDataKeyFilter
+                    );
                 }
+                if (simKey.name === "Global") {
+                    const globalData = JSON.parse(globalParametersValues);
+                    const simulationKeys = globalData[0][key];
+                    return getGlobalDataAxis(
+                        globalData,
+                        axis,
+                        simulationKeys,
+                        key
+                    );
+                }
+
                 const simulationKeys = simKeyFilter[0][key];
                 if (axis === "rightAxis") {
                     return {
