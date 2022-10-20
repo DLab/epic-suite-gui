@@ -159,21 +159,32 @@ const RunButton = ({ permission }: Props) => {
     };
 
     /**
+     * Return the scale and fips of the chosen counties or states.
+     * @param id model id.
+     * @returns {Object}
+     */
+    const getScaleAndFeaturesSelected = (id) => {
+        const geoselectionItems = geoSelections.find((g) => g.id === id) || {};
+        const {
+            scale,
+            featureSelected,
+        }: { scale?: string; featureSelected?: string[] } =
+            (typeof geoselectionItems !== "undefined" && geoselectionItems) ||
+            {};
+
+        return { scale, featureSelected };
+    };
+
+    /**
      * Gets objects according to model types chosen to be simulated.
      * @param {NewModelsAllParams[]} simulations selected models to simulate.
      * @returns {Object} differentiated according to SIR, SEIR, SERHVD model.
      */
     const getSimulationSelectedObj = (simulations) => {
         return simulations.map((e) => {
-            const geoselectionItems =
-                geoSelections.find((g) => g.id === e.idGeo) || {};
-            const {
-                scale,
-                featureSelected,
-            }: { scale?: string; featureSelected?: string[] } =
-                (typeof geoselectionItems !== "undefined" &&
-                    geoselectionItems) ||
-                {};
+            const { scale, featureSelected } = getScaleAndFeaturesSelected(
+                e.idGeo
+            );
             if (e.modelType === "seirhvd") {
                 return getSEIRHVDObjMono(
                     e,
@@ -264,8 +275,12 @@ const RunButton = ({ permission }: Props) => {
                 );
                 let response;
                 if (populationType === "metapopulation") {
+                    const { scale, featureSelected } =
+                        getScaleAndFeaturesSelected(selectedModels[0].idGeo);
                     const metaSimulationsSelected = getMetaObj(
-                        selectedModels[0]
+                        selectedModels[0],
+                        scale,
+                        featureSelected
                     );
                     const metaObjectConfig = {
                         [`${selectedModels[0].name}`]: metaSimulationsSelected,
