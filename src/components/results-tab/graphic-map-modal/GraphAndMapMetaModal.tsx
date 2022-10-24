@@ -239,6 +239,7 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                                             setIsPlaying={setIsPlayingMetaModal}
                                             simDay={simDayMetaModal}
                                             setSimDay={setSimDayMetaModal}
+                                            population="metapopulation"
                                         />
                                         <StatGroup w="95%" mt="10%">
                                             <Stat>

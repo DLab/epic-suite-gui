@@ -20,8 +20,7 @@ import { MapContainer, TileLayer } from "react-leaflet";
 
 import ColorsScale from "../ColorsScale";
 import GraphAndMapMetaModal from "../graphic-map-modal/GraphAndMapMetaModal";
-import PauseIcon from "components/icons/PauseIcon";
-import PlayIcon from "components/icons/PlayIcon";
+import PlayDataSlider from "../PlayDataSlider";
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import { MapResultsData } from "types/GraphicsTypes";
@@ -231,55 +230,15 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
                         </Stat>
                     )}
                 </StatGroup>
-                <Flex w="95%" m="2% 0">
-                    {!isPlaying ? (
-                        <IconButton
-                            fontSize="20px"
-                            bg="#16609E"
-                            color="#FFFFFF"
-                            fill="white"
-                            aria-label="Play"
-                            size="sm"
-                            cursor="pointer"
-                            icon={<PlayIcon />}
-                            mr="1rem"
-                            onClick={() => {
-                                setIsPlaying(true);
-                            }}
-                        />
-                    ) : (
-                        <IconButton
-                            fontSize="20px"
-                            bg="#16609E"
-                            color="#FFFFFF"
-                            fill="white"
-                            aria-label="Play"
-                            size="sm"
-                            cursor="pointer"
-                            icon={<PauseIcon />}
-                            mr="1rem"
-                            onClick={() => {
-                                setIsPlaying(false);
-                            }}
-                        />
-                    )}
 
-                    <Slider
-                        aria-label="slider-ex-1"
-                        defaultValue={1}
-                        max={parseInt(map.duration.toString(), 10) - 1}
-                        value={simMetaDay}
-                        onChange={(value) => {
-                            setSimMetaDay(value);
-                            setIsPlaying(false);
-                        }}
-                    >
-                        <SliderTrack>
-                            <SliderFilledTrack />
-                        </SliderTrack>
-                        <SliderThumb />
-                    </Slider>
-                </Flex>
+                <PlayDataSlider
+                    map={map}
+                    isPlaying={isPlaying}
+                    setIsPlaying={setIsPlaying}
+                    simDay={simMetaDay}
+                    setSimDay={setSimMetaDay}
+                    population="metapopulation"
+                />
             </Flex>
         </Flex>
     );

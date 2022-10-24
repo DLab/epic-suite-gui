@@ -19,6 +19,7 @@ interface Props {
     setIsPlaying: (val: boolean) => void;
     simDay: number;
     setSimDay: (val: number) => void;
+    population?: string;
 }
 
 /**
@@ -32,23 +33,35 @@ const PlayDataSlider = ({
     setIsPlaying,
     simDay,
     setSimDay,
+    population,
 }: Props) => {
     const [maxDayValue, setMaxDayValue] = useState(500);
     const { realDataSimulationKeys } = useContext(GraphicsData);
 
     useEffect(() => {
         if (map.parameter.includes("Real")) {
-            const parameterValues = realDataSimulationKeys.filter(
-                (sim: KeysRealData) => {
-                    return sim.name === map.nameSim;
-                }
-            )[0].I;
+            let parameterValues;
+            if (population === "metapopulation") {
+                parameterValues = realDataSimulationKeys[0].I;
+            } else {
+                parameterValues = realDataSimulationKeys.filter(
+                    (sim: KeysRealData) => {
+                        return sim.name === map.nameSim;
+                    }
+                )[0].I;
+            }
             const parameterValuesLength = Object.keys(parameterValues).length;
             setMaxDayValue(parseInt(parameterValuesLength.toString(), 10) - 1);
         } else {
             setMaxDayValue(parseInt(map.duration.toString(), 10) - 1);
         }
-    }, [map.duration, map.nameSim, map.parameter, realDataSimulationKeys]);
+    }, [
+        map.duration,
+        map.nameSim,
+        map.parameter,
+        population,
+        realDataSimulationKeys,
+    ]);
 
     return (
         <Flex w="95%" m="2% 0">
