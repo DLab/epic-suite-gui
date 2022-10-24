@@ -11,6 +11,7 @@ interface Props {
     savedSimulationKeys?: DoubleYAxisData[];
     simDay: number;
     maxValue: number;
+    colorScale: string;
 }
 
 /**
@@ -18,7 +19,12 @@ interface Props {
  * @subcategory Results
  * @component
  */
-const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
+const BarGraphModal = ({
+    savedSimulationKeys,
+    simDay,
+    maxValue,
+    colorScale,
+}: Props) => {
     const { realDataSimulationKeys, allGraphicData } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
     const { aux } = useContext(TabIndex);
@@ -60,7 +66,8 @@ const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
                         marker: {
                             color: getColor(
                                 Object.values(simulationRealKeys)[simDay],
-                                maxValue
+                                maxValue,
+                                colorScale
                             ),
                         },
                         name: `${key} - ${simRealDataKeyFilter[0].name}`,
@@ -80,7 +87,8 @@ const BarGraphModal = ({ savedSimulationKeys, simDay, maxValue }: Props) => {
                     marker: {
                         color: getColor(
                             Object.values(simulationKeys)[simDay],
-                            maxValue
+                            maxValue,
+                            colorScale
                         ),
                     },
                     name: `${key} - ${simKeyFilter[0].name}`,

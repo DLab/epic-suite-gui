@@ -17,6 +17,7 @@ import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import { MapResultsData } from "types/GraphicsTypes";
 
+import ColorScaleMenu from "./ColorScaleMenu";
 import ColorsScale from "./ColorsScale";
 import CountiesResultsMap from "./CountiesResultsMap";
 import GraphAndMapMonoModal from "./graphic-map-modal/GraphAndMapMonoModal";
@@ -53,6 +54,7 @@ const MapResults = ({ map, sizeGraphic }: Props) => {
     const [parameterValue, setParameterValue] = useState();
     const [maxValue, setMaxValue] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
+    const [colorScale, setColorScale] = useState("GnBu");
 
     // const [isGeoDataLoaded, setGeoDataLoaded] = useState(false);
     const { aux } = useContext(TabIndex);
@@ -137,7 +139,11 @@ const MapResults = ({ map, sizeGraphic }: Props) => {
         <Flex direction="column" w="48%" mb="2rem">
             <Flex justify="end" alignSelf="end" mr="0.2rem" w="10%" mt="2%">
                 <Flex h="1.5rem">
-                    <GraphAndMapMonoModal mapInfo={map} />
+                    <GraphAndMapMonoModal
+                        mapInfo={map}
+                        colorScale={colorScale}
+                    />
+                    <ColorScaleMenu setColorScale={setColorScale} />
                     <DeleteIcon
                         color="#16609E"
                         cursor="pointer"
@@ -186,7 +192,10 @@ const MapResults = ({ map, sizeGraphic }: Props) => {
                         }}
                         scrollWheelZoom={false}
                     >
-                        <ColorsScale maxValue={maxValue} />
+                        <ColorsScale
+                            maxValue={maxValue}
+                            colorScale={colorScale}
+                        />
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -197,6 +206,7 @@ const MapResults = ({ map, sizeGraphic }: Props) => {
                                 parameterValue={parameterValue}
                                 maxValue={maxValue}
                                 statesData={map.geoDataSelected}
+                                colorScale={colorScale}
                             />
                         ) : (
                             <CountiesResultsMap
@@ -204,6 +214,7 @@ const MapResults = ({ map, sizeGraphic }: Props) => {
                                 parameterValue={parameterValue}
                                 maxValue={maxValue}
                                 coutiesData={map.geoDataSelected}
+                                colorScale={colorScale}
                             />
                         )}
                     </MapContainer>

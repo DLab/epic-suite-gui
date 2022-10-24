@@ -18,6 +18,7 @@ interface Props {
     parameterValue: number[];
     maxValue: number;
     statesData: GeometryObject | unknown;
+    colorScale: string;
 }
 
 const StatesMetaResultsMap = ({
@@ -25,6 +26,7 @@ const StatesMetaResultsMap = ({
     parameterValue,
     maxValue,
     statesData: statesResultsData,
+    colorScale,
 }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
     const stateResultsData = statesResultsData as unknown as Topology;
@@ -77,7 +79,8 @@ const StatesMetaResultsMap = ({
 
         if (statesSelected?.includes(stateId)) {
             const stateIndex = statesSelected.indexOf(stateId);
-            color = getColor(parameterValue[stateIndex], maxValue);
+            color = getColor(parameterValue[stateIndex], maxValue, colorScale);
+            // color = getColor(parameterValue[stateIndex], maxValue);
         } else {
             color = "#1777c7";
         }

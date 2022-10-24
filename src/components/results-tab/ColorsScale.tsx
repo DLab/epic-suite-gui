@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+
+import { colorGradient } from "./getColorsScales";
 
 interface Props {
     maxValue: number;
+    colorScale: string;
 }
 
 /**
@@ -9,21 +12,39 @@ interface Props {
  * @subcategory Results
  * @component
  */
-const ColorsScale = ({ maxValue }: Props) => {
-    const colors = [
-        "#44010E",
-        "#800026",
-        "#BD0026",
-        "#E31A1C",
-        "#FC4E2A",
-        "#FD8D3C",
-        "#FEB24C",
-        "#FED976",
-    ];
+const ColorsScale = ({ maxValue, colorScale }: Props) => {
+    const [scaleValues, setScaleValues] = useState([]);
 
-    const rangeValue = Math.ceil(maxValue / colors.length);
-    let min;
-    let max;
+    const getScaleValues = useCallback(() => {
+        const rangeValue = Math.ceil(
+            maxValue / colorGradient[colorScale].length
+        );
+        let min;
+        let max;
+        return colorGradient[colorScale].map((cc, ic) => {
+            const index = colorGradient[colorScale].length - ic;
+            if (ic === colorGradient[colorScale].length - 1) {
+                min = 0;
+                max = rangeValue;
+            } else if (ic === 1 || ic === 3 || ic === 5 || ic === 7) {
+                min = "none";
+            } else if (ic === 0) {
+                min = maxValue;
+            } else {
+                min = (index - 1) * rangeValue + 1;
+                max = index * rangeValue;
+            }
+            return {
+                color: `linear-gradient(${cc})`,
+                minValue: min,
+                maxValue: max,
+            };
+        });
+    }, [colorScale, maxValue]);
+
+    useEffect(() => {
+        setScaleValues(getScaleValues());
+    }, [getScaleValues]);
 
     /**
      * Returns the unit to which it should be rounded according to the maximum value of the simulation.
@@ -45,27 +66,25 @@ const ColorsScale = ({ maxValue }: Props) => {
 
     return (
         <div className="info legend">
-            {colors.map((color, i) => {
+            {scaleValues.map((scale) => {
                 const quantityIndicator = getQuantityIndicator();
-
-                const index = colors.length - i;
-                if (i === colors.length - 1) {
-                    min = 0;
-                    max = rangeValue;
-                } else {
-                    min = (index - 1) * rangeValue + 1;
-                    max = index * rangeValue;
-                }
                 const minRound =
-                    Math.round(min / quantityIndicator) * quantityIndicator;
+                    Math.round(scale.minValue / quantityIndicator) *
+                    quantityIndicator;
 
                 return (
-                    <div key={color} style={{ textAlign: "initial" }}>
+                    <div key={scale.color} style={{ textAlign: "initial" }}>
                         <i
                             className="box-legend"
-                            style={{ background: color }}
+                            style={{ background: scale.color }}
                         />
-                        {new Intl.NumberFormat("de-DE").format(minRound)}
+                        {scale.minValue !== "none" && (
+                            <span>
+                                {new Intl.NumberFormat("de-DE").format(
+                                    minRound
+                                )}
+                            </span>
+                        )}
                     </div>
                 );
             })}
