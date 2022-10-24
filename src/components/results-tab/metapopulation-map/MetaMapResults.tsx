@@ -1,7 +1,6 @@
 import { DeleteIcon } from "@chakra-ui/icons";
 import {
     Flex,
-    Spinner,
     Text,
     Slider,
     SliderTrack,
@@ -18,6 +17,7 @@ import dynamic from "next/dynamic";
 import React, { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
+import ColorScaleMenu from "../ColorScaleMenu";
 import ColorsScale from "../ColorsScale";
 import GraphAndMapMetaModal from "../graphic-map-modal/GraphAndMapMetaModal";
 import PlayDataSlider from "../PlayDataSlider";
@@ -44,6 +44,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
     const [parameterMetaValue, setParameterMetaValue] = useState([]);
     const [maxMetaValue, setMaxMetaValue] = useState();
     const [isPlaying, setIsPlaying] = useState(false);
+    const [colorScale, setColorScale] = useState("GnBu");
     const [globalMetaValue, setGlobalMetaValue] = useState();
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
@@ -138,7 +139,11 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
         <Flex direction="column" w="48%" mb="2rem">
             <Flex justify="end" alignSelf="end" mr="0.2rem" w="10%" mt="2%">
                 <Flex h="1.5rem">
-                    <GraphAndMapMetaModal mapInfo={map} />
+                    <GraphAndMapMetaModal
+                        mapInfo={map}
+                        colorScale={colorScale}
+                    />
+                    <ColorScaleMenu setColorScale={setColorScale} />
                     <DeleteIcon
                         color="#16609E"
                         cursor="pointer"
@@ -187,7 +192,10 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
                         }}
                         scrollWheelZoom={false}
                     >
-                        <ColorsScale maxValue={maxMetaValue} />
+                        <ColorsScale
+                            maxValue={maxMetaValue}
+                            colorScale={colorScale}
+                        />
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -198,6 +206,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
                                 parameterValue={parameterMetaValue}
                                 maxValue={maxMetaValue}
                                 statesData={map.geoDataSelected}
+                                colorScale={colorScale}
                             />
                         ) : (
                             <CountiesMetaResultsMap
@@ -205,6 +214,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
                                 parameterValue={parameterMetaValue}
                                 maxValue={maxMetaValue}
                                 countiesData={map.geoDataSelected}
+                                colorScale={colorScale}
                             />
                         )}
                     </MapContainer>

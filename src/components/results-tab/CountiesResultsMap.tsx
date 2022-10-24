@@ -19,6 +19,7 @@ interface Props {
     parameterValue: number;
     maxValue: number;
     coutiesData: GeometryObject | unknown;
+    colorScale: string;
 }
 
 const CountiesResultsMap = ({
@@ -26,6 +27,7 @@ const CountiesResultsMap = ({
     parameterValue,
     maxValue,
     coutiesData,
+    colorScale,
 }: Props) => {
     const { geoSelections } = useContext(SelectFeature);
     const map = useMap();
@@ -75,7 +77,7 @@ const CountiesResultsMap = ({
         const stateId = feature.id;
 
         if (countiesSelected?.includes(stateId)) {
-            color = getColor(parameterValue, maxValue);
+            color = getColor(parameterValue, maxValue, colorScale);
         } else {
             color = "#1777c7";
         }

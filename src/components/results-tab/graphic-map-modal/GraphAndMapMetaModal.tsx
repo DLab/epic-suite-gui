@@ -32,6 +32,7 @@ import GraphModal from "./GraphModal";
 
 interface Props {
     mapInfo: MapResultsData;
+    colorScale: string;
 }
 
 /**
@@ -39,7 +40,7 @@ interface Props {
  * @subcategory Results
  * @component
  */
-const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
+const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [parameterModalMetaValue, setParameterModalMetaValue] = useState();
     // const [scrollBehavior, setScrollBehavior] = React.useState("inside");
@@ -203,6 +204,7 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                                     >
                                         <ColorsScale
                                             maxValue={maxModalMetaValue}
+                                            colorScale={colorScale}
                                         />
                                         <TileLayer
                                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -218,6 +220,7 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                                                 statesData={
                                                     mapInfo.geoDataSelected
                                                 }
+                                                colorScale={colorScale}
                                             />
                                         ) : (
                                             <CountiesMetaResultsMap
@@ -229,6 +232,7 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                                                 countiesData={
                                                     mapInfo.geoDataSelected
                                                 }
+                                                colorScale={colorScale}
                                             />
                                         )}
                                     </MapContainer>
@@ -286,6 +290,7 @@ const GraphAndMapMetaModal = ({ mapInfo }: Props) => {
                                         savedSimulationKeys={graphMetaInfo}
                                         simDay={simDayMetaModal}
                                         maxValue={maxModalMetaValue}
+                                        colorScale={colorScale}
                                     />
                                 </Flex>
                             </Flex>
