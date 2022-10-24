@@ -69,7 +69,7 @@ const getParametersArray = (parametersValue) => {
  * @param  {NewModelsAllParams[]} model
  * @returns {Object}
  */
-const getMetaObj = (model) => {
+const getMetaObj = (model, scale, featureSelected) => {
     return {
         // idSim: model.idNewModel,
         model: {
@@ -86,8 +86,8 @@ const getMetaObj = (model) => {
             importdata: false,
             initdate: "",
             country: "USA",
-            state: "",
-            county: "",
+            state: scale === "States" ? featureSelected : "",
+            county: scale === "Counties" ? featureSelected : "",
             healthservice: "",
             loc_name: "",
             geo_topology: "meta",
