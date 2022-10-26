@@ -48,6 +48,7 @@ const GraphAndMapMonoModal = ({ mapInfo, colorScale }: Props) => {
     const [simDayModal, setSimDayModal] = useState(0);
     const [maxModalValue, setMaxModalValue] = useState();
     const [simModalDate, setSimModalDate] = useState("");
+    const [dataMonoDuration, setDataMonoDuration] = useState<number | string>();
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
     const { realDataSimulationKeys } = useContext(GraphicsData);
@@ -83,12 +84,14 @@ const GraphAndMapMonoModal = ({ mapInfo, colorScale }: Props) => {
                 filterKey = "P";
             }
             getParameterValue = simRealDataKeyFilter[0][filterKey];
+            setDataMonoDuration(Object.keys(getParameterValue).length);
         } else {
             let filterSimKey = mapInfo.parameter;
             if (filterSimKey === "population") {
                 filterSimKey = "S";
             }
             getParameterValue = simRealDataKeyFilter[0][filterSimKey];
+            setDataMonoDuration(mapInfo.duration);
         }
         const parametersValuesArray = Object.values(getParameterValue);
         const getMaxModalValue = Math.max.apply(null, parametersValuesArray);
@@ -237,7 +240,7 @@ const GraphAndMapMonoModal = ({ mapInfo, colorScale }: Props) => {
                                         savedSimulationKeys={[graphInfo]}
                                         simDay={simDayModal}
                                         maxValue={maxModalValue}
-                                        duration={mapInfo.duration}
+                                        duration={dataMonoDuration}
                                     />
                                     <BarGraphModal
                                         savedSimulationKeys={[graphInfo]}
