@@ -106,7 +106,7 @@ const MetapopulationSelectTable = () => {
                         [`${elem}-${node}`]: true,
                     };
                     checkListAux = newCheckList;
-                    setCheckList(newCheckList);
+                    // setCheckList(newCheckList);
                 });
             } else {
                 Object.keys(metaData).forEach((node) => {
@@ -115,10 +115,11 @@ const MetapopulationSelectTable = () => {
                         [`${elem}-${node}`]: false,
                     };
                     checkListAux = newCheckList2;
-                    setCheckList(newCheckList2);
+                    // setCheckList(newCheckList2);
                 });
             }
         });
+        return checkListAux;
     };
 
     /**
@@ -231,7 +232,7 @@ const MetapopulationSelectTable = () => {
             ...checkAllList,
             [`${parameter}`]: false,
         });
-        checkAllParameters(
+        const listParametersByNodes = checkAllParameters(
             {
                 ...checkAllList,
                 [`${parameter}`]: false,
@@ -239,7 +240,7 @@ const MetapopulationSelectTable = () => {
             parameter
         );
         setCheckList({
-            ...checkList,
+            ...listParametersByNodes,
             [`${parameter}-Global`]: false,
         });
     };
@@ -273,13 +274,18 @@ const MetapopulationSelectTable = () => {
                                                     [`${parameter}`]:
                                                         e.target.checked,
                                                 });
-                                                checkAllParameters(
-                                                    {
-                                                        ...checkAllList,
-                                                        [`${parameter}`]:
-                                                            e.target.checked,
-                                                    },
-                                                    parameter
+                                                const getAllParametersChilds =
+                                                    checkAllParameters(
+                                                        {
+                                                            ...checkAllList,
+                                                            [`${parameter}`]:
+                                                                e.target
+                                                                    .checked,
+                                                        },
+                                                        parameter
+                                                    );
+                                                setCheckList(
+                                                    getAllParametersChilds
                                                 );
                                             }}
                                         >
@@ -349,7 +355,7 @@ const MetapopulationSelectTable = () => {
                     </Thead>
                     <Tbody>
                         <Tr>
-                            <Td>General results</Td>
+                            <Td>Global results</Td>
                             {displayedParameters.map((parameter) => {
                                 return (
                                     <Td>

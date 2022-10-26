@@ -46,6 +46,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [colorScale, setColorScale] = useState("GnBu");
     const [globalMetaValue, setGlobalMetaValue] = useState();
+    const [globalMetaRealValue, setGlobalMetaRealValue] = useState();
     const { aux } = useContext(TabIndex);
     const data = JSON.parse(aux);
     const {
@@ -79,6 +80,11 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
             getParameterValue = simData.map((nodeData) => {
                 return Object.values(nodeData[filterKey]);
             });
+            const generalValue = simData.filter((nodeData) => {
+                return nodeData.name === "global_results";
+            });
+            const getGeneralRealValue = generalValue[0][filterKey];
+            setGlobalMetaRealValue(getGeneralRealValue[simMetaDay]);
         } else {
             let filterSimKey = map.parameter;
             if (filterSimKey === "population") {
@@ -229,16 +235,22 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
                         <StatLabel>Date</StatLabel>
                         <StatNumber>{simMetaDate}</StatNumber>
                     </Stat>
-                    {!map.parameter.includes("Real") && (
-                        <Stat>
-                            <StatLabel>{map.parameter} Global Value</StatLabel>
+                    <Stat>
+                        <StatLabel>{map.parameter} Global Value</StatLabel>
+                        {map.parameter.includes("Real") ? (
+                            <StatNumber>
+                                {new Intl.NumberFormat("de-DE").format(
+                                    globalMetaRealValue
+                                )}
+                            </StatNumber>
+                        ) : (
                             <StatNumber>
                                 {new Intl.NumberFormat("de-DE").format(
                                     globalMetaValue
                                 )}
                             </StatNumber>
-                        </Stat>
-                    )}
+                        )}
+                    </Stat>
                 </StatGroup>
 
                 <PlayDataSlider

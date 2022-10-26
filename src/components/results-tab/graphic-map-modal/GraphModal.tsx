@@ -5,7 +5,7 @@ import Plot from "react-plotly.js";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
-import { DoubleYAxisData } from "types/GraphicsTypes";
+import { DoubleYAxisData, SavedSimulationData } from "types/GraphicsTypes";
 
 interface Props {
     savedSimulationKeys?: DoubleYAxisData[];
@@ -88,7 +88,11 @@ const GraphModal = ({
     };
 
     useEffect(() => {
-        const axisKeys = savedSimulationKeys[0].leftAxis;
+        const axisKeys = savedSimulationKeys[0].leftAxis.filter(
+            (key: SavedSimulationData) => {
+                return key.name !== "global_results";
+            }
+        );
         const axiosData = graphSimulation(axisKeys);
         let dataToGraph = [];
 

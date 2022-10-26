@@ -55,6 +55,9 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
     const globalData = JSON.parse(globalParametersValues);
     const [graphMetaInfo, setGraphMetaInfo] = useState([]);
     const [globalParameterMetaValue, setGlobalParameterMetaValue] = useState();
+    const [globalParameterRealMetaValue, setGlobalParameterRealMetaValue] =
+        useState();
+    const [dataDuration, setDataDuration] = useState<number | string>();
 
     /**
      * Returns a list with objects composed of the selected parameters and the name of the node.
@@ -86,6 +89,14 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
             getModalParameterValue = simData.map((nodeData) => {
                 return Object.values(nodeData[filterKey]);
             });
+            const generalModalValue = simData.filter((nodeData) => {
+                return nodeData.name === "global_results";
+            });
+            const getGeneralRealModalValue = generalModalValue[0][filterKey];
+            setGlobalParameterRealMetaValue(
+                getGeneralRealModalValue[simDayMetaModal]
+            );
+            setDataDuration(Object.keys(getGeneralRealModalValue).length);
         } else {
             let filterSimKey = mapInfo.parameter;
             if (filterSimKey === "population") {
@@ -102,6 +113,7 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
                     getModalGeneralParameterValue[simDayMetaModal]
                 );
             }
+            setDataDuration(mapInfo.duration);
         }
         const maxValues = getModalParameterValue.map((valArray) => {
             return Math.max.apply(null, valArray);
@@ -259,14 +271,22 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
                                                     {simModalMetaDate}
                                                 </StatNumber>
                                             </Stat>
-                                            {!mapInfo.parameter.includes(
-                                                "Real"
-                                            ) && (
-                                                <Stat>
-                                                    <StatLabel>
-                                                        {mapInfo.parameter}{" "}
-                                                        Global Value
-                                                    </StatLabel>
+                                            <Stat>
+                                                <StatLabel>
+                                                    {mapInfo.parameter} Global
+                                                    Value
+                                                </StatLabel>
+                                                {mapInfo.parameter.includes(
+                                                    "Real"
+                                                ) ? (
+                                                    <StatNumber>
+                                                        {new Intl.NumberFormat(
+                                                            "de-DE"
+                                                        ).format(
+                                                            globalParameterRealMetaValue
+                                                        )}
+                                                    </StatNumber>
+                                                ) : (
                                                     <StatNumber>
                                                         {new Intl.NumberFormat(
                                                             "de-DE"
@@ -274,8 +294,8 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
                                                             globalParameterMetaValue
                                                         )}
                                                     </StatNumber>
-                                                </Stat>
-                                            )}
+                                                )}
+                                            </Stat>
                                         </StatGroup>
                                     </Flex>
                                 </Flex>
@@ -284,7 +304,7 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
                                         savedSimulationKeys={graphMetaInfo}
                                         simDay={simDayMetaModal}
                                         maxValue={maxModalMetaValue}
-                                        duration={mapInfo.duration}
+                                        duration={dataDuration}
                                     />
                                     <BarGraphModal
                                         savedSimulationKeys={graphMetaInfo}
