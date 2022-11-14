@@ -6,12 +6,14 @@ import Plot from "react-plotly.js";
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import { DoubleYAxisData, SavedSimulationData } from "types/GraphicsTypes";
+import getNodeName from "utils/getNodeNames";
 
 interface Props {
     savedSimulationKeys?: DoubleYAxisData[];
     simDay: number;
     maxValue: number;
     duration: number | string;
+    isMono: boolean;
 }
 
 /**
@@ -24,6 +26,7 @@ const GraphModal = ({
     simDay,
     maxValue,
     duration,
+    isMono,
 }: Props) => {
     const { realDataSimulationKeys, allGraphicData } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
@@ -64,7 +67,10 @@ const GraphModal = ({
                         x: Object.keys(simulationKeys),
                         y: valuesRealByRange,
                         mode: "lines",
-                        name: `${key} - ${simRealDataKeyFilter[0].name}`,
+                        name: `${key} - ${getNodeName(
+                            simRealDataKeyFilter[0].name,
+                            isMono
+                        )}`,
                     };
                 }
                 let filterSimKey = key;
@@ -81,7 +87,10 @@ const GraphModal = ({
                     x: Object.keys(simulationKeys),
                     y: valuesByRange,
                     mode: "lines",
-                    name: `${key} - ${simKeyFilter[0].name}`,
+                    name: `${key} - ${getNodeName(
+                        simKeyFilter[0].name,
+                        isMono
+                    )}`,
                 };
             });
         });

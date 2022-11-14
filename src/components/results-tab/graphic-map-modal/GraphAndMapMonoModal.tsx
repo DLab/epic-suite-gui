@@ -241,12 +241,14 @@ const GraphAndMapMonoModal = ({ mapInfo, colorScale }: Props) => {
                                         simDay={simDayModal}
                                         maxValue={maxModalValue}
                                         duration={dataMonoDuration}
+                                        isMono
                                     />
                                     <BarGraphModal
                                         savedSimulationKeys={[graphInfo]}
                                         simDay={simDayModal}
                                         maxValue={maxModalValue}
                                         colorScale={colorScale}
+                                        isMono
                                     />
                                 </Flex>
                             </Flex>
