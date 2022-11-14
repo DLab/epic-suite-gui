@@ -6,6 +6,7 @@ import Plot from "react-plotly.js";
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import { DoubleYAxisData } from "types/GraphicsTypes";
+import getNodeName from "utils/getNodeNames";
 
 interface Props {
     savedSimulationKeys?: DoubleYAxisData[];
@@ -76,8 +77,13 @@ const Graphic = ({
         axis,
         simulationKeys,
         key,
-        simRealDataKeyFilter
+        simRealDataKeyFilter,
+        isMono,
+        isGlobal
     ) => {
+        const name = isGlobal
+            ? `${key}- Global`
+            : `${key}-${getNodeName(simRealDataKeyFilter[0].name, isMono)}`;
         if (axis === "rightAxis") {
             return {
                 x: Object.keys(simulationKeys),
@@ -87,7 +93,7 @@ const Graphic = ({
                     dash: "dot",
                     width: 2,
                 },
-                name: `${key}-${simRealDataKeyFilter[0].name} <span style="font-weight: bold">Right</span>`,
+                name: `${name} <span style="font-weight: bold">Right</span>`,
                 yaxis: "y2",
             };
         }
@@ -95,8 +101,49 @@ const Graphic = ({
             x: Object.keys(simulationKeys),
             y: Object.values(simulationKeys),
             mode: "lines+markers",
-            name: `${key}-${simRealDataKeyFilter[0].name} <span style="font-weight: bold">Left</span>`,
+            name: `${name} <span style="font-weight: bold">Left</span>`,
         };
+    };
+
+    const getRealAndGlobalData = (
+        key,
+        simKey,
+        axis,
+        simRealDataKeyFilter,
+        isMono
+    ) => {
+        // To find the data according to the saved key.
+        let filterKey = key.slice(0, -5);
+        if (simKey.name === "Global") {
+            if (filterKey === "population") {
+                filterKey = "P";
+            }
+            // Filters the real data and returns the values according to the selected parameter.
+            const generalModalValue = realDataSimulationKeys.filter(
+                (nodeData) => {
+                    return nodeData.name === "global_results";
+                }
+            );
+            const getGeneralRealModalValue = generalModalValue[0][filterKey];
+
+            return getRealDataAxis(
+                axis,
+                getGeneralRealModalValue,
+                key,
+                generalModalValue,
+                isMono,
+                true
+            );
+        }
+        const simulationKeys = simRealDataKeyFilter[0][filterKey];
+        return getRealDataAxis(
+            axis,
+            simulationKeys,
+            key,
+            simRealDataKeyFilter,
+            isMono,
+            false
+        );
     };
 
     /**
@@ -105,6 +152,7 @@ const Graphic = ({
      * @returns {Object}
      */
     const graphSimulation = (axisKeys, axis) => {
+        const isMono = globalParametersValues === "";
         return axisKeys.map((simKey) => {
             // To get all the data of a simulation.
             const simKeyFilter = data.filter((sim) => {
@@ -120,14 +168,12 @@ const Graphic = ({
             const savedKeys = simKey.keys;
             return savedKeys.map((key) => {
                 if (key.includes("Real")) {
-                    // To find the data according to the saved key.
-                    const filterKey = key.slice(0, -5);
-                    const simulationKeys = simRealDataKeyFilter[0][filterKey];
-                    return getRealDataAxis(
-                        axis,
-                        simulationKeys,
+                    return getRealAndGlobalData(
                         key,
-                        simRealDataKeyFilter
+                        simKey,
+                        axis,
+                        simRealDataKeyFilter,
+                        isMono
                     );
                 }
                 if (simKey.name === "Global") {
@@ -140,7 +186,6 @@ const Graphic = ({
                         key
                     );
                 }
-
                 const simulationKeys = simKeyFilter[0][key];
                 if (axis === "rightAxis") {
                     return {
@@ -151,7 +196,10 @@ const Graphic = ({
                             dash: "dot",
                             width: 3,
                         },
-                        name: `${key}-${simKeyFilter[0].name} <span style="font-weight: bold">Right</span>`,
+                        name: `${key}-${getNodeName(
+                            simKeyFilter[0].name,
+                            isMono
+                        )} <span style="font-weight: bold">Right</span>`,
                         yaxis: "y2",
                     };
                 }
@@ -159,7 +207,10 @@ const Graphic = ({
                     x: Object.keys(simulationKeys),
                     y: Object.values(simulationKeys),
                     mode: "lines",
-                    name: `${key}-${simKeyFilter[0].name} <span style="font-weight: bold">Left</span>`,
+                    name: `${key}-${getNodeName(
+                        simKeyFilter[0].name,
+                        isMono
+                    )} <span style="font-weight: bold">Left</span>`,
                 };
             });
         });

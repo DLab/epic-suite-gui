@@ -6,12 +6,14 @@ import getColor from "../getColor";
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
 import { DoubleYAxisData, SavedSimulationData } from "types/GraphicsTypes";
+import getNodeName from "utils/getNodeNames";
 
 interface Props {
     savedSimulationKeys?: DoubleYAxisData[];
     simDay: number;
     maxValue: number;
     colorScale: string;
+    isMono: boolean;
 }
 
 /**
@@ -24,6 +26,7 @@ const BarGraphModal = ({
     simDay,
     maxValue,
     colorScale,
+    isMono,
 }: Props) => {
     const { realDataSimulationKeys, allGraphicData } = useContext(GraphicsData);
     const [axios, setAxios] = useState([]);
@@ -70,7 +73,10 @@ const BarGraphModal = ({
                                 colorScale
                             ),
                         },
-                        name: `${key} - ${simRealDataKeyFilter[0].name}`,
+                        name: `${key} - ${getNodeName(
+                            simRealDataKeyFilter[0].name,
+                            isMono
+                        )}`,
                         width: 0.2,
                     };
                 }
@@ -91,7 +97,10 @@ const BarGraphModal = ({
                             colorScale
                         ),
                     },
-                    name: `${key} - ${simKeyFilter[0].name}`,
+                    name: `${key} - ${getNodeName(
+                        simKeyFilter[0].name,
+                        isMono
+                    )}`,
                     width: 0.2,
                 };
             });

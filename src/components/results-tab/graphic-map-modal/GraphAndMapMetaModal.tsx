@@ -305,12 +305,14 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
                                         simDay={simDayMetaModal}
                                         maxValue={maxModalMetaValue}
                                         duration={dataDuration}
+                                        isMono={false}
                                     />
                                     <BarGraphModal
                                         savedSimulationKeys={graphMetaInfo}
                                         simDay={simDayMetaModal}
                                         maxValue={maxModalMetaValue}
                                         colorScale={colorScale}
+                                        isMono={false}
                                     />
                                 </Flex>
                             </Flex>

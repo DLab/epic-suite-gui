@@ -27,6 +27,7 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
 import { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
+import getNodeName from "utils/getNodeNames";
 
 type ReducerForMetapopulationSelections = Record<number, boolean>;
 type ReducerForAllLists = Record<number, boolean>;
@@ -44,7 +45,6 @@ const MetapopulationSelectTable = () => {
         useState<ReducerForMetapopulationSelections>({});
     const [checkAllList, setCheckAllList] = useState<ReducerForAllLists>({});
     const [displayedParameters, setDisplayedParameters] = useState([]);
-    const [parametersNotDisplayed, setParametersNotDisplayed] = useState([]);
     const { selectedModelsToSimulate } = useContext(NewModelSetted);
     const {
         allGraphicData,
@@ -53,7 +53,26 @@ const MetapopulationSelectTable = () => {
         dataToShowInMap,
         realDataSimulationKeys,
     } = useContext(GraphicsData);
-    const realMetaData = realDataSimulationKeys;
+    const [parametersNotDisplayed, setParametersNotDisplayed] = useState([]);
+    const [realMetaData, setRealMetaData] = useState({});
+    const [nodesNames, setNodesNames] = useState({});
+
+    useEffect(() => {
+        setRealMetaData(realDataSimulationKeys);
+    }, [realDataSimulationKeys]);
+
+    useEffect(() => {
+        let nodesNamesAux = {};
+        metaData.map((node) => {
+            nodesNamesAux = {
+                ...nodesNamesAux,
+                [node.name]: getNodeName(node.name, false),
+            };
+            return nodesNamesAux;
+        });
+        setNodesNames(nodesNamesAux);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         const { parameters } = selectedModelsToSimulate.filter(
@@ -65,26 +84,43 @@ const MetapopulationSelectTable = () => {
         setDisplayedParameters(parameters.compartments);
     }, [selectedModelsToSimulate]);
 
-    useEffect(() => {
-        const notDisplayedPametersList = Object.keys(metaData[0]).filter(
+    /**
+     * Gets a list of simulated parameters that are not displayed in the table.
+     * @returns {string[]} list of parameters.
+     */
+    const getNotDisplayedSimParameters = () => {
+        return Object.keys(metaData[0]).filter((parameter) => {
+            return !displayedParameters.includes(parameter);
+        });
+    };
+
+    /**
+     * Gets a list of real parameters that are not displayed in the table.
+     * @returns {string[]} list of parameters.
+     */
+    const getNoDisplayedRealParameters = () => {
+        if (!realMetaData[0]) return [];
+        const notDisplayedRealDataList = Object.keys(realMetaData[0]).filter(
             (parameter) => {
-                return !displayedParameters.includes(parameter);
+                return parameter !== "name" && parameter !== "Compartment";
             }
         );
-        // Para cuando simulate_meta backend emtregue diccionario con fips
-        // const notDisplayedRealDataList = Object.keys(realMetaData[0]).filter(
-        //     (parameter) => {
-        //         return parameter !== "name" && parameter !== "Compartment";
-        //     }
-        // );
-        // const realDataList = notDisplayedRealDataList.map((parameter) => {
-        //     return `${parameter} Real`;
-        // });
-        // const allParametersList = notDisplayedPametersList.concat(realDataList);
+        const realDataList = notDisplayedRealDataList.map((parameter) => {
+            return `${parameter} Real`;
+        });
 
-        setParametersNotDisplayed(notDisplayedPametersList);
+        return realDataList.filter((parameter) => {
+            return !displayedParameters.includes(parameter);
+        });
+    };
+
+    useEffect(() => {
+        const notDisplayedPametersList = getNotDisplayedSimParameters();
+        const realDataList = getNoDisplayedRealParameters();
+        const allParametersList = notDisplayedPametersList.concat(realDataList);
+        setParametersNotDisplayed(allParametersList);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [displayedParameters]);
+    }, [displayedParameters, realMetaData]);
 
     /**
      * Check the same parameter on all nodes.
@@ -100,19 +136,19 @@ const MetapopulationSelectTable = () => {
         );
         allCheckListFiltered.forEach((elem) => {
             if (isCheckedListUpdate[elem]) {
-                Object.keys(metaData).forEach((node) => {
+                metaData.forEach((node) => {
                     const newCheckList = {
                         ...checkListAux,
-                        [`${elem}-${node}`]: true,
+                        [`${elem}-${node.name}`]: true,
                     };
                     checkListAux = newCheckList;
                     // setCheckList(newCheckList);
                 });
             } else {
-                Object.keys(metaData).forEach((node) => {
+                metaData.forEach((node) => {
                     const newCheckList2 = {
                         ...checkListAux,
-                        [`${elem}-${node}`]: false,
+                        [`${elem}-${node.name}`]: false,
                     };
                     checkListAux = newCheckList2;
                     // setCheckList(newCheckList2);
@@ -321,7 +357,8 @@ const MetapopulationSelectTable = () => {
                                             (parameter) => {
                                                 if (
                                                     parameter !== "node" &&
-                                                    parameter !== "name"
+                                                    parameter !== "name" &&
+                                                    parameter !== "t"
                                                 ) {
                                                     return (
                                                         <MenuItem
@@ -358,7 +395,7 @@ const MetapopulationSelectTable = () => {
                             <Td>Global results</Td>
                             {displayedParameters.map((parameter) => {
                                 return (
-                                    <Td>
+                                    <Td key={parameter}>
                                         <Checkbox
                                             bg="white"
                                             isChecked={
@@ -376,24 +413,24 @@ const MetapopulationSelectTable = () => {
                                 );
                             })}
                         </Tr>
-                        {Object.keys(metaData).map((elem) => {
+                        {metaData.map((elem) => {
                             return (
-                                <Tr key={elem}>
-                                    <Td>{elem}</Td>
+                                <Tr key={elem.name}>
+                                    <Td>{nodesNames[elem.name]}</Td>
                                     {displayedParameters.map((parameter) => {
                                         return (
                                             <Td key={parameter}>
                                                 <Checkbox
                                                     isChecked={
                                                         checkList[
-                                                            `${parameter}-${elem}`
+                                                            `${parameter}-${elem.name}`
                                                         ]
                                                     }
                                                     value={parameter}
                                                     onChange={(e) => {
                                                         setCheckList({
                                                             ...checkList,
-                                                            [`${parameter}-${elem}`]:
+                                                            [`${parameter}-${elem.name}`]:
                                                                 e.target
                                                                     .checked,
                                                         });
