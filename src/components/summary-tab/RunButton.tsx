@@ -238,7 +238,7 @@ const RunButton = ({ permission }: Props) => {
         setAux(JSON.stringify(data));
         setSelectedModelsToSimulate(selectedModels);
         getGraphicRealData(selectedModels);
-        setIndex(5);
+        setIndex(4);
     };
 
     /**
@@ -324,7 +324,7 @@ const RunButton = ({ permission }: Props) => {
                     );
                     setSelectedModelsToSimulate(selectedModels);
                     getGraphicRealMetaData(selectedModels);
-                    setIndex(5);
+                    setIndex(4);
                 } else {
                     response = await postData(
                         "http://192.168.2.131:5003/simulate",

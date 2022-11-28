@@ -16,7 +16,7 @@ const NationMap = () => {
     );
 
     useEffect(() => {
-        if (tabIndex === 2) {
+        if (tabIndex === 1) {
             map.invalidateSize(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

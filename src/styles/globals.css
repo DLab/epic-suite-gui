@@ -1,7 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 /* Global Styling here */
 .will-change {
     will-change: auto;
     z-index: 0;
+    /* font-family: 'Noto Sans', sans-serif; */
 }
 .reactSelect {
     border-color: #adadad;

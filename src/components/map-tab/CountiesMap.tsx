@@ -32,7 +32,7 @@ const CountiesMap = () => {
     const data = topojson.feature(us, us.objects.counties as GeometryObject);
 
     useEffect(() => {
-        if (tabIndex === 2) {
+        if (tabIndex === 1) {
             map.invalidateSize(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
