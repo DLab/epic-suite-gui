@@ -34,7 +34,8 @@ const AboutModal = () => {
                     bg="#1B1B3A"
                     borderRadius="8px"
                     maxW="716px"
-                    maxH="524px"
+                    maxH="550px"
+                    p="20px"
                 >
                     <ModalHeader textAlign="center">
                         <Icon
@@ -47,7 +48,7 @@ const AboutModal = () => {
                     </ModalHeader>
                     <ModalCloseButton bg="#016FB9" color="#FFFFFF" />
                     <ModalBody>
-                        <Text color="#FFFFFF" textAlign="justify" m="10px 20px">
+                        <Text color="#FFFFFF" textAlign="justify" m="15px 40px">
                             {" "}
                             The EPIc Suite is a web-based platform designed as
                             an enabling tool for epidemiological modeling and

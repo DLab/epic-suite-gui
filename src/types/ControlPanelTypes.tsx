@@ -14,6 +14,7 @@ export interface ActionsEpidemicData {
 export enum Model {
     Update = "Update",
     Add = "Add",
+    Initial = "Initial",
 }
 
 export interface EpidemicsData {

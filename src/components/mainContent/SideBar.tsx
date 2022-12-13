@@ -5,6 +5,8 @@ import {
     Squares2X2Icon,
     Square3Stack3DIcon,
     ChartBarSquareIcon,
+    MapIcon,
+    RocketLaunchIcon,
 } from "@heroicons/react/24/outline";
 import { useRef, useEffect, useContext } from "react";
 
@@ -38,7 +40,7 @@ const SideBar = () => {
                         h={41}
                         aria-label="EPIc Suite Logo"
                         fill="none"
-                        m="20px 0"
+                        m="16px"
                     />
                     <Divider
                         orientation="horizontal"
@@ -56,8 +58,26 @@ const SideBar = () => {
                         m="3px 0"
                     >
                         <Icon
-                            w="24px"
-                            h="24px"
+                            w="20px"
+                            h="20px"
+                            as={ListBulletIcon}
+                            color="#3EBFE0"
+                        />
+                        <Text fontSize="10px" color="#3EBFE0">
+                            SUMMARY
+                        </Text>
+                    </Tab>
+                    <Tab
+                        _focus={{ boxShadow: "none" }}
+                        display="flex"
+                        flexDirection="column"
+                        w="100%"
+                        border="none"
+                        m="3px 0"
+                    >
+                        <Icon
+                            w="20px"
+                            h="20px"
                             as={Squares2X2Icon}
                             color="#3EBFE0"
                         />
@@ -73,12 +93,7 @@ const SideBar = () => {
                         border="none"
                         m="3px 0"
                     >
-                        <Icon
-                            w="24px"
-                            h="24px"
-                            as={MapPinIcon}
-                            color="#3EBFE0"
-                        />
+                        <Icon w="20px" h="20px" as={MapIcon} color="#3EBFE0" />
                         <Text fontSize="10px" color="#3EBFE0">
                             GEOGRAPHIC
                         </Text>
@@ -92,33 +107,13 @@ const SideBar = () => {
                         m="3px 0"
                     >
                         <Icon
-                            w="24px"
-                            h="24px"
+                            w="20px"
+                            h="20px"
                             as={Square3Stack3DIcon}
                             color="#3EBFE0"
-                            // m="20% 0"
                         />
                         <Text fontSize="10px" color="#3EBFE0">
                             DATA FIT
-                        </Text>
-                    </Tab>
-                    <Tab
-                        _focus={{ boxShadow: "none" }}
-                        display="flex"
-                        flexDirection="column"
-                        w="100%"
-                        border="none"
-                        m="3px 0"
-                    >
-                        <Icon
-                            w="24px"
-                            h="24px"
-                            as={ListBulletIcon}
-                            color="#3EBFE0"
-                            // m="20% 0"
-                        />
-                        <Text fontSize="10px" color="#3EBFE0">
-                            SUMMARY
                         </Text>
                     </Tab>
 
@@ -130,14 +125,49 @@ const SideBar = () => {
                         border="none"
                     >
                         <Icon
-                            w="24px"
-                            h="24px"
+                            w="20px"
+                            h="20px"
                             as={ChartBarSquareIcon}
                             color="#3EBFE0"
-                            // m="20% 0"
                         />
                         <Text fontSize="10px" color="#3EBFE0">
                             RESULTS
+                        </Text>
+                    </Tab>
+                    <Tab
+                        _focus={{ boxShadow: "none" }}
+                        display="flex"
+                        flexDirection="column"
+                        w="100%"
+                        border="none"
+                        m="3px 0"
+                    >
+                        <Icon
+                            w="20px"
+                            h="20px"
+                            as={MapPinIcon}
+                            color="#3EBFE0"
+                        />
+                        <Text fontSize="10px" color="#3EBFE0">
+                            MOBILITY
+                        </Text>
+                    </Tab>
+                    <Tab
+                        _focus={{ boxShadow: "none" }}
+                        display="flex"
+                        flexDirection="column"
+                        w="100%"
+                        border="none"
+                        m="3px 0"
+                    >
+                        <Icon
+                            w="20px"
+                            h="20px"
+                            as={RocketLaunchIcon}
+                            color="#3EBFE0"
+                        />
+                        <Text fontSize="10px" color="#3EBFE0">
+                            TEST
                         </Text>
                     </Tab>
                 </Box>

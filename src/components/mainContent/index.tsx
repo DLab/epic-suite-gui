@@ -12,6 +12,8 @@ import { useContext } from "react";
 
 import Results from "../results-tab";
 import DataFitTab from "components/data-fit-tab";
+import GeoTab from "components/geo-tab";
+import MobilityMatrix from "components/mobility-matrix-tab";
 import NewModel from "components/new-model";
 import SummaryTab from "components/summary-tab/SummaryTab";
 import { TabIndex } from "context/TabContext";
@@ -19,6 +21,22 @@ import { TabIndex } from "context/TabContext";
 import SideBar from "./SideBar";
 
 const Map = dynamic(() => import("../map-tab"), {
+    loading: () => (
+        <Flex justifyContent="center" alignItems="center" h="95vh">
+            <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+            />
+        </Flex>
+    ),
+    ssr: false,
+});
+
+const GeoMap = dynamic(() => import("../geo-tab"), {
+    // eslint-disable-next-line sonarjs/no-identical-functions
     loading: () => (
         <Flex justifyContent="center" alignItems="center" h="95vh">
             <Spinner
@@ -51,16 +69,14 @@ const MainContentTab = () => {
                 bg="#016FB9"
                 border="none"
             >
-                <Flex
-                    direction="column"
-                    h="100%"
-                    justify="space-between"
-                    mt="15%"
-                >
+                <Flex direction="column" h="100%" justify="space-between">
                     <SideBar />{" "}
                 </Flex>
             </TabList>
-            <TabPanels h="100vh" bg="#F2F2F0">
+            <TabPanels h="100vh" bg="#FFFFFF">
+                <TabPanel maxH="100vh" h="100%">
+                    <SummaryTab />
+                </TabPanel>
                 <TabPanel maxH="100vh" h="100%">
                     <NewModel />
                 </TabPanel>
@@ -70,15 +86,18 @@ const MainContentTab = () => {
                 <TabPanel h="100vh" maxH="100vh">
                     <DataFitTab />
                 </TabPanel>
-                <TabPanel maxH="100vh" h="100%">
-                    <SummaryTab />
-                </TabPanel>
                 <TabPanel h="100vh" maxH="100vh">
                     <Flex maxh="100vh" h="97vh">
                         <Center w="100%" maxh="100vh">
                             <Results />
                         </Center>
                     </Flex>
+                </TabPanel>
+                <TabPanel maxH="100vh" h="100%">
+                    <MobilityMatrix />
+                </TabPanel>
+                <TabPanel maxH="100vh" h="100%">
+                    <GeoMap />
                 </TabPanel>
             </TabPanels>
         </Tabs>

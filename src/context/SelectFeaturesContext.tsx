@@ -102,7 +102,7 @@ const SelectFeatureContext: React.FC = ({ children }) => {
     const [scale, setScale] = useState("National");
     const [simulationScale, setSimulationScale] = useState("States");
     const [nameGeoSelection, setNameGeoSelection] = useState("Geo Selection 1");
-    const [mode, setMode] = useState<Model>(Model.Add);
+    const [mode, setMode] = useState<Model>(Model.Initial);
     const [idGeoSelectionUpdate, setIdGeoSelectionUpdate] = useState(0);
 
     return (

@@ -1,0 +1,59 @@
+import { Flex, Input, Box } from "@chakra-ui/react";
+import React, { useContext } from "react";
+
+import GeoToastMessage1 from "components/geo-tab/selectorMap/GeoToastMessage1";
+import SelectorMap1 from "components/geo-tab/selectorMap/SelectorMap1";
+import SelectedFeaturesPanel1 from "components/side-selector-feature/SelectedFeaturesPanel1";
+import { SelectFeature } from "context/SelectFeaturesContext";
+
+interface Props {
+    extentionOption: string;
+    setExtentionOption: (value: string) => void;
+    geoSelectionName: string;
+    setGeoSelectionName: (value: string) => void;
+}
+
+const SetUpSelection = ({
+    extentionOption,
+    setExtentionOption,
+    geoSelectionName,
+    setGeoSelectionName,
+}: Props) => {
+    const { mode } = useContext(SelectFeature);
+
+    return (
+        <Flex direction="column" w="28%" p="0 2%">
+            {mode !== "Initial" && (
+                <>
+                    <Input
+                        size="sm"
+                        bg="#ffffff"
+                        fontSize="14px"
+                        placeholder="Name"
+                        value={geoSelectionName}
+                        onChange={(e) => {
+                            setGeoSelectionName(e.target.value);
+                        }}
+                    />
+                    <SelectorMap1
+                        extentionOption={extentionOption}
+                        setExtentionOption={setExtentionOption}
+                    />
+                    {(extentionOption === "States" ||
+                        extentionOption === "Counties") && (
+                        <SelectedFeaturesPanel1 scale={extentionOption} />
+                    )}
+                    <Box textAlign="center">
+                        <GeoToastMessage1
+                            scale={extentionOption}
+                            setScale={setExtentionOption}
+                            geoSelectionName={geoSelectionName}
+                        />
+                    </Box>
+                </>
+            )}
+        </Flex>
+    );
+};
+
+export default SetUpSelection;

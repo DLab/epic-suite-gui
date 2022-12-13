@@ -23,9 +23,9 @@
     background-color: white !important;
     font-size: 12px;
 }
-tbody > tr:last-child td {
+/* tbody > tr:last-child td {
     border-bottom: none;
-}
+} */
 .js-plotly-plot .plotly .modebar {
     left: 50%;
     transform: translateX(-50%);
