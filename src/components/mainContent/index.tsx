@@ -80,8 +80,8 @@ const MainContentTab = () => {
                 <TabPanel maxH="100vh" h="100%">
                     <NewModel />
                 </TabPanel>
-                <TabPanel h="100vh" bg="#F2F2F0">
-                    <Map />
+                <TabPanel maxH="100vh" h="100%">
+                    <GeoMap />
                 </TabPanel>
                 <TabPanel h="100vh" maxH="100vh">
                     <DataFitTab />
@@ -96,8 +96,8 @@ const MainContentTab = () => {
                 <TabPanel maxH="100vh" h="100%">
                     <MobilityMatrix />
                 </TabPanel>
-                <TabPanel maxH="100vh" h="100%">
-                    <GeoMap />
+                <TabPanel h="100vh" bg="#F2F2F0">
+                    <Map />
                 </TabPanel>
             </TabPanels>
         </Tabs>

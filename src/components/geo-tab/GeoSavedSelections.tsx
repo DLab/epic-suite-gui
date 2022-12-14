@@ -25,7 +25,7 @@ const GeoSavedSelections = ({ setGeoSelectionName }: Props) => {
         );
         setIdGeoSelectionUpdate(id);
         setScale(scale);
-        setGeoSelectionName(name);
+        // setGeoSelectionName(name);
         if (scale === "Counties") {
             setCounties({ type: "update", updateData: featureSelected });
         } else {
@@ -44,7 +44,11 @@ const GeoSavedSelections = ({ setGeoSelectionName }: Props) => {
             }}
         >
             {geoSelections.map((selection) => {
-                return <option value={selection.id}>{selection.name}</option>;
+                return (
+                    <option key={selection.id} value={selection.id}>
+                        {selection.name}
+                    </option>
+                );
             })}
         </Select>
     );

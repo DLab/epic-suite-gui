@@ -22,6 +22,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import RunModelsButton from "components/icons/RunModelsButton";
 import { NewModelSetted } from "context/NewModelsContext";
+import { TabIndex } from "context/TabContext";
 import { NewModelsParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
@@ -39,6 +40,8 @@ const TableSimulations = () => {
     const { completeModel } = useContext(NewModelSetted);
     const [permission, setPermission] = useState<ReducedIdForPermissions>({});
     const [codMetaModelSelected, setCodMetaModelSelected] = useState<number>(0);
+    const { setIndex } = useContext(TabIndex);
+
     useEffect(() => {
         if (completeModel.length > 0) {
             setPermission(
@@ -198,6 +201,7 @@ const TableSimulations = () => {
                                             h="20px"
                                             as={ArrowRightCircleIcon}
                                             color="#1B1B3A"
+                                            onClick={() => setIndex(1)}
                                         />
                                     </Td>
                                 </Tr>
@@ -212,6 +216,7 @@ const TableSimulations = () => {
                                 fontSize="10px"
                                 bg="#016FB9"
                                 color="#FFFFFF"
+                                onClick={() => setIndex(1)}
                             >
                                 <Icon
                                     w="14px"

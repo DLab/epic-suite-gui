@@ -18,7 +18,14 @@ const GeoTab = () => {
     const [secondLink, setSecondLink] = useState(undefined);
     const [extentionOption, setExtentionOption] = useState("National");
     const [geoSelectionName, setGeoSelectionName] = useState("");
-    const { setMode, mode, setCounties, setStates } = useContext(SelectFeature);
+    const {
+        setMode,
+        mode,
+        setCounties,
+        setStates,
+        geoSelections,
+        idGeoSelectionUpdate,
+    } = useContext(SelectFeature);
 
     useEffect(() => {
         if (mode === Model.Initial) {
@@ -27,13 +34,20 @@ const GeoTab = () => {
             setGeoSelectionName("");
             setExtentionOption("National");
         }
+        if (mode === Model.Update) {
+            const { name } = geoSelections.find(
+                (selection) =>
+                    selection.id.toString() === idGeoSelectionUpdate.toString()
+            );
+            setGeoSelectionName(name);
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mode]);
 
     return (
         <Flex direction="column">
-            <BreadCrumb secondLink={secondLink} />
+            <BreadCrumb secondLink={secondLink} setSecondLink={setSecondLink} />
             {mode === "Initial" ? (
                 <Flex w="40%" mt="15px">
                     <GeoSavedSelections

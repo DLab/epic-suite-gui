@@ -167,7 +167,7 @@ const SideBar = () => {
                             color="#3EBFE0"
                         />
                         <Text fontSize="10px" color="#3EBFE0">
-                            TEST
+                            OLD MAP
                         </Text>
                     </Tab>
                 </Box>
