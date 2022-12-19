@@ -76,15 +76,15 @@ const GeoTab = () => {
                         setGeoSelectionName={setGeoSelectionName}
                     />
                     <Flex direction="column" w="73%" align="center">
-                        <Flex w="80%" justify="center" h="45vh">
+                        <Flex w="85%" justify="center" h="90vh">
                             <MapContainer
                                 className="will-change"
                                 center={[38, -96]}
-                                zoom={3.48}
+                                zoom={4}
                                 style={{
-                                    height: "45vh",
-                                    maxHeight: "45vh",
-                                    width: "90%",
+                                    height: "90vh",
+                                    maxHeight: "90vh",
+                                    width: "95%",
                                 }}
                                 scrollWheelZoom={false}
                             >

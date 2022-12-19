@@ -1,8 +1,10 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { Button, useToast, Stack } from "@chakra-ui/react";
-import { useContext } from "react";
+import _ from "lodash";
+import { useContext, useState, useEffect } from "react";
 
 import { SelectFeature } from "context/SelectFeaturesContext";
+import { TabIndex } from "context/TabContext";
 import { Model } from "types/ControlPanelTypes";
 
 interface Props {
@@ -18,19 +20,63 @@ interface Props {
  */
 const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
     const toast = useToast();
+    const [disabledButton, setDisabledButton] = useState(true);
     const {
         states,
         counties,
+        geoSelections,
         setGeoSelections,
-        // scale,
         mode,
         setMode,
         idGeoSelectionUpdate,
         setIdGeoSelectionUpdate,
-        // nameGeoSelection,
     } = useContext(SelectFeature);
+    const { setIndex } = useContext(TabIndex);
 
     const bottomLeft = "bottom-left";
+
+    useEffect(() => {
+        if (mode === Model.Update) {
+            const {
+                name,
+                scale: oldScale,
+                featureSelected,
+            } = geoSelections.find((geoSelection) => {
+                return (
+                    geoSelection.id.toString() ===
+                    idGeoSelectionUpdate.toString()
+                );
+            });
+
+            const oldData = {
+                name,
+                scale: oldScale,
+                featureSelected,
+            };
+
+            const newData = {
+                name: geoSelectionName,
+                scale,
+                featureSelected:
+                    (scale === "States" && states) ||
+                    (scale === "Counties" && counties),
+            };
+
+            if (_.isEqual(oldData, newData)) {
+                setDisabledButton(true);
+            } else {
+                setDisabledButton(false);
+            }
+        }
+    }, [
+        counties,
+        geoSelectionName,
+        geoSelections,
+        idGeoSelectionUpdate,
+        mode,
+        scale,
+        states,
+    ]);
 
     /**
      * Save and update geographic selections in local storage.
@@ -88,6 +134,7 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
                     isClosable: true,
                 });
                 setMode(Model.Initial);
+                setIndex(0);
             } else {
                 localStorage.setItem(
                     "geoSelection",
@@ -110,6 +157,7 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
                     isClosable: true,
                 });
                 setMode(Model.Initial);
+                setIndex(0);
             }
         } catch (error) {
             toast({
@@ -142,7 +190,7 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
     };
 
     return (
-        <Stack spacing={4} direction="row" align="center">
+        <Stack spacing={4} direction="row" align="center" mt="20px">
             {mode === Model.Add && (
                 <>
                     <Button
@@ -181,6 +229,7 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
                     <Button
                         leftIcon={<CheckIcon />}
                         onClick={() => verifyGeoselection()}
+                        isDisabled={disabledButton}
                         bg="#016FB9"
                         color="#FFFFFF"
                         size="sm"

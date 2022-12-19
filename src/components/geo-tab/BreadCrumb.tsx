@@ -10,6 +10,7 @@ import { HomeIcon } from "@heroicons/react/24/outline";
 import React, { useContext, useEffect } from "react";
 
 import { SelectFeature } from "context/SelectFeaturesContext";
+import { TabIndex } from "context/TabContext";
 import { Model } from "types/ControlPanelTypes";
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
 const BreadCrumb = ({ secondLink, setSecondLink }: Props) => {
     const { setMode, mode, idGeoSelectionUpdate, geoSelections } =
         useContext(SelectFeature);
+    const { setIndex } = useContext(TabIndex);
 
     useEffect(() => {
         if (mode === Model.Initial) {
@@ -43,7 +45,11 @@ const BreadCrumb = ({ secondLink, setSecondLink }: Props) => {
             separator={<ChevronRightIcon color="gray.500" />}
         >
             <BreadcrumbItem>
-                <BreadcrumbLink href="#">
+                <BreadcrumbLink
+                    onClick={() => {
+                        setIndex(0);
+                    }}
+                >
                     {" "}
                     <Icon w="18px" h="18px" as={HomeIcon} color="#016FB9" />
                 </BreadcrumbLink>

@@ -81,17 +81,12 @@ const TableGeographic = () => {
                                     <Td>{geoSelection.name}</Td>
                                     <Td>{geoSelection.scale}</Td>
                                     <Td>
-                                        {/* <Link href="../geo-tab"> */}
-
                                         <Icon
                                             w="20px"
                                             h="20px"
                                             as={ArrowRightCircleIcon}
                                             color="#1B1B3A"
                                             onClick={() => {
-                                                // setIdGeoSelectionUpdate(
-                                                //     geoSelection.id
-                                                // );
                                                 updateGeoSelection(
                                                     geoSelection.id
                                                 );

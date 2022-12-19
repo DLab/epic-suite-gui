@@ -24,8 +24,8 @@ const NationMap = () => {
 
     const styles = () => {
         return {
-            fillColor: "#1777c7",
-            fillOpacity: 0.7,
+            fillColor: "#ADDEFF",
+            fillOpacity: 1,
             weight: 0.7,
             color: "white",
             opacity: 1,

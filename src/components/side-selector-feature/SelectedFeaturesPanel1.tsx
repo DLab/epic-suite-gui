@@ -31,7 +31,7 @@ const SelectedFeaturesPanel1 = ({ scale }: Props) => {
             <Box
                 bg="#FAFAFA"
                 borderRadius="1px"
-                mt="5%"
+                mt="7%"
                 p="3%"
                 overflowY="auto"
                 maxH="22vh"

@@ -112,7 +112,7 @@ const SelectorMap1 = ({ extentionOption, setExtentionOption }) => {
     return (
         <FormControl>
             <RadioGroup
-                mt="5%"
+                mt="7%"
                 onChange={setExtentionOption}
                 value={extentionOption}
             >
