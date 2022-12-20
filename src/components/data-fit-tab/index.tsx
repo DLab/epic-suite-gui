@@ -1,23 +1,11 @@
 /* eslint-disable complexity */
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { CheckCircleIcon, WarningTwoIcon } from "@chakra-ui/icons";
-import {
-    Select,
-    Text,
-    Box,
-    Flex,
-    Button,
-    Center,
-    Spinner,
-    useToast,
-    Tag,
-    TagLabel,
-    TagRightIcon,
-} from "@chakra-ui/react";
+import { Select, Text, Box, Flex, Spinner, useToast } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import React, { useState, useContext, useEffect } from "react";
 
+import BreadCrumb from "components/BreadCrumb";
 import { getParametersFitModel } from "components/new-model/GetParametersByNodes";
 import { DataFit } from "context/DataFitContext";
 import { NewModelSetted } from "context/NewModelsContext";
@@ -240,135 +228,107 @@ const DataFitTab = () => {
 
     return (
         <Box h="100%">
-            <Box h="5vh" mh="5vh">
-                <Text color="#16609E" fontSize="18px" fontWeight="bold">
-                    Data Fit
-                </Text>
-            </Box>
-            <Flex ml="2%" p="0" h="97%">
-                <Flex
-                    direction="column"
-                    w="35%"
-                    bg="#FAFAFA"
-                    borderRadius="6px"
-                    p="2%"
-                    h="88vh"
-                    boxShadow="sm"
-                    justify="space-between"
-                >
-                    <Flex direction="column">
-                        <Box mb="3%">
-                            <Text fontSize="14px" fontWeight={500}>
-                                Model
-                            </Text>
-                            <Select
-                                w="13rem"
-                                fontSize="14px"
-                                placeholder="Select a model"
-                                size="sm"
-                                value={modelId}
-                                onChange={(e) => {
-                                    setModelId(+e.target.value);
-                                    if (e.target.value !== "") {
-                                        const { idGeo } = completeModel.filter(
-                                            (model: NewModelsAllParams) => {
-                                                return (
-                                                    model.idNewModel ===
-                                                    +e.target.value
-                                                );
-                                            }
-                                        )[0];
-                                        // setGeoSelectionId(0);
-                                        if (idGeo !== undefined) {
-                                            const stringIdGeo =
-                                                idGeo.toString();
-                                            setGeoSelectionId(
-                                                parseInt(stringIdGeo, 10)
-                                            );
-                                        } else {
-                                            setGeoSelectionId(0);
-                                        }
-                                    }
-                                    setFittedData([]);
-                                    setRealDataToFit([]);
-                                    setSampleSourceValue("1");
-                                    setDataValues([]);
-                                }}
-                            >
-                                {completeModel.length > 0 &&
-                                    completeModel.map(
+            <Flex p="0" h="97%" direction="column">
+                <BreadCrumb firstLink="Data Fit" />
+                <Flex p="2%" boxShadow="sm">
+                    <Flex w="100%" alignItems="center" justify="space-between">
+                        <Select
+                            w="13rem"
+                            fontSize="14px"
+                            placeholder="Select a model"
+                            size="sm"
+                            value={modelId}
+                            onChange={(e) => {
+                                setModelId(+e.target.value);
+                                if (e.target.value !== "") {
+                                    const { idGeo } = completeModel.filter(
                                         (model: NewModelsAllParams) => {
                                             return (
-                                                <option
-                                                    key={model.idNewModel}
-                                                    value={model.idNewModel}
-                                                >
-                                                    {model.name}
-                                                </option>
+                                                model.idNewModel ===
+                                                +e.target.value
                                             );
                                         }
-                                    )}
-                            </Select>
-                        </Box>
-                        <Box mb="3%">
-                            <Text fontSize="14px" fontWeight={500}>
-                                Fit Algorithm
-                            </Text>
-                            <Select
-                                w="13rem"
-                                fontSize="14px"
-                                placeholder="Select a Algorithm"
-                                size="sm"
-                                value={algorithmValue}
-                                onChange={(e) => {
-                                    setAlgorithmValue(e.target.value);
-                                    setFittedData([]);
-                                    setRealDataToFit([]);
-                                    setDataValues([]);
-                                    setSampleSourceValue("1");
-                                }}
-                            >
-                                <option key="algorithm-1" value="Intervals">
-                                    Intervals
-                                </option>
-                                <option key="algorithm-2" value="Sequential">
-                                    Sequential
-                                </option>
-                            </Select>
-                        </Box>
-                        <Box mb="3%">
-                            <Text fontSize="14px" fontWeight={500}>
-                                Data Source
-                            </Text>
-                            <Select
-                                w="13rem"
-                                fontSize="14px"
-                                placeholder="Select a source"
-                                size="sm"
-                                value={dataSourceType}
-                                onChange={(e) => {
-                                    setDataSourceType(e.target.value);
-                                    setFittedData([]);
-                                    setRealDataToFit([]);
-                                    setDataValues([]);
-                                    setSampleSourceValue("1");
+                                    )[0];
                                     // setGeoSelectionId(0);
-                                }}
-                            >
-                                {/* <option key="file" value="file">
+                                    if (idGeo !== undefined) {
+                                        const stringIdGeo = idGeo.toString();
+                                        setGeoSelectionId(
+                                            parseInt(stringIdGeo, 10)
+                                        );
+                                    } else {
+                                        setGeoSelectionId(0);
+                                    }
+                                }
+                                setFittedData([]);
+                                setRealDataToFit([]);
+                                setSampleSourceValue("1");
+                                setDataValues([]);
+                            }}
+                        >
+                            {completeModel.length > 0 &&
+                                completeModel.map(
+                                    (model: NewModelsAllParams) => {
+                                        return (
+                                            <option
+                                                key={model.idNewModel}
+                                                value={model.idNewModel}
+                                            >
+                                                {model.name}
+                                            </option>
+                                        );
+                                    }
+                                )}
+                        </Select>
+                        <Select
+                            w="13rem"
+                            fontSize="14px"
+                            placeholder="Select a Algorithm"
+                            size="sm"
+                            value={algorithmValue}
+                            onChange={(e) => {
+                                setAlgorithmValue(e.target.value);
+                                setFittedData([]);
+                                setRealDataToFit([]);
+                                setDataValues([]);
+                                setSampleSourceValue("1");
+                            }}
+                        >
+                            <option key="algorithm-1" value="Intervals">
+                                Intervals
+                            </option>
+                            <option key="algorithm-2" value="Sequential">
+                                Sequential
+                            </option>
+                        </Select>
+                        <Select
+                            w="13rem"
+                            fontSize="14px"
+                            placeholder="Data source"
+                            size="sm"
+                            value={dataSourceType}
+                            onChange={(e) => {
+                                setDataSourceType(e.target.value);
+                                setFittedData([]);
+                                setRealDataToFit([]);
+                                setDataValues([]);
+                                setSampleSourceValue("1");
+                                // setGeoSelectionId(0);
+                            }}
+                        >
+                            {/* <option key="file" value="file">
                                     File Upload
                                 </option> */}
-                                <option key="sample" value="sample">
-                                    Sample Data
-                                </option>
-                                {geoSelectionId !== undefined &&
-                                    geoSelectionId !== 0 && (
-                                        <option key="endpoint" value="endpoint">
-                                            Endpoint
-                                        </option>
-                                    )}
-                            </Select>
-                        </Box>
+                            <option key="sample" value="sample">
+                                Sample Data
+                            </option>
+                            {geoSelectionId !== undefined &&
+                                geoSelectionId !== 0 && (
+                                    <option key="endpoint" value="endpoint">
+                                        Endpoint
+                                    </option>
+                                )}
+                        </Select>
+
                         {/* {dataSourceType === "file" && <FileSource />} */}
                         {dataSourceType === "sample" && (
                             <SampleSource
@@ -384,34 +344,24 @@ const DataFitTab = () => {
                                 algorithmValue={algorithmValue}
                             />
                         )}
-                        <Box mb="3%">
-                            <Text fontSize="14px" fontWeight={500}>
-                                Data For Fit
+                        <Flex>
+                            <Text fontSize="14px" mr="5px">
+                                Data For Fit:
                             </Text>
                             {dataValues.length > 0 ? (
-                                <Tag
-                                    size="sm"
-                                    variant="outline"
-                                    colorScheme="green"
-                                >
+                                <Text fontSize="14px" color="green">
                                     {/* Refactorizar cuando se usen diferentes infectados */}
                                     {/* <TagLabel>{parameterName} Loaded</TagLabel> */}
-                                    <TagLabel>Daily infected Loaded</TagLabel>
-                                    <TagRightIcon as={CheckCircleIcon} />
-                                </Tag>
+                                    Loaded
+                                </Text>
                             ) : (
-                                <Tag
-                                    size="sm"
-                                    variant="outline"
-                                    colorScheme="red"
-                                >
-                                    <TagLabel>Pending</TagLabel>
-                                    <TagRightIcon as={WarningTwoIcon} />
-                                </Tag>
+                                <Text color="red" fontSize="14px">
+                                    Pending
+                                </Text>
                             )}
-                        </Box>
+                        </Flex>
                     </Flex>
-                    <Box mt="2%">
+                    {/* <Box mt="2%">
                         <Center>
                             <Button
                                 colorScheme="blue"
@@ -436,7 +386,7 @@ const DataFitTab = () => {
                                 )}
                             </Button>
                         </Center>
-                    </Box>
+                    </Box> */}
                 </Flex>
                 <Flex direction="column" w="65%" m="0 2%" h="88vh">
                     <Flex

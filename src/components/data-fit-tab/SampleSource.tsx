@@ -40,8 +40,6 @@ const SampleSource = ({ value, setValue, setDataValues }: Props) => {
     return (
         <RadioGroup
             size="sm"
-            ml="5%"
-            mb="3%"
             value={value}
             onChange={(e) => {
                 setValue(e);

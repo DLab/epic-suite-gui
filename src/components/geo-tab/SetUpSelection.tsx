@@ -25,16 +25,6 @@ const SetUpSelection = ({
         <Flex direction="column" w="28%" p="0 2%">
             {mode !== "Initial" && (
                 <>
-                    <Input
-                        size="sm"
-                        bg="#ffffff"
-                        fontSize="14px"
-                        placeholder="Name"
-                        value={geoSelectionName}
-                        onChange={(e) => {
-                            setGeoSelectionName(e.target.value);
-                        }}
-                    />
                     <SelectorMap1
                         extentionOption={extentionOption}
                         setExtentionOption={setExtentionOption}
@@ -43,13 +33,6 @@ const SetUpSelection = ({
                         extentionOption === "Counties") && (
                         <SelectedFeaturesPanel1 scale={extentionOption} />
                     )}
-                    <Box textAlign="center">
-                        <GeoToastMessage1
-                            scale={extentionOption}
-                            setScale={setExtentionOption}
-                            geoSelectionName={geoSelectionName}
-                        />
-                    </Box>
                 </>
             )}
         </Flex>

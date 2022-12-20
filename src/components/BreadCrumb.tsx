@@ -3,7 +3,6 @@ import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
-    BreadcrumbSeparator,
     Icon,
 } from "@chakra-ui/react";
 import { HomeIcon } from "@heroicons/react/24/outline";
@@ -14,30 +13,41 @@ import { TabIndex } from "context/TabContext";
 import { Model } from "types/ControlPanelTypes";
 
 interface Props {
-    secondLink: string;
-    setSecondLink: (value: string) => void;
+    firstLink: string;
+    secondLink?: string;
+    setSecondLink?: (value: string) => void;
 }
 
-const BreadCrumb = ({ secondLink, setSecondLink }: Props) => {
+const BreadCrumb = ({ firstLink, secondLink, setSecondLink }: Props) => {
     const { setMode, mode, idGeoSelectionUpdate, geoSelections } =
         useContext(SelectFeature);
     const { setIndex } = useContext(TabIndex);
 
     useEffect(() => {
-        if (mode === Model.Initial) {
-            setSecondLink(undefined);
+        if (firstLink === "Geographic Selection") {
+            if (mode === Model.Initial) {
+                setSecondLink(undefined);
+            }
+            if (mode === Model.Add) {
+                setSecondLink("New");
+            }
+            if (mode === Model.Update) {
+                const { name } = geoSelections.find(
+                    (selection) =>
+                        selection.id.toString() ===
+                        idGeoSelectionUpdate.toString()
+                );
+                setSecondLink(name);
+            }
         }
-        if (mode === Model.Add) {
-            setSecondLink("New");
-        }
-        if (mode === Model.Update) {
-            const { name } = geoSelections.find(
-                (selection) =>
-                    selection.id.toString() === idGeoSelectionUpdate.toString()
-            );
-            setSecondLink(name);
-        }
-    }, [geoSelections, idGeoSelectionUpdate, mode, setSecondLink]);
+    }, [
+        firstLink,
+        geoSelections,
+        idGeoSelectionUpdate,
+        mode,
+        secondLink,
+        setSecondLink,
+    ]);
 
     return (
         <Breadcrumb
@@ -54,14 +64,15 @@ const BreadCrumb = ({ secondLink, setSecondLink }: Props) => {
                     <Icon w="18px" h="18px" as={HomeIcon} color="#016FB9" />
                 </BreadcrumbLink>
             </BreadcrumbItem>
-
             <BreadcrumbItem>
                 <BreadcrumbLink
                     onClick={() => {
-                        setMode(Model.Initial);
+                        if (firstLink === "Geographic Selection") {
+                            setMode(Model.Initial);
+                        }
                     }}
                 >
-                    Geographic Selection
+                    {firstLink}
                 </BreadcrumbLink>
             </BreadcrumbItem>
             {secondLink && (

@@ -3,6 +3,7 @@ import { Button, useToast, Stack } from "@chakra-ui/react";
 import _ from "lodash";
 import { useContext, useState, useEffect } from "react";
 
+import DeleteGeoAlert from "../DeleteGeoAlert";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 import { Model } from "types/ControlPanelTypes";
@@ -190,7 +191,7 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
     };
 
     return (
-        <Stack spacing={4} direction="row" align="center" mt="20px">
+        <Stack spacing={4} direction="row" align="center">
             {mode === Model.Add && (
                 <>
                     <Button
@@ -255,6 +256,7 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
                     >
                         CANCEL
                     </Button>
+                    <DeleteGeoAlert />
                 </>
             )}
         </Stack>
