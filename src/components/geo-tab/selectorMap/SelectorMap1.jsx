@@ -1,22 +1,9 @@
-import { InfoIcon } from "@chakra-ui/icons";
-import {
-    Box,
-    Flex,
-    Text,
-    FormControl,
-    FormLabel,
-    Radio,
-    RadioGroup,
-    HStack,
-    Button,
-    Center,
-} from "@chakra-ui/react";
+import { FormControl, Radio, RadioGroup, HStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useContext, useState, useEffect } from "react";
 
 import countyData from "../../../data/counties.json";
 import data from "../../../data/states.json";
-import ResetAlerts from "components/ResetAlerts";
 import CountiesSelect from "components/statesCountiesSelects/CountiesSelect";
 import StatesSelect from "components/statesCountiesSelects/StatesSelect";
 import { SelectFeature } from "context/SelectFeaturesContext";

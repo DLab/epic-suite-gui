@@ -1,17 +1,6 @@
-import {
-    Box,
-    Accordion,
-    AccordionIcon,
-    AccordionPanel,
-    AccordionButton,
-    AccordionItem,
-    Text,
-    Input,
-    Flex,
-} from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useContext } from "react";
 
-import GeoToastMessage from "components/map-tab/selectorMap/GeoToastMessage";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import createIdComponent from "utils/createIdcomponent";
 
@@ -55,9 +44,6 @@ const SelectedFeaturesPanel1 = ({ scale }: Props) => {
                     </Text>
                 )}
             </Box>
-            {/* <Box id={createIdComponent()} textAlign="center">
-                <GeoToastMessage />
-            </Box> */}
         </>
     );
 };

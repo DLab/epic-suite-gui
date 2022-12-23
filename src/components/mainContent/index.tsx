@@ -20,21 +20,6 @@ import { TabIndex } from "context/TabContext";
 
 import SideBar from "./SideBar";
 
-const Map = dynamic(() => import("../map-tab"), {
-    loading: () => (
-        <Flex justifyContent="center" alignItems="center" h="95vh">
-            <Spinner
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="blue.500"
-                size="xl"
-            />
-        </Flex>
-    ),
-    ssr: false,
-});
-
 const GeoMap = dynamic(() => import("../geo-tab"), {
     // eslint-disable-next-line sonarjs/no-identical-functions
     loading: () => (
@@ -96,9 +81,9 @@ const MainContentTab = () => {
                 <TabPanel maxH="100vh" h="100%">
                     <MobilityMatrix />
                 </TabPanel>
-                <TabPanel h="100vh" bg="#F2F2F0">
+                {/* <TabPanel h="100vh" bg="#F2F2F0">
                     <Map />
-                </TabPanel>
+                </TabPanel> */}
             </TabPanels>
         </Tabs>
     );

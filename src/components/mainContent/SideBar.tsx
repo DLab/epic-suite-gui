@@ -152,7 +152,7 @@ const SideBar = () => {
                             MOBILITY
                         </Text>
                     </Tab>
-                    <Tab
+                    {/* <Tab
                         _focus={{ boxShadow: "none" }}
                         display="flex"
                         flexDirection="column"
@@ -169,7 +169,7 @@ const SideBar = () => {
                         <Text fontSize="10px" color="#3EBFE0">
                             OLD MAP
                         </Text>
-                    </Tab>
+                    </Tab> */}
                 </Box>
             </Box>
             <Box textAlign="center" m="10% 0">

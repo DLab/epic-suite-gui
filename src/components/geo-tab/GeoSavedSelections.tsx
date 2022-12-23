@@ -16,7 +16,6 @@ const GeoSavedSelections = ({ setGeoSelectionName }: Props) => {
         setStates,
         setCounties,
         setScale,
-        // setNameGeoSelection,
     } = useContext(SelectFeature);
 
     const updateGeoSelection = (id) => {
