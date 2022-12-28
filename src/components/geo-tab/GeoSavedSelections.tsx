@@ -4,11 +4,7 @@ import React, { useContext } from "react";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { Model } from "types/ControlPanelTypes";
 
-interface Props {
-    setGeoSelectionName: (value: string) => void;
-}
-
-const GeoSavedSelections = ({ setGeoSelectionName }: Props) => {
+const GeoSavedSelections = () => {
     const {
         geoSelections,
         setMode,
@@ -19,12 +15,11 @@ const GeoSavedSelections = ({ setGeoSelectionName }: Props) => {
     } = useContext(SelectFeature);
 
     const updateGeoSelection = (id) => {
-        const { name, scale, featureSelected } = geoSelections.find(
+        const { scale, featureSelected } = geoSelections.find(
             (selection) => selection.id.toString() === id
         );
         setIdGeoSelectionUpdate(id);
         setScale(scale);
-        // setGeoSelectionName(name);
         if (scale === "Counties") {
             setCounties({ type: "update", updateData: featureSelected });
         } else {

@@ -9,16 +9,9 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 interface Props {
     extentionOption: string;
     setExtentionOption: (value: string) => void;
-    geoSelectionName: string;
-    setGeoSelectionName: (value: string) => void;
 }
 
-const SetUpSelection = ({
-    extentionOption,
-    setExtentionOption,
-    geoSelectionName,
-    setGeoSelectionName,
-}: Props) => {
+const SetUpSelection = ({ extentionOption, setExtentionOption }: Props) => {
     const { mode } = useContext(SelectFeature);
 
     return (

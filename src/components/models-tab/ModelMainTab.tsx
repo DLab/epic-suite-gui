@@ -12,7 +12,6 @@ import dynamic from "next/dynamic";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import ExportModels from "components/new-model/ExportModels";
 import { ControlPanel } from "context/ControlPanelContext";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
@@ -20,11 +19,13 @@ import { TabIndex } from "context/TabContext";
 import { RootState } from "store/store";
 import { InitialConditionsNewModel } from "types/ControlPanelTypes";
 import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
-import VariableDependentTime, {
-    NameFunction,
-} from "types/VariableDependentTime";
 
+import ExportModels from "./ExportModels";
 import InitialConditionsModels from "./InitialConditionsModel";
+// import VariableDependentTime, {
+//     NameFunction,
+// } from "types/VariableDependentTime";
+// import ModelsMap from "./model-map/ModelsMap";
 import ModelAccordion from "./ModelAccordion";
 import ModelBuilder from "./ModelBuilder";
 import SectionVariableDependentTime from "./SectionVariableDependentTime";
@@ -32,11 +33,12 @@ import SectionVariableDependentTime from "./SectionVariableDependentTime";
 interface Props {
     id: number;
     initialConditions: InitialConditionsNewModel[];
-    setTabIndex: (value: number) => void;
-    index: number;
+    actualModelName: string;
+    setActualModelName: (value: string) => void;
+    // setInitialConditionsModel: (value: InitialConditionsNewModel[]) => void;
 }
 
-const ModelsMap = dynamic(() => import("./ModelsMap"), {
+const ModelsMap = dynamic(() => import("./model-map/ModelsMap"), {
     loading: () => (
         <Flex justifyContent="center" alignItems="center" w="100%">
             <Spinner
@@ -57,8 +59,12 @@ const ModelsMap = dynamic(() => import("./ModelsMap"), {
  * @component
  */
 // eslint-disable-next-line complexity
-const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
-    const [modelName, setModelName] = useState("");
+const ModelMainTab = ({
+    id,
+    initialConditions,
+    actualModelName,
+    setActualModelName,
+}: Props) => {
     const [modelValue, setModelValue] = useState(undefined);
     const [numberOfNodes, setNumberOfNodes] = useState(0);
     const [dataSourceValue, setDataSourceValue] = useState(undefined);
@@ -170,7 +176,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                 idGraph: graphId,
                 idNewModel: id,
                 modelType: modelValue,
-                name: modelName,
+                name: actualModelName,
                 numberNodes: numberOfNodes,
                 populationType: populationValue,
                 typeSelection: dataSourceValue,
@@ -205,7 +211,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         dataSourceValue,
         graphId,
         id,
-        modelName,
+        actualModelName,
         modelValue,
         newModel,
         numberOfNodes,
@@ -254,90 +260,81 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getDefaultValueParameters]);
 
-    useEffect(() => {
-        const getName = getDefaultValueParameters("name");
-        if (getName === "") {
-            const name = `Model ${index + 1}`;
-            setModelName(name);
-        } else {
-            setModelName(getName);
-        }
-        return () => {
-            setModelName("");
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getDefaultValueParameters, index]);
+    // useEffect(() => {
+    //     const getName = getDefaultValueParameters("name");
+    //     if (getName === "") {
+    //         const name = `Model ${index + 1}`;
+    //         setModelName(name);
+    //     } else {
+    //         setModelName(getName);
+    //     }
+    //     return () => {
+    //         setModelName("");
+    //     };
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [getDefaultValueParameters, index]);
 
     return (
-        <Flex ml="2%" p="0" h="100%" w="100%">
+        <Flex ml="2%" p="0" h="100%" w="100%" mt="20px">
             <Flex
                 direction="column"
                 w="38%"
-                bg="#FAFAFA"
-                borderRadius="6px"
+                borderRadius="8px"
                 boxShadow="sm"
-                alignItems="center"
+                border="1px solid #DDDDDD"
+                p="2%"
+                h="75vh"
+                overflowY="auto"
             >
-                <Accordion
-                    key="new-models-accordion"
-                    allowMultiple
-                    w="100%"
-                    overflowY="auto"
-                    overflowX="hidden"
-                    maxH="100%"
-                    defaultIndex={[0]}
-                >
-                    <ModelAccordion
-                        modelName={modelName}
-                        setModelName={setModelName}
-                        modelValue={modelValue}
-                        setModelValue={setModelValue}
-                        populationValue={populationValue}
-                        setPopulationValue={setPopulationValue}
-                        numberOfNodes={numberOfNodes}
-                        setNumberOfNodes={setNumberOfNodes}
-                        dataSourceValue={dataSourceValue}
-                        setDataSourceValue={setDataSourceValue}
-                        areaSelectedValue={areaSelectedValue}
-                        setAreaSelectedValue={setAreaSelectedValue}
-                        graphId={graphId}
-                        setGraphId={setGraphId}
-                        id={id}
-                        showSectionInitialConditions={
-                            showSectionInitialConditions
-                        }
-                        setShowSectionInitialConditions={
-                            setShowSectionInitialConditions
-                        }
-                        graphsSelectedValue={graphsSelectedValue}
-                        setGraphsSelectedValue={setGraphsSelectedValue}
-                    />
-                    {numberOfNodes !== 0 &&
-                        numberOfNodes !== undefined &&
-                        ((dataSourceValue === "geographic" &&
-                            areaSelectedValue !== "" &&
-                            areaSelectedValue !== undefined) ||
-                            (dataSourceValue === "graph" &&
-                                graphId !== "" &&
-                                graphId !== undefined)) && (
-                            <ModelBuilder
-                                setShowSectionVariable={setShowSectionVariable}
-                                setPositionVDT={setPositionVDT}
-                                setShowSectionInitialConditions={
-                                    setShowSectionInitialConditions
-                                }
-                                idGeo={areaSelectedValue}
-                                modelCompartment={modelValue.toUpperCase()}
-                                numberNodes={numberOfNodes}
-                                populationValue={populationValue}
-                                dataSourceValue={dataSourceValue}
-                                modelName={modelName}
-                                startDate={startDate}
-                                id={id}
-                            />
-                        )}
-                </Accordion>
-                {numberOfNodes !== 0 && numberOfNodes !== undefined && (
+                <ModelAccordion
+                    modelName={actualModelName}
+                    setModelName={setActualModelName}
+                    modelValue={modelValue}
+                    setModelValue={setModelValue}
+                    populationValue={populationValue}
+                    setPopulationValue={setPopulationValue}
+                    numberOfNodes={numberOfNodes}
+                    setNumberOfNodes={setNumberOfNodes}
+                    dataSourceValue={dataSourceValue}
+                    setDataSourceValue={setDataSourceValue}
+                    areaSelectedValue={areaSelectedValue}
+                    setAreaSelectedValue={setAreaSelectedValue}
+                    graphId={graphId}
+                    setGraphId={setGraphId}
+                    id={id}
+                    showSectionInitialConditions={showSectionInitialConditions}
+                    setShowSectionInitialConditions={
+                        setShowSectionInitialConditions
+                    }
+                    graphsSelectedValue={graphsSelectedValue}
+                    setGraphsSelectedValue={setGraphsSelectedValue}
+                />
+                {numberOfNodes !== 0 &&
+                    numberOfNodes !== undefined &&
+                    ((dataSourceValue === "geographic" &&
+                        areaSelectedValue !== "" &&
+                        areaSelectedValue !== undefined) ||
+                        (dataSourceValue === "graph" &&
+                            graphId !== "" &&
+                            graphId !== undefined)) && (
+                        <ModelBuilder
+                            setShowSectionVariable={setShowSectionVariable}
+                            setPositionVDT={setPositionVDT}
+                            setShowSectionInitialConditions={
+                                setShowSectionInitialConditions
+                            }
+                            idGeo={areaSelectedValue}
+                            modelCompartment={modelValue.toUpperCase()}
+                            numberNodes={numberOfNodes}
+                            populationValue={populationValue}
+                            dataSourceValue={dataSourceValue}
+                            modelName={actualModelName}
+                            startDate={startDate}
+                            id={id}
+                        />
+                    )}
+
+                {/* {numberOfNodes !== 0 && numberOfNodes !== undefined && (
                     <Button
                         size="sm"
                         colorScheme="teal"
@@ -384,26 +381,26 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                     >
                         Save Model
                     </Button>
-                )}
+                )} */}
             </Flex>
             {showSectionInitialConditions && (
                 <Flex
                     direction="column"
                     w="60%"
                     m="0 2%"
-                    bg="#FAFAFA"
                     borderRadius="6px"
                     boxShadow="sm"
                     overflowY="auto"
+                    h="75vh"
                 >
                     {dataSourceValue === "geographic" &&
                         areaSelectedValue !== undefined &&
                         areaSelectedValue !== "" && (
                             <ModelsMap idGeo={areaSelectedValue} />
                         )}
-                    {numberOfNodes !== 0 && (
+                    {numberOfNodes !== 0 && initialConditions.length > 0 && (
                         <InitialConditionsModels
-                            modelName={modelName}
+                            modelName={actualModelName}
                             modelValue={modelValue}
                             populationValue={populationValue}
                             id={id}
@@ -436,7 +433,7 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                     />
                 </Flex>
             )}
-            <Flex direction="column">
+            {/* <Flex direction="column">
                 <Icon
                     color="#16609E"
                     as={DeleteIcon}
@@ -456,11 +453,10 @@ const ModelMainTab = ({ id, initialConditions, setTabIndex, index }: Props) => {
                         setRealDataSimulationKeys([]);
                         setDataToShowInMap([]);
                         setAllResults([].concat([], []));
-                        setTabIndex(newModel.length - 2);
                     }}
                 />
                 <ExportModels idModel={id} />
-            </Flex>
+            </Flex> */}
         </Flex>
     );
 };

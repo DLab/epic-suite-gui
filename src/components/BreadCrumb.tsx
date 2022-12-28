@@ -16,12 +16,47 @@ interface Props {
     firstLink: string;
     secondLink?: string;
     setSecondLink?: (value: string) => void;
+    modelMode?: string;
+    setModelMode?: (value: string) => void;
 }
 
-const BreadCrumb = ({ firstLink, secondLink, setSecondLink }: Props) => {
+const BreadCrumb = ({
+    firstLink,
+    secondLink,
+    setSecondLink,
+    modelMode,
+    setModelMode,
+}: Props) => {
     const { setMode, mode, idGeoSelectionUpdate, geoSelections } =
         useContext(SelectFeature);
     const { setIndex } = useContext(TabIndex);
+
+    useEffect(() => {
+        if (firstLink === "Models") {
+            if (modelMode === "initial") {
+                setSecondLink(undefined);
+            }
+            if (modelMode === "add") {
+                setSecondLink("New");
+            }
+            // if (modelMode === "update") {
+            //     const { name } = geoSelections.find(
+            //         (selection) =>
+            //             selection.id.toString() ===
+            //             idGeoSelectionUpdate.toString()
+            //     );
+            //     setSecondLink(name);
+            // }
+        }
+    }, [
+        firstLink,
+        geoSelections,
+        idGeoSelectionUpdate,
+        mode,
+        modelMode,
+        secondLink,
+        setSecondLink,
+    ]);
 
     useEffect(() => {
         if (firstLink === "Geographic Selection") {
@@ -69,6 +104,9 @@ const BreadCrumb = ({ firstLink, secondLink, setSecondLink }: Props) => {
                     onClick={() => {
                         if (firstLink === "Geographic Selection") {
                             setMode(Model.Initial);
+                        }
+                        if (firstLink === "Models") {
+                            setModelMode("initial");
                         }
                     }}
                 >

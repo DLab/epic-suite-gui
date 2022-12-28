@@ -12,8 +12,8 @@ import { useContext } from "react";
 
 import Results from "../results-tab";
 import DataFitTab from "components/data-fit-tab";
-import GeoTab from "components/geo-tab";
 import MobilityMatrix from "components/mobility-matrix-tab";
+import ModelTab from "components/models-tab";
 import NewModel from "components/new-model";
 import SummaryTab from "components/summary-tab/SummaryTab";
 import { TabIndex } from "context/TabContext";
@@ -81,9 +81,9 @@ const MainContentTab = () => {
                 <TabPanel maxH="100vh" h="100%">
                     <MobilityMatrix />
                 </TabPanel>
-                {/* <TabPanel h="100vh" bg="#F2F2F0">
-                    <Map />
-                </TabPanel> */}
+                <TabPanel h="100vh" maxH="100vh" overflow="hidden">
+                    <ModelTab />
+                </TabPanel>
             </TabPanels>
         </Tabs>
     );

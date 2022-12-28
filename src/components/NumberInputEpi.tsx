@@ -89,9 +89,6 @@ const NumberInputEpi = ({
                     {name ?? nameParams}
                 </Text>
             </Box>
-            <Tooltip label={description}>
-                <Icon as={InfoIcon} color="teal" />
-            </Tooltip>
 
             {/* {type === "slider" && (
                 <>
@@ -134,7 +131,7 @@ const NumberInputEpi = ({
             {type === "number" && !isInitialParameters && (
                 <NumberInput
                     maxH="20px"
-                    maxW="75px"
+                    minW="75px"
                     mx="0.2rem"
                     fontSize="11px"
                     // defaultValue={value}
@@ -177,7 +174,7 @@ const NumberInputEpi = ({
             {isInitialParameters && isStateLocal && (
                 <NumberInput
                     maxH="20px"
-                    maxW="75px"
+                    minW="75px"
                     mx="0.2rem"
                     fontSize="11px"
                     value={localValue}
@@ -232,6 +229,9 @@ const NumberInputEpi = ({
                     />
                 </Flex>
             )}
+            <Tooltip label={description}>
+                <Icon as={InfoIcon} color="#016FB9" />
+            </Tooltip>
         </>
     );
 };

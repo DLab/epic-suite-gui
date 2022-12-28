@@ -55,9 +55,7 @@ const GeoTab = () => {
             />
             {mode === "Initial" ? (
                 <Flex w="40%" mt="15px">
-                    <GeoSavedSelections
-                        setGeoSelectionName={setGeoSelectionName}
-                    />
+                    <GeoSavedSelections />
                     <Button
                         size="sm"
                         fontSize="10px"
@@ -84,8 +82,6 @@ const GeoTab = () => {
                         <SetUpSelection
                             extentionOption={extentionOption}
                             setExtentionOption={setExtentionOption}
-                            geoSelectionName={geoSelectionName}
-                            setGeoSelectionName={setGeoSelectionName}
                         />
                         <Flex direction="column" w="73%" align="center">
                             <Flex w="85%" justify="center" h="80vh">
