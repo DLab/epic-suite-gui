@@ -89,7 +89,7 @@ const ModelMainTab = ({
         useState<boolean>(false);
     const [positionVDT, setPositionVDT] = useState<number>(-1);
     const parameters = useSelector((state: RootState) => state.controlPanel);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     // const { parameters } = useContext(ControlPanel);
     const {
         setAllGraphicData,
@@ -111,131 +111,131 @@ const ModelMainTab = ({
     /**
      * Save a new model in the context and in local storage.
      */
-    const getModelCompleteObj = () => {
-        const modelInfo = newModel.find(
-            (model: NewModelsParams) => model.idNewModel === id
-        );
-        const allModelInfo = {
-            ...modelInfo,
-            parameters,
-        };
-        const modelExist = completeModel.find(
-            (model: NewModelsAllParams) => +model.idNewModel === id
-        );
-        if (modelExist !== undefined) {
-            setCompleteModel({
-                type: "update-all",
-                id,
-                payload: allModelInfo,
-            });
-            const modelsAux = [...completeModel].map(
-                (e: NewModelsAllParams, i) => {
-                    if (e.idNewModel === id) {
-                        return allModelInfo;
-                    }
-                    return e;
-                }
-            );
-            localStorage.setItem("newModels", JSON.stringify(modelsAux));
-        } else {
-            setCompleteModel({
-                type: "add",
-                payload: allModelInfo,
-            });
+    // const getModelCompleteObj = () => {
+    //     const modelInfo = newModel.find(
+    //         (model: NewModelsParams) => model.idNewModel === id
+    //     );
+    //     const allModelInfo = {
+    //         ...modelInfo,
+    //         parameters,
+    //     };
+    //     const modelExist = completeModel.find(
+    //         (model: NewModelsAllParams) => +model.idNewModel === id
+    //     );
+    //     if (modelExist !== undefined) {
+    //         setCompleteModel({
+    //             type: "update-all",
+    //             id,
+    //             payload: allModelInfo,
+    //         });
+    //         const modelsAux = [...completeModel].map(
+    //             (e: NewModelsAllParams, i) => {
+    //                 if (e.idNewModel === id) {
+    //                     return allModelInfo;
+    //                 }
+    //                 return e;
+    //             }
+    //         );
+    //         localStorage.setItem("newModels", JSON.stringify(modelsAux));
+    //     } else {
+    //         setCompleteModel({
+    //             type: "add",
+    //             payload: allModelInfo,
+    //         });
 
-            localStorage.setItem(
-                "newModels",
-                JSON.stringify([...completeModel, allModelInfo])
-            );
-        }
-    };
+    //         localStorage.setItem(
+    //             "newModels",
+    //             JSON.stringify([...completeModel, allModelInfo])
+    //         );
+    //     }
+    // };
     useEffect(() => {
         setIdModelUpdate(id ?? 0);
     }, [id, setIdModelUpdate]);
 
-    useEffect(() => {
-        try {
-            const modelSaved = completeModel.find(
-                (model: NewModelsAllParams) => {
-                    return model.idNewModel === id;
-                }
-            );
-            const savedObject = {
-                idGeo: modelSaved?.idGeo,
-                idGraph: modelSaved?.idGraph,
-                idNewModel: modelSaved?.idNewModel,
-                modelType: modelSaved?.modelType,
-                name: modelSaved?.name,
-                numberNodes: modelSaved?.numberNodes,
-                populationType: modelSaved?.populationType,
-                typeSelection: modelSaved?.typeSelection,
-            };
+    // useEffect(() => {
+    //     try {
+    //         const modelSaved = completeModel.find(
+    //             (model: NewModelsAllParams) => {
+    //                 return model.idNewModel === id;
+    //             }
+    //         );
+    //         const savedObject = {
+    //             idGeo: modelSaved?.idGeo,
+    //             idGraph: modelSaved?.idGraph,
+    //             idNewModel: modelSaved?.idNewModel,
+    //             modelType: modelSaved?.modelType,
+    //             name: modelSaved?.name,
+    //             numberNodes: modelSaved?.numberNodes,
+    //             populationType: modelSaved?.populationType,
+    //             typeSelection: modelSaved?.typeSelection,
+    //         };
 
-            const actualObject = {
-                idGeo: areaSelectedValue,
-                idGraph: graphId,
-                idNewModel: id,
-                modelType: modelValue,
-                name: actualModelName,
-                numberNodes: numberOfNodes,
-                populationType: populationValue,
-                typeSelection: dataSourceValue,
-            };
+    //         const actualObject = {
+    //             idGeo: areaSelectedValue,
+    //             idGraph: graphId,
+    //             idNewModel: id,
+    //             modelType: modelValue,
+    //             name: actualModelName,
+    //             numberNodes: numberOfNodes,
+    //             populationType: populationValue,
+    //             typeSelection: dataSourceValue,
+    //         };
 
-            const initialConditionsNew = newModel.find(
-                (model: NewModelsParams) => {
-                    return model.idNewModel === id;
-                }
-            );
+    //         const initialConditionsNew = newModel.find(
+    //             (model: NewModelsParams) => {
+    //                 return model.idNewModel === id;
+    //             }
+    //         );
 
-            const previusInitialConditions =
-                modelSaved.initialConditions[0].conditionsValues;
+    //         const previusInitialConditions =
+    //             modelSaved.initialConditions[0].conditionsValues;
 
-            const newsInitialConditions =
-                initialConditionsNew.initialConditions[0].conditionsValues;
+    //         const newsInitialConditions =
+    //             initialConditionsNew.initialConditions[0].conditionsValues;
 
-            if (
-                _.isEqual(savedObject, actualObject) &&
-                _.isEqual(previusInitialConditions, newsInitialConditions)
-            ) {
-                setIsModelSavedLocal(true);
-            } else {
-                setIsModelSavedLocal(false);
-            }
-        } catch (error) {
-            setIsModelSavedLocal(false);
-        }
-    }, [
-        areaSelectedValue,
-        completeModel,
-        dataSourceValue,
-        graphId,
-        id,
-        actualModelName,
-        modelValue,
-        newModel,
-        numberOfNodes,
-        populationValue,
-    ]);
+    //         if (
+    //             _.isEqual(savedObject, actualObject) &&
+    //             _.isEqual(previusInitialConditions, newsInitialConditions)
+    //         ) {
+    //             setIsModelSavedLocal(true);
+    //         } else {
+    //             setIsModelSavedLocal(false);
+    //         }
+    //     } catch (error) {
+    //         setIsModelSavedLocal(false);
+    //     }
+    // }, [
+    //     areaSelectedValue,
+    //     completeModel,
+    //     dataSourceValue,
+    //     graphId,
+    //     id,
+    //     actualModelName,
+    //     modelValue,
+    //     newModel,
+    //     numberOfNodes,
+    //     populationValue,
+    // ]);
 
-    useEffect(() => {
-        const modelSaved = completeModel.find((model: NewModelsAllParams) => {
-            return model.idNewModel === id;
-        });
-        if (modelSaved) {
-            if (_.isEqual(modelSaved.parameters, parameters)) {
-                // setIsModelSavedLocal(true);
-                // setAllGraphicData([]);
-                // setAllResults([]);
-                // setDataToShowInMap([]);
-                // setRealDataSimulationKeys([]);
-            } else {
-                setIsModelSavedLocal(false);
-                // setAux("");
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [completeModel, id, setIsModelSavedLocal, parameters]);
+    // useEffect(() => {
+    //     const modelSaved = completeModel.find((model: NewModelsAllParams) => {
+    //         return model.idNewModel === id;
+    //     });
+    //     if (modelSaved) {
+    //         if (_.isEqual(modelSaved.parameters, parameters)) {
+    //             // setIsModelSavedLocal(true);
+    //             // setAllGraphicData([]);
+    //             // setAllResults([]);
+    //             // setDataToShowInMap([]);
+    //             // setRealDataSimulationKeys([]);
+    //         } else {
+    //             setIsModelSavedLocal(false);
+    //             // setAux("");
+    //         }
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [completeModel, id, setIsModelSavedLocal, parameters]);
 
     /**
      * Delete a model from local storage.

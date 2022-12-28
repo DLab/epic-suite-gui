@@ -12,7 +12,7 @@ import ModelNameAndButtons from "./ModelNameAndButtons";
 import ModelsSavedSelect from "./ModelsSavedSelect";
 
 const ModelTab = () => {
-    const { newModel, setNewModel } = useContext(NewModelSetted);
+    const { newModel, setNewModel, completeModel } = useContext(NewModelSetted);
     const [modelId, setModelId] = useState(undefined);
     const [secondModelLink, setSecondModelLink] = useState(undefined);
     // const [initialConditionsModel, setInitialConditionsModel] = useState([]);
@@ -23,13 +23,13 @@ const ModelTab = () => {
         if (modelMode === "initial") {
             setActualModelName("");
         }
-        // if (modelMode === Model.Update) {
-        //     const { name } = geoSelections.find(
-        //         (selection) =>
-        //             selection.id.toString() === idGeoSelectionUpdate.toString()
-        //     );
-        //     setActualModelName(name);
-        // }
+        if (modelMode === "update") {
+            const { name } = completeModel.find(
+                (model: NewModelsParams) =>
+                    model.idNewModel.toString() === modelId.toString()
+            );
+            setActualModelName(name);
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modelMode]);
@@ -66,7 +66,10 @@ const ModelTab = () => {
             />
             {modelMode === "initial" && (
                 <Flex w="40%" mt="15px">
-                    <ModelsSavedSelect />
+                    <ModelsSavedSelect
+                        setModelMode={setModelMode}
+                        setModelId={setModelId}
+                    />
                     <Button
                         size="sm"
                         fontSize="10px"
@@ -83,7 +86,7 @@ const ModelTab = () => {
                     </Button>
                 </Flex>
             )}
-            {modelMode === "add" && newModel.length > 0 && (
+            {modelMode !== "initial" && newModel.length > 0 && (
                 <>
                     {newModel.map((model) => {
                         if (model.idNewModel === modelId) {
@@ -93,6 +96,7 @@ const ModelTab = () => {
                                         actualModelName={actualModelName}
                                         setActualModelName={setActualModelName}
                                         id={modelId}
+                                        modelMode={modelMode}
                                         setModelMode={setModelMode}
                                     />
                                     <ModelMainTab
@@ -116,11 +120,3 @@ const ModelTab = () => {
 };
 
 export default ModelTab;
-
-// <Flex direction="column">
-//     <ModelMainTab
-//         id={modelId}
-//         initialConditions={initialConditionsModel}
-//         setInitialConditionsModel={setInitialConditionsModel}
-//     />
-// </Flex>

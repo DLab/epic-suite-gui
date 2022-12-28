@@ -4,9 +4,13 @@ import React, { useContext } from "react";
 import { NewModelSetted } from "context/NewModelsContext";
 import { NewModelsAllParams } from "types/SimulationTypes";
 
-const ModelsSavedSelect = () => {
-    const { completeModel, setCompleteModel, setNewModel } =
-        useContext(NewModelSetted);
+interface Props {
+    setModelMode: (value: string) => void;
+    setModelId: (value: number) => void;
+}
+
+const ModelsSavedSelect = ({ setModelMode, setModelId }: Props) => {
+    const { completeModel } = useContext(NewModelSetted);
     return (
         <Select
             w="50%"
@@ -14,7 +18,9 @@ const ModelsSavedSelect = () => {
             mr="15px"
             placeholder="Select model"
             onChange={(e) => {
-                // setMode(Model.Update);
+                setModelMode("update");
+                setModelId(+e.target.value);
+
                 // updateGeoSelection(e.target.value);
             }}
         >
