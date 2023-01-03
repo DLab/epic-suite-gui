@@ -63,6 +63,7 @@ const ModelTab = () => {
                 setSecondLink={setSecondModelLink}
                 modelMode={modelMode}
                 setModelMode={setModelMode}
+                idModel={modelId}
             />
             {modelMode === "initial" && (
                 <Flex w="40%" mt="15px">

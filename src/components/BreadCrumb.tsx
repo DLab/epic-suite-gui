@@ -8,6 +8,7 @@ import {
 import { HomeIcon } from "@heroicons/react/24/outline";
 import React, { useContext, useEffect } from "react";
 
+import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 import { Model } from "types/ControlPanelTypes";
@@ -18,6 +19,7 @@ interface Props {
     setSecondLink?: (value: string) => void;
     modelMode?: string;
     setModelMode?: (value: string) => void;
+    idModel?: number;
 }
 
 const BreadCrumb = ({
@@ -26,7 +28,9 @@ const BreadCrumb = ({
     setSecondLink,
     modelMode,
     setModelMode,
+    idModel,
 }: Props) => {
+    const { completeModel } = useContext(NewModelSetted);
     const { setMode, mode, idGeoSelectionUpdate, geoSelections } =
         useContext(SelectFeature);
     const { setIndex } = useContext(TabIndex);
@@ -39,19 +43,20 @@ const BreadCrumb = ({
             if (modelMode === "add") {
                 setSecondLink("New");
             }
-            // if (modelMode === "update") {
-            //     const { name } = geoSelections.find(
-            //         (selection) =>
-            //             selection.id.toString() ===
-            //             idGeoSelectionUpdate.toString()
-            //     );
-            //     setSecondLink(name);
-            // }
+            if (modelMode === "update") {
+                const { name } = completeModel.find(
+                    (model) =>
+                        model.idNewModel.toString() === idModel.toString()
+                );
+                setSecondLink(name);
+            }
         }
     }, [
+        completeModel,
         firstLink,
         geoSelections,
         idGeoSelectionUpdate,
+        idModel,
         mode,
         modelMode,
         secondLink,

@@ -351,7 +351,6 @@ const ModelAccordion = ({
                             setGraphId(1);
                             setShowSectionInitialConditions(true);
                             setAreaSelectedValue(undefined);
-
                             setNewModel({
                                 type: "update-all",
                                 id,

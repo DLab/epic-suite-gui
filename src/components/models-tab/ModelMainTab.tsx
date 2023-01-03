@@ -1,24 +1,13 @@
-import { DeleteIcon } from "@chakra-ui/icons";
-import {
-    Flex,
-    Spinner,
-    Accordion,
-    Icon,
-    Button,
-    useToast,
-} from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import _ from "lodash";
 import dynamic from "next/dynamic";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 
 import { ControlPanel } from "context/ControlPanelContext";
-import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
-import { RootState } from "store/store";
 import { InitialConditionsNewModel } from "types/ControlPanelTypes";
-import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
+import { NewModelsParams } from "types/SimulationTypes";
 
 import ExportModels from "./ExportModels";
 import InitialConditionsModels from "./InitialConditionsModel";
@@ -35,7 +24,6 @@ interface Props {
     initialConditions: InitialConditionsNewModel[];
     actualModelName: string;
     setActualModelName: (value: string) => void;
-    // setInitialConditionsModel: (value: InitialConditionsNewModel[]) => void;
 }
 
 const ModelsMap = dynamic(() => import("./model-map/ModelsMap"), {
@@ -71,12 +59,10 @@ const ModelMainTab = ({
     const [areaSelectedValue, setAreaSelectedValue] = useState(undefined);
     const [populationValue, setPopulationValue] = useState(undefined);
     const [graphId, setGraphId] = useState(undefined);
-    const [isModelSavedLocal, setIsModelSavedLocal] = useState(false);
     const [graphsSelectedValue, setGraphsSelectedValue] = useState(undefined);
     const [showSectionInitialConditions, setShowSectionInitialConditions] =
         useState(false);
-    const { newModel, setNewModel, completeModel, setCompleteModel } =
-        useContext(NewModelSetted);
+    const { newModel } = useContext(NewModelSetted);
     const { setAux } = useContext(TabIndex);
     const { setIdModelUpdate, dataViewVariable } = useContext(ControlPanel);
     const [startDate, setStartDate] = useState(
@@ -88,15 +74,6 @@ const ModelMainTab = ({
     const [showSectionVariable, setShowSectionVariable] =
         useState<boolean>(false);
     const [positionVDT, setPositionVDT] = useState<number>(-1);
-    const parameters = useSelector((state: RootState) => state.controlPanel);
-    // const dispatch = useDispatch();
-    // const { parameters } = useContext(ControlPanel);
-    const {
-        setAllGraphicData,
-        setRealDataSimulationKeys,
-        setDataToShowInMap,
-        setAllResults,
-    } = useContext(GraphicsData);
 
     /**
      * Gets the saved value of the requested parameter.
@@ -108,145 +85,10 @@ const ModelMainTab = ({
         [newModel, id]
     );
 
-    /**
-     * Save a new model in the context and in local storage.
-     */
-    // const getModelCompleteObj = () => {
-    //     const modelInfo = newModel.find(
-    //         (model: NewModelsParams) => model.idNewModel === id
-    //     );
-    //     const allModelInfo = {
-    //         ...modelInfo,
-    //         parameters,
-    //     };
-    //     const modelExist = completeModel.find(
-    //         (model: NewModelsAllParams) => +model.idNewModel === id
-    //     );
-    //     if (modelExist !== undefined) {
-    //         setCompleteModel({
-    //             type: "update-all",
-    //             id,
-    //             payload: allModelInfo,
-    //         });
-    //         const modelsAux = [...completeModel].map(
-    //             (e: NewModelsAllParams, i) => {
-    //                 if (e.idNewModel === id) {
-    //                     return allModelInfo;
-    //                 }
-    //                 return e;
-    //             }
-    //         );
-    //         localStorage.setItem("newModels", JSON.stringify(modelsAux));
-    //     } else {
-    //         setCompleteModel({
-    //             type: "add",
-    //             payload: allModelInfo,
-    //         });
-
-    //         localStorage.setItem(
-    //             "newModels",
-    //             JSON.stringify([...completeModel, allModelInfo])
-    //         );
-    //     }
-    // };
     useEffect(() => {
         setIdModelUpdate(id ?? 0);
     }, [id, setIdModelUpdate]);
 
-    // useEffect(() => {
-    //     try {
-    //         const modelSaved = completeModel.find(
-    //             (model: NewModelsAllParams) => {
-    //                 return model.idNewModel === id;
-    //             }
-    //         );
-    //         const savedObject = {
-    //             idGeo: modelSaved?.idGeo,
-    //             idGraph: modelSaved?.idGraph,
-    //             idNewModel: modelSaved?.idNewModel,
-    //             modelType: modelSaved?.modelType,
-    //             name: modelSaved?.name,
-    //             numberNodes: modelSaved?.numberNodes,
-    //             populationType: modelSaved?.populationType,
-    //             typeSelection: modelSaved?.typeSelection,
-    //         };
-
-    //         const actualObject = {
-    //             idGeo: areaSelectedValue,
-    //             idGraph: graphId,
-    //             idNewModel: id,
-    //             modelType: modelValue,
-    //             name: actualModelName,
-    //             numberNodes: numberOfNodes,
-    //             populationType: populationValue,
-    //             typeSelection: dataSourceValue,
-    //         };
-
-    //         const initialConditionsNew = newModel.find(
-    //             (model: NewModelsParams) => {
-    //                 return model.idNewModel === id;
-    //             }
-    //         );
-
-    //         const previusInitialConditions =
-    //             modelSaved.initialConditions[0].conditionsValues;
-
-    //         const newsInitialConditions =
-    //             initialConditionsNew.initialConditions[0].conditionsValues;
-
-    //         if (
-    //             _.isEqual(savedObject, actualObject) &&
-    //             _.isEqual(previusInitialConditions, newsInitialConditions)
-    //         ) {
-    //             setIsModelSavedLocal(true);
-    //         } else {
-    //             setIsModelSavedLocal(false);
-    //         }
-    //     } catch (error) {
-    //         setIsModelSavedLocal(false);
-    //     }
-    // }, [
-    //     areaSelectedValue,
-    //     completeModel,
-    //     dataSourceValue,
-    //     graphId,
-    //     id,
-    //     actualModelName,
-    //     modelValue,
-    //     newModel,
-    //     numberOfNodes,
-    //     populationValue,
-    // ]);
-
-    // useEffect(() => {
-    //     const modelSaved = completeModel.find((model: NewModelsAllParams) => {
-    //         return model.idNewModel === id;
-    //     });
-    //     if (modelSaved) {
-    //         if (_.isEqual(modelSaved.parameters, parameters)) {
-    //             // setIsModelSavedLocal(true);
-    //             // setAllGraphicData([]);
-    //             // setAllResults([]);
-    //             // setDataToShowInMap([]);
-    //             // setRealDataSimulationKeys([]);
-    //         } else {
-    //             setIsModelSavedLocal(false);
-    //             // setAux("");
-    //         }
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [completeModel, id, setIsModelSavedLocal, parameters]);
-
-    /**
-     * Delete a model from local storage.
-     */
-    const deleteFromLocalStorage = () => {
-        const modelFilter = [...completeModel].filter(
-            (model: NewModelsAllParams) => model.idNewModel !== +id
-        );
-        localStorage.setItem("newModels", JSON.stringify(modelFilter));
-    };
-    const toast = useToast();
     useEffect(() => {
         setModelValue(getDefaultValueParameters("modelType"));
         setDataSourceValue(getDefaultValueParameters("typeSelection"));
@@ -333,55 +175,6 @@ const ModelMainTab = ({
                             id={id}
                         />
                     )}
-
-                {/* {numberOfNodes !== 0 && numberOfNodes !== undefined && (
-                    <Button
-                        size="sm"
-                        colorScheme="teal"
-                        m="2%"
-                        isDisabled={isModelSavedLocal}
-                        onClick={() => {
-                            const modelForSim = newModel.findIndex(
-                                (mod: NewModelsParams) => mod.idNewModel === id
-                            );
-                            const isInitialConditionsVoid = newModel[
-                                modelForSim
-                            ].initialConditions.some((init) => {
-                                if (
-                                    Object.values(init.conditionsValues).every(
-                                        (values) => values === 0
-                                    )
-                                ) {
-                                    return true;
-                                }
-                                return false;
-                            });
-                            if (isInitialConditionsVoid) {
-                                toast({
-                                    position: "bottom-left",
-                                    title: "Updated failed",
-                                    description:
-                                        "There is one or more nodes with all initial conditions values as zero ",
-                                    status: "error",
-                                    duration: 3000,
-                                    isClosable: true,
-                                });
-                            } else {
-                                getModelCompleteObj();
-                                toast({
-                                    position: "bottom-left",
-                                    title: "Model is ready",
-                                    description: "Model is enabled to simulate",
-                                    status: "success",
-                                    duration: 3000,
-                                    isClosable: true,
-                                });
-                            }
-                        }}
-                    >
-                        Save Model
-                    </Button>
-                )} */}
             </Flex>
             {showSectionInitialConditions && (
                 <Flex
@@ -434,27 +227,6 @@ const ModelMainTab = ({
                 </Flex>
             )}
             {/* <Flex direction="column">
-                <Icon
-                    color="#16609E"
-                    as={DeleteIcon}
-                    cursor="pointer"
-                    mb="0.3rem"
-                    onClick={() => {
-                        setNewModel({
-                            type: "remove",
-                            element: id,
-                        });
-                        setCompleteModel({
-                            type: "remove",
-                            element: id,
-                        });
-                        deleteFromLocalStorage();
-                        setAllGraphicData([]);
-                        setRealDataSimulationKeys([]);
-                        setDataToShowInMap([]);
-                        setAllResults([].concat([], []));
-                    }}
-                />
                 <ExportModels idModel={id} />
             </Flex> */}
         </Flex>

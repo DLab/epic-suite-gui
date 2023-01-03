@@ -4,16 +4,14 @@ import React, { useContext } from "react";
 import { useSelector } from "react-redux";
 
 import { NewModelSetted } from "context/NewModelsContext";
+import { TabIndex } from "context/TabContext";
 import { RootState } from "store/store";
 import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 
+import DeleteModelAlert from "./DeleteModelAlert";
 import UpdateButton from "./UpdateButton";
 
-// import GeoToastMessage1 from "./selectorMap/GeoToastMessage1";
-
 interface Props {
-    // extentionOption: string;
-    // setExtentionOption: (value: string) => void;
     id: number;
     actualModelName: string;
     setActualModelName: (value: string) => void;
@@ -31,6 +29,7 @@ const ModelNameAndButtons = ({
         useContext(NewModelSetted);
     const toast = useToast();
     const parameters = useSelector((state: RootState) => state.controlPanel);
+    const { setIndex } = useContext(TabIndex);
 
     const getModelCompleteObj = () => {
         const modelInfo = newModel.find(
@@ -100,6 +99,7 @@ const ModelNameAndButtons = ({
         } else {
             getModelCompleteObj();
             setModelMode("initial");
+            setIndex(0);
             toast({
                 position: "bottom-left",
                 title: "Model is ready",
@@ -109,6 +109,19 @@ const ModelNameAndButtons = ({
                 isClosable: true,
             });
         }
+    };
+
+    const getPreviusInitialConditions = () => {
+        const { initialConditions } = completeModel.find(
+            (model: NewModelsParams) =>
+                model.idNewModel.toString() === id.toString()
+        );
+
+        setNewModel({
+            type: "update-initial-conditions",
+            payloadInitialConditions: initialConditions,
+            id,
+        });
     };
 
     return (
@@ -147,7 +160,6 @@ const ModelNameAndButtons = ({
                                 bg="#016FB9"
                                 color="#FFFFFF"
                                 size="sm"
-                                // mt="20px"
                                 borderRadius="4px"
                                 fontSize="10px"
                             >
@@ -161,14 +173,12 @@ const ModelNameAndButtons = ({
                                         element: id,
                                     });
                                     setModelMode("initial");
-                                    // setIdGeoSelectionUpdate(0);
                                 }}
                                 bg="#B9B9C9"
                                 color="#FFFFFF"
-                                size="sm"
-                                // mt="20px"
                                 borderRadius="4px"
                                 fontSize="10px"
+                                size="sm"
                             >
                                 CANCEL
                             </Button>
@@ -190,25 +200,19 @@ const ModelNameAndButtons = ({
                                 fontSize="10px"
                                 // eslint-disable-next-line sonarjs/no-identical-functions
                                 onClick={() => {
+                                    getPreviusInitialConditions();
                                     setModelMode("initial");
-                                    // setScale("National");
-                                    // setMode(Model.Initial);
-                                    // setIdGeoSelectionUpdate(0);
                                 }}
                             >
                                 CANCEL
                             </Button>
+                            <DeleteModelAlert
+                                id={id}
+                                setModelMode={setModelMode}
+                            />
                         </>
                     )}
                 </Stack>
-
-                {/* <Box textAlign="center">
-                        <GeoToastMessage1
-                            scale={extentionOption}
-                            setScale={setExtentionOption}
-                            actualModelName={actualModelName}
-                        />
-                    </Box> */}
             </>
         </Flex>
     );
