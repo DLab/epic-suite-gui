@@ -61,14 +61,14 @@ const CountiesModelsMap = ({ idGeo }: Props) => {
             (c: string) => c === feature.id
         );
         if (isIncluded) {
-            color = "#e4b721";
+            color = "#016FB9";
         } else {
-            color = "#1777c7";
+            color = "#ADDEFF";
         }
         return {
             fillColor: color,
-            fillOpacity: 0.7,
-            weight: 0.7,
+            fillOpacity: 1,
+            weight: 0.5,
             color: "white",
             opacity: 1,
         };
