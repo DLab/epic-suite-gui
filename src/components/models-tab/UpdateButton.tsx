@@ -10,13 +10,16 @@ import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 
 interface Props {
     actualModelName: string;
-    id: number;
     saveModel: () => void;
 }
 
-const UpdateButton = ({ actualModelName, id, saveModel }: Props) => {
+const UpdateButton = ({ actualModelName, saveModel }: Props) => {
     const [isModelSavedLocal, setIsModelSavedLocal] = useState(false);
-    const { newModel, completeModel } = useContext(NewModelSetted);
+    const {
+        newModel,
+        completeModel,
+        idModelUpdate: id,
+    } = useContext(NewModelSetted);
     const [modelValue, setModelValue] = useState(undefined);
     const [numberOfNodes, setNumberOfNodes] = useState(0);
     const [dataSourceValue, setDataSourceValue] = useState(undefined);

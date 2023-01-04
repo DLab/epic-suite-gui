@@ -45,7 +45,6 @@ interface Props {
     setAreaSelectedValue: (value: number | string) => void;
     graphId: number;
     setGraphId: (value: number) => void;
-    id: number;
     showSectionInitialConditions: boolean;
     setShowSectionInitialConditions: (value: boolean) => void;
     graphsSelectedValue: undefined | string[];
@@ -72,7 +71,6 @@ const ModelAccordion = ({
     setAreaSelectedValue,
     graphId,
     setGraphId,
-    id,
     showSectionInitialConditions,
     setShowSectionInitialConditions,
     graphsSelectedValue,
@@ -83,7 +81,11 @@ const ModelAccordion = ({
     const [geoSelections, setGeoSelections] = useState([]);
     const [minGraphValue, setMinGraphValue] = useState(2);
     const { geoSelections: allGeoSelections } = useContext(SelectFeature);
-    const { newModel, setNewModel } = useContext(NewModelSetted);
+    const {
+        newModel,
+        setNewModel,
+        idModelUpdate: id,
+    } = useContext(NewModelSetted);
 
     useEffect(() => {
         if (populationValue === "monopopulation") {

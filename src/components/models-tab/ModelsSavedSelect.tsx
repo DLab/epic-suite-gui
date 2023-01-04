@@ -6,11 +6,11 @@ import { NewModelsAllParams } from "types/SimulationTypes";
 
 interface Props {
     setModelMode: (value: string) => void;
-    setModelId: (value: number) => void;
 }
 
-const ModelsSavedSelect = ({ setModelMode, setModelId }: Props) => {
-    const { completeModel } = useContext(NewModelSetted);
+const ModelsSavedSelect = ({ setModelMode }: Props) => {
+    const { completeModel, setIdModelUpdate: setModelId } =
+        useContext(NewModelSetted);
     return (
         <Select
             w="50%"
@@ -20,8 +20,6 @@ const ModelsSavedSelect = ({ setModelMode, setModelId }: Props) => {
             onChange={(e) => {
                 setModelMode("update");
                 setModelId(+e.target.value);
-
-                // updateGeoSelection(e.target.value);
             }}
         >
             {completeModel.map((model: NewModelsAllParams) => {

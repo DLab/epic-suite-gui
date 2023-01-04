@@ -67,8 +67,10 @@ const ModelMainTab = ({
     const { setIdModelUpdate, dataViewVariable } = useContext(ControlPanel);
     const [startDate, setStartDate] = useState(
         new Date(
-            newModel.find((model: NewModelsParams) => model.idNewModel === id)
-                .t_init ?? new Date(2022, 6, 1)
+            newModel.find(
+                (model: NewModelsParams) =>
+                    model.idNewModel.toString() === id.toString()
+            ).t_init ?? new Date(2022, 6, 1)
         )
     );
     const [showSectionVariable, setShowSectionVariable] =
@@ -143,7 +145,6 @@ const ModelMainTab = ({
                     setAreaSelectedValue={setAreaSelectedValue}
                     graphId={graphId}
                     setGraphId={setGraphId}
-                    id={id}
                     showSectionInitialConditions={showSectionInitialConditions}
                     setShowSectionInitialConditions={
                         setShowSectionInitialConditions
@@ -172,7 +173,6 @@ const ModelMainTab = ({
                             dataSourceValue={dataSourceValue}
                             modelName={actualModelName}
                             startDate={startDate}
-                            id={id}
                         />
                     )}
             </Flex>
@@ -196,7 +196,6 @@ const ModelMainTab = ({
                             modelName={actualModelName}
                             modelValue={modelValue}
                             populationValue={populationValue}
-                            id={id}
                             idGeo={areaSelectedValue}
                             idGraph={0}
                             dataSourceValue={dataSourceValue}

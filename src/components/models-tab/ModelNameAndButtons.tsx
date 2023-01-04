@@ -12,21 +12,22 @@ import DeleteModelAlert from "./DeleteModelAlert";
 import UpdateButton from "./UpdateButton";
 
 interface Props {
-    id: number;
     actualModelName: string;
     setActualModelName: (value: string) => void;
-    modelMode: string;
-    setModelMode: (value: string) => void;
 }
 const ModelNameAndButtons = ({
-    id,
     actualModelName,
     setActualModelName,
-    modelMode,
-    setModelMode,
 }: Props) => {
-    const { newModel, setNewModel, completeModel, setCompleteModel } =
-        useContext(NewModelSetted);
+    const {
+        newModel,
+        setNewModel,
+        completeModel,
+        setCompleteModel,
+        mode: modelMode,
+        setMode: setModelMode,
+        idModelUpdate: id,
+    } = useContext(NewModelSetted);
     const toast = useToast();
     const parameters = useSelector((state: RootState) => state.controlPanel);
     const { setIndex } = useContext(TabIndex);
@@ -188,7 +189,6 @@ const ModelNameAndButtons = ({
                         <>
                             <UpdateButton
                                 actualModelName={actualModelName}
-                                id={id}
                                 saveModel={saveModel}
                             />
                             <Button
@@ -206,10 +206,7 @@ const ModelNameAndButtons = ({
                             >
                                 CANCEL
                             </Button>
-                            <DeleteModelAlert
-                                id={id}
-                                setModelMode={setModelMode}
-                            />
+                            <DeleteModelAlert setModelMode={setModelMode} />
                         </>
                     )}
                 </Stack>

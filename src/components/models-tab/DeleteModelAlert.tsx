@@ -17,13 +17,16 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { NewModelsAllParams } from "types/SimulationTypes";
 
 interface Props {
-    id: number;
     setModelMode: (value: string) => void;
 }
 
-const DeleteModelAlert = ({ id, setModelMode }: Props) => {
-    const { setNewModel, completeModel, setCompleteModel } =
-        useContext(NewModelSetted);
+const DeleteModelAlert = ({ setModelMode }: Props) => {
+    const {
+        setNewModel,
+        completeModel,
+        setCompleteModel,
+        idModelUpdate: id,
+    } = useContext(NewModelSetted);
     const {
         setAllGraphicData,
         setRealDataSimulationKeys,

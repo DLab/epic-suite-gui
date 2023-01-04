@@ -29,7 +29,6 @@ interface Props {
     dataSourceValue: string;
     modelName: string;
     startDate: Date;
-    id: number;
 }
 
 /**
@@ -48,14 +47,13 @@ const ModelBuilder = ({
     dataSourceValue,
     modelName,
     startDate,
-    id,
 }: Props) => {
     const { geoSelections: allGeoSelections } = useContext(SelectFeature);
 
     const [nodes, setNodes] = useState([]);
     // const { setParameters, parameters } = useContext(ControlPanel);
     const dispatch = useDispatch();
-    const { completeModel } = useContext(NewModelSetted);
+    const { completeModel, idModelUpdate: id } = useContext(NewModelSetted);
 
     /**
      * Returns a list with the name of the nodes of the geographical selection.

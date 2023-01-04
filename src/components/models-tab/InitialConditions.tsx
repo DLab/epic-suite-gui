@@ -20,7 +20,6 @@ import createIdComponent from "utils/createIdcomponent";
 import NumberInputInitialConditions from "./NumberInputInitialConditions";
 
 interface Props {
-    id: number;
     modelValue: string;
     nodeName: string;
     initialConditions: InitialConditionsContext;
@@ -30,7 +29,6 @@ interface Props {
 }
 
 const InitialConditionsModel = ({
-    id,
     modelValue,
     nodeName,
     initialConditions,
@@ -38,7 +36,11 @@ const InitialConditionsModel = ({
     setInitialConditionsMode,
     populationValue,
 }: Props) => {
-    const { newModel, setNewModel } = useContext(NewModelSetted);
+    const {
+        newModel,
+        setNewModel,
+        idModelUpdate: id,
+    } = useContext(NewModelSetted);
     const RealConditions = "real-conditions";
     const toast = useToast();
     const [value, setValue] = useState({

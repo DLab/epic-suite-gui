@@ -62,8 +62,8 @@ const MainContentTab = () => {
                 <TabPanel maxH="100vh" h="100%">
                     <SummaryTab />
                 </TabPanel>
-                <TabPanel maxH="100vh" h="100%">
-                    <NewModel />
+                <TabPanel h="100vh" maxH="100vh" overflow="hidden">
+                    <ModelTab />
                 </TabPanel>
                 <TabPanel maxH="100vh" h="100%">
                     <GeoMap />
@@ -81,9 +81,9 @@ const MainContentTab = () => {
                 <TabPanel maxH="100vh" h="100%">
                     <MobilityMatrix />
                 </TabPanel>
-                <TabPanel h="100vh" maxH="100vh" overflow="hidden">
-                    <ModelTab />
-                </TabPanel>
+                {/* <TabPanel maxH="100vh" h="100%">
+                    <NewModel />
+                </TabPanel> */}
             </TabPanels>
         </Tabs>
     );

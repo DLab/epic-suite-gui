@@ -12,25 +12,21 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 import { Model } from "types/ControlPanelTypes";
+import { NewModelsAllParams } from "types/SimulationTypes";
 
 interface Props {
     firstLink: string;
     secondLink?: string;
     setSecondLink?: (value: string) => void;
-    modelMode?: string;
-    setModelMode?: (value: string) => void;
-    idModel?: number;
 }
 
-const BreadCrumb = ({
-    firstLink,
-    secondLink,
-    setSecondLink,
-    modelMode,
-    setModelMode,
-    idModel,
-}: Props) => {
-    const { completeModel } = useContext(NewModelSetted);
+const BreadCrumb = ({ firstLink, secondLink, setSecondLink }: Props) => {
+    const {
+        completeModel,
+        mode: modelMode,
+        setMode: setModelMode,
+        idModelUpdate: idModel,
+    } = useContext(NewModelSetted);
     const { setMode, mode, idGeoSelectionUpdate, geoSelections } =
         useContext(SelectFeature);
     const { setIndex } = useContext(TabIndex);
@@ -45,23 +41,14 @@ const BreadCrumb = ({
             }
             if (modelMode === "update") {
                 const { name } = completeModel.find(
-                    (model) =>
+                    (model: NewModelsAllParams) =>
                         model.idNewModel.toString() === idModel.toString()
                 );
                 setSecondLink(name);
             }
         }
-    }, [
-        completeModel,
-        firstLink,
-        geoSelections,
-        idGeoSelectionUpdate,
-        idModel,
-        mode,
-        modelMode,
-        secondLink,
-        setSecondLink,
-    ]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [completeModel, firstLink, idModel, modelMode]);
 
     useEffect(() => {
         if (firstLink === "Geographic Selection") {

@@ -20,7 +20,6 @@ import SelectDate from "./SelectDate";
 interface Props {
     modelName: string;
     modelValue: string;
-    id: number;
     populationValue: string;
     dataSourceValue: string;
     idGeo: number;
@@ -38,7 +37,6 @@ interface Props {
 const InitialConditiosModels = ({
     modelName,
     modelValue,
-    id,
     populationValue,
     dataSourceValue,
     idGeo,
@@ -106,7 +104,6 @@ const InitialConditiosModels = ({
                                 <SelectDate
                                     modelName={modelName}
                                     modelValue={modelValue}
-                                    id={id}
                                     idGeo={idGeo}
                                     startDate={startDate}
                                     setStartDate={setStartDate}
@@ -122,7 +119,6 @@ const InitialConditiosModels = ({
 
             {initialConditionsGraph.length === 1 && (
                 <InitialConditions
-                    id={id}
                     modelValue={modelValue}
                     nodeName={initialConditionsGraph[0].name}
                     initialConditions={
@@ -158,7 +154,6 @@ const InitialConditiosModels = ({
                                 </h2>
                                 <AccordionPanel pb={4} bg="#FFFFFF">
                                     <InitialConditions
-                                        id={id}
                                         modelValue={modelValue}
                                         nodeName={node.name}
                                         initialConditions={

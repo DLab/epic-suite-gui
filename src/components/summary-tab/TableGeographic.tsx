@@ -90,12 +90,10 @@ const TableGeographic = () => {
                                                 updateGeoSelection(
                                                     geoSelection.id
                                                 );
-
                                                 setMode(Model.Update);
                                                 setIndex(2);
                                             }}
                                         />
-                                        {/* </Link> */}
                                     </Td>
                                 </Tr>
                             );

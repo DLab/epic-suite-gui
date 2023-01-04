@@ -1,7 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import {
     Button,
-    Center,
     Checkbox,
     Flex,
     Table,
@@ -14,13 +13,12 @@ import {
     Tr,
     Text,
     Icon,
-    Tfoot,
     ButtonGroup,
 } from "@chakra-ui/react";
 import { ArrowRightCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { format } from "date-fns";
 import React, { useContext, useEffect, useState } from "react";
 
-import RunModelsButton from "components/icons/RunModelsButton";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
 import { NewModelsParams } from "types/SimulationTypes";
@@ -37,10 +35,41 @@ type ReducedIdForPermissions = Record<number, boolean>;
  */
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const TableSimulations = () => {
-    const { completeModel } = useContext(NewModelSetted);
+    const {
+        completeModel,
+        setMode: setModelMode,
+        setIdModelUpdate,
+        setNewModel,
+    } = useContext(NewModelSetted);
     const [permission, setPermission] = useState<ReducedIdForPermissions>({});
     const [codMetaModelSelected, setCodMetaModelSelected] = useState<number>(0);
     const { setIndex } = useContext(TabIndex);
+
+    const updateModelSelection = (id) => {
+        setIdModelUpdate(id);
+        setModelMode("update");
+    };
+
+    const addNewModel = () => {
+        const id = Date.now();
+        setIdModelUpdate(id);
+        setNewModel({
+            type: "add",
+            payload: {
+                idNewModel: id,
+                name: "",
+                modelType: undefined,
+                populationType: undefined,
+                typeSelection: undefined,
+                idGeo: undefined,
+                idGraph: undefined,
+                numberNodes: undefined,
+                t_init: format(new Date(2022, 4, 31), "yyyy/MM/dd"),
+                initialConditions: [],
+            },
+        });
+        setModelMode("add");
+    };
 
     useEffect(() => {
         if (completeModel.length > 0) {
@@ -201,7 +230,12 @@ const TableSimulations = () => {
                                             h="20px"
                                             as={ArrowRightCircleIcon}
                                             color="#1B1B3A"
-                                            onClick={() => setIndex(1)}
+                                            onClick={() => {
+                                                updateModelSelection(
+                                                    elem.idNewModel
+                                                );
+                                                setIndex(1);
+                                            }}
                                         />
                                     </Td>
                                 </Tr>
@@ -216,7 +250,10 @@ const TableSimulations = () => {
                                 fontSize="10px"
                                 bg="#016FB9"
                                 color="#FFFFFF"
-                                onClick={() => setIndex(1)}
+                                onClick={() => {
+                                    addNewModel();
+                                    setIndex(1);
+                                }}
                             >
                                 <Icon
                                     w="14px"

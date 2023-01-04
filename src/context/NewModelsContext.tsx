@@ -13,8 +13,10 @@ import {
 export const NewModelSetted = createContext<NewModelType>({
     mode: "add",
     setMode: () => {},
-    idNewModelUpdating: 0,
-    setIdNewModelUpdating: () => {},
+    idModelUpdate: 0,
+    setIdModelUpdate: () => {},
+    // idNewModelUpdating: 0,
+    // setIdNewModelUpdating: () => {},
     completeModel: [],
     setCompleteModel: () => {},
     newModel: [],
@@ -117,7 +119,7 @@ const NewModelsContext: React.FC = ({ children }) => {
         }
         return state;
     };
-    const [mode, setMode] = useState("add");
+    const [mode, setMode] = useState("initial");
     const [newModel, setNewModel] = useReducer(reducer, initialState);
     const [selectedModelsToSimulate, setSelectedModelsToSimulate] = useState(
         []
@@ -126,12 +128,13 @@ const NewModelsContext: React.FC = ({ children }) => {
         reducerCompleteModel,
         initialStateCompleteModel
     );
-    const [idNewModelUpdating, setIdNewModelUpdating] = useReducer(
-        reducerIdSimulation,
-        0
-    );
+    // const [idNewModelUpdating, setIdNewModelUpdating] = useReducer(
+    //     reducerIdSimulation,
+    //     0
+    // );
     const [simulationsPopulatioType, setSimulationsPopulatioType] =
         useState<string>();
+    const [idModelUpdate, setIdModelUpdate] = useState(undefined);
     return (
         <NewModelSetted.Provider
             value={{
@@ -141,12 +144,14 @@ const NewModelsContext: React.FC = ({ children }) => {
                 setCompleteModel,
                 newModel,
                 setNewModel,
-                idNewModelUpdating,
-                setIdNewModelUpdating,
+                // idNewModelUpdating,
+                // setIdNewModelUpdating,
                 selectedModelsToSimulate,
                 setSelectedModelsToSimulate,
                 simulationsPopulatioType,
                 setSimulationsPopulatioType,
+                idModelUpdate,
+                setIdModelUpdate,
             }}
         >
             {children}

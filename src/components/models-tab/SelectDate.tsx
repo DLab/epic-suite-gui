@@ -20,7 +20,6 @@ interface Props {
     modelName: string;
     modelValue: string;
     populationValue: string;
-    id: number;
     idGeo: number;
     startDate: Date;
     setStartDate: (value: Date) => void;
@@ -36,7 +35,7 @@ const SelectDate = ({
     modelName,
     modelValue,
     populationValue,
-    id,
+
     idGeo,
     startDate,
     setStartDate,
@@ -44,7 +43,7 @@ const SelectDate = ({
 }: Props) => {
     const toast = useToast();
     const { geoSelections } = useContext(SelectFeature);
-    const { setNewModel } = useContext(NewModelSetted);
+    const { setNewModel, idModelUpdate: id } = useContext(NewModelSetted);
 
     /**
      * Provides the name of the USA state or county according to the fip.
