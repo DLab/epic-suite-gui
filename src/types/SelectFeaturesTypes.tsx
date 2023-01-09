@@ -34,6 +34,8 @@ export interface StatesProps {
     setGeoSelections: (values: Action) => void;
     idGeoSelectionUpdate: number;
     setIdGeoSelectionUpdate: (value: number) => void;
+    originOfGeoCreation: string;
+    setOriginOfGeoCreation: (value: string) => void;
 }
 
 export interface DataCountiesObj {

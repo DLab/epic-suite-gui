@@ -24,6 +24,8 @@ export const SelectFeature = createContext<StatesProps>({
     setCounties: () => {},
     geoSelections: [],
     setGeoSelections: () => {},
+    originOfGeoCreation: "",
+    setOriginOfGeoCreation: () => {},
 });
 
 // eslint-disable-next-line react/prop-types
@@ -104,6 +106,7 @@ const SelectFeatureContext: React.FC = ({ children }) => {
     const [nameGeoSelection, setNameGeoSelection] = useState("Geo Selection 1");
     const [mode, setMode] = useState<Model>(Model.Initial);
     const [idGeoSelectionUpdate, setIdGeoSelectionUpdate] = useState(0);
+    const [originOfGeoCreation, setOriginOfGeoCreation] = useState("");
 
     return (
         <SelectFeature.Provider
@@ -124,6 +127,8 @@ const SelectFeatureContext: React.FC = ({ children }) => {
                 setNameGeoSelection,
                 geoSelections,
                 setGeoSelections,
+                originOfGeoCreation,
+                setOriginOfGeoCreation,
             }}
         >
             {children}

@@ -30,6 +30,7 @@ const TableGeographic = () => {
         setScale,
         setCounties,
         setStates,
+        setOriginOfGeoCreation,
     } = useContext(SelectFeature);
     const { setIndex } = useContext(TabIndex);
 
@@ -91,6 +92,9 @@ const TableGeographic = () => {
                                                     geoSelection.id
                                                 );
                                                 setMode(Model.Update);
+                                                setOriginOfGeoCreation(
+                                                    "summaryTab"
+                                                );
                                                 setIndex(2);
                                             }}
                                         />

@@ -31,6 +31,7 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
         setMode,
         idGeoSelectionUpdate,
         setIdGeoSelectionUpdate,
+        originOfGeoCreation,
     } = useContext(SelectFeature);
     const { setIndex } = useContext(TabIndex);
 
@@ -158,7 +159,11 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
                     isClosable: true,
                 });
                 setMode(Model.Initial);
-                setIndex(0);
+                if (originOfGeoCreation === "modelsTab") {
+                    setIndex(1);
+                } else {
+                    setIndex(0);
+                }
             }
         } catch (error) {
             toast({

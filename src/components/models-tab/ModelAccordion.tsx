@@ -1,8 +1,7 @@
-import { EditIcon, InfoIcon } from "@chakra-ui/icons";
+import { EditIcon, InfoIcon, WarningIcon } from "@chakra-ui/icons";
 import {
     Box,
     Text,
-    Input,
     RadioGroup,
     Stack,
     Radio,
@@ -23,8 +22,10 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import { TabIndex } from "context/TabContext";
 import countiesData from "data/counties.json";
 import stateData from "data/states.json";
+import { Model } from "types/ControlPanelTypes";
 
 import getInitialConditionsByModel, {
     getPreviusInitialConditions,
@@ -80,12 +81,17 @@ const ModelAccordion = ({
     const [isDisabled, setIsDisabled] = useState(false);
     const [geoSelections, setGeoSelections] = useState([]);
     const [minGraphValue, setMinGraphValue] = useState(2);
-    const { geoSelections: allGeoSelections } = useContext(SelectFeature);
+    const {
+        geoSelections: allGeoSelections,
+        setMode,
+        setOriginOfGeoCreation,
+    } = useContext(SelectFeature);
     const {
         newModel,
         setNewModel,
         idModelUpdate: id,
     } = useContext(NewModelSetted);
+    const { setIndex } = useContext(TabIndex);
 
     useEffect(() => {
         if (populationValue === "monopopulation") {
@@ -295,23 +301,48 @@ const ModelAccordion = ({
                 <Text fontSize="16px" fontWeight={700} mb="5%">
                     Population Data
                 </Text>
-                <RadioGroup
-                    size="sm"
-                    mt="1%"
-                    // mb="5%"
-                    value={dataSourceValue}
-                    onChange={(e) => {
-                        setDataSourceValue(e);
-                        setAreaSelectedValue("");
-                        setNumberOfNodes(0);
-                        setGraphId(undefined);
-                    }}
-                >
-                    <Stack direction="row" spacing="24px">
-                        <Radio value="graph">Artificial</Radio>
-                        <Radio value="geographic">Geographic</Radio>
-                    </Stack>
-                </RadioGroup>
+                <Flex>
+                    <RadioGroup
+                        size="sm"
+                        mt="1%"
+                        // mb="5%"
+                        value={dataSourceValue}
+                        onChange={(e) => {
+                            setDataSourceValue(e);
+                            setAreaSelectedValue("");
+                            setNumberOfNodes(0);
+                            setGraphId(undefined);
+                        }}
+                    >
+                        <Stack direction="row" spacing="24px">
+                            <Radio value="graph">Artificial</Radio>
+                            <Radio value="geographic">Geographic</Radio>
+                        </Stack>
+                    </RadioGroup>
+                    <Flex m="1% 0 0 6%" alignItems="center" w="100%">
+                        <Tooltip
+                            label="To build geographic models, first you have to create geographic selections."
+                            bg="#016FB9"
+                            fontSize="14px"
+                        >
+                            <WarningIcon color="#016FB9" />
+                        </Tooltip>
+                        <Text
+                            color="#016FB9"
+                            fontSize="14px"
+                            textDecorationLine="underline"
+                            cursor="pointer"
+                            ml="4%"
+                            onClick={() => {
+                                setMode(Model.Add);
+                                setOriginOfGeoCreation("modelsTab");
+                                setIndex(2);
+                            }}
+                        >
+                            + Add selection
+                        </Text>
+                    </Flex>
+                </Flex>
                 {/* <Divider orientation="horizontal" /> */}
             </Box>
             {dataSourceValue === "graph" && (

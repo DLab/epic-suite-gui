@@ -88,8 +88,7 @@ const DeleteGeoAlert = () => {
                                 onClick={() => {
                                     const isGeoIdUsed = completeModel.some(
                                         (e: NewModelsAllParams) =>
-                                            e.idGeo.toString() ===
-                                            idGeoSelectionUpdate.toString()
+                                            +e.idGeo === +idGeoSelectionUpdate
                                     );
 
                                     if (isGeoIdUsed) {
