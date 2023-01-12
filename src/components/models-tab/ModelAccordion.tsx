@@ -370,12 +370,13 @@ const ModelAccordion = ({
                         </NumberInput>
                     </Box>
                     <Button
-                        aria-label="Search database"
-                        bg="#16609E"
+                        aria-label="Load nodes"
+                        ml="5%"
+                        bg="#016FB9"
                         color="#FFFFFF"
                         size="sm"
-                        ml="5%"
-                        // icon={<EditIcon />}
+                        borderRadius="4px"
+                        fontSize="10px"
                         onClick={() => {
                             setNumberOfNodes(numberOfGraphs);
                             const graphsValuesArray =

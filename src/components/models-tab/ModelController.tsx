@@ -1,20 +1,12 @@
 /* eslint-disable sonarjs/no-identical-functions */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { EditIcon } from "@chakra-ui/icons";
 import {
-    Box,
     Text,
     Flex,
     IconButton,
     Switch,
     FormControl,
     Heading,
-    Accordion,
-    AccordionItem,
-    AccordionButton,
-    AccordionIcon,
-    AccordionPanel,
-    Select,
 } from "@chakra-ui/react";
 import _ from "lodash";
 import { useContext, useState, useEffect } from "react";
@@ -29,6 +21,7 @@ import { update } from "store/ControlPanel";
 import { RootState } from "store/store";
 import { NewModelsAllParams } from "types/SimulationTypes";
 
+import MobilityMatrixModel from "./mobility-matrix/MobilityMatrixModel";
 import NodesParams from "./NodesParams";
 
 interface Props {
@@ -173,6 +166,7 @@ const ModelController = ({
                     Parameters
                 </Box>
             </Text> */}
+            <MobilityMatrixModel />
             <Text fontSize="16px" fontWeight={700} mb="5%" mt="5%">
                 Common parameters
             </Text>

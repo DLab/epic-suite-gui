@@ -110,15 +110,15 @@ const NewModelsContext: React.FC = ({ children }) => {
                 return state;
         }
     };
-    const reducerIdSimulation = (
-        state: number,
-        action: ActionsIdSimulation
-    ) => {
-        if (action.type === "set") {
-            return action.payload;
-        }
-        return state;
-    };
+    // const reducerIdSimulation = (
+    //     state: number,
+    //     action: ActionsIdSimulation
+    // ) => {
+    //     if (action.type === "set") {
+    //         return action.payload;
+    //     }
+    //     return state;
+    // };
     const [mode, setMode] = useState("initial");
     const [newModel, setNewModel] = useReducer(reducer, initialState);
     const [selectedModelsToSimulate, setSelectedModelsToSimulate] = useState(
