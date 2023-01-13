@@ -58,7 +58,7 @@ const MainContentTab = () => {
                     <SideBar />{" "}
                 </Flex>
             </TabList>
-            <TabPanels h="100vh" bg="#FFFFFF">
+            <TabPanels h="100vh" bg="#FFFFFF" overflowY="auto">
                 <TabPanel maxH="100vh" h="100%">
                     <SummaryTab />
                 </TabPanel>

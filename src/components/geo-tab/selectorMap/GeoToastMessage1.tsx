@@ -214,7 +214,7 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
                     <Button
                         leftIcon={<CloseIcon />}
                         onClick={() => {
-                            setScale("National");
+                            setScale("States");
                             setMode(Model.Initial);
                             setIdGeoSelectionUpdate(0);
                         }}
@@ -243,7 +243,7 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
                         borderRadius="4px"
                         fontSize="10px"
                     >
-                        SAVE CHANGUES
+                        SAVE CHANGES
                     </Button>
                     <Button
                         leftIcon={<CloseIcon />}
@@ -254,7 +254,7 @@ const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
                         fontSize="10px"
                         // eslint-disable-next-line sonarjs/no-identical-functions
                         onClick={() => {
-                            setScale("National");
+                            setScale("States");
                             setMode(Model.Initial);
                             setIdGeoSelectionUpdate(0);
                         }}

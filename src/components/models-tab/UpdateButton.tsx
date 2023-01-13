@@ -147,7 +147,7 @@ const UpdateButton = ({ actualModelName, saveModel }: Props) => {
             borderRadius="4px"
             fontSize="10px"
         >
-            SAVE CHANGUES
+            SAVE CHANGES
         </Button>
     );
 };

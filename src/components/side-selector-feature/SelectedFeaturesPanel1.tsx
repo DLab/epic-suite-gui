@@ -17,17 +17,7 @@ const SelectedFeaturesPanel1 = ({ scale }: Props) => {
     const { counties, states } = useContext(SelectFeature);
     return (
         <>
-            <Box
-                bg="#FAFAFA"
-                borderRadius="1px"
-                mt="7%"
-                p="3%"
-                overflowY="auto"
-                maxH="22vh"
-            >
-                <Text fontSize="14px" color="#16609E" flex="1" textAlign="left">
-                    Selected areas
-                </Text>
+            <Box mt="7%" p="3% 0" overflowY="auto" maxH="22vh">
                 {scale === "States" && states.length > 0 && (
                     <StatesSelectedCheckbox stateSelected={states} />
                 )}
