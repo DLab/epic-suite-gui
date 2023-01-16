@@ -4,36 +4,69 @@ import React, { useState, useContext, useEffect } from "react";
 import { MobilityMatrix } from "../../context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
-import { MobilityModes } from "types/MobilityMatrixTypes";
+import { InterventionsTypes, MobilityModes } from "types/MobilityMatrixTypes";
+import { NewModelsAllParams } from "types/SimulationTypes";
 
 import MobilityInterventions from "./MobilityInterventions";
 import NodesAndGraphTypes from "./NodesAndGraphTypes";
 // import NumberInputMobilityMatrix from "./NumberInputMobilityMatrix";
 
-const MobilityConstructorContainer = () => {
+interface Props {
+    nodesLocalValue: number | undefined;
+    setNodesLocalValue: (value: number | undefined) => void;
+    graphTypeLocal: string;
+    setGraphTypeLocal;
+    popPercentage: number;
+    setPopPercentage: (value: number) => void;
+    isDynamical: boolean;
+    setIsDynamical: (value: boolean) => void;
+    modulationLocalValue: string;
+    setModulationLocalValue: (value: string) => void;
+    daysCicleLocalValue: number;
+    setDaysCicleLocalValue: (value: number) => void;
+    interventionList: InterventionsTypes[] | [];
+    setInterventionList: (value: InterventionsTypes[] | []) => void;
+}
+
+const MobilityConstructorContainer = ({
+    nodesLocalValue,
+    setNodesLocalValue,
+    graphTypeLocal,
+    setGraphTypeLocal,
+    popPercentage,
+    setPopPercentage,
+    isDynamical,
+    setIsDynamical,
+    modulationLocalValue,
+    setModulationLocalValue,
+    daysCicleLocalValue,
+    setDaysCicleLocalValue,
+    interventionList,
+    setInterventionList,
+}: Props) => {
     const { matrixMode, idMatrixModel } = useContext(MobilityMatrix);
-    const [nodesLocalValue, setNodesLocalValue] = useState<
-        number | undefined
-    >();
-    const [graphTypeLocal, setGraphTypeLocal] = useState<string>();
-    const [popPercentage, setPopPercentage] = useState<number>();
-    const [isDynamical, setIsDynamical] = useState(false);
-    const [modulationLocalValue, setModulationLocalValue] = useState<string>();
-    const [daysCicleLocalValue, setDaysCicleLocalValue] = useState<number>();
+    // const [nodesLocalValue, setNodesLocalValue] = useState<
+    //     number | undefined
+    // >();
+    // const [graphTypeLocal, setGraphTypeLocal] = useState<string>();
+    // const [popPercentage, setPopPercentage] = useState<number>();
+    // const [isDynamical, setIsDynamical] = useState(false);
+    // const [modulationLocalValue, setModulationLocalValue] = useState<string>();
+    // const [daysCicleLocalValue, setDaysCicleLocalValue] = useState<number>();
     const { completeModel } = useContext(NewModelSetted);
     const { geoSelections } = useContext(SelectFeature);
 
     useEffect(() => {
         if (idMatrixModel !== 0) {
-            const { idGeo } = completeModel.find((model) => {
-                return model.idNewModel === idMatrixModel;
-            });
-            const { featureSelected } = geoSelections.find((geo) => {
-                return geo.id === idGeo;
-            });
-            setNodesLocalValue(featureSelected.length);
+            const { numberNodes } = completeModel.find(
+                (model: NewModelsAllParams) => {
+                    return model.idNewModel === idMatrixModel;
+                }
+            );
+
+            setNodesLocalValue(numberNodes);
         }
-    }, [completeModel, geoSelections, idMatrixModel]);
+    }, [completeModel, geoSelections, idMatrixModel, setNodesLocalValue]);
 
     return (
         <Flex
@@ -83,6 +116,8 @@ const MobilityConstructorContainer = () => {
                                     size="sm"
                                     mr="15px"
                                     borderRadius="8px"
+                                    bg="#F4F4F4"
+                                    borderColor="#F4F4F4"
                                     placeholder="Modulation options"
                                     value={modulationLocalValue}
                                     onChange={(e) => {
@@ -121,7 +156,12 @@ const MobilityConstructorContainer = () => {
                             </Box>
                         </Flex>
                     )}
-                    <MobilityInterventions />
+                    {modulationLocalValue && (
+                        <MobilityInterventions
+                            interventionList={interventionList}
+                            setInterventionList={setInterventionList}
+                        />
+                    )}
                 </>
             )}
         </Flex>

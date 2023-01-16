@@ -25,6 +25,9 @@ const ModelsMobilityMatrixSelect = () => {
             size="sm"
             mr="15px"
             placeholder="Select model"
+            bg="#F4F4F4"
+            borderColor="#F4F4F4"
+            borderRadius="8px"
             onChange={(e) => {
                 if (!e.target.value) {
                     setIdMatrixModel(0);

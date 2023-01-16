@@ -44,6 +44,9 @@ const NodesAndGraphTypes = ({
                     size="sm"
                     mr="15px"
                     placeholder="Graph type"
+                    bg="#F4F4F4"
+                    borderColor="#F4F4F4"
+                    borderRadius="8px"
                     value={graphTypeLocal}
                     onChange={(e) => {
                         setGraphTypeLocal(e.target.value);

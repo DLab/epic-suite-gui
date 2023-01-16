@@ -30,6 +30,7 @@ export interface MobilityMatrixListProps {
 }
 
 export interface InterventionsTypes {
+    id: number;
     startRange: number;
     endRange: number;
     intervention: string;

@@ -39,7 +39,7 @@ const NumberInputMobilityMatrix = ({
             <NumberInput
                 // maxH="20px"
                 maxW="75px"
-                value={value}
+                value={numberInputName !== "Population" ? value : `${value} %`}
                 // mx="0.2rem"
                 // fontSize="11px"
                 // defaultValue={value}
