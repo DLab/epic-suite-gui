@@ -17,7 +17,7 @@ import StatesMap from "./StatesMap";
 
 const GeoTab = () => {
     const [secondLink, setSecondLink] = useState(undefined);
-    const [extentionOption, setExtentionOption] = useState("National");
+    const [extentionOption, setExtentionOption] = useState("States");
     const [geoSelectionName, setGeoSelectionName] = useState("");
     const {
         setMode,
@@ -33,7 +33,7 @@ const GeoTab = () => {
             setStates({ type: "reset" });
             setCounties({ type: "reset" });
             setGeoSelectionName("");
-            setExtentionOption("National");
+            setExtentionOption("States");
         }
         if (mode === Model.Update) {
             const { name } = geoSelections.find(
@@ -83,8 +83,8 @@ const GeoTab = () => {
                             extentionOption={extentionOption}
                             setExtentionOption={setExtentionOption}
                         />
-                        <Flex direction="column" w="73%" align="center">
-                            <Flex w="85%" justify="center" h="80vh">
+                        <Flex direction="column" w="70%" align="center">
+                            <Flex w="90%" justify="center" h="80vh">
                                 <MapContainer
                                     className="will-change"
                                     center={[38, -96]}

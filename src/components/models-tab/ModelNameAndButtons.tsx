@@ -1,5 +1,6 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { Flex, Input, Button, Stack, useToast } from "@chakra-ui/react";
+import format from "date-fns/fp/format";
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
 
@@ -27,6 +28,8 @@ const ModelNameAndButtons = ({
         mode: modelMode,
         setMode: setModelMode,
         idModelUpdate: id,
+        setName,
+        name,
     } = useContext(NewModelSetted);
     const toast = useToast();
     const parameters = useSelector((state: RootState) => state.controlPanel);
@@ -36,8 +39,12 @@ const ModelNameAndButtons = ({
         const modelInfo = newModel.find(
             (model: NewModelsParams) => model.idNewModel === id
         );
+
+        const newNameModel = { ...modelInfo };
+        newNameModel.name = name;
+
         const allModelInfo = {
-            ...modelInfo,
+            ...newNameModel,
             parameters,
         };
         const modelExist = completeModel.find(
@@ -125,6 +132,26 @@ const ModelNameAndButtons = ({
         });
     };
 
+    // const saveActualName = () => {
+    //     setNewModel({
+    //         type: "update-all",
+    //         id,
+    //         payload: {
+    //             idNewModel: id,
+    //             name: modelName,
+    //             modelType: modelValue,
+    //             populationType: populationValue,
+    //             typeSelection: dataSourceValue,
+    //             idGeo: idGeo,
+    //             idGraph: graphId,
+    //             numberNodes: numberOfGraphs,
+    //             t_init: format(new Date(2021, 11, 31), "yyyy/MM/dd"),
+    //             initialConditions:
+    //                 getInitialConditionsGraphsArray(graphsValuesArray),
+    //         },
+    //     });
+    // };
+
     return (
         <Flex p="0 2%" mt="20px">
             {modelMode !== "Initial" && (
@@ -138,14 +165,7 @@ const ModelNameAndButtons = ({
                     value={actualModelName}
                     onChange={(e) => {
                         setActualModelName(e.target.value);
-                    }}
-                    onBlur={(e) => {
-                        setNewModel({
-                            type: "update",
-                            target: "name",
-                            element: e.target.value,
-                            id,
-                        });
+                        setName(e.target.value);
                     }}
                 />
             )}

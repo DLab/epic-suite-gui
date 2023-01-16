@@ -1,7 +1,16 @@
 /* eslint-disable complexity */
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Select, Text, Box, Flex, Spinner, useToast } from "@chakra-ui/react";
+import {
+    Select,
+    Text,
+    Box,
+    Flex,
+    Spinner,
+    useToast,
+    Center,
+    Button,
+} from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import React, { useState, useContext, useEffect } from "react";
 
@@ -231,10 +240,16 @@ const DataFitTab = () => {
             <Flex p="0" h="97%" direction="column">
                 <BreadCrumb firstLink="Data Fit" />
                 <Flex p="2%" boxShadow="sm">
-                    <Flex w="100%" alignItems="center" justify="space-between">
+                    <Flex
+                        alignItems="center"
+                        justify="space-between"
+                        w="45%"
+                        mr="1%"
+                    >
                         <Select
                             w="13rem"
                             fontSize="14px"
+                            mr="2%"
                             placeholder="Select a model"
                             size="sm"
                             value={modelId}
@@ -282,6 +297,7 @@ const DataFitTab = () => {
                         <Select
                             w="13rem"
                             fontSize="14px"
+                            mr="2%"
                             placeholder="Select a Algorithm"
                             size="sm"
                             value={algorithmValue}
@@ -303,6 +319,7 @@ const DataFitTab = () => {
                         <Select
                             w="13rem"
                             fontSize="14px"
+                            mr="2%"
                             placeholder="Data source"
                             size="sm"
                             value={dataSourceType}
@@ -328,8 +345,9 @@ const DataFitTab = () => {
                                     </option>
                                 )}
                         </Select>
-
-                        {/* {dataSourceType === "file" && <FileSource />} */}
+                    </Flex>
+                    {/* {dataSourceType === "file" && <FileSource />} */}
+                    <Flex w="50%" align="center">
                         {dataSourceType === "sample" && (
                             <SampleSource
                                 value={sampleSourceValue}
@@ -344,7 +362,7 @@ const DataFitTab = () => {
                                 algorithmValue={algorithmValue}
                             />
                         )}
-                        <Flex>
+                        <Flex mr="15px">
                             <Text fontSize="14px" mr="5px">
                                 Data For Fit:
                             </Text>
@@ -360,8 +378,6 @@ const DataFitTab = () => {
                                 </Text>
                             )}
                         </Flex>
-                    </Flex>
-                    {/* <Box mt="2%">
                         <Center>
                             <Button
                                 colorScheme="blue"
@@ -386,7 +402,7 @@ const DataFitTab = () => {
                                 )}
                             </Button>
                         </Center>
-                    </Box> */}
+                    </Flex>
                 </Flex>
                 <Flex direction="column" w="65%" m="0 2%" h="88vh">
                     <Flex

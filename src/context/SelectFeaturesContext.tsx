@@ -14,7 +14,7 @@ export const SelectFeature = createContext<StatesProps>({
     setMode: () => {},
     nameGeoSelection: "Geo Selection 1",
     setNameGeoSelection: () => {},
-    scale: "National",
+    scale: "States",
     setScale: () => {},
     simulationScale: "States",
     setSimulationScale: () => {},
@@ -101,7 +101,7 @@ const SelectFeatureContext: React.FC = ({ children }) => {
         reducerGeoSelections,
         initialStateGeoSelections
     );
-    const [scale, setScale] = useState("National");
+    const [scale, setScale] = useState("States");
     const [simulationScale, setSimulationScale] = useState("States");
     const [nameGeoSelection, setNameGeoSelection] = useState("Geo Selection 1");
     const [mode, setMode] = useState<Model>(Model.Initial);

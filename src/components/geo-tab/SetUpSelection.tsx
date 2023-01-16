@@ -15,7 +15,7 @@ const SetUpSelection = ({ extentionOption, setExtentionOption }: Props) => {
     const { mode } = useContext(SelectFeature);
 
     return (
-        <Flex direction="column" w="28%" p="0 2%">
+        <Flex direction="column" w="30%" p="0 2%">
             {mode !== "Initial" && (
                 <>
                     <SelectorMap1

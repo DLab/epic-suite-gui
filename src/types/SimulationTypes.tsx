@@ -86,6 +86,8 @@ export interface NewModelType {
     setSimulationsPopulatioType: (value: string) => void;
     idModelUpdate: number | undefined;
     setIdModelUpdate: (value: number | undefined) => void;
+    name: string;
+    setName: (value: string) => void;
 }
 
 export interface SimulatorParams {

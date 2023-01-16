@@ -1,4 +1,4 @@
-import { DeleteIcon } from "@chakra-ui/icons";
+import { CloseIcon } from "@chakra-ui/icons";
 import {
     Text,
     Accordion,
@@ -8,6 +8,7 @@ import {
     Box,
     Flex,
     AccordionIcon,
+    Divider,
 } from "@chakra-ui/react";
 import { useContext } from "react";
 
@@ -98,21 +99,27 @@ const StatesSelectedCheckbox = ({
                         <Flex
                             id={createIdComponent()}
                             key={s.value}
-                            justifyContent="space-between"
-                            px="1.5rem"
-                            fontSize="14px"
+                            direction="column"
+                            mb="4%"
                         >
-                            {s.label}
-                            <DeleteIcon
-                                id={createIdComponent()}
-                                color="red.800"
-                                onClick={() =>
-                                    setStates({
-                                        type: "remove-one",
-                                        payload: [s.value],
-                                    })
-                                }
-                            />
+                            <Flex
+                                justifyContent="space-between"
+                                fontSize="14px"
+                            >
+                                {s.label}
+                                <CloseIcon
+                                    id={createIdComponent()}
+                                    w="10px"
+                                    cursor="pointer"
+                                    onClick={() =>
+                                        setStates({
+                                            type: "remove-one",
+                                            payload: [s.value],
+                                        })
+                                    }
+                                />
+                            </Flex>
+                            <Divider />
                         </Flex>
                     );
                 })}
@@ -125,7 +132,7 @@ const StatesSelectedCheckbox = ({
                                     id={createIdComponent()}
                                     key={cc.value}
                                     justifyContent="space-between"
-                                    px="1.5rem"
+                                    p="1% 5%"
                                 >
                                     <Text
                                         id={createIdComponent()}
@@ -134,9 +141,10 @@ const StatesSelectedCheckbox = ({
                                     >
                                         {cc.label}
                                     </Text>
-                                    <DeleteIcon
+                                    <CloseIcon
                                         id={createIdComponent()}
-                                        color="red.800"
+                                        w="10px"
+                                        cursor="pointer"
                                         onClick={() => {
                                             setCounties({
                                                 type: "remove-one",
