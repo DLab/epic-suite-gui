@@ -104,20 +104,6 @@ const ModelMainTab = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getDefaultValueParameters]);
 
-    // useEffect(() => {
-    //     const getName = getDefaultValueParameters("name");
-    //     if (getName === "") {
-    //         const name = `Model ${index + 1}`;
-    //         setModelName(name);
-    //     } else {
-    //         setModelName(getName);
-    //     }
-    //     return () => {
-    //         setModelName("");
-    //     };
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [getDefaultValueParameters, index]);
-
     return (
         <Flex ml="2%" p="0" h="100%" w="100%" mt="20px">
             <Flex

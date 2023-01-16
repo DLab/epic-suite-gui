@@ -28,6 +28,8 @@ const ModelNameAndButtons = ({
         mode: modelMode,
         setMode: setModelMode,
         idModelUpdate: id,
+        setName,
+        name,
     } = useContext(NewModelSetted);
     const toast = useToast();
     const parameters = useSelector((state: RootState) => state.controlPanel);
@@ -37,8 +39,12 @@ const ModelNameAndButtons = ({
         const modelInfo = newModel.find(
             (model: NewModelsParams) => model.idNewModel === id
         );
+
+        const newNameModel = { ...modelInfo };
+        newNameModel.name = name;
+
         const allModelInfo = {
-            ...modelInfo,
+            ...newNameModel,
             parameters,
         };
         const modelExist = completeModel.find(
@@ -159,16 +165,8 @@ const ModelNameAndButtons = ({
                     value={actualModelName}
                     onChange={(e) => {
                         setActualModelName(e.target.value);
-                        // saveActualName();
+                        setName(e.target.value);
                     }}
-                    // onBlur={(e) => {
-                    //     setNewModel({
-                    //         type: "update",
-                    //         target: "name",
-                    //         element: e.target.value,
-                    //         id,
-                    //     });
-                    // }}
                 />
             )}
             <>
