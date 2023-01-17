@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import CleanIcon from "../icons/CleanIcon";
+// import CleanIcon from "../icons/CleanIcon";
 import { DataFit } from "context/DataFitContext";
 
 interface Props {
@@ -124,7 +124,7 @@ const NodeSearchFilter = ({ setNodeNameFilter }: Props) => {
                         fontSize="20px"
                         size="sm"
                         ml="5%"
-                        icon={<CleanIcon />}
+                        // icon={<CleanIcon />}
                         onClick={() => {
                             setNodeNameFilter("");
                             setSearchNode("");
