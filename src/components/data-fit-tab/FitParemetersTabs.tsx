@@ -4,7 +4,7 @@ import { DataFit } from "context/DataFitContext";
 
 import MetapopulationDataFit from "./MetapopulationDataFit";
 import MonopopulationDataFit from "./MonopopulationDataFit";
-import NodeSearchFilter from "./NodeSearchFilter";
+// import NodeSearchFilter from "./NodeSearchFilter";
 
 /**
  * Component that shows the tabs according to the monopopulation or metapopulation model.
