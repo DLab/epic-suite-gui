@@ -19,11 +19,7 @@ const StatesSelect = ({ options, extentionOption }) => {
             className="reactSelect"
             name="states"
             options={options}
-            placeholder={
-                extentionOption === "1"
-                    ? "Select one or more States"
-                    : "Select all counties from a State"
-            }
+            placeholder="Select states"
             closeMenuOnSelect
             size="sm"
             styles={{ background: "red" }}

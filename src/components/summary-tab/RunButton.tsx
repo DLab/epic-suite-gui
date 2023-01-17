@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { Button, Spinner, Text, useToast } from "@chakra-ui/react";
 import { format, add } from "date-fns";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
@@ -238,7 +238,7 @@ const RunButton = ({ permission }: Props) => {
         setAux(JSON.stringify(data));
         setSelectedModelsToSimulate(selectedModels);
         getGraphicRealData(selectedModels);
-        setIndex(5);
+        setIndex(4);
     };
 
     /**
@@ -324,7 +324,7 @@ const RunButton = ({ permission }: Props) => {
                     );
                     setSelectedModelsToSimulate(selectedModels);
                     getGraphicRealMetaData(selectedModels);
-                    setIndex(5);
+                    setIndex(4);
                 } else {
                     response = await postData(
                         "http://192.168.2.131:5003/simulate",
@@ -366,6 +366,15 @@ const RunButton = ({ permission }: Props) => {
         }
     };
 
+    const [disabledButton, setDisabledButton] = useState(true);
+    useEffect(() => {
+        if (Object.values(permission).some((perm) => perm)) {
+            setDisabledButton(false);
+        } else {
+            setDisabledButton(true);
+        }
+    }, [permission]);
+
     return (
         <>
             <Button
@@ -388,8 +397,11 @@ const RunButton = ({ permission }: Props) => {
                         });
                     }
                 }}
-                colorScheme="blue"
-                color="white"
+                size="sm"
+                fontSize="10px"
+                bg="#016FB9"
+                color="#FFFFFF"
+                isDisabled={disabledButton}
             >
                 {isSimulating ? (
                     <>
@@ -405,7 +417,13 @@ const RunButton = ({ permission }: Props) => {
                         </Text>
                     </>
                 ) : (
-                    `Run`
+                    /* <Icon
+                                w="20px"
+                                h="20px"
+                                as={RunModelsButton}
+                                mr="5px"
+                            /> */
+                    `RUN ALL MODELS`
                 )}
             </Button>
         </>

@@ -1,30 +1,84 @@
-import { Button, useToast } from "@chakra-ui/react";
-import { useContext } from "react";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { Button, useToast, Stack } from "@chakra-ui/react";
+import _ from "lodash";
+import { useContext, useState, useEffect } from "react";
 
+import DeleteGeoAlert from "../DeleteGeoAlert";
 import { SelectFeature } from "context/SelectFeaturesContext";
+import { TabIndex } from "context/TabContext";
 import { Model } from "types/ControlPanelTypes";
-import createIdComponent from "utils/createIdcomponent";
+
+interface Props {
+    scale: string;
+    setScale: (value: string) => void;
+    geoSelectionName: string;
+}
 
 /**
  * Component to save geographic selections in context and local storage.
  * @subcategory MapTab
  * @component
  */
-const GeoToastMessage = () => {
+const GeoToastMessage1 = ({ scale, setScale, geoSelectionName }: Props) => {
     const toast = useToast();
+    const [disabledButton, setDisabledButton] = useState(true);
     const {
         states,
         counties,
+        geoSelections,
         setGeoSelections,
-        scale,
         mode,
         setMode,
         idGeoSelectionUpdate,
         setIdGeoSelectionUpdate,
-        nameGeoSelection,
+        originOfGeoCreation,
     } = useContext(SelectFeature);
+    const { setIndex } = useContext(TabIndex);
 
     const bottomLeft = "bottom-left";
+
+    useEffect(() => {
+        if (mode === Model.Update) {
+            const {
+                name,
+                scale: oldScale,
+                featureSelected,
+            } = geoSelections.find((geoSelection) => {
+                return (
+                    geoSelection.id.toString() ===
+                    idGeoSelectionUpdate.toString()
+                );
+            });
+
+            const oldData = {
+                name,
+                scale: oldScale,
+                featureSelected,
+            };
+
+            const newData = {
+                name: geoSelectionName,
+                scale,
+                featureSelected:
+                    (scale === "States" && states) ||
+                    (scale === "Counties" && counties),
+            };
+
+            if (_.isEqual(oldData, newData)) {
+                setDisabledButton(true);
+            } else {
+                setDisabledButton(false);
+            }
+        }
+    }, [
+        counties,
+        geoSelectionName,
+        geoSelections,
+        idGeoSelectionUpdate,
+        mode,
+        scale,
+        states,
+    ]);
 
     /**
      * Save and update geographic selections in local storage.
@@ -38,7 +92,7 @@ const GeoToastMessage = () => {
             }
             const dataGeoSelections = {
                 id: Date.now(),
-                name: nameGeoSelection,
+                name: geoSelectionName,
                 scale,
                 featureSelected:
                     (scale === "States" && states) ||
@@ -52,7 +106,7 @@ const GeoToastMessage = () => {
             if (mode === Model.Update) {
                 const updateDataParameters = {
                     id: idGeoSelectionUpdate,
-                    name: nameGeoSelection,
+                    name: geoSelectionName,
                     scale,
                     featureSelected:
                         (scale === "States" && states) ||
@@ -81,7 +135,8 @@ const GeoToastMessage = () => {
                     duration: 2000,
                     isClosable: true,
                 });
-                setMode(Model.Add);
+                setMode(Model.Initial);
+                setIndex(0);
             } else {
                 localStorage.setItem(
                     "geoSelection",
@@ -103,6 +158,12 @@ const GeoToastMessage = () => {
                     duration: 2000,
                     isClosable: true,
                 });
+                setMode(Model.Initial);
+                if (originOfGeoCreation === "modelsTab") {
+                    setIndex(1);
+                } else {
+                    setIndex(0);
+                }
             }
         } catch (error) {
             toast({
@@ -133,48 +194,78 @@ const GeoToastMessage = () => {
             });
         }
     };
+
     return (
-        <>
+        <Stack spacing={4} direction="row" align="center">
             {mode === Model.Add && (
-                <Button
-                    id={createIdComponent()}
-                    onClick={() => verifyGeoselection()}
-                    colorScheme="teal"
-                    size="sm"
-                    mt="20px"
-                >
-                    Add Selection
-                </Button>
-            )}
-            {mode === Model.Update && (
                 <>
                     <Button
-                        id={createIdComponent()}
+                        leftIcon={<CheckIcon />}
                         onClick={() => verifyGeoselection()}
-                        colorScheme="teal"
+                        bg="#016FB9"
+                        color="#FFFFFF"
                         size="sm"
-                        mt="20px"
+                        // mt="20px"
+                        borderRadius="4px"
+                        fontSize="10px"
                     >
-                        Update Selection
+                        CREATE SELECTION
                     </Button>
                     <Button
+                        leftIcon={<CloseIcon />}
                         onClick={() => {
-                            setMode(Model.Add);
+                            setScale("States");
+                            setMode(Model.Initial);
                             setIdGeoSelectionUpdate(0);
                         }}
-                        id={createIdComponent()}
-                        colorScheme="teal"
-                        variant="outline"
+                        bg="#B9B9C9"
+                        color="#FFFFFF"
                         size="sm"
-                        mt="20px"
-                        ml="20px"
+                        // mt="20px"
+                        borderRadius="4px"
+                        fontSize="10px"
                     >
-                        Cancel
+                        CANCEL
                     </Button>
                 </>
             )}
-        </>
+
+            {mode === Model.Update && (
+                <>
+                    <Button
+                        leftIcon={<CheckIcon />}
+                        onClick={() => verifyGeoselection()}
+                        isDisabled={disabledButton}
+                        bg="#016FB9"
+                        color="#FFFFFF"
+                        size="sm"
+                        // mt="20px"
+                        borderRadius="4px"
+                        fontSize="10px"
+                    >
+                        SAVE CHANGES
+                    </Button>
+                    <Button
+                        leftIcon={<CloseIcon />}
+                        bg="#B9B9C9"
+                        color="#FFFFFF"
+                        size="sm"
+                        borderRadius="4px"
+                        fontSize="10px"
+                        // eslint-disable-next-line sonarjs/no-identical-functions
+                        onClick={() => {
+                            setScale("States");
+                            setMode(Model.Initial);
+                            setIdGeoSelectionUpdate(0);
+                        }}
+                    >
+                        CANCEL
+                    </Button>
+                    <DeleteGeoAlert />
+                </>
+            )}
+        </Stack>
     );
 };
 
-export default GeoToastMessage;
+export default GeoToastMessage1;

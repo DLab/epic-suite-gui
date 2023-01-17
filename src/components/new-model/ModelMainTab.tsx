@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import ExportModels from "components/models-tab/ExportModels";
+import ExportModels from "components/new-model/ExportModels";
 import { ControlPanel } from "context/ControlPanelContext";
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";

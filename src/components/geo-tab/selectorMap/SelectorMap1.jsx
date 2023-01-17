@@ -1,47 +1,34 @@
-import { InfoIcon } from "@chakra-ui/icons";
-import {
-    Box,
-    Flex,
-    Text,
-    FormControl,
-    FormLabel,
-    Radio,
-    RadioGroup,
-    HStack,
-    Button,
-    Center,
-} from "@chakra-ui/react";
+import { FormControl, Radio, RadioGroup, HStack } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 import { useContext, useState, useEffect } from "react";
 
 import countyData from "../../../data/counties.json";
 import data from "../../../data/states.json";
-import ResetAlerts from "components/ResetAlerts";
 import CountiesSelect from "components/statesCountiesSelects/CountiesSelect";
 import StatesSelect from "components/statesCountiesSelects/StatesSelect";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { Model } from "types/ControlPanelTypes";
-import createIdComponent from "utils/createIdcomponent";
 
 /**
  * Component that displays the settings for creating a geographic selection.
  * @subcategory MapTab
  * @component
  */
-const SelectorMap = () => {
+const SelectorMap1 = ({ extentionOption, setExtentionOption }) => {
     const {
         mode,
         scale,
-        setScale,
-        states,
-        counties,
+        // setScale,
+        // states,
+        // counties,
         setCounties: setCountiesSelected,
         setStates: setStatesSelected,
     } = useContext(SelectFeature);
-    const [extentionOption, setExtentionOption] = useState("0");
+    // const [extentionOption, setExtentionOption] = useState("National");
 
     const [stateOptions, setStateOptions] = useState([]);
     const [countiesOptions, setCountiesOptions] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
+    // const [isOpen, setIsOpen] = useState(false);
     const options = [
         {
             label: "STATES",
@@ -76,29 +63,33 @@ const SelectorMap = () => {
     };
 
     useEffect(() => {
-        if (scale === "National") {
-            setExtentionOption("0");
-        } else if (scale === "States") {
-            setExtentionOption("1");
-        } else {
-            setExtentionOption("2");
+        if (mode === "Update") {
+            setExtentionOption(scale);
         }
+        // if (scale === "National") {
+        //     setExtentionOption("0");
+        // } else if (scale === "States") {
+        //     setExtentionOption("1");
+        // } else {
+        //     setExtentionOption("2");
+        // }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scale]);
 
-    useEffect(() => {
-        if (mode === Model.Add) {
-            setStatesSelected({ type: "reset" });
-            setCountiesSelected({ type: "reset" });
-        }
-        if (extentionOption === "0") {
-            setScale("National");
-        } else if (extentionOption === "1") {
-            setScale("States");
-        } else {
-            setScale("Counties");
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [extentionOption, setCountiesSelected, setScale, setStatesSelected]);
+    // useEffect(() => {
+    //     if (mode === Model.Initial) {
+    //         setStatesSelected({ type: "reset" });
+    //         setCountiesSelected({ type: "reset" });
+    //     }
+    //     // if (extentionOption === "0") {
+    //     //     setScale("National");
+    //     // } else if (extentionOption === "1") {
+    //     //     setScale("States");
+    //     // } else {
+    //     //     setScale("Counties");
+    //     // }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [mode]);
 
     useEffect(() => {
         getStatesOptions();
@@ -107,13 +98,8 @@ const SelectorMap = () => {
 
     return (
         <FormControl>
-            <Box>
-                <Text color="#16609E" fontSize="14px" flex="1" textAlign="left">
-                    Select scale for simulation
-                </Text>
-            </Box>
             <RadioGroup
-                mt="5%"
+                mt="7%"
                 onChange={setExtentionOption}
                 value={extentionOption}
             >
@@ -127,7 +113,7 @@ const SelectorMap = () => {
                                 bg="white"
                                 border="1px"
                                 borderColor="#5B58AD"
-                                value="0"
+                                value="National"
                             >
                                 <span style={{ fontSize: "14px" }}>
                                     National
@@ -139,7 +125,7 @@ const SelectorMap = () => {
                                 bg="white"
                                 border="1px"
                                 borderColor="#5B58AD"
-                                value="1"
+                                value="States"
                             >
                                 <span style={{ fontSize: "14px" }}>State</span>
                             </Radio>
@@ -149,7 +135,7 @@ const SelectorMap = () => {
                                 bg="white"
                                 border="1px"
                                 borderColor="#5B58AD"
-                                value="2"
+                                value="Counties"
                             >
                                 <span style={{ fontSize: "14px" }}>County</span>
                             </Radio>
@@ -164,7 +150,7 @@ const SelectorMap = () => {
                                 bg="white"
                                 border="1px"
                                 borderColor="#5B58AD"
-                                value="0"
+                                value="National"
                                 isDisabled
                             >
                                 <span style={{ fontSize: "14px" }}>
@@ -177,7 +163,7 @@ const SelectorMap = () => {
                                 bg="white"
                                 border="1px"
                                 borderColor="#5B58AD"
-                                value="1"
+                                value="States"
                                 isDisabled
                             >
                                 <span style={{ fontSize: "14px" }}>State</span>
@@ -188,7 +174,7 @@ const SelectorMap = () => {
                                 bg="white"
                                 border="1px"
                                 borderColor="#5B58AD"
-                                value="2"
+                                value="Counties"
                                 isDisabled
                             >
                                 <span style={{ fontSize: "14px" }}>County</span>
@@ -197,7 +183,7 @@ const SelectorMap = () => {
                     )}
                 </HStack>
             </RadioGroup>
-            {extentionOption === "1" && (
+            {extentionOption === "States" && (
                 <FormControl mt="0.6rem">
                     <StatesSelect
                         options={options}
@@ -205,13 +191,13 @@ const SelectorMap = () => {
                     />
                 </FormControl>
             )}
-            {extentionOption === "2" && (
+            {extentionOption === "Counties" && (
                 <CountiesSelect
                     options={options}
                     optionsCounty={optionsCounty}
                 />
             )}
-            <Center>
+            {/* <Center>
                 <Button
                     mt="0.5rem"
                     variant="ghost"
@@ -227,9 +213,14 @@ const SelectorMap = () => {
                     Reset
                 </Button>
                 <ResetAlerts isOpen={isOpen} setIsOpen={setIsOpen} />
-            </Center>
+            </Center> */}
         </FormControl>
     );
 };
 
-export default SelectorMap;
+export default SelectorMap1;
+
+SelectorMap1.propTypes = {
+    extentionOption: PropTypes.string,
+    setExtentionOption: PropTypes.func,
+};

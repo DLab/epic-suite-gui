@@ -103,9 +103,7 @@ const NumberInputVariableDependent = ({
                     {name ?? nameParams}
                 </Text>
             </Box>
-            <Tooltip label={description}>
-                <Icon as={InfoIcon} color="teal" />
-            </Tooltip>
+
             <NumberInput
                 maxH="20px"
                 minW="75px"
@@ -126,6 +124,9 @@ const NumberInputVariableDependent = ({
                     <NumberDecrementStepper />
                 </NumberInputStepper>
             </NumberInput>
+            <Tooltip label={description}>
+                <Icon as={InfoIcon} color="#016FB9" />
+            </Tooltip>
 
             {isStateLocal && isEditingLocalValue && (
                 <Flex mt="0.5rem" justifyContent="end">

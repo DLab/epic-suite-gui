@@ -16,7 +16,7 @@ const NationMap = () => {
     );
 
     useEffect(() => {
-        if (tabIndex === 2) {
+        if (tabIndex === 6) {
             map.invalidateSize(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -24,8 +24,8 @@ const NationMap = () => {
 
     const styles = () => {
         return {
-            fillColor: "#1777c7",
-            fillOpacity: 0.7,
+            fillColor: "#ADDEFF",
+            fillOpacity: 1,
             weight: 0.7,
             color: "white",
             opacity: 1,

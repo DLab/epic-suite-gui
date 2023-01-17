@@ -2,7 +2,7 @@
 import { value } from "@iarna/toml/stringify";
 import _ from "lodash";
 
-import SeirhbdChunkImport from "components/new-model/SeirhvdChunkImport";
+import SeirhbdChunkImport from "components/models-tab/SeirhvdChunkImport";
 import { EpidemicsData } from "types/ControlPanelTypes";
 import { InitialConditions } from "types/SimulationTypes";
 

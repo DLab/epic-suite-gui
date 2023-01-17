@@ -15,10 +15,10 @@ import {
 import { format } from "date-fns";
 import React, { useContext, useState } from "react";
 
-import ImportModels from "components/models-tab/ImportModels";
 import { NewModelSetted } from "context/NewModelsContext";
 import createIdComponent from "utils/createIdcomponent";
 
+import ImportModels from "./ImportModels";
 import ModelMainTab from "./ModelMainTab";
 
 /**

@@ -14,7 +14,7 @@ export const SelectFeature = createContext<StatesProps>({
     setMode: () => {},
     nameGeoSelection: "Geo Selection 1",
     setNameGeoSelection: () => {},
-    scale: "National",
+    scale: "States",
     setScale: () => {},
     simulationScale: "States",
     setSimulationScale: () => {},
@@ -24,6 +24,8 @@ export const SelectFeature = createContext<StatesProps>({
     setCounties: () => {},
     geoSelections: [],
     setGeoSelections: () => {},
+    originOfGeoCreation: "",
+    setOriginOfGeoCreation: () => {},
 });
 
 // eslint-disable-next-line react/prop-types
@@ -99,11 +101,12 @@ const SelectFeatureContext: React.FC = ({ children }) => {
         reducerGeoSelections,
         initialStateGeoSelections
     );
-    const [scale, setScale] = useState("National");
+    const [scale, setScale] = useState("States");
     const [simulationScale, setSimulationScale] = useState("States");
     const [nameGeoSelection, setNameGeoSelection] = useState("Geo Selection 1");
-    const [mode, setMode] = useState<Model>(Model.Add);
+    const [mode, setMode] = useState<Model>(Model.Initial);
     const [idGeoSelectionUpdate, setIdGeoSelectionUpdate] = useState(0);
+    const [originOfGeoCreation, setOriginOfGeoCreation] = useState("");
 
     return (
         <SelectFeature.Provider
@@ -124,6 +127,8 @@ const SelectFeatureContext: React.FC = ({ children }) => {
                 setNameGeoSelection,
                 geoSelections,
                 setGeoSelections,
+                originOfGeoCreation,
+                setOriginOfGeoCreation,
             }}
         >
             {children}

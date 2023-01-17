@@ -21,8 +21,11 @@ import {
 import dynamic from "next/dynamic";
 import { useReducer, useState, useContext } from "react";
 import Plot from "react-plotly.js";
+import { useDispatch, useSelector } from "react-redux";
 
 import { ControlPanel } from "context/ControlPanelContext";
+import { update } from "store/ControlPanel";
+import { RootState } from "store/store";
 import VariableDependentTime, {
     DataForGraph,
     NameFunction,
@@ -38,7 +41,6 @@ import reducerVariableDependent, {
 } from "utils/reducerVariableDependent";
 
 import DateRangeVariableDependent from "./DateRangeVariableDependent";
-import GraphDependentTimeParameters from "./GraphDependentTimeParameters";
 import PopoverVariableDependent from "./PopoverVariableDependent";
 
 const Graphic = dynamic(() => import("./GraphDependentTimeParameters"), {
@@ -54,11 +56,13 @@ const Graphic = dynamic(() => import("./GraphDependentTimeParameters"), {
 interface Props {
     valuesVariablesDependent: VariableDependentTime;
     showSectionVariable: (value: boolean) => void;
+    positionVariableDependentTime?: number;
 }
 
 const SectionVariableDependentTime = ({
     valuesVariablesDependent,
     showSectionVariable,
+    positionVariableDependentTime,
 }: Props) => {
     const [idRangeUpdating, setIdRangeUpdating] = useState(-1);
     const [isRangeUpdating, setIsRangeUpdating] = useState<boolean>(false);
@@ -68,7 +72,9 @@ const SectionVariableDependentTime = ({
             t: [],
         },
     ]);
-    const { parameters, setParameters } = useContext(ControlPanel);
+    // const { parameters, setParameters } = useContext(ControlPanel);
+    const dispatch = useDispatch();
+    const parameters = useSelector((state: RootState) => state.controlPanel);
     const [values, setValues] = useReducer(
         reducerVariableDependent,
         valuesVariablesDependent
@@ -89,7 +95,7 @@ const SectionVariableDependentTime = ({
                         Default:
                         <NumberInput
                             ml="0.2rem"
-                            w="35%"
+                            w="30%"
                             size="xs"
                             value={values["default"]}
                             onChange={(e) =>
@@ -264,14 +270,17 @@ const SectionVariableDependentTime = ({
                                 }
                             );
                             if (isCorrectRange) {
-                                setParameters({
-                                    type: "setVariableDependent",
-                                    target: values["name"],
-                                    payloadVariableDependent: {
-                                        ...values,
-                                        default: +values["default"],
-                                    },
-                                });
+                                dispatch(
+                                    update({
+                                        type: "setVariableDependent",
+                                        target: values["name"],
+                                        payloadVariableDependent: {
+                                            ...values,
+                                            default: +values["default"],
+                                        },
+                                        positionVariableDependentTime,
+                                    })
+                                );
                                 showSectionVariable(false);
                             } else {
                                 toast({

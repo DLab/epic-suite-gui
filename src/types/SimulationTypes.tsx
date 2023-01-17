@@ -74,8 +74,8 @@ export interface NewActionsNewModel extends ActionsNewModel {
 export interface NewModelType {
     mode: string;
     setMode: (value: string) => void;
-    idNewModelUpdating: number;
-    setIdNewModelUpdating: (value: ActionsIdSimulation) => void;
+    // idNewModelUpdating: number;
+    // setIdNewModelUpdating: (value: ActionsIdSimulation) => void;
     newModel: NewModelsParams[] | [];
     setNewModel: (values: NewActionsNewModel) => void;
     completeModel: NewModelsAllParams[] | [];
@@ -84,6 +84,10 @@ export interface NewModelType {
     setSelectedModelsToSimulate: (values: NewModelsAllParams[]) => void;
     simulationsPopulatioType: string;
     setSimulationsPopulatioType: (value: string) => void;
+    idModelUpdate: number | undefined;
+    setIdModelUpdate: (value: number | undefined) => void;
+    name: string;
+    setName: (value: string) => void;
 }
 
 export interface SimulatorParams {

@@ -1,7 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 /* Global Styling here */
 .will-change {
     will-change: auto;
     z-index: 0;
+    /* font-family: 'Noto Sans', sans-serif; */
 }
 .reactSelect {
     border-color: #adadad;
@@ -21,9 +23,9 @@
     background-color: white !important;
     font-size: 12px;
 }
-tbody > tr:last-child td {
+/* tbody > tr:last-child td {
     border-bottom: none;
-}
+} */
 .js-plotly-plot .plotly .modebar {
     left: 50%;
     transform: translateX(-50%);
