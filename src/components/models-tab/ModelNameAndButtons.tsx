@@ -132,26 +132,6 @@ const ModelNameAndButtons = ({
         });
     };
 
-    // const saveActualName = () => {
-    //     setNewModel({
-    //         type: "update-all",
-    //         id,
-    //         payload: {
-    //             idNewModel: id,
-    //             name: modelName,
-    //             modelType: modelValue,
-    //             populationType: populationValue,
-    //             typeSelection: dataSourceValue,
-    //             idGeo: idGeo,
-    //             idGraph: graphId,
-    //             numberNodes: numberOfGraphs,
-    //             t_init: format(new Date(2021, 11, 31), "yyyy/MM/dd"),
-    //             initialConditions:
-    //                 getInitialConditionsGraphsArray(graphsValuesArray),
-    //         },
-    //     });
-    // };
-
     return (
         <Flex p="0 2%" mt="20px">
             {modelMode !== "Initial" && (

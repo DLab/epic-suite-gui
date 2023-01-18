@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import TableGeographic from "./TableGeographic";
+import TableMobilityMatrix from "./TableMobilityMatrix";
 import TableSimulations from "./TableSimulations";
 
 /**
@@ -72,13 +73,18 @@ const SummaryTab = () => {
                 // </Alert>
                 <Button onClick={onOpen}>Show Alert</Button>
             )}
-            <Flex
-                display="grid"
-                gridTemplateColumns="auto auto auto auto auto"
-                gridColumnGap="35px"
-            >
-                <TableSimulations />
-                <TableGeographic />
+            <Flex direction="column">
+                <Flex
+                    display="grid"
+                    gridTemplateColumns="auto auto auto auto auto"
+                    gridColumnGap="35px"
+                >
+                    <TableSimulations />
+                    <TableGeographic />
+                </Flex>
+                <Flex>
+                    <TableMobilityMatrix />
+                </Flex>
             </Flex>
         </>
     );

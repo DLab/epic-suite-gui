@@ -8,13 +8,15 @@ import { NewModelsAllParams } from "types/SimulationTypes";
 
 const ModelsMobilityMatrixSelect = () => {
     const { completeModel } = useContext(NewModelSetted);
-    const { setIdMatrixModel, setMatrixMode } = useContext(MobilityMatrix);
+    const { setIdMatrixModel, setMatrixMode, idMatrixModel } =
+        useContext(MobilityMatrix);
     const [metaModelsList, setMetaModelsList] = useState([]);
 
     useEffect(() => {
         setMetaModelsList(
             completeModel.filter(
-                (model) => model.populationType === "metapopulation"
+                (model: NewModelsAllParams) =>
+                    model.populationType === "metapopulation"
             )
         );
     }, [completeModel]);
@@ -28,6 +30,7 @@ const ModelsMobilityMatrixSelect = () => {
             bg="#F4F4F4"
             borderColor="#F4F4F4"
             borderRadius="8px"
+            value={idMatrixModel}
             onChange={(e) => {
                 if (!e.target.value) {
                     setIdMatrixModel(0);

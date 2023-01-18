@@ -1,15 +1,18 @@
 import { useEffect, useContext } from "react";
 
 import MainContentTab from "../mainContent/index";
+import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import TabContext from "context/TabContext";
 import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 
 const Simulator = () => {
-    // set initial models and geoSelections from localstorage.
+    // set initial models, geoSelections end matrixlist from localstorage.
     const { setGeoSelections } = useContext(SelectFeature);
     const { setCompleteModel, setNewModel } = useContext(NewModelSetted);
+    const { setMobilityMatrixList } = useContext(MobilityMatrix);
+
     useEffect(() => {
         if (typeof window !== "undefined") {
             if (window.localStorage.getItem("geoSelection")) {
@@ -40,8 +43,21 @@ const Simulator = () => {
                         fromLocalStorageToNewModelContext as unknown as NewModelsParams[],
                 });
             }
+            if (window.localStorage.getItem("mobilityMatrixList")) {
+                const dataLocalStorageMatrix =
+                    window.localStorage.getItem("mobilityMatrixList");
+                setMobilityMatrixList({
+                    type: "setInitial",
+                    localState: JSON.parse(dataLocalStorageMatrix),
+                });
+            }
         }
-    }, [setGeoSelections, setCompleteModel, setNewModel]);
+    }, [
+        setGeoSelections,
+        setCompleteModel,
+        setNewModel,
+        setMobilityMatrixList,
+    ]);
 
     return (
         <TabContext>

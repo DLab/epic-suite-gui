@@ -10,8 +10,8 @@ export interface Actions {
     element?: string | boolean | number;
     target?: string;
     id?;
-    payloadInterventions: InterventionsTypes[];
-    // localState?: NewModelsAllParams[];
+    payloadInterventions?: InterventionsTypes[];
+    localState?: MobilityMatrixListProps[];
 }
 
 export interface MobilityMatrixListProps {

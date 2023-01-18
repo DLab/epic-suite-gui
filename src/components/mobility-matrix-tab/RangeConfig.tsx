@@ -1,18 +1,45 @@
 import { Flex, Select, Input } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { InterventionsTypes } from "types/MobilityMatrixTypes";
 
 interface Props {
     interventionData: InterventionsTypes;
+    interventionList: InterventionsTypes[];
+    setInterventionList: (value: InterventionsTypes[]) => void;
 }
 
-const RangeConfig = ({ interventionData }: Props) => {
+const RangeConfig = ({
+    interventionData,
+    interventionList,
+    setInterventionList,
+}: Props) => {
     const { id, startRange, endRange, intervention, value } = interventionData;
     const [interventionType, setInterventionType] = useState(intervention);
     const [startValue, setStartValue] = useState(startRange);
     const [endValue, setEndValue] = useState(endRange);
     const [decreaseValue, setDecreaseValue] = useState(value);
+
+    useEffect(() => {
+        const dataRange = {
+            id,
+            startRange: startValue,
+            endRange: endValue,
+            intervention: interventionType,
+            value: decreaseValue,
+        };
+
+        const rangeUpdated = interventionList.map((interventionValues) => {
+            if (interventionValues.id === id) {
+                return dataRange;
+            }
+            return interventionValues;
+        });
+
+        setInterventionList(rangeUpdated);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [decreaseValue, endValue, id, startValue, interventionType]);
+
     return (
         <Flex
             display="grid"

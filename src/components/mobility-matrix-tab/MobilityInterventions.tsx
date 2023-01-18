@@ -53,6 +53,8 @@ const MobilityInterventions = ({
                     <RangeConfig
                         key={intervention.id}
                         interventionData={intervention}
+                        interventionList={interventionList}
+                        setInterventionList={setInterventionList}
                     />
                 );
             })}

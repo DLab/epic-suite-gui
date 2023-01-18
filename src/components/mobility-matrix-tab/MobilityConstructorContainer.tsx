@@ -100,7 +100,7 @@ const MobilityConstructorContainer = ({
                             <Flex>
                                 <Switch
                                     mr="7px"
-                                    // isChecked={isDynamical}
+                                    isChecked={isDynamical}
                                     onChange={(e) => {
                                         if (e.target.checked) {
                                             setIsDynamical(true);

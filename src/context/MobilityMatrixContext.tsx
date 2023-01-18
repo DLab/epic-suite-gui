@@ -64,8 +64,8 @@ const MobilityMatrixContext: React.FC = ({ children }) => {
                 return state.filter(
                     (e: MobilityMatrixListProps) => e.id !== +action.element
                 );
-            // case "setInitial":
-            //     return [...state, ...action.localState];
+            case "setInitial":
+                return [...state, ...action.localState];
             default:
                 return state;
         }
