@@ -167,7 +167,7 @@ const SelectDate = ({
                     };
 
                     const results = await getAllMetaInitialConditions(
-                        "http://192.168.2.131:5002/api/v0/initCond?type=metapopulation",
+                        `${process.env.NEXT_PUBLIC_INITIALCONDITIONS_URL}/initCond?type=metapopulation`,
                         modelName,
                         getConfig(),
                         scale
@@ -200,7 +200,7 @@ const SelectDate = ({
             initialConditionsGraph[0].conditionsValues.population === 0
         ) {
             handleFetch(
-                "http://192.168.2.131:5002/api/v0/initCond",
+                `${process.env.NEXT_PUBLIC_INITIALCONDITIONS_URL}/initCond`,
                 // "http://192.168.2.131:5002/initCond",
                 "POST",
                 idGeo,
@@ -224,7 +224,7 @@ const SelectDate = ({
                     id,
                 });
                 handleFetch(
-                    "http://192.168.2.131:5002/api/v0/initCond",
+                    `${process.env.NEXT_PUBLIC_INITIALCONDITIONS_URL}/initCond`,
                     // "http://192.168.2.131:5002/initCond",
                     "POST",
                     idGeo,

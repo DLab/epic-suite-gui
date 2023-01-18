@@ -132,7 +132,7 @@ const DataFitTab = () => {
 
         // eslint-disable-next-line sonarjs/prefer-immediate-return
         const res = await postData(
-            "http://192.168.2.131:5003/datafit",
+            `${process.env.NEXT_PUBLIC_COVID19GEOMODELLER_URL}/datafit`,
             objectConfig
         );
         return res;
