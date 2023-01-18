@@ -95,7 +95,7 @@ const RunButton = ({ permission }: Props) => {
         try {
             if (Object.keys(objectConfig).length > 0) {
                 const res = await postData(
-                    "http://192.168.2.131:5002/api/v0/realData",
+                    `${process.env.NEXT_PUBLIC_INITIALCONDITIONS_URL}/realData`,
                     // "http://192.168.2.131:5002/realData",
                     objectConfig
                 );
@@ -134,7 +134,7 @@ const RunButton = ({ permission }: Props) => {
         try {
             if (Object.keys(objectConfig).length > 0) {
                 const res = await postData(
-                    "http://192.168.2.131:5002/api/v0/realData?type=metapopulation",
+                    `${process.env.NEXT_PUBLIC_INITIALCONDITIONS_URL}/realData?type=metapopulation`,
                     // "http://192.168.2.131:5002/realData",
                     objectConfig
                 );
@@ -286,7 +286,7 @@ const RunButton = ({ permission }: Props) => {
                         [`${selectedModels[0].name}`]: metaSimulationsSelected,
                     };
                     response = await postData(
-                        "http://192.168.2.131:5003/simulate_meta",
+                        `${process.env.NEXT_PUBLIC_COVID19GEOMODELLER_URL}/simulate_meta`,
                         metaObjectConfig
                     );
                     const name = `${selectedModels[0].name}`;
@@ -327,7 +327,7 @@ const RunButton = ({ permission }: Props) => {
                     setIndex(4);
                 } else {
                     response = await postData(
-                        "http://192.168.2.131:5003/simulate",
+                        `${process.env.NEXT_PUBLIC_COVID19GEOMODELLER_URL}/simulate`,
                         objConfig
                     );
                     setMonopopulationData(response, selectedModels);

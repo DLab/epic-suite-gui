@@ -83,7 +83,7 @@ const GraphDependentTimeParameters = ({
                     setData([
                         await createSeries(
                             formatVariableDependentTime(values),
-                            "http://192.168.2.131:5003/function",
+                            `${process.env.NEXT_PUBLIC_COVID19GEOMODELLER_URL}/function`,
                             +duration,
                             +values.default,
                             values.rangeDays
