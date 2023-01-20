@@ -16,9 +16,10 @@ import { ArrowRightCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import React, { useContext } from "react";
 
 import { MobilityMatrix } from "context/MobilityMatrixContext";
+import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
 import { MobilityModes } from "types/MobilityMatrixTypes";
-// import GeoTab from "../geo-tab";
+import { NewModelsAllParams } from "types/SimulationTypes";
 
 const TableMobilityMatrix = () => {
     const {
@@ -26,8 +27,20 @@ const TableMobilityMatrix = () => {
         mobilityMatrixList,
         setIdMatrixModel,
         setIdMobilityMatrixUpdate,
+        setOriginOfMatrixCreation,
     } = useContext(MobilityMatrix);
     const { setIndex } = useContext(TabIndex);
+    const { completeModel } = useContext(NewModelSetted);
+
+    const getModelName = (id) => {
+        const model = completeModel.find(
+            (matrixModel: NewModelsAllParams) => matrixModel.idNewModel === id
+        );
+        if (model) {
+            return model.name;
+        }
+        return "no name";
+    };
 
     return (
         <Flex direction="column" gridColumn="4/6">
@@ -61,8 +74,8 @@ const TableMobilityMatrix = () => {
                         {mobilityMatrixList.map((matrix) => {
                             return (
                                 <Tr key={matrix.id}>
-                                    <Td>{matrix.id}</Td>
-                                    <Td>{matrix.modelId}</Td>
+                                    <Td>{matrix.nameMobilityMatrix}</Td>
+                                    <Td>{getModelName(matrix.modelId)}</Td>
                                     <Td>
                                         <Icon
                                             w="20px"
@@ -79,9 +92,9 @@ const TableMobilityMatrix = () => {
                                                 setMatrixMode(
                                                     MobilityModes.Update
                                                 );
-                                                // setOriginOfGeoCreation(
-                                                //     "summaryTab"
-                                                // );
+                                                setOriginOfMatrixCreation(
+                                                    "summaryTab"
+                                                );
                                                 setIndex(5);
                                             }}
                                         />
@@ -97,9 +110,8 @@ const TableMobilityMatrix = () => {
                             bg="#016FB9"
                             color="#FFFFFF"
                             onClick={() => {
-                                setMatrixMode(MobilityModes.Initial);
+                                setMatrixMode(MobilityModes.Add);
                                 setIndex(5);
-                                // setIdMatrixModel(undefined);
                             }}
                         >
                             <Icon w="14px" h="14px" as={PlusIcon} mr="5px" />

@@ -1,16 +1,14 @@
-import { CloseIcon } from "@chakra-ui/icons";
-import { Button, Flex, Icon, Select, Stack, useToast } from "@chakra-ui/react";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { Button, Flex, Input, Stack, useToast } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
 import { MobilityMatrix } from "../../context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
 import { InterventionsTypes, MobilityModes } from "types/MobilityMatrixTypes";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import { NewModelsParams } from "types/SimulationTypes";
 
 import DeleteMatrixAlert from "./DeleteMatrixAlert";
-import ModelsMobilityMatrixSelect from "./ModelsMobilityMatrixSelect";
 
 interface Props {
     nodesLocalValue: number | undefined;
@@ -20,9 +18,11 @@ interface Props {
     modulationLocalValue: string;
     daysCicleLocalValue: number;
     interventionList: InterventionsTypes[];
+    matrixNameLocal: string;
+    setMatrixNameLocal: (value: string) => void;
 }
 
-const ModelSelectAndButtons = ({
+const MatrixNameAndButtons = ({
     nodesLocalValue,
     graphTypeLocal,
     popPercentage,
@@ -30,6 +30,8 @@ const ModelSelectAndButtons = ({
     modulationLocalValue,
     daysCicleLocalValue,
     interventionList,
+    matrixNameLocal,
+    setMatrixNameLocal,
 }: Props) => {
     const toast = useToast();
     const {
@@ -41,8 +43,9 @@ const ModelSelectAndButtons = ({
         idMobilityMatrixUpdate,
         setIdMobilityMatrixUpdate,
         mobilityMatrixList,
+        originOfMatrixCreation,
     } = useContext(MobilityMatrix);
-    const { completeModel } = useContext(NewModelSetted);
+    const { newModel } = useContext(NewModelSetted);
     const { setIndex } = useContext(TabIndex);
 
     const position = "bottom-left";
@@ -56,8 +59,9 @@ const ModelSelectAndButtons = ({
                     JSON.stringify([])
                 );
             }
-            const { idGeo, typeSelection } = completeModel.find(
-                (model: NewModelsAllParams) => {
+
+            const { idGeo, typeSelection } = newModel.find(
+                (model: NewModelsParams) => {
                     return model.idNewModel === idMatrixModel;
                 }
             );
@@ -74,6 +78,7 @@ const ModelSelectAndButtons = ({
                 cicleDays: daysCicleLocalValue,
                 modulationOption: modulationLocalValue,
                 interventions: interventionList,
+                nameMobilityMatrix: matrixNameLocal,
             };
 
             const dataMatrixCreated = JSON.parse(
@@ -93,6 +98,7 @@ const ModelSelectAndButtons = ({
                     cicleDays: daysCicleLocalValue,
                     modulationOption: modulationLocalValue,
                     interventions: interventionList,
+                    nameMobilityMatrix: matrixNameLocal,
                 };
 
                 const indexDataToUpdate = mobilityMatrixList.findIndex(
@@ -119,7 +125,11 @@ const ModelSelectAndButtons = ({
                     isClosable: true,
                 });
                 setMatrixMode(MobilityModes.Initial);
-                setIndex(0);
+                if (originOfMatrixCreation === "modelsTab") {
+                    setIndex(1);
+                } else {
+                    setIndex(0);
+                }
             } else {
                 localStorage.setItem(
                     "mobilityMatrixList",
@@ -140,13 +150,11 @@ const ModelSelectAndButtons = ({
                     isClosable: true,
                 });
                 setMatrixMode(MobilityModes.Initial);
-                setIndex(0);
-                // if (originOfGeoCreation === "modelsTab") {
-                //     setIndex(1);
-                // } else {
-                //     setIndex(0);
-                // }
-                // }
+                if (originOfMatrixCreation === "modelsTab") {
+                    setIndex(1);
+                } else {
+                    setIndex(0);
+                }
             }
         } catch (error) {
             toast({
@@ -167,8 +175,19 @@ const ModelSelectAndButtons = ({
     };
 
     return (
-        <Flex w="40%" p="0 2%" mt="20px">
-            <ModelsMobilityMatrixSelect />
+        <Flex w="100%" p="0 2%" mt="20px">
+            <Input
+                size="sm"
+                mr="2%"
+                w="350px"
+                bg="#ffffff"
+                fontSize="14px"
+                placeholder="Name"
+                value={matrixNameLocal}
+                onChange={(e) => {
+                    setMatrixNameLocal(e.target.value);
+                }}
+            />
             <Stack spacing={4} direction="row" align="center">
                 {matrixMode === MobilityModes.Add && (
                     <>
@@ -177,6 +196,7 @@ const ModelSelectAndButtons = ({
                             fontSize="10px"
                             bg="#016FB9"
                             color="#FFFFFF"
+                            leftIcon={<CheckIcon />}
                             onClick={() => saveMobilityMatrix()}
                         >
                             SAVE MATRIX
@@ -228,4 +248,4 @@ const ModelSelectAndButtons = ({
     );
 };
 
-export default ModelSelectAndButtons;
+export default MatrixNameAndButtons;

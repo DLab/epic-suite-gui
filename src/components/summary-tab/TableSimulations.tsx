@@ -62,6 +62,7 @@ const TableSimulations = () => {
                 populationType: undefined,
                 typeSelection: undefined,
                 idGeo: undefined,
+                idMobilityMatrix: undefined,
                 idGraph: undefined,
                 numberNodes: undefined,
                 t_init: format(new Date(2022, 4, 31), "yyyy/MM/dd"),
@@ -91,7 +92,7 @@ const TableSimulations = () => {
         }
     }, [completeModel]);
 
-    return completeModel.length > 0 ? (
+    return (
         <Flex direction="column" gridColumn="1/4">
             <Text fontSize="24px" fontWeight={600} mb="5px">
                 Models
@@ -273,8 +274,6 @@ const TableSimulations = () => {
                 enim ad minim veniam
             </Text>
         </Flex>
-    ) : (
-        <Flex>There's not models to simulate</Flex>
     );
 };
 

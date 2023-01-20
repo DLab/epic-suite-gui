@@ -26,6 +26,7 @@ const ModelTab = () => {
     // const [modelId, setModelId] = useState(undefined);
     const [secondModelLink, setSecondModelLink] = useState(undefined);
     const [actualModelName, setActualModelName] = useState("");
+    const [matrixId, setMatrixId] = useState(undefined);
 
     const addNewModel = () => {
         const id = Date.now();
@@ -39,6 +40,7 @@ const ModelTab = () => {
                 populationType: undefined,
                 typeSelection: undefined,
                 idGeo: undefined,
+                idMobilityMatrix: undefined,
                 idGraph: undefined,
                 numberNodes: undefined,
                 t_init: format(new Date(2022, 4, 31), "yyyy/MM/dd"),
@@ -53,11 +55,12 @@ const ModelTab = () => {
             setActualModelName("");
         }
         if (modelMode === "update") {
-            const { name } = completeModel.find(
+            const { name, idMobilityMatrix } = completeModel.find(
                 (model: NewModelsParams) =>
                     model.idNewModel.toString() === modelId.toString()
             );
             setActualModelName(name);
+            setMatrixId(idMobilityMatrix);
         }
         // if (modelMode === "add") {
         //     addNewModel();
@@ -100,6 +103,8 @@ const ModelTab = () => {
                                     <ModelNameAndButtons
                                         actualModelName={actualModelName}
                                         setActualModelName={setActualModelName}
+                                        matrixId={matrixId}
+                                        setMatrixId={setMatrixId}
                                     />
                                     <ModelMainTab
                                         id={modelId}
@@ -108,6 +113,8 @@ const ModelTab = () => {
                                         }
                                         actualModelName={actualModelName}
                                         setActualModelName={setActualModelName}
+                                        matrixId={matrixId}
+                                        setMatrixId={setMatrixId}
                                     />
                                 </Box>
                             );

@@ -153,6 +153,7 @@ const DataFitTab = () => {
             populationType: originalModel.populationType,
             typeSelection: originalModel.typeSelection,
             idGeo: originalModel.idGeo,
+            idMobilityMatrix: originalModel.idMobilityMatrix,
             idGraph: originalModel.idGraph,
             initialConditions: originalModel.initialConditions,
             numberNodes: originalModel.numberNodes,

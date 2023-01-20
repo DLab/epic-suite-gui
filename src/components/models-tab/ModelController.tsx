@@ -30,6 +30,9 @@ interface Props {
     setPositionVDT: (value: number) => void;
     nodes?: string[];
     modelCompartment?: string;
+    populationValue: string;
+    matrixId: number;
+    setMatrixId: (value: number) => void;
 }
 
 /**
@@ -43,6 +46,9 @@ const ModelController = ({
     setPositionVDT,
     modelCompartment,
     nodes,
+    populationValue,
+    matrixId,
+    setMatrixId,
 }: Props) => {
     const { description, setDataViewVariable, idModelUpdate } =
         useContext(ControlPanel);
@@ -160,13 +166,12 @@ const ModelController = ({
 
     return (
         <>
-            {/* <Text>
-             
-                <Box flex="1" textAlign="left">
-                    Parameters
-                </Box>
-            </Text> */}
-            <MobilityMatrixModel />
+            {populationValue === "metapopulation" && (
+                <MobilityMatrixModel
+                    matrixId={matrixId}
+                    setMatrixId={setMatrixId}
+                />
+            )}
             <Text fontSize="16px" fontWeight={700} mb="5%" mt="5%">
                 Common parameters
             </Text>

@@ -14,20 +14,11 @@ export const MobilityMatrix = createContext<MobilityMatrixProps>({
     setIdMobilityMatrixUpdate: () => {},
     matrixMode: MobilityModes.Initial,
     setMatrixMode: () => {},
-    originMobilityCreation: "",
-    setOriginMobilityCreation: () => {},
     mobilityMatrixList: [],
     setMobilityMatrixList: () => {},
+    originOfMatrixCreation: "",
+    setOriginOfMatrixCreation: () => {},
 });
-
-// export type ActionsNewModel = Omit<
-//     ActionsNewModelData,
-//     "localState" | "payload"
-// >;
-// export interface NewActionsNewModel extends ActionsNewModel {
-//     payload?: NewModelsParams;
-//     localState?: NewModelsParams[];
-// }
 
 // eslint-disable-next-line react/prop-types
 const MobilityMatrixContext: React.FC = ({ children }) => {
@@ -43,8 +34,6 @@ const MobilityMatrixContext: React.FC = ({ children }) => {
                     }
                     return e;
                 });
-
-            // PARA INTERVENTIONS, VER ACTIONS DE INTERVENTIONS
             case "update-interventions":
                 return state.map((e) => {
                     if (e.id === action.id) {
@@ -64,6 +53,11 @@ const MobilityMatrixContext: React.FC = ({ children }) => {
                 return state.filter(
                     (e: MobilityMatrixListProps) => e.id !== +action.element
                 );
+            case "remove-several":
+                return state.filter(
+                    (e: MobilityMatrixListProps) =>
+                        e.modelId !== +action.element
+                );
             case "setInitial":
                 return [...state, ...action.localState];
             default:
@@ -74,11 +68,11 @@ const MobilityMatrixContext: React.FC = ({ children }) => {
     const [idMatrixModel, setIdMatrixModel] = useState(0);
     const [idMobilityMatrixUpdate, setIdMobilityMatrixUpdate] = useState(0);
     const [matrixMode, setMatrixMode] = useState(MobilityModes.Initial);
-    const [originMobilityCreation, setOriginMobilityCreation] = useState("");
     const [mobilityMatrixList, setMobilityMatrixList] = useReducer(
         reducer,
         initialStateMobilityMatrix
     );
+    const [originOfMatrixCreation, setOriginOfMatrixCreation] = useState("");
 
     return (
         <MobilityMatrix.Provider
@@ -89,10 +83,10 @@ const MobilityMatrixContext: React.FC = ({ children }) => {
                 setIdMobilityMatrixUpdate,
                 matrixMode,
                 setMatrixMode,
-                originMobilityCreation,
-                setOriginMobilityCreation,
                 mobilityMatrixList,
                 setMobilityMatrixList,
+                originOfMatrixCreation,
+                setOriginOfMatrixCreation,
             }}
         >
             {children}

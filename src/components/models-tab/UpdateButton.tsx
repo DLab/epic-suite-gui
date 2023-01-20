@@ -11,9 +11,10 @@ import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 interface Props {
     actualModelName: string;
     saveModel: () => void;
+    matrixId: number;
 }
 
-const UpdateButton = ({ actualModelName, saveModel }: Props) => {
+const UpdateButton = ({ actualModelName, saveModel, matrixId }: Props) => {
     const [isModelSavedLocal, setIsModelSavedLocal] = useState(false);
     const {
         newModel,
@@ -54,6 +55,7 @@ const UpdateButton = ({ actualModelName, saveModel }: Props) => {
                 name: modelSaved?.name,
                 numberNodes: modelSaved?.numberNodes,
                 populationType: modelSaved?.populationType,
+                idMobilityMatrix: modelSaved?.idMobilityMatrix,
                 typeSelection: modelSaved?.typeSelection,
             };
 
@@ -65,6 +67,7 @@ const UpdateButton = ({ actualModelName, saveModel }: Props) => {
                 name: actualModelName,
                 numberNodes: numberOfNodes,
                 populationType: populationValue,
+                idMobilityMatrix: matrixId,
                 typeSelection: dataSourceValue,
             };
 
@@ -102,6 +105,7 @@ const UpdateButton = ({ actualModelName, saveModel }: Props) => {
         newModel,
         numberOfNodes,
         populationValue,
+        matrixId,
     ]);
 
     useEffect(() => {

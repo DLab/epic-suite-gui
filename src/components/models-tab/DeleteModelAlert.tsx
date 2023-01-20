@@ -13,6 +13,7 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import React, { useRef, useContext } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
+import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { NewModelsAllParams } from "types/SimulationTypes";
 
@@ -27,6 +28,8 @@ const DeleteModelAlert = ({ setModelMode }: Props) => {
         setCompleteModel,
         idModelUpdate: id,
     } = useContext(NewModelSetted);
+    const { setMobilityMatrixList, mobilityMatrixList } =
+        useContext(MobilityMatrix);
     const {
         setAllGraphicData,
         setRealDataSimulationKeys,
@@ -41,6 +44,12 @@ const DeleteModelAlert = ({ setModelMode }: Props) => {
             (model: NewModelsAllParams) => model.idNewModel !== +id
         );
         localStorage.setItem("newModels", JSON.stringify(modelFilter));
+    };
+    const deleteMatrix = () => {
+        setMobilityMatrixList({
+            type: "remove-several",
+            element: id,
+        });
     };
 
     return (
@@ -95,6 +104,7 @@ const DeleteModelAlert = ({ setModelMode }: Props) => {
                                         type: "remove",
                                         element: id,
                                     });
+                                    deleteMatrix();
                                     deleteFromLocalStorage();
                                     setAllGraphicData([]);
                                     setRealDataSimulationKeys([]);

@@ -15,10 +15,14 @@ import UpdateButton from "./UpdateButton";
 interface Props {
     actualModelName: string;
     setActualModelName: (value: string) => void;
+    matrixId: number;
+    setMatrixId: (value: number) => void;
 }
 const ModelNameAndButtons = ({
     actualModelName,
     setActualModelName,
+    matrixId,
+    setMatrixId,
 }: Props) => {
     const {
         newModel,
@@ -30,6 +34,7 @@ const ModelNameAndButtons = ({
         idModelUpdate: id,
         setName,
         name,
+        idMobility,
     } = useContext(NewModelSetted);
     const toast = useToast();
     const parameters = useSelector((state: RootState) => state.controlPanel);
@@ -42,6 +47,7 @@ const ModelNameAndButtons = ({
 
         const newNameModel = { ...modelInfo };
         newNameModel.name = name;
+        newNameModel.idMobilityMatrix = idMobility;
 
         const allModelInfo = {
             ...newNameModel,
@@ -190,6 +196,7 @@ const ModelNameAndButtons = ({
                             <UpdateButton
                                 actualModelName={actualModelName}
                                 saveModel={saveModel}
+                                matrixId={matrixId}
                             />
                             <Button
                                 leftIcon={<CloseIcon />}

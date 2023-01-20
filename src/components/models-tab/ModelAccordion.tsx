@@ -20,6 +20,7 @@ import {
 import { format } from "date-fns";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
+import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
@@ -50,6 +51,8 @@ interface Props {
     setShowSectionInitialConditions: (value: boolean) => void;
     graphsSelectedValue: undefined | string[];
     setGraphsSelectedValue: (value: string[]) => void;
+    matrixId: number;
+    setMatrixId: (value: number) => void;
 }
 
 /**
@@ -76,6 +79,8 @@ const ModelAccordion = ({
     setShowSectionInitialConditions,
     graphsSelectedValue,
     setGraphsSelectedValue,
+    matrixId,
+    setMatrixId,
 }: Props) => {
     const [numberOfGraphs, setNumberOfGraphs] = useState(undefined);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -221,32 +226,32 @@ const ModelAccordion = ({
         });
     };
 
-    const getInitialConditions = (graphsValuesArray) => {
-        let initialConditionsValue;
-        const geoSelected = allGeoSelections.find((geoSelection) => {
-            return geoSelection.id === +areaSelectedValue;
-        });
-        if (dataSourceValue === "graph") {
-            initialConditionsValue =
-                getInitialConditionsGraphsArray(graphsValuesArray);
-        }
-        if (dataSourceValue === "geographic") {
-            initialConditionsValue =
-                numberOfNodes === 1
-                    ? [
-                          {
-                              name: geoSelected.name,
-                              conditionsValues:
-                                  getInitialConditionsByModel(modelValue),
-                          },
-                      ]
-                    : getInitialConditionsGeoArray(
-                          geoSelected.scale,
-                          geoSelected.featureSelected
-                      );
-        }
-        return initialConditionsValue;
-    };
+    // const getInitialConditions = (graphsValuesArray) => {
+    //     let initialConditionsValue;
+    //     const geoSelected = allGeoSelections.find((geoSelection) => {
+    //         return geoSelection.id === +areaSelectedValue;
+    //     });
+    //     if (dataSourceValue === "graph") {
+    //         initialConditionsValue =
+    //             getInitialConditionsGraphsArray(graphsValuesArray);
+    //     }
+    //     if (dataSourceValue === "geographic") {
+    //         initialConditionsValue =
+    //             numberOfNodes === 1
+    //                 ? [
+    //                       {
+    //                           name: geoSelected.name,
+    //                           conditionsValues:
+    //                               getInitialConditionsByModel(modelValue),
+    //                       },
+    //                   ]
+    //                 : getInitialConditionsGeoArray(
+    //                       geoSelected.scale,
+    //                       geoSelected.featureSelected
+    //                   );
+    //     }
+    //     return initialConditionsValue;
+    // };
 
     return (
         <>
@@ -395,6 +400,7 @@ const ModelAccordion = ({
                                     populationType: populationValue,
                                     typeSelection: dataSourceValue,
                                     idGeo: undefined,
+                                    idMobilityMatrix: matrixId,
                                     idGraph: 1,
                                     numberNodes: numberOfGraphs,
                                     t_init: format(
@@ -463,6 +469,7 @@ const ModelAccordion = ({
                                             populationType: populationValue,
                                             typeSelection: dataSourceValue,
                                             idGeo: +e.target.value,
+                                            idMobilityMatrix: matrixId,
                                             idGraph: undefined,
                                             numberNodes: numberGeoNodes,
                                             t_init: format(

@@ -26,7 +26,7 @@ export interface MobilityMatrixListProps {
     cicleDays: number;
     modulationOption: string;
     interventions: InterventionsTypes[];
-    // nameMobilityMatrix: string,
+    nameMobilityMatrix: string;
 }
 
 export interface InterventionsTypes {
@@ -44,8 +44,8 @@ export interface MobilityMatrixProps {
     setIdMobilityMatrixUpdate: (value: number) => void;
     matrixMode: MobilityModes;
     setMatrixMode: (value: MobilityModes) => void;
-    originMobilityCreation: string;
-    setOriginMobilityCreation: (value: string) => void;
     mobilityMatrixList: MobilityMatrixListProps[];
     setMobilityMatrixList: (value: Actions) => void;
+    originOfMatrixCreation: string;
+    setOriginOfMatrixCreation: (value: string) => void;
 }

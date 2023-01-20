@@ -24,6 +24,8 @@ interface Props {
     initialConditions: InitialConditionsNewModel[];
     actualModelName: string;
     setActualModelName: (value: string) => void;
+    matrixId: number;
+    setMatrixId: (value: number) => void;
 }
 
 const ModelsMap = dynamic(() => import("./model-map/ModelsMap"), {
@@ -52,6 +54,8 @@ const ModelMainTab = ({
     initialConditions,
     actualModelName,
     setActualModelName,
+    matrixId,
+    setMatrixId,
 }: Props) => {
     const [modelValue, setModelValue] = useState(undefined);
     const [numberOfNodes, setNumberOfNodes] = useState(0);
@@ -137,6 +141,8 @@ const ModelMainTab = ({
                     }
                     graphsSelectedValue={graphsSelectedValue}
                     setGraphsSelectedValue={setGraphsSelectedValue}
+                    matrixId={matrixId}
+                    setMatrixId={setMatrixId}
                 />
                 {numberOfNodes !== 0 &&
                     numberOfNodes !== undefined &&
@@ -159,6 +165,8 @@ const ModelMainTab = ({
                             dataSourceValue={dataSourceValue}
                             modelName={actualModelName}
                             startDate={startDate}
+                            matrixId={matrixId}
+                            setMatrixId={setMatrixId}
                         />
                     )}
             </Flex>

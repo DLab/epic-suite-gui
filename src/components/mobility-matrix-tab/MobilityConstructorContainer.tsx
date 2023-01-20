@@ -5,11 +5,11 @@ import { MobilityMatrix } from "../../context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { InterventionsTypes, MobilityModes } from "types/MobilityMatrixTypes";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import { NewModelsParams } from "types/SimulationTypes";
 
 import MobilityInterventions from "./MobilityInterventions";
+import ModelsMobilityMatrixSelect from "./ModelsMobilityMatrixSelect";
 import NodesAndGraphTypes from "./NodesAndGraphTypes";
-// import NumberInputMobilityMatrix from "./NumberInputMobilityMatrix";
 
 interface Props {
     nodesLocalValue: number | undefined;
@@ -45,28 +45,24 @@ const MobilityConstructorContainer = ({
     setInterventionList,
 }: Props) => {
     const { matrixMode, idMatrixModel } = useContext(MobilityMatrix);
-    // const [nodesLocalValue, setNodesLocalValue] = useState<
-    //     number | undefined
-    // >();
-    // const [graphTypeLocal, setGraphTypeLocal] = useState<string>();
-    // const [popPercentage, setPopPercentage] = useState<number>();
-    // const [isDynamical, setIsDynamical] = useState(false);
-    // const [modulationLocalValue, setModulationLocalValue] = useState<string>();
-    // const [daysCicleLocalValue, setDaysCicleLocalValue] = useState<number>();
-    const { completeModel } = useContext(NewModelSetted);
+    const { newModel } = useContext(NewModelSetted);
     const { geoSelections } = useContext(SelectFeature);
 
     useEffect(() => {
         if (idMatrixModel !== 0) {
-            const { numberNodes } = completeModel.find(
-                (model: NewModelsAllParams) => {
-                    return model.idNewModel === idMatrixModel;
-                }
-            );
+            const { numberNodes } = newModel.find((model: NewModelsParams) => {
+                return model.idNewModel === idMatrixModel;
+            });
+
+            // const { numberNodes } = completeModel.find(
+            //     (model: NewModelsAllParams) => {
+            //         return model.idNewModel === idMatrixModel;
+            //     }
+            // );
 
             setNodesLocalValue(numberNodes);
         }
-    }, [completeModel, geoSelections, idMatrixModel, setNodesLocalValue]);
+    }, [newModel, geoSelections, idMatrixModel, setNodesLocalValue]);
 
     return (
         <Flex
@@ -81,86 +77,102 @@ const MobilityConstructorContainer = ({
         >
             {matrixMode !== MobilityModes.Initial && (
                 <>
-                    <NodesAndGraphTypes
-                        nodesLocalValue={nodesLocalValue}
-                        setNodesLocalValue={setNodesLocalValue}
-                        graphTypeLocal={graphTypeLocal}
-                        setGraphTypeLocal={setGraphTypeLocal}
-                        popPercentage={popPercentage}
-                        setPopPercentage={setPopPercentage}
-                    />
-                    {graphTypeLocal && (
-                        <Flex
-                            mb="17px"
-                            display="grid"
-                            gridTemplateColumns="auto auto"
-                            gridGap="15px"
-                            alignItems="center"
-                        >
-                            <Flex>
-                                <Switch
-                                    mr="7px"
-                                    isChecked={isDynamical}
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setIsDynamical(true);
-                                        } else {
-                                            setIsDynamical(false);
-                                        }
-                                    }}
-                                />
-                                <Text fontSize="14px">Dynamical</Text>
-                            </Flex>
-                            {isDynamical && (
-                                <Select
-                                    size="sm"
-                                    mr="15px"
-                                    borderRadius="8px"
-                                    bg="#F4F4F4"
-                                    borderColor="#F4F4F4"
-                                    placeholder="Modulation options"
-                                    value={modulationLocalValue}
-                                    onChange={(e) => {
-                                        setModulationLocalValue(e.target.value);
-                                    }}
+                    <ModelsMobilityMatrixSelect />
+                    {idMatrixModel !== 0 && (
+                        <>
+                            <NodesAndGraphTypes
+                                nodesLocalValue={nodesLocalValue}
+                                setNodesLocalValue={setNodesLocalValue}
+                                graphTypeLocal={graphTypeLocal}
+                                setGraphTypeLocal={setGraphTypeLocal}
+                                popPercentage={popPercentage}
+                                setPopPercentage={setPopPercentage}
+                            />
+                            {graphTypeLocal && (
+                                <Flex
+                                    mb="17px"
+                                    display="grid"
+                                    gridTemplateColumns="auto auto"
+                                    gridGap="15px"
+                                    alignItems="center"
                                 >
-                                    <option key="Weekly" value="weekly">
-                                        Weekly
-                                    </option>
-                                    <option key="Monthly" value="monthly">
-                                        Monthly
-                                    </option>
-                                    <option key="Custom" value="custom">
-                                        Custom
-                                    </option>
-                                </Select>
+                                    <Flex>
+                                        <Switch
+                                            mr="7px"
+                                            isChecked={isDynamical}
+                                            onChange={(e) => {
+                                                if (e.target.checked) {
+                                                    setIsDynamical(true);
+                                                } else {
+                                                    setIsDynamical(false);
+                                                }
+                                            }}
+                                        />
+                                        <Text fontSize="14px">Dynamical</Text>
+                                    </Flex>
+                                    {isDynamical && (
+                                        <Select
+                                            size="sm"
+                                            mr="15px"
+                                            borderRadius="8px"
+                                            bg="#F4F4F4"
+                                            borderColor="#F4F4F4"
+                                            placeholder="Modulation options"
+                                            value={modulationLocalValue}
+                                            onChange={(e) => {
+                                                setModulationLocalValue(
+                                                    e.target.value
+                                                );
+                                            }}
+                                        >
+                                            <option key="Weekly" value="weekly">
+                                                Weekly
+                                            </option>
+                                            <option
+                                                key="Monthly"
+                                                value="monthly"
+                                            >
+                                                Monthly
+                                            </option>
+                                            <option key="Custom" value="custom">
+                                                Custom
+                                            </option>
+                                        </Select>
+                                    )}
+                                </Flex>
                             )}
-                        </Flex>
-                    )}
-                    {modulationLocalValue === "custom" && (
-                        <Flex mb="10px" alignItems="center">
-                            <Box>
-                                <Text align="left" fontSize="14px" mr="7px">
-                                    Days of cicle
-                                </Text>
-                            </Box>
-                            <Box>
-                                <Input
-                                    size="sm"
-                                    borderRadius="6px"
-                                    value={daysCicleLocalValue}
-                                    onChange={(e) => {
-                                        setDaysCicleLocalValue(+e.target.value);
-                                    }}
+                            {modulationLocalValue === "custom" && (
+                                <Flex mb="10px" alignItems="center">
+                                    <Box>
+                                        <Text
+                                            align="left"
+                                            fontSize="14px"
+                                            mr="7px"
+                                        >
+                                            Days of cicle
+                                        </Text>
+                                    </Box>
+                                    <Box>
+                                        <Input
+                                            size="sm"
+                                            borderRadius="6px"
+                                            value={daysCicleLocalValue}
+                                            onChange={(e) => {
+                                                setDaysCicleLocalValue(
+                                                    +e.target.value
+                                                );
+                                            }}
+                                        />
+                                    </Box>
+                                </Flex>
+                            )}
+                            {modulationLocalValue && (
+                                <MobilityInterventions
+                                    interventionList={interventionList}
+                                    setInterventionList={setInterventionList}
                                 />
-                            </Box>
-                        </Flex>
-                    )}
-                    {modulationLocalValue && (
-                        <MobilityInterventions
-                            interventionList={interventionList}
-                            setInterventionList={setInterventionList}
-                        />
+                            )}
+                        </>
                     )}
                 </>
             )}

@@ -23,6 +23,7 @@ const ModelsMobilityMatrixSelect = () => {
 
     return (
         <Select
+            mb="17px"
             w="50%"
             size="sm"
             mr="15px"
@@ -34,11 +35,8 @@ const ModelsMobilityMatrixSelect = () => {
             onChange={(e) => {
                 if (!e.target.value) {
                     setIdMatrixModel(0);
-                    setMatrixMode(MobilityModes.Initial);
                 } else {
                     setIdMatrixModel(+e.target.value);
-                    setMatrixMode(MobilityModes.Add);
-                    // setModelMode("update");
                 }
             }}
         >
