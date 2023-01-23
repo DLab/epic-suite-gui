@@ -7,10 +7,11 @@ import { MobilityModes } from "types/MobilityMatrixTypes";
 import { NewModelsAllParams } from "types/SimulationTypes";
 
 const ModelsMobilityMatrixSelect = () => {
-    const { completeModel } = useContext(NewModelSetted);
-    const { setIdMatrixModel, setMatrixMode, idMatrixModel } =
+    const { completeModel, mode } = useContext(NewModelSetted);
+    const { setIdMatrixModel, matrixMode, idMatrixModel } =
         useContext(MobilityMatrix);
     const [metaModelsList, setMetaModelsList] = useState([]);
+    const [isSelectDisabeld, setIsSelectDisabeld] = useState(false);
 
     useEffect(() => {
         setMetaModelsList(
@@ -20,6 +21,12 @@ const ModelsMobilityMatrixSelect = () => {
             )
         );
     }, [completeModel]);
+
+    useEffect(() => {
+        if (mode !== "initial" || matrixMode === MobilityModes.Update) {
+            setIsSelectDisabeld(true);
+        }
+    }, [matrixMode, mode]);
 
     return (
         <Select
@@ -32,6 +39,7 @@ const ModelsMobilityMatrixSelect = () => {
             borderColor="#F4F4F4"
             borderRadius="8px"
             value={idMatrixModel}
+            isDisabled={isSelectDisabeld}
             onChange={(e) => {
                 if (!e.target.value) {
                     setIdMatrixModel(0);

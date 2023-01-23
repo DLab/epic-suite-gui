@@ -25,6 +25,7 @@ const NodesAndGraphTypes = ({
             <Flex mb="17px">
                 <NumberInputMobilityMatrix
                     numberInputName="Nodes"
+                    disabled
                     value={nodesLocalValue}
                     setValue={setNodesLocalValue}
                 />
@@ -70,9 +71,18 @@ const NodesAndGraphTypes = ({
                     gridTemplateColumns="auto auto auto"
                     gridGap="10px"
                 >
-                    <NumberInputMobilityMatrix numberInputName="Name" />
-                    <NumberInputMobilityMatrix numberInputName="Name" />
-                    <NumberInputMobilityMatrix numberInputName="Name" />
+                    <NumberInputMobilityMatrix
+                        numberInputName="Name"
+                        disabled
+                    />
+                    <NumberInputMobilityMatrix
+                        numberInputName="Name"
+                        disabled
+                    />
+                    <NumberInputMobilityMatrix
+                        numberInputName="Name"
+                        disabled
+                    />
                 </Flex>
             )}
         </>

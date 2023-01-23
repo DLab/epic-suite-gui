@@ -1,7 +1,6 @@
-import { Box, Flex, Select, Switch, Text, Input } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { Flex, Text } from "@chakra-ui/react";
+import React from "react";
 
-import { MobilityMatrix } from "../../context/MobilityMatrixContext";
 import { InterventionsTypes } from "types/MobilityMatrixTypes";
 
 import RangeConfig from "./RangeConfig";
@@ -15,8 +14,6 @@ const MobilityInterventions = ({
     interventionList,
     setInterventionList,
 }: Props) => {
-    const { idMatrixModel } = useContext(MobilityMatrix);
-
     const addIntervention = () => {
         const intervention = {
             id: Date.now(),

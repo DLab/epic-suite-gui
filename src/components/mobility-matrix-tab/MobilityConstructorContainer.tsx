@@ -1,5 +1,5 @@
 import { Flex, Select, Switch, Text, Input, Box } from "@chakra-ui/react";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { MobilityMatrix } from "../../context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
@@ -53,12 +53,6 @@ const MobilityConstructorContainer = ({
             const { numberNodes } = newModel.find((model: NewModelsParams) => {
                 return model.idNewModel === idMatrixModel;
             });
-
-            // const { numberNodes } = completeModel.find(
-            //     (model: NewModelsAllParams) => {
-            //         return model.idNewModel === idMatrixModel;
-            //     }
-            // );
 
             setNodesLocalValue(numberNodes);
         }

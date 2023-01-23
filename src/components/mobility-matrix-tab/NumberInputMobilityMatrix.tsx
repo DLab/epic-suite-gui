@@ -15,42 +15,32 @@ interface Props {
     numberInputName: string;
     value?: number;
     setValue?: (value: number) => void;
+    disabled?: boolean;
 }
 
 const NumberInputMobilityMatrix = ({
     numberInputName,
     value,
     setValue,
+    disabled,
 }: Props) => {
     return (
         <Flex alignItems="center">
-            {/* <FormControl display="flex" alignItems="center"> */}
-            {/* <Flex w="50%" h="2rem" alignItems="center"> */}
             <Box>
-                <Text
-                    align="left"
-                    fontSize="14px"
-                    mr="7px"
-                    // color={isDisabled && "gray.200"}
-                >
+                <Text align="left" fontSize="14px" mr="7px">
                     {numberInputName}
                 </Text>
             </Box>
             <NumberInput
-                // maxH="20px"
                 maxW="75px"
                 value={numberInputName !== "Population" ? value : `${value} %`}
-                // mx="0.2rem"
-                // fontSize="11px"
-                // defaultValue={value}
+                isDisabled={!!disabled}
                 onChange={(e) => {
                     setValue(+e);
                 }}
                 size="sm"
                 min={0}
-                // max={max}
                 step={1}
-                // isDisabled
             >
                 <NumberInputField borderRadius="6px" />
                 <NumberInputStepper>
@@ -58,8 +48,6 @@ const NumberInputMobilityMatrix = ({
                     <NumberDecrementStepper />
                 </NumberInputStepper>
             </NumberInput>
-            {/* </Flex>
-            </FormControl> */}
         </Flex>
     );
 };

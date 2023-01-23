@@ -1,7 +1,6 @@
 import { Flex, Button, Icon, Box } from "@chakra-ui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
-import { add } from "lodash";
 import React, { useState, useContext, useEffect } from "react";
 
 import BreadCrumb from "components/BreadCrumb";
@@ -104,7 +103,6 @@ const ModelTab = () => {
                                         actualModelName={actualModelName}
                                         setActualModelName={setActualModelName}
                                         matrixId={matrixId}
-                                        setMatrixId={setMatrixId}
                                     />
                                     <ModelMainTab
                                         id={modelId}

@@ -28,8 +28,8 @@ const DeleteMatrixAlert = () => {
     const toast = useToast();
 
     /**
-     * Delete a geographic selection.
-     * @param {number} id of the geographic selection.
+     * Delete a mobility matrix.
+     * @param {number} id of the matrix.
      */
     const deleteMatrix = (id: number) => {
         localStorage.removeItem("mobilityMatrixList");

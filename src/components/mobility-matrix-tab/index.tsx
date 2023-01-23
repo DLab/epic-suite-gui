@@ -1,4 +1,4 @@
-import { Flex, Button, Icon, Box } from "@chakra-ui/react";
+import { Flex, Button, Icon } from "@chakra-ui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import React, { useState, useContext, useEffect } from "react";
 

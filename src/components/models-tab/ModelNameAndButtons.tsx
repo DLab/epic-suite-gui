@@ -4,6 +4,7 @@ import format from "date-fns/fp/format";
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
 
+import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
 import { RootState } from "store/store";
@@ -16,13 +17,11 @@ interface Props {
     actualModelName: string;
     setActualModelName: (value: string) => void;
     matrixId: number;
-    setMatrixId: (value: number) => void;
 }
 const ModelNameAndButtons = ({
     actualModelName,
     setActualModelName,
     matrixId,
-    setMatrixId,
 }: Props) => {
     const {
         newModel,
@@ -39,6 +38,8 @@ const ModelNameAndButtons = ({
     const toast = useToast();
     const parameters = useSelector((state: RootState) => state.controlPanel);
     const { setIndex } = useContext(TabIndex);
+    const { setMobilityMatrixList, idMobilityMatrixUpdate } =
+        useContext(MobilityMatrix);
 
     const getModelCompleteObj = () => {
         const modelInfo = newModel.find(
@@ -178,6 +179,10 @@ const ModelNameAndButtons = ({
                                     setNewModel({
                                         type: "remove",
                                         element: id,
+                                    });
+                                    setMobilityMatrixList({
+                                        type: "remove",
+                                        element: idMobilityMatrixUpdate,
                                     });
                                     setModelMode("initial");
                                 }}
