@@ -378,7 +378,6 @@ const RunButton = ({ permission }: Props) => {
     return (
         <>
             <Button
-                id={createIdComponent()}
                 onClick={() => {
                     const withPermission = Object.values(permission).some(
                         (perm) => perm

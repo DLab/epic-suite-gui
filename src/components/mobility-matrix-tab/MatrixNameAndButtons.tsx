@@ -1,6 +1,6 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { Button, Flex, Input, Stack, useToast } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { MobilityMatrix } from "../../context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
@@ -9,6 +9,7 @@ import { InterventionsTypes, MobilityModes } from "types/MobilityMatrixTypes";
 import { NewModelsParams } from "types/SimulationTypes";
 
 import DeleteMatrixAlert from "./DeleteMatrixAlert";
+import UpdateMatrixButton from "./UpdateMatrixButton";
 
 interface Props {
     nodesLocalValue: number | undefined;
@@ -47,6 +48,7 @@ const MatrixNameAndButtons = ({
     } = useContext(MobilityMatrix);
     const { newModel } = useContext(NewModelSetted);
     const { setIndex } = useContext(TabIndex);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
     const position = "bottom-left";
     const saveMobilityMatrix = () => {
@@ -174,6 +176,24 @@ const MatrixNameAndButtons = ({
         setIdMatrixModel(0);
     };
 
+    useEffect(() => {
+        if (
+            !nodesLocalValue ||
+            graphTypeLocal === "" ||
+            modulationLocalValue === "" ||
+            matrixNameLocal === ""
+        ) {
+            setIsButtonDisabled(true);
+        } else {
+            setIsButtonDisabled(false);
+        }
+    }, [
+        graphTypeLocal,
+        matrixNameLocal,
+        modulationLocalValue,
+        nodesLocalValue,
+    ]);
+
     return (
         <Flex w="100%" p="0 2%" mt="20px">
             <Input
@@ -198,6 +218,7 @@ const MatrixNameAndButtons = ({
                             color="#FFFFFF"
                             leftIcon={<CheckIcon />}
                             onClick={() => saveMobilityMatrix()}
+                            isDisabled={isButtonDisabled}
                         >
                             SAVE MATRIX
                         </Button>
@@ -218,15 +239,17 @@ const MatrixNameAndButtons = ({
                 )}
                 {matrixMode === MobilityModes.Update && (
                     <>
-                        <Button
-                            size="sm"
-                            fontSize="10px"
-                            bg="#016FB9"
-                            color="#FFFFFF"
-                            onClick={() => saveMobilityMatrix()}
-                        >
-                            SAVE CHANGES
-                        </Button>
+                        <UpdateMatrixButton
+                            nodesLocalValue={nodesLocalValue}
+                            graphTypeLocal={graphTypeLocal}
+                            popPercentage={popPercentage}
+                            isDynamical={isDynamical}
+                            modulationLocalValue={modulationLocalValue}
+                            daysCicleLocalValue={daysCicleLocalValue}
+                            interventionList={interventionList}
+                            matrixNameLocal={matrixNameLocal}
+                            saveMobilityMatrix={saveMobilityMatrix}
+                        />
                         <Button
                             leftIcon={<CloseIcon />}
                             onClick={() => {

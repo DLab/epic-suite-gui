@@ -42,6 +42,7 @@ const MobilityMatrix = () => {
             setDaysCicleLocalValue(0);
             setIdMatrixModel(0);
             setMatrixNameLocal("");
+            setNodesLocalValue(undefined);
         }
         if (matrixMode === MobilityModes.Update) {
             const {
