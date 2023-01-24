@@ -43,8 +43,8 @@ const TableMobilityMatrix = () => {
     };
 
     return (
-        <Flex direction="column" gridColumn="4/6">
-            <Text fontSize="24px" fontWeight={600} mb="5px">
+        <Flex direction="column" gridColumn="4/6" mt="15px">
+            <Text fontSize="16px" fontWeight={600} mb="5px">
                 Mobility Matrix
             </Text>
             <TableContainer border="1px solid #DDDDDD" borderRadius="8px">
@@ -74,9 +74,13 @@ const TableMobilityMatrix = () => {
                         {mobilityMatrixList.map((matrix) => {
                             return (
                                 <Tr key={matrix.id}>
-                                    <Td>{matrix.nameMobilityMatrix}</Td>
-                                    <Td>{getModelName(matrix.modelId)}</Td>
-                                    <Td>
+                                    <Td fontSize="14px">
+                                        {matrix.nameMobilityMatrix}
+                                    </Td>
+                                    <Td fontSize="14px">
+                                        {getModelName(matrix.modelId)}
+                                    </Td>
+                                    <Td fontSize="14px">
                                         <Icon
                                             w="20px"
                                             h="20px"

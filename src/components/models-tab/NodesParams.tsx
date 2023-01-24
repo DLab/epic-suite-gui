@@ -62,7 +62,7 @@ const NodesParams = ({
                 <AccordionItem key={createIdComponent()}>
                     <h2>
                         <AccordionButton>
-                            <Box flex="1" textAlign="left">
+                            <Box flex="1" textAlign="left" fontSize="14px">
                                 {node}
                             </Box>
                             <AccordionIcon />

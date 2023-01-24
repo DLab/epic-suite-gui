@@ -449,7 +449,7 @@ const ModelController = ({
                     </FormControl>
                 </Flex>
             )}
-            <Heading as="h3" fontSize="14px" mt="5%">
+            <Heading as="h3" fontSize="16px" mt="5%">
                 Parameters per Nodes
             </Heading>
             {/* <Accordion allowToggle reduceMotion> */}

@@ -94,7 +94,7 @@ const TableSimulations = () => {
 
     return (
         <Flex direction="column" gridColumn="1/4">
-            <Text fontSize="24px" fontWeight={600} mb="5px">
+            <Text fontSize="16px" fontWeight={600} mb="5px">
                 Models
             </Text>
             <TableContainer
@@ -147,7 +147,7 @@ const TableSimulations = () => {
                         {completeModel.map((elem) => {
                             return (
                                 <Tr key={createIdComponent()}>
-                                    <Td>
+                                    <Td fontSize="14px">
                                         <Checkbox
                                             isDisabled={
                                                 codMetaModelSelected !== 0 &&
@@ -210,22 +210,22 @@ const TableSimulations = () => {
                                             }}
                                         />
                                     </Td>
-                                    <Td textAlign="center">
+                                    <Td fontSize="14px" textAlign="center">
                                         {elem.name ?? "Not defined yet"}
                                     </Td>
-                                    <Td textAlign="center">
+                                    <Td fontSize="14px" textAlign="center">
                                         {elem.modelType.toUpperCase() ??
                                             "Not defined yet"}
                                     </Td>
-                                    <Td textAlign="center">
+                                    <Td fontSize="14px" textAlign="center">
                                         {elem.populationType ??
                                             "Not defined yet"}
                                     </Td>
-                                    <Td textAlign="center">
+                                    <Td fontSize="14px" textAlign="center">
                                         {elem.typeSelection ??
                                             "Not defined yet"}
                                     </Td>
-                                    <Td>
+                                    <Td fontSize="14px">
                                         <Icon
                                             w="20px"
                                             h="20px"

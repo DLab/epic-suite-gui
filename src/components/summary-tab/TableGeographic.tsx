@@ -49,7 +49,7 @@ const TableGeographic = () => {
 
     return (
         <Flex direction="column" gridColumn="4/6">
-            <Text fontSize="24px" fontWeight={600} mb="5px">
+            <Text fontSize="16px" fontWeight={600} mb="5px">
                 Geographic selection
             </Text>
             <TableContainer border="1px solid #DDDDDD" borderRadius="8px">
@@ -79,9 +79,11 @@ const TableGeographic = () => {
                         {geoSelections.map((geoSelection) => {
                             return (
                                 <Tr key={geoSelection.id}>
-                                    <Td>{geoSelection.name}</Td>
-                                    <Td>{geoSelection.scale}</Td>
-                                    <Td>
+                                    <Td fontSize="14px">{geoSelection.name}</Td>
+                                    <Td fontSize="14px">
+                                        {geoSelection.scale}
+                                    </Td>
+                                    <Td fontSize="14px">
                                         <Icon
                                             w="20px"
                                             h="20px"

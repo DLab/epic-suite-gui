@@ -1,4 +1,4 @@
-import { Select, Text, Flex } from "@chakra-ui/react";
+import { Select, Text, Flex, RadioGroup, Stack, Radio } from "@chakra-ui/react";
 import React, { useContext, useState, useEffect } from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
@@ -38,67 +38,74 @@ const MobilityMatrixModel = ({ matrixId, setMatrixId }: Props) => {
                 Mobility Data
             </Text>
             <Flex direction="column">
-                {matrixByModel.length > 0 && (
-                    <Select
-                        w="80%"
-                        mb="2%"
-                        size="sm"
-                        mr="15px"
-                        placeholder="Select mobility matrix"
-                        bg="#F4F4F4"
-                        borderColor="#F4F4F4"
-                        borderRadius="8px"
-                        value={matrixId}
-                        onChange={(e) => {
-                            setIdMobilityMatrixUpdate(+e.target.value);
-                            setMatrixId(+e.target.value);
-                            setIdMobility(+e.target.value);
-                        }}
-                    >
-                        {matrixByModel.map((matrix) => {
-                            return (
-                                <option key={matrix.id} value={matrix.id}>
-                                    {matrix.nameMobilityMatrix}
-                                </option>
-                            );
-                        })}
-                    </Select>
-                )}
-
-                <Text
-                    color="#016FB9"
-                    fontSize="14px"
-                    textDecorationLine="underline"
-                    cursor="pointer"
-                    ml="4%"
-                    onClick={() => {
-                        setIdMatrixModel(idModelUpdate);
-                        setMatrixMode(MobilityModes.Add);
-                        setIndex(5);
-                        setOriginOfMatrixCreation("modelsTab");
-                    }}
-                >
-                    + Add mobility matrix
-                </Text>
-                {matrixByModel.length > 0 && (
+                <Flex justify="space-between">
+                    <RadioGroup size="sm" onChange={(e) => {}}>
+                        <Stack direction="row" spacing="24px">
+                            <Radio value="graph">Artificial</Radio>
+                            <Radio value="geographic">Real</Radio>
+                        </Stack>
+                    </RadioGroup>
                     <Text
-                        color={matrixId ? "#016FB9" : "#7f8387"}
+                        color="#016FB9"
                         fontSize="14px"
                         textDecorationLine="underline"
                         cursor="pointer"
                         ml="4%"
                         onClick={() => {
-                            if (matrixId) {
-                                setIdMatrixModel(idModelUpdate);
-                                setIndex(5);
-                                setMatrixMode(MobilityModes.Update);
-                                setOriginOfMatrixCreation("modelsTab");
-                                setIdMobilityMatrixUpdate(matrixId);
-                            }
+                            setIdMatrixModel(idModelUpdate);
+                            setMatrixMode(MobilityModes.Add);
+                            setIndex(5);
+                            setOriginOfMatrixCreation("modelsTab");
                         }}
                     >
-                        View / Edit Mobility Matrix
+                        + Add mobility matrix
                     </Text>
+                </Flex>
+                {matrixByModel.length > 0 && (
+                    <Flex mt="15px">
+                        <Select
+                            w="10rem"
+                            mb="2%"
+                            size="sm"
+                            mr="15px"
+                            placeholder="Select mobility matrix"
+                            bg="#F4F4F4"
+                            borderColor="#F4F4F4"
+                            borderRadius="8px"
+                            value={matrixId}
+                            onChange={(e) => {
+                                setIdMobilityMatrixUpdate(+e.target.value);
+                                setMatrixId(+e.target.value);
+                                setIdMobility(+e.target.value);
+                            }}
+                        >
+                            {matrixByModel.map((matrix) => {
+                                return (
+                                    <option key={matrix.id} value={matrix.id}>
+                                        {matrix.nameMobilityMatrix}
+                                    </option>
+                                );
+                            })}
+                        </Select>
+                        <Text
+                            color={matrixId ? "#016FB9" : "#7f8387"}
+                            fontSize="14px"
+                            textDecorationLine="underline"
+                            cursor="pointer"
+                            ml="4%"
+                            onClick={() => {
+                                if (matrixId) {
+                                    setIdMatrixModel(idModelUpdate);
+                                    setIndex(5);
+                                    setMatrixMode(MobilityModes.Update);
+                                    setOriginOfMatrixCreation("modelsTab");
+                                    setIdMobilityMatrixUpdate(matrixId);
+                                }
+                            }}
+                        >
+                            View / Edit Mobility Matrix
+                        </Text>
+                    </Flex>
                 )}
             </Flex>
 

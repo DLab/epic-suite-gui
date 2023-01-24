@@ -138,15 +138,12 @@ const InitialConditiosModels = ({
                         >
                             <AccordionItem>
                                 <h2>
-                                    <AccordionButton
-                                        color="#16609E"
-                                        border="none"
-                                        borderBottom="2px solid #16609E"
-                                        _focus={{
-                                            boxShadow: "none",
-                                        }}
-                                    >
-                                        <Box flex="1" textAlign="left">
+                                    <AccordionButton>
+                                        <Box
+                                            flex="1"
+                                            textAlign="left"
+                                            fontSize="14px"
+                                        >
                                             {node.name}
                                         </Box>
                                         <AccordionIcon />

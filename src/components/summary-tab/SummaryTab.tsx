@@ -38,7 +38,7 @@ const SummaryTab = () => {
                     p="20px"
                     m=" 15px 0"
                 >
-                    <Text fontSize="40px" fontWeight={800} color="#1B1B3A">
+                    <Text fontSize="33px" fontWeight={800} color="#1B1B3A">
                         Epidemiological Modeling and Simulation
                     </Text>
                     <Text>

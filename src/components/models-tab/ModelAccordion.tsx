@@ -433,9 +433,14 @@ const ModelAccordion = ({
                 <Box mb="3%">
                     <Flex>
                         <Select
-                            w="13rem"
-                            fontSize="14px"
+                            mb="2%"
                             size="sm"
+                            mr="15px"
+                            bg="#F4F4F4"
+                            borderColor="#F4F4F4"
+                            borderRadius="8px"
+                            w="11rem"
+                            fontSize="14px"
                             placeholder="Select area"
                             value={areaSelectedValue}
                             onChange={(e) => {
