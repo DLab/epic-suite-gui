@@ -16,17 +16,18 @@ export interface Actions {
 
 export interface MobilityMatrixListProps {
     id: number;
-    populationData: string;
+    populationData?: string;
     geoId: number;
     modelId: number;
     nodes: number;
-    populationPercentage: number;
-    graphTypes: string;
+    populationPercentage?: number;
+    graphTypes?: string;
     dynamical: boolean;
-    cicleDays: number;
-    modulationOption: string;
+    cicleDays?: number;
+    modulationOption?: string;
     interventions: InterventionsTypes[];
     nameMobilityMatrix: string;
+    type: string;
 }
 
 export interface InterventionsTypes {
@@ -48,4 +49,6 @@ export interface MobilityMatrixProps {
     setMobilityMatrixList: (value: Actions) => void;
     originOfMatrixCreation: string;
     setOriginOfMatrixCreation: (value: string) => void;
+    mobilityMatrixType: string;
+    setMobilityMatrixType: (value: string) => void;
 }

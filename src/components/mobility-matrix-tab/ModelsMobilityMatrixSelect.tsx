@@ -6,7 +6,15 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { MobilityModes } from "types/MobilityMatrixTypes";
 import { NewModelsAllParams } from "types/SimulationTypes";
 
-const ModelsMobilityMatrixSelect = () => {
+interface Props {
+    setMatrixType: (value: string) => void;
+    setIsDynamical: (value: boolean) => void;
+}
+
+const ModelsMobilityMatrixSelect = ({
+    setMatrixType,
+    setIsDynamical,
+}: Props) => {
     const { completeModel, mode } = useContext(NewModelSetted);
     const { setIdMatrixModel, matrixMode, idMatrixModel } =
         useContext(MobilityMatrix);
@@ -46,6 +54,8 @@ const ModelsMobilityMatrixSelect = () => {
                 } else {
                     setIdMatrixModel(+e.target.value);
                 }
+                setMatrixType("");
+                setIsDynamical(false);
             }}
         >
             {metaModelsList.map((model: NewModelsAllParams) => {

@@ -7,9 +7,11 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 import { InterventionsTypes, MobilityModes } from "types/MobilityMatrixTypes";
 import { NewModelsParams } from "types/SimulationTypes";
 
+import MatrixTypesOptions from "./MatrixTypesOptions";
 import MobilityInterventions from "./MobilityInterventions";
 import ModelsMobilityMatrixSelect from "./ModelsMobilityMatrixSelect";
 import NodesAndGraphTypes from "./NodesAndGraphTypes";
+import RealMobilityMatrix from "./RealMobilityMatrix";
 
 interface Props {
     nodesLocalValue: number | undefined;
@@ -26,6 +28,8 @@ interface Props {
     setDaysCicleLocalValue: (value: number) => void;
     interventionList: InterventionsTypes[] | [];
     setInterventionList: (value: InterventionsTypes[] | []) => void;
+    matrixType: string;
+    setMatrixType: (value: string) => void;
 }
 
 const MobilityConstructorContainer = ({
@@ -43,6 +47,8 @@ const MobilityConstructorContainer = ({
     setDaysCicleLocalValue,
     interventionList,
     setInterventionList,
+    matrixType,
+    setMatrixType,
 }: Props) => {
     const { matrixMode, idMatrixModel } = useContext(MobilityMatrix);
     const { newModel } = useContext(NewModelSetted);
@@ -71,8 +77,22 @@ const MobilityConstructorContainer = ({
         >
             {matrixMode !== MobilityModes.Initial && (
                 <>
-                    <ModelsMobilityMatrixSelect />
-                    {idMatrixModel !== 0 && (
+                    <ModelsMobilityMatrixSelect
+                        setMatrixType={setMatrixType}
+                        setIsDynamical={setIsDynamical}
+                    />
+                    <MatrixTypesOptions
+                        matrixType={matrixType}
+                        setMatrixType={setMatrixType}
+                        setIsDynamical={setIsDynamical}
+                    />
+                    {idMatrixModel !== 0 && matrixType === "real" && (
+                        <RealMobilityMatrix
+                            interventionList={interventionList}
+                            setInterventionList={setInterventionList}
+                        />
+                    )}
+                    {idMatrixModel !== 0 && matrixType === "artificial" && (
                         <>
                             <NodesAndGraphTypes
                                 nodesLocalValue={nodesLocalValue}

@@ -39,12 +39,6 @@ const MobilityMatrixModel = ({ matrixId, setMatrixId }: Props) => {
             </Text>
             <Flex direction="column">
                 <Flex justify="space-between">
-                    <RadioGroup size="sm" onChange={(e) => {}}>
-                        <Stack direction="row" spacing="24px">
-                            <Radio value="graph">Artificial</Radio>
-                            <Radio value="geographic">Real</Radio>
-                        </Stack>
-                    </RadioGroup>
                     <Text
                         color="#016FB9"
                         fontSize="14px"
@@ -108,8 +102,6 @@ const MobilityMatrixModel = ({ matrixId, setMatrixId }: Props) => {
                     </Flex>
                 )}
             </Flex>
-
-            {/* <Flex></Flex> */}
         </>
     );
 };

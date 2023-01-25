@@ -47,8 +47,8 @@ const ModelNameAndButtons = ({
         );
 
         const newNameModel = { ...modelInfo };
-        newNameModel.name = name;
-        newNameModel.idMobilityMatrix = idMobility;
+        newNameModel.name = actualModelName;
+        newNameModel.idMobilityMatrix = matrixId;
 
         const allModelInfo = {
             ...newNameModel,

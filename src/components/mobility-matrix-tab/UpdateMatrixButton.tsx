@@ -16,7 +16,7 @@ interface Props {
     daysCicleLocalValue: number;
     interventionList: InterventionsTypes[];
     matrixNameLocal: string;
-
+    matrixType: string;
     saveMobilityMatrix: () => void;
 }
 
@@ -29,6 +29,7 @@ const UpdateMatrixButton = ({
     daysCicleLocalValue,
     interventionList,
     matrixNameLocal,
+    matrixType,
     saveMobilityMatrix,
 }: Props) => {
     const [isModelSavedLocal, setIsModelSavedLocal] = useState(false);
@@ -61,6 +62,7 @@ const UpdateMatrixButton = ({
                 modulationOption: modulationLocalValue,
                 interventions: interventionList,
                 nameMobilityMatrix: matrixNameLocal,
+                type: matrixType,
             };
 
             if (_.isEqual(matrixSaved, x)) {
@@ -85,6 +87,7 @@ const UpdateMatrixButton = ({
         modulationLocalValue,
         nodesLocalValue,
         popPercentage,
+        matrixType,
     ]);
 
     return (

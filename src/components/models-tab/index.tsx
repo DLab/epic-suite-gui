@@ -22,7 +22,6 @@ const ModelTab = () => {
         idModelUpdate: modelId,
         setIdModelUpdate: setModelId,
     } = useContext(NewModelSetted);
-    // const [modelId, setModelId] = useState(undefined);
     const [secondModelLink, setSecondModelLink] = useState(undefined);
     const [actualModelName, setActualModelName] = useState("");
     const [matrixId, setMatrixId] = useState(undefined);
@@ -61,9 +60,9 @@ const ModelTab = () => {
             setActualModelName(name);
             setMatrixId(idMobilityMatrix);
         }
-        // if (modelMode === "add") {
-        //     addNewModel();
-        // }
+        if (modelMode === "add") {
+            setActualModelName("");
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modelMode, modelId]);
 

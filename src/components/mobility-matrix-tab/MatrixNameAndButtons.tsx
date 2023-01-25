@@ -21,6 +21,8 @@ interface Props {
     interventionList: InterventionsTypes[];
     matrixNameLocal: string;
     setMatrixNameLocal: (value: string) => void;
+    matrixType: string;
+    setMatrixType: (value: string) => void;
 }
 
 const MatrixNameAndButtons = ({
@@ -33,6 +35,8 @@ const MatrixNameAndButtons = ({
     interventionList,
     matrixNameLocal,
     setMatrixNameLocal,
+    matrixType,
+    setMatrixType,
 }: Props) => {
     const toast = useToast();
     const {
@@ -67,11 +71,16 @@ const MatrixNameAndButtons = ({
                     return model.idNewModel === idMatrixModel;
                 }
             );
-
+            let geoId;
+            if (idGeo) {
+                geoId = +idGeo;
+            } else {
+                geoId = undefined;
+            }
             const dataMatrix = {
                 id: Date.now(),
                 populationData: typeSelection,
-                geoId: +idGeo,
+                geoId,
                 modelId: idMatrixModel,
                 nodes: nodesLocalValue,
                 populationPercentage: popPercentage,
@@ -81,6 +90,7 @@ const MatrixNameAndButtons = ({
                 modulationOption: modulationLocalValue,
                 interventions: interventionList,
                 nameMobilityMatrix: matrixNameLocal,
+                type: matrixType,
             };
 
             const dataMatrixCreated = JSON.parse(
@@ -91,7 +101,7 @@ const MatrixNameAndButtons = ({
                 const updateDataMatrix = {
                     id: idMobilityMatrixUpdate,
                     populationData: typeSelection,
-                    geoId: +idGeo,
+                    geoId,
                     modelId: idMatrixModel,
                     nodes: nodesLocalValue,
                     populationPercentage: popPercentage,
@@ -101,6 +111,7 @@ const MatrixNameAndButtons = ({
                     modulationOption: modulationLocalValue,
                     interventions: interventionList,
                     nameMobilityMatrix: matrixNameLocal,
+                    type: matrixType,
                 };
 
                 const indexDataToUpdate = mobilityMatrixList.findIndex(
@@ -177,19 +188,29 @@ const MatrixNameAndButtons = ({
     };
 
     useEffect(() => {
-        if (
-            !nodesLocalValue ||
-            graphTypeLocal === "" ||
-            modulationLocalValue === "" ||
-            matrixNameLocal === ""
-        ) {
-            setIsButtonDisabled(true);
-        } else {
-            setIsButtonDisabled(false);
+        if (matrixType === "artificial") {
+            if (
+                !nodesLocalValue ||
+                graphTypeLocal === "" ||
+                modulationLocalValue === "" ||
+                matrixNameLocal === ""
+            ) {
+                setIsButtonDisabled(true);
+            } else {
+                setIsButtonDisabled(false);
+            }
+        }
+        if (matrixType === "real") {
+            if (matrixNameLocal === "") {
+                setIsButtonDisabled(true);
+            } else {
+                setIsButtonDisabled(false);
+            }
         }
     }, [
         graphTypeLocal,
         matrixNameLocal,
+        matrixType,
         modulationLocalValue,
         nodesLocalValue,
     ]);
@@ -249,6 +270,7 @@ const MatrixNameAndButtons = ({
                             interventionList={interventionList}
                             matrixNameLocal={matrixNameLocal}
                             saveMobilityMatrix={saveMobilityMatrix}
+                            matrixType={matrixType}
                         />
                         <Button
                             leftIcon={<CloseIcon />}

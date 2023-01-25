@@ -116,6 +116,7 @@ const TableMobilityMatrix = () => {
                             onClick={() => {
                                 setMatrixMode(MobilityModes.Add);
                                 setIndex(5);
+                                setOriginOfMatrixCreation("summaryTab");
                             }}
                         >
                             <Icon w="14px" h="14px" as={PlusIcon} mr="5px" />

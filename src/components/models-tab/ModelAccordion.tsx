@@ -226,33 +226,6 @@ const ModelAccordion = ({
         });
     };
 
-    // const getInitialConditions = (graphsValuesArray) => {
-    //     let initialConditionsValue;
-    //     const geoSelected = allGeoSelections.find((geoSelection) => {
-    //         return geoSelection.id === +areaSelectedValue;
-    //     });
-    //     if (dataSourceValue === "graph") {
-    //         initialConditionsValue =
-    //             getInitialConditionsGraphsArray(graphsValuesArray);
-    //     }
-    //     if (dataSourceValue === "geographic") {
-    //         initialConditionsValue =
-    //             numberOfNodes === 1
-    //                 ? [
-    //                       {
-    //                           name: geoSelected.name,
-    //                           conditionsValues:
-    //                               getInitialConditionsByModel(modelValue),
-    //                       },
-    //                   ]
-    //                 : getInitialConditionsGeoArray(
-    //                       geoSelected.scale,
-    //                       geoSelected.featureSelected
-    //                   );
-    //     }
-    //     return initialConditionsValue;
-    // };
-
     return (
         <>
             <Box mb="3%">

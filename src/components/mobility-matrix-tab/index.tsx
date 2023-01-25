@@ -18,6 +18,7 @@ const MobilityMatrix = () => {
         mobilityMatrixList,
         setMatrixMode,
         setIdMatrixModel,
+        setOriginOfMatrixCreation,
     } = useContext(MobilityMatrixContext);
     const [nodesLocalValue, setNodesLocalValue] = useState<
         number | undefined
@@ -31,6 +32,7 @@ const MobilityMatrix = () => {
         InterventionsTypes[]
     >([]);
     const [matrixNameLocal, setMatrixNameLocal] = useState("");
+    const [matrixTypeLocal, setMatrixTypeLocal] = useState("");
 
     useEffect(() => {
         if (matrixMode === MobilityModes.Initial) {
@@ -43,6 +45,7 @@ const MobilityMatrix = () => {
             setIdMatrixModel(0);
             setMatrixNameLocal("");
             setNodesLocalValue(undefined);
+            setMatrixTypeLocal("");
         }
         if (matrixMode === MobilityModes.Update) {
             const {
@@ -53,6 +56,7 @@ const MobilityMatrix = () => {
                 graphTypes,
                 cicleDays,
                 nameMobilityMatrix,
+                type,
             } = mobilityMatrixList.find(
                 (matrix) => matrix.id === idMobilityMatrixUpdate
             );
@@ -63,6 +67,7 @@ const MobilityMatrix = () => {
             setInterventionList(interventions);
             setDaysCicleLocalValue(cicleDays);
             setMatrixNameLocal(nameMobilityMatrix);
+            setMatrixTypeLocal(type);
         }
     }, [
         idMobilityMatrixUpdate,
@@ -85,6 +90,7 @@ const MobilityMatrix = () => {
                         onClick={() => {
                             // setSecondLink("New");
                             setMatrixMode(MobilityModes.Add);
+                            setOriginOfMatrixCreation("matrixTab");
                         }}
                     >
                         <Icon w="14px" h="14px" as={PlusIcon} mr="5px" />
@@ -103,6 +109,8 @@ const MobilityMatrix = () => {
                         interventionList={interventionList}
                         matrixNameLocal={matrixNameLocal}
                         setMatrixNameLocal={setMatrixNameLocal}
+                        matrixType={matrixTypeLocal}
+                        setMatrixType={setMatrixTypeLocal}
                     />
                     <Flex ml="2%" p="0" h="100%" w="100%" mt="20px">
                         <MobilityConstructorContainer
@@ -120,6 +128,8 @@ const MobilityMatrix = () => {
                             setDaysCicleLocalValue={setDaysCicleLocalValue}
                             interventionList={interventionList}
                             setInterventionList={setInterventionList}
+                            matrixType={matrixTypeLocal}
+                            setMatrixType={setMatrixTypeLocal}
                         />
                         <MobiltyOutputContainer />
                     </Flex>

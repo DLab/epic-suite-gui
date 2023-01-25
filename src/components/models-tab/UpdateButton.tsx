@@ -27,7 +27,6 @@ const UpdateButton = ({ actualModelName, saveModel, matrixId }: Props) => {
     const [areaSelectedValue, setAreaSelectedValue] = useState(undefined);
     const [populationValue, setPopulationValue] = useState(undefined);
     const [graphId, setGraphId] = useState(undefined);
-    // const { setAux } = useContext(TabIndex);
     const parameters = useSelector((state: RootState) => state.controlPanel);
 
     /**
