@@ -33,6 +33,7 @@ const MobilityMatrix = () => {
     >([]);
     const [matrixNameLocal, setMatrixNameLocal] = useState("");
     const [matrixTypeLocal, setMatrixTypeLocal] = useState("");
+    const [secondModelLink, setSecondModelLink] = useState(undefined);
 
     useEffect(() => {
         if (matrixMode === MobilityModes.Initial) {
@@ -78,7 +79,11 @@ const MobilityMatrix = () => {
 
     return (
         <Flex direction="column">
-            <BreadCrumb firstLink="Mobility" />
+            <BreadCrumb
+                firstLink="Mobility"
+                secondLink={secondModelLink}
+                setSecondLink={setSecondModelLink}
+            />
             {matrixMode === MobilityModes.Initial ? (
                 <Flex w="40%" mt="15px">
                     <MatrixSavedSelect />
