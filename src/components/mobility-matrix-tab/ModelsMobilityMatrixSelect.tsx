@@ -15,26 +15,25 @@ const ModelsMobilityMatrixSelect = ({
     setMatrixType,
     setIsDynamical,
 }: Props) => {
-    const { completeModel, mode } = useContext(NewModelSetted);
-    const { setIdMatrixModel, matrixMode, idMatrixModel } =
-        useContext(MobilityMatrix);
+    const { newModel } = useContext(NewModelSetted);
+    const { setIdMatrixModel, idMatrixModel } = useContext(MobilityMatrix);
     const [metaModelsList, setMetaModelsList] = useState([]);
     const [isSelectDisabeld, setIsSelectDisabeld] = useState(false);
 
     useEffect(() => {
         setMetaModelsList(
-            completeModel.filter(
+            newModel.filter(
                 (model: NewModelsAllParams) =>
                     model.populationType === "metapopulation"
             )
         );
-    }, [completeModel]);
+    }, [newModel]);
 
     useEffect(() => {
-        if (mode !== "initial" || matrixMode === MobilityModes.Update) {
+        if (idMatrixModel !== 0) {
             setIsSelectDisabeld(true);
         }
-    }, [matrixMode, mode]);
+    }, [idMatrixModel]);
 
     return (
         <Select

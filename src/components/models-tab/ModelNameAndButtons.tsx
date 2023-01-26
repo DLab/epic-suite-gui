@@ -1,6 +1,5 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { Flex, Input, Button, Stack, useToast } from "@chakra-ui/react";
-import format from "date-fns/fp/format";
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
 
@@ -32,13 +31,12 @@ const ModelNameAndButtons = ({
         setMode: setModelMode,
         idModelUpdate: id,
         setName,
-        name,
         idMobility,
     } = useContext(NewModelSetted);
     const toast = useToast();
     const parameters = useSelector((state: RootState) => state.controlPanel);
     const { setIndex } = useContext(TabIndex);
-    const { setMobilityMatrixList, idMobilityMatrixUpdate } =
+    const { setMobilityMatrixList, mobilityMatrixList } =
         useContext(MobilityMatrix);
 
     const getModelCompleteObj = () => {
@@ -139,6 +137,21 @@ const ModelNameAndButtons = ({
         });
     };
 
+    const deleteMatrix = () => {
+        localStorage.removeItem("mobilityMatrixList");
+        const mobilityMatrixFiltered = mobilityMatrixList.filter(
+            (matrix) => matrix.id !== +idMobility
+        );
+        localStorage.setItem(
+            "mobilityMatrixList",
+            JSON.stringify(mobilityMatrixFiltered)
+        );
+        setMobilityMatrixList({
+            type: "remove",
+            element: idMobility,
+        });
+    };
+
     return (
         <Flex p="0 2%" mt="20px">
             {modelMode !== "Initial" && (
@@ -176,13 +189,10 @@ const ModelNameAndButtons = ({
                             <Button
                                 leftIcon={<CloseIcon />}
                                 onClick={() => {
+                                    deleteMatrix();
                                     setNewModel({
                                         type: "remove",
                                         element: id,
-                                    });
-                                    setMobilityMatrixList({
-                                        type: "remove",
-                                        element: idMobilityMatrixUpdate,
                                     });
                                     setModelMode("initial");
                                 }}

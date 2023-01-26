@@ -1,3 +1,4 @@
+import { CloseIcon } from "@chakra-ui/icons";
 import { Flex, Select, Input } from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
 
@@ -43,7 +44,7 @@ const RangeConfig = ({
     return (
         <Flex
             display="grid"
-            gridTemplateColumns="auto auto auto auto"
+            gridTemplateColumns="auto auto auto auto auto"
             gridGap="15px"
             alignItems="center"
             mb="15px"
@@ -90,6 +91,16 @@ const RangeConfig = ({
                     }}
                 />
             )}
+            <CloseIcon
+                w="10px"
+                cursor="pointer"
+                onClick={() => {
+                    const interventionsFiltered = interventionList.filter(
+                        (interventions) => interventions.id !== id
+                    );
+                    setInterventionList(interventionsFiltered);
+                }}
+            />
         </Flex>
     );
 };

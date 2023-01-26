@@ -50,7 +50,7 @@ const MatrixNameAndButtons = ({
         mobilityMatrixList,
         originOfMatrixCreation,
     } = useContext(MobilityMatrix);
-    const { newModel } = useContext(NewModelSetted);
+    const { newModel, setIdMobility } = useContext(NewModelSetted);
     const { setIndex } = useContext(TabIndex);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -77,8 +77,11 @@ const MatrixNameAndButtons = ({
             } else {
                 geoId = undefined;
             }
+
+            const matrixId = Date.now();
+            setIdMobility(matrixId);
             const dataMatrix = {
-                id: Date.now(),
+                id: matrixId,
                 populationData: typeSelection,
                 geoId,
                 modelId: idMatrixModel,
@@ -96,7 +99,6 @@ const MatrixNameAndButtons = ({
             const dataMatrixCreated = JSON.parse(
                 localStorage.getItem("mobilityMatrixList")
             );
-
             if (matrixMode === MobilityModes.Update) {
                 const updateDataMatrix = {
                     id: idMobilityMatrixUpdate,
