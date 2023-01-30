@@ -94,7 +94,7 @@ const TableSimulations = () => {
 
     return (
         <Flex direction="column" gridColumn="1/4">
-            <Text fontSize="16px" fontWeight={600} mb="5px">
+            <Text fontSize="1rem" fontWeight={600} mb="5px">
                 Models
             </Text>
             <TableContainer
@@ -112,7 +112,7 @@ const TableSimulations = () => {
                                 textAlign="center"
                                 color="#016FB9"
                                 textTransform="capitalize"
-                                fontSize="16px"
+                                fontSize="1rem"
                             >
                                 Model
                             </Th>
@@ -120,7 +120,7 @@ const TableSimulations = () => {
                                 textAlign="center"
                                 color="#016FB9"
                                 textTransform="capitalize"
-                                fontSize="16px"
+                                fontSize="1rem"
                             >
                                 Compartments
                             </Th>
@@ -128,7 +128,7 @@ const TableSimulations = () => {
                                 textAlign="center"
                                 color="#016FB9"
                                 textTransform="capitalize"
-                                fontSize="16px"
+                                fontSize="1rem"
                             >
                                 Nodes
                             </Th>
@@ -136,7 +136,7 @@ const TableSimulations = () => {
                                 textAlign="center"
                                 color="#016FB9"
                                 textTransform="capitalize"
-                                fontSize="16px"
+                                fontSize="1rem"
                             >
                                 Data source
                             </Th>
@@ -147,7 +147,7 @@ const TableSimulations = () => {
                         {completeModel.map((elem) => {
                             return (
                                 <Tr key={createIdComponent()}>
-                                    <Td fontSize="14px">
+                                    <Td fontSize="0.875rem">
                                         <Checkbox
                                             isDisabled={
                                                 codMetaModelSelected !== 0 &&
@@ -210,25 +210,25 @@ const TableSimulations = () => {
                                             }}
                                         />
                                     </Td>
-                                    <Td fontSize="14px" textAlign="center">
+                                    <Td fontSize="0.875rem" textAlign="center">
                                         {elem.name ?? "Not defined yet"}
                                     </Td>
-                                    <Td fontSize="14px" textAlign="center">
+                                    <Td fontSize="0.875rem" textAlign="center">
                                         {elem.modelType.toUpperCase() ??
                                             "Not defined yet"}
                                     </Td>
-                                    <Td fontSize="14px" textAlign="center">
+                                    <Td fontSize="0.875rem" textAlign="center">
                                         {elem.populationType ??
                                             "Not defined yet"}
                                     </Td>
-                                    <Td fontSize="14px" textAlign="center">
+                                    <Td fontSize="0.875rem" textAlign="center">
                                         {elem.typeSelection ??
                                             "Not defined yet"}
                                     </Td>
-                                    <Td fontSize="14px">
+                                    <Td fontSize="0.875rem">
                                         <Icon
-                                            w="20px"
-                                            h="20px"
+                                            w="1.25rem"
+                                            h="1.25rem"
                                             as={ArrowRightCircleIcon}
                                             color="#1B1B3A"
                                             onClick={() => {
@@ -248,7 +248,7 @@ const TableSimulations = () => {
                             <RunButton permission={permission} />
                             <Button
                                 size="sm"
-                                fontSize="10px"
+                                fontSize="0.625rem"
                                 bg="#016FB9"
                                 color="#FFFFFF"
                                 onClick={() => {
@@ -257,8 +257,8 @@ const TableSimulations = () => {
                                 }}
                             >
                                 <Icon
-                                    w="14px"
-                                    h="14px"
+                                    w="0.875rem"
+                                    h="0.875rem"
                                     as={PlusIcon}
                                     mr="5px"
                                 />

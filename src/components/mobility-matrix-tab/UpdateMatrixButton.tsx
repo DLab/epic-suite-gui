@@ -49,7 +49,7 @@ const UpdateMatrixButton = ({
                     return model.idNewModel === idMatrixModel;
                 }
             );
-            const x = {
+            const newMatrix = {
                 id: idMobilityMatrixUpdate,
                 populationData: modelSaved?.typeSelection,
                 geoId: modelSaved?.idGeo,
@@ -65,7 +65,7 @@ const UpdateMatrixButton = ({
                 type: matrixType,
             };
 
-            if (_.isEqual(matrixSaved, x)) {
+            if (_.isEqual(matrixSaved, newMatrix)) {
                 setIsModelSavedLocal(true);
             } else {
                 setIsModelSavedLocal(false);

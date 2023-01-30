@@ -6,19 +6,15 @@ import {
     Flex,
     Heading,
     IconButton,
-    Input,
-    Select,
     Stat,
     StatGroup,
     StatLabel,
     StatNumber,
-    Text,
 } from "@chakra-ui/react";
 
 import VariableDependentTime, {
     NameFunction,
 } from "types/VariableDependentTime";
-import createIdComponent from "utils/createIdcomponent";
 import showOnlySelectedAttributes, {
     findValueByKeyInMatrix,
     getSubTypeTransitionFunction,

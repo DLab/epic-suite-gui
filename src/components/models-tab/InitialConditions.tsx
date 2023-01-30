@@ -104,8 +104,8 @@ const InitialConditionsModel = ({
                     <Flex wrap="wrap" w="100%">
                         <Box w="25%">
                             <Stat>
-                                <StatLabel fontSize="12px">Total</StatLabel>
-                                <StatLabel fontSize="12px">
+                                <StatLabel fontSize="0.75rem">Total</StatLabel>
+                                <StatLabel fontSize="0.75rem">
                                     (Population)
                                 </StatLabel>
                                 <StatNumber fontSize="xl">
@@ -117,8 +117,10 @@ const InitialConditionsModel = ({
                         </Box>
                         <Box w="25%">
                             <Stat>
-                                <StatLabel fontSize="12px">Removed</StatLabel>
-                                <StatLabel fontSize="12px">(R)</StatLabel>
+                                <StatLabel fontSize="0.75rem">
+                                    Removed
+                                </StatLabel>
+                                <StatLabel fontSize="0.75rem">(R)</StatLabel>
                                 <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
                                         initialConditions.R
@@ -128,10 +130,10 @@ const InitialConditionsModel = ({
                         </Box>
                         <Box w="25%">
                             <Stat>
-                                <StatLabel fontSize="12px">
+                                <StatLabel fontSize="0.75rem">
                                     Infected actives
                                 </StatLabel>
-                                <StatLabel fontSize="12px">(I)</StatLabel>
+                                <StatLabel fontSize="0.75rem">(I)</StatLabel>
                                 <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
                                         initialConditions.I
@@ -141,10 +143,10 @@ const InitialConditionsModel = ({
                         </Box>
                         <Box w="25%">
                             <Stat>
-                                <StatLabel fontSize="12px">
+                                <StatLabel fontSize="0.75rem">
                                     Infected daily
                                 </StatLabel>
-                                <StatLabel fontSize="12px">(I_d)</StatLabel>
+                                <StatLabel fontSize="0.75rem">(I_d)</StatLabel>
                                 <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
                                         initialConditions.I_d
@@ -154,11 +156,11 @@ const InitialConditionsModel = ({
                         </Box>
                         <Box w="25%">
                             <Stat>
-                                <StatLabel fontSize="12px">
+                                <StatLabel fontSize="0.75rem">
                                     {" "}
                                     Infected accumulated
                                 </StatLabel>
-                                <StatLabel fontSize="12px">(I_ac)</StatLabel>
+                                <StatLabel fontSize="0.75rem">(I_ac)</StatLabel>
                                 <StatNumber fontSize="xl">
                                     {new Intl.NumberFormat().format(
                                         initialConditions.I_ac
@@ -170,11 +172,11 @@ const InitialConditionsModel = ({
                             <>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             {" "}
                                             Vaccinated Inffected
                                         </StatLabel>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             (Iv)
                                         </StatLabel>
                                         <StatNumber fontSize="xl">
@@ -186,11 +188,11 @@ const InitialConditionsModel = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             {" "}
                                             Daily new Vaccinated Infected
                                         </StatLabel>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             (Iv_d)
                                         </StatLabel>
                                         <StatNumber fontSize="xl">
@@ -202,10 +204,10 @@ const InitialConditionsModel = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             Accumulated Vaccinated Infected
                                         </StatLabel>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             (Iv_ac)
                                         </StatLabel>
                                         <StatNumber fontSize="xl">
@@ -217,11 +219,11 @@ const InitialConditionsModel = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             {" "}
                                             Infected Susceptible
                                         </StatLabel>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             (Sv)
                                         </StatLabel>
                                         <StatNumber fontSize="xl">
@@ -233,10 +235,10 @@ const InitialConditionsModel = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             Hospitalization Capacity
                                         </StatLabel>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             (H_cap)
                                         </StatLabel>
                                         <StatNumber fontSize="xl">
@@ -248,11 +250,11 @@ const InitialConditionsModel = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             {" "}
                                             Daily new Hospitalized
                                         </StatLabel>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             (H_d)
                                         </StatLabel>
                                         <StatNumber fontSize="xl">
@@ -264,10 +266,10 @@ const InitialConditionsModel = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             Hospitalized
                                         </StatLabel>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             (H_ac)
                                         </StatLabel>
                                         <StatNumber fontSize="xl">
@@ -279,10 +281,10 @@ const InitialConditionsModel = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             Daily new Deaths
                                         </StatLabel>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             (D_d)
                                         </StatLabel>
                                         <StatNumber fontSize="xl">
@@ -294,10 +296,10 @@ const InitialConditionsModel = ({
                                 </Box>
                                 <Box w="25%">
                                     <Stat>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             Deaths
                                         </StatLabel>
-                                        <StatLabel fontSize="12px">
+                                        <StatLabel fontSize="0.75rem">
                                             (D)
                                         </StatLabel>
                                         <StatNumber fontSize="xl">

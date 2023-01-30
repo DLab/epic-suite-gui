@@ -31,11 +31,11 @@ const NumberInputInitialConditions = ({
     return (
         <Box>
             <Flex align="center">
-                <Text align="left" fontSize="14px">
+                <Text align="left" fontSize="0.875rem">
                     {name}
                 </Text>
                 <Tooltip label={description}>
-                    <Icon as={InfoIcon} ml="10%" w="14px " color="teal" />
+                    <Icon as={InfoIcon} ml="10%" w="0.875rem " color="teal" />
                 </Tooltip>
             </Flex>
             <NumberInput

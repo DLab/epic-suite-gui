@@ -89,11 +89,10 @@ const MobilityMatrix = () => {
                     <MatrixSavedSelect />
                     <Button
                         size="sm"
-                        fontSize="10px"
+                        fontSize="0.625rem"
                         bg="#016FB9"
                         color="#FFFFFF"
                         onClick={() => {
-                            // setSecondLink("New");
                             setMatrixMode(MobilityModes.Add);
                             setOriginOfMatrixCreation("matrixTab");
                         }}

@@ -146,9 +146,8 @@ const UpdateButton = ({ actualModelName, saveModel, matrixId }: Props) => {
             bg="#016FB9"
             color="#FFFFFF"
             size="sm"
-            // mt="20px"
             borderRadius="4px"
-            fontSize="10px"
+            fontSize="0.625rem"
         >
             SAVE CHANGES
         </Button>

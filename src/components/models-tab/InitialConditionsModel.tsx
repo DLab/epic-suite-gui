@@ -55,19 +55,11 @@ const InitialConditiosModels = ({
     };
 
     return (
-        <Box
-            maxH="100%"
-            // bg="#FAFAFA"
-            borderRadius="8px"
-            p="2%"
-            border="1px solid #DDDDDD"
-            // boxShadow="sm"
-            // overflowY="auto"
-        >
+        <Box maxH="100%" borderRadius="8px" p="2%" border="1px solid #DDDDDD">
             <Flex justify="space-between">
                 <Flex>
                     <Text
-                        fontSize="14px"
+                        fontSize="0.875rem"
                         fontWeight={500}
                         mr="15px"
                         alignSelf="center"
@@ -94,7 +86,7 @@ const InitialConditiosModels = ({
                         !initialConditionsMode && (
                             <>
                                 <Text
-                                    fontSize="14px"
+                                    fontSize="0.875rem"
                                     fontWeight={500}
                                     mr="15px"
                                     alignSelf="center"
@@ -142,7 +134,7 @@ const InitialConditiosModels = ({
                                         <Box
                                             flex="1"
                                             textAlign="left"
-                                            fontSize="14px"
+                                            fontSize="0.875rem"
                                         >
                                             {node.name}
                                         </Box>

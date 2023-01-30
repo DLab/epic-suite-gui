@@ -63,7 +63,7 @@ const SideBar = () => {
                             as={ListBulletIcon}
                             color="#3EBFE0"
                         />
-                        <Text fontSize="9px" color="#3EBFE0">
+                        <Text fontSize="0.5rem" color="#3EBFE0">
                             SUMMARY
                         </Text>
                     </Tab>
@@ -81,7 +81,7 @@ const SideBar = () => {
                             as={Squares2X2Icon}
                             color="#3EBFE0"
                         />
-                        <Text fontSize="9px" color="#3EBFE0">
+                        <Text fontSize="0.5rem" color="#3EBFE0">
                             MODELS
                         </Text>
                     </Tab>
@@ -94,7 +94,7 @@ const SideBar = () => {
                         m="10px 0"
                     >
                         <Icon w="20px" h="20px" as={MapIcon} color="#3EBFE0" />
-                        <Text fontSize="9px" color="#3EBFE0">
+                        <Text fontSize="0.5rem" color="#3EBFE0">
                             GEOGRAPHIC
                         </Text>
                     </Tab>
@@ -112,7 +112,7 @@ const SideBar = () => {
                             as={Square3Stack3DIcon}
                             color="#3EBFE0"
                         />
-                        <Text fontSize="9px" color="#3EBFE0">
+                        <Text fontSize="0.5rem" color="#3EBFE0">
                             DATA FIT
                         </Text>
                     </Tab>
@@ -130,7 +130,7 @@ const SideBar = () => {
                             as={ChartBarSquareIcon}
                             color="#3EBFE0"
                         />
-                        <Text fontSize="9px" color="#3EBFE0">
+                        <Text fontSize="0.5rem" color="#3EBFE0">
                             RESULTS
                         </Text>
                     </Tab>
@@ -148,28 +148,10 @@ const SideBar = () => {
                             as={MapPinIcon}
                             color="#3EBFE0"
                         />
-                        <Text fontSize="9px" color="#3EBFE0">
+                        <Text fontSize="0.5rem" color="#3EBFE0">
                             MOBILITY
                         </Text>
                     </Tab>
-                    {/* <Tab
-                        _focus={{ boxShadow: "none" }}
-                        display="flex"
-                        flexDirection="column"
-                        w="100%"
-                        border="none"
-                        m="10px 0"
-                    >
-                        <Icon
-                            w="20px"
-                            h="20px"
-                            as={RocketLaunchIcon}
-                            color="#3EBFE0"
-                        />
-                        <Text fontSize="10px" color="#3EBFE0">
-                            Old Model
-                        </Text>
-                    </Tab> */}
                 </Box>
             </Box>
             <Box textAlign="center" m="10% 0">

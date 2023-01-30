@@ -160,7 +160,7 @@ const ModelNameAndButtons = ({
                     mr="2%"
                     w="350px"
                     bg="#ffffff"
-                    fontSize="14px"
+                    fontSize="0.875rem"
                     placeholder="Name"
                     value={actualModelName}
                     onChange={(e) => {
@@ -182,7 +182,7 @@ const ModelNameAndButtons = ({
                                 color="#FFFFFF"
                                 size="sm"
                                 borderRadius="4px"
-                                fontSize="10px"
+                                fontSize="0.625rem"
                             >
                                 SAVE MODEL
                             </Button>
@@ -199,7 +199,7 @@ const ModelNameAndButtons = ({
                                 bg="#B9B9C9"
                                 color="#FFFFFF"
                                 borderRadius="4px"
-                                fontSize="10px"
+                                fontSize="0.625rem"
                                 size="sm"
                             >
                                 CANCEL
@@ -219,7 +219,7 @@ const ModelNameAndButtons = ({
                                 color="#FFFFFF"
                                 size="sm"
                                 borderRadius="4px"
-                                fontSize="10px"
+                                fontSize="0.625rem"
                                 // eslint-disable-next-line sonarjs/no-identical-functions
                                 onClick={() => {
                                     getPreviusInitialConditions();

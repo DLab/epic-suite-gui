@@ -229,7 +229,7 @@ const ModelAccordion = ({
     return (
         <>
             <Box mb="3%">
-                <Text fontSize="16px" fontWeight={700} mb="5%">
+                <Text fontSize="1rem" fontWeight={700} mb="5%">
                     Model type
                 </Text>
                 <RadioGroup
@@ -244,7 +244,7 @@ const ModelAccordion = ({
                         setGraphId(undefined);
                     }}
                 >
-                    <Stack direction="row" spacing="24px">
+                    <Stack direction="row" spacing="1.5rem">
                         <Radio value="sir">SIR</Radio>
                         <Radio value="seir">SEIR</Radio>
                         <Radio value="seirhvd">SEIRHVD</Radio>
@@ -253,7 +253,7 @@ const ModelAccordion = ({
                 <Divider orientation="horizontal" />
             </Box>
             <Box mb="3%">
-                <Text fontSize="16px" fontWeight={700} mb="5%">
+                <Text fontSize="1rem" fontWeight={700} mb="5%">
                     Population
                 </Text>
                 <RadioGroup
@@ -268,7 +268,7 @@ const ModelAccordion = ({
                         setGraphId(undefined);
                     }}
                 >
-                    <Stack direction="row" spacing="24px">
+                    <Stack direction="row" spacing="1.5rem">
                         <Radio value="monopopulation">Monopopulation</Radio>
                         <Radio value="metapopulation">Metapopulation</Radio>
                     </Stack>
@@ -276,14 +276,13 @@ const ModelAccordion = ({
                 <Divider orientation="horizontal" />
             </Box>
             <Box mb="3%">
-                <Text fontSize="16px" fontWeight={700} mb="5%">
+                <Text fontSize="1rem" fontWeight={700} mb="5%">
                     Population Data
                 </Text>
                 <Flex>
                     <RadioGroup
                         size="sm"
                         mt="1%"
-                        // mb="5%"
                         value={dataSourceValue}
                         onChange={(e) => {
                             setDataSourceValue(e);
@@ -292,7 +291,7 @@ const ModelAccordion = ({
                             setGraphId(undefined);
                         }}
                     >
-                        <Stack direction="row" spacing="24px">
+                        <Stack direction="row" spacing="1.5rem">
                             <Radio value="graph">Artificial</Radio>
                             <Radio value="geographic">Geographic</Radio>
                         </Stack>
@@ -301,13 +300,13 @@ const ModelAccordion = ({
                         <Tooltip
                             label="To build geographic models, first you have to create geographic selections."
                             bg="#016FB9"
-                            fontSize="14px"
+                            fontSize="0.875rem"
                         >
                             <WarningIcon color="#016FB9" />
                         </Tooltip>
                         <Text
                             color="#016FB9"
-                            fontSize="14px"
+                            fontSize="0.875rem"
                             textDecorationLine="underline"
                             cursor="pointer"
                             ml="4%"
@@ -326,7 +325,7 @@ const ModelAccordion = ({
             {dataSourceValue === "graph" && (
                 <Flex mb="3%" alignItems="end">
                     <Box>
-                        <Text fontSize="14px" fontWeight={500}>
+                        <Text fontSize="0.875rem" fontWeight={500}>
                             Number of nodes
                         </Text>
                         <NumberInput
@@ -413,7 +412,7 @@ const ModelAccordion = ({
                             borderColor="#F4F4F4"
                             borderRadius="8px"
                             w="11rem"
-                            fontSize="14px"
+                            fontSize="0.875rem"
                             placeholder="Select area"
                             value={areaSelectedValue}
                             onChange={(e) => {

@@ -34,14 +34,14 @@ const MobilityMatrixModel = ({ matrixId, setMatrixId }: Props) => {
 
     return (
         <>
-            <Text fontSize="16px" fontWeight={700} mb="5%" mt="5%">
+            <Text fontSize="1rem" fontWeight={700} mb="5%" mt="5%">
                 Mobility Data
             </Text>
             <Flex direction="column">
                 <Flex justify="space-between">
                     <Text
                         color="#016FB9"
-                        fontSize="14px"
+                        fontSize="0.875rem"
                         textDecorationLine="underline"
                         cursor="pointer"
                         ml="4%"
@@ -83,7 +83,7 @@ const MobilityMatrixModel = ({ matrixId, setMatrixId }: Props) => {
                         </Select>
                         <Text
                             color={matrixId ? "#016FB9" : "#7f8387"}
-                            fontSize="14px"
+                            fontSize="0.875rem"
                             textDecorationLine="underline"
                             cursor="pointer"
                             ml="4%"

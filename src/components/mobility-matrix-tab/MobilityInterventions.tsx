@@ -29,14 +29,14 @@ const MobilityInterventions = ({
     return (
         <Flex direction="column" mt="15px">
             <Flex direction="column" justifyContent="space-between" mb="10px">
-                <Text fontSize="16px" fontWeight={700} mb="15px">
+                <Text fontSize="1rem" fontWeight={700} mb="15px">
                     Intervention day
                 </Text>
                 <Flex justify="space-between">
-                    <Text fontSize="14px">Range</Text>
+                    <Text fontSize="0.875ren">Range</Text>
                     <Text
                         color="#016FB9"
-                        fontSize="14px"
+                        fontSize="0.875ren"
                         textDecorationLine="underline"
                         cursor="pointer"
                         onClick={() => addIntervention()}

@@ -218,13 +218,13 @@ const MatrixNameAndButtons = ({
     ]);
 
     return (
-        <Flex w="100%" p="0 2%" mt="20px">
+        <Flex w="100%" p="0 2%" mt="1.25rem">
             <Input
                 size="sm"
                 mr="2%"
                 w="350px"
                 bg="#ffffff"
-                fontSize="14px"
+                fontSize="0.875rem"
                 placeholder="Name"
                 value={matrixNameLocal}
                 onChange={(e) => {
@@ -236,7 +236,7 @@ const MatrixNameAndButtons = ({
                     <>
                         <Button
                             size="sm"
-                            fontSize="10px"
+                            fontSize="0.625rem"
                             bg="#016FB9"
                             color="#FFFFFF"
                             leftIcon={<CheckIcon />}
@@ -253,7 +253,7 @@ const MatrixNameAndButtons = ({
                             bg="#B9B9C9"
                             color="#FFFFFF"
                             borderRadius="4px"
-                            fontSize="10px"
+                            fontSize="0.625rem"
                             size="sm"
                         >
                             CANCEL
@@ -282,7 +282,7 @@ const MatrixNameAndButtons = ({
                             bg="#B9B9C9"
                             color="#FFFFFF"
                             borderRadius="4px"
-                            fontSize="10px"
+                            fontSize="0.625rem"
                             size="sm"
                         >
                             CANCEL

@@ -63,7 +63,7 @@ const DeleteModelAlert = ({ setModelMode }: Props) => {
                 aria-label="Delete geographic selection"
                 p="0"
             >
-                <Icon w="20px" h="20px" as={TrashIcon} />
+                <Icon w="1.25rem" h="1.25rem" as={TrashIcon} />
             </Button>
 
             <AlertDialog
@@ -87,7 +87,7 @@ const DeleteModelAlert = ({ setModelMode }: Props) => {
                                 onClick={onClose}
                                 size="sm"
                                 fontWeight={700}
-                                fontSize="10px"
+                                fontSize="0.625rem"
                                 bg="#016FB9"
                                 color="#FFFFFF"
                                 letterSpacing="0.05em"
@@ -115,7 +115,7 @@ const DeleteModelAlert = ({ setModelMode }: Props) => {
                                 }}
                                 size="sm"
                                 fontWeight={700}
-                                fontSize="10px"
+                                fontSize="0.625rem"
                                 ml={3}
                                 bg="#016FB9"
                                 color="#FFFFFF"

@@ -172,7 +172,7 @@ const ModelController = ({
                     setMatrixId={setMatrixId}
                 />
             )}
-            <Text fontSize="16px" fontWeight={700} mb="5%" mt="5%">
+            <Text fontSize="1rem" fontWeight={700} mb="5%" mt="5%">
                 Common parameters
             </Text>
             <Flex justifyContent="space-between" wrap="wrap">
@@ -192,26 +192,6 @@ const ModelController = ({
                         />
                     </Flex>
                 </FormControl>
-                {/* {nodes.length > 1 && (
-                        <FormControl display="flex" alignItems="center">
-                        <Text fontSize="14px" fontWeight={500}>
-                            Mobility Matrix
-                        </Text>
-                            <Flex Flex w="50%" h="2rem" alignItems="center">
-                                <Select
-                                    value="Demo"
-                                    w="13rem"
-                                    fontSize="14px"
-                                    size="sm"
-                                    placeholder="Name Selection"
-                                >
-                                    <option value="Demo">
-                                        Demo Mobility Matrix
-                                    </option>
-                                </Select>
-                            </Flex>
-                        </FormControl>
-                    )} */}
             </Flex>
             <Flex justifyContent="space-between" wrap="wrap">
                 {modelCompartment !== "SEIRHVD" && (
@@ -235,7 +215,7 @@ const ModelController = ({
                             w="50%"
                             justifyContent="flex-end"
                         >
-                            <Text fontSize="11px">Set function</Text>
+                            <Text fontSize="0.688rem">Set function</Text>
                             <Switch
                                 ml="0.5rem"
                                 isChecked={isEnableIconButton.tI_R[0]}
@@ -299,7 +279,7 @@ const ModelController = ({
                             w="50%"
                             justifyContent="flex-end"
                         >
-                            <Text fontSize="11px">Set function</Text>
+                            <Text fontSize="0.688rem">Set function</Text>
                             <Switch
                                 ml="0.5rem"
                                 isChecked={isEnableIconButton.tE_I[0]}
@@ -363,7 +343,7 @@ const ModelController = ({
                             w="50%"
                             justifyContent="flex-end"
                         >
-                            <Text fontSize="11px">Set function</Text>
+                            <Text fontSize="0.688rem">Set function</Text>
                             <Switch
                                 ml="0.5rem"
                                 isChecked={isEnableIconButton.rR_S[0]}
@@ -449,7 +429,7 @@ const ModelController = ({
                     </FormControl>
                 </Flex>
             )}
-            <Heading as="h3" fontSize="16px" mt="5%">
+            <Heading as="h3" fontSize="1rem" mt="5%">
                 Parameters per Nodes
             </Heading>
             {/* <Accordion allowToggle reduceMotion> */}

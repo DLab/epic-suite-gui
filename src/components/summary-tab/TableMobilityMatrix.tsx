@@ -44,7 +44,7 @@ const TableMobilityMatrix = () => {
 
     return (
         <Flex direction="column" gridColumn="4/6" mt="15px">
-            <Text fontSize="16px" fontWeight={600} mb="5px">
+            <Text fontSize="1rem" fontWeight={600} mb="5px">
                 Mobility Matrix
             </Text>
             <TableContainer border="1px solid #DDDDDD" borderRadius="8px">
@@ -55,7 +55,7 @@ const TableMobilityMatrix = () => {
                                 textAlign="center"
                                 color="#016FB9"
                                 textTransform="capitalize"
-                                fontSize="16px"
+                                fontSize="1rem"
                             >
                                 Name
                             </Th>
@@ -63,7 +63,7 @@ const TableMobilityMatrix = () => {
                                 textAlign="center"
                                 color="#016FB9"
                                 textTransform="capitalize"
-                                fontSize="16px"
+                                fontSize="1rem"
                             >
                                 Model
                             </Th>
@@ -74,13 +74,13 @@ const TableMobilityMatrix = () => {
                         {mobilityMatrixList.map((matrix) => {
                             return (
                                 <Tr key={matrix.id}>
-                                    <Td fontSize="14px">
+                                    <Td fontSize="0.875rem">
                                         {matrix.nameMobilityMatrix}
                                     </Td>
-                                    <Td fontSize="14px">
+                                    <Td fontSize="0.875rem">
                                         {getModelName(matrix.modelId)}
                                     </Td>
-                                    <Td fontSize="14px">
+                                    <Td fontSize="0.875rem">
                                         <Icon
                                             w="20px"
                                             h="20px"
@@ -110,7 +110,7 @@ const TableMobilityMatrix = () => {
                     <TableCaption textAlign="start" m="5px 0">
                         <Button
                             size="sm"
-                            fontSize="10px"
+                            fontSize="0.625rem"
                             bg="#016FB9"
                             color="#FFFFFF"
                             onClick={() => {
@@ -119,7 +119,12 @@ const TableMobilityMatrix = () => {
                                 setOriginOfMatrixCreation("summaryTab");
                             }}
                         >
-                            <Icon w="14px" h="14px" as={PlusIcon} mr="5px" />
+                            <Icon
+                                w="0.875rem"
+                                h="0.875rem"
+                                as={PlusIcon}
+                                mr="5px"
+                            />
                             ADD NEW
                         </Button>
                     </TableCaption>

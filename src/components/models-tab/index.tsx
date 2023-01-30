@@ -78,15 +78,19 @@ const ModelTab = () => {
                     <ModelsSavedSelect setModelMode={setModelMode} />
                     <Button
                         size="sm"
-                        fontSize="10px"
+                        fontSize="0.625rem"
                         bg="#016FB9"
                         color="#FFFFFF"
                         onClick={() => {
                             addNewModel();
-                            // setModelMode("add");
                         }}
                     >
-                        <Icon w="14px" h="14px" as={PlusIcon} mr="5px" />
+                        <Icon
+                            w="0.875rem"
+                            h="0.875rem"
+                            as={PlusIcon}
+                            mr="5px"
+                        />
                         ADD NEW
                     </Button>
                     {/* <ImportModels /> */}
