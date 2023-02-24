@@ -29,7 +29,7 @@ interface Props {
 
 const ViewVariableDependentTime = ({ data, close }: Props) => {
     return (
-        <Box px="10" py="1rem" borderRadius="6px" boxShadow="sm" bg="#FAFAFA">
+        <Box px="10" py="1rem" borderRadius="6px" boxShadow="sm" bg="#fffff">
             <Heading textAlign="justify">
                 <Flex justifyContent="space-between" alignItems="center">
                     {data.name.toLocaleUpperCase()}{" "}

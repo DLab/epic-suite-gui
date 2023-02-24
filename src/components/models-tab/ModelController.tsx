@@ -93,9 +93,7 @@ const ModelController = ({
                     ],
                 };
             }
-            // if (_.isEmpty(current)) {
-            //     return acc;
-            // }
+
             return {
                 ...acc,
                 [current.name]: [current.isEnabled],
@@ -196,7 +194,7 @@ const ModelController = ({
             <Flex justifyContent="space-between" wrap="wrap">
                 {modelCompartment !== "SEIRHVD" && (
                     <FormControl display="flex" alignItems="center">
-                        <Flex w="50%" justifyContent="space-between">
+                        <Flex w="50%" h="2rem" alignItems="center">
                             <NumberInputVariableDependent
                                 value={parameters.tI_R.val}
                                 nameParams="tI_R"
@@ -260,7 +258,7 @@ const ModelController = ({
             <Flex justifyContent="space-between" wrap="wrap">
                 {modelCompartment === "SEIR" && (
                     <FormControl display="flex" alignItems="center">
-                        <Flex w="50%" justifyContent="space-between">
+                        <Flex w="50%" h="2rem" alignItems="center">
                             <NumberInputVariableDependent
                                 value={parameters.tE_I.val}
                                 nameParams="tE_I"

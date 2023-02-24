@@ -58,17 +58,12 @@ const InitialConditiosModels = ({
         <Box maxH="100%" borderRadius="8px" p="2%" border="1px solid #DDDDDD">
             <Flex justify="space-between">
                 <Flex>
-                    <Text
-                        fontSize="0.875rem"
-                        fontWeight={500}
-                        mr="15px"
-                        alignSelf="center"
-                    >
+                    <Text fontSize="1rem" fontWeight={700} mb="5%">
                         Initial Conditions
                     </Text>
                     {(idGraph !== 0 || idGeo !== 0) && !initialConditionsMode && (
                         <IconButton
-                            bg="#16609E"
+                            bg="#016FB9"
                             color="#FFFFFF"
                             aria-label="Call Segun"
                             size="sm"

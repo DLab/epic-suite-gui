@@ -2,9 +2,12 @@ import { Flex, Button, Icon, Box } from "@chakra-ui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
 import React, { useState, useContext, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import BreadCrumb from "components/BreadCrumb";
 import { NewModelSetted } from "context/NewModelsContext";
+import { update } from "store/ControlPanel";
+import { initialState } from "store/reducer";
 import { NewModelsParams } from "types/SimulationTypes";
 
 import ImportModels from "./ImportModels";
@@ -25,7 +28,7 @@ const ModelTab = () => {
     const [secondModelLink, setSecondModelLink] = useState(undefined);
     const [actualModelName, setActualModelName] = useState("");
     const [matrixId, setMatrixId] = useState(undefined);
-
+    const dispatch = useDispatch();
     const addNewModel = () => {
         const id = Date.now();
         setModelId(id);
@@ -61,6 +64,7 @@ const ModelTab = () => {
             setMatrixId(idMobilityMatrix);
         }
         if (modelMode === "add") {
+            dispatch(update({ type: "update", updateData: initialState }));
             setActualModelName("");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -35,7 +35,12 @@ const NumberInputInitialConditions = ({
                     {name}
                 </Text>
                 <Tooltip label={description}>
-                    <Icon as={InfoIcon} ml="10%" w="0.875rem " color="teal" />
+                    <Icon
+                        as={InfoIcon}
+                        ml="10%"
+                        w="0.875rem "
+                        color="#016FB9"
+                    />
                 </Tooltip>
             </Flex>
             <NumberInput

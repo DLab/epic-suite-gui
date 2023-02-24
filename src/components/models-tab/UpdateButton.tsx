@@ -12,15 +12,25 @@ interface Props {
     actualModelName: string;
     saveModel: () => void;
     matrixId: number;
+    verifyName: (name: string) => boolean;
+    verifySelfName: (num: number, name: string) => boolean;
+    isEmpty: boolean;
 }
 
-const UpdateButton = ({ actualModelName, saveModel, matrixId }: Props) => {
-    const [isModelSavedLocal, setIsModelSavedLocal] = useState(false);
+const UpdateButton = ({
+    actualModelName,
+    saveModel,
+    matrixId,
+    verifyName,
+    verifySelfName,
+    isEmpty,
+}: Props) => {
     const {
         newModel,
         completeModel,
         idModelUpdate: id,
     } = useContext(NewModelSetted);
+    const [isModelSavedLocal, setIsModelSavedLocal] = useState(false);
     const [modelValue, setModelValue] = useState(undefined);
     const [numberOfNodes, setNumberOfNodes] = useState(0);
     const [dataSourceValue, setDataSourceValue] = useState(undefined);
@@ -140,9 +150,15 @@ const UpdateButton = ({ actualModelName, saveModel, matrixId }: Props) => {
         <Button
             leftIcon={<CheckIcon />}
             onClick={() => {
-                saveModel();
+                if (
+                    !isEmpty &&
+                    (!verifyName(actualModelName) ||
+                        verifySelfName(id, actualModelName))
+                ) {
+                    saveModel();
+                }
             }}
-            isDisabled={isModelSavedLocal}
+            isDisabled={isModelSavedLocal || isEmpty}
             bg="#016FB9"
             color="#FFFFFF"
             size="sm"

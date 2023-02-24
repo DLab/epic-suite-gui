@@ -416,7 +416,8 @@ const InitialConditionsModel = ({
                     <Button
                         id={createIdComponent()}
                         mr="10%"
-                        colorScheme="teal"
+                        bg="#016FB9"
+                        color="#ffffff"
                         onClick={() => {
                             const isAllZero = Object.values(value).every(
                                 (element: number) => element === 0
