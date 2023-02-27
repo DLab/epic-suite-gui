@@ -89,26 +89,30 @@ const EventSourceConnection = () => {
         };
     }, [setHardSimulation]);
     useEffect(() => {
-        const {
-            status,
-            details: { idProcess, description, type },
-        } = JSON.parse(window.localStorage.getItem("hardSimulationStatus"));
-        if (
-            status === StatusSimulation.RECIEVED ||
-            status === StatusSimulation.STARTED
-        ) {
-            getData(`${process.env.NEXT_PUBLIC_SSE_URL}/process/${idProcess}`)
-                .then((d) =>
-                    getResponseForHardMetaSimulation(
-                        d,
-                        setHardSimulation,
-                        type,
-                        idProcess,
-                        description,
-                        status
-                    )
+        if (window.localStorage.getItem("hardSimulationStatus")) {
+            const {
+                status,
+                details: { idProcess, description, type },
+            } = JSON.parse(window.localStorage.getItem("hardSimulationStatus"));
+            if (
+                status === StatusSimulation.RECIEVED ||
+                status === StatusSimulation.STARTED
+            ) {
+                getData(
+                    `${process.env.NEXT_PUBLIC_SSE_URL}/process/${idProcess}`
                 )
-                .catch((err) => console.log("error", err));
+                    .then((d) =>
+                        getResponseForHardMetaSimulation(
+                            d,
+                            setHardSimulation,
+                            type,
+                            idProcess,
+                            description,
+                            status
+                        )
+                    )
+                    .catch((err) => console.log("error", err));
+            }
         }
     }, [setHardSimulation]);
     return (
