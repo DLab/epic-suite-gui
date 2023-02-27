@@ -27,7 +27,7 @@ const EventSourceConnection = () => {
         source.onmessage = (event) => {
             console.log("connected", event);
         };
-        source.addEventListener("metapopulation", (e) => {
+        source.addEventListener("metapopulation", (e: MessageEvent) => {
             const { id, event, status, description } = JSON.parse(e.data);
             getData(`${process.env.NEXT_PUBLIC_SSE_URL}/process/${id}`)
                 .then((d) =>
@@ -43,7 +43,7 @@ const EventSourceConnection = () => {
                 // eslint-disable-next-line no-console
                 .catch((err) => console.log("error", err));
         });
-        source.addEventListener("datafit", (e) => {
+        source.addEventListener("datafit", (e: MessageEvent) => {
             console.log("fit", e);
             const { id, event, status, description } = JSON.parse(e.data);
             console.log({ id, event, status, description });
@@ -68,7 +68,8 @@ const EventSourceConnection = () => {
             source.removeEventListener("metapopulation", (e) => {
                 getResponseForHardMetaSimulation(e, setHardSimulation);
             });
-            source.removeEventListener("datafit", (e) => {
+            // eslint-disable-next-line sonarjs/no-identical-functions
+            source.removeEventListener("datafit", (e: MessageEvent) => {
                 console.log("fit", e);
                 const { id, event, status, description } = JSON.parse(e.data);
                 console.log({ id, event, status, description });
