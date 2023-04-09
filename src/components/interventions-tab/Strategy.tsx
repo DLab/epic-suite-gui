@@ -2,6 +2,7 @@
 import { CloseIcon } from "@chakra-ui/icons";
 import {
     Box,
+    Button,
     Flex,
     FormControl,
     FormLabel,
@@ -49,15 +50,21 @@ const Strategy = ({
     switch (subtype) {
         case PharmaceuticalSubStrategy.Vaccination:
             return (
-                <Flex w="90%" justify="space-between">
+                <Flex w="90%" justify="space-between" mb="0.5rem">
                     <Flex w="90%">
-                        <Heading w="20%" size="0.2rem" as="h6" mr="1rem">
+                        <Heading
+                            alignSelf="center"
+                            w="20%"
+                            size="0.2rem"
+                            as="h6"
+                            mr="1rem"
+                        >
                             {PharmaceuticalSubStrategy.Vaccination}
                         </Heading>
                         <HStack>
                             <Flex alignItems="center">
                                 <Box>
-                                    <Text align="left" fontSize="14px" mr="7px">
+                                    <Text align="left" fontSize="14px" w="80px">
                                         Vac_eff
                                     </Text>
                                 </Box>
@@ -108,7 +115,7 @@ const Strategy = ({
                             </Flex>
                             <Flex alignItems="center">
                                 <Box>
-                                    <Text align="left" fontSize="14px" mr="7px">
+                                    <Text align="left" fontSize="14px" w="80px">
                                         Vac_beta
                                     </Text>
                                 </Box>
@@ -159,7 +166,7 @@ const Strategy = ({
                             </Flex>
                             <Flex alignItems="center">
                                 <Box>
-                                    <Text align="left" fontSize="14px" mr="7px">
+                                    <Text align="left" fontSize="14px" w="80px">
                                         Init
                                     </Text>
                                 </Box>
@@ -202,7 +209,7 @@ const Strategy = ({
                             </Flex>
                             <Flex alignItems="center">
                                 <Box>
-                                    <Text align="left" fontSize="14px" mr="7px">
+                                    <Text align="left" fontSize="14px" w="80px">
                                         End
                                     </Text>
                                 </Box>
@@ -243,24 +250,33 @@ const Strategy = ({
                             </Flex>
                         </HStack>
                     </Flex>
-                    <CloseIcon
-                        w="10px"
-                        _hover={{ cursor: "pointer" }}
+                    <Button
+                        bg="#8080A0"
                         onClick={handleDeleteIntervention}
-                    />
+                        _hover={{ cursor: "pointer" }}
+                        size="xs"
+                    >
+                        <CloseIcon alignSelf="center" w="10px" color="white" />
+                    </Button>
                 </Flex>
             );
         case NonpharmaceuticalSubStrategy.CordonSanitaire:
             return (
-                <Flex w="90%" justify="space-between">
+                <Flex w="90%" justify="space-between" mb="0.5rem">
                     <Flex w="90%">
-                        <Heading w="20%" size="0.2rem" as="h6" mr="1rem">
+                        <Heading
+                            alignSelf="center"
+                            w="20%"
+                            size="0.2rem"
+                            as="h6"
+                            mr="1rem"
+                        >
                             {NonpharmaceuticalSubStrategy.CordonSanitaire}
                         </Heading>
                         <HStack>
                             <Flex alignItems="center">
                                 <Box>
-                                    <Text align="left" fontSize="14px" mr="7px">
+                                    <Text align="left" fontSize="14px" w="80px">
                                         Mov_red
                                     </Text>
                                 </Box>
@@ -311,7 +327,7 @@ const Strategy = ({
                             </Flex>
                             <Flex alignItems="center">
                                 <Box>
-                                    <Text align="left" fontSize="14px" mr="7px">
+                                    <Text align="left" fontSize="14px" w="80px">
                                         Init
                                     </Text>
                                 </Box>
@@ -354,7 +370,7 @@ const Strategy = ({
                             </Flex>
                             <Flex alignItems="center">
                                 <Box>
-                                    <Text align="left" fontSize="14px" mr="7px">
+                                    <Text align="left" fontSize="14px" w="80px">
                                         End
                                     </Text>
                                 </Box>
@@ -395,16 +411,19 @@ const Strategy = ({
                             </Flex>
                         </HStack>
                     </Flex>
-                    <CloseIcon
-                        w="10px"
-                        _hover={{ cursor: "pointer" }}
+                    <Button
+                        bg="#8080A0"
                         onClick={handleDeleteIntervention}
-                    />
+                        _hover={{ cursor: "pointer" }}
+                        size="xs"
+                    >
+                        <CloseIcon alignSelf="center" w="10px" color="white" />
+                    </Button>
                 </Flex>
             );
         case NonpharmaceuticalSubStrategy.LockDown:
             return (
-                <Flex w="90%" justify="space-between">
+                <Flex w="90%" justify="space-between" mb="0.5rem">
                     <Flex w="90%">
                         <Heading w="20%" size="0.2rem" as="h6" mr="1rem">
                             {NonpharmaceuticalSubStrategy.LockDown}
@@ -412,7 +431,7 @@ const Strategy = ({
                         <HStack>
                             <Flex alignItems="center">
                                 <Box>
-                                    <Text align="left" fontSize="14px" mr="7px">
+                                    <Text align="left" fontSize="14px" w="80px">
                                         Mov_red
                                     </Text>
                                 </Box>
@@ -463,7 +482,7 @@ const Strategy = ({
                             </Flex>
                             <Flex alignItems="center">
                                 <Box>
-                                    <Text align="left" fontSize="14px" mr="7px">
+                                    <Text align="left" fontSize="14px" w="80px">
                                         Init
                                     </Text>
                                 </Box>
@@ -506,7 +525,7 @@ const Strategy = ({
                             </Flex>
                             <Flex alignItems="center">
                                 <Box>
-                                    <Text align="left" fontSize="14px" mr="7px">
+                                    <Text align="left" fontSize="14px" w="80px">
                                         End
                                     </Text>
                                 </Box>
@@ -547,11 +566,14 @@ const Strategy = ({
                             </Flex>
                         </HStack>
                     </Flex>
-                    <CloseIcon
-                        w="10px"
-                        _hover={{ cursor: "pointer" }}
+                    <Button
+                        bg="#8080A0"
                         onClick={handleDeleteIntervention}
-                    />
+                        _hover={{ cursor: "pointer" }}
+                        size="xs"
+                    >
+                        <CloseIcon alignSelf="center" w="10px" color="white" />
+                    </Button>
                 </Flex>
             );
         default:

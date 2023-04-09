@@ -151,7 +151,7 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
                     />
                     <ColorScaleMenu setColorScale={setColorScale} />
                     <DeleteIcon
-                        color="#16609E"
+                        color="#016FB9"
                         cursor="pointer"
                         onClick={() => {
                             const dataToShowInMapFilter =

@@ -70,7 +70,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulationType }: Props) => {
                             <SeeGraphic savedKeys={result} index={index} />
                             <DeleteIcon
                                 id={createIdComponent()}
-                                color="#16609E"
+                                color="#016FB9"
                                 ml="2%"
                                 cursor="pointer"
                                 onClick={() => {
@@ -182,7 +182,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulationType }: Props) => {
                             Add Results clicking plus button or
                         </Text>
                         <Text
-                            color="#16609E"
+                            color="#016FB9"
                             textDecoration="underline"
                             cursor="pointer"
                             fontSize="lg"

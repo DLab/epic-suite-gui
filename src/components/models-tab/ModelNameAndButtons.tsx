@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 /* eslint-disable no-nested-ternary */
 /* A React component that is used to save a model. */
 import { CheckIcon, CloseIcon, SmallCloseIcon } from "@chakra-ui/icons";
@@ -14,11 +15,13 @@ import {
 import React, { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 
+import ToastCustom from "components/ToastCustom";
 import { InterventionColection } from "context/InterventionsContext";
 import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
 import { RootState } from "store/store";
+import { StatusSimulation } from "types/HardSimulationType";
 import { Actions } from "types/InterventionsTypes";
 import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
 
@@ -176,21 +179,31 @@ const ModelNameAndButtons = ({
         if (isInitialConditionsVoid) {
             toast({
                 position: bottomLeft,
-                title: "Updated failed",
-                description:
-                    "There is one or more nodes with all initial conditions values as zero ",
-                status: "error",
                 duration: 3000,
                 isClosable: true,
+                render: () => (
+                    <ToastCustom
+                        title="Updated failed"
+                        status={StatusSimulation.ERROR}
+                    >
+                        "There is one or more nodes with all initial conditions
+                        values as zero "
+                    </ToastCustom>
+                ),
             });
         } else if (!isRightKeyModels) {
             toast({
                 position: bottomLeft,
-                title: "Updated failed",
-                description: "There is empty parameters setted ",
-                status: "error",
                 duration: 3000,
                 isClosable: true,
+                render: () => (
+                    <ToastCustom
+                        title="Updated failed"
+                        status={StatusSimulation.ERROR}
+                    >
+                        "There is empty parameters setted "
+                    </ToastCustom>
+                ),
             });
         } else {
             getModelCompleteObj();
@@ -198,11 +211,16 @@ const ModelNameAndButtons = ({
             setIndex(0);
             toast({
                 position: "bottom-left",
-                title: "Model is ready",
-                description: "Model is enabled to simulate",
-                status: "success",
                 duration: 3000,
                 isClosable: true,
+                render: () => (
+                    <ToastCustom
+                        title="Model is ready"
+                        status={StatusSimulation.FINISHED}
+                    >
+                        "Model is enabled to simulate"
+                    </ToastCustom>
+                ),
             });
         }
     };
@@ -260,7 +278,7 @@ const ModelNameAndButtons = ({
                                     !veryfyIsSelfName(id, actualModelName)) ||
                                 isEmpty
                             }
-                            errorBorderColor="red.300"
+                            errorBorderColor="#3EBFE0"
                             onChange={(e) => {
                                 setActualModelName(e.target.value);
                                 setName(e.target.value);
@@ -280,9 +298,12 @@ const ModelNameAndButtons = ({
                                     ? "model name is repeated"
                                     : "Valid name"
                             }
+                            alignSelf="center"
+                            h="100%"
                         >
                             <InputRightElement
                                 // eslint-disable-next-line react/no-children-prop
+                                h="100%"
                                 children={
                                     // eslint-disable-next-line no-nested-ternary
                                     (isRepeatedName &&
@@ -291,9 +312,9 @@ const ModelNameAndButtons = ({
                                             actualModelName
                                         )) ||
                                     isEmpty ? (
-                                        <SmallCloseIcon color="red.300" />
+                                        <SmallCloseIcon color="#3EBFE0" />
                                     ) : (
-                                        <CheckIcon color="green.500" />
+                                        <CheckIcon color="#3EBFE0" />
                                     )
                                 }
                             />

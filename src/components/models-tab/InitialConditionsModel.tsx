@@ -58,7 +58,7 @@ const InitialConditiosModels = ({
         <Box maxH="100%" borderRadius="8px" p="2%" border="1px solid #DDDDDD">
             <Flex justify="space-between">
                 <Flex>
-                    <Text fontSize="1rem" fontWeight={700} mb="5%">
+                    <Text fontSize="1rem" fontWeight={700} alignSelf="center">
                         Initial Conditions
                     </Text>
                     {(idGraph !== 0 || idGeo !== 0) && !initialConditionsMode && (
@@ -66,7 +66,9 @@ const InitialConditiosModels = ({
                             bg="#016FB9"
                             color="#FFFFFF"
                             aria-label="Call Segun"
-                            size="sm"
+                            size="xs"
+                            ml="1rem"
+                            alignSelf="center"
                             cursor="pointer"
                             _hover={{ bg: "blue.500" }}
                             icon={<EditIcon />}

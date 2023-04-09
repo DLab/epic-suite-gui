@@ -35,7 +35,7 @@ const StatesResultsMap = dynamic(() => import("./StatesResultsMap"), {
                 thickness="4px"
                 speed="0.65s"
                 emptyColor="gray.200"
-                color="blue.500"
+                color="#016FB9"
                 size="xl"
             />
         </Flex>
@@ -145,7 +145,7 @@ const MapResults = ({ map, sizeGraphic }: Props) => {
                     />
                     <ColorScaleMenu setColorScale={setColorScale} />
                     <DeleteIcon
-                        color="#16609E"
+                        color="#016FB9"
                         cursor="pointer"
                         onClick={() => {
                             const dataToShowInMapFilter =

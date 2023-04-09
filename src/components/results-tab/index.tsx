@@ -30,8 +30,8 @@ const GraphicAndMapResults = dynamic(() => import("./GraphicAndMapResults"), {
                 id={createIdComponent()}
                 thickness="4px"
                 speed="0.65s"
-                emptyColor="gray.200"
-                color="blue.500"
+                emptyColor="#8080A0"
+                color="#016FB9"
                 size="xl"
             />
         </Grid>
@@ -103,7 +103,7 @@ const Results = () => {
                 justifyContent="space-between"
             >
                 <Flex justifyContent="space-between">
-                    <Text color="#16609E" fontSize="1.125rem" fontWeight="bold">
+                    <Text color="#016FB9" fontSize="1.125rem" fontWeight="bold">
                         Results
                     </Text>
                     <ResultsDrawer
@@ -130,7 +130,7 @@ const Results = () => {
                         justify="center"
                         alignItems="center"
                     >
-                        <Text color="gray.600" fontSize="4xl">
+                        <Text color="#8080A0" fontSize="4xl">
                             Nothing Here
                         </Text>
                     </HStack>

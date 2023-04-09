@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-identical-functions */
 /* eslint-disable sonarjs/no-duplicate-string */
 import {
     NumberInput,
@@ -21,6 +22,8 @@ import {
     TransitionFunction,
     TypePhase,
 } from "../../types/VariableDependentTime";
+import ToastCustom from "components/ToastCustom";
+import { StatusSimulation } from "types/HardSimulationType";
 
 interface DataSetters {
     id: number;
@@ -188,13 +191,18 @@ export const SinoInputs = ({
                     onClick={() => {
                         if (minVal >= maxVal) {
                             toast({
-                                title: "Failed setting function",
-                                description:
-                                    "min must to be lesser than max. Fix it for setting please!",
-                                status: "error",
-                                duration: 4000,
+                                duration: 3000,
                                 isClosable: true,
                                 position: "bottom-right",
+                                render: () => (
+                                    <ToastCustom
+                                        title="Failed setting function"
+                                        status={StatusSimulation.ERROR}
+                                    >
+                                        "min must to be lesser than max. Fix it
+                                        for setting please!"
+                                    </ToastCustom>
+                                ),
                             });
                         } else {
                             setVal({
@@ -327,13 +335,18 @@ export const SquareInputs = ({
                     onClick={() => {
                         if (+minVal >= +maxVal) {
                             toast({
-                                title: "Failed setting function",
-                                description:
-                                    "min must to be lesser than max. Fix it for setting please!",
-                                status: "error",
-                                duration: 4000,
+                                duration: 3000,
                                 isClosable: true,
                                 position: "bottom-right",
+                                render: () => (
+                                    <ToastCustom
+                                        title="Failed setting function"
+                                        status={StatusSimulation.ERROR}
+                                    >
+                                        "min must to be lesser than max. Fix it
+                                        for setting please!"
+                                    </ToastCustom>
+                                ),
                             });
                         } else {
                             setVal({
@@ -460,13 +473,18 @@ export const TransitionInputs = ({
                     onClick={() => {
                         if (initVal >= endVal) {
                             toast({
-                                title: "Failed setting function",
-                                description:
-                                    "min must to be lesser than max. Fix it for setting please!",
-                                status: "error",
-                                duration: 4000,
+                                duration: 3000,
                                 isClosable: true,
                                 position: "bottom-right",
+                                render: () => (
+                                    <ToastCustom
+                                        title="Failed setting function"
+                                        status={StatusSimulation.ERROR}
+                                    >
+                                        "min must to be lesser than max. Fix it
+                                        for setting please!"
+                                    </ToastCustom>
+                                ),
                             });
                         } else {
                             setVal({

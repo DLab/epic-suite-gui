@@ -240,7 +240,7 @@ const ModelController = ({
                             <IconButton
                                 fill="white"
                                 bg="#FFFFFF"
-                                color="#16609E"
+                                color="#016FB9"
                                 aria-label="Call Segun"
                                 size="sm"
                                 isDisabled={!isEnableIconButton.tI_R[0]}
@@ -304,7 +304,7 @@ const ModelController = ({
                             <IconButton
                                 fill="white"
                                 bg="#FFFFFF"
-                                color="#16609E"
+                                color="#016FB9"
                                 aria-label="Call Segun"
                                 size="sm"
                                 isDisabled={!isEnableIconButton.tE_I[0]}
@@ -368,7 +368,7 @@ const ModelController = ({
                             <IconButton
                                 fill="white"
                                 bg="#FFFFFF"
-                                color="#16609E"
+                                color="#016FB9"
                                 aria-label="Call Segun"
                                 size="sm"
                                 isDisabled={!isEnableIconButton.rR_S[0]}

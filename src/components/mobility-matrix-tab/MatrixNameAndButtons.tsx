@@ -3,8 +3,10 @@ import { Button, Flex, Input, Stack, useToast } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 
 import { MobilityMatrix } from "../../context/MobilityMatrixContext";
+import ToastCustom from "components/ToastCustom";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
+import { StatusSimulation } from "types/HardSimulationType";
 import { InterventionsTypes, MobilityModes } from "types/MobilityMatrixTypes";
 import { NewModelsParams } from "types/SimulationTypes";
 
@@ -132,12 +134,16 @@ const MatrixNameAndButtons = ({
                 setIdMobilityMatrixUpdate(0);
                 toast({
                     position,
-                    title: "Matrix Edited",
-                    description:
-                        "Your mobility matrix was updated successfully",
-                    status: "success",
                     duration: 2000,
                     isClosable: true,
+                    render: () => (
+                        <ToastCustom
+                            title="Matrix Edited"
+                            status={StatusSimulation.FINISHED}
+                        >
+                            "Your mobility matrix was updated successfully"
+                        </ToastCustom>
+                    ),
                 });
                 setMatrixMode(MobilityModes.Initial);
                 if (originOfMatrixCreation === "modelsTab") {
@@ -157,12 +163,16 @@ const MatrixNameAndButtons = ({
                 });
                 toast({
                     position,
-                    title: "Mobility Matrix Created",
-                    description:
-                        "Your mobility matrix was created successfully",
-                    status: "success",
                     duration: 2000,
                     isClosable: true,
+                    render: () => (
+                        <ToastCustom
+                            title="Mobility Matrix Created"
+                            status={StatusSimulation.FINISHED}
+                        >
+                            "Your mobility matrix was created successfully"
+                        </ToastCustom>
+                    ),
                 });
                 setMatrixMode(MobilityModes.Initial);
                 if (originOfMatrixCreation === "modelsTab") {
@@ -179,6 +189,11 @@ const MatrixNameAndButtons = ({
                 status: "error",
                 duration: 2000,
                 isClosable: true,
+                render: () => (
+                    <ToastCustom title="Error" status={StatusSimulation.ERROR}>
+                        "Something failed. Try again later!"
+                    </ToastCustom>
+                ),
             });
         }
     };

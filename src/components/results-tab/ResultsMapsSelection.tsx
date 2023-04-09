@@ -523,7 +523,8 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
             })}
             <DrawerFooter justifyContent="space-around">
                 <Button
-                    colorScheme="teal"
+                    color="white"
+                    bg="#016FB9"
                     onClick={() => {
                         saveDataToShowInMap();
                         onClose(true);
@@ -532,7 +533,8 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
                     Ok
                 </Button>
                 <Button
-                    variant="outline"
+                    color="white"
+                    bg="#8080A0"
                     onClick={() => {
                         onClose(true);
                     }}

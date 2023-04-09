@@ -184,7 +184,13 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
     const btnRef = React.useRef(null);
     return (
         <>
-            <Icon as={PlayModal} onClick={onOpen} cursor="pointer" mr="6px" />
+            <Icon
+                as={PlayModal}
+                color="#016FB9"
+                onClick={onOpen}
+                cursor="pointer"
+                mr="6px"
+            />
             <Modal
                 onClose={onClose}
                 size="xl"
