@@ -11,7 +11,7 @@ import React, { useContext, useEffect, useState } from "react";
 import PauseIcon from "components/icons/PauseIcon";
 import PlayIcon from "components/icons/PlayIcon";
 import { GraphicsData } from "context/GraphicsContext";
-import { KeysRealData, MapResultsData } from "types/GraphicsTypes";
+import type { KeysRealData, MapResultsData } from "types/GraphicsTypes";
 
 interface Props {
     map: MapResultsData;

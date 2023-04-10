@@ -18,8 +18,8 @@ import NumberInputVariableDependent from "components/NumberInputVariableDependen
 import { ControlPanel } from "context/ControlPanelContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { update } from "store/ControlPanel";
-import { RootState } from "store/store";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import type { RootState } from "store/store";
+import type { NewModelsAllParams } from "types/SimulationTypes";
 
 // import MobilityMatrixModel from "./mobility-matrix/MobilityMatrixModel";
 import NodesParams from "./NodesParams";

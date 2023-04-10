@@ -19,7 +19,7 @@ import {
     StatusSimulation,
     TypeHardSimulation,
 } from "types/HardSimulationType";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import type { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 import postData from "utils/fetchData";
 
@@ -424,58 +424,56 @@ const RunButton = ({ permission }: Props) => {
     }, [permission]);
 
     return (
-        <>
-            <Button
-                onClick={() => {
-                    const withPermission = Object.values(permission).some(
-                        (perm) => perm
-                    );
-                    if (withPermission) {
-                        handleJsonToToml();
-                        setSimulationsPopulatioType("");
-                    } else {
-                        toast({
-                            position: bottonLeft,
-                            duration: 3000,
-                            isClosable: true,
-                            render: () => (
-                                <ToastCustom
-                                    title={SIMULATIONFAILED}
-                                    status={StatusSimulation.ERROR}
-                                >
-                                    `You must select at least one model`
-                                </ToastCustom>
-                            ),
-                        });
-                    }
-                }}
-                size="sm"
-                fontSize="10px"
-                bg="#016FB9"
-                color="#FFFFFF"
-                isDisabled={disabledButton}
-            >
-                {isSimulating ? (
-                    <>
-                        <Spinner
-                            id={createIdComponent()}
-                            thickness="4px"
-                            speed="0.65s"
-                            emptyColor="gray.200"
-                            color="blue.500"
-                        />
-                        <Text id={createIdComponent()} pl="1rem">
-                            Simulating...
-                        </Text>
-                    </>
-                ) : (
-                    <>
-                        <Icon w="20px" h="20px" as={Play} mr="5px" />
-                        RUN SELECTED MODELS
-                    </>
-                )}
-            </Button>
-        </>
+        <Button
+            onClick={() => {
+                const withPermission = Object.values(permission).some(
+                    (perm) => perm
+                );
+                if (withPermission) {
+                    handleJsonToToml();
+                    setSimulationsPopulatioType("");
+                } else {
+                    toast({
+                        position: bottonLeft,
+                        duration: 3000,
+                        isClosable: true,
+                        render: () => (
+                            <ToastCustom
+                                title={SIMULATIONFAILED}
+                                status={StatusSimulation.ERROR}
+                            >
+                                `You must select at least one model`
+                            </ToastCustom>
+                        ),
+                    });
+                }
+            }}
+            size="sm"
+            fontSize="10px"
+            bg="#016FB9"
+            color="#FFFFFF"
+            isDisabled={disabledButton}
+        >
+            {isSimulating ? (
+                <>
+                    <Spinner
+                        id={createIdComponent()}
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                    />
+                    <Text id={createIdComponent()} pl="1rem">
+                        Simulating...
+                    </Text>
+                </>
+            ) : (
+                <>
+                    <Icon w="20px" h="20px" as={Play} mr="5px" />
+                    RUN SELECTED MODELS
+                </>
+            )}
+        </Button>
     );
 };
 

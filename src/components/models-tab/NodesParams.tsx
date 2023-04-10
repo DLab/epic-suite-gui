@@ -20,7 +20,7 @@ import NumberInputVariableDependent from "components/NumberInputVariableDependen
 import { ControlPanel } from "context/ControlPanelContext";
 import { update } from "store/ControlPanel";
 import { ActionsEpidemicData } from "types/ControlPanelTypes";
-import VariableDependentTime from "types/VariableDependentTime";
+import type VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
 
 import SeirhvdController from "./SeirhvdController";

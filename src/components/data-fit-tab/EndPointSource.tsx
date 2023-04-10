@@ -8,7 +8,7 @@ import { DataFit } from "context/DataFitContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { StatusSimulation } from "types/HardSimulationType";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import type { NewModelsAllParams } from "types/SimulationTypes";
 import postData from "utils/fetchData";
 
 interface Props {

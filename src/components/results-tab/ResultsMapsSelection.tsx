@@ -13,7 +13,7 @@ import {
     Grid,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
-import { GeometryObject } from "topojson-specification";
+import type { GeometryObject } from "topojson-specification";
 
 import countiesData_ from "../../data/counties-10m.json";
 import stateData_ from "../../data/statesResults-10m.json";
@@ -21,7 +21,7 @@ import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { MapResultsData } from "types/GraphicsTypes";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import type { NewModelsAllParams } from "types/SimulationTypes";
 
 interface Props {
     onClose: (val: boolean) => void;

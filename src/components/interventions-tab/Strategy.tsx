@@ -18,10 +18,12 @@ import {
 import React from "react";
 
 import {
-    InterventionsTypes,
     NonpharmaceuticalSubStrategy,
     PharmaceuticalSubStrategy,
+} from "types/InterventionsTypes";
+import type {
     TypeStrategy,
+    InterventionsTypes,
 } from "types/InterventionsTypes";
 
 // Resolve Repeated Functions
@@ -577,7 +579,7 @@ const Strategy = ({
                 </Flex>
             );
         default:
-            return <></>;
+            return <Box />;
     }
 };
 

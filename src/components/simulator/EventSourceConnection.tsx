@@ -317,7 +317,7 @@ const EventSourceConnection = () => {
             }
         }
     }, [setHardSimulation]);
-    return <></>;
+    return <Box />;
 };
 
 export default EventSourceConnection;

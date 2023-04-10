@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import type { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 import DoubleYAxis from "./DoubleYAxis";
@@ -133,7 +133,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulationType }: Props) => {
             {(simulationsPopulationType === "meta" ||
                 simulationsPopulationType === "mono-meta") && (
                 <Flex
-                    colSpan={1}
+                    // colSpan={1}
                     id={createIdComponent()}
                     flexWrap="wrap"
                     h="100%"
@@ -144,18 +144,18 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulationType }: Props) => {
                     <GridItem
                         colSpan={5}
                         w="50%"
-                        justify="center"
-                        align="center"
+                        justifyContent="center"
+                        alignItems="center"
                     >
                         <MetapopulationSelectTable />
                     </GridItem>
 
-                    {allResults.length > 0 && <>{listResults}</>}
+                    {allResults.length > 0 && listResults}
                 </Flex>
             )}
             {simulationsPopulationType === "mono" && allResults.length > 0 && (
                 <Flex
-                    colSpan={1}
+                    // colSpan={1}
                     id={createIdComponent()}
                     flexWrap="wrap"
                     h="100%"
@@ -172,7 +172,7 @@ const GraphicAndMapResults = ({ onOpen, simulationsPopulationType }: Props) => {
                     simulationsPopulationType === "mono-meta") && (
                     <Flex
                         id={createIdComponent()}
-                        colSpan={1}
+                        // colSpan={1}
                         justify="center"
                         flexDirection="column"
                         h="100%"

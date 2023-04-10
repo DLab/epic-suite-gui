@@ -7,8 +7,9 @@ import ToastCustom from "components/ToastCustom";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
 import { StatusSimulation } from "types/HardSimulationType";
-import { InterventionsTypes, MobilityModes } from "types/MobilityMatrixTypes";
-import { NewModelsParams } from "types/SimulationTypes";
+import type { InterventionsTypes } from "types/MobilityMatrixTypes";
+import { MobilityModes } from "types/MobilityMatrixTypes";
+import type { NewModelsParams } from "types/SimulationTypes";
 
 import DeleteMatrixAlert from "./DeleteMatrixAlert";
 import UpdateMatrixButton from "./UpdateMatrixButton";

@@ -29,12 +29,33 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 import { StatusSimulation, TypeHardSimulation } from "types/HardSimulationType";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import type { NewModelsAllParams } from "types/SimulationTypes";
 import postData, { getData } from "utils/fetchData";
 
 import getSEIRHVDObjMono from "./getSEIRHVDObjMono";
 import getSEIRObjMono from "./getSEIRObjMono";
 import getSIRObjMono from "./getSIRObjMono";
+
+export const schemeColorStatus = {
+    [StatusSimulation.NOTSTARTED]: () => (
+        <Icon cursor="pointer" as={WarningTwoIcon} />
+    ),
+    [StatusSimulation.RECIEVED]: () => (
+        <Icon cursor="pointer" color="#3EBFE0" as={InfoIcon} />
+    ),
+    [StatusSimulation.STARTED]: () => (
+        <Icon cursor="pointer" color="#3EBFE0" as={InfoIcon} />
+    ),
+    [StatusSimulation.ERROR]: () => (
+        <Icon cursor="pointer" color="#8080A0" as={WarningTwoIcon} />
+    ),
+    [StatusSimulation.FINISHED]: () => (
+        <Icon cursor="pointer" color="#005086" as={CheckCircleIcon} />
+    ),
+    [StatusSimulation.CANCELED]: () => (
+        <Icon cursor="pointer" color="#8080A0" as={InfoOutlineIcon} />
+    ),
+};
 
 export default function StatusHardSimPop() {
     const {
@@ -151,26 +172,6 @@ export default function StatusHardSimPop() {
         setSelectedModelsToSimulate(selectedModels);
         getGraphicRealMetaData(selectedModels);
         setIndex(4);
-    };
-    const schemeColorStatus = {
-        [StatusSimulation.NOTSTARTED]: () => (
-            <Icon cursor="pointer" as={WarningTwoIcon} />
-        ),
-        [StatusSimulation.RECIEVED]: () => (
-            <Icon cursor="pointer" color="#3EBFE0" as={InfoIcon} />
-        ),
-        [StatusSimulation.STARTED]: () => (
-            <Icon cursor="pointer" color="#3EBFE0" as={InfoIcon} />
-        ),
-        [StatusSimulation.ERROR]: () => (
-            <Icon cursor="pointer" color="#8080A0" as={WarningTwoIcon} />
-        ),
-        [StatusSimulation.FINISHED]: () => (
-            <Icon cursor="pointer" color="#005086" as={CheckCircleIcon} />
-        ),
-        [StatusSimulation.CANCELED]: () => (
-            <Icon cursor="pointer" color="#8080A0" as={InfoOutlineIcon} />
-        ),
     };
     return (
         <Popover placement="right">
