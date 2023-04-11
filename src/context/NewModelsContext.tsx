@@ -64,7 +64,8 @@ const NewModelsContext: React.FC<ChildrenProps> = ({ children }) => {
                 return state.map((e, index) => {
                     if (e.idNewModel === action.id) {
                         // eslint-disable-next-line no-param-reassign
-                        state[index] = action.payload;
+                        // state[index] = action.payload;
+                        return action.payload;
                     }
                     return e;
                 });
@@ -103,7 +104,8 @@ const NewModelsContext: React.FC<ChildrenProps> = ({ children }) => {
                 return state.map((e, index) => {
                     if (e.idNewModel === action.id) {
                         // eslint-disable-next-line no-param-reassign
-                        state[index] = action.payload;
+                        // state[index] = action.payload;
+                        return action.payload;
                     }
                     return e;
                 });

@@ -180,7 +180,14 @@ const TableSimulations = () => {
                                         Data source
                                     </Th>
 
-                                    <Th />
+                                    <Th
+                                        textAlign="center"
+                                        color="#016FB9"
+                                        textTransform="capitalize"
+                                        fontSize="1rem"
+                                    >
+                                        Status
+                                    </Th>
                                 </Tr>
                             </Thead>
                             <Tbody>

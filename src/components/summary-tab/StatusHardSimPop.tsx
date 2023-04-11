@@ -174,38 +174,66 @@ export default function StatusHardSimPop() {
         setIndex(4);
     };
     return (
-        <Popover placement="right">
-            <PopoverTrigger>{schemeColorStatus[status]()}</PopoverTrigger>
-            <PopoverContent>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverHeader fontWeight="bold">{status}</PopoverHeader>
-                <PopoverBody>
-                    <Text marginBottom="0.2rem">Detail: {description}</Text>
-                    {status === StatusSimulation.FINISHED &&
-                        type !== TypeHardSimulation.DATAFIT && (
-                            <Button
-                                size="sm"
-                                marginTop="0.2rem"
-                                color="white"
-                                bg="#016FB9"
-                                onClick={() => {
-                                    const { globalResult, result: resultData } =
-                                        result as Record<string, unknown>;
-                                    const selectedModel =
-                                        getSelectedModel(idModel);
-                                    showDataInResultsTabs(
-                                        resultData,
-                                        globalResult,
-                                        selectedModel
-                                    );
-                                }}
-                            >
-                                Show data
-                            </Button>
-                        )}
-                </PopoverBody>
-            </PopoverContent>
-        </Popover>
+        <>
+            {(status === StatusSimulation.RECIEVED ||
+                status === StatusSimulation.STARTED) && (
+                <Text color="#3EBFE0">Running...</Text>
+            )}
+            {status === StatusSimulation.FINISHED &&
+                type !== TypeHardSimulation.DATAFIT && (
+                    <Button
+                        size="xs"
+                        marginTop="0.2rem"
+                        color="white"
+                        bg="#3EBFE0"
+                        onClick={() => {
+                            const { globalResult, result: resultData } =
+                                result as Record<string, unknown>;
+                            const selectedModel = getSelectedModel(idModel);
+                            showDataInResultsTabs(
+                                resultData,
+                                globalResult,
+                                selectedModel
+                            );
+                        }}
+                    >
+                        Show results
+                    </Button>
+                )}
+            {status === StatusSimulation.ERROR && <Text>Failed</Text>}
+        </>
+        // <Popover placement="right">
+        //     <PopoverTrigger>{schemeColorStatus[status]()}</PopoverTrigger>
+        //     <PopoverContent>
+        //         <PopoverArrow />
+        //         <PopoverCloseButton />
+        //         <PopoverHeader fontWeight="bold">{status}</PopoverHeader>
+        //         <PopoverBody>
+        //             <Text marginBottom="0.2rem">Detail: {description}</Text>
+        //             {status === StatusSimulation.FINISHED &&
+        //                 type !== TypeHardSimulation.DATAFIT && (
+        //                     <Button
+        //                         size="sm"
+        //                         marginTop="0.2rem"
+        //                         color="white"
+        //                         bg="#016FB9"
+        //                         onClick={() => {
+        //                             const { globalResult, result: resultData } =
+        //                                 result as Record<string, unknown>;
+        //                             const selectedModel =
+        //                                 getSelectedModel(idModel);
+        //                             showDataInResultsTabs(
+        //                                 resultData,
+        //                                 globalResult,
+        //                                 selectedModel
+        //                             );
+        //                         }}
+        //                     >
+        //                         Show data
+        //                     </Button>
+        //                 )}
+        //         </PopoverBody>
+        //     </PopoverContent>
+        // </Popover>
     );
 }
