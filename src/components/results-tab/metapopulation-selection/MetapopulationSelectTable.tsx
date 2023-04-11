@@ -27,7 +27,7 @@ import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
 import { StatusSimulation } from "types/HardSimulationType";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import type { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 import getNodeName from "utils/getNodeNames";
 
@@ -296,14 +296,8 @@ const MetapopulationSelectTable = () => {
                     Select parameters of the metapopulation simulation to graph.
                 </Text>
             </Flex>
-            <TableContainer
-                variant="simple"
-                bg="white"
-                overflowY="auto"
-                m="2% 0"
-                maxH="70vh"
-            >
-                <Table size="sm" m="1% 0">
+            <TableContainer bg="white" overflowY="auto" m="2% 0" maxH="70vh">
+                <Table size="sm" m="1% 0" variant="simple">
                     <Thead>
                         <Tr>
                             <Th>Node</Th>

@@ -27,7 +27,7 @@ import {
     StatusSimulation,
     TypeHardSimulation,
 } from "types/HardSimulationType";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import type { NewModelsAllParams } from "types/SimulationTypes";
 import postData from "utils/fetchData";
 
 import EndPointSource from "./EndPointSource";

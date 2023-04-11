@@ -12,7 +12,7 @@ import { useContext, useEffect, useMemo } from "react";
 
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import type { NewModelsAllParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 import ResultsDrawer from "./ResultsDrawer";
@@ -94,12 +94,12 @@ const Results = () => {
             h="100%"
             templateColumns="repeat(5, 1fr)"
             templateRows="1fr 10fr"
-            direction="column"
+            dir="column"
         >
             <GridItem
                 colSpan={5}
                 h="5vh"
-                mh="5vh"
+                maxH="5vh"
                 justifyContent="space-between"
             >
                 <Flex justifyContent="space-between">
@@ -121,8 +121,8 @@ const Results = () => {
                     colSpan={5}
                     h="88vh"
                     w="98%"
-                    justify="center"
-                    align="center"
+                    justifyContent="center"
+                    alignItems="center"
                 >
                     <HStack
                         h="100%"

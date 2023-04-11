@@ -9,7 +9,7 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 import { Model } from "types/ControlPanelTypes";
 import { StatusSimulation } from "types/HardSimulationType";
-import { DataGeoSelections } from "types/SelectFeaturesTypes";
+import type { DataGeoSelections } from "types/SelectFeaturesTypes";
 
 interface Props {
     scale: string;

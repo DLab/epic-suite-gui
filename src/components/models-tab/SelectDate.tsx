@@ -12,7 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // eslint-disable-next-line import/order
 import countiesData from "data/counties.json";
 import stateData from "data/states.json";
-import { InitialConditionsNewModel } from "types/ControlPanelTypes";
+import type { InitialConditionsNewModel } from "types/ControlPanelTypes";
 import { StatusSimulation } from "types/HardSimulationType";
 import postData from "utils/fetchData";
 

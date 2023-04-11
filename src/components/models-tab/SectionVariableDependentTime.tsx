@@ -28,12 +28,11 @@ import { useDispatch, useSelector } from "react-redux";
 import ToastCustom from "components/ToastCustom";
 import { ControlPanel } from "context/ControlPanelContext";
 import { update } from "store/ControlPanel";
-import { RootState } from "store/store";
+import type { RootState } from "store/store";
 import { StatusSimulation } from "types/HardSimulationType";
-import VariableDependentTime, {
-    DataForGraph,
-    NameFunction,
-} from "types/VariableDependentTime";
+import type VariableDependentTime from "types/VariableDependentTime";
+import type { DataForGraph } from "types/VariableDependentTime";
+import { NameFunction } from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
 import {
     createSeries,

@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 
-import { InitialConditionsNewModel } from "types/ControlPanelTypes";
+import type { InitialConditionsNewModel } from "types/ControlPanelTypes";
 
 import InitialConditions from "./InitialConditions";
 import SelectDate from "./SelectDate";
@@ -61,22 +61,23 @@ const InitialConditiosModels = ({
                     <Text fontSize="1rem" fontWeight={700} alignSelf="center">
                         Initial Conditions
                     </Text>
-                    {(idGraph !== 0 || idGeo !== 0) && !initialConditionsMode && (
-                        <IconButton
-                            bg="#016FB9"
-                            color="#FFFFFF"
-                            aria-label="Call Segun"
-                            size="xs"
-                            ml="1rem"
-                            alignSelf="center"
-                            cursor="pointer"
-                            _hover={{ bg: "blue.500" }}
-                            icon={<EditIcon />}
-                            onClick={() => {
-                                editInitialConditions();
-                            }}
-                        />
-                    )}
+                    {(idGraph !== 0 || idGeo !== 0) &&
+                        !initialConditionsMode && (
+                            <IconButton
+                                bg="#016FB9"
+                                color="#FFFFFF"
+                                aria-label="Call Segun"
+                                size="xs"
+                                ml="1rem"
+                                alignSelf="center"
+                                cursor="pointer"
+                                _hover={{ bg: "blue.500" }}
+                                icon={<EditIcon />}
+                                onClick={() => {
+                                    editInitialConditions();
+                                }}
+                            />
+                        )}
                 </Flex>
                 <Flex>
                     {dataSourceValue === "geographic" &&

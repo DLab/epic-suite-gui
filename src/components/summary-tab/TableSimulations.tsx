@@ -24,7 +24,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { HardSimSetted } from "context/HardSimulationsStatus";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
-import { NewModelsAllParams, NewModelsParams } from "types/SimulationTypes";
+import type {
+    NewModelsAllParams,
+    NewModelsParams,
+} from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 import RunButton from "./RunButton";
@@ -177,7 +180,14 @@ const TableSimulations = () => {
                                         Data source
                                     </Th>
 
-                                    <Th />
+                                    <Th
+                                        textAlign="center"
+                                        color="#016FB9"
+                                        textTransform="capitalize"
+                                        fontSize="1rem"
+                                    >
+                                        Status
+                                    </Th>
                                 </Tr>
                             </Thead>
                             <Tbody>

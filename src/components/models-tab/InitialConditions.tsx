@@ -14,9 +14,9 @@ import React, { useContext, useState, useEffect } from "react";
 
 import ToastCustom from "components/ToastCustom";
 import { NewModelSetted } from "context/NewModelsContext";
-import { InitialConditions as InitialConditionsContext } from "types/ControlPanelTypes";
+import type { InitialConditions as InitialConditionsContext } from "types/ControlPanelTypes";
 import { StatusSimulation } from "types/HardSimulationType";
-import { NewModelsParams } from "types/SimulationTypes";
+import type { NewModelsParams } from "types/SimulationTypes";
 import createIdComponent from "utils/createIdcomponent";
 
 import NumberInputInitialConditions from "./NumberInputInitialConditions";

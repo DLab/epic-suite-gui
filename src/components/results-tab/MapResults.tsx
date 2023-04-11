@@ -15,7 +15,7 @@ import { MapContainer, TileLayer } from "react-leaflet";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { TabIndex } from "context/TabContext";
-import { MapResultsData } from "types/GraphicsTypes";
+import type { MapResultsData } from "types/GraphicsTypes";
 
 import ColorScaleMenu from "./ColorScaleMenu";
 import ColorsScale from "./ColorsScale";

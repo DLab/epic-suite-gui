@@ -19,7 +19,7 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { Model } from "types/ControlPanelTypes";
 import { StatusSimulation } from "types/HardSimulationType";
-import { NewModelsAllParams } from "types/SimulationTypes";
+import type { NewModelsAllParams } from "types/SimulationTypes";
 
 const DeleteGeoAlert = () => {
     const { completeModel } = useContext(NewModelSetted);
