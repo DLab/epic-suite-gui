@@ -1,5 +1,6 @@
 import { Flex, Button, Icon } from "@chakra-ui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import dynamic from "next/dynamic";
 import React, { useState, useContext, useEffect } from "react";
 
 import { MobilityMatrix as MobilityMatrixContext } from "../../context/MobilityMatrixContext";
@@ -10,7 +11,15 @@ import { MobilityModes } from "types/MobilityMatrixTypes";
 import MatrixNameAndButtons from "./MatrixNameAndButtons";
 import MatrixSavedSelect from "./MatrixSavedSelect";
 import MobilityConstructorContainer from "./MobilityConstructorContainer";
-import MobiltyOutputContainer from "./MobiltyOutputContainer";
+// import MobiltyOutputContainer from "./MobiltyOutputContainer";
+
+export const MobiltyOutputContainer = dynamic(
+    () => import("./MobiltyOutputContainer"),
+    {
+        loading: () => <p>asdf</p>,
+        ssr: false,
+    }
+);
 
 const MobilityMatrix = () => {
     const {
@@ -118,14 +127,7 @@ const MobilityMatrix = () => {
                         setMatrixType={setMatrixTypeLocal}
                     />
                     {/* Eliminar display none a matrix */}
-                    <Flex
-                        ml="2%"
-                        p="0"
-                        h="100%"
-                        w="100%"
-                        mt="20px"
-                        display="none"
-                    >
+                    <Flex ml="2%" p="0" h="100%" w="100%" mt="20px">
                         <MobilityConstructorContainer
                             nodesLocalValue={nodesLocalValue}
                             setNodesLocalValue={setNodesLocalValue}

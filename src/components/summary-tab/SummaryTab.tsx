@@ -58,9 +58,9 @@ const SummaryTab = () => {
                     <TableGeographic />
                 </Flex>
                 {/* descomentar esto */}
-                {/* <Flex>
+                <Flex>
                     <TableMobilityMatrix />
-                </Flex> */}
+                </Flex>
             </Flex>
         </>
     );

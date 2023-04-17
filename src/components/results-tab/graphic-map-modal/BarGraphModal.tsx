@@ -139,8 +139,7 @@ const BarGraphModal = ({
                     b: 60,
                     t: 0,
                 },
-                color: "blue",
-                legend: { xanchor: "end", x: 1.1, y: 1.1, yanchor: "top" },
+                legend: { xanchor: "right", x: 1.1, y: 1.1, yanchor: "top" },
                 showlegend: true,
                 xaxis: {
                     title: {
