@@ -51,4 +51,15 @@ export interface MobilityMatrixProps {
     setOriginOfMatrixCreation: (value: string) => void;
     mobilityMatrixType: string;
     setMobilityMatrixType: (value: string) => void;
+    matrix: MobilityMatrixRealData | undefined;
+    setMatrix: (value: MobilityMatrixRealData) => void;
+}
+
+export type Matrix = {
+    tags: string[];
+    values: number[][];
+};
+
+export interface MobilityMatrixRealData {
+    [key: string | number]: Matrix;
 }
