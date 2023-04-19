@@ -28,6 +28,7 @@ export interface MobilityMatrixListProps {
     interventions: InterventionsTypes[];
     nameMobilityMatrix: string;
     type: string;
+    matrix?: MobilityMatrixRealData | undefined;
 }
 
 export interface InterventionsTypes {

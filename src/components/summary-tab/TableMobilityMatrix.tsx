@@ -74,13 +74,13 @@ const TableMobilityMatrix = () => {
                         {mobilityMatrixList.map((matrix) => {
                             return (
                                 <Tr key={matrix.id}>
-                                    <Td fontSize="0.875rem">
+                                    <Td fontSize="0.875rem" textAlign="center">
                                         {matrix.nameMobilityMatrix}
                                     </Td>
-                                    <Td fontSize="0.875rem">
+                                    <Td fontSize="0.875rem" textAlign="center">
                                         {getModelName(matrix.modelId)}
                                     </Td>
-                                    <Td fontSize="0.875rem">
+                                    <Td fontSize="0.875rem" textAlign="center">
                                         <Icon
                                             w="20px"
                                             h="20px"

@@ -5,18 +5,10 @@ import Plot from "react-plotly.js";
 
 import countiesData from "../../data/counties.json";
 import { MobilityMatrix } from "context/MobilityMatrixContext";
-// const data = [
-//     {
-//         z: [
-//             [1, 20, 30],
-//             [20, 1, 60],
-//             [30, 60, 1],
-//         ],
-
-//         type: "heatmap",
-//         colorscale: "Viridis",
-//     },
-// ];
+import { NewModelSetted } from "context/NewModelsContext";
+import type { MobilityMatrixListProps } from "types/MobilityMatrixTypes";
+import type { NewModelsParams } from "types/SimulationTypes";
+import { formatDate } from "utils/formatDate";
 
 function sumarMatriz(matriz, axis = 0) {
     let resultado;
@@ -38,33 +30,34 @@ function sumarMatriz(matriz, axis = 0) {
     return resultado;
 }
 
-const histogram = [
-    {
-        y: Array(10)
-            .fill(0)
-            .map(() => Math.random()),
-        type: "bar",
-    },
-];
-histogram[0].y.length = 500;
-histogram[0].y.fill(1, 1, 500);
-histogram[0].y = histogram[0].y.map((e, i) => {
-    return Math.random();
-});
-function formatDate(dateString) {
-    const date = parse(dateString, "yyyyMMdd", new Date());
-    return format(date, "yyyy-MM-dd");
-}
 const MobiltyOutputContainer = () => {
-    const { matrix } = useContext(MobilityMatrix);
+    const { matrix, idMatrixModel, setMatrix, mobilityMatrixList } =
+        useContext(MobilityMatrix);
+    const { newModel } = useContext(NewModelSetted);
     const [data, setData] = useState([]);
     const [colsSum, setColsSum] = useState([]);
     const [rowsSum, setRowsSum] = useState([]);
-    const [selectedDay, setSelectedDay] = useState("20190101");
+    const [selectedDay, setSelectedDay] = useState(Object.keys(matrix)[0]);
     const dayList = Object.keys(matrix).sort();
 
     useEffect(() => {
-        if (Object.keys(matrix).length !== 0 && matrix.constructor === Object) {
+        setSelectedDay(Object.keys(matrix)[0]);
+    }, [matrix]);
+    useEffect(() => {
+        const mobility = [...mobilityMatrixList].find(
+            (mobElem: MobilityMatrixListProps) =>
+                mobElem.modelId === idMatrixModel
+        );
+        if (mobility?.matrix) {
+            setMatrix(mobility.matrix);
+        }
+    }, [idMatrixModel, mobilityMatrixList, setMatrix]);
+    useEffect(() => {
+        if (
+            Object.keys(matrix).length !== 0 &&
+            matrix.constructor === Object &&
+            matrix[selectedDay]
+        ) {
             const tags = matrix[selectedDay].tags.map(
                 (cod: string) =>
                     countiesData.data.find(
@@ -123,7 +116,7 @@ const MobiltyOutputContainer = () => {
         >
             {data && data.length !== 0 ? (
                 <>
-                    <Box>
+                    <Center>
                         <Plot
                             layout={{
                                 width: 640,
@@ -133,12 +126,12 @@ const MobiltyOutputContainer = () => {
                                 )}`,
                                 xaxis: {
                                     ticks: "",
-                                    side: "top",
+                                    side: "bottom",
                                 },
                             }}
                             data={data}
                         />
-                    </Box>
+                    </Center>
                     <Center mb="2%">
                         <HStack w="30%" justify="space-between">
                             <Text

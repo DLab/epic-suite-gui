@@ -4,7 +4,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { MobilityModes } from "types/MobilityMatrixTypes";
-import type { NewModelsAllParams } from "types/SimulationTypes";
+import type {
+    NewModelsAllParams,
+    NewModelsParams,
+} from "types/SimulationTypes";
 
 interface Props {
     setMatrixType: (value: string) => void;
@@ -23,7 +26,7 @@ const ModelsMobilityMatrixSelect = ({
     useEffect(() => {
         setMetaModelsList(
             newModel.filter(
-                (model: NewModelsAllParams) =>
+                (model: NewModelsParams) =>
                     model.populationType === "metapopulation"
             )
         );
@@ -57,7 +60,7 @@ const ModelsMobilityMatrixSelect = ({
                 setIsDynamical(false);
             }}
         >
-            {metaModelsList.map((model: NewModelsAllParams) => {
+            {metaModelsList.map((model: NewModelsParams) => {
                 return (
                     <option key={model.idNewModel} value={model.idNewModel}>
                         {model.name}

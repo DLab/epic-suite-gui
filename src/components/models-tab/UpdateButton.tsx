@@ -15,8 +15,15 @@ interface Props {
     actualModelName: string;
     saveModel: () => void;
     matrixId: number;
-    verifyName: (name: string) => boolean;
-    verifySelfName: (num: number, name: string) => boolean;
+    verifyName: (
+        name: string,
+        contextValue: NewModelsAllParams[] | NewModelsAllParams
+    ) => boolean;
+    verifySelfName: (
+        num: number,
+        name: string,
+        contextValue: NewModelsAllParams[] | NewModelsAllParams
+    ) => boolean;
     isEmpty: boolean;
 }
 
@@ -155,8 +162,8 @@ const UpdateButton = ({
             onClick={() => {
                 if (
                     !isEmpty &&
-                    (!verifyName(actualModelName) ||
-                        verifySelfName(id, actualModelName))
+                    (!verifyName(actualModelName, completeModel) ||
+                        verifySelfName(id, actualModelName, completeModel))
                 ) {
                     saveModel();
                 }
