@@ -14,6 +14,7 @@ import {
 import React, { useState } from "react";
 
 import type { InitialConditionsNewModel } from "types/ControlPanelTypes";
+import createIdComponent from "utils/createIdcomponent";
 
 import InitialConditions from "./InitialConditions";
 import SelectDate from "./SelectDate";
@@ -112,6 +113,7 @@ const InitialConditiosModels = ({
                     if (array.length === 1) {
                         return (
                             <InitialConditions
+                                key={createIdComponent()}
                                 modelValue={modelValue}
                                 nodeName={initialConditionsGraph[0].name}
                                 initialConditions={
@@ -126,7 +128,7 @@ const InitialConditiosModels = ({
                         );
                     }
                     return (
-                        <AccordionItem>
+                        <AccordionItem key={createIdComponent()}>
                             <Heading>
                                 <AccordionButton>
                                     <Box

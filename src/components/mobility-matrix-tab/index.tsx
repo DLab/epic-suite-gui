@@ -1,4 +1,4 @@
-import { Flex, Button, Icon } from "@chakra-ui/react";
+import { Flex, Button, Icon, Text } from "@chakra-ui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import dynamic from "next/dynamic";
 import React, { useState, useContext, useEffect } from "react";
@@ -16,7 +16,7 @@ import MobilityConstructorContainer from "./MobilityConstructorContainer";
 export const MobiltyOutputContainer = dynamic(
     () => import("./MobiltyOutputContainer"),
     {
-        loading: () => <p>asdf</p>,
+        loading: () => <Text>Loading</Text>,
         ssr: false,
     }
 );
@@ -33,6 +33,7 @@ const MobilityMatrix = () => {
     const [nodesLocalValue, setNodesLocalValue] = useState<
         number | undefined
     >();
+    const [valNodes, setValNodes] = useState<number[] | []>([]);
     const [graphTypeLocal, setGraphTypeLocal] = useState<string>();
     const [popPercentage, setPopPercentage] = useState<number>(0);
     const [isDynamical, setIsDynamical] = useState(false);
@@ -44,6 +45,7 @@ const MobilityMatrix = () => {
     const [matrixNameLocal, setMatrixNameLocal] = useState("");
     const [matrixTypeLocal, setMatrixTypeLocal] = useState("");
     const [secondModelLink, setSecondModelLink] = useState(undefined);
+    const [mobilityModel, setMobilityModel] = useState("random");
 
     useEffect(() => {
         if (matrixMode === MobilityModes.Initial) {
@@ -57,6 +59,7 @@ const MobilityMatrix = () => {
             setMatrixNameLocal("");
             setNodesLocalValue(undefined);
             setMatrixTypeLocal("");
+            setMobilityModel("random");
         }
         if (matrixMode === MobilityModes.Update) {
             const {
@@ -126,7 +129,7 @@ const MobilityMatrix = () => {
                         matrixType={matrixTypeLocal}
                         setMatrixType={setMatrixTypeLocal}
                     />
-                    {/* Eliminar display none a matrix */}
+
                     <Flex ml="2%" p="0" h="100%" w="100%" mt="20px">
                         <MobilityConstructorContainer
                             nodesLocalValue={nodesLocalValue}
@@ -145,6 +148,10 @@ const MobilityMatrix = () => {
                             setInterventionList={setInterventionList}
                             matrixType={matrixTypeLocal}
                             setMatrixType={setMatrixTypeLocal}
+                            valNodes={valNodes}
+                            setValNodes={setValNodes}
+                            mobilityModel={mobilityModel}
+                            setMobilityModel={setMobilityModel}
                         />
                         <MobiltyOutputContainer />
                     </Flex>

@@ -8,6 +8,7 @@ import { SelectFeature } from "context/SelectFeaturesContext";
 import type { InterventionsTypes } from "types/MobilityMatrixTypes";
 import type { DataGeoSelections } from "types/SelectFeaturesTypes";
 import type { NewModelsParams } from "types/SimulationTypes";
+import { getRealMatrix } from "utils/fetchData";
 import { formatDate } from "utils/formatDate";
 
 import MobilityInterventions from "./MobilityInterventions";
@@ -27,33 +28,6 @@ function ajustDateToDateRange(dateString: string): string {
     return isAfter(date, minDate) ? "20211231" : "20190101";
 }
 
-const getRealMatrix = (
-    setter,
-    loadAdviceFunction,
-    body = {
-        timeInit: "2019-01-01",
-        timeEnd: "2019-01-04",
-        scale: "States",
-        spatialSelection: ["10", "11"],
-    }
-) => {
-    loadAdviceFunction(true);
-    fetch("http://localhost/covid19geomodeller/mobility/usa", {
-        method: "POST",
-        body: JSON.stringify(body),
-    })
-        .then((e) => e.json())
-        .then((data) => {
-            if (data.error) {
-                throw new Error(data.error);
-            }
-            setter(data);
-        })
-        .catch(() => {
-            setter({});
-        })
-        .finally(() => loadAdviceFunction(false));
-};
 const RealMobilityMatrix = ({
     interventionList,
     setInterventionList,

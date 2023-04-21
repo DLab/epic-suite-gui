@@ -58,12 +58,17 @@ const MobiltyOutputContainer = () => {
             matrix.constructor === Object &&
             matrix[selectedDay]
         ) {
-            const tags = matrix[selectedDay].tags.map(
-                (cod: string) =>
-                    countiesData.data.find(
-                        (countie) => countie[5] === cod
-                    )[4] ?? undefined
-            );
+            let tags;
+            if (selectedDay === "artificial") {
+                tags = matrix[selectedDay].tags;
+            } else {
+                tags = matrix[selectedDay].tags.map(
+                    (cod: string) =>
+                        countiesData.data.find(
+                            (countie) => countie[5] === cod
+                        )[4] ?? undefined
+                );
+            }
             setData([
                 {
                     z: matrix[selectedDay].values,
@@ -121,9 +126,11 @@ const MobiltyOutputContainer = () => {
                             layout={{
                                 width: 640,
                                 height: 520,
-                                title: `Initial conectivity matrix ${formatDate(
-                                    selectedDay
-                                )}`,
+                                title: `Initial conectivity matrix ${
+                                    selectedDay === "artificial"
+                                        ? "Nodes"
+                                        : formatDate(selectedDay)
+                                }`,
                                 xaxis: {
                                     ticks: "",
                                     side: "bottom",
@@ -176,11 +183,11 @@ const MobiltyOutputContainer = () => {
                         </HStack>
                     </Center>
                     <Box>
-                        <Text>Destination/Arrival</Text>
+                        <Text>Departure/Arrival</Text>
                         <HStack border="1px" w="90%" justify="space-between">
                             <Plot
                                 layout={{
-                                    title: "Origin",
+                                    title: "Departure",
                                     width: 480,
                                     height: 360,
                                     xaxis: { autorange: true },
@@ -195,7 +202,7 @@ const MobiltyOutputContainer = () => {
 
                             <Plot
                                 layout={{
-                                    title: "Destiny",
+                                    title: "Arrival",
                                     width: 480,
                                     height: 360,
                                     xaxis: { autorange: true },
@@ -207,7 +214,7 @@ const MobiltyOutputContainer = () => {
                     </Box>
                 </>
             ) : (
-                <Center>There is not avalaibled view</Center>
+                <Center>View of matrix </Center>
             )}
         </Flex>
     );

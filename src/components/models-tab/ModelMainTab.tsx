@@ -191,7 +191,7 @@ const ModelMainTab = ({
                             />
                         )}
                 </Flex>
-                <Box
+                {/* <Box
                     borderRadius="8px"
                     boxShadow="sm"
                     border="1px solid #DDDDDD"
@@ -200,7 +200,7 @@ const ModelMainTab = ({
                     h="10vh"
                 >
                     <ModelInterventions />
-                </Box>
+                </Box> */}
             </Box>
             {showSectionInitialConditions && !showSectionVariable && (
                 <Flex

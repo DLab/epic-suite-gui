@@ -55,7 +55,7 @@ const MobilityMatrixModel = ({ matrixId, setMatrixId }: Props) => {
                             ml="4%"
                             onClick={() => {
                                 if (!name) {
-                                    alert("nopuede estar vacio el nombre");
+                                    /* empty */
                                 }
                                 if (
                                     name &&
