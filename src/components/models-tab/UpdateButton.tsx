@@ -39,6 +39,7 @@ const UpdateButton = ({
         newModel,
         completeModel,
         idModelUpdate: id,
+        setName,
     } = useContext(NewModelSetted);
     const [isModelSavedLocal, setIsModelSavedLocal] = useState(false);
     const [modelValue, setModelValue] = useState(undefined);
@@ -58,7 +59,17 @@ const UpdateButton = ({
         },
         [newModel, id]
     );
-
+    useEffect(() => {
+        try {
+            const { name } = completeModel.find((model: NewModelsAllParams) => {
+                return model.idNewModel === id;
+            });
+            setName(name);
+        } catch (error) {
+            // asdf
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     useEffect(() => {
         try {
             const modelSaved = completeModel.find(

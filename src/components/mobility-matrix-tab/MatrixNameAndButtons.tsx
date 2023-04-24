@@ -215,8 +215,8 @@ const MatrixNameAndButtons = ({
         if (matrixType === "artificial") {
             if (
                 !nodesLocalValue ||
-                graphTypeLocal === "" ||
-                modulationLocalValue === "" ||
+                // graphTypeLocal === "" ||
+                // modulationLocalValue === "" ||
                 matrixNameLocal === ""
             ) {
                 setIsButtonDisabled(true);

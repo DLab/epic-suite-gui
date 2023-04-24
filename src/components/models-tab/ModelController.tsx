@@ -7,6 +7,7 @@ import {
     Switch,
     FormControl,
     Heading,
+    Box,
 } from "@chakra-ui/react";
 import _ from "lodash";
 import { useContext, useState, useEffect, useCallback } from "react";
@@ -94,7 +95,7 @@ const ModelController = ({
 }: Props) => {
     const { description, setDataViewVariable, idModelUpdate } =
         useContext(ControlPanel);
-    const { completeModel } = useContext(NewModelSetted);
+    const { completeModel, name } = useContext(NewModelSetted);
     const parameters = useSelector((state: RootState) => state.controlPanel);
     const dispatch = useDispatch();
     const [isEnableIconButton, setIsEnableIconButton] = useState<
@@ -124,7 +125,7 @@ const ModelController = ({
     }, [completeModel, dispatch, idModelUpdate, setIsEnableIconButtonCallback]);
 
     return (
-        <>
+        <Box display={!name ? "none" : "block"}>
             {populationValue === "metapopulation" && (
                 <MobilityMatrixModel
                     matrixId={matrixId}
@@ -429,7 +430,7 @@ const ModelController = ({
                     tR_S: parameters.tR_S,
                 }}
             />
-        </>
+        </Box>
     );
 };
 

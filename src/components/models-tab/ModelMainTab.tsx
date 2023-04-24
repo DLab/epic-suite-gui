@@ -67,7 +67,7 @@ const ModelMainTab = ({
     const [graphsSelectedValue, setGraphsSelectedValue] = useState(undefined);
     const [showSectionInitialConditions, setShowSectionInitialConditions] =
         useState(false);
-    const { newModel } = useContext(NewModelSetted);
+    const { newModel, name } = useContext(NewModelSetted);
     const { setAux } = useContext(TabIndex);
     const { setIdModelUpdate, dataViewVariable } = useContext(ControlPanel);
     const [startDate, setStartDate] = useState(
@@ -211,6 +211,7 @@ const ModelMainTab = ({
                     boxShadow="sm"
                     overflowY="auto"
                     h="75vh"
+                    display={!name ? "none" : "flex"}
                 >
                     {/* <ModelsMap idGeo={areaSelectedValue} /> */}
 
