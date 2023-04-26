@@ -138,10 +138,13 @@ const ModelAccordion = ({
                 }
             );
             setGeoSelections(getGeoSelectionNoCounties);
+            if (populationValue === "metapopulation") {
+                setPopulationValue("monopopulation");
+            }
         } else {
             setGeoSelections(allGeoSelections);
         }
-    }, [modelValue, allGeoSelections]);
+    }, [modelValue, allGeoSelections, populationValue, setPopulationValue]);
 
     let graphsArray = [];
     /**
@@ -226,6 +229,7 @@ const ModelAccordion = ({
         });
     };
 
+    useEffect(() => {}, []);
     return (
         <>
             <Box mb="3%">
@@ -272,7 +276,12 @@ const ModelAccordion = ({
                 >
                     <Stack direction="row" spacing="1.5rem">
                         <Radio value="monopopulation">Monopopulation</Radio>
-                        <Radio value="metapopulation">Metapopulation</Radio>
+                        <Radio
+                            isDisabled={modelValue === "seirhvd"}
+                            value="metapopulation"
+                        >
+                            Metapopulation
+                        </Radio>
                     </Stack>
                 </RadioGroup>
                 <Divider orientation="horizontal" />
