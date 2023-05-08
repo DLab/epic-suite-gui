@@ -1,5 +1,5 @@
 import { Box, Checkbox } from "@chakra-ui/react";
-import React, { useEffect, useContext, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import type { KeysRealData } from "types/GraphicsTypes";

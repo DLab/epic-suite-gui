@@ -10,7 +10,7 @@ import {
     MenuList,
 } from "@chakra-ui/react";
 import { Parser } from "json2csv";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import createIdComponent from "utils/createIdcomponent";
 

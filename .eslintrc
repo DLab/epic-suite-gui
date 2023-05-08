@@ -4,6 +4,7 @@
         "plugin:react/jsx-runtime",
         "plugin:@next/next/recommended"
     ],
+    "ignorePatterns": ["next.config.js"],
     "parserOptions": {
         "project": ["tsconfig.json"]
     },

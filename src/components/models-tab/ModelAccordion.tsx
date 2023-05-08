@@ -18,9 +18,8 @@ import {
     Divider,
 } from "@chakra-ui/react";
 import { format } from "date-fns";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
-import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
@@ -34,12 +33,10 @@ import getInitialConditionsByModel, {
 
 interface Props {
     modelName: string;
-    setModelName: (value: string) => void;
     modelValue: string;
     setModelValue: (value: string) => void;
     populationValue: string;
     setPopulationValue: (value: string) => void;
-    numberOfNodes: number;
     setNumberOfNodes: (value: number) => void;
     dataSourceValue: undefined | string;
     setDataSourceValue: (value: string) => void;
@@ -47,12 +44,8 @@ interface Props {
     setAreaSelectedValue: (value: number | string) => void;
     graphId: number;
     setGraphId: (value: number) => void;
-    showSectionInitialConditions: boolean;
     setShowSectionInitialConditions: (value: boolean) => void;
-    graphsSelectedValue: undefined | string[];
-    setGraphsSelectedValue: (value: string[]) => void;
     matrixId: number;
-    setMatrixId: (value: number) => void;
 }
 
 /**
@@ -62,12 +55,10 @@ interface Props {
  */
 const ModelAccordion = ({
     modelName,
-    setModelName,
     modelValue,
     setModelValue,
     populationValue,
     setPopulationValue,
-    numberOfNodes,
     setNumberOfNodes,
     dataSourceValue,
     setDataSourceValue,
@@ -75,12 +66,8 @@ const ModelAccordion = ({
     setAreaSelectedValue,
     graphId,
     setGraphId,
-    showSectionInitialConditions,
     setShowSectionInitialConditions,
-    graphsSelectedValue,
-    setGraphsSelectedValue,
     matrixId,
-    setMatrixId,
 }: Props) => {
     const [numberOfGraphs, setNumberOfGraphs] = useState(undefined);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -228,8 +215,6 @@ const ModelAccordion = ({
             };
         });
     };
-
-    useEffect(() => {}, []);
     return (
         <>
             <Box mb="3%">
@@ -277,7 +262,7 @@ const ModelAccordion = ({
                     <Stack direction="row" spacing="1.5rem">
                         <Radio value="monopopulation">Monopopulation</Radio>
                         <Radio
-                            isDisabled={modelValue === "seirhvd"}
+                            isDisabled={modelValue === "seirhvd" || !modelName}
                             value="metapopulation"
                         >
                             Metapopulation
@@ -376,7 +361,7 @@ const ModelAccordion = ({
                             setNumberOfNodes(numberOfGraphs);
                             const graphsValuesArray =
                                 getGraphsNamesArray(numberOfGraphs);
-                            setGraphsSelectedValue(graphsValuesArray);
+                            // setGraphsSelectedValue(graphsValuesArray);
                             setGraphId(1);
                             setShowSectionInitialConditions(true);
                             setAreaSelectedValue(undefined);

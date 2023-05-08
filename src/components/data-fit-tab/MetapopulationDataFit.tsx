@@ -11,7 +11,7 @@ import {
     Tab,
     TabPanel,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { DataFit } from "context/DataFitContext";
 

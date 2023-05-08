@@ -9,7 +9,7 @@ import {
     NumberInputStepper,
     Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface Props {
     numberInputName: string;

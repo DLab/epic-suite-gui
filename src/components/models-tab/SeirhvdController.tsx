@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Flex, IconButton, Switch, FormControl, Text } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { useDispatch } from "react-redux";
 
 import FunctionIcon from "components/icons/FunctionIcon";
-import NumberInputEpi from "components/NumberInputEpi";
 import NumberInputVariableDependent from "components/NumberInputVariableDependent";
 import { ControlPanel } from "context/ControlPanelContext";
+import useUpdateControlPanel from "hooks/modelTab/useUpdateControlPanel";
 import { update } from "store/ControlPanel";
 import type VariableDependentTime from "types/VariableDependentTime";
 import createIdComponent from "utils/createIdcomponent";
@@ -41,7 +41,7 @@ const SeirhvdController = ({
     setPositionVDT,
 }: Props) => {
     const { description, setDataViewVariable } = useContext(ControlPanel);
-    const dispatch = useDispatch();
+    const updateControlPanel = useUpdateControlPanel();
     return (
         <>
             {Object.entries(seirhvdProps).map((param) => {
@@ -55,9 +55,6 @@ const SeirhvdController = ({
                             setPositionVDT={setPositionVDT}
                             data={param[1]}
                             nameParam={param[0]}
-                            supplementaryParam={
-                                supplementaryParametersKeys[param[0]]
-                            }
                             idNode={idNode}
                             duration={duration}
                             isEnableIconButton={isEnableIconButton}
@@ -111,15 +108,12 @@ const SeirhvdController = ({
                                     if (!e.target.checked) {
                                         showSectionVariable(false);
                                     }
-                                    dispatch(
-                                        update({
-                                            type: "switch",
-                                            target: param[0],
-                                            switch: e.target.checked,
-                                            positionVariableDependentTime:
-                                                idNode,
-                                        })
-                                    );
+                                    updateControlPanel({
+                                        type: "switch",
+                                        target: param[0],
+                                        switch: e.target.checked,
+                                        positionVariableDependentTime: idNode,
+                                    });
                                 }}
                             />
 

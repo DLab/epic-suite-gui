@@ -1,16 +1,14 @@
 import { Box, Flex, Spinner } from "@chakra-ui/react";
-import _ from "lodash";
 import dynamic from "next/dynamic";
 import { useCallback, useContext, useEffect, useState } from "react";
 import type React from "react";
 
 import { ControlPanel } from "context/ControlPanelContext";
 import { NewModelSetted } from "context/NewModelsContext";
-import { TabIndex } from "context/TabContext";
+import useShouldRenderModelController from "hooks/modelTab/useShouldRenderModelControler";
 import type { InitialConditionsNewModel } from "types/ControlPanelTypes";
 import type { NewModelsParams } from "types/SimulationTypes";
 
-import ExportModels from "./ExportModels";
 import InitialConditionsModels from "./InitialConditionsModel";
 // import VariableDependentTime, {
 //     NameFunction,
@@ -19,13 +17,13 @@ import InitialConditionsModels from "./InitialConditionsModel";
 import ModelInterventions from "./interventions/ModelInterventions";
 import ModelAccordion from "./ModelAccordion";
 import ModelBuilder from "./ModelBuilder";
+import ModelController from "./ModelParams";
 import SectionVariableDependentTime from "./SectionVariableDependentTime";
 
 interface Propsi {
     id: number;
     initialConditions: InitialConditionsNewModel[];
     actualModelName: string;
-    setActualModelName: (value: string) => void;
     matrixId: number;
     setMatrixId: (value: number) => void;
 }
@@ -54,7 +52,6 @@ const ModelMainTab = ({
     id,
     initialConditions,
     actualModelName,
-    setActualModelName,
     matrixId,
     setMatrixId,
 }: Propsi) => {
@@ -64,11 +61,9 @@ const ModelMainTab = ({
     const [areaSelectedValue, setAreaSelectedValue] = useState(undefined);
     const [populationValue, setPopulationValue] = useState(undefined);
     const [graphId, setGraphId] = useState(undefined);
-    const [graphsSelectedValue, setGraphsSelectedValue] = useState(undefined);
     const [showSectionInitialConditions, setShowSectionInitialConditions] =
         useState(false);
     const { newModel, name } = useContext(NewModelSetted);
-    const { setAux } = useContext(TabIndex);
     const { setIdModelUpdate, dataViewVariable } = useContext(ControlPanel);
     const [startDate, setStartDate] = useState(
         new Date(
@@ -81,6 +76,12 @@ const ModelMainTab = ({
     const [showSectionVariable, setShowSectionVariable] =
         useState<boolean>(false);
     const [positionVDT, setPositionVDT] = useState<number>(-1);
+    const shouldRenderModelController = useShouldRenderModelController({
+        numberOfNodes,
+        dataSourceValue,
+        areaSelectedValue,
+        graphId,
+    });
 
     /**
      * Gets the saved value of the requested parameter.
@@ -125,7 +126,6 @@ const ModelMainTab = ({
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getDefaultValueParameters]);
-
     return (
         <Flex ml="2%" p="0" h="100%" w="100%" mt="20px">
             <Box w="38%">
@@ -141,12 +141,10 @@ const ModelMainTab = ({
                 >
                     <ModelAccordion
                         modelName={actualModelName}
-                        setModelName={setActualModelName}
                         modelValue={modelValue}
                         setModelValue={setModelValue}
                         populationValue={populationValue}
                         setPopulationValue={setPopulationValue}
-                        numberOfNodes={numberOfNodes}
                         setNumberOfNodes={setNumberOfNodes}
                         dataSourceValue={dataSourceValue}
                         setDataSourceValue={setDataSourceValue}
@@ -154,53 +152,41 @@ const ModelMainTab = ({
                         setAreaSelectedValue={setAreaSelectedValue}
                         graphId={graphId}
                         setGraphId={setGraphId}
-                        showSectionInitialConditions={
-                            showSectionInitialConditions
-                        }
                         setShowSectionInitialConditions={
                             setShowSectionInitialConditions
                         }
-                        graphsSelectedValue={graphsSelectedValue}
-                        setGraphsSelectedValue={setGraphsSelectedValue}
                         matrixId={matrixId}
-                        setMatrixId={setMatrixId}
                     />
-                    {numberOfNodes !== 0 &&
-                        numberOfNodes !== undefined &&
-                        ((dataSourceValue === "geographic" &&
-                            areaSelectedValue !== "" &&
-                            areaSelectedValue !== undefined) ||
-                            (dataSourceValue === "graph" &&
-                                graphId !== "" &&
-                                graphId !== undefined)) && (
-                            <ModelBuilder
-                                setShowSectionVariable={setShowSectionVariable}
-                                setPositionVDT={setPositionVDT}
-                                setShowSectionInitialConditions={
-                                    setShowSectionInitialConditions
-                                }
-                                idGeo={areaSelectedValue}
-                                modelCompartment={modelValue.toUpperCase()}
-                                numberNodes={numberOfNodes}
-                                populationValue={populationValue}
-                                dataSourceValue={dataSourceValue}
-                                modelName={actualModelName}
-                                startDate={startDate}
-                                matrixId={matrixId}
-                                setMatrixId={setMatrixId}
-                            />
-                        )}
+                    {shouldRenderModelController && (
+                        <ModelController
+                            setPositionVDT={setPositionVDT}
+                            setShowSectionInitialConditions={
+                                setShowSectionInitialConditions
+                            }
+                            idGeo={areaSelectedValue}
+                            modelCompartment={modelValue.toUpperCase()}
+                            numberNodes={numberOfNodes}
+                            populationValue={populationValue}
+                            dataSourceValue={dataSourceValue}
+                            modelName={actualModelName}
+                            startDate={startDate}
+                            matrixId={matrixId}
+                            setMatrixId={setMatrixId}
+                            showSectionVariable={setShowSectionVariable}
+                        />
+                    )}
                 </Flex>
-                {/* <Box
+                <Box
                     borderRadius="8px"
                     boxShadow="sm"
                     border="1px solid #DDDDDD"
                     p="2%"
                     mt="1rem"
                     h="10vh"
+                    display="none"
                 >
-                    <ModelInterventions />
-                </Box> */}
+                    <ModelInterventions actualModelName={actualModelName} />
+                </Box>
             </Box>
             {showSectionInitialConditions && !showSectionVariable && (
                 <Flex

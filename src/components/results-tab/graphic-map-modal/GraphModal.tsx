@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { Button } from "@chakra-ui/react";
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
 import { GraphicsData } from "context/GraphicsContext";
@@ -121,8 +121,8 @@ const GraphModal = ({
             data={axios}
             layout={{
                 autosize: false,
-                width: 320,
-                height: 260,
+                width: "100%",
+                height: "40%",
                 margin: {
                     l: 75,
                     b: 60,

@@ -12,7 +12,7 @@ import {
     InputRightElement,
     Tooltip,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 
 import ToastCustom from "components/ToastCustom";

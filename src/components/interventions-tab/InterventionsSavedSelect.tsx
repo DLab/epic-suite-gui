@@ -1,18 +1,14 @@
 import { Select } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import { InterventionColection } from "context/InterventionsContext";
 import { InterventionsModes } from "types/InterventionsTypes";
 
 const InterventionsSavedSelect = () => {
     const {
-        interventionsMode,
         setInterventionMode,
         interventionsCreated,
-        setInterventionsCreated,
-        originOfInterventionCreation,
         setOriginOfInterventionCreation,
-        idInterventionToUpdate,
         setIdInterventionModel,
         setIdInterventionToUpdate,
     } = useContext(InterventionColection);

@@ -1,6 +1,6 @@
 import { Box, Button, Center, Flex, HStack, Text } from "@chakra-ui/react";
 import { parse, format } from "date-fns";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 
 import countiesData from "../../data/counties.json";

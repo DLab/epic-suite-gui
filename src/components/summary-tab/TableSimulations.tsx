@@ -19,7 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { ArrowRightCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import { format } from "date-fns";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { HardSimSetted } from "context/HardSimulationsStatus";
 import { NewModelSetted } from "context/NewModelsContext";

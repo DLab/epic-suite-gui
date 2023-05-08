@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import { SelectFeature } from "context/SelectFeaturesContext";

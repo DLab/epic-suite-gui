@@ -1,7 +1,7 @@
 import { Flex, Button, Icon, Text } from "@chakra-ui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import dynamic from "next/dynamic";
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 
 import { MobilityMatrix as MobilityMatrixContext } from "../../context/MobilityMatrixContext";
 import BreadCrumb from "components/BreadCrumb";

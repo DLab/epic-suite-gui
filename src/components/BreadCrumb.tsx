@@ -6,7 +6,7 @@ import {
     Icon,
 } from "@chakra-ui/react";
 import { HomeIcon } from "@heroicons/react/24/outline";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 
 import { InterventionColection } from "context/InterventionsContext";
 import { MobilityMatrix } from "context/MobilityMatrixContext";
@@ -14,10 +14,12 @@ import { NewModelSetted } from "context/NewModelsContext";
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";
 import { Model } from "types/ControlPanelTypes";
-import type { Interventions } from "types/InterventionsTypes";
 import { InterventionsModes } from "types/InterventionsTypes";
 import { MobilityModes } from "types/MobilityMatrixTypes";
-import type { NewModelsAllParams } from "types/SimulationTypes";
+import type {
+    NewModelsAllParams,
+    NewModelsParams,
+} from "types/SimulationTypes";
 
 interface Props {
     firstLink: string;
@@ -28,6 +30,7 @@ interface Props {
 const BreadCrumb = ({ firstLink, secondLink, setSecondLink }: Props) => {
     const {
         completeModel,
+        newModel,
         mode: modelMode,
         setMode: setModelMode,
         idModelUpdate: idModel,
@@ -45,11 +48,7 @@ const BreadCrumb = ({ firstLink, secondLink, setSecondLink }: Props) => {
         interventionsMode,
         setInterventionMode,
         interventionsCreated,
-        setInterventionsCreated,
-        originOfInterventionCreation,
-        setOriginOfInterventionCreation,
         idInterventionToUpdate,
-        setIdInterventionToUpdate,
     } = useContext(InterventionColection);
 
     useEffect(() => {
@@ -132,11 +131,11 @@ const BreadCrumb = ({ firstLink, secondLink, setSecondLink }: Props) => {
                 idInterventionToUpdate !== 0
             ) {
                 // if (idInterventionToUpdate !== 0) {
-                const { modelId } = interventionsCreated.find(
-                    (interv: Interventions) =>
-                        interv.id === idInterventionToUpdate
+                const { name } = newModel.find(
+                    (model: NewModelsParams) =>
+                        model.idNewModel.toString() === idModel.toString()
                 );
-                setSecondLink(`${modelId}`);
+                setSecondLink(name);
                 // }
             }
         }
@@ -147,6 +146,8 @@ const BreadCrumb = ({ firstLink, secondLink, setSecondLink }: Props) => {
         setSecondLink,
         interventionsCreated,
         idInterventionToUpdate,
+        newModel,
+        idModel,
     ]);
 
     return (

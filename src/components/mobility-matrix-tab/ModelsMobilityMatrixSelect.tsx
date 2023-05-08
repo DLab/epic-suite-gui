@@ -1,6 +1,6 @@
 import { InfoIcon, WarningIcon, WarningTwoIcon } from "@chakra-ui/icons";
 import { Box, Flex, HStack, Icon, Select, Tooltip } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";

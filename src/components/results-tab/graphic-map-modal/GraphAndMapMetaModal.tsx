@@ -14,7 +14,7 @@ import {
     StatNumber,
 } from "@chakra-ui/react";
 import { add, format } from "date-fns";
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import ColorsScale from "../ColorsScale";
@@ -181,7 +181,7 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
         setSimModalMetaDate(format(newDate, "dd/MM/yyyy"));
     }, [mapInfo.date, simDayMetaModal]);
 
-    const btnRef = React.useRef(null);
+    const btnRef = useRef(null);
     return (
         <>
             <Icon
@@ -193,40 +193,40 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
             />
             <Modal
                 onClose={onClose}
-                size="xl"
+                size="full"
                 // finalFocusRef={btnRef}
                 isOpen={isOpen}
                 scrollBehavior="outside"
             >
                 <ModalOverlay />
-                <ModalContent textAlign="center" maxW="70vw">
+                <ModalContent textAlign="center">
                     <ModalHeader>
                         {mapInfo.parameter} {mapInfo.nameSim}
                     </ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <Flex justify="center" direction="column">
-                            <Flex direction="column">
-                                <Flex>
+                            <Flex>
+                                <Flex direction="column" w="50%">
                                     <MapContainer
                                         className="will-change"
                                         center={[38, -91]}
                                         zoom={3}
                                         style={{
-                                            height: "42vh",
-                                            maxHeight: "42vh",
-                                            width: "60%",
-                                            margin: "0 5%",
+                                            height: "70vh",
+                                            maxHeight: "70vh",
+                                            width: "100%",
+                                            // margin: "0 5%",
                                         }}
-                                        // scrollWheelZoom={false}
                                     >
                                         <ColorsScale
                                             maxValue={maxModalMetaValue}
                                             colorScale={colorScale}
                                         />
                                         <TileLayer
-                                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                            attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community"
+                                            // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
                                         />
                                         {mapInfo.scale === "States" ? (
                                             <StatesMetaResultsMap
@@ -254,7 +254,7 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
                                             />
                                         )}
                                     </MapContainer>
-                                    <Flex w="50%" direction="column">
+                                    <Flex direction="column">
                                         <PlayDataSlider
                                             map={mapInfo}
                                             isPlaying={isPlayingMetaModal}
@@ -263,7 +263,7 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
                                             setSimDay={setSimDayMetaModal}
                                             population="metapopulation"
                                         />
-                                        <StatGroup w="95%" mt="10%">
+                                        <StatGroup w="95%">
                                             <Stat>
                                                 <StatLabel>Day</StatLabel>
                                                 <StatNumber>
@@ -305,7 +305,7 @@ const GraphAndMapMetaModal = ({ mapInfo, colorScale }: Props) => {
                                         </StatGroup>
                                     </Flex>
                                 </Flex>
-                                <Flex justifyContent="space-evenly" mt="2%">
+                                <Flex direction="column" w="50%">
                                     <GraphModal
                                         savedSimulationKeys={graphMetaInfo}
                                         simDay={simDayMetaModal}

@@ -11,7 +11,7 @@ import {
     AccordionIcon,
     Heading,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import type { InitialConditionsNewModel } from "types/ControlPanelTypes";
 import createIdComponent from "utils/createIdcomponent";
@@ -108,7 +108,7 @@ const InitialConditiosModels = ({
                         )}
                 </Flex>
             </Flex>
-            <Accordion allowToggle>
+            <Accordion allowMultiple>
                 {initialConditionsGraph.map((node, _i, array) => {
                     if (array.length === 1) {
                         return (

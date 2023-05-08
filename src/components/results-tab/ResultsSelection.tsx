@@ -8,7 +8,7 @@ import {
     AccordionIcon,
     Checkbox,
 } from "@chakra-ui/react";
-import React, { useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 
 import { GraphicsData } from "context/GraphicsContext";
 import { NewModelSetted } from "context/NewModelsContext";

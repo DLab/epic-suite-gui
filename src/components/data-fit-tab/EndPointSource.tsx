@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, useToast, Button } from "@chakra-ui/react";
 import { add, format } from "date-fns";
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import ToastCustom from "components/ToastCustom";
 import { DataFit } from "context/DataFitContext";

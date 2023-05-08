@@ -1,8 +1,8 @@
-import { cleanup, fireEvent, prettyDOM, render } from "@testing-library/react";
+import { cleanup, fireEvent, render } from "@testing-library/react";
 
 import PopoverVariableDependent from "../components/models-tab/PopoverVariableDependent";
 
-const setValues = jest.fn((values: unknown) => undefined);
+const setValues = jest.fn(() => undefined);
 const dataForStatic = {
     name: "static",
     value: 3,
@@ -32,9 +32,7 @@ describe("Popover VDT", () => {
         render(
             <PopoverVariableDependent data={data} setValues={setValues} i={i} />
         );
-    test("render component successfully", () => {
-        const component = PopoverComponent(dataForStatic, 1);
-    });
+    test("render component successfully", () => {});
     test("render Static Input component after click trigger button", () => {
         const component = PopoverComponent(dataForStatic, 1);
         const buttonTriggerPopover = component.getByRole("button");

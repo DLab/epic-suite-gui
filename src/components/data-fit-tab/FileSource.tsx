@@ -1,5 +1,4 @@
 import { Box, Button } from "@chakra-ui/react";
-import React from "react";
 
 /**
  * Option to get real data from a file upload.

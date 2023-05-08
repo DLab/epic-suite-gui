@@ -1,7 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useContext } from "react";
 
-import { ControlPanel } from "context/ControlPanelContext";
 import { InterventionColection } from "context/InterventionsContext";
 import { NewModelSetted } from "context/NewModelsContext";
 import { TabIndex } from "context/TabContext";
@@ -12,21 +11,20 @@ import {
     VerifyIsSelfName,
 } from "utils/verifyRepeatedNames";
 
-const ModelInterventions = () => {
+type ModelInterventionsProps = {
+    actualModelName: string;
+};
+
+const ModelInterventions = ({ actualModelName }: ModelInterventionsProps) => {
     const {
-        interventionsMode,
         setInterventionMode,
         interventionsCreated,
-        setInterventionsCreated,
-        originOfInterventionCreation,
         setOriginOfInterventionCreation,
-        idInterventionToUpdate,
         setIdInterventionToUpdate,
         setIdInterventionModel,
     } = useContext(InterventionColection);
     const { setIndex } = useContext(TabIndex);
-    const { setIdMobility, completeModel, name, idModelUpdate } =
-        useContext(NewModelSetted);
+    const { completeModel, name, idModelUpdate } = useContext(NewModelSetted);
     return (
         <Flex direction="column">
             <Flex justify="left" align="center">
@@ -37,7 +35,7 @@ const ModelInterventions = () => {
                     (interv: Interventions) => interv.id === idModelUpdate
                 ) ? (
                     <Text
-                        color="#016FB9"
+                        color={actualModelName ? "#016FB9" : "#8080A0"}
                         fontSize="0.875rem"
                         textDecorationLine="underline"
                         cursor="pointer"

@@ -1,6 +1,6 @@
 import { Flex, Button, Icon } from "@chakra-ui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 
 import { InterventionColection } from "../../context/InterventionsContext";
 import BreadCrumb from "components/BreadCrumb";
@@ -44,11 +44,9 @@ const InterventionsTab = () => {
             secondModelLink &&
             interventionsMode === InterventionsModes.Update
         ) {
-            const { id, modelId, interventions, name } =
-                interventionsCreated.find(
-                    (interv: Interventions) =>
-                        interv.id === idInterventionToUpdate
-                );
+            const { id, interventions } = interventionsCreated.find(
+                (interv: Interventions) => interv.id === idInterventionToUpdate
+            );
             setIdInterventionToUpdate(id);
             setData(interventions);
             const updatedStrategyObject = interventions.map(

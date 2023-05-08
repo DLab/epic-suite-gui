@@ -12,16 +12,14 @@ import {
     Button,
 } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 
 import BreadCrumb from "components/BreadCrumb";
-import { getParametersFitModel } from "components/models-tab/GetParametersByNodes";
 import StatusHardSimPop from "components/summary-tab/StatusHardSimPop";
 import ToastCustom from "components/ToastCustom";
 import { DataFit } from "context/DataFitContext";
 import { HardSimSetted } from "context/HardSimulationsStatus";
 import { NewModelSetted } from "context/NewModelsContext";
-import { EpidemicsData } from "types/ControlPanelTypes";
 import {
     Actions,
     StatusSimulation,
@@ -31,7 +29,6 @@ import type { NewModelsAllParams } from "types/SimulationTypes";
 import postData from "utils/fetchData";
 
 import EndPointSource from "./EndPointSource";
-import FileSource from "./FileSource";
 import FitParemetersTabs from "./FitParemetersTabs";
 import SampleSource from "./SampleSource";
 

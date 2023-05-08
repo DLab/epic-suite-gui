@@ -1,7 +1,7 @@
 import { CheckIcon } from "@chakra-ui/icons";
 import { Button } from "@chakra-ui/react";
 import _ from "lodash";
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import { useContext, useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 
 import { NewModelSetted } from "context/NewModelsContext";

@@ -103,16 +103,6 @@ export const postInitialConditionsByModel = (result) => {
             R: 0,
         };
     }
-    // if (Compartment === "SEIR") {
-    //     payload = {
-    //         I: +I_active,
-    //         I_d: +I,
-    //         I_ac: +I_acum,
-    //         population: +S,
-    //         R: +R,
-    //         E: +E,
-    //     };
-    // }
     if (Compartment === "SEIRHVD") {
         payload = {
             I: +I,

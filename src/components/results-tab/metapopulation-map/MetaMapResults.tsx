@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { format, add } from "date-fns";
 import dynamic from "next/dynamic";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import ColorScaleMenu from "../ColorScaleMenu";
@@ -177,9 +177,9 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
             <Flex
                 direction="column"
                 justify="center"
-                bg="#FFFFFF"
+                // bg="#FFFFFF"
                 borderRadius="10px"
-                alignItems="center"
+                // alignItems="center"
                 w="100%"
                 h="70vh"
             >
@@ -192,8 +192,8 @@ const MetaMapResults = ({ map, sizeGraphic }: Props) => {
                         center={[38, -96]}
                         zoom={3.48}
                         style={{
-                            height: "45vh",
-                            maxHeight: "45vh",
+                            height: "60vh",
+                            maxHeight: "60vh",
                             width: "100%",
                         }}
                         // scrollWheelZoom={true}

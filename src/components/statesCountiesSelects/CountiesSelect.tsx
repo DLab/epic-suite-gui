@@ -1,4 +1,5 @@
 import { FormControl, Button, Box } from "@chakra-ui/react";
+import type { ChakraStylesConfig } from "chakra-react-select";
 import { Select } from "chakra-react-select";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
@@ -7,11 +8,24 @@ import { SelectFeature } from "../../context/SelectFeaturesContext";
 import countyData from "../../data/counties.json";
 import createIdComponent from "utils/createIdcomponent";
 
+type OptionValueCounty = {
+    value: string;
+};
+
+type OptionCounty = {
+    options: OptionValueCounty[];
+};
+
+interface CountiesSelectProps {
+    options: unknown[];
+    optionsCounty: OptionCounty[];
+}
+
 /**
  * US counties selector.
  * @component
  */
-const CountiesSelect = ({ options, optionsCounty }) => {
+const CountiesSelect = ({ options, optionsCounty }: CountiesSelectProps) => {
     const { counties: countiesSelected, setCounties: setCountiesSelected } =
         useContext(SelectFeature);
     const [optionsCounties, setOptionsCounties] = useState([]);
@@ -55,7 +69,10 @@ const CountiesSelect = ({ options, optionsCounty }) => {
                 ...countiesSelected,
                 ...allCountiesInState,
             ]);
-            setCountiesSelected({ type: "add-all", payload: selectedCounties });
+            setCountiesSelected({
+                type: "add-all",
+                payload: [...selectedCounties].map((selected) => `${selected}`),
+            });
             return true;
         }
         // Remove one county
@@ -95,8 +112,14 @@ const CountiesSelect = ({ options, optionsCounty }) => {
     const handleOptionsCounties = (val) => {
         return (
             optionsCounty[0].options.filter((e) => e.value.startsWith(val)) ??
-            ""
+            []
         );
+    };
+    const chakraStyles: ChakraStylesConfig = {
+        dropdownIndicator: (provided) => ({
+            ...provided,
+            w: "100%",
+        }),
     };
     return (
         <Box id={createIdComponent()}>
@@ -122,8 +145,8 @@ const CountiesSelect = ({ options, optionsCounty }) => {
                     options={optionsCounties}
                     placeholder="Select cunties"
                     size="sm"
-                    w="100%"
                     onChange={({ value }) => setCountyFeature(value)}
+                    chakraStyles={chakraStyles}
                 />
                 <Box
                     id={createIdComponent()}

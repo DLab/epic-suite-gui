@@ -1,22 +1,12 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import { Link, Icon } from "@chakra-ui/react";
-import {
-    fireEvent,
-    cleanup,
-    getByText,
-    prettyDOM,
-    render,
-    screen,
-    getRoles,
-} from "@testing-library/react";
-import renderer from "react-test-renderer";
+import { fireEvent, cleanup, render, screen } from "@testing-library/react";
 
 import DateRangeVariableDependent from "../components/models-tab/DateRangeVariableDependent";
 
 // import DateRangeVariableDependent from "@/components/models-tab/DateRangeVariableDependent";
-const setId = jest.fn((data: number) => undefined);
-const setIsRange = jest.fn((data: boolean) => undefined);
-const setDate = jest.fn((SetDate: unknown) => undefined);
+const setId = jest.fn(() => undefined);
+const setIsRange = jest.fn(() => undefined);
+const setDate = jest.fn(() => undefined);
 
 const DataRangeComponent = (
     init,
@@ -76,7 +66,6 @@ describe("DateRangeVariableDependent", () => {
         expect(endInput["value"]).toBe("3");
     });
     test("if inputs are disabled, check & close button must be hidden", () => {
-        const component = DataRangeComponent(0, 5, 2, 1, 4);
         expect(() => screen.getByLabelText(/check date/i)).toThrow();
         expect(() => screen.getByLabelText(/cancel date/i)).toThrow();
     });

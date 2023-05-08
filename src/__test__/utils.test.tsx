@@ -19,10 +19,6 @@ import {
     formatVariableDependentTime,
 } from "../utils/getDataForGraphicVTD";
 import reducerValuesObjects from "../utils/reducerValuesObject";
-import reducer, {
-    Actions,
-    lastValueInMatrix,
-} from "../utils/reducerVariableDependent";
 import showOnlySelectedAttributes, {
     findValueByKeyInMatrix,
     getSubTypeTransitionFunction,

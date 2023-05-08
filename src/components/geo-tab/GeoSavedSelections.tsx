@@ -1,5 +1,5 @@
 import { Select } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { Model } from "types/ControlPanelTypes";

@@ -14,7 +14,7 @@ import {
     StatNumber,
 } from "@chakra-ui/react";
 import { add, format } from "date-fns";
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import ColorsScale from "../ColorsScale";
@@ -131,7 +131,7 @@ const GraphAndMapMonoModal = ({ mapInfo, colorScale }: Props) => {
         setSimModalDate(format(newDate, "dd/MM/yyyy"));
     }, [mapInfo.date, simDayModal]);
 
-    const btnRef = React.useRef(null);
+    const btnRef = useRef(null);
     return (
         <>
             <Icon as={PlayModal} onClick={onOpen} cursor="pointer" mr="6px" />

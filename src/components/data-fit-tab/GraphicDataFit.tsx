@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 
 import { DataFit } from "context/DataFitContext";
@@ -22,7 +22,7 @@ const GraphicDataFit = ({ algorithmValue }: Props) => {
      * Returns a data set ready to send as data to the Plot.
      * @param {string} parameter name of the parameter to plot.
      */
-    const getAxisData = (parameter) => {
+    const getAxisData = () => {
         const getFittedData = {
             x: Object.keys(fittedData[0].I),
             y: Object.values(fittedData[0].I),
@@ -46,10 +46,10 @@ const GraphicDataFit = ({ algorithmValue }: Props) => {
     useEffect(() => {
         if (fittedData[0] !== undefined && realDataToFit[0] !== undefined) {
             if (algorithmValue === "Intervals") {
-                getAxisData("I_d_data");
+                getAxisData();
             }
             if (algorithmValue === "Sequential") {
-                getAxisData("I_d_data");
+                getAxisData();
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
