@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import { parse, isAfter, isBefore } from "date-fns";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";

@@ -7,6 +7,7 @@ import {
     Box,
     Flex,
     FormControl,
+    Heading,
     IconButton,
     Switch,
     Text,
@@ -18,6 +19,7 @@ import FunctionIcon from "components/icons/FunctionIcon";
 import NumberInputEpi from "components/NumberInputEpi";
 import NumberInputVariableDependent from "components/NumberInputVariableDependent";
 import { ControlPanel } from "context/ControlPanelContext";
+import useUpdateControlPanel from "hooks/modelTab/useUpdateControlPanel";
 import { update } from "store/ControlPanel";
 import { ActionsEpidemicData } from "types/ControlPanelTypes";
 import type VariableDependentTime from "types/VariableDependentTime";
@@ -56,12 +58,12 @@ const NodesParams = memo(
         modelCompartment,
     }: Props) => {
         const { description, setDataViewVariable } = useContext(ControlPanel);
-        const dispatch = useDispatch();
+        const updateControlPanel = useUpdateControlPanel();
         return (
             <Accordion reduceMotion allowToggle>
                 {nodes.map((node, i) => (
                     <AccordionItem key={createIdComponent()}>
-                        <h2>
+                        <Heading>
                             <AccordionButton>
                                 <Box
                                     flex="1"
@@ -72,7 +74,7 @@ const NodesParams = memo(
                                 </Box>
                                 <AccordionIcon />
                             </AccordionButton>
-                        </h2>
+                        </Heading>
                         <AccordionPanel>
                             <Flex justifyContent="space-between" wrap="wrap">
                                 <FormControl display="flex" alignItems="center">
@@ -120,16 +122,13 @@ const NodesParams = memo(
                                                 if (!e.target.checked) {
                                                     showSectionVariable(false);
                                                 }
-                                                dispatch(
-                                                    update({
-                                                        type: "switch",
-                                                        target: "beta",
-                                                        switch: e.target
-                                                            .checked,
-                                                        positionVariableDependentTime:
-                                                            i,
-                                                    })
-                                                );
+                                                updateControlPanel({
+                                                    type: "switch",
+                                                    target: "beta",
+                                                    switch: e.target.checked,
+                                                    positionVariableDependentTime:
+                                                        i,
+                                                });
                                             }}
                                         />
 
@@ -204,16 +203,13 @@ const NodesParams = memo(
                                                 if (!e.target.checked) {
                                                     showSectionVariable(false);
                                                 }
-                                                dispatch(
-                                                    update({
-                                                        type: "switch",
-                                                        target: "alpha",
-                                                        switch: e.target
-                                                            .checked,
-                                                        positionVariableDependentTime:
-                                                            i,
-                                                    })
-                                                );
+                                                updateControlPanel({
+                                                    type: "switch",
+                                                    target: "alpha",
+                                                    switch: e.target.checked,
+                                                    positionVariableDependentTime:
+                                                        i,
+                                                });
                                             }}
                                         />
 

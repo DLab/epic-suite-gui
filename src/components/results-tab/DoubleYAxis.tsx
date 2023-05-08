@@ -16,7 +16,7 @@ import {
     IconButton,
     Tooltip,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import DoubleYaxisIcon from "../icons/DoubleYaxisIcon";
 import RightArrow from "../icons/RightArrow";

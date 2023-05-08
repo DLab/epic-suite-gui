@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { colorGradient } from "./getColorsScales";
+import { Box } from "@chakra-ui/react";
 
 interface Props {
     maxValue: number;
@@ -65,7 +66,7 @@ const ColorsScale = ({ maxValue, colorScale }: Props) => {
     };
 
     return (
-        <div className="info legend">
+        <Box className="info legend" mb="3rem" mr="2%">
             {scaleValues.map((scale) => {
                 const quantityIndicator = getQuantityIndicator();
                 const minRound =
@@ -73,7 +74,7 @@ const ColorsScale = ({ maxValue, colorScale }: Props) => {
                     quantityIndicator;
 
                 return (
-                    <div key={scale.color} style={{ textAlign: "initial" }}>
+                    <Box key={scale.color} style={{ textAlign: "initial" }}>
                         <i
                             className="box-legend"
                             style={{ background: scale.color }}
@@ -85,10 +86,10 @@ const ColorsScale = ({ maxValue, colorScale }: Props) => {
                                 )}
                             </span>
                         )}
-                    </div>
+                    </Box>
                 );
             })}
-        </div>
+        </Box>
     );
 };
 

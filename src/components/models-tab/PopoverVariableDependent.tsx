@@ -4,6 +4,7 @@ import {
     Popover,
     PopoverContent,
     PopoverTrigger,
+    Text,
     useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
@@ -39,6 +40,66 @@ interface DataPopover {
     ftype?: TransitionFunction;
     gw?: number;
 }
+
+export const TimeDependentFunctionInput = (
+    data: DataPopover,
+    onClose: () => void,
+    i: number,
+    setValues: (values: unknown) => void
+) => {
+    const { name, ...rest } = data;
+    switch (name) {
+        case "static":
+            return (
+                <StaticInputs
+                    value={rest.value}
+                    id={i}
+                    setVal={setValues}
+                    close={onClose}
+                />
+            );
+        case "sinusoidal":
+            return (
+                <SinoInputs
+                    min={rest.min}
+                    max={rest.max}
+                    initPhase={rest.initPhase}
+                    period={rest.period}
+                    setVal={setValues}
+                    id={i}
+                    close={onClose}
+                />
+            );
+        case "square":
+            return (
+                <SquareInputs
+                    min={rest.min}
+                    max={rest.max}
+                    initPhase={rest.initPhase}
+                    period={rest.period}
+                    duty={rest.duty}
+                    setVal={setValues}
+                    id={i}
+                    close={onClose}
+                />
+            );
+        case "transition":
+            return (
+                <TransitionInputs
+                    initvalue={rest.initvalue}
+                    endvalue={rest.endvalue}
+                    ftype={rest.ftype}
+                    concavity={rest.concavity}
+                    setVal={setValues}
+                    id={i}
+                    close={onClose}
+                />
+            );
+        default:
+            return <Text>Not Function Selected</Text>;
+    }
+};
+
 const PopoverVariableDependent = ({ data, setValues, i }: Props) => {
     const { onOpen, onClose, isOpen } = useDisclosure();
     return (
@@ -54,48 +115,7 @@ const PopoverVariableDependent = ({ data, setValues, i }: Props) => {
                 />
             </PopoverTrigger>
             <PopoverContent>
-                {data.name === "static" && (
-                    <StaticInputs
-                        value={data.value}
-                        id={i}
-                        setVal={setValues}
-                        close={onClose}
-                    />
-                )}
-                {data.name === "sinusoidal" && (
-                    <SinoInputs
-                        min={data.min}
-                        max={data.max}
-                        initPhase={data.initPhase}
-                        period={data.period}
-                        setVal={setValues}
-                        id={i}
-                        close={onClose}
-                    />
-                )}
-                {data.name === "square" && (
-                    <SquareInputs
-                        min={data.min}
-                        max={data.max}
-                        initPhase={data.initPhase}
-                        period={data.period}
-                        duty={data.duty}
-                        setVal={setValues}
-                        id={i}
-                        close={onClose}
-                    />
-                )}
-                {data.name === "transition" && (
-                    <TransitionInputs
-                        initvalue={data.initvalue}
-                        endvalue={data.endvalue}
-                        ftype={data.ftype}
-                        concavity={data.concavity}
-                        setVal={setValues}
-                        id={i}
-                        close={onClose}
-                    />
-                )}
+                {TimeDependentFunctionInput(data, onClose, i, setValues)}
             </PopoverContent>
         </Popover>
     );

@@ -7,7 +7,7 @@ import {
     IconButton,
     Tooltip,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 // import CleanIcon from "../icons/CleanIcon";
 import { DataFit } from "context/DataFitContext";

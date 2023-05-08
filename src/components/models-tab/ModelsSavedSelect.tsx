@@ -1,5 +1,5 @@
 import { Select } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import { NewModelSetted } from "context/NewModelsContext";
 import type { NewModelsAllParams } from "types/SimulationTypes";

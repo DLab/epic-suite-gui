@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/dot-notation */
-import { cleanup, fireEvent, prettyDOM, render } from "@testing-library/react";
+import { cleanup, fireEvent, render } from "@testing-library/react";
 
 import {
     SinoInputs,
@@ -23,7 +23,7 @@ const sineComponent = (min, max, period, initPhase, id, setVal, close) => {
         />
     );
 };
-const setValMock = jest.fn((values: unknown) => {});
+const setValMock = jest.fn(() => {});
 const closeMock = jest.fn(() => {});
 describe("Form Variable Dependent", () => {
     beforeEach(cleanup);

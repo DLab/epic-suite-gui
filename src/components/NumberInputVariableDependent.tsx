@@ -1,8 +1,6 @@
-import { CheckIcon, CloseIcon, InfoIcon } from "@chakra-ui/icons";
+import { InfoIcon } from "@chakra-ui/icons";
 import {
-    Flex,
     Icon,
-    IconButton,
     NumberDecrementStepper,
     NumberIncrementStepper,
     NumberInput,
@@ -13,9 +11,8 @@ import {
     Box,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 
-import { update } from "store/ControlPanel";
+import useUpdateControlPanel from "hooks/modelTab/useUpdateControlPanel";
 import { NameFunction } from "types/VariableDependentTime";
 
 interface Props {
@@ -30,8 +27,6 @@ interface Props {
     index?: number;
     isStateLocal?: boolean;
     duration?: number;
-    isSupplementary?: boolean;
-    supplementaryParam?: string;
 }
 
 /**
@@ -50,40 +45,32 @@ const NumberInputVariableDependent = ({
     name,
     description,
     duration,
-    isSupplementary = false,
-    supplementaryParam,
 }: Props) => {
     const [localValue, setLocalValue] = useState<string>(`${value}`);
-    const [isEditingLocalValue, setIsEditingLocalValue] =
-        useState<boolean>(false);
-    const dispatch = useDispatch();
-    const [locVal, setLocVal] = useState(value);
-
+    const updateControlPanel = useUpdateControlPanel();
     /**
      * Saves the new values of the time-dependent variables.
      * @param val new parameter value.
      */
     const handleChange = (val: string | number) => {
-        dispatch(
-            update({
-                type: "setVariableDependent",
-                payloadVariableDependent: {
-                    rangeDays: [[0, duration]],
-                    type: [
-                        {
-                            name: NameFunction.static,
-                            value: +val,
-                        },
-                    ],
-                    name: nameParams,
-                    default: 7,
-                    isEnabled: false,
-                    val: +val,
-                },
-                positionVariableDependentTime: index ?? -1,
-                target: nameParams,
-            })
-        );
+        updateControlPanel({
+            type: "setVariableDependent",
+            payloadVariableDependent: {
+                rangeDays: [[0, duration]],
+                type: [
+                    {
+                        name: NameFunction.static,
+                        value: +val,
+                    },
+                ],
+                name: nameParams,
+                default: 7,
+                isEnabled: false,
+                val: +val,
+            },
+            positionVariableDependentTime: index ?? -1,
+            target: nameParams,
+        });
     };
     // const handleChange = (val: string | number) => {
     //     if (isStateLocal) {

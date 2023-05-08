@@ -154,11 +154,11 @@ const SideBar = () => {
                     </Tab>
                     <Tab
                         _focus={{ boxShadow: "none" }}
-                        display="none"
                         flexDirection="column"
                         w="100%"
                         border="none"
                         m="10px 0"
+                        display="none"
                     >
                         <Icon
                             w="20px"

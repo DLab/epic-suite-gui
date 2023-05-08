@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { ArrowRightCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import { SelectFeature } from "context/SelectFeaturesContext";
 import { TabIndex } from "context/TabContext";

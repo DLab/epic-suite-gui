@@ -1,13 +1,6 @@
 /* eslint-disable complexity */
 import { AddIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import {
-    Button,
-    Flex,
-    HStack,
-    Select,
-    Stack,
-    useToast,
-} from "@chakra-ui/react";
+import { Button, Flex, HStack, Select, Stack } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import type React from "react";
 
@@ -40,14 +33,11 @@ const InterventionsNameAndButtons = ({
     setData,
     data,
 }: Props) => {
-    const toast = useToast();
     const {
         interventionsMode,
         setInterventionMode,
-        interventionsCreated,
         setInterventionsCreated,
         originOfInterventionCreation,
-        setOriginOfInterventionCreation,
         setIdInterventionToUpdate,
         idInterventionModel,
         setIdInterventionModel,
@@ -96,18 +86,16 @@ const InterventionsNameAndButtons = ({
                         isDisabled={isModelChoose || Boolean(selectedModel)}
                         value={selectedModel}
                     >
-                        {newModel.map(
-                            (model: NewModelsParams, i: React.Key) => (
-                                <option
-                                    key={createIdComponent()}
-                                    value={model.idNewModel}
-                                >
-                                    {model.name !== ""
-                                        ? model.name
-                                        : "Model without name"}
-                                </option>
-                            )
-                        )}
+                        {newModel.map((model: NewModelsParams) => (
+                            <option
+                                key={createIdComponent()}
+                                value={model.idNewModel}
+                            >
+                                {model.name !== ""
+                                    ? model.name
+                                    : "Model without name"}
+                            </option>
+                        ))}
                     </Select>
                     <Select
                         size="sm"
@@ -208,12 +196,16 @@ const InterventionsNameAndButtons = ({
                             color="#FFFFFF"
                             leftIcon={<CheckIcon />}
                             onClick={() => {
+                                const { name } = newModel.find(
+                                    (nMod: NewModelsParams) =>
+                                        nMod.idNewModel === selectedModel
+                                );
                                 setInterventionsCreated({
                                     type: Actions.add,
                                     payload: {
                                         id: selectedModel,
                                         modelId: selectedModel,
-                                        name: `${selectedModel}`,
+                                        name,
                                         interventions: data,
                                     },
                                 });

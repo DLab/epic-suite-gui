@@ -1,6 +1,6 @@
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 import { Button, Flex, Input, Stack, useToast } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { MobilityMatrix } from "../../context/MobilityMatrixContext";
 import ToastCustom from "components/ToastCustom";

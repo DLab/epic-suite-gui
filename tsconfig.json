@@ -17,8 +17,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": "src",
-    "target": "es5",
-    "incremental": true
+    "target": "ES2015",
+    "incremental": true,
+    "downlevelIteration": true
   },
   "include": [
     "next-env.d.ts",

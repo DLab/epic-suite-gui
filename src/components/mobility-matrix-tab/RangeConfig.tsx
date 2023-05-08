@@ -1,6 +1,6 @@
 import { CloseIcon } from "@chakra-ui/icons";
 import { Flex, Select, Input } from "@chakra-ui/react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import type { InterventionsTypes } from "types/MobilityMatrixTypes";
 

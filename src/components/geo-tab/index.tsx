@@ -1,6 +1,6 @@
 import { Flex, Button, Icon } from "@chakra-ui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";

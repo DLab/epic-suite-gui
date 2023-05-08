@@ -1,5 +1,5 @@
 import { Flex, Input, Box } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import GeoToastMessage1 from "components/geo-tab/selectorMap/GeoToastMessage1";
 import SelectorMap1 from "components/geo-tab/selectorMap/SelectorMap1";

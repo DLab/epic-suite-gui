@@ -49,8 +49,8 @@ const GraphDependentTimeParameters = ({
                 ]}
                 layout={{
                     autosize: false,
-                    width: 550,
-                    height: 200,
+                    width: 850,
+                    height: 400,
                     margin: {
                         l: 50,
                         b: 30,
@@ -93,7 +93,7 @@ const GraphDependentTimeParameters = ({
                 }}
             >
                 {" "}
-                Show Graph
+                View Graph
             </Button>
         </Flex>
     );

@@ -20,7 +20,7 @@ import {
     MenuItem,
     IconButton,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import ToastCustom from "components/ToastCustom";
 import { GraphicsData } from "context/GraphicsContext";

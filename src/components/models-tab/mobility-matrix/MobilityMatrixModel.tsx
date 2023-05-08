@@ -1,5 +1,5 @@
 import { Select, Text, Flex, RadioGroup, Stack, Radio } from "@chakra-ui/react";
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { ControlPanel } from "context/ControlPanelContext";

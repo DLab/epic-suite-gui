@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { Input } from "@chakra-ui/react";
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
 import { GraphicsData } from "context/GraphicsContext";

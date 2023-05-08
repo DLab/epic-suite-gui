@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { FormControl, Flex, Switch, IconButton, Text } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useDispatch } from "react-redux";
 
 import FunctionIcon from "components/icons/FunctionIcon";
@@ -16,7 +16,6 @@ interface Props {
     nameParam: string;
     idNode: number;
     duration: number;
-    supplementaryParam: string;
     setIsEnableIconButton: (obj: Record<string, boolean[]>) => void;
     setPositionVDT: (position: number) => void;
 }
@@ -25,7 +24,6 @@ const SupplementaryParameters = ({
     showSectionVariable,
     data,
     nameParam,
-    supplementaryParam,
     idNode,
     duration,
     isEnableIconButton,
@@ -48,8 +46,6 @@ const SupplementaryParameters = ({
                     index={idNode}
                     duration={duration}
                     isStateLocal
-                    isSupplementary
-                    supplementaryParam={supplementaryParam}
                     isDisabled={isEnableIconButton[nameParam][idNode]}
                 />
             </Flex>

@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { format, add } from "date-fns";
 import dynamic from "next/dynamic";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import { GraphicsData } from "context/GraphicsContext";

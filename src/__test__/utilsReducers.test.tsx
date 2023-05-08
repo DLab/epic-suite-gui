@@ -288,7 +288,7 @@ describe("reducers variable dependent time", () => {
         // const setVal = (data: unknown, index: string): void => {
         //     return undefined;
         // };
-        const setVal = jest.fn((data: unknown, index: string) => undefined);
+        const setVal = jest.fn(() => undefined);
         handleNameFunctionSelect(options.static, 0, setVal);
         expect(setVal).toHaveBeenCalled();
         handleNameFunctionSelect(options.transition, 0, setVal);

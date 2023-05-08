@@ -12,7 +12,7 @@ import {
     DrawerFooter,
     Grid,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import type { GeometryObject } from "topojson-specification";
 
 import countiesData_ from "../../data/counties-10m.json";
@@ -40,7 +40,7 @@ const ResultsMapsSelection = ({ onClose }: Props) => {
     ]);
     const [initialConditionsRealCheckBox, setinitialConditionsRealCheckBox] =
         useState([[], []]);
-    const [value, setValue] = React.useState(["", ""]);
+    const [value, setValue] = useState(["", ""]);
     const [simIdToShowInMap, setSimIdToShowInMap] = useState(["", ""]);
     const [placeholderText, setPlaceholderText] = useState([
         "Select option",

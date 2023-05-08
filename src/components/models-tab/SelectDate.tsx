@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { useToast } from "@chakra-ui/react";
 import { format } from "date-fns";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import DatePicker from "react-datepicker";
 
 import ToastCustom from "components/ToastCustom";
@@ -92,18 +92,20 @@ const SelectDate = ({
         const result = await postData(url, {
             [name]: config,
         });
+        return Object.keys(result)
+            .sort()
+            .map((key) => {
+                const allInitialConditionsMeta = postInitialConditionsByModel(
+                    result[key]
+                );
 
-        return Object.keys(result).map((key) => {
-            const allInitialConditionsMeta = postInitialConditionsByModel(
-                result[key]
-            );
-            const nodeName = getNodeName(scale, key);
+                const nodeName = getNodeName(scale, key);
 
-            return {
-                name: nodeName.toString(),
-                conditionsValues: allInitialConditionsMeta,
-            };
-        });
+                return {
+                    name: nodeName.toString(),
+                    conditionsValues: allInitialConditionsMeta,
+                };
+            });
     };
 
     /**
@@ -173,7 +175,6 @@ const SelectDate = ({
                         getConfig(),
                         scale
                     );
-
                     setNewModel({
                         type: "update-initial-conditions",
                         payloadInitialConditions: results,

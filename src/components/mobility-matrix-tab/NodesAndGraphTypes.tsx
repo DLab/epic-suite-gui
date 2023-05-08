@@ -1,5 +1,5 @@
 import { Button, Flex, FormControl, Select, Text } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 
 import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { getRealMatrix } from "utils/fetchData";

@@ -12,7 +12,7 @@ import {
     Box,
 } from "@chakra-ui/react";
 import { TrashIcon } from "@heroicons/react/24/outline";
-import React, { useRef, useContext } from "react";
+import { useRef, useContext } from "react";
 
 import ToastCustom from "components/ToastCustom";
 import { NewModelSetted } from "context/NewModelsContext";

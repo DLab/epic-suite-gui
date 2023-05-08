@@ -14,7 +14,7 @@ import {
     Stack,
 } from "@chakra-ui/react";
 import { ArrowRightCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";

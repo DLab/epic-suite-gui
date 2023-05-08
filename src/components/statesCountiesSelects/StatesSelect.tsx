@@ -9,7 +9,12 @@ import createIdComponent from "utils/createIdcomponent";
  * Selector for US states.
  * @component
  */
-const StatesSelect = ({ options, extentionOption }) => {
+interface StatesSelectProps {
+    options: unknown[];
+    extentionOption: string;
+}
+
+const StatesSelect = ({ options, extentionOption }: StatesSelectProps) => {
     const { states: statesSelected, setStates: setStatesSelected } =
         useContext(SelectFeature);
 
@@ -22,7 +27,6 @@ const StatesSelect = ({ options, extentionOption }) => {
             placeholder="Select states"
             closeMenuOnSelect
             size="sm"
-            styles={{ background: "red" }}
             onChange={({ fips }) => {
                 if (statesSelected.includes(fips)) {
                     setStatesSelected({ type: "remove-one", payload: [fips] });
@@ -32,11 +36,6 @@ const StatesSelect = ({ options, extentionOption }) => {
             }}
         />
     );
-};
-
-StatesSelect.propTypes = {
-    options: PropTypes.arrayOf(PropTypes.any),
-    extentionOption: PropTypes.string,
 };
 
 export default StatesSelect;

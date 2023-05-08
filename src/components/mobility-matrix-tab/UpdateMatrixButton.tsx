@@ -1,6 +1,6 @@
 import { Button } from "@chakra-ui/react";
 import _ from "lodash";
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import { MobilityMatrix } from "context/MobilityMatrixContext";
 import { NewModelSetted } from "context/NewModelsContext";

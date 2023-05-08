@@ -10,7 +10,7 @@ import {
     StatNumber,
     StatHelpText,
 } from "@chakra-ui/react";
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import ToastCustom from "components/ToastCustom";
 import { NewModelSetted } from "context/NewModelsContext";

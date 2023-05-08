@@ -14,21 +14,22 @@ import { Model } from "types/ControlPanelTypes";
  * @subcategory MapTab
  * @component
  */
-const SelectorMap1 = ({ extentionOption, setExtentionOption }) => {
+
+interface SelectorMap {
+    extentionOption: string;
+    setExtentionOption: (value: string) => void;
+}
+
+const SelectorMap1 = ({ extentionOption, setExtentionOption }: SelectorMap) => {
     const {
         mode,
         scale,
-        // setScale,
-        // states,
-        // counties,
         setCounties: setCountiesSelected,
         setStates: setStatesSelected,
     } = useContext(SelectFeature);
-    // const [extentionOption, setExtentionOption] = useState("National");
 
     const [stateOptions, setStateOptions] = useState([]);
     const [countiesOptions, setCountiesOptions] = useState([]);
-    // const [isOpen, setIsOpen] = useState(false);
     const options = [
         {
             label: "STATES",
@@ -66,30 +67,8 @@ const SelectorMap1 = ({ extentionOption, setExtentionOption }) => {
         if (mode === "Update") {
             setExtentionOption(scale);
         }
-        // if (scale === "National") {
-        //     setExtentionOption("0");
-        // } else if (scale === "States") {
-        //     setExtentionOption("1");
-        // } else {
-        //     setExtentionOption("2");
-        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scale]);
-
-    // useEffect(() => {
-    //     if (mode === Model.Initial) {
-    //         setStatesSelected({ type: "reset" });
-    //         setCountiesSelected({ type: "reset" });
-    //     }
-    //     // if (extentionOption === "0") {
-    //     //     setScale("National");
-    //     // } else if (extentionOption === "1") {
-    //     //     setScale("States");
-    //     // } else {
-    //     //     setScale("Counties");
-    //     // }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [mode]);
 
     useEffect(() => {
         getStatesOptions();
@@ -106,19 +85,6 @@ const SelectorMap1 = ({ extentionOption, setExtentionOption }) => {
                 <HStack display="flex" justifyContent="space-evenly">
                     {mode === Model.Add && (
                         <>
-                            {" "}
-                            {/* <Radio
-                                id="radio-national"
-                                name="radio-national"
-                                bg="white"
-                                border="1px"
-                                borderColor="#5B58AD"
-                                value="National"
-                            >
-                                <span style={{ fontSize: "14px" }}>
-                                    National
-                                </span>
-                            </Radio> */}
                             <Radio
                                 id="radio-state"
                                 name="radio-state"
@@ -143,20 +109,6 @@ const SelectorMap1 = ({ extentionOption, setExtentionOption }) => {
                     )}
                     {mode === Model.Update && (
                         <>
-                            {" "}
-                            {/* <Radio
-                                id="radio-national"
-                                name="radio-national"
-                                bg="white"
-                                border="1px"
-                                borderColor="#5B58AD"
-                                value="National"
-                                isDisabled
-                            >
-                                <span style={{ fontSize: "14px" }}>
-                                    National
-                                </span>
-                            </Radio> */}
                             <Radio
                                 id="radio-state"
                                 name="radio-state"
@@ -197,30 +149,13 @@ const SelectorMap1 = ({ extentionOption, setExtentionOption }) => {
                     optionsCounty={optionsCounty}
                 />
             )}
-            {/* <Center>
-                <Button
-                    mt="0.5rem"
-                    variant="ghost"
-                    colorScheme="blue"
-                    fontSize="14px"
-                    onClick={() => {
-                        if (states.length === 0 && counties.length === 0) {
-                            return;
-                        }
-                        setIsOpen(true);
-                    }}
-                >
-                    Reset
-                </Button>
-                <ResetAlerts isOpen={isOpen} setIsOpen={setIsOpen} />
-            </Center> */}
         </FormControl>
     );
 };
 
 export default SelectorMap1;
 
-SelectorMap1.propTypes = {
-    extentionOption: PropTypes.string,
-    setExtentionOption: PropTypes.func,
-};
+// SelectorMap1.propTypes = {
+//     extentionOption: PropTypes.string,
+//     setExtentionOption: PropTypes.func,
+// };

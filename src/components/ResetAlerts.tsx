@@ -7,7 +7,7 @@ import {
     AlertDialogOverlay,
     Button,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 
 import { SelectFeature } from "../context/SelectFeaturesContext";
 import createIdComponent from "utils/createIdcomponent";
@@ -28,7 +28,7 @@ const ResetAlerts = ({ isOpen, setIsOpen }: Props) => {
         setStates: setStatesSelected,
     } = useContext(SelectFeature);
     const onClose = () => setIsOpen(false);
-    const cancelRef = React.useRef();
+    const cancelRef = useRef();
 
     /**
      * Delete the selected states or counties.

@@ -1,5 +1,5 @@
-import { Link, Icon } from "@chakra-ui/react";
-import { render, screen } from "@testing-library/react";
+import { Link } from "@chakra-ui/react";
+import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 
 import Page404 from "../pages/404";

@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/no-duplicate-string */
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import Plot from "react-plotly.js";
 
 import getColor from "../getColor";
@@ -68,7 +68,9 @@ const BarGraphModal = ({
                         type: "bar",
                         marker: {
                             color: getColor(
-                                Object.values(simulationRealKeys)[simDay],
+                                Object.values(simulationRealKeys)[
+                                    simDay
+                                ] as number,
                                 maxValue,
                                 colorScale
                             ),
@@ -92,7 +94,7 @@ const BarGraphModal = ({
                     type: "bar",
                     marker: {
                         color: getColor(
-                            Object.values(simulationKeys)[simDay],
+                            Object.values(simulationKeys)[simDay] as number,
                             maxValue,
                             colorScale
                         ),
@@ -132,13 +134,13 @@ const BarGraphModal = ({
             data={axios}
             layout={{
                 autosize: false,
-                width: 620,
-                height: 260,
-                // margin: {
-                //     l: 75,
-                //     b: 60,
-                //     t: 0,
-                // },
+                width: "100%",
+                height: "40%",
+                margin: {
+                    l: 75,
+                    b: 60,
+                    t: 20,
+                },
                 legend: { xanchor: "right", x: 1.1, y: 1.1, yanchor: "top" },
                 showlegend: true,
                 xaxis: {

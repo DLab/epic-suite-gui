@@ -23,7 +23,14 @@ import {
     TypePhase,
 } from "../../types/VariableDependentTime";
 import ToastCustom from "components/ToastCustom";
+import { useWaveformInputs } from "hooks/modelTab/useWaveForm";
 import { StatusSimulation } from "types/HardSimulationType";
+
+import {
+    ChooseTDFunction,
+    InputTDFunction,
+    RadioInputTDFunction,
+} from "./timeDependentVar/ChooseTDFunction";
 
 interface DataSetters {
     id: number;
@@ -50,26 +57,61 @@ interface TransProps extends DataSetters {
     ftype: TransitionFunction;
 }
 
+const CustomNumberInput = ({
+    label,
+    value,
+    onChange,
+    width = "35%",
+    min = 0,
+    step = 0.01,
+    isInvalid,
+    size = "xs",
+}) => (
+    <>
+        {label}:
+        <NumberInput
+            w={width}
+            size={size}
+            value={value}
+            min={min}
+            step={step}
+            isInvalid={isInvalid}
+            onChange={onChange}
+        >
+            <NumberInputField />
+            <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+            </NumberInputStepper>
+        </NumberInput>
+    </>
+);
+
+const CustomRadioGroup = ({ label, value, onChange, options, size = "sm" }) => (
+    <>
+        {label}:
+        <RadioGroup value={value} size={size} onChange={onChange}>
+            <Stack direction="row">
+                {options.map((option) => (
+                    <Radio key={option.value} value={`${option.value}`}>
+                        {option.label}
+                    </Radio>
+                ))}
+            </Stack>
+        </RadioGroup>
+    </>
+);
+
 export const StaticInputs = ({ value, id, setVal, close }: StaticsProps) => {
-    const [state, setstate] = useState<string>(`${value}`);
+    const { state, setstate } = useWaveformInputs({ value });
     return (
-        <Flex alignItems="center">
-            <Text>Static Value:</Text>
-            <NumberInput
-                w="30%"
-                ml="0.5"
-                size="sm"
-                min={0}
-                step={0.01}
+        <ChooseTDFunction label="Static Value">
+            <InputTDFunction
+                label=""
                 value={state}
-                onChange={(e) => setstate(e)}
-            >
-                <NumberInputField />
-                <NumberInputStepper>
-                    <NumberIncrementStepper />
-                    <NumberDecrementStepper />
-                </NumberInputStepper>
-            </NumberInput>
+                onChange={setstate}
+                precision={0.2}
+            />
             <ButtonGroup mt={1} display="flex" justifyContent="flex-end">
                 <Button
                     size="xs"
@@ -91,7 +133,7 @@ export const StaticInputs = ({ value, id, setVal, close }: StaticsProps) => {
                     Cancel
                 </Button>
             </ButtonGroup>
-        </Flex>
+        </ChooseTDFunction>
     );
 };
 
@@ -104,86 +146,51 @@ export const SinoInputs = ({
     setVal,
     close,
 }: SineProps) => {
-    const [minVal, setMinVal] = useState(`${min}`);
-    const [maxVal, setMaxVal] = useState<string>(`${max}`);
-    const [periodVal, setPeriodVal] = useState(period);
-    const [initPhaseVal, setInitPhaseVal] = useState<number>(initPhase);
+    const {
+        minVal,
+        setMinVal,
+        maxVal,
+        setMaxVal,
+        periodVal,
+        setPeriodVal,
+        initPhaseVal,
+        setInitPhaseVal,
+    } = useWaveformInputs({ min, max, period, initPhase });
     const toast = useToast();
     return (
-        <Flex direction="column">
-            <Text>Sinusoidal</Text>
-            <Flex wrap="wrap" direction="column">
-                <Flex>
-                    Min:
-                    <NumberInput
-                        w="35%"
-                        size="xs"
-                        value={minVal}
-                        min={0}
-                        step={0.01}
-                        onChange={(e) => setMinVal(e)}
-                    >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                        </NumberInputStepper>
-                    </NumberInput>
-                </Flex>
-                <Flex>
-                    Max:
-                    <NumberInput
-                        w="35%"
-                        size="xs"
-                        value={maxVal}
-                        min={0}
-                        step={0.01}
-                        isInvalid={maxVal <= minVal}
-                        onChange={(e) => setMaxVal(e)}
-                    >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                        </NumberInputStepper>
-                    </NumberInput>
-                </Flex>
-                <Flex>
-                    Period:
-                    <NumberInput
-                        w="35%"
-                        size="xs"
-                        value={periodVal}
-                        min={0}
-                        step={0.01}
-                        onChange={(e) => setPeriodVal(+e)}
-                    >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                        </NumberInputStepper>
-                    </NumberInput>
-                </Flex>
-                <Flex>
-                    InitPhase:
-                    <RadioGroup
-                        value={`${initPhaseVal}`}
-                        size="sm"
-                        onChange={(e) => {
-                            if (+e === TypePhase.min) {
-                                setInitPhaseVal(TypePhase.min);
-                            } else {
-                                setInitPhaseVal(TypePhase.max);
-                            }
-                        }}
-                    >
-                        <Stack direction="row">
-                            <Radio value={`${TypePhase.min}`}>min</Radio>
-                            <Radio value={`${TypePhase.max}`}>max</Radio>
-                        </Stack>
-                    </RadioGroup>
-                </Flex>
+        <ChooseTDFunction label="Sinusoidal">
+            <Flex wrap="wrap">
+                <InputTDFunction
+                    label="Min"
+                    value={minVal}
+                    onChange={setMinVal}
+                    precision={2}
+                />
+                <InputTDFunction
+                    label="Max"
+                    value={maxVal}
+                    isInvalid={maxVal <= minVal}
+                    onChange={setMaxVal}
+                    precision={2}
+                />
+                <InputTDFunction
+                    label="Period"
+                    value={periodVal}
+                    onChange={setPeriodVal}
+                    precision={0}
+                    step={1}
+                    min={1}
+                />
+                <RadioInputTDFunction
+                    label="InitPhase"
+                    defaultValue={initPhaseVal}
+                    value={initPhaseVal}
+                    onChange={setInitPhaseVal}
+                    radioValueOptions={[
+                        { key: "Min", val: `${TypePhase.min}` },
+                        { key: "Max", val: `${TypePhase.max}` },
+                    ]}
+                />
             </Flex>
             <ButtonGroup display="flex" justifyContent="flex-end">
                 <Button
@@ -226,7 +233,7 @@ export const SinoInputs = ({
                     Cancel
                 </Button>
             </ButtonGroup>
-        </Flex>
+        </ChooseTDFunction>
     );
 };
 export const SquareInputs = ({
@@ -239,139 +246,101 @@ export const SquareInputs = ({
     setVal,
     close,
 }: SquareProps) => {
-    const [minVal, setMinVal] = useState<string>(`${min}`);
-    const [maxVal, setMaxVal] = useState<string>(`${max}`);
-    const [periodVal, setPeriodVal] = useState<number>(period);
-    const [initPhaseVal, setInitPhaseVal] = useState<number>(initPhase);
-    const [dutyVal, setDutyVal] = useState<string>(`${duty}`);
+    const {
+        minVal,
+        setMinVal,
+        maxVal,
+        setMaxVal,
+        periodVal,
+        setPeriodVal,
+        initPhaseVal,
+        setInitPhaseVal,
+        dutyVal,
+        setDutyVal,
+    } = useWaveformInputs({ min, max, period, initPhase, duty });
     const toast = useToast();
+    const handleOnClick = () => {
+        if (+minVal >= +maxVal) {
+            toast({
+                duration: 3000,
+                isClosable: true,
+                position: "bottom-right",
+                render: () => (
+                    <ToastCustom
+                        title="Failed setting function"
+                        status={StatusSimulation.ERROR}
+                    >
+                        "min must to be lesser than max. Fix it for setting
+                        please!"
+                    </ToastCustom>
+                ),
+            });
+            return;
+        }
+        setVal({
+            type: "editElement",
+            index: id,
+            payloadTypeElement: {
+                name: "square",
+                min: +minVal,
+                max: +maxVal,
+                period: periodVal,
+                initPhase: +initPhaseVal,
+                duty: +dutyVal,
+            },
+        });
+        close();
+    };
     return (
-        <Flex direction="column">
-            <Text>Square</Text>
+        <ChooseTDFunction label="Square">
             <Flex wrap="wrap">
-                Min:
-                <NumberInput
-                    size="xs"
+                <InputTDFunction
+                    label="Min"
                     value={minVal}
-                    onChange={(e) => setMinVal(e)}
-                    w="35%"
-                    min={0}
-                    step={0.01}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
-                Max:
-                <NumberInput
-                    size="xs"
-                    value={maxVal}
-                    onChange={(e) => setMaxVal(e)}
-                    w="35%"
-                    min={0}
-                    step={0.01}
-                    isInvalid={maxVal <= minVal}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
-                Period:
-                <NumberInput
-                    size="xs"
-                    value={periodVal}
-                    onChange={(e) => setPeriodVal(+e)}
-                    w="35%"
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
-                Duty:
-                <NumberInput
+                    onChange={setMinVal}
                     precision={2}
-                    w="35%"
-                    size="xs"
+                />
+                <InputTDFunction
+                    label="Max"
+                    value={maxVal}
+                    isInvalid={maxVal <= minVal}
+                    onChange={setMaxVal}
+                    precision={2}
+                />
+                <InputTDFunction
+                    label="Period"
+                    value={periodVal}
+                    onChange={setPeriodVal}
+                    precision={0}
+                    step={1}
+                    min={1}
+                />
+                <InputTDFunction
+                    label="Duty"
                     value={dutyVal}
-                    min={0}
-                    step={0.01}
-                    max={1}
-                    onChange={(e) => setDutyVal(e)}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
-                InitPhase:
-                <RadioGroup
-                    defaultValue={`${initPhaseVal}`}
-                    value={`${initPhaseVal}`}
-                    // eslint-disable-next-line sonarjs/no-identical-functions
-                    onChange={(e) => {
-                        if (+e === TypePhase.min) {
-                            setInitPhaseVal(TypePhase.min);
-                        } else {
-                            setInitPhaseVal(TypePhase.max);
-                        }
-                    }}
-                >
-                    <Stack direction="row">
-                        <Radio value={`${TypePhase.min}`}>Min</Radio>
-                        <Radio value={`${TypePhase.max}`}>Max</Radio>
-                    </Stack>
-                </RadioGroup>
+                    onChange={setDutyVal}
+                    precision={2}
+                />
+                <RadioInputTDFunction
+                    label="InitPhase"
+                    defaultValue={initPhaseVal}
+                    value={initPhaseVal}
+                    onChange={setInitPhaseVal}
+                    radioValueOptions={[
+                        { key: "Min", val: `${TypePhase.min}` },
+                        { key: "Max", val: `${TypePhase.max}` },
+                    ]}
+                />
             </Flex>
             <ButtonGroup display="flex" justifyContent="flex-end">
-                <Button
-                    size="xs"
-                    onClick={() => {
-                        if (+minVal >= +maxVal) {
-                            toast({
-                                duration: 3000,
-                                isClosable: true,
-                                position: "bottom-right",
-                                render: () => (
-                                    <ToastCustom
-                                        title="Failed setting function"
-                                        status={StatusSimulation.ERROR}
-                                    >
-                                        "min must to be lesser than max. Fix it
-                                        for setting please!"
-                                    </ToastCustom>
-                                ),
-                            });
-                        } else {
-                            setVal({
-                                type: "editElement",
-                                index: id,
-                                payloadTypeElement: {
-                                    name: "square",
-                                    min: +minVal,
-                                    max: +maxVal,
-                                    period: periodVal,
-                                    initPhase: +initPhaseVal,
-                                    duty: +dutyVal,
-                                },
-                            });
-                            close();
-                        }
-                    }}
-                >
+                <Button size="xs" onClick={handleOnClick}>
                     Set
                 </Button>
                 <Button size="xs" onClick={() => close()}>
                     Cancel
                 </Button>
             </ButtonGroup>
-        </Flex>
+        </ChooseTDFunction>
     );
 };
 export const TransitionInputs = ({
@@ -383,11 +352,16 @@ export const TransitionInputs = ({
     setVal,
     close,
 }: TransProps) => {
-    const [transitionVal, setTransitionVal] =
-        useState<TransitionFunction>(ftype);
-    const [initVal, setInitVal] = useState<string>(`${initvalue}`);
-    const [endVal, setEndVal] = useState<string>(`${endvalue}`);
-    const [concavityVal, setConcavityVal] = useState<number>(concavity);
+    const {
+        transitionVal,
+        setTransitionVal,
+        initVal,
+        setInitVal,
+        endVal,
+        setEndVal,
+        concavityVal,
+        setConcavityVal,
+    } = useWaveformInputs({ ftype, initvalue, endvalue, concavity });
     const toast = useToast();
     return (
         <Flex direction="column" p="0.5rem">

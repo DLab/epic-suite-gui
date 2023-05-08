@@ -1,15 +1,4 @@
-import {
-    Alert,
-    AlertDescription,
-    AlertIcon,
-    Box,
-    Text,
-    Heading,
-    CloseButton,
-    useDisclosure,
-    Button,
-    Flex,
-} from "@chakra-ui/react";
+import { Box, Text, Heading, Flex } from "@chakra-ui/react";
 
 import TableGeographic from "./TableGeographic";
 import TableMobilityMatrix from "./TableMobilityMatrix";
@@ -21,11 +10,6 @@ import TableSimulations from "./TableSimulations";
  * @component
  */
 const SummaryTab = () => {
-    const {
-        isOpen: isVisible,
-        onClose,
-        onOpen,
-    } = useDisclosure({ defaultIsOpen: true });
     return (
         <>
             <Box
@@ -68,7 +52,6 @@ const SummaryTab = () => {
                     <TableSimulations />
                     <TableGeographic />
                 </Flex>
-                {/* descomentar esto */}
                 <Flex>
                     <TableMobilityMatrix />
                 </Flex>
