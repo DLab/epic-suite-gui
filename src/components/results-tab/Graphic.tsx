@@ -166,7 +166,8 @@ const Graphic = ({
             );
             // To get the selected keys from the simulation.
             const savedKeys = simKey.keys;
-            return savedKeys.map((key) => {
+            const savedNames = simKey.name;
+            return savedKeys.map((key, i) => {
                 if (key.includes("Real")) {
                     return getRealAndGlobalData(
                         key,
@@ -198,7 +199,8 @@ const Graphic = ({
                         },
                         name: `${key}-${getNodeName(
                             simKeyFilter[0].name,
-                            isMono
+                            isMono,
+                            savedNames
                         )} <span style="font-weight: bold">Right</span>`,
                         yaxis: "y2",
                     };
@@ -209,7 +211,8 @@ const Graphic = ({
                     mode: "lines",
                     name: `${key}-${getNodeName(
                         simKeyFilter[0].name,
-                        isMono
+                        isMono,
+                        savedNames
                     )} <span style="font-weight: bold">Left</span>`,
                 };
             });
