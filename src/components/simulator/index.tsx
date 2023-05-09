@@ -1,6 +1,7 @@
 import { useEffect, useContext } from "react";
 
 import MainContentTab from "../mainContent/index";
+import exampleModels from "constants/exampleModels";
 import {
     HardSimSetted,
     initialStateHardSim,
@@ -37,6 +38,9 @@ const Simulator = () => {
                     type: "setInitialSelection",
                     initial: JSON.parse(dataLocalStorageGeo),
                 });
+            }
+            if (!window.localStorage.getItem("newModels")) {
+                window.localStorage.setItem("newModels", exampleModels);
             }
             if (window.localStorage.getItem("newModels")) {
                 const dataLocalStorageNewModels =

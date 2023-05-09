@@ -1,7 +1,7 @@
+import { Box } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 
 import { colorGradient } from "./getColorsScales";
-import { Box } from "@chakra-ui/react";
 
 interface Props {
     maxValue: number;
