@@ -1,5 +1,5 @@
 import { polygon } from "leaflet";
-import { useContext, useReducer, useState, useEffect } from "react";
+import { useContext, useReducer, useState, useEffect, memo } from "react";
 import { GeoJSON, Tooltip, useMap } from "react-leaflet";
 import * as topojson from "topojson-client";
 import type { GeometryObject, Topology } from "topojson-specification";
@@ -118,4 +118,4 @@ const CountiesModelsMap = ({ idGeo }: Props) => {
     );
 };
 
-export default CountiesModelsMap;
+export default memo(CountiesModelsMap);

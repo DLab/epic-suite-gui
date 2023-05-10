@@ -24,7 +24,7 @@ const StatesSelect = ({ options, extentionOption }: StatesSelectProps) => {
             className="reactSelect"
             name="states"
             options={options}
-            placeholder="Select states"
+            placeholder="New York, California, ..."
             closeMenuOnSelect
             size="sm"
             onChange={({ fips }) => {

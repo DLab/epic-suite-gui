@@ -13,6 +13,7 @@ import {
     Tooltip,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
+import { DebounceInput } from "react-debounce-input";
 import { useSelector } from "react-redux";
 
 import ToastCustom from "components/ToastCustom";
@@ -263,7 +264,38 @@ const ModelNameAndButtons = ({
             {modelMode !== "Initial" && (
                 <Stack>
                     <InputGroup>
-                        <Input
+                        <DebounceInput
+                            style={{
+                                borderRadius: "5px",
+                                width: "350px",
+                                marginRight: "2%",
+                                fontSize: "0.875rem",
+                                padding: "5px",
+                                height: "100%",
+                            }}
+                            placeholder="My seir model"
+                            value={actualModelName}
+                            minLength={2}
+                            debounceTimeout={300}
+                            onChange={(e) => {
+                                setActualModelName(e.target.value);
+                                setName(e.target.value);
+                                setIsRepeatedName(
+                                    VerifyIsRepeatName(
+                                        e.target.value,
+                                        completeModel
+                                    )
+                                );
+                                setIsEmpty(!e.target.value);
+                                setNewModel({
+                                    type: "update",
+                                    target: "name",
+                                    element: e.target.value,
+                                    id,
+                                });
+                            }}
+                        />
+                        {/* <Input
                             size="sm"
                             mr="2%"
                             w="350px"
@@ -298,7 +330,7 @@ const ModelNameAndButtons = ({
                                     id,
                                 });
                             }}
-                        />
+                        /> */}
                         <Tooltip
                             hasArrow
                             label={

@@ -29,7 +29,7 @@ const NameAndButtons = ({
                         w="350px"
                         bg="#ffffff"
                         fontSize="14px"
-                        placeholder="Name"
+                        placeholder="My states list"
                         value={geoSelectionName}
                         onChange={(e) => {
                             setGeoSelectionName(e.target.value);

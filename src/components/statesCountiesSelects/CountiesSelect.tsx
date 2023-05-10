@@ -129,7 +129,7 @@ const CountiesSelect = ({ options, optionsCounty }: CountiesSelectProps) => {
                     name="states"
                     className="reactSelect"
                     options={options}
-                    placeholder="Select state"
+                    placeholder="Alabama, Florida, ..."
                     size="sm"
                     onChange={({ fips }) => {
                         setCountyFeaturesByState(fips);
@@ -142,8 +142,8 @@ const CountiesSelect = ({ options, optionsCounty }: CountiesSelectProps) => {
                     id={createIdComponent()}
                     name="counties"
                     className="reactSelect"
-                    options={optionsCounties}
-                    placeholder="Select cunties"
+                    options={[{value: "all", label:"all"}, ...optionsCounties]}
+                    placeholder="Bronx, Queens, ..."
                     size="sm"
                     onChange={({ value }) => setCountyFeature(value)}
                     chakraStyles={chakraStyles}
@@ -160,7 +160,13 @@ const CountiesSelect = ({ options, optionsCounty }: CountiesSelectProps) => {
                         size="xs"
                         m="0 3% 0 0"
                         colorScheme="blue"
-                        onClick={() => handleAddCounties(countyFeature)}
+                        onClick={() => {
+                            if (countyFeature === "all") {
+                                return;
+                            }
+                            handleAddCounties(countyFeature);
+                            }
+                        }
                     >
                         Add
                     </Button>

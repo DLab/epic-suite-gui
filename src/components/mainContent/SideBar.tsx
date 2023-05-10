@@ -9,7 +9,7 @@ import {
     RocketLaunchIcon,
     ViewfinderCircleIcon,
 } from "@heroicons/react/24/outline";
-import { useRef, useEffect, useContext } from "react";
+import { useRef, useEffect, useContext, memo } from "react";
 
 import SideBarLogo from "components/icons/SideBarLogo";
 import AboutModal from "components/simulator/AboutModal";
@@ -152,7 +152,7 @@ const SideBar = () => {
                             MOBILITY
                         </Text>
                     </Tab>
-                    <Tab
+                    {/* <Tab
                         _focus={{ boxShadow: "none" }}
                         flexDirection="column"
                         w="100%"
@@ -169,7 +169,7 @@ const SideBar = () => {
                         <Text fontSize="0.5rem" color="#3EBFE0">
                             INTERVENTIONS
                         </Text>
-                    </Tab>
+                    </Tab> */}
                 </Box>
             </Box>
             <Box textAlign="center" m="10% 0">
@@ -179,4 +179,4 @@ const SideBar = () => {
     );
 };
 
-export default SideBar;
+export default memo(SideBar);

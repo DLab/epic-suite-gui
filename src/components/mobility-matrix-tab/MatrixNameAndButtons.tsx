@@ -247,7 +247,7 @@ const MatrixNameAndButtons = ({
                 w="350px"
                 bg="#ffffff"
                 fontSize="0.875rem"
-                placeholder="Name"
+                placeholder="Matrix for Standard Case"
                 value={matrixNameLocal}
                 onChange={(e) => {
                     setMatrixNameLocal(e.target.value);
