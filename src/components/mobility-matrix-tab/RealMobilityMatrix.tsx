@@ -55,7 +55,6 @@ const RealMobilityMatrix = ({
         };
         setRequest(reqChunk);
     }, [geoSelections, idMatrixModel, newModel, setRequest]);
-    // console.log("-->", newModel, geoSelections);
     return (
         <>
             <Button

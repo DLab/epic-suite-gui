@@ -219,7 +219,7 @@ const ModelAccordion = ({
         <>
             <Box mb="3%">
                 <Text fontSize="1rem" fontWeight={700} mb="5%">
-                    Model type
+                    Compartments
                 </Text>
                 <RadioGroup
                     size="sm"

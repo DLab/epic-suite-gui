@@ -16,6 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
+import useUpdateControlPanel from "hooks/modelTab/useUpdateControlPanel";
 import { update } from "store/ControlPanel";
 
 interface Props {
@@ -54,20 +55,18 @@ const NumberInputEpi = ({
     const [localValue, setLocalValue] = useState<string>(`${value}`);
     const [isEditingLocalValue, setIsEditingLocalValue] =
         useState<boolean>(false);
-    const dispatch = useDispatch();
+    const updateControlPanel = useUpdateControlPanel();
     /**
      * Saves the new value of a parameter.
      * @param val new parameter value.
      */
     const handleChange = (val: string | number) => {
-        dispatch(
-            update({
-                type: "set",
-                positionVariableDependentTime: index,
-                target: nameParams,
-                payload: +val,
-            })
-        );
+        updateControlPanel({
+            type: "set",
+            positionVariableDependentTime: index,
+            target: nameParams,
+            payload: +val,
+        });
     };
     // const handleChange = (val: string | number) => {
     //     if (isStateLocal) {
@@ -177,14 +176,13 @@ const NumberInputEpi = ({
                         cursor="pointer"
                         icon={<CheckIcon />}
                         onClick={() => {
-                            dispatch(
-                                update({
-                                    type: "set",
-                                    positionVariableDependentTime: index,
-                                    target: nameParams,
-                                    payload: +localValue,
-                                })
-                            );
+                            updateControlPanel({
+                                type: "set",
+                                positionVariableDependentTime: index,
+                                target: nameParams,
+                                payload: +localValue,
+                            });
+
                             setIsEditingLocalValue(false);
                         }}
                     />

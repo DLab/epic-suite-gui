@@ -81,9 +81,9 @@ const MainContentTab = () => {
                 <TabPanel maxH="100vh" h="100%" overflow="hidden">
                     <MobilityMatrix />
                 </TabPanel>
-                <TabPanel maxH="100vh" h="100%" display="none">
+                {/* <TabPanel maxH="100vh" h="100%" display="none">
                     <InterventionsTab />
-                </TabPanel>
+                </TabPanel> */}
             </TabPanels>
         </Tabs>
     );
