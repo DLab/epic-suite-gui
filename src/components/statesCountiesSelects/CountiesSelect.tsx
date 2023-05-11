@@ -1,7 +1,6 @@
 import { FormControl, Button, Box } from "@chakra-ui/react";
 import type { ChakraStylesConfig } from "chakra-react-select";
 import { Select } from "chakra-react-select";
-import PropTypes from "prop-types";
 import { useContext, useState } from "react";
 
 import { SelectFeature } from "../../context/SelectFeaturesContext";
@@ -51,8 +50,10 @@ const CountiesSelect = ({ options, optionsCounty }: CountiesSelectProps) => {
      */
     const handleAddCounties = (counties, isSelecting = true) => {
         // Selecting all counties by states
-        if (counties.length === 2) {
-            const allCountiesInState = handleAddCountiesByState(counties);
+        if (counties === "all") {
+            const allCountiesInState = handleAddCountiesByState(
+                countyFeaturesByState
+            );
             /* Remove counties */
             if (!isSelecting) {
                 const newCountiesSelected = [...countiesSelected].filter(
@@ -142,7 +143,10 @@ const CountiesSelect = ({ options, optionsCounty }: CountiesSelectProps) => {
                     id={createIdComponent()}
                     name="counties"
                     className="reactSelect"
-                    options={[{value: "all", label:"all"}, ...optionsCounties]}
+                    options={[
+                        { value: "all", label: "all" },
+                        ...optionsCounties,
+                    ]}
                     placeholder="Bronx, Queens, ..."
                     size="sm"
                     onChange={({ value }) => setCountyFeature(value)}
@@ -161,12 +165,8 @@ const CountiesSelect = ({ options, optionsCounty }: CountiesSelectProps) => {
                         m="0 3% 0 0"
                         colorScheme="blue"
                         onClick={() => {
-                            if (countyFeature === "all") {
-                                return;
-                            }
                             handleAddCounties(countyFeature);
-                            }
-                        }
+                        }}
                     >
                         Add
                     </Button>
@@ -182,8 +182,8 @@ const CountiesSelect = ({ options, optionsCounty }: CountiesSelectProps) => {
         </Box>
     );
 };
-CountiesSelect.propTypes = {
-    options: PropTypes.arrayOf(PropTypes.any),
-    optionsCounty: PropTypes.arrayOf(PropTypes.any),
-};
+// CountiesSelect.propTypes = {
+//     options: PropTypes.arrayOf(PropTypes.any),
+//     optionsCounty: PropTypes.arrayOf(PropTypes.any),
+// };
 export default CountiesSelect;

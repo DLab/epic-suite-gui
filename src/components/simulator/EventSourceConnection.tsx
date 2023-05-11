@@ -56,7 +56,6 @@ const EventSourceConnection = () => {
                     })
                     // eslint-disable-next-line no-console
                     .catch((err) => {
-                        console.log("error", err);
                         toast({
                             position: bottonLeft,
                             duration: 3000,

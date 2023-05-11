@@ -118,11 +118,13 @@ const NumberInputVariableDependent = ({
                 w="100%"
                 mx="0.2rem"
                 fontSize="11px"
-                value={!isStateLocal ? value : localValue}
+                value={isStateLocal ? localValue : value}
                 onBlur={() => {
                     handleChange(localValue);
                 }}
-                onChange={(e) => setLocalValue(e)}
+                onChange={(e) => {
+                    setLocalValue(e);
+                }}
                 size="xs"
                 min={min}
                 max={max}

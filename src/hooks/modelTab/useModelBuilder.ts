@@ -138,7 +138,9 @@ export default function useModelBuilder({
                 updateData: findedParameters.parameters,
             });
         }
-    }, [completeModel, id, updateControlPanel]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [completeModel, id]);
+    // }, [completeModel, id, updateControlPanel]);
     return {
         nodes,
     };

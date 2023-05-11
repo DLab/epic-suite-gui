@@ -46,7 +46,9 @@ function createIsEnabledObject(parameters) {
         return isEnabledObject;
     }, {});
 }
-
+function updateIsEnabledObject(parameters, setIsEnableIconButton) {
+    setIsEnableIconButton(createIsEnabledObject(parameters));
+}
 export default function useParametersSection() {
     const { description, setDataViewVariable, idModelUpdate } =
         useContext(ControlPanel);
@@ -73,8 +75,12 @@ export default function useParametersSection() {
                 type: "update",
                 updateData: paramsModelsToUpdate.parameters,
             });
-            changePermissionsTimeDependentVar(
-                createIsEnabledObject(paramsModelsToUpdate.parameters)
+            // changePermissionsTimeDependentVar(
+            //     createIsEnabledObject(paramsModelsToUpdate.parameters)
+            // );
+            updateIsEnabledObject(
+                paramsModelsToUpdate.parameters,
+                setIsEnableIconButton
             );
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
