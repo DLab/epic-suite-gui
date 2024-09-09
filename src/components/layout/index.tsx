@@ -1,16 +1,17 @@
 import { Box } from "@chakra-ui/react";
-import { ReactNode } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useRouter } from "next/router";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { ReactNode } from "react";
 
 type LayoutProps = {
-  children: ReactNode;
+    children: ReactNode;
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  return (
-    <>
-      <Box>{children}</Box>
-    </>
-  );
+    const router = useRouter();
+
+    return <Box>{children}</Box>;
 };
 
 export default Layout;
